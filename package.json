@@ -44,6 +44,7 @@
         "vue-tel-input": "^5.5.0",
         "vue2-ace-editor": "0.0.15",
         "vue3-ace-editor": "^2.0.2",
+        "vue3-dropzone": "0.0.7",
         "vuejs-ace-editor": "^1.0.1",
         "vuelidate": "^0.7.6",
         "vuesax": "^3.12.2",
