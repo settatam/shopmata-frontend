@@ -6,6 +6,8 @@ import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-v
 import { InertiaProgress } from '@inertiajs/progress';
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import vueDebounce from 'vue-debounce'
+import "./index.css"
 
 const el = document.getElementById('app');
 
@@ -19,6 +21,7 @@ createApp({
     .mixin({ methods: { route } })
     .use(InertiaPlugin)
     .component('QuillEditor', QuillEditor)
+    .component('vueDebounce', vueDebounce)
     .mount(el);
 
 InertiaProgress.init({ color: '#4B5563' });

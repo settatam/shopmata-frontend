@@ -58,8 +58,8 @@
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.min.css'
+import Multiselect from "@vueform/multiselect";
+// import 'vue-multiselect/dist/vue-multiselect.min.css'
 import AngleUpIcon from '../../../../assets/AngleUpIcon'
 export default {
     name: 'inventory-form',
@@ -87,3 +87,4 @@ export default {
 <style scoped>
 
 </style>
+<style src="@vueform/multiselect/themes/default.css"></style>

@@ -101,11 +101,11 @@ class ProductsController extends Controller
             'slug' => $slug,
             'title' => $request->title,
             'description' => $request->description,
-            'sku' => $request->sku,
+            // 'sku' => $request->sku,
             'weight' => $request->weight,
             'compare_at_price' => $request->compare_at_price,
             // 'has_variants' => $request->has_variants,
-            'brand' => $request->brand ? $request->brand['id'] : null,
+            'brand_id' => $request->brand,
             'minimum_order' => 2,
             'date_available' => date('Y-m-d H:i:s')
         ]);

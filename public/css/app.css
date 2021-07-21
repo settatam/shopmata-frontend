@@ -1155,11 +1155,11 @@ select {
 .col-span-2 {
 	grid-column: span 2 / span 2;
 }
-.m-2 {
-	margin: 0.5rem;
-}
 .m-4 {
 	margin: 1rem;
+}
+.m-2 {
+	margin: 0.5rem;
 }
 .mx-auto {
 	margin-left: auto;
@@ -1441,9 +1441,6 @@ select {
 }
 .h-11 {
 	height: 2.75rem;
-}
-.h-40 {
-	height: 10rem;
 }
 .max-h-screen {
 	max-height: 100vh;

@@ -85,9 +85,10 @@
                     </label>
                     <div class="quill">
                       <quill-editor
-                        class="editor h-40 text-black"
+                        class="editor text-black"
                         ref="description"
                         theme="snow"
+                        style="min-height: 300px"
                         :value="formFields.description"
                         :options="editorOption"
                         @change="onEditorChange"
@@ -106,18 +107,18 @@
                     </label>
                     <multiselect
                       v-model="formFields.brand"
-                      tag-placeholder=""
                       placeholder="Pick a brand"
                       label="name"
-                      track-by="name"
-                      :close-on-select="true"
+                      trackBy="name"
+                      valueProp="id"
                       :options="brands"
+                      searchable="true"
                       class="text-xs text-black font-semibold"
                     ></multiselect>
                   </div>
                 </div>
               </div>
-              <div class="bg-white mb-10 py-6">
+              <!-- <div class="bg-white mb-10 py-6">
                 <div class="px-8">
                   <div
                     class="bg-white flex justify-between cursor-pointer"
@@ -130,15 +131,15 @@
                     </div>
                   </div>
                   <div v-if="expandMedia">
-                    <!-- <vue-dropzone 
-                                    ref="mediaFiles" 
-                                    id="dropzone" 
-                                    :options="dropzoneOptions"
-                                    @vdropzone-complete="afterComplete"
-                                ></vue-dropzone> -->
+                    <vue-dropzone
+                      ref="mediaFiles"
+                      id="dropzone"
+                      :options="dropzoneOptions"
+                      @vdropzone-complete="afterComplete"
+                    ></vue-dropzone>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <pricing-form :pricing="pricing"></pricing-form>
               <inventory-form
                 :inventory="inventory"
@@ -198,8 +199,8 @@ import MediaUrlModal from "./Components/MediaUrlModal";
 import PricingForm from "./Components/PricingForm";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
-import Multiselect from "vue-multiselect";
-import "vue-multiselect/dist/vue-multiselect.min.css";
+import Multiselect from "@vueform/multiselect";
+// import "vue-multiselect/dist/vue-multiselect.min.css";
 
 const statusStyles = {
   success: "bg-green-100 text-green-800",
@@ -221,6 +222,15 @@ export default {
     DialogOverlay,
     TransitionChild,
     TransitionRoot,
+    Multiselect,
+    // InventoryForm,
+    ShippingForm,
+    VariantsForm,
+    SearchEngineForm,
+    PricingForm,
+    UploadIcon,
+    AngleUpIcon,
+    MediaUrlModal,
   },
 
   data() {
@@ -299,21 +309,6 @@ export default {
       },
     };
   },
-  // props: ["categories", "brands"],
-  // components: {
-  //   AppLayout,
-  //   SideNav,
-  //   InventoryForm,
-  //   ShippingForm,
-  //   VariantsForm,
-  //   SearchEngineForm,
-  //   PricingForm,
-  //   vueDropzone,
-  //   UploadIcon,
-  //   AngleUpIcon,
-  //   Multiselect,
-  //   MediaUrlModal,
-  // },
   computed: {
     calculateMargin() {
       this.formFields.margin = 0;
@@ -382,22 +377,22 @@ export default {
     },
     onEditorChange(editor) {
       console.log(editor.editor);
-      console.log(this.$refs.description.$refs.editor.innerHTML);
+      // console.log(this.$refs.description.$refs.editor.innerHTML);
     },
     onEditorBlur(editor) {
-      console.log("editor blur!", editor);
+      // console.log("editor blur!", editor);
     },
     onEditorFocus(editor) {
-      console.log("editor focus!", editor);
+      // console.log("editor focus!", editor);
     },
     onEditorReady(editor) {
-      console.log("editor ready!", editor);
+      // console.log("editor ready!", editor);
     },
     showContent() {
-      console.log(this.editorContent);
+      // console.log(this.editorContent);
     },
     upload() {
-      console.log(this.formData);
+      // console.log(this.formData);
     },
     submit() {
       // this.sending = true
@@ -405,7 +400,7 @@ export default {
       this.$inertia.post("/products", this.formData);
     },
     afterComplete(file) {
-      console.log(file);
+      // console.log(file);
     },
     expandMediaForm() {
       this.expandMedia = !this.expandMedia;
@@ -422,4 +417,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+@import "style.css";
+.quill {
+  display: flex;
+  flex-direction: column;
+}
+</style>
+<style src="@vueform/multiselect/themes/default.css"></style>
 
