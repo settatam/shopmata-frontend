@@ -1,5 +1,5 @@
 <template>
-    <custom-modal>
+    <custom-modal :styles="styles">
         <template v-slot:header>
             Add Media From URL
         </template>
@@ -22,6 +22,13 @@
 import CustomModal from '../../../Components/CustomModal.vue'
 export default {
   components: { CustomModal },
-    props: ['media']
+    props: ['media'],
+    data() {
+        return {
+            styles: {
+                header: ""
+            }
+        }
+    },
 }
 </script>
