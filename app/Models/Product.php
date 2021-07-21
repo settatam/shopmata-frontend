@@ -22,7 +22,7 @@ class Product extends Model
         'slug',
         'date_available',
         'minimum_order',
-        'brand'
+        'brand_id'
     ];
 
     // protected static function booted() {

@@ -162,6 +162,7 @@
                     border border-transparent
                     px-11
                     py-3.5
+                    cursor-pointer
                   "
                   @click="submit"
                   >Add Product</t-button
