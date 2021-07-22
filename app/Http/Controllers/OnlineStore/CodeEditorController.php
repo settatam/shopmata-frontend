@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\OpenEditorPage;
+use Illuminate\Support\Facades\Log;
 
 class CodeEditorController extends Controller
 {
@@ -31,13 +33,21 @@ class CodeEditorController extends Controller
         $layout = '';
 
         foreach ($files as $file) {
-            $theme_files[$file->type_id][] = ['title' => $file['title'], 'content' => $file['content'],
-                'type' => $file['type'], 'id' => $file->id];
+            $theme_files[$file->type_id][] = 
+                ['title' => $file['title'], 
+                 'content' => $file['content'],
+                 'type' => $file['type'], 
+                 'id' => $file->id
+             ];
         }
-        count($theme_files) === 0 ? $theme_files = (object)[] : "";
+
+        $open_files = OpenEditorPage::orderBy('id', 'asc')->get();
+
+        // count($theme_files) === 0 ? $theme_files = (object)[] : "";
+        // count($theme_files) === 0 ? $open_files = (object)[] : "";
         // $layout = $store->theme->layout[count($store->theme->layout)-1]->content;
-        
-        return Inertia::render('OnlineStore/CodeEditor', compact('layout', 'theme_files'));
+
+        return Inertia::render('OnlineStore/CodeEditor', compact('layout', 'theme_files', 'open_files'));
     }
 
     /**
@@ -132,6 +142,28 @@ class CodeEditorController extends Controller
     public function show($id)
     {
         //
+        $theme_file = ThemeFile::find($id);
+        if(null !== $theme_file) {
+            
+            $data = [
+                'store_id'=>session()->get('store_id'),
+                'user_id'=>Auth::id(),
+                'theme_file_id'=>$id
+            ];
+
+            $open_file = OpenEditorPage::firstOrNew($data);
+
+            if($open_file->save($data)) {
+                Log::info(Auth::id() . ' opened a new page', $data);
+                return response()->json($theme_file);
+            }else{
+                Log::error(Auth::id() . ' could not open a new page', $data);
+                return response()->json('Could not process request', 422);
+            }
+        }else{
+            Log::error(Auth::id() . ' tried to open a non existent file' . $id);
+            return response()->json('Could not process request', 422);
+        }
     }
 
     /**

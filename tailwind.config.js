@@ -24,6 +24,7 @@ module.exports = {
             },
             colors: {
                 cyan: colors.indigo,
+                indigo: colors.indigo
             }
         },
     },

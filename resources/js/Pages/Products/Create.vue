@@ -149,7 +149,10 @@
               <variants-form
                 :variants="variants"
                 :types="variant_types"
+                :valueContent="valueContent"
                 @added="addOption"
+                @add-variant-name="addVariantName"
+                @added-variant-value="addVariantValue"
               ></variants-form>
               <search-engine-form :search="search"></search-engine-form>
               <div class="text-center bg-white pt-6 pb-6 mb-6">
@@ -236,6 +239,7 @@ export default {
 
   data() {
     return {
+      valueContent: '',
       dropzoneOptions: {
         url: "/product-images",
         thumbnailWidth: 150,
@@ -346,11 +350,19 @@ export default {
     showFormFields() {
       console.log(this.formData);
     },
-    addOption() {
+    addOption(e) {
       this.variants.options.push({
         type: "",
         values: [],
       });
+    },
+    addVariantName(e) {
+      let index = e.target.getAttribute('data-index');
+      this.variants.options[index].name = e.target.value;
+    },
+    addVariantValue(e) {
+      let index = e.target.getAttribute('data-index');
+      this.variants.options[index].values.push(e.target.value);
     },
     addCategory() {
       this.inventory.category.push({
@@ -409,6 +421,69 @@ export default {
     expandForm() {
       this.expand = !this.expand;
     },
+    displayVariants() {
+            
+            let attributes = this.variants
+            let total_count = 1;
+
+            // a loop can do this 
+            if (attributes.indexOf(1) && attributes.indexOf(2)) {
+              total_count = attributes[0].values.length * attributes[1].values.length * attributes[2].values.length
+            }
+
+            let g = [];
+            let a = 0;
+            
+            let base_attribute = attributes[0];
+
+            const gVal = (data, g) => {
+              let c = g.length;
+              if (data.values.indexOf(c)) return data.values[c]
+              return '';
+            }
+
+            let z = [];
+
+            //initialize variables first
+
+            for (let j = 0; j < total_count; j++) {
+              z[j] = [];
+            }
+
+            let q = 0;
+
+            //first phase
+            let first_attribute = total_count / attributes[0].values.length
+
+            for (let i = 0; i < base_attribute.values.length; i++) {
+              for (let k = 0; k < first_attribute; k++) {
+                z[q].push(base_attribute.values[i])
+                q++;
+              }
+            }
+
+            let second_attributes = total_count / attributes[1].values.length
+            q = 0;
+
+            for (let k = 0; k < second_attributes; k++) {
+              for (let i = 0; i < attributes[1].values.length; i++) {
+                z[q].push(attributes[1].values[i])
+                q++;
+              }
+            }
+
+            let third_attributes = total_count / attributes[2].values.length
+
+            q = 0
+            for (let k = 0; k < third_attributes; k++) {
+              for (let i = 0; i < attributes[2].values.length; i++) {
+                z[q].push(attributes[2].values[i])
+                q++;
+              }
+            }
+
+            console.log(z)
+        },
   },
   setup() {
     const open = ref(false);
