@@ -33,10 +33,7 @@
                           <i class="far fa-plus-square mx-0 my-auto"></i>
                         </span>
                         <div v-for="file in layout_files" :key="file.id">
-                          <li
-                            class="text-lg pt-4 cursor-pointer"
-                            @click="setEditor(file)" 
-                          >
+                          <li class="text-lg pt-4 cursor-pointer" @click="getContent(file)">
                              { } {{ file.title }}
                           </li>
                         </div>
@@ -68,9 +65,7 @@
                         </span>
                         <div v-for="file in template_files" :key="file.id">
                           <li
-                            class="text-lg pt-4 cursor-pointer"
-                            @click="setEditor(file)"
-                          >
+                            class="text-lg pt-4 cursor-pointer" @click="getContent(file)">
                             { } {{ file.title }}
                           </li>
                         </div>
@@ -119,7 +114,6 @@
 import { ref } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
-import axios from "axios"
 import { VAceEditor } from 'vue3-ace-editor';
 
 import 'ace-builds/src-noconflict/mode-text';
@@ -138,9 +132,7 @@ const statusStyles = {
   failed: 'bg-gray-100 text-gray-800',
 }
 
-props: {
-  
-}
+
 
 export default {
   components: {
@@ -150,6 +142,11 @@ export default {
     TransitionChild, 
     TransitionRoot,
     VAceEditor
+  },
+
+  props: {
+    theme_files: Object,
+    open_files: Object
   },
   
   mounted() {
@@ -172,6 +169,7 @@ export default {
       popUp: false,
       text: "",
       file: "Create a blank file",
+      // theme: {},
       editingContent: {
         content: "",
       },
@@ -192,26 +190,26 @@ export default {
   },
   computed: {
     layout_files() {
-      // return this.theme_files.filter()
-      // if (this.theme_files.hasOwnProperty("1")) {
-      //   return this.theme_files["1"];
-      // }
+      // return this.theme.filter()
+      if (this.theme_files.hasOwnProperty("1")) {
+        return this.theme_files["1"];
+      }
 
       return [];
     },
     asset_files() {
-      // return this.theme_files.filter()
-      // if (this.theme_files.hasOwnProperty("1")) {
-      //   return this.theme_files["3"];
-      // }
+      // return this.theme.filter()
+      if (this.theme.hasOwnProperty("1")) {
+        return this.theme_files["3"];
+      }
 
       return [];
     },
     template_files() {
       // return this.theme_files.filter()
-      // if (this.theme_files.hasOwnProperty("1")) {
-      //   return this.theme_files["2"];
-      // }
+      if (this.theme_files.hasOwnProperty("1")) {
+        return this.theme_files["2"];
+      }
       return [];
     },
 
@@ -253,6 +251,23 @@ export default {
       } catch (error) {
         const { notification } = error.response.data;
         this.notification = notification;
+      }
+      this.loading = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    
+    async getContent(file) {
+      try {
+        const res = await axios.get(
+          "/online-store/code-editor/"+file.id,        
+        ).then((res)=>{
+            this.setEditorLang(res.data); 
+            this.content = res.data.content
+        })
+        this.notification = notification;
+      } catch (error) {
+        // const { notification } = error.response.data;
+        // this.notification = notification;
       }
       this.loading = false;
       window.scrollTo({ top: 0, behavior: "smooth" });

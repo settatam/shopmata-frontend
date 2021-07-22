@@ -21,28 +21,30 @@
             </div>
             <template v-if="variants.has_variants">
                 <p class="text-black font-semibold text-lg px-8">Options</p>
-                <div v-for="(option, index) of variants.options" :key="index" class="mx-8 mb-6">
+                <div v-for="(option, index) of variants.options" :key="index" class="mx-8 mb-6" :data-index="index">
                     <p class="text-black font-semibold py-4">Option {{index+1}}</p>
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
                             <!-- <select v-model="option.type" class="data-focus-visible-added appearance-none border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none ">
                                 <option :key="index" v-for="(name, index) in types">{{ name }}</option>
                             </select> -->
-                            <input class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " v-model="option.type" type="text">
+                            <input class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " v-model="option.type" type="text" :data-index="index" @blur="setVariant">
                         </div>
                         <div class="relative w-full md:w-1/2 mb-6 md:pr-3 md:mb-0 border border-border bg-transparent text-black leading-tight grid grid-cols-4" >
-                            <div class="py-2 px-2 m-2 bg-gray-300 col-span-2 flex justify-between" v-for="(item, i) in option.values" :key="i">
-                                <div class="pr-1">{{ item }} </div> <div> <i class="fal fa-times cursor-pointer" @click="removeItem(index, i)"></i> </div>
-                            </div>
-                            <div ref="editable"  class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " contenteditable @blur="pushVariant(index)">
-
-                            </div>
-                            
+                        <span class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700" v-for="(item, i) in option.values" :key="i"> {{item}}
+                            <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" @click="removeItem(index, i)">
+                                        <span class="sr-only"> Remove {{item}} option</span>
+                                          <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                                            <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                                          </svg>
+                            </button>
+                        </span>
+                        <input type="text" @blur="addVariantValue" :data-index="index" v-model="valueContent"/>                            
                             <!-- <input v-if="option.type !== ''" v-model="newVariant" class="col-span-2 data-focus-visible-added appearance-none border border-border bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none" type="text" placeholder="Add Variant" @blur="pushVariant(index)"> -->
                         </div>
                     </div>
                 </div>
-                <t-button class="text-white bg-purple-darker active:bg-purple-darker text-sm font-medium border border-transparent mx-8 px-11 py-3 mb-6" v-model="newVariant" @click="added">Add another option</t-button>
+                <t-button v-if="variants.options.length<3" class="text-white bg-purple-darker active:bg-purple-darker text-sm font-medium border border-transparent mx-8 px-11 py-3 mb-6" v-model="newVariant" @click="added">Add another option</t-button>
                 
                  <!-- list variants -->
                 <div class="py-6">
@@ -109,6 +111,7 @@ export default {
     components: {
         AngleUpIcon
     },
+    emits: ['added', 'added-variant-name', 'added-variant-value'],
     data() {
         return {
             expand: true,
@@ -121,28 +124,23 @@ export default {
             e.preventDefault();
             this.$emit('added');
         },
+        setVariant(e){
+            this.$emit('added-variant-name', e);
+        },
+        addVariantValue(e){
+            this.$emit('added-variant-value', e);
+            this.valueContent = ''
+        },
         expandForm() {
             this.expand = !this.expand;
         },
-        // allValues(type){
-        //     const allvals = []
-        //     this.variants.options.forEach(element => {
-        //         if(element.type !== type){
-        //             element.values.forEach(el => {
-        //                 allvals.push(el)
-        //             })
-        //         }
-        //     });
-
-        //     return allvals
-        // },
         pushVariant(i){
             const newVariant = this.$refs.editable[0].innerText
             const regex = "^\\s+$";
             if(newVariant.match(regex) === null && newVariant !== ""){
                 this.variants.options[i].values.push(newVariant)
                 this.doVariantList()
-                this.$refs.editable[0].innerText = ""
+                // this.$refs.editable[0].innerText = ""
             }
             // if(this.newVariant !== ""){
             //     this.variants.options[i].values.push(this.newVariant)
