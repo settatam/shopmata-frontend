@@ -30,7 +30,7 @@
                 <div class="flex flex-col lg:flex-row justify-around mb-8" v-if="this.text == 'layout' || this.text == 'template' || this.text == 'asset'">
                     <p class="my-auto" >Create a blank file called</p>
                     <input type="text" name="asset" id="" class="border border-gray-500 h-10 focus:outline-none pl-3" v-model="creatingContent.title">
-                    <select name="asset" id="" class="border border-gray-500 px-4 my-auto h-10 focus:outline-none" v-model="selected" @blur="addOption()">
+                    <select name="asset" id="" class="border border-gray-500 px-4 my-auto h-10 focus:outline-none" v-model="selected">
                         <option value=".css">CSS</option>
                         <option value=".js">JS</option>
                         <option value=".html">HTML</option>
@@ -39,18 +39,18 @@
                 </div>
             </div>
             
-            <div class="px-11 flex justify-between" v-if="this.text == 'snippet'">
+            <div class="flex justify-between" v-if="this.text == 'snippet'">
                 <label for="snippet" class="text-lg w-1/2">Create a new snippet called</label>
-                <input type="text" name="snippet" id="" class="h-10 w-1/2 border border-gray-400 mb-9 focus:outline-none" v-model="creatingContent.title">
+                <input type="text" name="snippet" id="" class="h-10 w-1/2 border border-gray-400 mb-9 focus:outline-none" v-model="creatingContent.title" @blur="removeExtension()">
             </div>
             <div class=" border-t border-gray-200 -mx-6"></div>
               </div>
             </div>
             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-darker text-base font-medium text-white focus:outline-none sm:ml-3 sm:w-auto sm:text-sm" @click="open = false">
+              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-darker text-base font-medium text-white focus:outline-none sm:ml-3 sm:w-auto sm:text-sm" @click="upload()">
                 Upload {{this.text}}
               </button>
-              <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm" @click="open = false" ref="cancelButtonRef">
+              <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm" @click="close()" ref="cancelButtonRef">
                 Cancel
               </button>
             </div>
@@ -112,6 +112,19 @@ export default {
                 this.activeUpload = false
             }
             
+        },
+        upload() {
+            this.addOption()
+            this.$emit('createFile')
+            this.open = false
+        },
+        close(){
+            this.$emit('close')
+            this.open = false
+        },
+        removeExtension(){
+            /* Remove whitespace? */
+            this.selected=""
         }
     },
   setup() {
