@@ -69,9 +69,12 @@
                   </svg>
                 </DisclosureButton>
               <DisclosurePanel class="space-y-1">
-                <a v-for="subItem in item.children" :key="subItem.name" :href="subItem.href" class="group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium text-white rounded-md hover:text-gray-900 hover:bg-gray-50">
+                <inertia-link v-for="subItem in item.children" :key="subItem.name" :href="subItem.href" class="group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium text-white rounded-md hover:text-gray-900 hover:bg-gray-50">
                   {{ subItem.name }}
-                </a>
+                </inertia-link>
+                <!-- <a v-for="subItem in item.children" :key="subItem.name" :href="subItem.href" class="group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium text-white rounded-md hover:text-gray-900 hover:bg-gray-50">
+                  {{ subItem.name }}
+                </a> -->
               </DisclosurePanel>
             </Disclosure>
             </template> 
