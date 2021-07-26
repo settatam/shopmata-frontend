@@ -35,6 +35,7 @@
         "dedent": "^0.7.0",
         "dropzone-vue": "^0.1.8",
         "highlight.js": "^11.1.0",
+        "moment": "^2.29.1",
         "quill": "^1.3.7",
         "swiper": "^6.7.5",
         "tailwindcss": "^2.2.4",
