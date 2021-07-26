@@ -14,6 +14,7 @@ return [
     */
 
     'default' => env('FILESYSTEM_DRIVER', 'local'),
+    'cloud' => env('FILESYSTEM_DRIVER', 'DO'),
 
     /*
     |--------------------------------------------------------------------------
@@ -51,6 +52,15 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+        ],
+
+        'DO' => [
+            'driver' => 's3',
+            'key'    => env('DO_SPACE_KEY'),
+            'secret' => env('DO_SPACE_SECRET'),
+            'region' => 'nyc3',
+            'endpoint' => 'https://nyc3.digitaloceanspaces.com',
+            'bucket' => env('DO_SPACE_BUCKET'),
         ],
 
     ],
