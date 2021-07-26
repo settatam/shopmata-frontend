@@ -198,9 +198,9 @@
                     >
                       Shipping Method
                     </th>
-                    <th scope="col" class="relative px-6 py-3">
+                    <!-- <th scope="col" class="relative px-6 py-3">
                       <span class="sr-only">Edit</span>
-                    </th>
+                    </th> -->
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
