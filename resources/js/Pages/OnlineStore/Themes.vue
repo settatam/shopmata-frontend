@@ -17,10 +17,10 @@
             </div>
           </nav>
                 <div class="overflow-auto border-gray-100 flex flex-col lg:flex-row justify-center lg:justify-between pl-4 pr-4 lg:pr-8 pt-8 lg:pt-16">
-                    <p class="text-2xl text-purple-darker text-center lg:text-left mb-2 lg:mb-0"> My Themes</p>
+                    <p class="text-2xl text-cyan-700 text-center lg:text-left mb-2 lg:mb-0"> My Themes</p>
                     <div class="flex items-center justify-between" >
                         <p class="mr-4 lg:mr-9"><i class="fas fa-eye mr-2"></i>View your Store</p>
-                        <p class="px-3 lg:px-9 bg-purple-darker text-white py-3">Theme Marketplace</p>
+                        <p class="px-3 lg:px-9 bg-cyan-700 text-white py-3">Theme Marketplace</p>
                     </div>
                 </div>
                 <div class="bg-white my-8 px-10 pt-7 pb-10 ">
@@ -38,7 +38,7 @@
                             <p class="text-gray-500 mb-4">Version 1.1.0</p>
                             <p class="text-gray-500 mb-8">Developed and supported by ShopMata</p>
                             <div class="flex">
-                                <button class="bg-purple-darker text-white py-4 px-11 font-semibold text-sm mr-4 focus:outline-none"> <span class="font-semibold">Customize</span></button>
+                                <button class="bg-cyan-700 text-white py-4 px-11 font-semibold text-sm mr-4 focus:outline-none"> <span class="font-semibold">Customize</span></button>
                                 <!-- <button class="border border-purple-darker py-4 px-5  text-sm align-bottom focus:outline-none text-purple-darker" @click="toggleOpen()"> <span class="mr-5 font-semibold">Actions</span> <i class="fas fa-chevron-down"></i></button> -->
                                 <Menu as="div" class="relative inline-block text-left">
     <div>
@@ -85,7 +85,7 @@
                             <button class="focus:outline-none">
                                 <!-- @change for the toggle btn -->
                                 
-                                <Switch v-model="enabled" :class="[enabled ? 'bg-purple-darker' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none']">
+                                <Switch v-model="enabled" :class="[enabled ? 'bg-cyan-700' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none']">
     <span class="sr-only">Use setting</span>
     <span aria-hidden="true" :class="[enabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']" />
   </Switch>
@@ -101,7 +101,7 @@
                                 <p class="text-xs text-gray-500">Version 1.1.0</p> <!-- active and inactive -->
                                 <button class="focus:outline-none">
                                     <!-- @change for the toggle btn -->
-                                    <Switch v-model="enabled1" :class="[enabled1 ? 'bg-purple-darker' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none']">
+                                    <Switch v-model="enabled1" :class="[enabled1 ? 'bg-cyan-700' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none']">
     <span class="sr-only">Use setting</span>
     <span aria-hidden="true" :class="[enabled1 ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']" />
   </Switch>

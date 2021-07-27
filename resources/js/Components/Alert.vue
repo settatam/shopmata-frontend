@@ -1,9 +1,9 @@
 <template>
-  <div class="py-8">
+  <div class="pb-4">
     <div
-      class=" border rounded-b text-teal-900 px-4 py-3 shadow-md"
+      class=" border rounded-b text-green-900 px-4 py-3 shadow-md"
       role="alert"
-      :class="{ 'bg-teal-100 border-teal-400 ': notification.type === 'success', 'errorClass': notification.type !== 'success' }"
+      :class="{ 'bg-green-100 border-green-400 ': notification.type === 'success', 'errorClass': notification.type !== 'success' }"
     >
       <div class="flex">
         <div class="py-1">
@@ -12,7 +12,7 @@
 
           <!-- failure -->
           <svg
-            class="fill-current h-6 w-6 text-teal-500 mr-4 white"
+            class="fill-current h-6 w-6 text-green-500 mr-4 white"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             v-else
@@ -43,6 +43,7 @@ export default {
   props: {
     notification: Object,
   },
+  
 };
 </script>
 <style scoped>

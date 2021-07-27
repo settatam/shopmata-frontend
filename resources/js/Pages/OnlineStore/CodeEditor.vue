@@ -7,7 +7,7 @@
 <!-- FONT AWESOME LINK -->
 
 
-    <app-layout>
+    <app-layout id="top">
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
 
@@ -29,7 +29,7 @@
 						<span class="ml-3" v-else><i class="fas fa-chevron-down my-auto"></i></span>
                 	</div>
 					<ul class="px-6 mb-3" v-if="displayTemplate">
-						<div class="flex justify-between cursor-pointer text-purple-darker" @click="popTemplate">
+						<div class="flex justify-between cursor-pointer text-cyan-700" @click="popTemplate">
 							<p class="font-semibold text-lg">Add a new Template</p>
 							<i class="far fa-plus-square mx-0 my-auto"></i>
 						</div>
@@ -49,7 +49,7 @@
 						<span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
               		</div>
               		<ul class="px-6 mb-3" v-if="displayLayout">
-						<div class="flex justify-between text-purple-darker cursor-pointer" @click="popLayout">
+						<div class="flex justify-between text-cyan-700 cursor-pointer" @click="popLayout">
 							<p class="font-semibold text-lg">Add a new Layout</p>
 							<i class="far fa-plus-square mx-0 my-auto"></i>
 						</div>
@@ -69,7 +69,7 @@
 						<span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
 					</div>
 					<ul class="px-6 mb-3" v-if="displayAsset">
-						<div class="flex justify-between pt-4 text-purple-darker cursor-pointer" @click="popAsset">
+						<div class="flex justify-between pt-4 text-cyan-700 cursor-pointer" @click="popAsset">
 							<p class="font-semibold text-lg">Add a new Asset</p>
 							<i class="far fa-plus-square mx-0 my-auto"></i>
 						</div>
@@ -89,7 +89,7 @@
 						<span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
 					</div>
 					<ul class="px-6 mb-3" v-if="displaySnippet">
-						<span class="flex justify-between pt-4 text-purple-darker cursor-pointer" @click="popSnippet">
+						<span class="flex justify-between pt-4 text-cyan-700 cursor-pointer" @click="popSnippet">
 							<p class="font-semibold text-lg">Add a new Snippet</p>
 							<i class="far fa-plus-square mx-0 my-auto"></i>
 						</span>
@@ -110,18 +110,19 @@
 					<div class="flex mt-4 mb-3">
 						<button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4 focus:outline-none"> Delete File </button>
 						<button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4 focus:outline-none">Rename</button>
-						<button class="px-4 py-1 text-white bg-purple-darker focus:outline-none" @click="dataSumit"><i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>Save</button>
+						<button class="px-4 py-1 text-white bg-cyan-700 focus:outline-none" @click="dataSumit"><i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>Save</button>
 					</div>
             	</div>
 				<div class="overflow-x-scroll h-10 bg-black text-gray-400 pl-6 -mb-1">
 					<ul class="flex my-1 items-center">
+						
 						<li v-for="file in theme_files[1]" :key="file.id" class="flex text-xs h-7 my-auto py-1.5 pl-4 pr-3 items-center cursor-pointer" :class="[popChild?'hidden':'',file.title]"><i class="fas fa-times cursor-pointer pr-3 mt-1" @click="removeChild(file.title)"></i>{{file.title}}</li>
 						<li v-for="file in theme_files[2]" :key="file.id" class="flex text-xs h-7 my-auto text-gray-400 py-1.5 pl-4 pr-3 items-center cursor-pointer" :class="showLayOpt ? '' : 'hidden' "><i class="fas fa-times cursor-pointer pr-3 mt-1" @click="removeChild(file.id)"></i>{{file.title}}</li>
 						<li v-for="file in theme_files[3]" :key="file.id" class="flex text-xs h-7 my-auto text-gray-400 py-1.5 pl-4 pr-3 items-center cursor-pointer" :class="showAssOpt ? '' : 'hidden' "><i class="fas fa-times cursor-pointer pr-3 mt-1" @click="removeChild(file.id)"></i>{{file.title}}</li>
 						<li v-for="file in theme_files[4]" :key="file.id" class="flex text-xs h-7 my-auto text-gray-400 py-1.5 pl-4 pr-3 items-center cursor-pointer" :class="showSnipOpt ? '' : 'hidden' "><i class="fas fa-times cursor-pointer pr-3 mt-1" @click="removeChild(file.id)"></i>{{file.title}}</li> 
 					</ul>
 				</div>
-				<pop-up v-if="popUp" @close="popUp = false" @createFile="createFile" :text="text" :creatingContent="creatingContent"></pop-up>
+				<pop-up v-if="popUp" @close="popUp = false" @createFile="createFile" :text="text" :creatingContent="creatingContent" :loading="loading"></pop-up>
 				<v-ace-editor
 					v-model:value="content"
 					@init="editorInit"
@@ -162,7 +163,8 @@ import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import { VAceEditor } from 'vue3-ace-editor';
 import axios from "axios";
-import PopUp from "./Components/PopUp"
+import PopUp from "./Components/PopUp";
+import Alert from '../../Components/Alert'
 
 import 'ace-builds/webpack-resolver';
 import 'ace-builds/src-noconflict/mode-text';
@@ -198,7 +200,8 @@ export default {
     ChevronLeftIcon,
     ChevronUpIcon,
     ChevronDownIcon,
-	PopUp
+	PopUp,
+	Alert
   },
 
   props: {
@@ -206,10 +209,6 @@ export default {
     open_files: Object
   },
   
-  mounted() {
-    // console.log(this.user);
-  },
-
   data: function () {
     return {
       lang:'twig',
@@ -240,12 +239,18 @@ export default {
         theme_id: 1,
         type: ""
       },
+	  openFile:{
+		  
+	  },
       showTempOpt:true,
       showLayOpt:true,
       showAssOpt:true,
       showSnipOpt:true,
       active: false,
     };
+  },
+  mounted(){
+	  //console.log(this.open_files)
   },
   computed: {
     layout_files() {
@@ -258,8 +263,16 @@ export default {
     },
     asset_files() {
       // return this.theme.filter()
-      if (this.theme.hasOwnProperty("1")) {
+      if (this.theme_files.hasOwnProperty("1")) {
         return this.theme_files["3"];
+      }
+
+      return [];
+    },
+	snippet_files() {
+      // return this.theme.filter()
+      if (this.theme_files.hasOwnProperty("1")) {
+        return this.theme_files["4"];
       }
 
       return [];
@@ -295,10 +308,12 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     async createFile() {
-      this.popUp = false;
-      this.loading = true;
-      this.notification = null;
-      console.log(this.creatingContent)
+      	this.popUp = false;
+		this.loading = true;
+		this.notification = null;
+		console.log(this.open_files)
+      	//console.log(this.creatingContent)
+		window.scrollTo({ top: 0, behavior: "smooth" });
       try {
         const res = await axios.post(
           "/online-store/code-editor",  
@@ -306,23 +321,31 @@ export default {
         );
         const { notification } = res.data;
         this.notification = notification;
-        location.reload()
+		setTimeout(() => {
+          this.notification = null
+        }, 3000);
+        //location.reload()
       } catch (error) {
         const { notification } = error.response.data;
         this.notification = notification;
       }
       this.loading = false;
-      window.scrollTo({ top: 0, behavior: "smooth" });
+	  setTimeout(() => {
+          location.reload()
+        }, 3100);
     },
     
     async getContent(file) {
       try {
         const res = await axios.get(
           "/online-store/code-editor/"+file.id,        
-        ).then((res)=>{
+        )
+		/* .then((res)=>{
             this.setEditorLang(res.data); 
             this.content = res.data.content
-        })
+        }) */
+		this.setEditorLang(res.data); 
+        this.content = res.data.content
         this.notification = notification;
       } catch (error) {
         // const { notification } = error.response.data;
