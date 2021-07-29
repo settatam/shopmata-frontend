@@ -33,6 +33,7 @@ use App\Http\Controllers\Settings\NotificationsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\OnlineStore\CodeEditorController;
 use App\Http\Controllers\OnlineStore\ThemeController;
+use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -181,7 +182,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('online-store/code-editor', [CodeEditorController::class, 'store']);
 	Route::put('online-store/code-editor/{id}', [CodeEditorController::class, 'update']);
 	Route::get('online-store/code-editor/{id}', [CodeEditorController::class, 'show']);
-	Route::get('online-store/editor', [CodeEditorController::class, 'index']);
+    Route::get('online-store/editor', [CodeEditorController::class, 'index']);
+
+    //Open editor pages
+
+    Route::delete('editor-pages', [OpenEditorPagesController::class, 'destroy']);
 
 	Route::get('online-store/themes', [ThemeController::class, 'index']);
 

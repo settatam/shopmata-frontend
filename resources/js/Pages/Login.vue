@@ -135,7 +135,6 @@ export default {
   },
   methods: {
     async loginUser() {
-      alert('yes')
       this.loading = true;
       try {
         const res = await axios.post("/login", { ...this.user});

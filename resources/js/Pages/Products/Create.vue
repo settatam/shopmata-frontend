@@ -118,7 +118,8 @@
                   </div>
                 </div>
               </div>
-              <!-- <div class="bg-white mb-10 py-6">
+
+              <div class="bg-white mb-10 py-6">
                 <div class="px-8">
                   <div
                     class="bg-white flex justify-between cursor-pointer"
@@ -126,20 +127,14 @@
                   >
                     <p class="text-black font-semibold text-lg mb-6">Media</p>
                     <div class="flex">
-                      <media-url-modal :media="media"></media-url-modal
-                      ><span><angle-up-icon></angle-up-icon></span>
+                      
                     </div>
                   </div>
-                  <div v-if="expandMedia">
-                    <vue-dropzone
-                      ref="mediaFiles"
-                      id="dropzone"
-                      :options="dropzoneOptions"
-                      @vdropzone-complete="afterComplete"
-                    ></vue-dropzone>
+                  <div>
+                    <Dropzone></Dropzone>
                   </div>
                 </div>
-              </div> -->
+              </div>
               <pricing-form :pricing="pricing"></pricing-form>
               <inventory-form
                 :inventory="inventory"
@@ -150,6 +145,7 @@
                 :variants="variants"
                 :types="variant_types"
                 :valueContent="valueContent"
+                :variantList="variantList"
                 @added="addOption"
                 @add-variant-name="addVariantName"
                 @added-variant-value="addVariantValue"
@@ -201,6 +197,7 @@ import VariantsForm from "./Components/VariantsForm";
 import SearchEngineForm from "./Components/SearchEngineForm";
 import MediaUrlModal from "./Components/MediaUrlModal";
 import PricingForm from "./Components/PricingForm";
+import Dropzone from "./Components/Dropzone";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
@@ -235,11 +232,13 @@ export default {
     UploadIcon,
     AngleUpIcon,
     MediaUrlModal,
+    Dropzone
   },
 
   data() {
     return {
       valueContent: '',
+      variantList: [],
       dropzoneOptions: {
         url: "/product-images",
         thumbnailWidth: 150,
@@ -354,6 +353,9 @@ export default {
       this.variants.options.push({
         type: "",
         values: [],
+        price: '',
+        quantity: '',
+        sku:''
       });
     },
     addVariantName(e) {
@@ -361,8 +363,10 @@ export default {
       this.variants.options[index].name = e.target.value;
     },
     addVariantValue(e) {
+      if(!e.target.value) return false;
       let index = e.target.getAttribute('data-index');
       this.variants.options[index].values.push(e.target.value);
+      this.displayVariants();
     },
     addCategory() {
       this.inventory.category.push({
@@ -423,11 +427,16 @@ export default {
     },
     displayVariants() {
             
-            let attributes = this.variants
+            let attributes = this.variants.options
             let total_count = 1;
+            // return false
 
             // a loop can do this 
-            if (attributes.indexOf(1) && attributes.indexOf(2)) {
+            if (attributes.length == 1) {
+                total_count = attributes[0].values.length
+            }else if(attributes.length == 2){
+                total_count = attributes[0].values.length * attributes[1].values.length
+            }else if(attributes.length == 3){
               total_count = attributes[0].values.length * attributes[1].values.length * attributes[2].values.length
             }
 
@@ -436,11 +445,11 @@ export default {
             
             let base_attribute = attributes[0];
 
-            const gVal = (data, g) => {
-              let c = g.length;
-              if (data.values.indexOf(c)) return data.values[c]
-              return '';
-            }
+            // const gVal = (data, g) => {
+            //   let c = g.length;
+            //   if (data.values.indexOf(c)) return data.values[c]
+            //   return '';
+            // }
 
             let z = [];
 
@@ -453,7 +462,7 @@ export default {
             let q = 0;
 
             //first phase
-            let first_attribute = total_count / attributes[0].values.length
+            let first_attribute = attributes.length == 1 ? 1 : total_count / attributes[0].values.length
 
             for (let i = 0; i < base_attribute.values.length; i++) {
               for (let k = 0; k < first_attribute; k++) {
@@ -462,27 +471,41 @@ export default {
               }
             }
 
-            let second_attributes = total_count / attributes[1].values.length
-            q = 0;
+            if(attributes.length > 1) {
+              let second_attributes = total_count / attributes[1].values.length
+                q = 0;
+                for (let k = 0; k < second_attributes; k++) {
+                  for (let i = 0; i < attributes[1].values.length; i++) {
+                    z[q].push(attributes[1].values[i])
+                    q++;
+                  }
+                }
+            }
 
-            for (let k = 0; k < second_attributes; k++) {
-              for (let i = 0; i < attributes[1].values.length; i++) {
-                z[q].push(attributes[1].values[i])
-                q++;
+            
+            if(attributes.length == 3) {
+              let third_attributes = total_count / attributes[2].values.length
+              q = 0
+              for (let k = 0; k < third_attributes; k++) {
+                for (let i = 0; i < attributes[2].values.length; i++) {
+                  z[q].push(attributes[2].values[i])
+                  q++;
+                }
               }
             }
 
-            let third_attributes = total_count / attributes[2].values.length
+            let variantList = [];
 
-            q = 0
-            for (let k = 0; k < third_attributes; k++) {
-              for (let i = 0; i < attributes[2].values.length; i++) {
-                z[q].push(attributes[2].values[i])
-                q++;
-              }
+            for(let l=0; l<z.length; l++) {
+                variantList.push({
+                    name: z[l].join(', '),
+                    price: '34',
+                    quantity: 1,
+                    sku: '123456'
+                })
             }
 
-            console.log(z)
+           this.variantList = variantList;
         },
   },
   setup() {
