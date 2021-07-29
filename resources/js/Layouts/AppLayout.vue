@@ -20,7 +20,7 @@
             </div>
             <nav class="mt-5 flex-shrink-0 h-full overflow-y-auto" aria-label="Sidebar">
               <div class="px-2 space-y-1">
-                <inertia-link v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-cyan-800 text-white' : 'text-cyan-100 hover:text-white hover:bg-cyan-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']" :aria-current="item.current ? 'page' : undefined">
+                <inertia-link v-for="item in navigation" :key="item.name" :href="item.href" :class="[isRoute(item.name) ? 'bg-cyan-800 text-white' : 'text-cyan-100 hover:text-white hover:bg-cyan-600', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']" :aria-current="item.current ? 'page' : undefined">
                   <component :is="item.icon" class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" aria-hidden="true" />
                   {{ item.name }}
                 </inertia-link>
@@ -53,7 +53,7 @@
           <nav class="mt-5 flex-1 flex flex-col overflow-y-auto" aria-label="Sidebar">
             <template v-for="item in navigation" :key="item.name">
               <div v-if="!item.children">
-                <inertia-link :href="item.href" :class="[item.current ? 'bg-cyan-800 text-white' : 'text-cyan-100 hover:text-white hover:bg-cyan-600', 'group w-full flex items-center pl-2 py-2 text-sm font-medium rounded-md']">
+                <inertia-link :href="item.href" :class="[isRoute(item.name) ? 'bg-cyan-800 text-white' : 'text-cyan-100 hover:text-white hover:bg-cyan-600', 'group w-full flex items-center pl-2 py-2 text-sm font-medium rounded-md']">
                 <component :is="item.icon" class="mr-4 flex-shrink-0 h-6 w-6 text-cyan-200" aria-hidden="true" />
                   {{ item.name }}
               </inertia-link>
@@ -277,6 +277,11 @@ export default {
       transactions,
       statusStyles,
       sidebarOpen,
+    }
+  },
+  methods: {
+    isRoute(name){
+      return name.toLowerCase() === this.route().current()
     }
   },
 }

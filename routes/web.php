@@ -161,6 +161,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Customers
 	Route::get('customers', [CustomersController::class, 'index'])->name('customers');
+	Route::get('customers/create', [CustomersController::class, 'create']);
 	Route::post('customers', [CustomersController::class, 'store']);
 	Route::get('customers/{id}/edit', [CustomersController::class, 'edit'])->name('customers.edit');
 	Route::put('customers/{id}', [CustomersController::class, 'update']);
