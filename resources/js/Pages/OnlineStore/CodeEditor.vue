@@ -60,12 +60,12 @@
                 />
                 <p class="ml-4.5 font-bold text-xl">Templates</p>
               </div>
-              <span class="ml-3" v-if="displayTemplate"
-                ><i class="fas fa-chevron-up my-auto"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down my-auto"></i
-              ></span>
+              <span class="ml-3 my-auto" v-if="displayTemplate"
+                ><ChevronUpIcon class="h-4 text-black" />
+              </span>
+              <span class="ml-3 my-auto" v-else
+                ><ChevronDownIcon class="h-4 text-black"
+              /></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayTemplate">
               <div
@@ -106,12 +106,12 @@
                 />
                 <h3 class="ml-4.5 font-bold text-xl">Layouts</h3>
               </div>
-              <span class="ml-3" v-if="displayLayout"
-                ><i class="fas fa-chevron-up"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down"></i
-              ></span>
+              <span class="ml-3 my-auto" v-if="displayLayout"
+                ><ChevronUpIcon class="h-4 text-black"
+              /></span>
+              <span class="ml-3 my-auto" v-else
+                ><ChevronDownIcon class="h-4 text-black"
+              /></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayLayout">
               <div
@@ -152,12 +152,12 @@
                 />
                 <h3 class="ml-4.5 font-bold text-xl">Assets</h3>
               </div>
-              <span class="ml-3" v-if="displayAsset"
-                ><i class="fas fa-chevron-up"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down"></i
-              ></span>
+              <span class="ml-3 my-auto" v-if="displayAsset"
+                ><ChevronUpIcon class="h-4 text-black"
+              /></span>
+              <span class="ml-3 my-auto" v-else
+                ><ChevronDownIcon class="h-4 text-black"
+              /></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayAsset">
               <div
@@ -198,12 +198,12 @@
                 />
                 <h3 class="ml-4.5 font-bold text-xl">Snippets</h3>
               </div>
-              <span class="ml-3" v-if="displaySnippet"
-                ><i class="fas fa-chevron-up"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down"></i
-              ></span>
+              <span class="ml-3 my-auto" v-if="displaySnippet"
+                ><ChevronUpIcon class="h-4 text-black"
+              /></span>
+              <span class="ml-3 my-auto" v-else
+                ><ChevronDownIcon class="h-4 text-black"
+              /></span>
             </div>
             <ul class="px-6 mb-3" v-if="displaySnippet">
               <span
@@ -281,7 +281,7 @@
               class="overflow-x-scroll h-10 bg-black text-gray-400 pl-6 -mb-1"
             >
               <ul class="flex my-1 items-center">
-                <li
+                <a
                   v-for="file in theme_files[1]"
                   :key="file.id"
                   class="
@@ -297,18 +297,17 @@
                   "
                   :class="[popChild ? 'hidden' : '', file.title]"
                 >
-                  <i
-                    class="fas fa-times cursor-pointer pr-3 mt-1"
+                  <XIcon
+                    class="h-3 my-auto text-gray-400 mr-4"
                     @click="removeChild(file.title)"
-                  ></i
-                  >{{ file.title }}
-                </li>
-                <li
+                  />
+                  {{ file.title }}
+                </a>
+                <a
                   v-for="file in theme_files[2]"
                   :key="file.id"
                   class="
                     flex
-                    text-xs
                     h-7
                     my-auto
                     text-gray-400
@@ -317,16 +316,16 @@
                     pr-3
                     items-center
                     cursor-pointer
+                    text-xs
                   "
                   :class="showLayOpt ? '' : 'hidden'"
                 >
-                  <i
-                    class="fas fa-times cursor-pointer pr-3 mt-1"
-                    @click="removeChild(file.id)"
-                  ></i
-                  >{{ file.title }}
-                </li>
-                <li
+                  <XIcon
+                    class="h-3 my-auto text-gray-400 mr-4"
+                    @click="removeChild(file.title)"
+                  />{{ file.title }}
+                </a>
+                <a
                   v-for="file in theme_files[3]"
                   :key="file.id"
                   class="
@@ -343,13 +342,12 @@
                   "
                   :class="showAssOpt ? '' : 'hidden'"
                 >
-                  <i
-                    class="fas fa-times cursor-pointer pr-3 mt-1"
-                    @click="removeChild(file.id)"
-                  ></i
-                  >{{ file.title }}
-                </li>
-                <li
+                  <XIcon
+                    class="h-3 my-auto text-gray-400 mr-4"
+                    @click="removeChild(file.title)"
+                  />{{ file.title }}
+                </a>
+                <a
                   v-for="file in theme_files[4]"
                   :key="file.id"
                   class="
@@ -366,12 +364,11 @@
                   "
                   :class="showSnipOpt ? '' : 'hidden'"
                 >
-                  <i
-                    class="fas fa-times cursor-pointer pr-3 mt-1"
-                    @click="removeChild(file.id)"
-                  ></i
-                  >{{ file.title }}
-                </li>
+                  <XIcon
+                    class="h-3 text-gray-400 mr-4 my-auto"
+                    @click="removeChild(file.title)"
+                  />{{ file.title }}
+                </a>
               </ul>
             </div>
             <pop-up
@@ -397,18 +394,18 @@
                 showLineNumbers: true,
                 tabSize: 2,
                 showPrintMargin: false,
-                showGutter: true
+                showGutter: true,
               }"
               :commands="[
                 {
                   name: 'save',
                   bindKey: {
                     win: 'Ctrl-s',
-                    mac: 'Command-s'
+                    mac: 'Command-s',
                   },
                   exec: dataSumit,
-                  readOnly: true
-                }
+                  readOnly: true,
+                },
               ]"
             />
           </div>
@@ -419,38 +416,39 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import AppLayout from '../../Layouts/AppLayout.vue';
-import Search from '../Search.vue';
-import { VAceEditor } from 'vue3-ace-editor';
-import axios from 'axios';
-import PopUp from './Components/PopUp';
-import Alert from '../../Components/Alert';
+import { ref } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
+import Search from "../Search.vue";
+import { VAceEditor } from "vue3-ace-editor";
+import axios from "axios";
+import PopUp from "./Components/PopUp";
+import Alert from "../../Components/Alert";
 
-import 'ace-builds/webpack-resolver';
-import 'ace-builds/src-noconflict/mode-text';
-import 'ace-builds/src-noconflict/theme-monokai';
-import 'ace-builds/src-noconflict/mode-html';
-import 'ace-builds/src-noconflict/mode-javascript';
-import 'ace-builds/src-noconflict/mode-css';
-import 'ace-builds/src-noconflict/mode-twig';
+import "ace-builds/webpack-resolver";
+import "ace-builds/src-noconflict/mode-text";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/mode-html";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-css";
+import "ace-builds/src-noconflict/mode-twig";
 //import 'ace-builds/src-noconflict/ace';
-import 'ace-builds/src-noconflict/ext-language_tools';
+import "ace-builds/src-noconflict/ext-language_tools";
 
 import {
   Dialog,
   DialogOverlay,
   TransitionChild,
-  TransitionRoot
-} from '@headlessui/vue';
-import { ChevronLeftIcon } from '@heroicons/vue/solid';
-import { ChevronDownIcon } from '@heroicons/vue/solid';
-import { ChevronUpIcon } from '@heroicons/vue/solid';
+  TransitionRoot,
+} from "@headlessui/vue";
+import { ChevronLeftIcon } from "@heroicons/vue/solid";
+import { ChevronDownIcon } from "@heroicons/vue/solid";
+import { ChevronUpIcon } from "@heroicons/vue/solid";
+import { XIcon } from "@heroicons/vue/solid";
 
 const statusStyles = {
-  success: 'bg-green-100 text-green-800',
-  processing: 'bg-yellow-100 text-yellow-800',
-  failed: 'bg-gray-100 text-gray-800'
+  success: "bg-green-100 text-green-800",
+  processing: "bg-yellow-100 text-yellow-800",
+  failed: "bg-gray-100 text-gray-800",
 };
 
 export default {
@@ -465,87 +463,88 @@ export default {
     ChevronUpIcon,
     ChevronDownIcon,
     PopUp,
-    Alert
+    Alert,
+    XIcon,
   },
 
   props: {
     theme_files: Object,
-    open_files: Object
+    open_files: Object,
   },
 
   data: function () {
     return {
-      lang: 'twig',
+      lang: "twig",
       loading: false,
       notification: null,
       editor: null,
-      content: '',
+      content: "",
       templateId: 1,
       displayLayout: true,
       displayTemplate: true,
       displayAsset: true,
       displaySnippet: true,
-      editorHeader: 'Template',
+      editorHeader: "Template",
       popUp: false,
-      text: '',
-      child: '',
-      file: 'Create a blank file',
+      text: "",
+      child: "",
+      file: "Create a blank file",
       // theme: {},
       popChild: false,
       editingContent: {
-        content: ''
+        content: "",
       },
       creatingContent: {
         type_id: 0,
-        content: '',
+        content: "",
         asset_url: null,
-        title: '',
+        title: "",
         theme_id: 1,
-        type: ''
+        type: "",
       },
       openFile: {},
       showTempOpt: true,
       showLayOpt: true,
       showAssOpt: true,
       showSnipOpt: true,
-      active: false
+      active: false,
     };
   },
   mounted() {
-    //console.log(this.open_files)
+    console.log(this.open_files);
   },
   computed: {
     layout_files() {
       // return this.theme.filter()
-      if (this.theme_files.hasOwnProperty('1')) {
-        return this.theme_files['1'];
+      if (this.theme_files.hasOwnProperty("1")) {
+        return this.theme_files["1"];
       }
 
       return [];
     },
     asset_files() {
       // return this.theme.filter()
-      if (this.theme_files.hasOwnProperty('1')) {
-        return this.theme_files['3'];
+      if (this.theme_files.hasOwnProperty("1")) {
+        return this.theme_files["3"];
       }
 
       return [];
     },
     snippet_files() {
       // return this.theme.filter()
-      if (this.theme_files.hasOwnProperty('1')) {
-        return this.theme_files['4'];
+      if (this.theme_files.hasOwnProperty("1")) {
+        return this.theme_files["4"];
       }
 
       return [];
     },
     template_files() {
       // return this.theme_files.filter()
-      if (this.theme_files.hasOwnProperty('1')) {
-        return this.theme_files['2'];
+      if (this.theme_files.hasOwnProperty("1")) {
+        return this.theme_files["2"];
       }
       return [];
-    }
+    },
   },
   methods: {
     async dataSumit() {
@@ -566,7 +565,7 @@ export default {
         this.notification = notification;
       }
       this.loading = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     async createFile() {
       this.popUp = false;
@@ -574,10 +573,10 @@ export default {
       this.notification = null;
       console.log(this.open_files);
       //console.log(this.creatingContent)
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
       try {
         const res = await axios.post(
-          '/online-store/code-editor',
+          "/online-store/code-editor",
           this.creatingContent
         );
         const { notification } = res.data;
@@ -598,7 +597,7 @@ export default {
 
     async getContent(file) {
       try {
-        const res = await axios.get('/online-store/code-editor/' + file.id);
+        const res = await axios.get("/online-store/code-editor/" + file.id);
         /* .then((res)=>{
             this.setEditorLang(res.data); 
             this.content = res.data.content
@@ -611,7 +610,7 @@ export default {
         // this.notification = notification;
       }
       this.loading = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     editorInit: function () {},
     toggleLayout() {
@@ -644,35 +643,35 @@ export default {
     },
     popLayout() {
       this.popUp = true;
-      this.text = 'layout';
+      this.text = "layout";
       this.creatingContent.type_id = 2;
       this.creatingContent.theme_id = 2;
     },
     popAsset() {
       this.popUp = true;
-      this.text = 'asset';
+      this.text = "asset";
       this.creatingContent.type_id = 3;
       this.creatingContent.theme_id = 3;
     },
     popTemplate() {
       this.popUp = true;
-      this.text = 'template';
+      this.text = "template";
       this.creatingContent.type_id = 1;
       this.creatingContent.theme_id = 1;
     },
     popSnippet() {
       this.popUp = true;
-      this.text = 'snippet';
+      this.text = "snippet";
       this.creatingContent.type_id = 4;
       this.creatingContent.theme_id = 4;
     },
     setEditorLang(file) {
-      if (file.title.indexOf('.css') > -1) {
-        this.lang = 'css';
-      } else if (file.title.indexOf('.js') > -1) {
-        this.lang = 'javascript';
-      } else if (file.title.indexOf('.twig')) {
-        this.lang = 'twig';
+      if (file.title.indexOf(".css") > -1) {
+        this.lang = "css";
+      } else if (file.title.indexOf(".js") > -1) {
+        this.lang = "javascript";
+      } else if (file.title.indexOf(".twig")) {
+        this.lang = "twig";
       }
     },
     removeChild(id) {
@@ -686,20 +685,20 @@ export default {
       if (id == this.child) {
         this.popChild = true;
       } else {
-        console.log('Nah');
+        console.log("Nah");
       }
     },
 
     setEditor(file) {
       this.setEditorLang(file);
       this.editingContent = file;
-    }
+    },
   },
   setup() {
     const open = ref(false);
     return {
-      statusStyles
+      statusStyles,
     };
-  }
+  },
 };
 </script>
