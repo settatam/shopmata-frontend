@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Customer;
-use App\Models\Store;
 use App\Models\User;
-use App\Models\Order;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use App\Models\Order;
+use App\Models\Store;
+use App\Models\Country;
+use App\Models\Customer;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -59,7 +60,9 @@ class CustomersController extends Controller
     public function create()
     {
         //
-        return Inertia::render('Customers/Create');
+
+        $countries = Country::all();
+        return Inertia::render('Customers/Create', compact('countries'));
     }
 
     /**
@@ -80,7 +83,7 @@ class CustomersController extends Controller
         $userId = $user->id;
         $store_id = $user->store_id;
         $customer = Customer::create([
-            'store_id' => 2,
+            'store_id' => session('store_id'),
             'user_id' => $userId,
             'country' => $request->country,
             'state' => $request->state,
@@ -89,7 +92,7 @@ class CustomersController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'is_active' => 1,
-            'country' => $request->country['value'],
+            'country' => $request->country,
             'address' => $request->address,
             'address2' => $request->address,
             'accepts_marketing' => 1,

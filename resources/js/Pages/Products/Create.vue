@@ -184,7 +184,7 @@
 import { ref } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import Search from "../Search.vue";
-import Nav from "./Nav";
+import Nav from "../../Layouts/Nav";
 import axios from "axios";
 
 import {

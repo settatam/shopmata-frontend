@@ -36,7 +36,7 @@
           </div>
           <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
             <inertia-link
-              href="orders/create"
+              href="customers/create"
               type="button"
               class="
                 inline-flex
