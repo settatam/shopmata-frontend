@@ -41,7 +41,14 @@ class CodeEditorController extends Controller
              ];
         }
 
-        $open_files = OpenEditorPage::orderBy('id', 'asc')->get();
+        $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();
+
+        for($i=0; $i<sizeof($open_files); $i++) {
+            $open_files[$i]->content = $open_files[$i]->theme_file->content;
+            $open_files[$i]->name = $open_files[$i]->theme_file->name;
+        }
+
+        dd($open_files);
 
         // count($theme_files) === 0 ? $theme_files = (object)[] : "";
         // count($theme_files) === 0 ? $open_files = (object)[] : "";
