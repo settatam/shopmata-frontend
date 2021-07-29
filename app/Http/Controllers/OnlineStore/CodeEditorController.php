@@ -23,7 +23,7 @@ class CodeEditorController extends Controller
     public function index()
     {
         //
-        //$store = Store::with('theme')->find(session()->get('store_id'));
+        // $store = Store::with('theme')->find(session()->get('store_id'));
         $files = Themefile::distinct('title')->get(['title', 'type_id', 'type', 'content', 'id']);
         $theme_files = [];
 
@@ -41,13 +41,18 @@ class CodeEditorController extends Controller
              ];
         }
 
-        $open_files = OpenEditorPage::orderBy('id', 'asc')->get();
+        $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();
 
-        // count($theme_files) === 0 ? $theme_files = (object)[] : "";
-        // count($theme_files) === 0 ? $open_files = (object)[] : "";
+        for($i=0; $i<sizeof($open_files); $i++) {
+            $open_files[$i]->content = $open_files[$i]->theme_file->content;
+            $open_files[$i]->name = $open_files[$i]->theme_file->name;
+        }
+
+        count($theme_files) === 0 ? $theme_files = (object)[] : "";
+        count($open_files) === 0 ? $open_files = (object)[] : "";
         // $layout = $store->theme->layout[count($store->theme->layout)-1]->content;
 
-        return Inertia::render('OnlineStore/CodeEditor', compact('layout', 'theme_files', 'open_files'));
+        return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files'));
     }
 
     /**
