@@ -78,7 +78,7 @@
               <div v-for="file in theme_files[1]" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
-                  @click="setEditor(file)"
+                  @click="getContent(file)"
                 >
                   { } {{ file.title }}
                 </li>
@@ -124,7 +124,7 @@
               <div v-for="file in theme_files[2]" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
-                  @click="setEditor(file)"
+                  @click="getContent(file)"
                 >
                   { } {{ file.title }}
                 </li>
@@ -170,7 +170,7 @@
               <div v-for="file in theme_files[3]" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
-                  @click="setEditor(file)"
+                  @click="getContent(file)"
                 >
                   { } {{ file.title }}
                 </li>
@@ -216,7 +216,7 @@
               <div v-for="file in theme_files[4]" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
-                  @click="setEditor(file)"
+                  @click="setEd(file)"
                 >
                   { } {{ file.title }}
                 </li>
@@ -281,96 +281,9 @@
               class="overflow-x-scroll h-10 bg-black text-gray-400 pl-6 -mb-1"
             >
               <ul class="flex my-1 items-center">
-                <li
-                  v-for="file in theme_files[1]"
-                  :key="file.id"
-                  class="
-                    flex
-                    text-xs
-                    h-7
-                    my-auto
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                  "
-                  :class="[popChild ? 'hidden' : '', file.title]"
-                >
-                  <i
-                    class="fas fa-times cursor-pointer pr-3 mt-1"
-                    @click="removeChild(file.title)"
-                  ></i
-                  >{{ file.title }}
-                </li>
-                <li
-                  v-for="file in theme_files[2]"
-                  :key="file.id"
-                  class="
-                    flex
-                    text-xs
-                    h-7
-                    my-auto
-                    text-gray-400
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                  "
-                  :class="showLayOpt ? '' : 'hidden'"
-                >
-                  <i
-                    class="fas fa-times cursor-pointer pr-3 mt-1"
-                    @click="removeChild(file.id)"
-                  ></i
-                  >{{ file.title }}
-                </li>
-                <li
-                  v-for="file in theme_files[3]"
-                  :key="file.id"
-                  class="
-                    flex
-                    text-xs
-                    h-7
-                    my-auto
-                    text-gray-400
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                  "
-                  :class="showAssOpt ? '' : 'hidden'"
-                >
-                  <i
-                    class="fas fa-times cursor-pointer pr-3 mt-1"
-                    @click="removeChild(file.id)"
-                  ></i
-                  >{{ file.title }}
-                </li>
-                <li
-                  v-for="file in theme_files[4]"
-                  :key="file.id"
-                  class="
-                    flex
-                    text-xs
-                    h-7
-                    my-auto
-                    text-gray-400
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                  "
-                  :class="showSnipOpt ? '' : 'hidden'"
-                >
-                  <i
-                    class="fas fa-times cursor-pointer pr-3 mt-1"
-                    @click="removeChild(file.id)"
-                  ></i
-                  >{{ file.title }}
+                <li v-for="file in open_files" :key="file.id" class="flex text-xs h-7 my-auto py-1.5 pl-4 pr-3 items-center cursor-pointer" :class="[popChild ? 'hidden' : '', file.title]" @click="getContent(file)">
+                  <i class="fas fa-times cursor-pointer pr-3 mt-1"></i>
+                    {{ file.name }}
                 </li>
               </ul>
             </div>
@@ -387,7 +300,7 @@
               @init="editorInit"
               lang="twig"
               style="height: 600px; width: 100%"
-              theme="monokai"
+              theme="chrome"
               :options="{
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
@@ -470,11 +383,12 @@ export default {
 
   props: {
     theme_files: Object,
-    open_files: Object
+    open_files: Array
   },
 
   data: function () {
     return {
+      active_file_index: 0,
       lang: 'twig',
       loading: false,
       notification: null,
@@ -581,6 +495,7 @@ export default {
           this.creatingContent
         );
         const { notification } = res.data;
+        this.open_files.push(res.data)
         this.notification = notification;
         setTimeout(() => {
           this.notification = null;
@@ -598,13 +513,15 @@ export default {
 
     async getContent(file) {
       try {
-        const res = await axios.get('/online-store/code-editor/' + file.id);
-        /* .then((res)=>{
-            this.setEditorLang(res.data); 
+        await axios.get('/online-store/code-editor/' + file.id)
+        .then((res)=>{
+            // this.setEditorLang(res.data); 
             this.content = res.data.content
-        }) */
+            this.open_files.push(res.data)
+        }) 
         this.setEditorLang(res.data);
         this.content = res.data.content;
+        
         this.notification = notification;
       } catch (error) {
         // const { notification } = error.response.data;
