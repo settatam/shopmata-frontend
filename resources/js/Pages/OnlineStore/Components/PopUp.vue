@@ -187,7 +187,7 @@
                       "
                       v-model="selected"
                     >
-                      <option value=".twig">TWIG</option>
+                      <option value=".twig">twig</option>
                       <option value=".css">CSS</option>
                       <option value=".js">JS</option>
                       <option value=".html">HTML</option>
@@ -222,7 +222,7 @@
                       "
                       v-model="selected"
                     >
-                      <option value=".twig">TWIG</option>
+                      <option value=".twig">twig</option>
                       <option value=".css.twig">CSS.twig</option>
                       <option value=".js.twig">JS.twig</option>
                       <option value=".css">CSS</option>

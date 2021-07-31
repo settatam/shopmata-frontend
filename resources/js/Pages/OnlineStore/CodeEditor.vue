@@ -14,45 +14,14 @@
 
       <div class="flex-1 flex xl:overflow-hidden ml-5">
         <!-- Secondary sidebar -->
-        <nav
-          aria-label="Sections"
-          class="
-            hidden
-            flex-shrink-0
-            w-96
-            bg-white
-            border-r border-blue-gray-200
-            xl:flex xl:flex-col
-            mt-12
-          "
-        >
+        <nav aria-label="Sections" class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-12">
           <!-- Probably still gonna remove this -->
-          <div
-            class="
-              flex-shrink-0
-              h-16
-              px-6
-              border-b border-blue-gray-200
-              flex
-              items-center
-            "
-          >
+          <div class="flex-shrink-0 h-16 px-6 border-b border-blue-gray-200 flex items-center">
             <p class="text-lg font-medium text-blue-gray-900">Code Editor</p>
           </div>
           <!-- Template  -->
-          <div>
-            <div
-              @click="toggleTemplate"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
+          <div> 
+            <div @click="toggleTemplate" class="flex min-h-0 overflow-y-auto px-6 pt-9 justify-between cursor-pointer">
               <div class="flex">
                 <img
                   src="../../../assets/icons/download_icon.svg"
@@ -60,26 +29,16 @@
                 />
                 <p class="ml-4.5 font-bold text-xl">Templates</p>
               </div>
-              <span class="ml-3 my-auto" v-if="displayTemplate"
-                ><ChevronUpIcon class="h-4 text-black" />
-              </span>
-              <span class="ml-3 my-auto" v-else
-                ><ChevronDownIcon class="h-4 text-black"
-              /></span>
+              <span class="ml-3 my-auto" v-if="displayTemplate"><ChevronUpIcon class="h-4 text-black" /></span>
+              <span class="ml-3 my-auto" v-else><ChevronDownIcon class="h-4 text-black"/></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayTemplate">
-              <div
-                class="flex justify-between cursor-pointer text-cyan-700"
-                @click="popTemplate"
-              >
+              <div class="flex justify-between cursor-pointer text-cyan-700" @click="popTemplate">
                 <p class="font-semibold text-lg">Add a new Template</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </div>
               <div v-for="file in theme_files[1]" :key="file.id">
-                <li
-                  class="text-lg pt-4 cursor-pointer"
-                  @click="getContent(file)"
-                >
+                <li class="text-lg pt-4 cursor-pointer" @click="getContent(file)">
                   { } {{ file.title }}
                 </li>
               </div>
@@ -87,18 +46,7 @@
           </div>
           <!-- Layout -->
           <div>
-            <div
-              @click="toggleLayout"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
+            <div @click="toggleLayout" class="flex min-h-0 overflow-y-auto px-6 pt-9 justify-between cursor-pointer">
               <div class="flex">
                 <img
                   src="../../../assets/icons/download_icon.svg"
@@ -109,9 +57,7 @@
               <span class="ml-3 my-auto" v-if="displayLayout"
                 ><ChevronUpIcon class="h-4 text-black"
               /></span>
-              <span class="ml-3 my-auto" v-else
-                ><ChevronDownIcon class="h-4 text-black"
-              /></span>
+              <span class="ml-3 my-auto" v-else><ChevronDownIcon class="h-4 text-black"/></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayLayout">
               <div
@@ -133,18 +79,7 @@
           </div>
           <!-- Assets -->
           <div>
-            <div
-              @click="toggleAsset"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
+            <div @click="toggleAsset" class="flex min-h-0 overflow-y-auto px-6 pt-9 justify-between cursor-pointer">
               <div class="flex">
                 <img
                   src="../../../assets/icons/download_icon.svg"
@@ -152,12 +87,8 @@
                 />
                 <h3 class="ml-4.5 font-bold text-xl">Assets</h3>
               </div>
-              <span class="ml-3 my-auto" v-if="displayAsset"
-                ><ChevronUpIcon class="h-4 text-black"
-              /></span>
-              <span class="ml-3 my-auto" v-else
-                ><ChevronDownIcon class="h-4 text-black"
-              /></span>
+              <span class="ml-3 my-auto" v-if="displayAsset"><ChevronUpIcon class="h-4 text-black"/></span>
+              <span class="ml-3 my-auto" v-else><ChevronDownIcon class="h-4 text-black"/></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayAsset">
               <div
@@ -274,119 +205,13 @@
                 </button>
               </div>
             </div>
-            <div
-              class="overflow-x-scroll h-10 bg-black text-gray-400 pl-6 -mb-1"
-            >
-              <ul class="flex my-1 items-center">
-                <a
-                  v-for="file in theme_files[1]"
-                  :key="file.id"
-                  class="
-                    flex
-                    text-xs
-                    h-7
-                    my-auto
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                  "
-                  :class="[popChild ? 'hidden' : '', file.title]"
-                >
-                  <XIcon
-                    class="h-3 my-auto text-gray-400 mr-4"
-                    @click="removeChild(file.title)"
-                  />
-                  {{ file.title }}
-                </a>
-                <a
-                  v-for="file in theme_files[2]"
-                  :key="file.id"
-                  class="
-                    flex
-                    h-7
-                    my-auto
-                    text-gray-400
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                    text-xs
-                  "
-                  :class="showLayOpt ? '' : 'hidden'"
-                >
-                  <XIcon
-                    class="h-3 my-auto text-gray-400 mr-4"
-                    @click="removeChild(file.title)"
-                  />{{ file.title }}
-                </a>
-                <a
-                  v-for="file in theme_files[3]"
-                  :key="file.id"
-                  class="
-                    flex
-                    text-xs
-                    h-7
-                    my-auto
-                    text-gray-400
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                  "
-                  :class="showAssOpt ? '' : 'hidden'"
-                >
-                  <XIcon
-                    class="h-3 my-auto text-gray-400 mr-4"
-                    @click="removeChild(file.title)"
-                  />{{ file.title }}
-                </a>
-                <a
-                  v-for="file in theme_files[4]"
-                  :key="file.id"
-                  class="
-                    flex
-                    text-xs
-                    h-7
-                    my-auto
-                    text-gray-400
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                  "
-                  :class="showSnipOpt ? '' : 'hidden'"
-                >
-                  <XIcon
-                    class="h-3 text-gray-400 mr-4 my-auto"
-                    @click="removeChild(file.title)"
-                  />{{ file.title }}
-                </a>
-                <li
-                  v-for="file in open_files"
-                  :key="file.id"
-                  class="
-                    flex
-                    text-xs
-                    h-7
-                    my-auto
-                    py-1.5
-                    pl-4
-                    pr-3
-                    items-center
-                    cursor-pointer
-                  "
-                  :class="[popChild ? 'hidden' : '', file.title]"
-                  @click="getContent(file)"
-                >
-                  <i class="fas fa-times cursor-pointer pr-3 mt-1"></i>
+            <div class="overflow-x-scroll h-10 bg-black text-gray-400 pl-6 -mb-1">
+              <div class="flex my-1 items-center">
+                <a v-for="file in openFile" :key="file.id" class="flex text-xs h-7 my-auto py-1.5 pl-4 pr-3 items-center cursor-pointer" :class="[popChild ? 'hidden' : '', file.title]">
+                  <XIcon class="h-3 my-auto text-gray-400 mr-4" @click="removeChild(file.theme_file_id)"/>
                   {{ file.name }}
-                </li>
-              </ul>
+                </a>
+              </div>
             </div>
             <pop-up
               v-if="popUp"
@@ -397,33 +222,23 @@
               :loading="loading"
             ></pop-up>
             <v-ace-editor
-              v-model:value="content"
+               v-model:value="editingContent.content"
+              :language="language"
               @init="editorInit"
-              lang="twig"
               style="height: 600px; width: 100%"
               theme="chrome"
               :options="{
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true,
-                fontSize: 14,
+                fontSize: 16,
+                useWorker: true,
                 highlightActiveLine: true,
-                enableSnippets: true,
+                //enableSnippets: true,
                 showLineNumbers: true,
                 tabSize: 2,
                 showPrintMargin: false,
                 showGutter: true,
               }"
-              :commands="[
-                {
-                  name: 'save',
-                  bindKey: {
-                    win: 'Ctrl-s',
-                    mac: 'Command-s',
-                  },
-                  exec: dataSumit,
-                  readOnly: true,
-                },
-              ]"
             />
           </div>
         </div>
@@ -443,12 +258,12 @@ import Alert from "../../Components/Alert";
 
 import "ace-builds/webpack-resolver";
 import "ace-builds/src-noconflict/mode-text";
-import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/theme-chrome";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/mode-twig";
-//import 'ace-builds/src-noconflict/ace';
+import 'ace-builds/src-noconflict/ace';
 import "ace-builds/src-noconflict/ext-language_tools";
 
 import {
@@ -492,7 +307,7 @@ export default {
   data: function () {
     return {
       active_file_index: 0,
-      lang: "twig",
+      language: "twig",
       loading: false,
       notification: null,
       editor: null,
@@ -506,11 +321,13 @@ export default {
       popUp: false,
       text: "",
       child: "",
+      open_filesCounter:0,
+      openFileCounter:0,
       file: "Create a blank file",
       // theme: {},
       popChild: false,
       editingContent: {
-        content: "",
+        'content': "",
       },
       creatingContent: {
         type_id: 0,
@@ -528,7 +345,9 @@ export default {
       active: false,
     };
   },
-  mounted() {},
+  mounted() {
+    this.openFile = this.open_files
+  },
   computed: {
     layout_files() {
       // return this.theme.filter()
@@ -615,10 +434,26 @@ export default {
     async getContent(file) {
       try {
         await axios.get("/online-store/code-editor/" + file.id).then((res) => {
-          // this.setEditorLang(res.data);
+          //CHECKS IF THE CLICKED FILE IS AN OPEN TAB
           this.content = res.data.content;
-          this.open_files.push(res.data);
+          for (let index = 0; index < this.openFile.length; index++) {
+            if(this.openFile[index].theme_file_id == res.data.theme_file_id){
+              this.openFileCounter++
+            }
+          }
+          if (this.openFileCounter <= 0){
+          this.openFiles = this.openFile.unshift(res.data)
+        }
+          //CHECKS IF THE CLICKED FILE IS IN THE OPEN_FILE ARRAY
+          for (let index = 0; index < this.open_files.length; index++) {
+            if (this.open_files[index].theme_file_id == res.data.theme_file_id) {
+               this.open_filesCounter++
+            }
+          }
         });
+        if (this.open_filesCounter <= 0){
+          this.open_files = this.open_files.push(res.data)
+        }
         this.setEditorLang(res.data);
         this.content = res.data.content;
 
@@ -693,23 +528,26 @@ export default {
       }
     },
     removeChild(id) {
-      //"theme_files.1.0.id"
-      this.child = document.getElementsByClassName(id)[0].innerText;
-      //console.log(document.getElementsByClassName(id).innerText)
-      //console.log(id)
-      //document.getElementsByClassName(id)
-      //if(document.getElementsByClassName(id))
-
-      if (id == this.child) {
-        this.popChild = true;
-      } else {
-        console.log("Nah");
-      }
-    },
+      let openedFile = [];
+      for (let index = 0; index < this.openFile.length; index++) {
+          if (this.openFile[index].theme_file_id != id){
+             openedFile.push(this.openFile[index])
+          }
+        }
+        this.openFile = openedFile
+        return this.openFile
+      },
 
     setEditor(file) {
       this.setEditorLang(file);
       this.editingContent = file;
+       if (file.name.indexOf('.css') > -1) {
+        this.language = 'css';
+      } else if (file.name.indexOf('.js') > -1) {
+        this.language = 'javascript';
+      } else if (file.name.indexOf('.twig')) {
+        this.language = 'twig';
+      }
     },
   },
   setup() {
