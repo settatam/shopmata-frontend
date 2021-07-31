@@ -510,14 +510,12 @@ export default {
       active: false,
     };
   },
-  mounted() {
-    console.log(this.open_files);
-  },
+  mounted() {},
   computed: {
     layout_files() {
       // return this.theme.filter()
       if (this.theme_files.hasOwnProperty("1")) {
-        return this.theme_files["1"];
+        return this.theme_files["2"];
       }
 
       return [];
@@ -541,7 +539,7 @@ export default {
     template_files() {
       // return this.theme_files.filter()
       if (this.theme_files.hasOwnProperty("1")) {
-        return this.theme_files["2"];
+        return this.theme_files["1"];
       }
       return [];
     },
