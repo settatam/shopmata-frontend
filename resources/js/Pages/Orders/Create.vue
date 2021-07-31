@@ -30,6 +30,13 @@
         </div>
       </nav>
 
+      <order-modal
+        @close="toggleModal"
+        @addOrder="addOrders"
+        v-if="showModal"
+        :filter="filterProduct"
+      />
+
       <div class="flex-1 flex xl:overflow-hidden">
         <!-- Secondary sidebar -->
 
@@ -39,122 +46,423 @@
             <h1 class="text-2xl font-extrabold text-blue-gray-900">
               Add New Order
             </h1>
-            <form @submit.prevent="submit">
-              <div class="bg-white mb-10 pt-7">
-                <div
-                  class="bg-white flex justify-between px-8 cursor-pointer"
-                  @click="expandForm"
-                >
-                  <p class="text-black text-2xl font-semilbold mb-6">
-                    Add Order
-                  </p>
-                  <span><angle-up-icon></angle-up-icon></span>
+
+            <!-- Order starts here -->
+            <div class="bg-white mb-10 pt-7">
+              <div class="grid grid-cols-5 bg-white md:px-8 px-4 gap-2">
+                <div class="col-span-3 mb-2">
+                  <h4
+                    class="
+                      block
+                      text-black
+                      md:text-lg
+                      md:font-bold
+                      mb-2
+                      bg-transparent
+                    "
+                  >
+                    Order Details
+                  </h4>
                 </div>
-                <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
-                  <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
-                  <div class="mb-10">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="title"
-                    >
-                      Title
-                    </label>
-                    <input
-                      class="
-                        appearance-none
-                        border border-border
-                        bg-transparent
-                        w-full
-                        py-2
-                        px-3
-                        text-black
-                        leading-tight
-                        focus:outline-none
-                      "
-                      type="text"
-                      placeholder="Cargo Pants"
-                      v-model="formFields.title"
-                    />
-                  </div>
-                  <div class="mb-6">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="description"
-                    >
-                      Description
-                    </label>
-                    <div class="quill">
-                      <quill-editor
-                        class="editor text-black"
-                        ref="description"
-                        theme="snow"
-                        style="min-height: 300px"
-                        :value="formFields.description"
-                        :options="editorOption"
-                        @change="onEditorChange"
-                        @blur="onEditorBlur($event)"
-                        @focus="onEditorFocus($event)"
-                        @ready="onEditorReady($event)"
-                      />
-                    </div>
-                  </div>
-                  <div class="mt-20">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="brand"
-                    >
-                      Brand
-                    </label>
-                    <multiselect
-                      v-model="formFields.brand"
-                      placeholder="Pick a brand"
-                      label="name"
-                      trackBy="name"
-                      valueProp="id"
-                      :options="brands"
-                      searchable="true"
-                      class="text-xs text-black font-semibold"
-                    ></multiselect>
+                <div class="col-span-2 mb-2">
+                  <h4
+                    class="
+                      block
+                      text-black
+                      md:text-lg
+                      mb-2
+                      bg-transparent
+                      text-right
+                    "
+                  >
+                    Add Custom Item
+                  </h4>
+                </div>
+              </div>
+
+              <div
+                class="
+                  grid grid-cols-1
+                  md:grid-cols-5
+                  bg-white
+                  md:px-8
+                  px-4
+                  gap-2
+                  mb-10
+                "
+              >
+                <div class="col-span-1 md:col-span-3">
+                  <input
+                    class="
+                      search-bar
+                      border-solid border border-gray-400
+                      text-4
+                      py-2
+                      pl-10
+                      pr-2
+                      placeholder-gray-400
+                      focus:outline-none
+                      md:mr-2
+                      mb-2
+                      w-full
+                    "
+                    @blur="getProducts"
+                    placeholder="Search Products"
+                    v-model="filterProduct"
+                    autocomplete="none"
+                  />
+                </div>
+                <div class="col-span-1 md:col-span-2 flex justify-end">
+                  <div
+                    class="
+                      md:flex-none
+                      w-1/2
+                      md:w-full
+                      px-2
+                      py-2
+                      text-center
+                      border border-gray-400
+                      cursor-pointer
+                    "
+                    @click="toggleModal"
+                  >
+                    Browse Products
                   </div>
                 </div>
               </div>
-              <!-- <div class="bg-white mb-10 py-6">
-                <div class="px-8">
-                  <div
-                    class="bg-white flex justify-between cursor-pointer"
-                    @click="expandMediaForm"
-                  >
-                    <p class="text-black font-semibold text-lg mb-6">Media</p>
-                    <div class="flex">
-                      <media-url-modal :media="media"></media-url-modal
-                      ><span><angle-up-icon></angle-up-icon></span>
+
+              <div
+                class="bg-white md:px-8 px-4 border-t-2 border-gray-200 py-4"
+                v-if="orders.length !== 0"
+              >
+                <div
+                  class="grid grid-cols-12 gap-2 py-2"
+                  v-for="product in orders"
+                  :key="product.id"
+                >
+                  <div class="col-span-4 md:col-span-1 cursor-pointer py-2">
+                    <img
+                      :src="product.images[0].image_url || ''"
+                      class="w-12 h-12 bg-gray-300"
+                    />
+                  </div>
+                  <div class="col-span-8 md:col-span-5 px-2">
+                    <div class="purple-color">
+                      {{ product.title }}
+                    </div>
+                    <div class="text-gray-400">
+                      {{ product.brand ? product.brand.name : "" }} <br />
+                      SKU: {{ product.sku }}
                     </div>
                   </div>
-                  <div v-if="expandMedia">
-                    <vue-dropzone
-                      ref="mediaFiles"
-                      id="dropzone"
-                      :options="dropzoneOptions"
-                      @vdropzone-complete="afterComplete"
-                    ></vue-dropzone>
+                  <div
+                    class="col-span-10 md:col-span-5 text-center mt-4 sm:mt-0"
+                  >
+                    ${{ product.compare_at_price }} X
+                    <span
+                      class="px-2 py-2 border mx-2"
+                      ref="editable"
+                      contenteditable
+                      @input="changeQty(product.id)"
+                    >
+                      {{ product.quantityOrdered }}
+                    </span>
+                    ${{ product.compare_at_price }}
+                  </div>
+                  <div
+                    class="col-span-2 md:col-span-1 text-center mt-4 sm:mt-0"
+                  >
+                    X
                   </div>
                 </div>
-              </div> -->
-              <pricing-form :pricing="pricing"></pricing-form>
-              <inventory-form
-                :inventory="inventory"
-                :categories="categories"
-              ></inventory-form>
-              <shipping-form :shipping="shipping"></shipping-form>
-              <variants-form
-                :variants="variants"
-                :types="variant_types"
-                :valueContent="valueContent"
-                @added="addOption"
-                @add-variant-name="addVariantName"
-                @added-variant-value="addVariantValue"
-              ></variants-form>
-              <search-engine-form :search="search"></search-engine-form>
+              </div>
+
+              <div
+                class="
+                  grid grid-cols-1
+                  md:grid-cols-2 md:grid-cols-5
+                  bg-white
+                  md:px-8
+                  px-4
+                  gap-2
+                  border-t-2 border-gray-200
+                  pt-4
+                "
+              >
+                <div class="col-span-1 md:col-span-3 md:mb-10">
+                  <h4
+                    class="
+                      block
+                      text-black text-lg
+                      font-bold
+                      mb-2
+                      bg-transparent
+                    "
+                  >
+                    Notes
+                  </h4>
+                  <input
+                    class="
+                      border-solid border border-gray-400
+                      text-4
+                      py-2
+                      pl-10
+                      pr-2
+                      placeholder-gray-400
+                      focus:outline-none
+                      md:mr-2
+                      mb-2
+                      w-full
+                    "
+                    placeholder="Add a note..."
+                    v-model="note"
+                    autocomplete="none"
+                  />
+                </div>
+                <div class="col-span-1 md:col-span-2">
+                  <div class="grid grid-cols-2 mt-5 md:mt-10">
+                    <div class="col-span-1 mb-6">
+                      <h4
+                        class="
+                          block
+                          font-bold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                          purple-color
+                        "
+                      >
+                        Add Discount
+                      </h4>
+                      <h4
+                        class="
+                          block
+                          text-black
+                          font-bold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                        "
+                      >
+                        Sub Total
+                      </h4>
+                      <h4
+                        class="
+                          block
+                          font-bold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                          purple-color
+                        "
+                      >
+                        Add Shipping
+                      </h4>
+                      <h4
+                        class="
+                          block
+                          font-bold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                          purple-color
+                        "
+                      >
+                        Taxes
+                      </h4>
+                      <h4
+                        class="
+                          block
+                          text-black
+                          font-extrabold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                        "
+                      >
+                        Total
+                      </h4>
+                    </div>
+                    <div class="col-span-1 mb-6">
+                      <h4
+                        class="
+                          block
+                          text-black text-lg
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                        "
+                      >
+                        ----------
+                      </h4>
+                      <h4
+                        class="
+                          block
+                          text-black
+                          font-bold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                        "
+                      >
+                        ${{ subTotal.toFixed(2) }}
+                      </h4>
+                      <h4
+                        class="
+                          block
+                          text-black
+                          font-bold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                        "
+                      >
+                        -----------
+                      </h4>
+                      <h4
+                        class="
+                          block
+                          text-black
+                          font-bold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                        "
+                      >
+                        ${{ taxes.toFixed(2) }}
+                      </h4>
+                      <h4
+                        class="
+                          block
+                          text-black
+                          font-extrabold
+                          mb-4
+                          bg-transparent
+                          md:text-right
+                        "
+                      >
+                        ${{ total.toFixed(2) }}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="
+                  grid grid-cols-6
+                  bg-white
+                  md:px-8
+                  px-4
+                  gap-2
+                  border-t-2 border-gray-200
+                  pt-4
+                "
+              >
+                <div class="col-span-3 md:col-span-4 mb-10">
+                  <h4
+                    class="
+                      block
+                      text-black
+                      md:text-lg
+                      md:font-bold
+                      mb-2
+                      bg-transparent
+                    "
+                  >
+                    Email Invoice
+                  </h4>
+                </div>
+                <div class="col-span-3 md:col-span-2 mb-6">
+                  <div
+                    class="
+                      px-2
+                      py-2
+                      text-center
+                      border border-gray-400
+                      cursor-pointer
+                    "
+                    @click="addAttr('email')"
+                  >
+                    Email invoice
+                    <i class="fas fa-check purple-color" v-if="email"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="
+                  grid grid-cols-6
+                  bg-white
+                  md:px-8
+                  px-4
+                  gap-2
+                  border-t-2 border-gray-200
+                  pt-4
+                  pb-4
+                "
+              >
+                <div class="col-span-2 mb-10">
+                  <h4
+                    class="
+                      block
+                      text-black
+                      md:text-lg
+                      md:font-bold
+                      mb-2
+                      bg-transparent
+                    "
+                  >
+                    Accept Payment
+                  </h4>
+                </div>
+                <div class="col-span-4">
+                  <div class="grid grid-cols-2 md:grid-cols-4 md:mb-6">
+                    <div class="col-span-2 md:px-2 mb-2">
+                      <div
+                        class="
+                          px-2
+                          py-2
+                          text-center
+                          border border-gray-400
+                          cursor-pointer
+                        "
+                        @click="addAttr('paid')"
+                      >
+                        Mark as Pending
+                        <i class="fas fa-check purple-color" v-if="!paid"></i>
+                      </div>
+                    </div>
+                    <div class="col-span-2">
+                      <div
+                        class="
+                          px-2
+                          py-2
+                          text-center
+                          border border-gray-400
+                          cursor-pointer
+                          mb-2
+                        "
+                      >
+                        Pay with credit Card
+                      </div>
+                      <div
+                        class="
+                          px-2
+                          py-2
+                          text-center
+                          border border-gray-400
+                          cursor-pointer
+                        "
+                        @click="addAttr('paid')"
+                      >
+                        Mark as Paid
+                        <i class="fas fa-check purple-color" v-if="paid"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="text-center bg-white pt-6 pb-6 mb-6">
                 <t-button
                   class="
@@ -168,10 +476,10 @@
                     cursor-pointer
                   "
                   @click="submit"
-                  >Add Product</t-button
+                  >Add Order</t-button
                 >
               </div>
-            </form>
+            </div>
           </div>
         </div>
         <Nav page="General"></Nav>
@@ -183,9 +491,9 @@
 <script>
 import { ref } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import Search from "../Search.vue";
 import Nav from "../../Layouts/Nav";
 import axios from "axios";
+import OrderModal from "./Components/OrderModal";
 
 import {
   Dialog,
@@ -193,18 +501,11 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-// import { ChevronLeftIcon } from "@heroicons/vue/solid";
+
 import hljs from "highlight.js";
-// import InventoryForm from "./Components/InventoryForm";
-// import ShippingForm from "./Components/ShippingForm";
-// import VariantsForm from "./Components/VariantsForm";
-// import SearchEngineForm from "./Components/SearchEngineForm";
-// import MediaUrlModal from "./Components/MediaUrlModal";
-// import PricingForm from "./Components/PricingForm";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
-// import "vue-multiselect/dist/vue-multiselect.min.css";
 
 const statusStyles = {
   success: "bg-green-100 text-green-800",
@@ -212,12 +513,7 @@ const statusStyles = {
   failed: "bg-gray-100 text-gray-800",
 };
 export default {
-  props: {
-    products: Object,
-    filters: Object,
-    brands: Array,
-    categories: Array,
-  },
+  props: ["categories", "brands", "notification"],
 
   components: {
     Nav,
@@ -227,263 +523,82 @@ export default {
     TransitionChild,
     TransitionRoot,
     Multiselect,
-    // InventoryForm,
-    // ShippingForm,
-    // VariantsForm,
-    // SearchEngineForm,
-    // PricingForm,
     UploadIcon,
     AngleUpIcon,
-    // MediaUrlModal,
+    OrderModal,
   },
 
   data() {
     return {
-      valueContent: '',
-      dropzoneOptions: {
-        url: "/product-images",
-        thumbnailWidth: 150,
-        maxFilesize: 0.5,
-        addRemoveLinks: true,
-        headers: { "My-Awesome-Header": "header value" },
-        dictDefaultMessage: `<span><svg class="inline mb-3" xmlns="http://www.w3.org/2000/svg" width="72" height="58" viewBox="0 0 72 58" fill="none">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M19.827 6.039C24.3247 2.16061 30.0611 0.0186233 36 0C48.105 0 58.1535 9 59.247 20.6055C66.411 21.618 72 27.6165 72 34.9785C72 43.0605 65.259 49.5 57.0915 49.5H45C44.4033 49.5 43.831 49.2629 43.409 48.841C42.9871 48.419 42.75 47.8467 42.75 47.25C42.75 46.6533 42.9871 46.081 43.409 45.659C43.831 45.2371 44.4033 45 45 45H57.096C62.9055 45 67.5 40.446 67.5 34.9785C67.5 29.5065 62.91 24.9525 57.0915 24.9525H54.8415V22.7025C54.846 12.7125 46.476 4.5 36 4.5C31.1394 4.51942 26.4458 6.27495 22.7655 9.45C19.359 12.384 17.577 15.921 17.577 18.6975V20.7135L15.5745 20.934C9.288 21.6225 4.5 26.784 4.5 32.931C4.5 39.5325 10.035 45 17.0145 45H27C27.5967 45 28.169 45.2371 28.591 45.659C29.0129 46.081 29.25 46.6533 29.25 47.25C29.25 47.8467 29.0129 48.419 28.591 48.841C28.169 49.2629 27.5967 49.5 27 49.5H17.0145C7.686 49.5 0 42.147 0 32.931C0 24.9975 5.697 18.4275 13.239 16.7625C13.8825 12.879 16.38 9.009 19.827 6.039Z" fill="#CCCCCC"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M35.438 28.3899C35.5626 28.265 35.7105 28.166 35.8734 28.0984C36.0363 28.0308 36.2109 27.996 36.3873 27.996C36.5637 27.996 36.7383 28.0308 36.9012 28.0984C37.0641 28.166 37.212 28.265 37.3366 28.3899L45.3814 36.4347C45.6331 36.6865 45.7746 37.0279 45.7746 37.384C45.7746 37.7401 45.6331 38.0815 45.3814 38.3333C45.1296 38.5851 44.7881 38.7265 44.4321 38.7265C44.076 38.7265 43.7346 38.5851 43.4828 38.3333L37.7281 32.5759V56.1552C37.7281 56.5108 37.5868 56.8518 37.3354 57.1033C37.0839 57.3547 36.7429 57.496 36.3873 57.496C36.0317 57.496 35.6907 57.3547 35.4392 57.1033C35.1878 56.8518 35.0465 56.5108 35.0465 56.1552V32.5759L29.2918 38.3333C29.04 38.5851 28.6985 38.7265 28.3425 38.7265C27.9864 38.7265 27.645 38.5851 27.3932 38.3333C27.1414 38.0815 27 37.7401 27 37.384C27 37.0279 27.1414 36.6865 27.3932 36.4347L35.438 28.3899Z" fill="#632A6D"/></span><br/><p class="m-4">Drag and drop your image here or </p><br/> <t-button class="text-white bg-purple-darker active:bg-purple-darker font-medium border border-transparent px-4 py-3.5" type="submit">Choose File</t-button>`,
-      },
-      expand: true,
-      expandMedia: true,
-      content: "",
-      editorOption: {
-        modules: {
-          toolbar: [
-            [{ color: [] }, { background: [] }],
-            ["bold", "italic", "underline"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "image", "video"],
-            ["clean"],
-          ],
-          syntax: {
-            highlight: (text) => hljs.highlightAuto(text).value,
-          },
-        },
-      },
       formFields: {
         title: "",
         description: "",
         brand: "",
       },
-      pricing: {
-        price: "",
-        compare_at_price: "",
-        cost_per_item: "",
-        margin: null,
-        profit: null,
-      },
-      search: {
-        page_title: "",
-        search_engine_desc: "",
-        url_handle: "",
-      },
-      inventory: {
-        sku: "",
-        barcode: "",
-        quantity: "",
-        track_quantity: false,
-        out_of_stock: false,
-        category: [],
-      },
-      shipping: {
-        weight: "",
-        physical_product: false,
-      },
-      variant_types: ["size", "weight", "color"],
-      variants: {
-        has_variants: false,
-        is_active: 0,
-        options: [
-          {
-            type: "",
-            values: [],
-          },
-        ],
-      },
-      files: [],
-      showUrlModal: false,
-      media: {
-        url: "",
-      },
+      filterProduct: "",
+      note: "",
+      searchCustomers: "",
+      searchTags: "",
+      image: "",
+      orders: [],
+      showModal: false,
+      subTotal: 0,
+      taxes: 0,
+      total: 0,
+      email: false,
+      pending: false,
+      paid: false,
     };
   },
-  computed: {
-    calculateMargin() {
-      this.formFields.margin = 0;
-      return `$ ${0}`;
-    },
-    calculateProfit() {
-      return `$ ${0}`;
-    },
-    formData() {
-      return {
-        ...this.formFields,
-        description: this.$refs.description.$refs.editor.innerHTML,
-        ...this.inventory,
-        ...this.search,
-        ...this.pricing,
-        ...this.variants,
-        ...this.shipping,
-      };
-    },
-    editor() {
-      return this.$refs.description?.quill;
-    },
-    editorContent() {
-      return this.$refs.description.$refs.editor.innerHTML;
-    },
-    variantDetails() {
-      return {
-        ...this.variants,
-        is_active: this.variants.has_variants ? 1 : 0,
-      };
-    },
-  },
   methods: {
-    showFormFields() {
-      console.log(this.formData);
+    async getProducts() {
+      this.toggleModal();
     },
-    addOption(e) {
-      this.variants.options.push({
-        type: "",
-        values: [],
-      });
+    toggleModal() {
+      this.showModal = !this.showModal;
     },
-    addVariantName(e) {
-      let index = e.target.getAttribute('data-index');
-      this.variants.options[index].name = e.target.value;
+    addOrders(orders) {
+      this.orders = [...this.orders, ...orders];
+      this.toggleModal();
+      this.runCalculations();
     },
-    addVariantValue(e) {
-      let index = e.target.getAttribute('data-index');
-      this.variants.options[index].values.push(e.target.value);
+    reducer(init, val) {
+      return (
+        (init + Number(val.compare_at_price)) * Number(val.quantityOrdered)
+      );
     },
-    addCategory() {
-      this.inventory.category.push({
-        type: "",
-        value: "",
-      });
+    changeQty(id) {
+      const qty = this.$refs.editable[0].innerText;
+      const regex = "^\\s+$";
+      if (qty.match(regex) === null) {
+        let orders = this.orders;
+        const fIndex = orders.findIndex((x) => x.id == id);
+        orders[fIndex] = { ...orders[fIndex], quantityOrdered: qty };
+        this.orders = orders;
+        this.runCalculations();
+      }
     },
-    handleFileDrop(e) {
-      let droppedFiles = e.dataTransfer.files;
-      if (!droppedFiles) return;
-      [...droppedFiles].forEach((f) => {
-        this.files.push(f);
-      });
+    runCalculations() {
+      const total = this.orders.reduce(this.reducer, 0);
+      this.total = total;
+      this.subTotal = total;
     },
-    handleFileInput(e) {
-      let files = e.target.files;
-      files = e.target.files;
-      if (!files) return;
-      [...files].forEach((f) => {
-        this.files.push(f);
-      });
-    },
-    removeFile(fileKey) {
-      this.files.splice(fileKey, 1);
-    },
-    onEditorChange(editor) {
-      console.log(editor.editor);
-      // console.log(this.$refs.description.$refs.editor.innerHTML);
-    },
-    onEditorBlur(editor) {
-      // console.log("editor blur!", editor);
-    },
-    onEditorFocus(editor) {
-      // console.log("editor focus!", editor);
-    },
-    onEditorReady(editor) {
-      // console.log("editor ready!", editor);
-    },
-    showContent() {
-      // console.log(this.editorContent);
-    },
-    upload() {
-      // console.log(this.formData);
+    addAttr(el) {
+      this[el] = !this[el];
     },
     submit() {
-      // this.sending = true
-
-      this.$inertia.post("/products", this.formData);
+      const data = {
+        orders: this.orders,
+        note: this.note,
+        subTotal: this.subTotal,
+        taxes: this.taxes,
+        total: this.total,
+        email: this.email,
+        pending: this.pending,
+        paid: this.paid,
+      };
+      this.$inertia.post("/orders/create", data);
     },
-    afterComplete(file) {
-      // console.log(file);
-    },
-    expandMediaForm() {
-      this.expandMedia = !this.expandMedia;
-    },
-    expandForm() {
-      this.expand = !this.expand;
-    },
-    displayVariants() {
-            
-            let attributes = this.variants
-            let total_count = 1;
-
-            // a loop can do this 
-            if (attributes.indexOf(1) && attributes.indexOf(2)) {
-              total_count = attributes[0].values.length * attributes[1].values.length * attributes[2].values.length
-            }
-
-            let g = [];
-            let a = 0;
-            
-            let base_attribute = attributes[0];
-
-            const gVal = (data, g) => {
-              let c = g.length;
-              if (data.values.indexOf(c)) return data.values[c]
-              return '';
-            }
-
-            let z = [];
-
-            //initialize variables first
-
-            for (let j = 0; j < total_count; j++) {
-              z[j] = [];
-            }
-
-            let q = 0;
-
-            //first phase
-            let first_attribute = total_count / attributes[0].values.length
-
-            for (let i = 0; i < base_attribute.values.length; i++) {
-              for (let k = 0; k < first_attribute; k++) {
-                z[q].push(base_attribute.values[i])
-                q++;
-              }
-            }
-
-            let second_attributes = total_count / attributes[1].values.length
-            q = 0;
-
-            for (let k = 0; k < second_attributes; k++) {
-              for (let i = 0; i < attributes[1].values.length; i++) {
-                z[q].push(attributes[1].values[i])
-                q++;
-              }
-            }
-
-            let third_attributes = total_count / attributes[2].values.length
-
-            q = 0
-            for (let k = 0; k < third_attributes; k++) {
-              for (let i = 0; i < attributes[2].values.length; i++) {
-                z[q].push(attributes[2].values[i])
-                q++;
-              }
-            }
-
-            console.log(z)
-        },
   },
   setup() {
     const open = ref(false);
@@ -495,6 +610,9 @@ export default {
 </script>
 <style scoped>
 @import "style.css";
+.purple-color {
+  color: #923ea1;
+}
 .quill {
   display: flex;
   flex-direction: column;
