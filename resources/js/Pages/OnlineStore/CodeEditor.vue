@@ -75,7 +75,7 @@
                 <p class="font-semibold text-lg">Add a new Template</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </div>
-              <div v-for="file in theme_files[1]" :key="file.id">
+              <div v-for="file in all_files[1]" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
                   @click="getContent(file)"
@@ -121,7 +121,7 @@
                 <p class="font-semibold text-lg">Add a new Layout</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </div>
-              <div v-for="file in theme_files[2]" :key="file.id">
+              <div v-for="file in all_files[2]" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
                   @click="getContent(file)"
@@ -167,7 +167,7 @@
                 <p class="font-semibold text-lg">Add a new Asset</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </div>
-              <div v-for="file in theme_files[3]" :key="file.id">
+              <div v-for="file in all_files[3]" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
                   @click="getContent(file)"
@@ -213,7 +213,7 @@
                 <p class="font-semibold text-lg">Add a new Snippet</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </span>
-              <div v-for="file in theme_files[4]" :key="file.id">
+              <div v-for="file in all_files[4]" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
                   @click="setEd(file)"
@@ -237,42 +237,16 @@
               <!-- Still Editing -->
               <h3 class="my-auto text-lg font-semibold">Unknown Title</h3>
               <div class="flex mt-4 mb-3">
-                <button
-                  class="px-4
-                    py-1
-                    border border-black
-                    bg-transparent
-                    text-gray-500
-                    font-semibold
-                    mr-4
-                    focus:outline-none
-                  "
-                >
+                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4
+                    focus:outline-none">
                   Delete File
                 </button>
-                <button
-                  class="
-                    px-4
-                    py-1
-                    border border-black
-                    bg-transparent
-                    text-gray-500
-                    font-semibold
-                    mr-4
-                    focus:outline-none
-                  "
-                >
+                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4
+                    focus:outline-none">
                   Rename
                 </button>
-                <button
-                  class="px-4 py-1 text-white bg-cyan-700 focus:outline-none"
-                  @click="dataSumit"
-                >
-                  <i
-                    class="fas fa-spinner fa-pulse text-white m-2"
-                    v-if="loading"
-                  ></i
-                  >Save
+                <button class="px-4 py-1 text-white bg-cyan-700 focus:outline-none" @click="dataSumit">
+                  <i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>Save
                 </button>
               </div>
             </div>
@@ -411,12 +385,14 @@ export default {
       showLayOpt: true,
       showAssOpt: true,
       showSnipOpt: true,
-      active: false
+      active: false,
+      all_files: {}
     };
   },
   mounted() {
     this.setEditingContent();
     //console.log(this.open_files)
+    this.all_files = this.theme_files
   },
   watch: {
     active_file_index: function(val) {
@@ -498,20 +474,43 @@ export default {
           this.creatingContent
         );
         const { notification } = res.data;
-        this.open_files.push(res.data)
+        
+        let file = res.data.open_files
+        this.setOpenFiles(file)
+
+        this.all_files = res.data.theme_files
         this.notification = notification;
-        setTimeout(() => {
-          this.notification = null;
-        }, 3000);
+        // setTimeout(() => {
+        //   this.notification = null;
+        // }, 3000);
         //location.reload()
       } catch (error) {
         const { notification } = error.response.data;
         this.notification = notification;
       }
       this.loading = false;
-      setTimeout(() => {
-        location.reload();
-      }, 3100);
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 3100);
+    },
+
+    async removeFileFrom(file) {
+      try {
+        await axios.delete('/online-store/editor-pages/' + file.id)
+        .then((res)=>{
+
+        }) 
+        
+      } catch (error) {
+        alert('An Unknown error occurred')
+      }
+      this.loading = false;
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    
+    setOpenFiles(file) {
+      this.open_files.push(file)
+      this.active_file_index = this.open_files.length-1;
     },
 
     async getContent(file) {
@@ -520,7 +519,9 @@ export default {
         .then((res)=>{
             // this.setEditorLang(res.data); 
             this.content = res.data.content
-            this.open_files.push(res.data)
+            let file = res.data
+            this.setOpenFiles(file)
+            // this.editingContent = this.open_files[this.open_files.length-1]
             // this.setEditorLang(res.data);
         }) 
         
@@ -572,6 +573,7 @@ export default {
         this.active_file_index = this.open_files.findIndex( x => x.id === file.id );  
     },
     removeFile(file) {
+      this.removeFileFrom(file)
       let index = this.open_files.findIndex( x => x.id === file.id );
       this.open_files.splice(index, 1);
       //get a new active file index
@@ -582,15 +584,8 @@ export default {
             this.active_file_index = 0;
           } 
 
-          // if(open_files.length){
-          //     this.editingContent = this.open_files[this.active_file_index]
-          // }else{
-          //   this.editingContent = 
-          // }
       }
       
-      //Delete from open files
-      // console.log(index);
     },
     popLayout() {
       this.popUp = true;

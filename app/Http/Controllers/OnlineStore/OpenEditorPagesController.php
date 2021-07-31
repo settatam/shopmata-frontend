@@ -48,6 +48,7 @@ class OpenEditorPagesController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -81,7 +82,10 @@ class OpenEditorPagesController extends Controller
      */
     public function destroy($id)
     {
-        //
-        OpenEditorPage::where('id', $id)->delete();
+        if(OpenEditorPage::where('id', $id)->delete()) {
+            return response()->json('File deleted');
+        }else{
+            return response()->json('Could not deleted', 422);
+        }
     }
 }

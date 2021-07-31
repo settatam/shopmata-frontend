@@ -187,7 +187,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     //Open editor pages
 
     Route::get('editor-pages/{id}', [OpenEditorPagesController::class, 'show']);
-    Route::delete('editor-pages', [OpenEditorPagesController::class, 'destroy']);
+    Route::delete('online-store/editor-pages/{id}', [OpenEditorPagesController::class, 'destroy']);
 
 	Route::get('online-store/themes', [ThemeController::class, 'index']);
 
