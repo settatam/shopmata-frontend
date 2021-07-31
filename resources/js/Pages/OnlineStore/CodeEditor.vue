@@ -322,7 +322,7 @@
 import { ref } from 'vue';
 import AppLayout from '../../Layouts/AppLayout.vue';
 import Search from '../Search.vue';
-import { VAceEditor } from 'vue3-ace-editor';
+import { VAceEditor } from 'enkoded-ace';
 import axios from 'axios';
 import PopUp from './Components/PopUp';
 import Alert from '../../Components/Alert';
