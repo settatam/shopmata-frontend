@@ -45,11 +45,12 @@ class CodeEditorController extends Controller
 
         for($i=0; $i<sizeof($open_files); $i++) {
             $open_files[$i]->content = $open_files[$i]->theme_file->content;
-            $open_files[$i]->name = $open_files[$i]->theme_file->name;
+            $open_files[$i]->name = $open_files[$i]->theme_file->title;
+            $open_files[$i]->edited_content = $open_files[$i]->theme_file->content;
         }
 
         count($theme_files) === 0 ? $theme_files = (object)[] : "";
-        count($open_files) === 0 ? $open_files = (object)[] : "";
+        // count($open_files) === 0 ? $open_files = (object)[] : "";
         // $layout = $store->theme->layout[count($store->theme->layout)-1]->content;
 
         return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files'));
@@ -159,12 +160,17 @@ class CodeEditorController extends Controller
             $open_file = OpenEditorPage::firstOrNew($data);
 
             if($open_file->save($data)) {
+                $open_file->load('theme_file');
+                $open_file->content = $open_file->theme_file->content;
+                $open_file->name = $open_file->theme_file->title;
+                $open_file->edited_content = $open_file->theme_file->content;
                 Log::info(Auth::id() . ' opened a new page', $data);
-                return response()->json($theme_file);
+                return response()->json($open_file);
             }else{
                 Log::error(Auth::id() . ' could not open a new page', $data);
                 return response()->json('Could not process request', 422);
             }
+
         }else{
             Log::error(Auth::id() . ' tried to open a non existent file' . $id);
             return response()->json('Could not process request', 422);
