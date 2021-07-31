@@ -463,6 +463,22 @@
                   </div>
                 </div>
               </div>
+              <div class="text-center bg-white pt-6 pb-6 mb-6">
+                <t-button
+                  class="
+                    text-white
+                    bg-purple-darker
+                    active:bg-purple-darker
+                    font-medium
+                    border border-transparent
+                    px-11
+                    py-3.5
+                    cursor-pointer
+                  "
+                  @click="submit"
+                  >Add Order</t-button
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -535,7 +551,6 @@ export default {
     };
   },
   methods: {
-    submit() {},
     async getProducts() {
       this.toggleModal();
     },

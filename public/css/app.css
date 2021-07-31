@@ -1669,6 +1669,22 @@ select {
 .transform {
 	transform: var(--tw-transform);
 }
+@-webkit-keyframes spin {
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+@keyframes spin {
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+.animate-spin {
+	-webkit-animation: spin 1s linear infinite;
+	        animation: spin 1s linear infinite;
+}
 .cursor-default {
 	cursor: default;
 }
