@@ -238,8 +238,7 @@
               <h3 class="my-auto text-lg font-semibold">Unknown Title</h3>
               <div class="flex mt-4 mb-3">
                 <button
-                  class="
-                    px-4
+                  class="px-4
                     py-1
                     border border-black
                     bg-transparent
@@ -277,15 +276,16 @@
                 </button>
               </div>
             </div>
-            <div
-              class="overflow-x-scroll h-10 bg-black text-gray-400 pl-6 -mb-1"
-            >
-              <ul class="flex my-1 items-center">
-                <li v-for="file in open_files" :key="file.id" class="flex text-xs h-7 my-auto py-1.5 pl-4 pr-3 items-center cursor-pointer" :class="[popChild ? 'hidden' : '', file.title]" @click="getContent(file)">
-                  <i class="fas fa-times cursor-pointer pr-3 mt-1"></i>
-                    {{ file.name }}
-                </li>
-              </ul>
+            <div class="overflow-x-scroll">
+              <span v-for="file in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700 mr-2 cursor-pointer">
+                  <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.name }}</span>
+                  <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" @click="removeFile(file)">
+                    <span class="sr-only">Close File </span>
+                    <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                      <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                    </svg>
+                  </button>
+              </span>
             </div>
             <pop-up
               v-if="popUp"
@@ -296,33 +296,20 @@
               :loading="loading"
             ></pop-up>
             <v-ace-editor
-              v-model:value="content"
-              @init="editorInit"
-              lang="twig"
+              v-model:value="editingContent.content"
+              :lang="language"
               style="height: 600px; width: 100%"
-              theme="chrome"
+              :theme="theme"
               :options="{
-                enableBasicAutocompletion: true,
-                enableLiveAutocompletion: true,
-                fontSize: 14,
+                fontSize: 16,
+                useWorker: true,
                 highlightActiveLine: true,
-                enableSnippets: true,
                 showLineNumbers: true,
                 tabSize: 2,
                 showPrintMargin: false,
                 showGutter: true
+
               }"
-              :commands="[
-                {
-                  name: 'save',
-                  bindKey: {
-                    win: 'Ctrl-s',
-                    mac: 'Command-s'
-                  },
-                  exec: dataSumit,
-                  readOnly: true
-                }
-              ]"
             />
           </div>
         </div>
@@ -340,14 +327,14 @@ import axios from 'axios';
 import PopUp from './Components/PopUp';
 import Alert from '../../Components/Alert';
 
-import 'ace-builds/webpack-resolver';
+
 import 'ace-builds/src-noconflict/mode-text';
-import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/theme-chrome';
 import 'ace-builds/src-noconflict/mode-html';
 import 'ace-builds/src-noconflict/mode-javascript';
 import 'ace-builds/src-noconflict/mode-css';
 import 'ace-builds/src-noconflict/mode-twig';
-//import 'ace-builds/src-noconflict/ace';
+import 'ace-builds/src-noconflict/ace';
 import 'ace-builds/src-noconflict/ext-language_tools';
 
 import {
@@ -356,6 +343,7 @@ import {
   TransitionChild,
   TransitionRoot
 } from '@headlessui/vue';
+
 import { ChevronLeftIcon } from '@heroicons/vue/solid';
 import { ChevronDownIcon } from '@heroicons/vue/solid';
 import { ChevronUpIcon } from '@heroicons/vue/solid';
@@ -389,7 +377,7 @@ export default {
   data: function () {
     return {
       active_file_index: 0,
-      lang: 'twig',
+      language: 'twig',
       loading: false,
       notification: null,
       editor: null,
@@ -401,14 +389,15 @@ export default {
       displaySnippet: true,
       editorHeader: 'Template',
       popUp: false,
+      theme: "chrome",
+      editingContent: {
+        'content': ''
+      },
       text: '',
       child: '',
       file: 'Create a blank file',
       // theme: {},
       popChild: false,
-      editingContent: {
-        content: ''
-      },
       creatingContent: {
         type_id: 0,
         content: '',
@@ -426,7 +415,20 @@ export default {
     };
   },
   mounted() {
+    this.setEditingContent();
     //console.log(this.open_files)
+  },
+  watch: {
+    active_file_index: function(val) {
+      if(this.open_files.length) {
+          this.editingContent = this.open_files[val]
+          this.setEditorLang(this.open_files[val])
+      }else{
+          this.editingContent = {
+              content: ''
+          }
+      }
+    }
   },
   computed: {
     layout_files() {
@@ -460,6 +462,7 @@ export default {
       }
       return [];
     }
+ 
   },
   methods: {
     async dataSumit() {
@@ -518,8 +521,9 @@ export default {
             // this.setEditorLang(res.data); 
             this.content = res.data.content
             this.open_files.push(res.data)
+            // this.setEditorLang(res.data);
         }) 
-        this.setEditorLang(res.data);
+        
         this.content = res.data.content;
         
         this.notification = notification;
@@ -529,6 +533,11 @@ export default {
       }
       this.loading = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    setEditingContent() {
+      if(this.open_files.length) {
+          this.editingContent =  this.open_files[this.active_file_index]
+      }
     },
     editorInit: function () {},
     toggleLayout() {
@@ -559,6 +568,30 @@ export default {
         this.showSnipOpt = true;
       }
     },
+    setActive(file) {
+        this.active_file_index = this.open_files.findIndex( x => x.id === file.id );  
+    },
+    removeFile(file) {
+      let index = this.open_files.findIndex( x => x.id === file.id );
+      this.open_files.splice(index, 1);
+      //get a new active file index
+      if(index == this.active_file_index) {
+          if(index != 0) {
+            this.active_file_index = index-1;
+          }else{
+            this.active_file_index = 0;
+          } 
+
+          // if(open_files.length){
+          //     this.editingContent = this.open_files[this.active_file_index]
+          // }else{
+          //   this.editingContent = 
+          // }
+      }
+      
+      //Delete from open files
+      // console.log(index);
+    },
     popLayout() {
       this.popUp = true;
       this.text = 'layout';
@@ -584,12 +617,12 @@ export default {
       this.creatingContent.theme_id = 4;
     },
     setEditorLang(file) {
-      if (file.title.indexOf('.css') > -1) {
-        this.lang = 'css';
-      } else if (file.title.indexOf('.js') > -1) {
-        this.lang = 'javascript';
-      } else if (file.title.indexOf('.twig')) {
-        this.lang = 'twig';
+      if (file.name.indexOf('.css') > -1) {
+        this.language = 'css';
+      } else if (file.name.indexOf('.js') > -1) {
+        this.language = 'javascript';
+      } else if (file.name.indexOf('.twig')) {
+        this.language = 'twig';
       }
     },
     removeChild(id) {
