@@ -9,240 +9,119 @@
   <!-- FONT AWESOME LINK -->
 
   <app-layout id="top">
-    <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
+    <div class="flex-1 flex flex-col xl:overflow-hidden">
       <!-- Breadcrumb -->
-
       <div class="flex-1 flex xl:overflow-hidden ml-5">
         <!-- Secondary sidebar -->
-        <nav
-          aria-label="Sections"
-          class="
-            hidden
-            flex-shrink-0
-            w-96
-            bg-white
-            border-r border-blue-gray-200
-            xl:flex xl:flex-col
-            mt-12
-          "
-        >
+        <nav aria-label="Sections" class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-12">
           <!-- Probably still gonna remove this -->
-          <div
-            class="
-              flex-shrink-0
-              h-16
-              px-6
-              border-b border-blue-gray-200
-              flex
-              items-center
-            "
-          >
+          <div class="flex-shrink-0 h-16 px-6 border-b border-blue-gray-200 flex items-center">
             <p class="text-lg font-medium text-blue-gray-900">Code Editor</p>
           </div>
+          <div class="overflow-y-scroll">
           <!-- Template  -->
-          <div>
-            <div
-              @click="toggleTemplate"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
-              <div class="flex">
-                <img
-                  src="../../../assets/icons/download_icon.svg"
-                  alt="download-icon"
-                />
-                <p class="ml-4.5 font-bold text-xl">Templates</p>
+            <div class="">
+              <div @click="toggleTemplate" class=" flex min-h-0 px-6 pt-9 justify-between cursor-pointer">
+                <div class="flex">
+                  <img src="../../../assets/icons/download_icon.svg" alt="download-icon"/>
+                  <p class="ml-4.5 font-bold text-xl">Templates</p>
+                </div>
+                <span class="ml-3" v-if="displayTemplate"><i class="fas fa-chevron-up my-auto"></i></span>
+                <span class="ml-3" v-else><i class="fas fa-chevron-down my-auto"></i></span>
               </div>
-              <span class="ml-3" v-if="displayTemplate"
-                ><i class="fas fa-chevron-up my-auto"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down my-auto"></i
-              ></span>
+              <ul class="px-6 mb-3" v-if="displayTemplate">
+                <div class="flex justify-between cursor-pointer text-cyan-700" @click="popTemplate">
+                  <p class="font-semibold text-lg">Add a new Template</p>
+                  <i class="far fa-plus-square mx-0 my-auto"></i>
+                </div>
+                <div v-for="file in all_files[1]" :key="file.id">
+                  <li class="text-lg pt-4 cursor-pointer" @click="getContent(file)">
+                    { } {{ file.title }}
+                  </li>
+                </div>
+              </ul>
             </div>
-            <ul class="px-6 mb-3" v-if="displayTemplate">
-              <div
-                class="flex justify-between cursor-pointer text-cyan-700"
-                @click="popTemplate"
-              >
-                <p class="font-semibold text-lg">Add a new Template</p>
-                <i class="far fa-plus-square mx-0 my-auto"></i>
+            <!-- Layout -->
+            <div>
+              <div @click="toggleLayout" class=" flex min-h-0 px-6 pt-9 justify-between cursor-pointer">
+                <div class="flex">
+                  <img src="../../../assets/icons/download_icon.svg" alt="download-icon"/>
+                  <h3 class="ml-4.5 font-bold text-xl">Layouts</h3>
+                </div>
+                <span class="ml-3" v-if="displayLayout"><i class="fas fa-chevron-up"></i></span>
+                <span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
               </div>
-              <div v-for="file in all_files[1]" :key="file.id">
-                <li
-                  class="text-lg pt-4 cursor-pointer"
-                  @click="getContent(file)"
-                >
-                  { } {{ file.title }}
-                </li>
-              </div>
-            </ul>
-          </div>
-          <!-- Layout -->
-          <div>
-            <div
-              @click="toggleLayout"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
-              <div class="flex">
-                <img
-                  src="../../../assets/icons/download_icon.svg"
-                  alt="download-icon"
-                />
-                <h3 class="ml-4.5 font-bold text-xl">Layouts</h3>
-              </div>
-              <span class="ml-3" v-if="displayLayout"
-                ><i class="fas fa-chevron-up"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down"></i
-              ></span>
+              <ul class="px-6 mb-3" v-if="displayLayout">
+                <div class="flex justify-between text-cyan-700 cursor-pointer" @click="popLayout">
+                  <p class="font-semibold text-lg">Add a new Layout</p>
+                  <i class="far fa-plus-square mx-0 my-auto"></i>
+                </div>
+                <div v-for="file in all_files[2]" :key="file.id">
+                  <li class="text-lg pt-4 cursor-pointer" @click="getContent(file)">
+                    { } {{ file.title }}
+                  </li>
+                </div>
+              </ul>
             </div>
-            <ul class="px-6 mb-3" v-if="displayLayout">
-              <div
-                class="flex justify-between text-cyan-700 cursor-pointer"
-                @click="popLayout"
-              >
-                <p class="font-semibold text-lg">Add a new Layout</p>
-                <i class="far fa-plus-square mx-0 my-auto"></i>
+            <!-- Assets -->
+            <div>
+              <div @click="toggleAsset" class=" flex min-h-0 px-6 pt-9 justify-between cursor-pointer">
+                <div class="flex">
+                  <img src="../../../assets/icons/download_icon.svg" alt="download-icon"/>
+                  <h3 class="ml-4.5 font-bold text-xl">Assets</h3>
+                </div>
+                <span class="ml-3" v-if="displayAsset"><i class="fas fa-chevron-up"></i></span>
+                <span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
               </div>
-              <div v-for="file in all_files[2]" :key="file.id">
-                <li
-                  class="text-lg pt-4 cursor-pointer"
-                  @click="getContent(file)"
-                >
-                  { } {{ file.title }}
-                </li>
-              </div>
-            </ul>
-          </div>
-          <!-- Assets -->
-          <div>
-            <div
-              @click="toggleAsset"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
-              <div class="flex">
-                <img
-                  src="../../../assets/icons/download_icon.svg"
-                  alt="download-icon"
-                />
-                <h3 class="ml-4.5 font-bold text-xl">Assets</h3>
-              </div>
-              <span class="ml-3" v-if="displayAsset"
-                ><i class="fas fa-chevron-up"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down"></i
-              ></span>
+              <ul class="px-6 mb-3" v-if="displayAsset">
+                <div class="flex justify-between pt-4 text-cyan-700 cursor-pointer" @click="popAsset">
+                  <p class="font-semibold text-lg">Add a new Asset</p>
+                  <i class="far fa-plus-square mx-0 my-auto"></i>
+                </div>
+                <div v-for="file in all_files[3]" :key="file.id">
+                  <li class="text-lg pt-4 cursor-pointer" @click="getContent(file)">
+                    { } {{ file.title }}
+                  </li>
+                </div>
+              </ul>
             </div>
-            <ul class="px-6 mb-3" v-if="displayAsset">
-              <div
-                class="flex justify-between pt-4 text-cyan-700 cursor-pointer"
-                @click="popAsset"
-              >
-                <p class="font-semibold text-lg">Add a new Asset</p>
-                <i class="far fa-plus-square mx-0 my-auto"></i>
+            <!-- Snippets -->
+            <div>
+              <div @click="toggleSnippet" class=" flex min-h-0 px-6 pt-9 justify-between cursor-pointer">
+                <div class="flex">
+                  <img src="../../../assets/icons/download_icon.svg" alt="download-icon"/>
+                  <h3 class="ml-4.5 font-bold text-xl">Snippets</h3>
+                </div>
+                <span class="ml-3" v-if="displaySnippet"><i class="fas fa-chevron-up"></i></span>
+                <span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
               </div>
-              <div v-for="file in all_files[3]" :key="file.id">
-                <li
-                  class="text-lg pt-4 cursor-pointer"
-                  @click="getContent(file)"
-                >
-                  { } {{ file.title }}
-                </li>
-              </div>
-            </ul>
-          </div>
-          <!-- Snippets -->
-          <div>
-            <div
-              @click="toggleSnippet"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
-              <div class="flex">
-                <img
-                  src="../../../assets/icons/download_icon.svg"
-                  alt="download-icon"
-                />
-                <h3 class="ml-4.5 font-bold text-xl">Snippets</h3>
-              </div>
-              <span class="ml-3" v-if="displaySnippet"
-                ><i class="fas fa-chevron-up"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down"></i
-              ></span>
+              <ul class="px-6 mb-3" v-if="displaySnippet">
+                <span class="flex justify-between pt-4 text-cyan-700 cursor-pointer" @click="popSnippet">
+                  <p class="font-semibold text-lg">Add a new Snippet</p>
+                  <i class="far fa-plus-square mx-0 my-auto"></i>
+                </span>
+                <div v-for="file in all_files[4]" :key="file.id">
+                  <li class="text-lg pt-4 cursor-pointer" @click="setEd(file)">
+                    { } {{ file.title }}
+                  </li>
+                </div>
+              </ul>
             </div>
-            <ul class="px-6 mb-3" v-if="displaySnippet">
-              <span
-                class="flex justify-between pt-4 text-cyan-700 cursor-pointer"
-                @click="popSnippet"
-              >
-                <p class="font-semibold text-lg">Add a new Snippet</p>
-                <i class="far fa-plus-square mx-0 my-auto"></i>
-              </span>
-              <div v-for="file in all_files[4]" :key="file.id">
-                <li
-                  class="text-lg pt-4 cursor-pointer"
-                  @click="setEd(file)"
-                >
-                  { } {{ file.title }}
-                </li>
-              </div>
-            </ul>
           </div>
         </nav>
 
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
           <div class="mx-auto py-10 px-4 sm:px-6 lg:py-12">
-            <alert
-              id="alert"
-              v-if="notification"
-              :notification="notification"
-            />
+            <alert id="alert" v-if="notification" :notification="notification"/>
             <div class="flex justify-between pl-10 pr-4.5 bg-white">
               <!-- Still Editing -->
               <h3 class="my-auto text-lg font-semibold">Unknown Title</h3>
               <div class="flex mt-4 mb-3">
-                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4
-                    focus:outline-none">
+                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4 focus:outline-none">
                   Delete File
                 </button>
-                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4
-                    focus:outline-none">
+                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4 focus:outline-none">
                   Rename
                 </button>
                 <button class="px-4 py-1 text-white bg-cyan-700 focus:outline-none" @click="dataSumit">
@@ -252,7 +131,7 @@
             </div>
             <div class="overflow-x-scroll">
               <span v-for="file in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700 mr-2 cursor-pointer">
-                  <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.name }}</span>
+                  <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.title }}</span>
                   <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" @click="removeFile(file)">
                     <span class="sr-only">Close File </span>
                     <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
@@ -282,7 +161,6 @@
                 tabSize: 2,
                 showPrintMargin: false,
                 showGutter: true
-
               }"
             />
           </div>
@@ -365,7 +243,12 @@ export default {
       popUp: false,
       theme: "chrome",
       editingContent: {
-        'content': ''
+        type_id: 0,
+        content: '',
+        asset_url: null,
+        title: '',
+        theme_id: 1,
+        type: ''
       },
       text: '',
       child: '',
@@ -465,7 +348,7 @@ export default {
       this.popUp = false;
       this.loading = true;
       this.notification = null;
-      console.log(this.open_files);
+      //console.log(this.open_files);
       //console.log(this.creatingContent)
       window.scrollTo({ top: 0, behavior: 'smooth' });
       try {
@@ -480,10 +363,9 @@ export default {
 
         this.all_files = res.data.theme_files
         this.notification = notification;
-        // setTimeout(() => {
-        //   this.notification = null;
-        // }, 3000);
-        //location.reload()
+        setTimeout(() => {
+          this.notification = null;
+         }, 3000);
       } catch (error) {
         const { notification } = error.response.data;
         this.notification = notification;
@@ -570,7 +452,8 @@ export default {
       }
     },
     setActive(file) {
-        this.active_file_index = this.open_files.findIndex( x => x.id === file.id );  
+        this.active_file_index = this.open_files.findIndex( x => x.id === file.id );
+
     },
     removeFile(file) {
       this.removeFileFrom(file)
@@ -612,29 +495,14 @@ export default {
       this.creatingContent.theme_id = 4;
     },
     setEditorLang(file) {
-      if (file.name.indexOf('.css') > -1) {
+      if (file.title.indexOf('.css') > -1) {
         this.language = 'css';
-      } else if (file.name.indexOf('.js') > -1) {
+      } else if (file.title.indexOf('.js') > -1) {
         this.language = 'javascript';
-      } else if (file.name.indexOf('.twig')) {
+      } else if (file.title.indexOf('.twig')) {
         this.language = 'twig';
       }
     },
-    removeChild(id) {
-      //"theme_files.1.0.id"
-      this.child = document.getElementsByClassName(id)[0].innerText;
-      //console.log(document.getElementsByClassName(id).innerText)
-      //console.log(id)
-      //document.getElementsByClassName(id)
-      //if(document.getElementsByClassName(id))
-
-      if (id == this.child) {
-        this.popChild = true;
-      } else {
-        console.log('Nah');
-      }
-    },
-
     setEditor(file) {
       this.setEditorLang(file);
       this.editingContent = file;
