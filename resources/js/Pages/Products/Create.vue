@@ -9,22 +9,8 @@
         <div
           class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8"
         >
-          <inertia-link
-            href="#"
-            class="
-              -ml-1
-              inline-flex
-              items-center
-              space-x-3
-              text-sm
-              font-medium
-              text-blue-gray-900
-            "
-          >
-            <ChevronLeftIcon
-              class="h-5 w-5 text-blue-gray-400"
-              aria-hidden="true"
-            />
+          <inertia-link href="#" class="ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
+            <ChevronLeftIcon class="h-5 w-5 text-blue-gray-400" aria-hidden="true"/>
             <span>Add a new Product</span>
           </inertia-link>
         </div>
@@ -32,7 +18,7 @@
 
       <div class="flex-1 flex xl:overflow-hidden">
         <!-- Secondary sidebar -->
-
+        <Nav page="General"></Nav>
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
           <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
@@ -41,10 +27,7 @@
             </h1>
             <form @submit.prevent="submit">
               <div class="bg-white mb-10 pt-7">
-                <div
-                  class="bg-white flex justify-between px-8 cursor-pointer"
-                  @click="expandForm"
-                >
+                <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
                   <p class="text-black text-2xl font-semilbold mb-6">
                     Add Product
                   </p>
@@ -53,28 +36,11 @@
                 <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
                   <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
                   <div class="mb-10">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="title"
-                    >
+                    <label class="block text-black font-semibold mb-2 bg-transparent" for="title">
                       Title
                     </label>
-                    <input
-                      class="
-                        appearance-none
-                        border border-border
-                        bg-transparent
-                        w-full
-                        py-2
-                        px-3
-                        text-black
-                        leading-tight
-                        focus:outline-none
-                      "
-                      type="text"
-                      placeholder="Cargo Pants"
-                      v-model="formFields.title"
-                    />
+                    <input class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none" type="text" placeholder="Cargo Pants"
+                      v-model="formFields.title"/>
                   </div>
                   <div class="mb-6">
                     <label
@@ -99,10 +65,7 @@
                     </div>
                   </div>
                   <div class="mt-20">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="brand"
-                    >
+                    <label class="block text-black font-semibold mb-2 bg-transparent" for="brand">
                       Brand
                     </label>
                     <multiselect
@@ -152,25 +115,11 @@
               ></variants-form>
               <search-engine-form :search="search"></search-engine-form>
               <div class="text-center bg-white pt-6 pb-6 mb-6">
-                <t-button
-                  class="
-                    text-white
-                    bg-purple-darker
-                    active:bg-purple-darker
-                    font-medium
-                    border border-transparent
-                    px-11
-                    py-3.5
-                    cursor-pointer
-                  "
-                  @click="submit"
-                  >Add Product</t-button
-                >
+                <t-button class="text-white bg-purple-darker active:bg-purple-darker font-medium border border-transparent px-11 py-3.5 cursor-pointer" @click="submit">Add Product</t-button>
               </div>
             </form>
           </div>
         </div>
-        <Nav page="General"></Nav>
       </div>
     </div>
   </app-layout>
@@ -179,8 +128,8 @@
 <script>
 import { ref } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import Search from "../Search.vue";
-import Nav from "../../Layouts/Nav";
+// import Search from "../Search.vue";
+import Nav from "./Components/Nav";
 import axios from "axios";
 
 import {
