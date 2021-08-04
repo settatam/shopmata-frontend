@@ -101,7 +101,7 @@
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </span>
               <div v-for="file in all_files[4]" :key="file.id">
-                <li class="text-lg pt-2 cursor-pointer" @click="setEd(file)">
+                <li class="text-lg pt-2 cursor-pointer" @click="getContent(file)">
                   { } {{ file.title }}
                 </li>
               </div>
@@ -109,27 +109,23 @@
           </div>
           </div>
         </nav>
-
         <!-- Main content -->
-        <div class="flex-1 max-h-screen overflow-x-visible">
+        <div class="flex-1 max-h-screen overflow-x-hidden">
           <div class="mx-auto py-10 px-4 sm:px-6 lg:py-12">
             <alert id="alert" v-if="notification" :notification="notification"/>
-            <div class="flex justify-between pl-10 pr-4.5 bg-white">
+            <div class="flex justify-end pl-10">
               <!-- Still Editing -->
-              <h3 class="my-auto text-lg font-semibold">Unknown Title</h3>
-              <div class="flex mt-4 mb-3">
-                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4 focus:outline-none">
+              <div class="flex mb-3">
+                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4 focus:outline-none" @click="removeFileFrom">
                   Delete File
                 </button>
-                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4 focus:outline-none">
-                  Rename
-                </button>
                 <button class="px-4 py-1 text-white bg-cyan-700 focus:outline-none" @click="dataSumit">
-                  <i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>Save
+                  <i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>
+                  Save
                 </button>
               </div>
             </div>
-            <div class="overflow-x-scroll flex">
+            <div class="overflow-x-scroll flex bg-white pt-1">
               <span v-for="file in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700 mr-2 cursor-pointer">
                   <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.title }}</span>
                   <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" :class="this.active_file_index==open" @click="removeFile(file)">
@@ -149,7 +145,7 @@
               :loading="loading"
             ></pop-up>
             <v-ace-editor
-              v-model:value="editor_content"
+              v-model:value="editingContent.content"
               :lang="language"
               style="height: 600px; width: 100%"
               :theme="theme"
@@ -233,7 +229,7 @@ export default {
       loading: false,
       notification: null,
       editor: null,
-      content: '',
+      //content: '',
       templateId: 1,
       displayLayout: true,
       displayTemplate: true,
@@ -242,19 +238,20 @@ export default {
       editorHeader: 'Template',
       popUp: false,
       theme: "chrome",
-      editor_content:'',
+      //editor_content:'',
       editingContent: {
         type_id: 0,
         content: '',
         asset_url: null,
         title: '',
         theme_id: 1,
-        type: ''
+        type: '',
+        id: '',
       },
       open:false,
       text: '',
       child: '',
-      file: 'Create a blank file',
+      //file: 'Create a blank file',
       // theme: {},
       popChild: false,
       creatingContent: {
@@ -263,7 +260,8 @@ export default {
         asset_url: null,
         title: '',
         theme_id: 1,
-        type: ''
+        type: '',
+        id:'',
       },
       openFile: {},
       showTempOpt: true,
@@ -282,8 +280,9 @@ export default {
   watch: {
     active_file_index: function(val) {
       if(this.open_files.length) {
-        console.log(this.open_files[val])
           this.editingContent = this.open_files[val]
+          //let filterFile = Object.values(this.open_files[val])
+          //this.editingContent = filterFile.filter((e)=>{return !e.theme_file}),
           this.setEditorLang(this.editingContent)
       }else{
           this.editingContent = {
@@ -330,6 +329,7 @@ export default {
     async dataSumit() {
       this.loading = true;
       this.notification = null;
+       this.editingContent.theme_file.content =  this.editingContent.content
       try {
         const res = await axios.put(
           `/online-store/code-editor/${this.editingContent.id}`,
@@ -343,26 +343,31 @@ export default {
       } catch (error) {
         const { notification } = error.response.data;
         this.notification = notification;
+        setTimeout(() => {
+          this.notification = null;
+        }, 3000);
       }
       this.loading = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     async createFile() {
       this.popUp = false;
-      this.loading = true;
       this.notification = null;
       //console.log(this.open_files);
       //console.log(this.creatingContent)
+      this.setOpenFiles(this.creatingContent)
       window.scrollTo({ top: 0, behavior: 'smooth' });
       try {
         const res = await axios.post(
           '/online-store/code-editor',
           this.creatingContent
         );
+        //const { notification } = res.data;
+        //let file = res.data.open_files;
+        //console.log(this.creatingContent)
+        //this.all_files = this.theme_files
+        //this.setOpenFiles(this.creatingContent)
         const { notification } = res.data;
-        let file = res.data.open_files
-        this.setOpenFiles(file)
-        this.all_files = res.data.theme_files
         this.notification = notification;
         setTimeout(() => {
           this.notification = null;
@@ -370,25 +375,37 @@ export default {
       } catch (error) {
         const { notification } = error.response.data;
         this.notification = notification;
-      }
-      this.loading = false;
-      // setTimeout(() => {
-      //   location.reload();
-      // }, 3100);
+      } 
     },
-
-    async removeFileFrom(file) {
+    /* async renameFile(){
       try {
-        await axios.delete('/online-store/editor-pages/' + file.id)
-        .then((res)=>{
-
-        }) 
-        
+        const res = await axios.put('/online-store/editor-pages/' + this.editingContent.id)
+        const { notification } = res.data;
+        this.notification = notification;
+        setTimeout(() => {
+          this.notification = null;
+        }, 3000);
       } catch (error) {
-        alert('An Unknown error occurred')
+        
+      }
+    }, */
+    async removeFileFrom() {
+      try {
+        const res = await axios.delete('/online-store/editor-pages/' + this.editingContent.id)
+        const { notification } = res.data;
+        this.notification = notification;
+        setTimeout(() => {
+          this.notification = null;
+        }, 3000);
+      } catch (error) {
+        const { notification } = error.response.data;
+        this.notification = notification;
+        setTimeout(() => {
+          this.notification = null;
+        }, 3000);
       }
       this.loading = false;
-      // window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     
     setOpenFiles(file) {
@@ -399,21 +416,24 @@ export default {
     async getContent(file) {
       try {
         await axios.get('/online-store/code-editor/' + file.id)
-        .then((res)=>{
-            // this.setEditorLang(res.data); 
+        .then((res)=>{ 
+          //console.log(res)
             this.content = res.data.content
             let file = res.data
             this.setOpenFiles(file)
-            // this.editingContent = this.open_files[this.open_files.length-1]
-            // this.setEditorLang(res.data);
+            this.editingContent = this.open_files[this.open_files.length-1]
+            this.setEditorLang(res.data);
         }) 
         
         this.content = res.data.content;
         
         this.notification = notification;
       } catch (error) {
-        // const { notification } = error.response.data;
-        // this.notification = notification;
+         const { notification } = error.response.data;
+        this.notification = notification;
+        setTimeout(() => {
+          this.notification = null;
+        }, 3000);
       }
       this.loading = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -456,7 +476,6 @@ export default {
         this.active_file_index = this.open_files.findIndex( x => x.id === file.id );
     },
     removeFile(file) {
-      this.removeFileFrom(file)
       let index = this.open_files.findIndex( x => x.id === file.id );
       this.open_files.splice(index, 1);
       //get a new active file index
@@ -497,10 +516,10 @@ export default {
      setEditor(file) {
       this.setEditorLang(file);
       this.editingContent = file;
-      this.editor_content = file.content;
     },
+
     setEditorLang(file) {
-        console.log(file.title)
+        //console.log(file.title)
       if (file.title.indexOf('.css') > -1) {
         this.language = 'css';
       } else if (file.title.indexOf('.js') > -1) {
