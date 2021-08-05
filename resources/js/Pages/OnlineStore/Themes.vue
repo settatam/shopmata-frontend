@@ -91,20 +91,11 @@
               Developed and supported by ShopMata
             </p>
             <div class="flex">
-              <button
-                class="
-                  bg-cyan-700
-                  text-white
-                  py-4
-                  px-11
-                  font-semibold
-                  text-sm
-                  mr-4
-                  focus:outline-none
-                "
-              >
-                <span class="font-semibold">Customize</span>
-              </button>
+              <inertia-link href="/online-store/code-editor">
+                <button class=" bg-cyan-700 text-white py-4 px-11 font-semibold text-sm mr-4 focus:outline-none">
+                  <span class="font-semibold">Customize</span>
+                </button>
+              </inertia-link>
               <!-- <button class="border border-purple-darker py-4 px-5  text-sm align-bottom focus:outline-none text-purple-darker" @click="toggleOpen()"> <span class="mr-5 font-semibold">Actions</span> <i class="fas fa-chevron-down"></i></button> -->
               <Menu as="div" class="relative inline-block text-left">
                 <div>
