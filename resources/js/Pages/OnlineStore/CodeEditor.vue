@@ -125,17 +125,17 @@
                 </button>
               </div>
             </div>
-            <div class="overflow-x-scroll flex bg-white pt-1">
-              <span v-for="file in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700 mr-2 cursor-pointer">
-                  <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.title }}</span>
-                  <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" :class="this.active_file_index==open" @click="removeFile(file)">
-                    <span class="sr-only">Close File </span>
-                    <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
-                      <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
-                    </svg>
-                  </button>
-              </span>
-            </div>
+              <div class="overflow-x-scroll bg-white pt-1 row-class">
+                <span v-for="file in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium mr-2 cursor-pointer bg-indigo-100 text-indigo-700" :class="{active:active_file_index}">
+                    <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.title }}</span>
+                    <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" :class="this.active_file_index==open" @click="removeFile(file)">
+                      <span class="sr-only">Close File </span>
+                      <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                        <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                      </svg>
+                    </button>
+                </span>
+              </div>
             <pop-up
               v-if="popUp"
               @close="popUp = false"
@@ -231,6 +231,7 @@ export default {
       editor: null,
       //content: '',
       templateId: 1,
+      active:false,
       displayLayout: true,
       displayTemplate: true,
       displayAsset: true,
@@ -274,13 +275,19 @@ export default {
   },
   mounted() {
     this.setEditingContent();
+    this.decorateList();
     //console.log(this.open_files)
     this.all_files = this.theme_files
   },
   watch: {
-    active_file_index: function(val) {
+    active_file_index: function(newVal, oldVal) {
+      if (newVal !== oldVal) { 
+      	// Cleanup before re-decorating
+      	document.querySelectorAll('span').forEach(el => el.classList.remove('red'));
+        this.decorateList();
+      }
       if(this.open_files.length) {
-          this.editingContent = this.open_files[val]
+          this.editingContent = this.open_files[newVal]
           //let filterFile = Object.values(this.open_files[val])
           //this.editingContent = filterFile.filter((e)=>{return !e.theme_file}),
           this.setEditorLang(this.editingContent)
@@ -389,6 +396,11 @@ export default {
         
       }
     }, */
+     decorateList () {
+      let nthChildren = document.querySelectorAll(`span:nth-child(${ this.active_file_index })`);
+      console.log(nthChildren)
+      nthChildren.forEach(el => el.classList.add('red'))
+    },
     async removeFileFrom() {
       try {
         const res = await axios.delete('/online-store/editor-pages/' + this.editingContent.id)
@@ -410,6 +422,7 @@ export default {
     
     setOpenFiles(file) {
       this.open_files.push(file)
+      this.all_files[file.theme_id].push(file)
       this.active_file_index = this.open_files.length-1;
     },
 
@@ -417,7 +430,7 @@ export default {
       try {
         await axios.get('/online-store/code-editor/' + file.id)
         .then((res)=>{ 
-          //console.log(res)
+            //console.log(res)
             this.content = res.data.content
             let file = res.data
             this.setOpenFiles(file)
@@ -473,7 +486,8 @@ export default {
       }
     },
     setActive(file) {
-        this.active_file_index = this.open_files.findIndex( x => x.id === file.id );
+      this.active_file_index = this.open_files.findIndex( x => x.id === file.id );
+      this.decorateList()
     },
     removeFile(file) {
       let index = this.open_files.findIndex( x => x.id === file.id );
@@ -538,3 +552,12 @@ export default {
   }
 };
 </script>
+<style>
+body {
+  overflow: hidden;
+}
+.row-class {
+  display: flex;
+  flex: 1 0 auto;
+}
+</style>
