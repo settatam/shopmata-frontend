@@ -8,34 +8,78 @@
   />
   <!-- FONT AWESOME LINK -->
 
-  <app-layout>
-    <div class="flex-1 flex flex-col xl:overflow-hidden">
+  <app-layout id="top">
+    <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
       <!-- Breadcrumb -->
+
       <div class="flex-1 flex xl:overflow-hidden ml-5">
         <!-- Secondary sidebar -->
-        <nav aria-label="Sections" class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-12">
+        <nav
+          aria-label="Sections"
+          class="
+            hidden
+            flex-shrink-0
+            w-96
+            bg-white
+            border-r border-blue-gray-200
+            xl:flex xl:flex-col
+            mt-12
+          "
+        >
           <!-- Probably still gonna remove this -->
-          <div class="flex-shrink-0 h-16 px-6 border-b border-blue-gray-200 flex items-center">
+          <div
+            class="
+              flex-shrink-0
+              h-16
+              px-6
+              border-b border-blue-gray-200
+              flex
+              items-center
+            "
+          >
             <p class="text-lg font-medium text-blue-gray-900">Code Editor</p>
           </div>
-          <div class="overflow-y-scroll h-screen">
           <!-- Template  -->
-          <div class="">
-            <div @click="toggleTemplate" class=" flex min-h-0 overflow-y-auto px-6 pt-9 justify-between cursor-pointer">
+          <div>
+            <div
+              @click="toggleTemplate"
+              class="
+                flex
+                min-h-0
+                overflow-y-auto
+                px-6
+                pt-9
+                justify-between
+                cursor-pointer
+              "
+            >
               <div class="flex">
-                <img src="../../../assets/icons/download_icon.svg" alt="download-icon"/>
+                <img
+                  src="../../../assets/icons/download_icon.svg"
+                  alt="download-icon"
+                />
                 <p class="ml-4.5 font-bold text-xl">Templates</p>
               </div>
-              <span class="ml-3" v-if="displayTemplate"><i class="fas fa-chevron-up my-auto"></i></span>
-              <span class="ml-3" v-else><i class="fas fa-chevron-down my-auto"></i></span>
+              <span class="ml-3" v-if="displayTemplate"
+                ><i class="fas fa-chevron-up my-auto"></i
+              ></span>
+              <span class="ml-3" v-else
+                ><i class="fas fa-chevron-down my-auto"></i
+              ></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayTemplate">
-              <div class="flex justify-between cursor-pointer text-cyan-700" @click="popTemplate">
+              <div
+                class="flex justify-between cursor-pointer text-cyan-700"
+                @click="popTemplate"
+              >
                 <p class="font-semibold text-lg">Add a new Template</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </div>
               <div v-for="file in all_files[1]" :key="file.id">
-                <li class="text-lg pt-2 cursor-pointer" @click="getContent(file)">
+                <li
+                  class="text-lg pt-4 cursor-pointer"
+                  @click="getContent(file)"
+                >
                   { } {{ file.title }}
                 </li>
               </div>
@@ -43,21 +87,45 @@
           </div>
           <!-- Layout -->
           <div>
-            <div @click="toggleLayout" class=" flex min-h-0 overflow-y-auto px-6 pt-9 justify-between cursor-pointer">
+            <div
+              @click="toggleLayout"
+              class="
+                flex
+                min-h-0
+                overflow-y-auto
+                px-6
+                pt-9
+                justify-between
+                cursor-pointer
+              "
+            >
               <div class="flex">
-                <img src="../../../assets/icons/download_icon.svg" alt="download-icon"/>
+                <img
+                  src="../../../assets/icons/download_icon.svg"
+                  alt="download-icon"
+                />
                 <h3 class="ml-4.5 font-bold text-xl">Layouts</h3>
               </div>
-              <span class="ml-3" v-if="displayLayout"><i class="fas fa-chevron-up"></i></span>
-              <span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
+              <span class="ml-3" v-if="displayLayout"
+                ><i class="fas fa-chevron-up"></i
+              ></span>
+              <span class="ml-3" v-else
+                ><i class="fas fa-chevron-down"></i
+              ></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayLayout">
-              <div class="flex justify-between text-cyan-700 cursor-pointer" @click="popLayout">
+              <div
+                class="flex justify-between text-cyan-700 cursor-pointer"
+                @click="popLayout"
+              >
                 <p class="font-semibold text-lg">Add a new Layout</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </div>
               <div v-for="file in all_files[2]" :key="file.id">
-                <li class="text-lg pt-2 cursor-pointer" @click="getContent(file)">
+                <li
+                  class="text-lg pt-4 cursor-pointer"
+                  @click="getContent(file)"
+                >
                   { } {{ file.title }}
                 </li>
               </div>
@@ -65,21 +133,45 @@
           </div>
           <!-- Assets -->
           <div>
-            <div @click="toggleAsset" class=" flex min-h-0 overflow-y-auto px-6 pt-9 justify-between cursor-pointer">
+            <div
+              @click="toggleAsset"
+              class="
+                flex
+                min-h-0
+                overflow-y-auto
+                px-6
+                pt-9
+                justify-between
+                cursor-pointer
+              "
+            >
               <div class="flex">
-                <img src="../../../assets/icons/download_icon.svg" alt="download-icon"/>
+                <img
+                  src="../../../assets/icons/download_icon.svg"
+                  alt="download-icon"
+                />
                 <h3 class="ml-4.5 font-bold text-xl">Assets</h3>
               </div>
-              <span class="ml-3" v-if="displayAsset"><i class="fas fa-chevron-up"></i></span>
-              <span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
+              <span class="ml-3" v-if="displayAsset"
+                ><i class="fas fa-chevron-up"></i
+              ></span>
+              <span class="ml-3" v-else
+                ><i class="fas fa-chevron-down"></i
+              ></span>
             </div>
             <ul class="px-6 mb-3" v-if="displayAsset">
-              <div class="flex justify-between pt-4 text-cyan-700 cursor-pointer" @click="popAsset">
+              <div
+                class="flex justify-between pt-4 text-cyan-700 cursor-pointer"
+                @click="popAsset"
+              >
                 <p class="font-semibold text-lg">Add a new Asset</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </div>
               <div v-for="file in all_files[3]" :key="file.id">
-                <li class="text-lg pt-2 cursor-pointer" @click="getContent(file)">
+                <li
+                  class="text-lg pt-4 cursor-pointer"
+                  @click="getContent(file)"
+                >
                   { } {{ file.title }}
                 </li>
               </div>
@@ -87,55 +179,88 @@
           </div>
           <!-- Snippets -->
           <div>
-            <div @click="toggleSnippet" class=" flex min-h-0 overflow-y-auto px-6 pt-9 justify-between cursor-pointer">
+            <div
+              @click="toggleSnippet"
+              class="
+                flex
+                min-h-0
+                overflow-y-auto
+                px-6
+                pt-9
+                justify-between
+                cursor-pointer
+              "
+            >
               <div class="flex">
-                <img src="../../../assets/icons/download_icon.svg" alt="download-icon"/>
+                <img
+                  src="../../../assets/icons/download_icon.svg"
+                  alt="download-icon"
+                />
                 <h3 class="ml-4.5 font-bold text-xl">Snippets</h3>
               </div>
-              <span class="ml-3" v-if="displaySnippet"><i class="fas fa-chevron-up"></i></span>
-              <span class="ml-3" v-else><i class="fas fa-chevron-down"></i></span>
+              <span class="ml-3" v-if="displaySnippet"
+                ><i class="fas fa-chevron-up"></i
+              ></span>
+              <span class="ml-3" v-else
+                ><i class="fas fa-chevron-down"></i
+              ></span>
             </div>
             <ul class="px-6 mb-3" v-if="displaySnippet">
-              <span class="flex justify-between pt-4 text-cyan-700 cursor-pointer" @click="popSnippet">
+              <span
+                class="flex justify-between pt-4 text-cyan-700 cursor-pointer"
+                @click="popSnippet"
+              >
                 <p class="font-semibold text-lg">Add a new Snippet</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </span>
               <div v-for="file in all_files[4]" :key="file.id">
-                <li class="text-lg pt-2 cursor-pointer" @click="getContent(file)">
+                <li
+                  class="text-lg pt-4 cursor-pointer"
+                  @click="setEd(file)"
+                >
                   { } {{ file.title }}
                 </li>
               </div>
             </ul>
           </div>
-          </div>
         </nav>
+
         <!-- Main content -->
-        <div class="flex-1 max-h-screen overflow-x-hidden">
+        <div class="flex-1 max-h-screen xl:overflow-y-auto">
           <div class="mx-auto py-10 px-4 sm:px-6 lg:py-12">
-            <alert id="alert" v-if="notification" :notification="notification"/>
-            <div class="flex justify-end pl-10">
+            <alert
+              id="alert"
+              v-if="notification"
+              :notification="notification"
+            />
+            <div class="flex justify-between pl-10 pr-4.5 bg-white">
               <!-- Still Editing -->
-              <div class="flex mb-3">
-                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4 focus:outline-none" @click="removeFileFrom">
+              <h3 class="my-auto text-lg font-semibold">Unknown Title</h3>
+              <div class="flex mt-4 mb-3">
+                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4
+                    focus:outline-none">
                   Delete File
                 </button>
+                <button class="px-4 py-1 border border-black bg-transparent text-gray-500 font-semibold mr-4
+                    focus:outline-none">
+                  Rename
+                </button>
                 <button class="px-4 py-1 text-white bg-cyan-700 focus:outline-none" @click="dataSumit">
-                  <i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>
-                  Save
+                  <i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>Save
                 </button>
               </div>
             </div>
-              <div class="overflow-x-scroll bg-white pt-1 row-class">
-                <span v-for="file in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium mr-2 cursor-pointer bg-indigo-100 text-indigo-700" :class="{active:active_file_index}">
-                    <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.title }}</span>
-                    <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" :class="this.active_file_index==open" @click="removeFile(file)">
-                      <span class="sr-only">Close File </span>
-                      <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
-                        <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
-                      </svg>
-                    </button>
-                </span>
-              </div>
+            <div class="overflow-x-scroll">
+              <span v-for="file in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700 mr-2 cursor-pointer">
+                  <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.name }}</span>
+                  <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" @click="removeFile(file)">
+                    <span class="sr-only">Close File </span>
+                    <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                      <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                    </svg>
+                  </button>
+              </span>
+            </div>
             <pop-up
               v-if="popUp"
               @close="popUp = false"
@@ -157,6 +282,7 @@
                 tabSize: 2,
                 showPrintMargin: false,
                 showGutter: true
+
               }"
             />
           </div>
@@ -229,9 +355,8 @@ export default {
       loading: false,
       notification: null,
       editor: null,
-      //content: '',
+      content: '',
       templateId: 1,
-      active:false,
       displayLayout: true,
       displayTemplate: true,
       displayAsset: true,
@@ -239,20 +364,12 @@ export default {
       editorHeader: 'Template',
       popUp: false,
       theme: "chrome",
-      //editor_content:'',
       editingContent: {
-        type_id: 0,
-        content: '',
-        asset_url: null,
-        title: '',
-        theme_id: 1,
-        type: '',
-        id: '',
+        'content': ''
       },
-      open:false,
       text: '',
       child: '',
-      //file: 'Create a blank file',
+      file: 'Create a blank file',
       // theme: {},
       popChild: false,
       creatingContent: {
@@ -261,8 +378,7 @@ export default {
         asset_url: null,
         title: '',
         theme_id: 1,
-        type: '',
-        id:'',
+        type: ''
       },
       openFile: {},
       showTempOpt: true,
@@ -275,22 +391,14 @@ export default {
   },
   mounted() {
     this.setEditingContent();
-    this.decorateList();
     //console.log(this.open_files)
     this.all_files = this.theme_files
   },
   watch: {
-    active_file_index: function(newVal, oldVal) {
-      if (newVal !== oldVal) { 
-      	// Cleanup before re-decorating
-      	document.querySelectorAll('span').forEach(el => el.classList.remove('red'));
-        this.decorateList();
-      }
+    active_file_index: function(val) {
       if(this.open_files.length) {
-          this.editingContent = this.open_files[newVal]
-          //let filterFile = Object.values(this.open_files[val])
-          //this.editingContent = filterFile.filter((e)=>{return !e.theme_file}),
-          this.setEditorLang(this.editingContent)
+          this.editingContent = this.open_files[val]
+          this.setEditorLang(this.open_files[val])
       }else{
           this.editingContent = {
               content: ''
@@ -302,7 +410,7 @@ export default {
     layout_files() {
       // return this.theme.filter()
       if (this.theme_files.hasOwnProperty('1')) {
-        return this.theme_files['2'];
+        return this.theme_files['1'];
       }
 
       return [];
@@ -326,7 +434,7 @@ export default {
     template_files() {
       // return this.theme_files.filter()
       if (this.theme_files.hasOwnProperty('1')) {
-        return this.theme_files['1'];
+        return this.theme_files['2'];
       }
       return [];
     }
@@ -336,7 +444,6 @@ export default {
     async dataSumit() {
       this.loading = true;
       this.notification = null;
-       this.editingContent.theme_file.content =  this.editingContent.content
       try {
         const res = await axios.put(
           `/online-store/code-editor/${this.editingContent.id}`,
@@ -350,103 +457,80 @@ export default {
       } catch (error) {
         const { notification } = error.response.data;
         this.notification = notification;
-        setTimeout(() => {
-          this.notification = null;
-        }, 3000);
       }
       this.loading = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     async createFile() {
       this.popUp = false;
+      this.loading = true;
       this.notification = null;
-      //console.log(this.open_files);
+      console.log(this.open_files);
       //console.log(this.creatingContent)
-      this.setOpenFiles(this.creatingContent)
       window.scrollTo({ top: 0, behavior: 'smooth' });
       try {
         const res = await axios.post(
           '/online-store/code-editor',
           this.creatingContent
         );
-        //const { notification } = res.data;
-        //let file = res.data.open_files;
-        //console.log(this.creatingContent)
-        //this.all_files = this.theme_files
-        //this.setOpenFiles(this.creatingContent)
         const { notification } = res.data;
-        this.notification = notification;
-        setTimeout(() => {
-          this.notification = null;
-         }, 3000);
-      } catch (error) {
-        const { notification } = error.response.data;
-        this.notification = notification;
-      } 
-    },
-    /* async renameFile(){
-      try {
-        const res = await axios.put('/online-store/editor-pages/' + this.editingContent.id)
-        const { notification } = res.data;
-        this.notification = notification;
-        setTimeout(() => {
-          this.notification = null;
-        }, 3000);
-      } catch (error) {
         
-      }
-    }, */
-     decorateList () {
-      let nthChildren = document.querySelectorAll(`span:nth-child(${ this.active_file_index })`);
-      console.log(nthChildren)
-      nthChildren.forEach(el => el.classList.add('red'))
-    },
-    async removeFileFrom() {
-      try {
-        const res = await axios.delete('/online-store/editor-pages/' + this.editingContent.id)
-        const { notification } = res.data;
+        let file = res.data.open_files
+        this.setOpenFiles(file)
+
+        this.all_files = res.data.theme_files
         this.notification = notification;
-        setTimeout(() => {
-          this.notification = null;
-        }, 3000);
+        // setTimeout(() => {
+        //   this.notification = null;
+        // }, 3000);
+        //location.reload()
       } catch (error) {
         const { notification } = error.response.data;
         this.notification = notification;
-        setTimeout(() => {
-          this.notification = null;
-        }, 3000);
       }
       this.loading = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // setTimeout(() => {
+      //   location.reload();
+      // }, 3100);
+    },
+
+    async removeFileFrom(file) {
+      try {
+        await axios.delete('/online-store/editor-pages/' + file.id)
+        .then((res)=>{
+
+        }) 
+        
+      } catch (error) {
+        alert('An Unknown error occurred')
+      }
+      this.loading = false;
+      // window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     
     setOpenFiles(file) {
       this.open_files.push(file)
-      this.all_files[file.theme_id].push(file)
       this.active_file_index = this.open_files.length-1;
     },
 
     async getContent(file) {
       try {
         await axios.get('/online-store/code-editor/' + file.id)
-        .then((res)=>{ 
-            //console.log(res)
+        .then((res)=>{
+            // this.setEditorLang(res.data); 
             this.content = res.data.content
             let file = res.data
             this.setOpenFiles(file)
-            this.editingContent = this.open_files[this.open_files.length-1]
-            this.setEditorLang(res.data);
+            // this.editingContent = this.open_files[this.open_files.length-1]
+            // this.setEditorLang(res.data);
         }) 
         
         this.content = res.data.content;
         
         this.notification = notification;
       } catch (error) {
-         const { notification } = error.response.data;
-        this.notification = notification;
-        setTimeout(() => {
-          this.notification = null;
-        }, 3000);
+        // const { notification } = error.response.data;
+        // this.notification = notification;
       }
       this.loading = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -486,10 +570,10 @@ export default {
       }
     },
     setActive(file) {
-      this.active_file_index = this.open_files.findIndex( x => x.id === file.id );
-      this.decorateList()
+        this.active_file_index = this.open_files.findIndex( x => x.id === file.id );  
     },
     removeFile(file) {
+      this.removeFileFrom(file)
       let index = this.open_files.findIndex( x => x.id === file.id );
       this.open_files.splice(index, 1);
       //get a new active file index
@@ -527,22 +611,34 @@ export default {
       this.creatingContent.type_id = 4;
       this.creatingContent.theme_id = 4;
     },
-     setEditor(file) {
-      this.setEditorLang(file);
-      this.editingContent = file;
-    },
-
     setEditorLang(file) {
-        //console.log(file.title)
-      if (file.title.indexOf('.css') > -1) {
+      if (file.name.indexOf('.css') > -1) {
         this.language = 'css';
-      } else if (file.title.indexOf('.js') > -1) {
+      } else if (file.name.indexOf('.js') > -1) {
         this.language = 'javascript';
-      } else if (file.title.indexOf('.twig')) {
+      } else if (file.name.indexOf('.twig')) {
         this.language = 'twig';
       }
     },
-   
+    removeChild(id) {
+      //"theme_files.1.0.id"
+      this.child = document.getElementsByClassName(id)[0].innerText;
+      //console.log(document.getElementsByClassName(id).innerText)
+      //console.log(id)
+      //document.getElementsByClassName(id)
+      //if(document.getElementsByClassName(id))
+
+      if (id == this.child) {
+        this.popChild = true;
+      } else {
+        console.log('Nah');
+      }
+    },
+
+    setEditor(file) {
+      this.setEditorLang(file);
+      this.editingContent = file;
+    }
   },
   setup() {
     const open = ref(false);
@@ -552,12 +648,3 @@ export default {
   }
 };
 </script>
-<style>
-body {
-  overflow: hidden;
-}
-.row-class {
-  display: flex;
-  flex: 1 0 auto;
-}
-</style>

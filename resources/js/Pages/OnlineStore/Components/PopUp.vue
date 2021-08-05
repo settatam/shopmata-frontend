@@ -31,39 +31,28 @@
                 </div>
             </div>
             <div v-if="activeBlank">
-                <div class="flex flex-col lg:flex-row justify-around mb-8" v-if="this.text == 'layout' || this.text == 'template'">
-                    <p class="my-auto" >File name</p>
+                <div class="flex flex-col lg:flex-row justify-around mb-8" v-if="this.text == 'layout' || this.text == 'template' || this.text == 'asset'">
+                    <p class="my-auto" >Create a blank file called</p>
                     <input type="text" name="asset" id="" class="border border-gray-500 h-10 focus:outline-none pl-3" v-model="creatingContent.title">
                     <select name="asset" id="" class="border border-gray-500 px-4 my-auto h-10 focus:outline-none" v-model="selected">
-                        <option value=".twig">twig</option>
                         <option value=".css">CSS</option>
                         <option value=".js">JS</option>
                         <option value=".html">HTML</option>
+                        <option value=".twig">twig</option>
                     </select>
-                </div>
-                <div class="flex flex-col lg:flex-row justify-around mb-8" v-if="this.text == 'asset'">
-                  <p class="my-auto">File Name</p>
-                  <input type="text" name="asset" id="" class="border border-gray-500 h-10 focus:outline-none pl-3" v-model="creatingContent.title">
-                  <select name="asset" id="" class="border border-gray-500 h-10 focus:outline-none pl-3" v-model="selected">
-                      <option value=".twig">twig</option>
-                      <option value=".css.twig">CSS.twig</option>
-                      <option value=".js.twig">JS.twig</option>
-                      <option value=".css">CSS</option>
-                      <option value=".js">JS</option>
-                  </select>
                 </div>
             </div>
             
             <div class="flex justify-between" v-if="this.text == 'snippet'">
-                <label for="snippet" class="text-lg mt-2">File Name</label>
-                <input type="text" name="snippet" id="" class="h-10 w-3/4 border border-gray-400 mb-9 focus:outline-none" v-model="creatingContent.title">
+                <label for="snippet" class="text-lg mt-2 w-1/2">Create a new snippet called</label>
+                <input type="text" name="snippet" id="" class="h-10 w-1/2 border border-gray-400 mb-9 focus:outline-none" v-model="creatingContent.title" @blur="removeExtension()">
             </div>
             <div class=" border-t border-gray-200 -mx-6"></div>
               </div>
             </div>
             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
               <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-cyan-700 text-base font-medium text-white focus:outline-none sm:ml-3 sm:w-auto sm:text-sm" @click="upload()">
-                 Submit
+                <i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i> {{this.text}}
               </button>
               <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:w-auto sm:text-sm" @click="close()" ref="cancelButtonRef">
                 Cancel
@@ -97,7 +86,7 @@ export default {
             count:0,
             activeUpload: true,
             activeBlank:false,
-            selected:'.twig'
+            selected:'.css'
         }
     },
     computed:{
@@ -154,14 +143,14 @@ export default {
 </script>
 
 <style>
-input[type="file"] {
-  display: none;
+    input[type="file"] {
+    display: none;
 }
 .custom-file-upload {
-  border: 1px solid #8a8a99;
-  display: inline-block;
-  font-weight: 600;
-  padding: 6px 18px;
-  cursor: pointer;
+    border: 1px solid #8A8A99;
+    display: inline-block;
+    font-weight: 600;
+    padding: 6px 18px;
+    cursor: pointer;
 }
 </style>
