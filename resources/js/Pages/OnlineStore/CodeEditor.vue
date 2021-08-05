@@ -126,7 +126,7 @@
               </div>
             </div>
               <div class="overflow-x-scroll bg-white pt-1 row-class">
-                <span v-for="file in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium mr-2 cursor-pointer bg-indigo-100 text-indigo-700" :class="{active:active_file_index}">
+                <span v-for="(file,index) in open_files" :key="file.id" class="inline-flex items-center py-0.5 pl-2.5 pr-1 text-sm font-medium mr-2 cursor-pointer text-indigo-700" :class="active_file_index == index ? '':'bg-indigo-100' ">
                     <span class="flex pr-3 pl-3" @click="setActive(file)">{{ file.title }}</span>
                     <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" :class="this.active_file_index==open" @click="removeFile(file)">
                       <span class="sr-only">Close File </span>
@@ -275,19 +275,13 @@ export default {
   },
   mounted() {
     this.setEditingContent();
-    this.decorateList();
     //console.log(this.open_files)
     this.all_files = this.theme_files
   },
   watch: {
-    active_file_index: function(newVal, oldVal) {
-      if (newVal !== oldVal) { 
-      	// Cleanup before re-decorating
-      	document.querySelectorAll('span').forEach(el => el.classList.remove('red'));
-        this.decorateList();
-      }
+    active_file_index: function(val) {
       if(this.open_files.length) {
-          this.editingContent = this.open_files[newVal]
+          this.editingContent = this.open_files[val]
           //let filterFile = Object.values(this.open_files[val])
           //this.editingContent = filterFile.filter((e)=>{return !e.theme_file}),
           this.setEditorLang(this.editingContent)
@@ -396,11 +390,6 @@ export default {
         
       }
     }, */
-     decorateList () {
-      let nthChildren = document.querySelectorAll(`span:nth-child(${ this.active_file_index })`);
-      console.log(nthChildren)
-      nthChildren.forEach(el => el.classList.add('red'))
-    },
     async removeFileFrom() {
       try {
         const res = await axios.delete('/online-store/editor-pages/' + this.editingContent.id)
@@ -487,7 +476,7 @@ export default {
     },
     setActive(file) {
       this.active_file_index = this.open_files.findIndex( x => x.id === file.id );
-      this.decorateList()
+      this.openFile = file
     },
     removeFile(file) {
       let index = this.open_files.findIndex( x => x.id === file.id );
@@ -499,9 +488,7 @@ export default {
           }else{
             this.active_file_index = 0;
           } 
-
       }
-      
     },
     popLayout() {
       this.popUp = true;
