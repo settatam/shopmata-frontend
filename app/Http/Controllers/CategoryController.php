@@ -23,7 +23,7 @@ class CategoryController extends Controller
     {
         $categories = Category::orderBy('id', 'asc')->paginate(50);
         $filters = $request->all('search', 'level');
-        return Inertia::render('Categories/Index', compact('categories', 'filters'));
+        return Inertia::render('Products/Categories/Index', compact('categories', 'filters'));
     }
 
     public function search(Request $request)
@@ -38,7 +38,7 @@ class CategoryController extends Controller
             ->paginate(50);
         $categories->appends(['search' => $query]);
         // return $categories;
-        return Inertia::render('Categories/Index', compact('categories', 'query'));
+        return Inertia::render('Products/Categories/Index', compact('categories', 'query'));
     }
 
     /**
@@ -49,7 +49,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
-        return Inertia::render('Categories/Create');
+        return Inertia::render('Products/Categories/Create');
     }
 
     /**

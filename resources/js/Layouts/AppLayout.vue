@@ -168,7 +168,7 @@ import {
 } from '@headlessui/vue'
 import {
   BellIcon,
-  ClockIcon,
+  ChartPieIcon,
   CogIcon,
   CreditCardIcon,
   DocumentReportIcon,
@@ -197,7 +197,18 @@ const navigation = [
       icon: HomeIcon, 
       current: true 
   },
-  { name: 'Products', href: '/products', icon: ClockIcon, current: false },
+  { name: 'Products', 
+          href: '',
+          icon: ChartPieIcon, 
+          current: false,children: [
+            { name: 'All Products', href: '/products' },
+            { name: 'Add Product', href: '/products/create' },
+            { name: 'All Brands', href: '/brands' },
+            { name: 'Add Brand', href: '/brands/create' },
+            { name: 'All Categories', href: '/categories' },
+            { name: 'New Category', href: '/categories/create' },
+          ], 
+  },
   { name: 'Orders', href: '/orders', icon: ShoppingBagIcon, current: false },
   { name: 'Customers', href: '/customers', icon: UserGroupIcon, current: false },
   { name: 'Analytics', href: 'analytics', icon: ChartBarIcon, current: false },
@@ -265,7 +276,8 @@ export default {
     ChartBarIcon,
     Disclosure,
     DisclosurePanel,
-    DisclosureButton
+    DisclosureButton,
+    ChartPieIcon
   },
   setup() {
     const sidebarOpen = ref(false)

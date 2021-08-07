@@ -58,7 +58,6 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr v-for="product in products.data" :key="product.id" class="bg-white">
                         <td class="max-w-0 w-1/2 px-6 py-4 items-center whitespace-nowrap text-gray-900">
-                        
                           <div class="flex items-center">
                             <div class="flex h-5 mr-5">
                                 <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
