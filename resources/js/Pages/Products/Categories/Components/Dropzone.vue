@@ -11,7 +11,7 @@
               </svg>
             </span>
             <p class="mx-2 text-xxs mt-3">Drag and drop your image here or </p>
-            <button class="text-white bg-cyan-600 active:bg-cyan-600 font-medium border border-transparent px-5 py-2 h-8 w-28 rounded mx-auto mb-6 mt-4 text-sm" @click="open">Choose File</button>
+            <button class="text-white bg-cyan-600 active:bg-cyan-600 font-medium border border-transparent px-5 py-2 h-8 w-28 rounded mx-auto mb-6 mt-4 text-xm" @click="open">Choose File</button>
       </div>
     </div>
   </div>
