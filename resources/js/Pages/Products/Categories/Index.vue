@@ -28,20 +28,17 @@
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead class="bg-gray-50">
                       <tr>
-                        <th scope="col" class="w-1/2 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                         </th> 
-                        <th scope="col" class="w-1/2 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Name
+                        <th scope="col" class="w-3/10  px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          TITLE
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Status
+                        <th scope="col" class=" w-3/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          PRODUCT CONDITION
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Role
+                        <th scope="col" class="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          SORT ORDER
                         </th>
                         <th scope="col" class="relative px-6 py-3">
                           <span class="sr-only">Edit</span>
@@ -50,33 +47,32 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr class="bg-white">
-                       <td class="max-w-0 w-1/2 px-6 py-4 items-center whitespace-nowrap text-gray-900">
+                        <td scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                        </td> 
+                       <td class="w-3/10 px-6 py-4 items-center whitespace-nowrap text-gray-900">
                           <div class="flex items-center">
-                            <div class="flex h-5 mr-5">
-                                <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                            </div>
-                            <div class="flex-shrink-0 h-12 w-12 mr-5">
+                            <div class="flex-shrink-0 h-12 w-12 mr-5 border-2 border-r border-dashed">
                               image
                             </div>
                             <inertia-link href="#" class="group inline-flex space-x-2 truncate">
                               <p class="text-gray-800 truncate group-hover:text-gray-900 break-normal">
-                                Title
+                                Best Selling Products 
                               </p>
                             </inertia-link>
                           </div>
                         </td>
+                        <td class=" w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                          <p class="text-gray-800 truncate text-left break-normal">Product title contains best selling</p>  
+                        </td>
+                        <td class="w-1/5 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <p  class="text-gray-800 truncate text-center break-normal">
+                           5
+                          </p>
+                        </td>
                         <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          Amount
+                          <p class="truncate text-left break-normal text-cyan-800">Edit</p>
                         </td>
-                        <td class="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                          <span  class='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize'>
-                           status
-                          </span>
-                        </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          Time
-                        </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500"> NOthing  </td>
                       </tr>
                     </tbody>
                   </table>
@@ -117,6 +113,6 @@
 import { ref } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 export default {
-      components: {AppLayout,},
+      components: {AppLayout},
 }
 </script>
