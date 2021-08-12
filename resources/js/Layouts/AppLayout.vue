@@ -209,7 +209,14 @@ const navigation = [
             { name: 'New Category', href: '/categories/create' },
           ], 
   },
-  { name: 'Orders', href: '/orders', icon: ShoppingBagIcon, current: false },
+  { name: 'Orders', href: '/orders', icon: ShoppingBagIcon, current: false,
+      children: [
+            { name: 'Orders', href: '#' },
+            { name: 'Gift Vouchers', href: '#' },
+            { name: 'Vector Themes', href: '#' },
+            
+          ], 
+  },
   { name: 'Customers', href: '/customers', icon: UserGroupIcon, current: false },
   { name: 'Analytics', href: 'analytics', icon: ChartBarIcon, current: false },
   { name: 'Discounts', href: 'discounts', icon: CashIcon, current: false },

@@ -35,10 +35,18 @@
 
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
-          <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-            <h1 class="text-2xl font-extrabold text-blue-gray-900">
-              Add New Order
+          <div class="max-w-3xl mx-5 mt-4 px- sm:px- lg:py- lg:px-">
+            <h1 class="text-xl font-semibold mb-6 text-blue-gray-900">
+              New Order
             </h1>
+          </div>
+          <div class="mx-5 grid grid-cols-4 gap-5 span">
+            <div class="col-start-1 col-span-1 bg-white px-5 py-6">
+              <h2 class="font-semibold text-lg">Find or create a customer</h2>
+            </div>
+            <div class="col-start-1 col-span-1">
+
+            </div>
             <form @submit.prevent="submit">
               <div class="bg-white mb-10 pt-7">
                 <div
@@ -174,7 +182,6 @@
             </form>
           </div>
         </div>
-        <Nav page="General"></Nav>
       </div>
     </div>
   </app-layout>

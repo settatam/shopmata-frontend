@@ -2,7 +2,7 @@
   <app-layout>
     <!-- Page header -->
     <div class="">
-      <div class="px-4 sm:px-6 lg:mx-auto lg:px-8">
+      <div class="px- sm:px-6 lg:mx-auto lg:px-">
         <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
           <div class="flex-1 min-w-0">
             <!-- Profile -->
@@ -58,14 +58,14 @@
               </div>
             </div>
             <div class="mt-6 flex">
-              <div class="quesadilla">
+              <div class="">
                 <button class="">
-                  <input type="date" name="" id="theDate" class="enchilada">
+                  <input type="date" name="" id="theDate">
                 </button>
               </div>
               <arrow-right class="my-auto mx-3"/>
               <button>
-                <input type="date" name="" id="" class="enchilada">
+                <input type="date" name="" id="theDate1">
               </button>
             </div>
           </div>
@@ -73,134 +73,41 @@
     </div>
 
     <div class="mt-8">
-      <div class="mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-xl leading-6 font-medium text-gray-900">
-          All Orders
-        </h2>
-      </div>
       <!-- Activity table (small breakpoint and up) -->
       <div class="hidden sm:block">
-        <div class="mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto px-4 sm:px-6 lg:px-">
           <Search v-bind:suggestions="suggestions"></Search>
           <div class="flex flex-col mt-2">
             <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead class="bg-gray-50">
                   <tr>
-                    <th scope="col" class="w-1/2 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                    <th scope="col" class="w-2 pl-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                     </th> 
-                    <th
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <th scope="col" class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
                       OrderID
                     </th>
-                    <th
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
-                      Created at
-                    </th>
-                    <th
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <th scope="col" class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Customer
                     </th>
-                    <th
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
-                      Total
+                    <th scope="col" class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      To
                     </th>
-                    <th
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <th scope="col" class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Items
                     </th>
-                    <th
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <th scope="col" class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       Payment
                     </th>
-                    <th
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <th scope="col" class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Fulfillment
                     </th>
-                    <th
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <th scope="col" class="w-1/6 py-3 px-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Shipping Method
+                    </th>
+                    <th scope="col" class="w-1/10 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Date Added
                     </th>
                     <!-- <th scope="col" class="relative px-6 py-3">
                       <span class="sr-only">Edit</span>
@@ -208,193 +115,53 @@
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  <tr
-                    v-for="order in orders.data"
-                    :key="order.id"
-                    class="bg-white"
-                  >
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-center text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                  <tr v-for="order in orders.data" :key="order.id" class="bg-white" >
+                    <td scope="col" class="w-2 pl-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                    </td> 
+                    <td class=" px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       {{ order.id }}
-
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
-                      {{ order.created_at }}
-                    </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {{ order.user.first_name }} {{ order.user.last_name }}
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {{ order.total }}
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
-                      {{
-                        order.items.length == 1
-                          ? "1 item"
-                          : order.items.length + "Items"
-                      }}
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                      {{order.items.length == 1 ? "1 item": order.items.length + "Items"}}
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
-                      <div
-                        class="
-                          px-3
-                          py-3
-                          sm:px-2
-                          sm:py-2
-                          md:px-4
-                          md:py-6
-                          text-left
-                          leading-4
-                          font-semibold
-                          tracking-wide
-                          text-gray-600
-                        "
-                      >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                      <div class=" px-3 py-3 sm:px-2 sm:py-2 md:px-4 md:py-6 text-left leading-4 font-semibold tracking-wide text-gray-600">
                         <div v-if="!order.status || order.status == 'unpaid'">
-                          <div
-                            class="
-                              text-xs
-                              px-4
-                              py
-                              inline-flex
-                              leading-5
-                              bg-red-lighter
-                              text-red-darker
-                            "
-                          >
+                          <div class=" text-xs px-4 py inline-flex leading-5 bg-red-lighter text-red-darker">
                             Unpaid
                           </div>
                         </div>
                         <div v-else>
-                          <div
-                            class="
-                              text-xs
-                              px-4
-                              py
-                              inline-flex
-                              leading-5
-                              bg-green-lighter
-                              text-green-darker
-                            "
-                          >
+                          <div class=" text-xs px-4 py inline-flex leading-5 bg-green-lighter text-green-darker">
                             Paid
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       <div v-if="order.fulfillment">
-                        <div
-                          class="
-                            text-xs
-                            px-4
-                            py
-                            inline-flex
-                            leading-5
-                            bg-lightGreen
-                            text-green-dark
-                          "
-                        >
+                        <div class=" text-xs px-4 py inline-flex leading-5 bg-lightGreen text-green-dark ">
                           Unfulfilled
                         </div>
                       </div>
                       <div v-else>
-                        <div
-                          class="
-                            text-xs
-                            px-4
-                            py
-                            inline-flex
-                            leading-5
-                            bg-green-lighter
-                            text-green-dark
-                          "
-                        >
+                        <div class=" text-xs px-4 py inline-flex leading-5 bg-green-lighter text-green-dark" >
                           Fulfilled
                         </div>
                       </div>
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider " >
                       {{ order.shipping }}
+                    </td>
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                      {{ order.created_at }}
                     </td>
                   </tr>
                 </tbody>
@@ -567,6 +334,7 @@ export default {
 
 
     document.getElementById('theDate').value = today;
+    document.getElementById('theDate1').value = today;
   },
   computed: {
     myProps() {
@@ -673,38 +441,5 @@ export default {
 };
 </script>
 <style>
-input.enchilada {
-  width: 140px;
-}
-.quesadilla {
-  position: relative;
-}
-.quesadilla:after {
-  z-index: 0;
-  content: "v";
-  display: block;
-  font-size: 1rem;
-  font-weight: bold;
-  color: black;
-  background: none;
-  /*  //background: url('') no-repeat;
-  //background-size: 10%; */
-  width: 30px;
-  height: 50px;
-  position: absolute;
-  top: 7px;
-  right: -7px;
-}
-
-/*
->here is the nasty part
-*/
-.enchilada::-webkit-calendar-picker-indicator {
-  opacity: 0;
-}
-.enchilada,
-.enchilada:focus {
-  background: rgba(0, 0, 0, 0);
-}
 </style>
 
