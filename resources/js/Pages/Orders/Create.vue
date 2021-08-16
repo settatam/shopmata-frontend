@@ -207,8 +207,8 @@
                       </div>
                     <button class="px-8 border border-gray-300 text-xs h-10 mt-4 rounded-md" @click="openModal=true">Browse Products</button>
                   </div>
-                  <!-- <empty-product-modal/> -->
-                  <product-modal v-if="openModal"/>
+                   <empty-product-modal v-if="openModal && products.length== 0" />
+                  <product-modal v-if="openModal && products.length > 0" :products="products" />
                   <div>
                     <div class="grid grid-cols-1 md:grid-cols-5 bg-white gap-2 border-gray-200 pt-8">
                                 <div class="col-span-1 md:col-span-3 md:mb-10">
@@ -415,7 +415,7 @@ export default {
         description: "",
         brand: "",
       },
-      openModal : true,
+      openModal : false,
       pricing: {
         price: "",
         compare_at_price: "",
@@ -456,6 +456,132 @@ export default {
       media: {
         url: "",
       },
+      products:[
+        {
+              id : 1,
+              image: "https://picsum.photos/200",
+              description: "3.1 Dolce & Gabanna",
+              variants:
+                {
+                0:{
+                  color:"blue",
+                  price: 100,
+                  quantity:20
+                },
+                1:{
+                  color:"green",
+                  price: 100,
+                  quantity:20
+                },
+              },
+              
+            },
+            {
+              id : 2,
+              image: "https://picsum.photos/200",
+              description: "3.1 Dolce & Gabanna",
+              variants:
+                {
+                  0:{
+                    color:"blue",
+                    price: 100,
+                    quantity:20
+                },
+                  1:{
+                    color:"green",
+                    price: 100,
+                    quantity:20
+              },},
+              
+            },
+            {
+              id : 3,
+              image: "https://picsum.photos/200",
+              description: "3.1 Dolce & Gabanna",
+              variants:
+                {
+                  0:{
+                    color:"blue",
+                    price: 100,
+                    quantity:20
+                  },
+                  1:{
+                    color:"green",
+                    price: 100,
+                    quantity:20
+                  },
+                },
+              
+            },
+            {
+              id : 4,
+              image: "https://picsum.photos/200",
+              description: "3.1 Dolce & Gabanna",
+              variants:
+                {
+                  0:{
+                      color:"blue",
+                      price: 100,
+                      quantity:20
+                  },
+                  1:{
+                    color:"green",
+                    price: 100,
+                    quantity:20
+                  },
+                },   
+            },
+            {
+              id : 5,
+              image: "https://picsum.photos/200",
+              description: "3.1 Dolce & Gabanna",
+              variants:
+                {
+                  0:{
+                  color:"blue",
+                  price: 100,
+                  quantity:20
+                },
+                1:{
+                  color:"green",
+                  price: 100,
+                  quantity:20
+                },
+              },
+              
+            },
+            {
+              id : 6,
+              image: "https://picsum.photos/200",
+              description: "3.1 Dolce & Gabanna",
+              variants:{},
+            },
+            {
+              id : 7,
+              image: "https://picsum.photos/200",
+              description: "3.1 Dolce & Gabanna",
+              variants:{},
+            },
+            {
+              id : 8,
+              image: "https://picsum.photos/200",
+              description: "3.1 Dolce & Gabanna",
+              variants:
+                {
+                  0:{
+                      color:"blue",
+                      price: 100,
+                      quantity:20
+                    },
+                  1:{
+                    color:"green",
+                    price: 100,
+                    quantity:20
+                  },
+                },
+              
+            },
+      ],
       subTotal: 0,
                 taxes: 0,
                 total: 0,

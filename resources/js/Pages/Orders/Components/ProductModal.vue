@@ -16,19 +16,62 @@
                   <XIcon class="w-4 h-4 cursor-pointer" @click="open=false"/>
               </div>
               <div class="-mr-9 mt-4 -ml-9 border-b-2 border-gray-200"></div>
-              <div class="relative mt-4">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-                          <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-                            <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                          </button>
-                        </span>
-                        <div class="min-w-0 flex-1">
-                          <label for="search" class="sr-only">Search</label>
-                          <input id="text4" type="text" placeholder="Search for products..." ref="completeButtonRef" class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-full"/>
-                        </div>
+              <div class="flex justify-between">
+                <div class="relative mt-4">
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                    <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                      <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                  </span>
+                  <div class="min-w-0 flex-1">
+                    <label for="search" class="sr-only">Search</label>
+                    <input id="text4" type="text" placeholder="Search for products..." ref="completeButtonRef" class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-96"/>
+                  </div>
+                </div>
+                <cat-dropdown
+                  :label="label"
+                  class="mt-4"   
+                />
+              </div>
+              <div class="-mr-9 mt-4 -ml-9 border-b-2 border-gray-200"></div>
+              <div>
+                <div v-for="product in products" :key="product.id">
+                  <div class="flex justify-between h-20">
+                    <div class="mr-5 my-auto">
+                      <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="select" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                    </div>
+                    <div class="flex-shrink-0 h-10 w-10 mr-4 border-2 border-r my-auto">
+                       <img :src="product.image" alt="category_image">
+                    </div>
+                    <div class="w-7/10 my-auto">
+                      <p class="text-gray-800 group-hover:text-gray-900 break-normal text-left">
+                        {{product.description}}
+                      </p>
+                    </div>
+                    <div class="my-auto">
+                      <ChevronDownIcon class="-mr-1 ml-2 h-5 w-5 cursor-pointer" aria-hidden="true" @click="openVar=!openVar" v-if="openVar" />
+                      <ChevronUpIcon class="-mr-1 ml-2 h-5 w-5 cursor-pointer" aria-hidden="true" @click="openVar=!openVar" v-else />
+                    </div>
+                  </div>
+                    <div class="flex justify-between" v-for="(variant,index) in product" :key="index">
+                      <div class="ml-9">
+                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="select" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                       </div>
+                      <div class="w-5/10">
+                        <p class="text-left">{{variant}}</p>
+                      </div>
+                      <div>
+                        <p>350 in stock</p>
+                      </div>
+                      <div>
+                        <p class="text-left">$5000</p>
+                      </div>
+                    </div>
+                   <div class="-mr-9 -ml-9 border-b-2 border-gray-200"></div>
+                </div>
+              </div>
             </div>
-            <div class=" mt-64 sm:mt-72 flex justify-between">
+            <div class=" mt-10 sm:mt-72 flex justify-between">
               <button type="button" class="inline-flex rounded-md border border-cyan-500 shadow-sm px-4 py-2 bg-transparent text-cyan-500 sm:text-sm" @click="open = false">
                 No Variants Selected
               </button>
@@ -46,9 +89,18 @@
 <script>
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { CheckIcon,XIcon } from '@heroicons/vue/outline'
+import { CheckIcon,XIcon,ChevronDownIcon,ChevronUpIcon } from '@heroicons/vue/outline'
+import CatDropdown from './CatDropdown.vue'
+
 
 export default {
+  props:["products"],
+  data(){
+    return{
+      label:"All Products",
+      openVar: false,
+    }
+  },
   components: {
     Dialog,
     DialogOverlay,
@@ -56,7 +108,10 @@ export default {
     TransitionChild,
     TransitionRoot,
     CheckIcon,
-    XIcon
+    XIcon,
+    CatDropdown,
+    ChevronDownIcon,
+    ChevronUpIcon
   },
   setup() {
     const open = ref(true)
