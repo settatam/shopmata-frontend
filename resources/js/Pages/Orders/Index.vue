@@ -54,19 +54,28 @@
               </span>
               <div class="min-w-0 flex-1">
                 <label for="search" class="sr-only">Search</label>
-                <input id="email" type="email" placeholder="Search for products..." class="block pl-10 py-2.5 rounded-md border-0 text-xs text-gray-900 placeholder-gray-300 focus:outline-none"/>
+                <input id="text" type="text" placeholder="Search for products..." class="block pl-10 py-2.5 rounded-md border-1 border-gray-300 text-xs text-gray-900 placeholder-gray-500 focus:outline-none bg-transparent"/>
               </div>
             </div>
             <div class="mt-6 flex">
-              <div class="">
+             <!--  <div class="">
                 <button class="">
                   <input type="date" name="" id="theDate">
                 </button>
-              </div>
+              </div> -->
+              <datepicker
+                v-model="form.from"
+                class="date-filter text-black focus:outline-none w-36 rounded-md border-1 border-gray-300"
+                date-format="Y-m-d"
+                user-format="Y-m-d"
+              />
               <arrow-right class="my-auto mx-3"/>
-              <button>
-                <input type="date" name="" id="theDate1">
-              </button>
+              <datepicker
+                v-model="form.to"
+                class="date-filter text-black focus:outline-none w-36 rounded-md border-1 border-gray-300 to"
+                date-format="Y-m-d"
+                user-format="Y-m-d"
+              />
             </div>
           </div>
       </div>
@@ -82,10 +91,10 @@
               <table class="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead class="bg-gray-50">
                   <tr>
-                    <th scope="col" class="w-2 pl-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                    <th scope="col" class="w-2 pl-6 pr-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" @click="checkAll" :disabled="orders.data.length === 0" />
                     </th> 
-                    <th scope="col" class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                    <th scope="col" class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
                       OrderID
                     </th>
                     <th scope="col" class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -117,50 +126,50 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                   <tr v-for="order in orders.data" :key="order.id" class="bg-white" >
                     <td scope="col" class="w-2 pl-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" :value="order" v-model="selected" @click='uncheckParentBox(order)' class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                     </td> 
-                    <td class=" px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td class="w-1/12 pr-7 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider " >
                       {{ order.id }}
                     </td>
-                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <td class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
                       {{ order.user.first_name }} {{ order.user.last_name }}
                     </td>
-                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {{ order.total }}
+                    <td class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      {{ order.country }}
                     </td>
-                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       {{order.items.length == 1 ? "1 item": order.items.length + "Items"}}
                     </td>
-                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
-                      <div class=" px-3 py-3 sm:px-2 sm:py-2 md:px-4 md:py-6 text-left leading-4 font-semibold tracking-wide text-gray-600">
+                    <td class=" w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                      <div class="sm:pr-2 sm:py-2 md:pr-4 md:py-6 text-left leading-4 font-semibold tracking-wide text-gray-600">
                         <div v-if="!order.status || order.status == 'unpaid'">
-                          <div class=" text-xs px-4 py inline-flex leading-5 bg-red-lighter text-red-darker">
+                          <div class="text-xs inline-flex leading-5 bg-red-lighter text-red-darker">
                             Unpaid
                           </div>
                         </div>
                         <div v-else>
-                          <div class=" text-xs px-4 py inline-flex leading-5 bg-green-lighter text-green-darker">
+                          <div class=" text-xs inline-flex leading-5 bg-green-light text-green-darker px-4 py-1">
                             Paid
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <td class="w-1/12 px-1 py-3 text-left text-xs font-semibold tracking-wider">
                       <div v-if="order.fulfillment">
-                        <div class=" text-xs px-4 py inline-flex leading-5 bg-lightGreen text-green-dark ">
+                        <div class=" text-xs px-5 py-1 inline-flex leading-5 bg-red-darker text-red-light ">
                           Unfulfilled
                         </div>
                       </div>
                       <div v-else>
-                        <div class=" text-xs px-4 py inline-flex leading-5 bg-green-lighter text-green-dark" >
+                        <div class=" text-xs px-5 py-1 inline-flex leading-5 bg-green-light text-green-darker" >
                           Fulfilled
                         </div>
                       </div>
                     </td>
-                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider " >
+                    <td class="w-1/6 py-3 px-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       {{ order.shipping }}
                     </td>
-                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td class="w-1/10 px-1 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" >
                       {{ order.created_at }}
                     </td>
                   </tr>
@@ -253,6 +262,7 @@ import AppLayout from "../../Layouts/AppLayout.vue";
 import { ChevronDownIcon,ChevronUpIcon } from "@heroicons/vue/solid"
 import Input from '../../Jetstream/Input.vue';
 import ArrowRight from '../../../assets/ArrowRight.vue';
+import Datepicker from 'vue3-datepicker'
 // import Search from '../Search.vue'
 // import axios from "axios"
 const tabs = [
@@ -293,8 +303,8 @@ export default {
       previouPageUrl: "",
       form: {
         search: this.filters.search,
-        from: this.filters.from,
-        to: this.filters.to,
+        from: new Date(),
+        to: new Date(),
         user: this.filters.user,
       },
       source: {
@@ -321,20 +331,6 @@ export default {
     };
   },
   mounted(){
-    var date = new Date();
-
-    var day = date.getDate();
-    var month = date.getMonth() + 1;
-    var year = date.getFullYear();
-
-    if (month < 10) month = "0" + month;
-    if (day < 10) day = "0" + day;
-
-    var today = year + "-" + month + "-" + day;
-
-
-    document.getElementById('theDate').value = today;
-    document.getElementById('theDate1').value = today;
   },
   computed: {
     myProps() {
@@ -377,9 +373,18 @@ export default {
       this.selected = !this.selectAll ? [...this.orders.data] : [];
       console.log(this.selectAll, this.customers);
     },
-    uncheckParentBox() {
+    uncheckParentBox(order) {
       event.stopPropagation();
-      this.selectAll = false;
+      //this.selectAll = false;
+      //console.log(order)
+      let rows = this.selected.filter(p => p.id == order.id);
+        if(rows.length > 0) { // unselect
+            this.selected = this.selected.filter(p => p.id != order.id);
+        }   else { // select
+            this.selected.push(order);
+        }
+        this.orders.data.length == this.selected.length ? this.selectAll = true : this.selectAll = false;
+
     },
     showCheckedCustomers() {
       console.log(this.customers);
@@ -408,13 +413,19 @@ export default {
     toggle(data) {
       data = !data;
     },
+    /* checkCurrent(tab){
+      //tabs[tab].current = true
+      tabs[tab].current = "true"
+      console.log(tabs[tab].current)
+    }  */
   },
   components: {
     AppLayout,
     ChevronUpIcon,
     ChevronDownIcon,
     Input,
-    ArrowRight
+    ArrowRight,
+    Datepicker
     // SideNav,
     // ExportIcon,
     // ImportIcon,
@@ -434,6 +445,7 @@ export default {
   
   setup() {
     const open = ref(false);
+    console.log(tabs.selected)
     return {
       tabs,
     }
@@ -441,5 +453,17 @@ export default {
 };
 </script>
 <style>
+select,
+.date-filter {
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+  background: url("../../../assets/ArrowDownFilled.svg") no-repeat right 0.3rem
+    center/14px 4px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: none;
+}
 </style>
 

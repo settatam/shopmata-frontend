@@ -45,33 +45,35 @@
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white divide-y divide-gray-200" v-for="category in  categories" :key=" category.id">
                       <tr class="bg-white">
                         <td scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                         </td> 
                        <td class="w-3/10 px-6 py-4 items-center whitespace-nowrap text-gray-900">
                           <div class="flex items-center">
-                            <div class="flex-shrink-0 h-12 w-12 mr-5 border-2 border-r border-dashed">
-                              image
+                            <div class="flex-shrink-0 h-12 w-12 mr-5 border-2 border-r">
+                              <img :src="category.image" alt="category_image">
                             </div>
-                            <inertia-link href="#" class="group inline-flex space-x-2 truncate">
+                            <inertia-link href="#" class="group inline-flex space-x-2 w-72">
                               <p class="text-gray-800 truncate group-hover:text-gray-900 break-normal">
-                                Best Selling Products 
+                                {{category.description}}
                               </p>
                             </inertia-link>
                           </div>
                         </td>
                         <td class=" w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          <p class="text-gray-800 truncate text-left break-normal">Product title contains best selling</p>  
+                          <p class="text-gray-800 truncate text-left break-normal">{{category.condition}}</p>  
                         </td>
                         <td class="w-1/5 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           <p  class="text-gray-800 truncate text-center break-normal">
-                           5
+                           {{category.sort}}
                           </p>
                         </td>
                         <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          <p class="truncate text-left break-normal text-cyan-800">Edit</p>
+                          <inertia-link href="/categories/create">
+                            <p class="truncate text-left break-normal text-cyan-800">Edit</p>
+                          </inertia-link>
                         </td>
                       </tr>
                     </tbody>
@@ -114,5 +116,67 @@ import { ref } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 export default {
       components: {AppLayout},
+      data(){
+        return{
+          categories:[
+            {
+              id : 1,
+              image: "https://picsum.photos/200",
+              description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              condition:"Product title contains best selling",
+              sort: 19,
+            },
+            {
+              id : 2,
+              image: "https://picsum.photos/200",
+              description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              condition:"Product title contains best selling",
+              sort: 29,
+            },
+            {
+              id : 3,
+              image: "https://picsum.photos/200",
+              description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              condition:"Product title contains best selling",
+              sort: 34,
+            },
+            {
+              id : 4,
+              image: "https://picsum.photos/200",
+              description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              condition:"Product title contains best selling",
+              sort: 42,
+            },
+            {
+              id : 5,
+              image: "https://picsum.photos/200",
+              description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              condition:"Product title contains best selling",
+              sort: 15,
+            },
+            {
+              id : 6,
+              image: "https://picsum.photos/200",
+              description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              condition:"Product title contains best selling",
+              sort: 63,
+            },
+            {
+              id : 7,
+              image: "https://picsum.photos/200",
+              description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              condition:"Product title contains best selling",
+              sort: 79,
+            },
+            {
+              id : 8,
+              image: "https://picsum.photos/200",
+              description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              condition:"Product title contains best selling",
+              sort: 89,
+            },
+          ]
+        }
+      }
 }
 </script>

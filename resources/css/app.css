@@ -5,3 +5,7 @@
 input[type='checkbox']:focus {
     --tw-ring-color: none;
 }
+
+.v3dp__popout[data-v-2e128338] {
+    right: 0;
+}

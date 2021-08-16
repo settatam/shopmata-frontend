@@ -11,7 +11,7 @@
       <MenuItems class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
         <div class="py-1">
           <MenuItem v-slot="{ active }" v-for="(option,index) in options" :key="index">
-            <a :href="option.href" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']">{{option.title}}</a>
+            <p :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']" @click="emitValue(option.title)">{{option.title}}</p>
           </MenuItem>
          </div>
       </MenuItems>
@@ -22,10 +22,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { SelectorIcon } from '@heroicons/vue/solid'
 export default {
-    props:{
-      label:String,
-      options: Object,
-      },
+    props:['label','options','updateVal'],
     components: {
           Menu,
           MenuButton,
@@ -33,5 +30,14 @@ export default {
           MenuItems,
           SelectorIcon,
         },
+
+      data(){
+        
+      },
+      methods:{
+        emitValue(val){
+          this.$emit('updateVal', val)
+        }
+      }
 }
 </script>

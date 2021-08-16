@@ -16,10 +16,12 @@
                 </div>
               </div>
               <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4 justify-between">
-                <button   class="inline-flex items-center px-6 py-3 border border-cyan-600 shadow-sm rounded-md text-cyan-600 bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                  Cancel
-                </button>
-                <button  class="inline-flex items-center px-8 py-3 border border-transparent shadow-sm rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                  <inertia-link href="/categories">
+                    <button   class="inline-flex items-center px-6 py-3 border border-cyan-600 shadow-sm rounded-md text-cyan-600 bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                    Cancel
+                    </button>
+                  </inertia-link>
+                <button  class="inline-flex items-center px-8 py-3 border border-transparent shadow-sm rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500" @click="submitForm()">
                   Save
                 </button>
               </div>
@@ -65,29 +67,22 @@
                                 <cat-drop-down
                                     :label="product_tag"
                                     :options="template_opt"
-                                    v-model="category.tag"
+                                    @updateVal="updateTemp($event)"
                                     class="h-5"
                                 />
                             </div>
                             <div class="flex flex-col w-36">
                                 <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0">all conditions</label>  
                                 <cat-drop-down
-                                    :label="product_tag"
-                                    :options="template_opt"
-                                    v-model="category.equal"
+                                    :label="condition"
+                                    :options="condition_opt"
+                                    @updateVal ="updateCondition($event)"
                                     class="h-5"
                                 />
                             </div>
                             <div class="flex flex-col w-36">
                                 <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0" >any condition</label>  
                                 <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-model="category.condition">
-                            </div>
-                            <div class="flex flex-col">
-                                <label for="" class="h-10"></label>
-                                <cat-drop-down
-                                        label=""
-                                        options=""
-                                    />
                             </div>
                         </div>
                             <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4">Add another condition</button>
@@ -148,16 +143,43 @@ export default {
             return{
                 theme_template: "Default Collection",
                 template_opt: {
-                    boy:{
-                        title:"boy",
+                    product_title:{
+                        title:"Product Title",
                         href:"#"
                     },
-                    girl:{
-                        title:"girl",
+                    product_type:{
+                        title:"Product Type",
                         href:"#" 
+                    },
+                    product_price:{
+                        title:"Product Price",
+                        href:"#"
+                    },
+                    product_tag:{
+                        title:"Product Tag",
+                        href:"#"
+                    },
+                    weight:{
+                        title:"Weight",
+                        href:"#"
+                    }
+                },
+                condition_opt:{
+                    equal:{
+                        title:"is equal to",
+                        href:"#"
+                    },
+                    greater:{
+                        title:"is greater that",
+                        href:"#",
+                    },
+                    less:{
+                        title:"is less than",
+                        href:"#"
                     }
                 },
                 product_tag: "Product tag",
+                condition: "is equal to",
                 toggle : true,
                 page:{
                     description:"",
@@ -165,6 +187,7 @@ export default {
                     url:"",
                 },
                 category:{
+                    sort:"",
                     name:"",
                     description:"",
                     tag:"",
@@ -183,9 +206,24 @@ export default {
           ExclamationCircleIcon,
           SelectorIcon
         },
-
+        computed: {
+            formData() {
+                return {...this.category, ...this.search};
+            }
+        },
         methods:{
-            
+            submitForm(){
+                this.$inertia.post('product/categories', this.formData)
+            },
+            updateTemp(val){
+                console.log(val)
+                this.category.tag = val
+                console.log(this.category.tag)
+            },
+            updateCondition(val){
+                this.category.equal = val
+                console.log(this.category.equal)
+            }
         }
 }
 </script>

@@ -1,26 +1,10 @@
 <template>
   <app-layout>
-    <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
+    <div class="flex-1 flex flex-col  overflow-y-auto xl:overflow-hidden">
       <!-- Breadcrumb -->
-      <nav
-        aria-label="Breadcrumb"
-        class="bg-white border-b border-blue-gray-200 xl:hidden"
-      >
-        <div
-          class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8"
-        >
-          <inertia-link
-            href="#"
-            class="
-              -ml-1
-              inline-flex
-              items-center
-              space-x-3
-              text-sm
-              font-medium
-              text-blue-gray-900
-            "
-          >
+      <nav aria-label="Breadcrumb" class="bg-white border-b border-blue-gray-200 xl:hidden">
+        <div class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8">
+          <inertia-link href="#" class=" -ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
             <ChevronLeftIcon
               class="h-5 w-5 text-blue-gray-400"
               aria-hidden="true"
@@ -40,147 +24,293 @@
               New Order
             </h1>
           </div>
-          <div class="mx-5 grid grid-cols-4 gap-5 span">
-            <div class="col-start-1 col-span-1 bg-white px-5 py-6">
-              <h2 class="font-semibold text-lg">Find or create a customer</h2>
-            </div>
-            <div class="col-start-1 col-span-1">
-
-            </div>
-            <form @submit.prevent="submit">
-              <div class="bg-white mb-10 pt-7">
-                <div
-                  class="bg-white flex justify-between px-8 cursor-pointer"
-                  @click="expandForm"
-                >
-                  <p class="text-black text-2xl font-semilbold mb-6">
-                    Add Order
-                  </p>
-                  <span><angle-up-icon></angle-up-icon></span>
+          
+          <div class="pl-5 flex w-full">
+            <div class="flex flex-col mr-5">
+              <div class=" bg-white pl-5 pr-7 pb-10 pt-6 mb-5 ">
+                  <h2 class="font-semibold text-lg">Find or create a customer</h2>
+                  <div class="relative mt-4">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                      <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                        <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                      </button>
+                    </span>
+                    <div class="min-w-0 flex-1">
+                      <label for="search" class="sr-only">Search</label>
+                      <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
+                    </div>
+                  </div>
+              </div>
+              <div class="bg-white pl-5 pr-7 pb-9 pt-6">
+                <div class="flex justify-between mb-6">
+                  <h2 class="font-semibold text-lg">Tags</h2>
+                  <h2 class="text-cyan-700 font-semibold">View all tags</h2>
                 </div>
-                <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
-                  <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
-                  <div class="mb-10">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="title"
+                <label for="search" class="sr-only">Search</label>
+                <input id="text" type="text" placeholder="Urgent, reviewed, wholesale" class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
+              </div>
+            </div>
+              <div class="flex flex-col">
+                <div class=" bg-white pl-8 pr-6 pt-9 w-175">
+                    <!-- <form @submit.prevent="submit">
+                  <div class="bg-white mb-10 pt-7">
+                    <div
+                      class="bg-white flex justify-between px-8 cursor-pointer"
+                      @click="expandForm"
                     >
-                      Title
-                    </label>
-                    <input
+                      <p class="text-black text-2xl font-semilbold mb-6">
+                        Add Order
+                      </p>
+                      <span><angle-up-icon></angle-up-icon></span>
+                    </div>
+                    <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
+                    <p class="text-black text-2xl font-semilbold mb-6">Update Product</p>
+                      <div class="mb-10">
+                        <label
+                          class="block text-black font-semibold mb-2 bg-transparent"
+                          for="title"
+                        >
+                          Title
+                        </label>
+                        <input
+                          class="
+                            appearance-none
+                            border border-border
+                            bg-transparent
+                            w-full
+                            py-2
+                            px-3
+                            text-black
+                            leading-tight
+                            focus:outline-none
+                          "
+                          type="text"
+                          placeholder="Cargo Pants"
+                          v-model="formFields.title"
+                        />
+                      </div>
+                      <div class="mb-6">
+                        <label
+                          class="block text-black font-semibold mb-2 bg-transparent"
+                          for="description"
+                        >
+                          Description
+                        </label>
+                        <div class="quill">
+                          <quill-editor
+                            class="editor text-black"
+                            ref="description"
+                            theme="snow"
+                            style="min-height: 300px"
+                            :value="formFields.description"
+                            :options="editorOption"
+                            @change="onEditorChange"
+                            @blur="onEditorBlur($event)"
+                            @focus="onEditorFocus($event)"
+                            @ready="onEditorReady($event)"
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-20">
+                        <label
+                          class="block text-black font-semibold mb-2 bg-transparent"
+                          for="brand"
+                        >
+                          Brand
+                        </label>
+                        <multiselect
+                          v-model="formFields.brand"
+                          placeholder="Pick a brand"
+                          label="name"
+                          trackBy="name"
+                          valueProp="id"
+                          :options="brands"
+                          searchable="true"
+                          class="text-xs text-black font-semibold"
+                        ></multiselect>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bg-white mb-10 py-6">
+                    <div class="px-8">
+                      <div
+                        class="bg-white flex justify-between cursor-pointer"
+                        @click="expandMediaForm"
+                      >
+                        <p class="text-black font-semibold text-lg mb-6">Media</p>
+                        <div class="flex">
+                          <media-url-modal :media="media"></media-url-modal
+                          ><span><angle-up-icon></angle-up-icon></span>
+                        </div>
+                      </div>
+                      <div v-if="expandMedia">
+                        <vue-dropzone
+                          ref="mediaFiles"
+                          id="dropzone"
+                          :options="dropzoneOptions"
+                          @vdropzone-complete="afterComplete"
+                        ></vue-dropzone>
+                      </div>
+                    </div>
+                  </div>
+                  <pricing-form :pricing="pricing"></pricing-form>
+                  <inventory-form
+                    :inventory="inventory"
+                    :categories="categories"
+                  ></inventory-form>
+                  <shipping-form :shipping="shipping"></shipping-form>
+                  <variants-form
+                    :variants="variants"
+                    :types="variant_types"
+                    :valueContent="valueContent"
+                    @added="addOption"
+                    @add-variant-name="addVariantName"
+                    @added-variant-value="addVariantValue"
+                  ></variants-form>
+                  <search-engine-form :search="search"></search-engine-form>
+                  <div class="text-center bg-white pt-6 pb-6 mb-6">
+                    <t-button
                       class="
-                        appearance-none
-                        border border-border
-                        bg-transparent
-                        w-full
-                        py-2
-                        px-3
-                        text-black
-                        leading-tight
-                        focus:outline-none
+                        text-white
+                        bg-purple-darker
+                        active:bg-purple-darker
+                        font-medium
+                        border border-transparent
+                        px-11
+                        py-3.5
+                        cursor-pointer
                       "
-                      type="text"
-                      placeholder="Cargo Pants"
-                      v-model="formFields.title"
-                    />
-                  </div>
-                  <div class="mb-6">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="description"
+                      @click="submit"
+                      >Add Product</t-button
                     >
-                      Description
-                    </label>
-                    <div class="quill">
-                      <quill-editor
-                        class="editor text-black"
-                        ref="description"
-                        theme="snow"
-                        style="min-height: 300px"
-                        :value="formFields.description"
-                        :options="editorOption"
-                        @change="onEditorChange"
-                        @blur="onEditorBlur($event)"
-                        @focus="onEditorFocus($event)"
-                        @ready="onEditorReady($event)"
-                      />
+                  </div>
+                    </form> -->
+                  <div class="flex justify-between">
+                    <p class="font-semibold text-lg">Order Details</p>
+                    
+                    <div class="flex justify-between font-semibold mb-2">
+                      <a href="#" class="text-cyan-500 font-semibold mr-6" >Remove Items</a>
+                      <a href="#" class="text-cyan-500 font-semibold">Add Custom Item</a>
                     </div>
                   </div>
-                  <div class="mt-20">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="brand"
-                    >
-                      Brand
-                    </label>
-                    <multiselect
-                      v-model="formFields.brand"
-                      placeholder="Pick a brand"
-                      label="name"
-                      trackBy="name"
-                      valueProp="id"
-                      :options="brands"
-                      searchable="true"
-                      class="text-xs text-black font-semibold"
-                    ></multiselect>
+                  <div class="flex justify-between">
+                    <div class="relative mt-4">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                          <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                            <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                          </button>
+                        </span>
+                        <div class="min-w-0 flex-1">
+                          <label for="search" class="sr-only">Search</label>
+                          <input id="text3" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-111"/>
+                        </div>
+                      </div>
+                    <button class="px-8 border border-gray-300 text-xs h-10 mt-4 rounded-md" @click="openModal=true">Browse Products</button>
                   </div>
-                </div>
-              </div>
-              <!-- <div class="bg-white mb-10 py-6">
-                <div class="px-8">
-                  <div
-                    class="bg-white flex justify-between cursor-pointer"
-                    @click="expandMediaForm"
-                  >
-                    <p class="text-black font-semibold text-lg mb-6">Media</p>
-                    <div class="flex">
-                      <media-url-modal :media="media"></media-url-modal
-                      ><span><angle-up-icon></angle-up-icon></span>
+                  <!-- <empty-product-modal/> -->
+                  <product-modal v-if="openModal"/>
+                  <div>
+                    <div class="grid grid-cols-1 md:grid-cols-5 bg-white gap-2 border-gray-200 pt-8">
+                                <div class="col-span-1 md:col-span-3 md:mb-10">
+                                    <h4 class="block text-black mb-2 bg-transparent" >
+                                        Notes
+                                    </h4>
+                                    <textarea class="border-solid border rounded-md border-gray-300 text-4 h-40 py-4 px-6 placeholder-gray-400 focus:outline-none md:mr-2 mb-2 w-74" placeholder="Add a note..." v-model="note" autocomplete="none"/>
+                                </div>
+                                <div class="col-span-1 md:col-span-2">
+                                    <div class="grid grid-cols-2 mt-5 md:mt-10">
+                                        <div class="col-span-1 mb-6">
+                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500">
+                                                Add Discount
+                                            </h4>
+                                            <h4 class="block text-black font-semibold mb-4 bg-transparent md:text-right">
+                                                Sub Total
+                                            </h4>
+                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500">
+                                                Add Shipping
+                                            </h4>
+                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500">
+                                                Taxes
+                                            </h4>
+                                            <h4 class="block text-black font-semibold mb-4 text-lg bg-transparent md:text-right">
+                                                Total
+                                            </h4>
+                                        </div>
+                                        <div class="col-span-1 mb-6">
+                                            <div class="border-b-2 border-black w-8 mt-3  ml-23"></div>
+                                            <h4 class="block text-black font-semibold mt-7 bg-transparent md:text-right">
+                                                $ 700
+                                            </h4>
+                                            <div class="border-b-2 border-black w-8 mt-6.5 mb-7 ml-23"></div>
+                                            <h4 class="block text-black font-semibold mb-4 bg-transparent md:text-right">
+                                                $900
+                                            </h4>
+                                            <h4 class="block text-black font-semibold text-lg mb-4 bg-transparent md:text-right">
+                                                $80
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
                     </div>
-                  </div>
-                  <div v-if="expandMedia">
-                    <vue-dropzone
-                      ref="mediaFiles"
-                      id="dropzone"
-                      :options="dropzoneOptions"
-                      @vdropzone-complete="afterComplete"
-                    ></vue-dropzone>
+                    <div class="-mr-6 -ml-8 border-b-2 border-gray-100"></div>
+                    <div class="grid grid-cols-6 bg-white gap-2 border-gray-200 pt-4">
+                                <div class="col-span-3 md:col-span-4 my-9">
+                                    <h4 class="block font-semibold mb-2" >
+                                        Email Invoice
+                                    </h4>
+                                </div>
+                                <div class="col-span-3 md:col-span-2 my-8">
+                                    <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs ml-18.5 rounded-md" @click="addAttr('email')">
+                                        Email invoice
+                                    </button>
+                                </div>
+                    </div>
+                    <div class="-mr-6 -ml-8 border-b-2 border-gray-100"></div>
+                    <!-- <div class="grid grid-cols-6 bg-white gap-2 border-gray-200">
+                                <div class="col-span-2 my-9">
+                                    <h4 class="block font-semibold mb-2" >
+                                        Accept Payment
+                                    </h4>
+                                </div>
+                                <div class="col-span-4 my-6">
+                                    <div class="">
+                                        <div class="col-span-2">
+                                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md" @click="addAttr('paid')">
+                                                Mark as Pending
+                                            </button>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md">
+                                                Pay with credit Card
+                                            </button>
+                                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md" @click="addAttr('paid')">
+                                                Mark as Paid
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div> -->
+                      <div class="flex flex-col mt-5">
+                        <div class="flex justify-between">
+                          <h2 class="font-semibold my-auto"> Accept Payment </h2>
+                          <div>
+                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md">Mark as Pending</button>
+                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md ml-6">Pay with Credit Card</button>
+                          </div>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                          <div></div>
+                          <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md mb-8">Mark as Paid</button>
+                        </div>
+                      </div>
                   </div>
                 </div>
-              </div> -->
-              <pricing-form :pricing="pricing"></pricing-form>
-              <inventory-form
-                :inventory="inventory"
-                :categories="categories"
-              ></inventory-form>
-              <shipping-form :shipping="shipping"></shipping-form>
-              <variants-form
-                :variants="variants"
-                :types="variant_types"
-                :valueContent="valueContent"
-                @added="addOption"
-                @add-variant-name="addVariantName"
-                @added-variant-value="addVariantValue"
-              ></variants-form>
-              <search-engine-form :search="search"></search-engine-form>
-              <div class="text-center bg-white pt-6 pb-6 mb-6">
-                <t-button
-                  class="
-                    text-white
-                    bg-purple-darker
-                    active:bg-purple-darker
-                    font-medium
-                    border border-transparent
-                    px-11
-                    py-3.5
-                    cursor-pointer
-                  "
-                  @click="submit"
-                  >Add Product</t-button
-                >
+                <div class="flex mt-6.5 justify-end mb-32">
+                  <button class="px-6 py-3 text-center border border-gray-400 cursor-pointer rounded-md">Cancel</button>
+                  <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer  rounded-md ml-4">Save as Draft</button>
+                </div>
               </div>
-            </form>
-          </div>
+            </div>
         </div>
       </div>
     </div>
@@ -193,6 +323,8 @@ import AppLayout from "../../Layouts/AppLayout.vue";
 import Search from "../Search.vue";
 import Nav from "../../Layouts/Nav";
 import axios from "axios";
+import EmptyProductModal from "../Orders/Components/EmptyProductModal.vue" 
+import ProductModal from "../Orders/Components/ProductModal.vue" 
 
 import {
   Dialog,
@@ -211,6 +343,7 @@ import hljs from "highlight.js";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
+import Button from '../../Jetstream/Button.vue';
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
 const statusStyles = {
@@ -241,7 +374,10 @@ export default {
     // PricingForm,
     UploadIcon,
     AngleUpIcon,
+    Button,
     // MediaUrlModal,
+    EmptyProductModal,
+    ProductModal,
   },
 
   data() {
@@ -279,6 +415,7 @@ export default {
         description: "",
         brand: "",
       },
+      openModal : true,
       pricing: {
         price: "",
         compare_at_price: "",
@@ -319,6 +456,12 @@ export default {
       media: {
         url: "",
       },
+      subTotal: 0,
+                taxes: 0,
+                total: 0,
+                email: false,
+                pending: false,
+                paid: false
     };
   },
   computed: {

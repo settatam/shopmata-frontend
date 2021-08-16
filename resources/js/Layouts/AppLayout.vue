@@ -211,7 +211,7 @@ const navigation = [
   },
   { name: 'Orders', href: '/orders', icon: ShoppingBagIcon, current: false,
       children: [
-            { name: 'Orders', href: '#' },
+            { name: 'Orders', href: '/orders' },
             { name: 'Gift Vouchers', href: '#' },
             { name: 'Vector Themes', href: '#' },
             

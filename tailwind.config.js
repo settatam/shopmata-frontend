@@ -33,6 +33,15 @@ module.exports = {
                     light: "#DE21FF",
                     darker: "#632A6D"
                 },
+                green:{
+                    light:"#ECFEEE",
+                    darker:"#00960F"
+                },
+                red:{
+                    light:"#C9000033",
+                    darker:"#FF0000"
+                },
+
             },
             opacity: {
                 "10": "0.1",
@@ -62,12 +71,18 @@ module.exports = {
                 "62/100": "62%",
                 "18": "4.5rem",
                 "84": "21rem",
-                "78": "19.5rem"
+                "74":"18.5rem",
+                "78": "19.5rem",
+                "111":"444px",
+                "175":"690px",
             },
             margin: {
                 "100": "28rem",
                 "17": "4.2rem",
-                "4.5": "1.125rem"
+                "4.5": "1.125rem",
+                "23":   "92px",
+                "6.5": "1.625rem",
+                "18.5": "4.625rem"
             },
             height: {
                 "84": "21rem",
