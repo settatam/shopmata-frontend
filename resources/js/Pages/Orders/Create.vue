@@ -207,9 +207,29 @@
                       </div>
                     <button class="px-8 border border-gray-300 text-xs h-10 mt-4 rounded-md" @click="openModal=true">Browse Products</button>
                   </div>
-                   <empty-product-modal v-if="openModal && products.length== 0" />
-                  <product-modal v-if="openModal && products.length > 0" :products="products" />
+                   <empty-product-modal v-if="openModal && products.length == 0"/>
+                  <product-modal v-if="openModal && products.length > 0" :products="products" :variantSelected="variantSelected" @emitClose="emitClose" />
+                  <discount-modal v-if="openDiscount"/>
+                  <shipping-modal v-if="openShipping" :selected="selected"/>
+                  <taxes-modal v-if="openTaxes"/>
+                  <new-customer-modal/>
                   <div>
+                     <div class="-mr-6 -ml-8 border-b-2 my-5 border-gray-100"></div>
+                    <div v-for="(variant,index) in variantSelected" :key="index" class="flex justify-between">
+                      <img :src="variant.image" alt="" class="w-10 h-10">
+                      <div class="mr-3">
+                        <p class="text-cyan-700">3.1 Dolce & Gabanna</p>
+                        <p>{{variant.color}}</p>
+                        <div>{{variant.sku}}</div>
+                      </div>
+                      <div class="flex my-auto">
+                        <p class="my-auto">${{variant.price}}</p>
+                        <XIcon class="w-4 h-4 mx-5 my-auto"/>
+                        <input type="text" class="w-9 h-9 mr-7 my-auto" v-model="qty">
+                        <p class="my-auto">${{variant.price * qty}}</p>
+                      </div>
+                      <XIcon class="w-3 h-3 my-auto"/>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-5 bg-white gap-2 border-gray-200 pt-8">
                                 <div class="col-span-1 md:col-span-3 md:mb-10">
                                     <h4 class="block text-black mb-2 bg-transparent" >
@@ -220,22 +240,23 @@
                                 <div class="col-span-1 md:col-span-2">
                                     <div class="grid grid-cols-2 mt-5 md:mt-10">
                                         <div class="col-span-1 mb-6">
-                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500">
+                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500 cursor-pointer" @click="openDiscount=true">
                                                 Add Discount
                                             </h4>
                                             <h4 class="block text-black font-semibold mb-4 bg-transparent md:text-right">
                                                 Sub Total
                                             </h4>
-                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500">
+                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500 cursor-pointer" @click="openShipping=true">
                                                 Add Shipping
                                             </h4>
-                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500">
+                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500" @click="openTaxes=true">
                                                 Taxes
                                             </h4>
                                             <h4 class="block text-black font-semibold mb-4 text-lg bg-transparent md:text-right">
                                                 Total
                                             </h4>
                                         </div>
+
                                         <div class="col-span-1 mb-6">
                                             <div class="border-b-2 border-black w-8 mt-3  ml-23"></div>
                                             <h4 class="block text-black font-semibold mt-7 bg-transparent md:text-right">
@@ -325,6 +346,10 @@ import Nav from "../../Layouts/Nav";
 import axios from "axios";
 import EmptyProductModal from "../Orders/Components/EmptyProductModal.vue" 
 import ProductModal from "../Orders/Components/ProductModal.vue" 
+import ShippingModal from "./Components/ShippingModal.vue" 
+import DiscountModal from "./Components/DiscountModal.vue" 
+import TaxesModal from "./Components/TaxesModal.vue" 
+import NewCustomerModal from "./Components/NewCustomerModal.vue" 
 
 import {
   Dialog,
@@ -332,7 +357,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-// import { ChevronLeftIcon } from "@heroicons/vue/solid";
+import { ChevronLeftIcon,XIcon } from "@heroicons/vue/solid";
 import hljs from "highlight.js";
 // import InventoryForm from "./Components/InventoryForm";
 // import ShippingForm from "./Components/ShippingForm";
@@ -353,7 +378,7 @@ const statusStyles = {
 };
 export default {
   props: {
-    products: Object,
+    //products: Object,
     filters: Object,
     brands: Array,
     categories: Array,
@@ -378,11 +403,20 @@ export default {
     // MediaUrlModal,
     EmptyProductModal,
     ProductModal,
+    ChevronLeftIcon,
+    XIcon,
+    DiscountModal,
+    ShippingModal,
+    TaxesModal
   },
 
   data() {
     return {
       valueContent: '',
+      openShipping: false,
+      selected:'',
+      openDiscount: false,
+      openTaxes:false,
       dropzoneOptions: {
         url: "/product-images",
         thumbnailWidth: 150,
@@ -410,11 +444,14 @@ export default {
           },
         },
       },
+      qty:"",
       formFields: {
         title: "",
         description: "",
         brand: "",
       },
+      note:'',
+      variantSelected:[],
       openModal : false,
       pricing: {
         price: "",
@@ -462,18 +499,24 @@ export default {
               image: "https://picsum.photos/200",
               description: "3.1 Dolce & Gabanna",
               variants:
-                {
-                0:{
-                  color:"blue",
-                  price: 100,
-                  quantity:20
-                },
-                1:{
-                  color:"green",
-                  price: 100,
-                  quantity:20
-                },
-              },
+                [
+                  {
+                    image: "https://picsum.photos/200",
+                    id:1,
+                    color:"Blue",
+                    price: 100,
+                    quantity:20,
+                    sku:910
+                  },
+                  {
+                    image: "https://picsum.photos/200",
+                    id:2,
+                    color:"Green",
+                    price: 100,
+                    quantity:20,
+                    sku:930
+                  },
+                ],
               
             },
             {
@@ -481,17 +524,24 @@ export default {
               image: "https://picsum.photos/200",
               description: "3.1 Dolce & Gabanna",
               variants:
-                {
-                  0:{
-                    color:"blue",
+                [
+                  {
+                    image: "https://picsum.photos/200",
+                    id:3,
+                    color:"Blue",
                     price: 100,
-                    quantity:20
-                },
-                  1:{
-                    color:"green",
+                    quantity:20,
+                    sku: 78,
+                  },
+                  {
+                    image: "https://picsum.photos/200",
+                    id:4,
+                    color:"Green",
                     price: 100,
-                    quantity:20
-              },},
+                    quantity:20, 
+                    sku:99,
+              },
+              ],
               
             },
             {
@@ -499,18 +549,24 @@ export default {
               image: "https://picsum.photos/200",
               description: "3.1 Dolce & Gabanna",
               variants:
-                {
-                  0:{
-                    color:"blue",
+                [
+                  {
+                    image: "https://picsum.photos/200",
+                    id:5,
+                    color:"Blue",
                     price: 100,
-                    quantity:20
+                    quantity:20,
+                    sku:22,
                   },
-                  1:{
-                    color:"green",
+                  {
+                    image: "https://picsum.photos/200",
+                    id:6,
+                    color:"Green",
                     price: 100,
-                    quantity:20
+                    quantity:20,
+                    sku:26,
                   },
-                },
+                ],
               
             },
             {
@@ -518,36 +574,47 @@ export default {
               image: "https://picsum.photos/200",
               description: "3.1 Dolce & Gabanna",
               variants:
-                {
-                  0:{
-                      color:"blue",
+                [{
+                      image: "https://picsum.photos/200",
+                      id:7,
+                      color:"Orange",
                       price: 100,
-                      quantity:20
+                      quantity:20,
+                      sku:33,
                   },
-                  1:{
-                    color:"green",
+                  {
+                    image: "https://picsum.photos/200",
+                    id:8,
+                    color:"Green",
                     price: 100,
-                    quantity:20
+                    quantity:20, 
+                    sku: 35
                   },
-                },   
+                ],   
             },
             {
               id : 5,
               image: "https://picsum.photos/200",
               description: "3.1 Dolce & Gabanna",
               variants:
-                {
-                  0:{
-                  color:"blue",
-                  price: 100,
-                  quantity:20
-                },
-                1:{
-                  color:"green",
-                  price: 100,
-                  quantity:20
-                },
-              },
+                [
+                  {
+                    image: "https://picsum.photos/200",
+                    id:9,
+                    color:"Blue",
+                    price: 100,
+                    quantity:20,
+                    sku:90
+                  },
+                  {
+                    image: "https://picsum.photos/200",
+                    id:10,
+                    color:"Pink",
+                    price: 100,
+                    quantity:20,
+                    sku:98
+                  },
+                ],
               
             },
             {
@@ -567,18 +634,23 @@ export default {
               image: "https://picsum.photos/200",
               description: "3.1 Dolce & Gabanna",
               variants:
-                {
-                  0:{
-                      color:"blue",
+                [{
+                    id:11,
+                      color:"Black",
                       price: 100,
-                      quantity:20
+                      quantity:20,
+                      sku:78,
+                      image: "https://picsum.photos/200",
                     },
-                  1:{
-                    color:"green",
+                  {
+                    image: "https://picsum.photos/200",
+                    id:12,
+                    color:"Baige",
                     price: 100,
-                    quantity:20
+                    quantity:20,
+                    sku:899,
                   },
-                },
+                ],
               
             },
       ],
@@ -760,6 +832,10 @@ export default {
 
             console.log(z)
         },
+    emitClose(){
+      //console.log("object")
+      this.openModal = false
+    }
   },
   setup() {
     const open = ref(false);

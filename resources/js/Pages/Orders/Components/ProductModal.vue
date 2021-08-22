@@ -13,7 +13,7 @@
             <div>
               <div class="mx-auto flex  justify-between">
                   <p class="text-xl">Select Products</p>
-                  <XIcon class="w-4 h-4 cursor-pointer" @click="open=false"/>
+                  <XIcon class="w-4 h-4 cursor-pointer" @click="emitClose()"/>
               </div>
               <div class="-mr-9 mt-4 -ml-9 border-b-2 border-gray-200"></div>
               <div class="flex justify-between">
@@ -37,14 +37,14 @@
               <div>
                 <div v-for="product in products" :key="product.id">
                   <div class="flex justify-between h-20">
-                    <div class="mr-5 my-auto">
-                      <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="select" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                    <div class="mr my-auto">
+                      <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                     </div>
-                    <div class="flex-shrink-0 h-10 w-10 mr-4 border-2 border-r my-auto">
+                    <div class="flex-shrink-0 h-10 w-10 border-2 border-r my-auto">
                        <img :src="product.image" alt="category_image">
                     </div>
-                    <div class="w-7/10 my-auto">
-                      <p class="text-gray-800 group-hover:text-gray-900 break-normal text-left">
+                    <div class="w-8/10 my-auto">
+                      <p class="text-gray-800 group-hover:text-gray-900 break-normal text-left text-xs">
                         {{product.description}}
                       </p>
                     </div>
@@ -53,28 +53,32 @@
                       <ChevronUpIcon class="-mr-1 ml-2 h-5 w-5 cursor-pointer" aria-hidden="true" @click="openVar=!openVar" v-else />
                     </div>
                   </div>
-                    <div class="flex justify-between" v-for="(variant,index) in product" :key="index">
-                      <div class="ml-9">
-                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="select" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                      </div>
-                      <div class="w-5/10">
-                        <p class="text-left">{{variant}}</p>
-                      </div>
-                      <div>
-                        <p>350 in stock</p>
+                  <div v-if="openVar && product.variants">
+                    <div class="flex justify-between items-center" v-for="(variant,i) in product.variants" :key="i">
+                         <!-- <label for="{{variant.color}}" class="sr-only">{{variant.color}}</label> -->
+                        <input type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded ml-9" @click="addVariant(variant)"/>
+                      
+                      <div class="w-6/10">
+                        <p class="text-left text-green-600 text-xs">{{variant.color}}</p>
                       </div>
                       <div>
-                        <p class="text-left">$5000</p>
+                        <p class="text-xs">{{variant.quantity}} in stock</p>
+                      </div>
+                      <div class="">
+                        <p class="text-left text-xs">${{variant.price}}</p>
                       </div>
                     </div>
-                   <div class="-mr-9 -ml-9 border-b-2 border-gray-200"></div>
+                  </div>
+                    
+                   <div class="-mr-9 mt-2 -ml-9 border-b-2 border-gray-200"></div>
                 </div>
               </div>
             </div>
-            <div class=" mt-10 sm:mt-72 flex justify-between">
-              <button type="button" class="inline-flex rounded-md border border-cyan-500 shadow-sm px-4 py-2 bg-transparent text-cyan-500 sm:text-sm" @click="open = false">
+            <div class=" mt-10 sm:mt-10 flex justify-between">
+              <button type="button" class="inline-flex rounded-md border border-cyan-500 shadow-sm px-4 py-2 bg-transparent text-cyan-500 sm:text-sm" @click="open = false" v-if="variantSelected.length==0">
                 No Variants Selected
               </button>
+              <p class="text-cyan-500" @click="open = false" v-else >{{variantSelected.length}} variant selected</p>
               <button type="button" class="inline-flex  rounded-md border bg-cyan-500 shadow-sm px-4 py-2  text-white sm:text-sm">
                 Add to Order
               </button>
@@ -94,7 +98,8 @@ import CatDropdown from './CatDropdown.vue'
 
 
 export default {
-  props:["products"],
+  props:["products","variantSelected"],
+  emits: ['emitClose'],
   data(){
     return{
       label:"All Products",
@@ -112,6 +117,29 @@ export default {
     CatDropdown,
     ChevronDownIcon,
     ChevronUpIcon
+  },
+  methods:{
+    emitClose(){
+      this.open = false
+      this.$emit('emitClose')
+    },
+    //Uncomplwted
+    addVariant(variant){
+      if (!this.variantSelected.includes(variant)){
+          this.variantSelected.push(variant)
+      }
+      else{
+          this.variantSelected
+      }
+      /* const ifProduct = this.variantSelected.filter (item => item.id == variant.id)
+      console.log(ifProduct)
+      ifProduct.length > 0 ? this.variantSelected = this.variantSelected.filter(item => {
+        console.log(item.id)
+        console.log(variant.id)
+        item.id != variant.id}) : this.variantSelected.push({...variant, quantityOrdered: 1}) */
+      //console.log(this.variantSelected)
+
+    },
   },
   setup() {
     const open = ref(true)

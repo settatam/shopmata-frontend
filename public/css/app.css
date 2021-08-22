@@ -1275,6 +1275,10 @@ select {
 	margin-left: 2.25rem;
 	margin-right: 2.25rem;
 }
+.-my-6 {
+	margin-top: -1.5rem;
+	margin-bottom: -1.5rem;
+}
 .ml-3 {
 	margin-left: 0.75rem;
 }
@@ -1581,6 +1585,15 @@ select {
 .h-10\.5 {
 	height: 2.625rem;
 }
+.h-3 {
+	height: 0.75rem;
+}
+.h-1\.5 {
+	height: 0.375rem;
+}
+.h-1 {
+	height: 0.25rem;
+}
 .max-h-screen {
 	max-height: 100vh;
 }
@@ -1715,6 +1728,21 @@ select {
 }
 .w-4\/10 {
 	width: 40%;
+}
+.w-6\/10 {
+	width: 60%;
+}
+.w-8\/10 {
+	width: 80%;
+}
+.w-9 {
+	width: 2.25rem;
+}
+.w-3 {
+	width: 0.75rem;
+}
+.w-1\.5 {
+	width: 0.375rem;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -1947,6 +1975,11 @@ select {
 	margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
 	margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
+.-space-y-px > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-y-reverse: 0;
+	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
+	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
+}
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
 	border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -2056,6 +2089,18 @@ select {
 	border-top-right-radius: 1.5rem;
 	border-bottom-right-radius: 1.5rem;
 }
+.rounded-tl-md {
+	border-top-left-radius: 0.375rem;
+}
+.rounded-tr-md {
+	border-top-right-radius: 0.375rem;
+}
+.rounded-bl-md {
+	border-bottom-left-radius: 0.375rem;
+}
+.rounded-br-md {
+	border-bottom-right-radius: 0.375rem;
+}
 .border {
 	border-width: 1px;
 }
@@ -2143,6 +2188,10 @@ select {
 .border-red-300 {
 	--tw-border-opacity: 1;
 	border-color: rgba(252, 165, 165, var(--tw-border-opacity));
+}
+.border-indigo-200 {
+	--tw-border-opacity: 1;
+	border-color: rgba(199, 210, 254, var(--tw-border-opacity));
 }
 .bg-white {
 	--tw-bg-opacity: 1;
@@ -2898,6 +2947,11 @@ select {
 	--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
 	box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
+.ring-2 {
+	--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+	--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+	box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
 .ring-gray-300 {
 	--tw-ring-opacity: 1;
 	--tw-ring-color: rgba(209, 213, 219, var(--tw-ring-opacity));
@@ -2906,8 +2960,15 @@ select {
 	--tw-ring-opacity: 1;
 	--tw-ring-color: rgba(0, 0, 0, var(--tw-ring-opacity));
 }
+.ring-indigo-500 {
+	--tw-ring-opacity: 1;
+	--tw-ring-color: rgba(99, 102, 241, var(--tw-ring-opacity));
+}
 .ring-opacity-5 {
 	--tw-ring-opacity: 0.05;
+}
+.ring-offset-2 {
+	--tw-ring-offset-width: 2px;
 }
 .filter {
 	filter: var(--tw-filter);
@@ -3320,6 +3381,18 @@ input[type='checkbox']:focus {
 		grid-column: span 3 / span 3;
 	}
 
+	.sm\:col-span-2 {
+		grid-column: span 2 / span 2;
+	}
+
+	.sm\:col-start-2 {
+		grid-column-start: 2;
+	}
+
+	.sm\:col-start-1 {
+		grid-column-start: 1;
+	}
+
 	.sm\:mx-0 {
 		margin-left: 0px;
 		margin-right: 0px;
@@ -3396,6 +3469,14 @@ input[type='checkbox']:focus {
 		margin-top: 18rem;
 	}
 
+	.sm\:mt-10 {
+		margin-top: 2.5rem;
+	}
+
+	.sm\:mt-6 {
+		margin-top: 1.5rem;
+	}
+
 	.sm\:block {
 		display: block;
 	}
@@ -3406,6 +3487,10 @@ input[type='checkbox']:focus {
 
 	.sm\:flex {
 		display: flex;
+	}
+
+	.sm\:grid {
+		display: grid;
 	}
 
 	.sm\:hidden {
@@ -3489,6 +3574,10 @@ input[type='checkbox']:focus {
 		transform: var(--tw-transform);
 	}
 
+	.sm\:grid-flow-row-dense {
+		grid-auto-flow: row dense;
+	}
+
 	.sm\:grid-cols-2 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -3537,9 +3626,18 @@ input[type='checkbox']:focus {
 		justify-content: space-between;
 	}
 
+	.sm\:gap-3 {
+		gap: 0.75rem;
+	}
+
 	.sm\:gap-x-6 {
 		-moz-column-gap: 1.5rem;
 		     column-gap: 1.5rem;
+	}
+
+	.sm\:gap-x-8 {
+		-moz-column-gap: 2rem;
+		     column-gap: 2rem;
 	}
 
 	.sm\:truncate {
@@ -3940,6 +4038,10 @@ input[type='checkbox']:focus {
 		grid-column: span 1 / span 1;
 	}
 
+	.lg\:col-span-2 {
+		grid-column: span 2 / span 2;
+	}
+
 	.lg\:col-start-1 {
 		grid-column-start: 1;
 	}
@@ -4208,6 +4310,10 @@ input[type='checkbox']:focus {
 
 	.xl\:overflow-y-auto {
 		overflow-y: auto;
+	}
+
+	.xl\:p-12 {
+		padding: 3rem;
 	}
 
 	.xl\:px-24 {
