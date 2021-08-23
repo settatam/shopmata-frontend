@@ -231,47 +231,46 @@
                       <XIcon class="w-3 h-3 my-auto"/>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-5 bg-white gap-2 border-gray-200 pt-8">
-                                <div class="col-span-1 md:col-span-3 md:mb-10">
-                                    <h4 class="block text-black mb-2 bg-transparent" >
-                                        Notes
+                      <div class="col-span-1 md:col-span-3 md:mb-10">
+                          <h4 class="block text-black mb-2 bg-transparent" >
+                              Notes
+                          </h4>
+                          <textarea class="border-solid border rounded-md border-gray-300 text-4 h-40 py-4 px-6 placeholder-gray-400 focus:outline-none md:mr-2 mb-2 w-74" placeholder="Add a note..." v-model="note" autocomplete="none"/>
+                      </div>
+                      <div class="col-span-1 md:col-span-2">
+                          <div class="grid grid-cols-2 mt-5 md:mt-10">
+                              <div class="col-span-1 mb-6">
+                                  <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500 cursor-pointer" @click="openDiscount=true">
+                                      Add Discount
+                                  </h4>
+                                  <h4 class="block text-black font-semibold mb-4 bg-transparent md:text-right">
+                                      Sub Total
+                                  </h4>
+                                  <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500 cursor-pointer" @click="openShipping=true">
+                                      Add Shipping
+                                  </h4>
+                                  <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500 cursor-pointer" @click="openTaxes=true">
+                                      Taxes
+                                  </h4>
+                                  <h4 class="block text-black font-semibold mb-4 text-lg bg-transparent md:text-right">
+                                      Total
+                                  </h4>
+                              </div>
+                                <div class="col-span-1 mb-6">
+                                    <div class="border-b-2 border-black w-8 mt-3  ml-23"></div>
+                                    <h4 class="block text-black font-semibold mt-7 bg-transparent md:text-right">
+                                        $ 700
                                     </h4>
-                                    <textarea class="border-solid border rounded-md border-gray-300 text-4 h-40 py-4 px-6 placeholder-gray-400 focus:outline-none md:mr-2 mb-2 w-74" placeholder="Add a note..." v-model="note" autocomplete="none"/>
+                                    <div class="border-b-2 border-black w-8 mt-6.5 mb-7 ml-23"></div>
+                                    <h4 class="block text-black font-semibold mb-4 bg-transparent md:text-right">
+                                        $900
+                                    </h4>
+                                    <h4 class="block text-black font-semibold text-lg mb-4 bg-transparent md:text-right">
+                                        $80
+                                    </h4>
                                 </div>
-                                <div class="col-span-1 md:col-span-2">
-                                    <div class="grid grid-cols-2 mt-5 md:mt-10">
-                                        <div class="col-span-1 mb-6">
-                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500 cursor-pointer" @click="openDiscount=true">
-                                                Add Discount
-                                            </h4>
-                                            <h4 class="block text-black font-semibold mb-4 bg-transparent md:text-right">
-                                                Sub Total
-                                            </h4>
-                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500 cursor-pointer" @click="openShipping=true">
-                                                Add Shipping
-                                            </h4>
-                                            <h4 class="block font-semibold mb-4 bg-transparent md:text-right text-cyan-500" @click="openTaxes=true">
-                                                Taxes
-                                            </h4>
-                                            <h4 class="block text-black font-semibold mb-4 text-lg bg-transparent md:text-right">
-                                                Total
-                                            </h4>
-                                        </div>
-
-                                        <div class="col-span-1 mb-6">
-                                            <div class="border-b-2 border-black w-8 mt-3  ml-23"></div>
-                                            <h4 class="block text-black font-semibold mt-7 bg-transparent md:text-right">
-                                                $ 700
-                                            </h4>
-                                            <div class="border-b-2 border-black w-8 mt-6.5 mb-7 ml-23"></div>
-                                            <h4 class="block text-black font-semibold mb-4 bg-transparent md:text-right">
-                                                $900
-                                            </h4>
-                                            <h4 class="block text-black font-semibold text-lg mb-4 bg-transparent md:text-right">
-                                                $80
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
+                      </div>
                     </div>
                     <div class="-mr-6 -ml-8 border-b-2 border-gray-100"></div>
                     <div class="grid grid-cols-6 bg-white gap-2 border-gray-200 pt-4">
@@ -835,6 +834,7 @@ export default {
     emitClose(){
       //console.log("object")
       this.openModal = false
+      this.openDiscount=false
     }
   },
   setup() {

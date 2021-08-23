@@ -13,29 +13,29 @@
            <div>
                 <div class="flex justify-between">
                     <h2>Add Discount</h2>
-                    <XIcon class="w-5 h-5"/>
+                    <XIcon class="w-5 h-5 cursor-pointer" @click="emitClose()"/>
                 </div>
               <div class=" mt-3 -mx-6"></div>
               <div>
                 <p class="text-xs">Discount this order by</p>
-                <div>
-                  <button>$</button>
-                  <button>%</button>
-                  <input type="text" name="">
-                  <input type="text" name="">
+                <div class="flex justify-between mt-2">
+                  <button class="h-10 w-14 border border-gray-300 rounded" @click="openCash">$</button>
+                  <button class="h-10 w-14 border border-gray-300 rounded" @click="openPercent">%</button>
+                  <input type="text" name="" placeholder="$" class="border border-gray-300 rounded w-7/10" v-if="inputCash">
+                  <input type="text" name="" placeholder="%" class="border border-gray-300 rounded w-7/10" v-else>
                 </div>
               </div>
-              <div>
+              <div class="mt-6">
                 <p>Reason</p>
-                <input type="text" name="" placeholder="damged goods, black friday......">
+                <input type="text" name="" class="w-full border border-gray-300 rounded text-xs mt-2" placeholder="damged goods, black friday......">
               </div>
             </div>
               <div class=" mt-3 -mx-6"></div>
-            <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-              <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm" @click="open = false">
+            <div class="mt-5 flex justify-between">
+              <button type="button" class="mt-3 w-20 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm" @click="emitClose()" ref="cancelButtonRef">
                 Close
               </button>
-              <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm" @click="open = false" ref="cancelButtonRef">
+              <button type="button" class="inline-flex w-20 justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm" @click="open = false">
                 Apply
               </button>
             </div>
@@ -52,6 +52,7 @@ import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } f
 import { XIcon } from '@heroicons/vue/outline'
 
 export default {
+  emits: ['emitClose'],
   components: {
     Dialog,
     DialogOverlay,
@@ -59,6 +60,23 @@ export default {
     TransitionChild,
     TransitionRoot,
     XIcon,
+  },
+  data(){
+    return{
+      inputCash:true,
+    }
+  },
+  methods:{
+    emitClose(){
+      this.open = false
+      this.$emit('emitClose')
+    },
+    openCash(){
+      this.inputCash=true
+    },
+    openPercent(){
+      this.inputCash=false
+    }
   },
   setup() {
     const open = ref(true)

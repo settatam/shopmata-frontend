@@ -1744,6 +1744,15 @@ select {
 .w-1\.5 {
 	width: 0.375rem;
 }
+.w-2\.5\/10 {
+	width: 25%;
+}
+.w-6\.5\/10 {
+	width: 65%;
+}
+.w-24 {
+	width: 6rem;
+}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -2596,6 +2605,12 @@ select {
 }
 .pb-2 {
 	padding-bottom: 0.5rem;
+}
+.pr-8 {
+	padding-right: 2rem;
+}
+.pl-20 {
+	padding-left: 5rem;
 }
 .text-left {
 	text-align: left;

@@ -12,17 +12,25 @@
           <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
            <div>
                 <div class="flex justify-between">
-                    <h2>Add Taxex</h2>
+                    <h2 class="text-xl">Tags</h2>
                     <XIcon class="w-5 h-5"/>
                 </div>
               <div class=" mt-3 -mx-6"></div>
-              <div>
-                <p class="text-xs">Taxes are automatically calculated</p>
+              <div class="flex justify-between">
+                <p class="text-xs">All Tags</p>
                 <div>
-                  <input aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                  <label for="">Charge Taxes</label>
+                  <select v-model="selected" class="border-gray-300 rounded">
+                    <option disabled value="">Sort Alphabetically</option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                  </select>
                 </div>
               </div>
+              <div><p class="text-gray-400">Select previously used tags from the list below to add them to this order.</p></div>
+            </div>
+            <div class="tags">
+
             </div>
               <div class=" mt-3 -mx-6"></div>
             <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
@@ -30,7 +38,7 @@
                 Close
               </button>
               <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm" @click="open = false" ref="cancelButtonRef">
-                Apply
+                Apply Changes
               </button>
             </div>
           </div>
