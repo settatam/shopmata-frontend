@@ -26,30 +26,6 @@
           </div>
           
           <div class="pl-5 flex w-full">
-            <div class="flex flex-col mr-5">
-              <div class=" bg-white pl-5 pr-7 pb-10 pt-6 mb-5 ">
-                  <h2 class="font-semibold text-lg">Find or create a customer</h2>
-                  <div class="relative mt-4">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-                      <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-                        <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                      </button>
-                    </span>
-                    <div class="min-w-0 flex-1">
-                      <label for="search" class="sr-only">Search</label>
-                      <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
-                    </div>
-                  </div>
-              </div>
-              <div class="bg-white pl-5 pr-7 pb-9 pt-6">
-                <div class="flex justify-between mb-6">
-                  <h2 class="font-semibold text-lg">Tags</h2>
-                  <h2 class="text-cyan-700 font-semibold">View all tags</h2>
-                </div>
-                <label for="search" class="sr-only">Search</label>
-                <input id="text" type="text" placeholder="Urgent, reviewed, wholesale" class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
-              </div>
-            </div>
               <div class="flex flex-col">
                 <div class=" bg-white pl-8 pr-6 pt-9 w-175">
                     <!-- <form @submit.prevent="submit">
@@ -330,6 +306,30 @@
                   <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer  rounded-md ml-4">Save as Draft</button>
                 </div>
               </div>
+              <div class="flex flex-col ml-5">
+              <div class=" bg-white pl-5 pr-7 pb-10 pt-6 mb-5 ">
+                  <h2 class="font-semibold text-lg">Find or create a customer</h2>
+                  <div class="relative mt-4">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                      <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                        <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                      </button>
+                    </span>
+                    <div class="min-w-0 flex-1">
+                      <label for="search" class="sr-only">Search</label>
+                      <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
+                    </div>
+                  </div>
+              </div>
+              <div class="bg-white pl-5 pr-7 pb-9 pt-6">
+                <div class="flex justify-between mb-6">
+                  <h2 class="font-semibold text-lg">Tags</h2>
+                  <h2 class="text-cyan-700 font-semibold">View all tags</h2>
+                </div>
+                <label for="search" class="sr-only">Search</label>
+                <input id="text" type="text" placeholder="Urgent, reviewed, wholesale" class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
+              </div>
+            </div>
             </div>
         </div>
       </div>

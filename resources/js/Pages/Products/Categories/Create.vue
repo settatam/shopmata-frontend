@@ -29,24 +29,8 @@
           </div>
         </div>
         <div class="flex flex-col lg:grid lg:grid-cols-5 lg:gap-x-5 mx-5">
-        <!-- Sidebar -->
-            <div class="lg:col-start-1 lg:col-span-1">
-                <div class="bg-white px-5 pt-4 pb-3">
-                    <p class="font-semibold">Collection image</p>
-                     <drop-zone class="mt-3"></drop-zone>
-                </div>
-                <div class="bg-white px-5 py-4  my-4">
-                    <p class="font-semibold mt-2">Collection image</p>
-                    <p class="text-xs mt-1">Theme template</p>
-                    <cat-drop-down
-                        :label="theme_template"
-                        :options="template_opt"
-                    />
-                    <p class="text-xxs text-gray-500 mt-2">Assign a template from your current theme to define how the collection is displayed.</p>
-                </div>
-            </div>
         <!-- Main -->
-            <div class="col-start-2 col-span-3">
+            <div class="col-start-1 col-span-3">
                 <div class="bg-white flex flex-col p-8">
                     <p class="font-semibold">Categories Detail</p>
                     <div class="mt-4">
@@ -62,8 +46,18 @@
                     <div class="mt-9">
                         <p class="font-semibold text-lg mb-4">Condition</p>
                         <div class="flex flex-col lg:flex-row lg:justify-between">
-                            <div class="flex flex-col w-40">
+                            <div class="flex flex-col w-3/10">
                                 <label for="tag" class="text-gray-700 lg:mb-4">Products must match:</label>  
+                            </div>
+                            <div class="flex flex-col w-3/10">
+                                <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0">all conditions</label>  
+                            </div>
+                            <div class="flex flex-col w-3.5/10">
+                                <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0" >any condition</label>  
+                            </div>
+                        </div>
+                        <div class="flex flex-col lg:flex-row lg:justify-between">
+                            <div class="flex flex-col w-3/10">
                                 <cat-drop-down
                                     :label="product_tag"
                                     :options="template_opt"
@@ -71,8 +65,7 @@
                                     class="h-5"
                                 />
                             </div>
-                            <div class="flex flex-col w-36">
-                                <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0">all conditions</label>  
+                            <div class="flex flex-col w-3/10">  
                                 <cat-drop-down
                                     :label="condition"
                                     :options="condition_opt"
@@ -80,12 +73,16 @@
                                     class="h-5"
                                 />
                             </div>
-                            <div class="flex flex-col w-36">
-                                <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0" >any condition</label>  
+                            <div class="flex flex-col w-3.5/10">
                                 <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-model="category.condition">
                             </div>
                         </div>
-                            <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4">Add another condition</button>
+                        <component
+                            v-for="(component, index) in components"
+                            :key="index"
+                            :is="component"
+                        />
+                        <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4" @click="add">Add another condition</button>
                     </div>
                     
                 </div>
@@ -128,6 +125,22 @@
                     </div>
                 </div>
             </div>
+        <!-- Sidebar -->
+            <div class="lg:col-start-4 lg:col-span-1">
+                <div class="bg-white px-5 pt-4 pb-3">
+                    <p class="font-semibold">Collection image</p>
+                     <drop-zone class="mt-3"></drop-zone>
+                </div>
+                <div class="bg-white px-5 py-4  my-4">
+                    <p class="font-semibold mt-2">Collection image</p>
+                    <p class="text-xs mt-1">Theme template</p>
+                    <cat-drop-down
+                        :label="theme_template"
+                        :options="template_opt"
+                    />
+                    <p class="text-xxs text-gray-500 mt-2">Assign a template from your current theme to define how the collection is displayed.</p>
+                </div>
+            </div>
         </div>
     </app-layout>
 </template>
@@ -136,12 +149,18 @@
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import DropZone from './Components/Dropzone.vue'
 import CatDropDown from './Components/CatDropdown.vue'
+import Condition from './Components/Condition.vue'
 import {ChevronUpIcon,ChevronDownIcon,ExclamationCircleIcon,SelectorIcon} from '@heroicons/vue/solid'
+
+const Comp = {
+ template: '<Condition/>'
+}
 
 export default {
         data:function(){
             return{
                 theme_template: "Default Collection",
+                components: [Comp],
                 template_opt: {
                     product_title:{
                         title:"Product Title",
@@ -204,7 +223,8 @@ export default {
           ChevronUpIcon,
           ChevronDownIcon,
           ExclamationCircleIcon,
-          SelectorIcon
+          SelectorIcon,
+          Condition
         },
         computed: {
             formData() {
@@ -223,6 +243,9 @@ export default {
             updateCondition(val){
                 this.category.equal = val
                 console.log(this.category.equal)
+            },
+            add () {
+    	        this.components.push(Comp)
             }
         }
 }
