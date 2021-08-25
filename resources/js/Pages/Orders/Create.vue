@@ -183,12 +183,17 @@
                       </div>
                     <button class="px-8 border border-gray-300 text-xs h-10 mt-4 rounded-md" @click="openModal=true">Browse Products</button>
                   </div>
-                   <empty-product-modal v-if="openModal && products.length == 0"/>
+                  <empty-product-modal v-if="openModal && products.length == 0"/>
                   <product-modal v-if="openModal && products.length > 0" :products="products" :variantSelected="variantSelected" @emitClose="emitClose" />
                   <discount-modal v-if="openDiscount"/>
                   <shipping-modal v-if="openShipping" :selected="selected"/>
                   <taxes-modal v-if="openTaxes"/>
-                  <new-customer-modal/>
+                  <new-customer-modal v-if="openCustomer"/>
+                  <billing-modal v-if="openBilling"/>
+                  <address-modal v-if="openAddress"/>
+                  <tag-modal v-if="openTag"/>
+                  <mark-as-paid-modal v-if="openMarkAsPaid"/>
+                  <reserve-items-modal v-if="openReserve"/>
                   <div>
                      <div class="-mr-6 -ml-8 border-b-2 my-5 border-gray-100"></div>
                     <div v-for="(variant,index) in variantSelected" :key="index" class="flex justify-between">
@@ -319,6 +324,11 @@
                       <label for="search" class="sr-only">Search</label>
                       <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
                     </div>
+
+                  </div>
+                  <div class="flex mx-auto justify-center mt-5 cursor-pointer" @click="openCustomer=true">
+                    <PlusIcon class="h-4 w-4 my-auto mr-3"/>
+                    <p class="text-gray-400">Create a new customer</p>
                   </div>
               </div>
               <div class="bg-white pl-5 pr-7 pb-9 pt-6">
@@ -349,6 +359,12 @@ import ShippingModal from "./Components/ShippingModal.vue"
 import DiscountModal from "./Components/DiscountModal.vue" 
 import TaxesModal from "./Components/TaxesModal.vue" 
 import NewCustomerModal from "./Components/NewCustomerModal.vue" 
+import BillingModal from "./Components/BillingModal.vue" 
+import AddressModal from "./Components/AddressModal.vue" 
+import TagModal from "./Components/TagModal.vue" 
+import MarkAsPaidModal from "./Components/MarkAsPaidModal.vue" 
+import ReserveItemsModal from "./Components/ReserveItemsModal.vue" 
+
 
 import {
   Dialog,
@@ -356,7 +372,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ChevronLeftIcon,XIcon } from "@heroicons/vue/solid";
+import { ChevronLeftIcon,XIcon,PlusIcon } from "@heroicons/vue/solid";
 import hljs from "highlight.js";
 // import InventoryForm from "./Components/InventoryForm";
 // import ShippingForm from "./Components/ShippingForm";
@@ -404,9 +420,16 @@ export default {
     ProductModal,
     ChevronLeftIcon,
     XIcon,
+    PlusIcon,
     DiscountModal,
     ShippingModal,
-    TaxesModal
+    TaxesModal,
+    NewCustomerModal,
+    BillingModal,
+    AddressModal,
+    TagModal,
+    MarkAsPaidModal,
+    ReserveItemsModal
   },
 
   data() {
@@ -416,6 +439,12 @@ export default {
       selected:'',
       openDiscount: false,
       openTaxes:false,
+      openCustomer: false,
+      openBilling:false,
+      openAddress:true,
+      openTag:false,
+      openMarkAsPaid:false,
+      openReserve:false,
       dropzoneOptions: {
         url: "/product-images",
         thumbnailWidth: 150,

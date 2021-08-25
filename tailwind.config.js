@@ -95,7 +95,10 @@ module.exports = {
             },
             inset:{
                 "42":"10.625rem"
-            }
+            },
+            maxWidth: {
+                'xlg': '40rem',
+            },
         },
     },
 
