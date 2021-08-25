@@ -441,7 +441,7 @@ export default {
       openTaxes:false,
       openCustomer: false,
       openBilling:false,
-      openAddress:true,
+      openAddress:false,
       openTag:false,
       openMarkAsPaid:false,
       openReserve:false,
