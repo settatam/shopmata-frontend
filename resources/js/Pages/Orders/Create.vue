@@ -165,7 +165,7 @@
                     <p class="font-semibold text-lg">Order Details</p>
                     
                     <div class="flex justify-between font-semibold mb-2">
-                      <a href="#" class="text-cyan-500 font-semibold mr-6" >Remove Items</a>
+                      <a href="#" class="text-cyan-500 font-semibold mr-6" @click="openReserve=true" >Reserve Items</a>
                       <a href="#" class="text-cyan-500 font-semibold">Add Custom Item</a>
                     </div>
                   </div>
@@ -185,15 +185,15 @@
                   </div>
                   <empty-product-modal v-if="openModal && products.length == 0"/>
                   <product-modal v-if="openModal && products.length > 0" :products="products" :variantSelected="variantSelected" @emitClose="emitClose" />
-                  <discount-modal v-if="openDiscount"/>
-                  <shipping-modal v-if="openShipping" :selected="selected"/>
-                  <taxes-modal v-if="openTaxes"/>
-                  <new-customer-modal v-if="openCustomer"/>
-                  <billing-modal v-if="openBilling"/>
-                  <address-modal v-if="openAddress"/>
-                  <tag-modal v-if="openTag"/>
-                  <mark-as-paid-modal v-if="openMarkAsPaid"/>
-                  <reserve-items-modal v-if="openReserve"/>
+                  <discount-modal v-if="openDiscount" @emitClose="emitClose"/>
+                  <shipping-modal v-if="openShipping" :selected="selected" @emitClose="emitClose"/>
+                  <taxes-modal v-if="openTaxes" @emitClose="emitClose"/>
+                  <new-customer-modal v-if="openCustomer" @emitClose="emitClose"/>
+                  <billing-modal v-if="openBilling" @emitClose="emitClose"/>
+                  <address-modal v-if="openAddress" @emitClose="emitClose"/>
+                  <tag-modal v-if="openTag" @emitClose="emitClose"/>
+                  <mark-as-paid-modal v-if="openMarkAsPaid" @emitClose="emitClose"/>
+                  <reserve-items-modal v-if="openReserve" @emitClose="emitClose"/>
                   <div>
                      <div class="-mr-6 -ml-8 border-b-2 my-5 border-gray-100"></div>
                     <div v-for="(variant,index) in variantSelected" :key="index" class="flex justify-between">
@@ -301,14 +301,15 @@
                         </div>
                         <div class="flex justify-between mt-2">
                           <div></div>
-                          <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md mb-8">Mark as Paid</button>
+                          <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md mb-8" @click="this.openMarkAsPaid = true" >Mark as Paid</button>
                         </div>
                       </div>
                   </div>
                 </div>
                 <div class="flex mt-6.5 justify-end mb-32">
-                  <button class="px-6 py-3 text-center border border-gray-400 cursor-pointer rounded-md">Cancel</button>
-                  <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer  rounded-md ml-4">Save as Draft</button>
+                   <inertia-link href="/orders">
+                  <button class="px-6 py-3 text-center border border-gray-400 cursor-pointer rounded-md">Cancel</button> </inertia-link>
+                  <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer bg-indigo-600 text-white  rounded-md ml-4">Save as Draft</button>
                 </div>
               </div>
               <div class="flex flex-col ml-5">
@@ -860,10 +861,18 @@ export default {
 
             console.log(z)
         },
-    emitClose(){
+    emitClose() {
       //console.log("object")
       this.openModal = false
-      this.openDiscount=false
+      this.openShipping= false
+      this.openDiscount = false
+      this.openTaxes = false
+      this.openCustomer = false
+      this.openBilling = false
+      this.openAddress = false
+      this.openTag = false
+      this.openMarkAsPaid = false
+      this.openReserve = false
     }
   },
   setup() {

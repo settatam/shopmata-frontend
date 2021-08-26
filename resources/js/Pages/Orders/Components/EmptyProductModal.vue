@@ -13,7 +13,7 @@
             <div>
               <div class="mx-auto flex  justify-between">
                   <p class="text-xl">Select Products</p>
-                  <XIcon class="w-4 h-4 cursor-pointer" @click="open=false"/>
+                  <XIcon class="w-4 h-4 cursor-pointer" @click="emitClose()"/>
               </div>
               <div class="-mr-9 mt-4 -ml-9 border-b-2 border-gray-200"></div>
               <div class="mt-7">
@@ -26,7 +26,7 @@
               </div>
             </div>
             <div class=" mt-64 sm:mt-72">
-              <button type="button" class="inline-flex justify-center rounded-md border border-cyan-500 shadow-sm px-4 py-2 bg-transparent text-cyan-500 sm:text-sm" @click="open = false">
+              <button type="button" class="inline-flex justify-center rounded-md border border-cyan-500 shadow-sm px-4 py-2 bg-transparent text-cyan-500 sm:text-sm" @click="emitClose()">
                 Add to Order
               </button>
             </div>
@@ -43,6 +43,7 @@ import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } f
 import { CheckIcon,XIcon } from '@heroicons/vue/outline'
 
 export default {
+  emits: ['emitClose'],
   components: {
     Dialog,
     DialogOverlay,
@@ -51,6 +52,12 @@ export default {
     TransitionRoot,
     CheckIcon,
     XIcon
+  },
+  methods:{
+    emitClose(){
+      this.open = false
+      this.$emit('emitClose')
+    }
   },
   setup() {
     const open = ref(true)
