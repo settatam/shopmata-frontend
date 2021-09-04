@@ -44,7 +44,8 @@
                         <textarea class="shadow-sm block w-full sm:text-sm border border-gray-300 rounded-md h-40" rows="5" v-model="category.description"/>
                     </div>
                     <div class="mt-9">
-                        <p class="font-semibold text-lg mb-4">Condition</p>
+                        
+                            <p class="font-semibold text-lg mb-4">Condition</p>
                         <div class="flex flex-col lg:flex-row lg:justify-between">
                             <div class="flex flex-col w-3/10">
                                 <label for="tag" class="text-gray-700 lg:mb-4">Products must match:</label>  
@@ -56,6 +57,7 @@
                                 <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0" >any condition</label>  
                             </div>
                         </div>
+                        <template v-for="(condition, index) in conditions" :key="index" >
                         <div class="flex flex-col lg:flex-row lg:justify-between">
                             <div class="flex flex-col w-3/10">
                                 <cat-drop-down
@@ -67,21 +69,18 @@
                             </div>
                             <div class="flex flex-col w-3/10">  
                                 <cat-drop-down
-                                    :label="condition"
+                                    :label="condition_label"
                                     :options="condition_opt"
                                     @updateVal ="updateCondition($event)"
                                     class="h-5"
                                 />
                             </div>
-                            <div class="flex flex-col w-3.5/10">
+                            <div class="flex flex-col w-3.5/10 mb-2">
                                 <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-model="category.condition">
                             </div>
                         </div>
-                        <component
-                            v-for="(component, index) in components"
-                            :key="index"
-                            :is="component"
-                        />
+                        </template>
+                        
                         <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4" @click="add">Add another condition</button>
                     </div>
                     
@@ -160,7 +159,13 @@ export default {
         data:function(){
             return{
                 theme_template: "Default Collection",
-                components: [Comp],
+                conditions:[
+                    {
+                        tag:"",
+                        condition:"",
+                        equal:""
+                    }
+                ],
                 template_opt: {
                     product_title:{
                         title:"Product Title",
@@ -198,7 +203,7 @@ export default {
                     }
                 },
                 product_tag: "Product tag",
-                condition: "is equal to",
+                condition_label: "is equal to",
                 toggle : true,
                 page:{
                     description:"",
@@ -209,9 +214,6 @@ export default {
                     sort:"",
                     name:"",
                     description:"",
-                    tag:"",
-                    condition:"",
-                    equal:""
                 }
 
             }
@@ -237,15 +239,19 @@ export default {
             },
             updateTemp(val){
                 console.log(val)
-                this.category.tag = val
-                console.log(this.category.tag)
+                this.conditions.tag = val
+                console.log(this.conditions.tag)
             },
             updateCondition(val){
-                this.category.equal = val
-                console.log(this.category.equal)
+                this.conditions.equal = val
+                console.log(this.conditions.equal)
             },
             add () {
-    	        this.components.push(Comp)
+    	        this.conditions.push({
+                    tag:"",
+                    condition:"",
+                    equal:""
+                })
             }
         }
 }

@@ -1,12 +1,12 @@
 <template>
-  <div class="w-full my-10 xl:px-28 px-6">
+  <div class="w-full my-10 px-9">
     <div class="mb-10">
       <p class="text-black font-semibold text-lg">Address</p>
       <p class="text-gray-300">Please try to be as accurate as possible</p>
     </div>
     <div class="">
       <div class="flex flex-wrap mb-10">
-        <!-- <div class="form-group required w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+        <div class="form-group required w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
           <label
             class="block text-black font-semibold mb-2 bg-transparent"
             for="first_name"
@@ -31,8 +31,8 @@
             v-model="address.first_name"
             required
           />
-        </div> -->
-        <!-- <div class="form-group required w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
+        </div>
+        <div class="form-group required w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
           <label
             class="block text-black font-semibold mb-2 bg-transparent"
             for="last_name"
@@ -56,7 +56,7 @@
             placeholder="Last Name"
             v-model="address.last_name"
           />
-        </div> -->
+        </div> 
       </div>
       <div class="flex flex-wrap mb-10">
         <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
@@ -188,7 +188,7 @@
         </div>
       </div>
       <div class="flex flex-wrap mb-10">
-        <div class="form-group required w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+        <div class="form-group required w-full mb-6 md: md:mb-0">
           <label
             class="block text-black font-semibold mb-2 bg-transparent"
             for="country"
@@ -204,7 +204,7 @@
             :options="countries"
             valueProp="id"
             :searchable="true"
-            class="text-xs text-black font-semibold"
+            class="text-xs text-black font-semibold w-full"
           ></multiselect>
         </div>
       </div>

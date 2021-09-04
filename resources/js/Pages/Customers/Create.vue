@@ -26,6 +26,10 @@
               aria-hidden="true"
             />
             <span>Add a new Customer</span>
+            <span>
+              <button class="px-6 py-3 text-center border border-gray-400 cursor-pointer rounded-md">Cancel</button>
+              <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer bg-indigo-600 text-white  rounded-md ml-4">Save as Draft</button>
+            </span>
           </inertia-link>
         </div>
       </nav>
@@ -39,7 +43,7 @@
             <h1 class="text-2xl font-extrabold text-blue-gray-900">
               Add New Customer
             </h1>
-            <div class="bg-white mb-10 pt-7 mt-4">
+            <div class="bg-white pb-10 pt-1 mt-4">
               <personal-info-form :info="info"></personal-info-form>
               <div class="border-b border-gray-200"></div>
               <address-form
@@ -47,7 +51,7 @@
                 :countries="countries"
                 @added="addTag"
               ></address-form>
-              <div class="text-center bg-white pt-6 pb-6 mb-6">
+              <!-- <div class="text-center bg-white pt-6 pb-6 mb-6">
                 <t-button
                   class="
                     text-white
@@ -62,11 +66,11 @@
                   @click="submit"
                   >Add Customer</t-button
                 >
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
-        <Nav page="General"></Nav>
+        <!-- <Nav page="General"></Nav> -->
       </div>
     </div>
   </app-layout>

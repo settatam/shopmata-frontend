@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full xl:px-28 px-6">
+  <div class="w-full px-9">
     <div class="my-12">
       <p class="text-black font-semibold text-lg">Personal Information</p>
       <p class="text-gray-300">This information will be used to contact you</p>
