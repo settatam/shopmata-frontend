@@ -35,17 +35,18 @@
               </div>
               <div class="-mr-9 mt-4 -ml-9 border-b-2 border-gray-200"></div>
               <div>
-                <div v-for="product in products" :key="product.id">
+                <div v-for="product in production" :key="product.id">
                   <div class="flex justify-between h-20">
                     <div class="mr my-auto">
                       <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                     </div>
                     <div class="flex-shrink-0 h-10 w-10 border-2 border-r my-auto">
-                       <img :src="product.image" alt="category_image">
+                       <!-- <img :src="product.image" alt="category_image"> -->
+                        <img :src="product.images[0].image_url || '' " class="w-10 h-10 bg-gray-300 "/>
                     </div>
                     <div class="w-8/10 my-auto">
                       <p class="text-gray-800 group-hover:text-gray-900 break-normal text-left text-xs">
-                        {{product.description}}
+                        {{product.title}}
                       </p>
                     </div>
                     <div class="my-auto">
@@ -79,7 +80,7 @@
                 No Variants Selected
               </button>
               <p class="text-cyan-500" @click="open = false" v-else >{{variantSelected.length}} variant selected</p>
-              <button type="button" class="inline-flex  rounded-md border bg-cyan-500 shadow-sm px-4 py-2  text-white sm:text-sm">
+              <button type="button" class="inline-flex  rounded-md border bg-cyan-500 shadow-sm px-4 py-2  text-white sm:text-sm" @click="addOrder">
                 Add to Order
               </button>
             </div>
@@ -98,12 +99,13 @@ import CatDropdown from './CatDropdown.vue'
 
 
 export default {
-  props:["products","variantSelected"],
+  props:["variantSelected","production"],
   emits: ['emitClose'],
   data(){
     return{
       label:"All Products",
       openVar: false,
+      selectedProduct:[]
     }
   },
   components: {

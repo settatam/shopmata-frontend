@@ -452,7 +452,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 select,
 .date-filter {
   -moz-appearance: none; /* Firefox */
@@ -464,6 +464,10 @@ select,
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   background: none;
+}
+.v3dp__datepicker {
+  --elem-hover-bg-color: var(--vdp-hover-bg-color, #4f46e5);
+  --elem-selected-bg-color: var(--vdp-selected-bg-color, #4f46e5);
 }
 </style>
 

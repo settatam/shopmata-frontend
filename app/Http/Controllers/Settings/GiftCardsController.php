@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Inertia\Inertia;
 
 class GiftCardsController extends Controller
 {
@@ -16,7 +16,7 @@ class GiftCardsController extends Controller
     public function index()
     {
         //
-
+        return Inertia::render('Settings/GiftCards/Index');
     }
 
     /**

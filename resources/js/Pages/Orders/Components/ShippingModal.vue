@@ -40,8 +40,8 @@
               </RadioGroup>
             </div>
             <div class="flex justify-between">
-              <input type="text" name="" v-model="text" class="w-6.5/10 border border-gray-300 rounded text-xs">
-              <input type="text" name="" class="w-3/10 border border-gray-300 rounded text-xs">
+              <input type="text" name="" v-model="text" class="w-6.5/10 border border-gray-300 rounded text-xs" placeholder="custom rate name">
+              <input type="text" name="" class="w-3/10 border border-gray-300 rounded text-xs" placeholder="$ 0">
             </div>
             <div class="mt-5 flex justify-between">
               <button type="button" class="inline-flex w-20 justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm" @click="open = false">

@@ -181,10 +181,10 @@
                           <input id="text3" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-111"/>
                         </div>
                       </div>
-                    <button class="px-8 border border-gray-300 text-xs h-10 mt-4 rounded-md" @click="openModal=true">Browse Products</button>
+                    <button class="px-8 border border-gray-300 text-xs h-10 mt-4 rounded-md" @click="browseProduct">Browse Products</button>
                   </div>
                   <empty-product-modal v-if="openModal && products.length == 0"/>
-                  <product-modal v-if="openModal && products.length > 0" :products="products" :variantSelected="variantSelected" @emitClose="emitClose" />
+                  <product-modal v-if="openModal && products.length > 0" :products="products" :production="production" :variantSelected="variantSelected" @emitClose="emitClose" />
                   <discount-modal v-if="openDiscount" @emitClose="emitClose"/>
                   <shipping-modal v-if="openShipping" :selected="selected" @emitClose="emitClose"/>
                   <taxes-modal v-if="openTaxes" @emitClose="emitClose"/>
@@ -398,6 +398,7 @@ export default {
     filters: Object,
     brands: Array,
     categories: Array,
+    orders: Array
   },
 
   components: {
@@ -683,6 +684,7 @@ export default {
               
             },
       ],
+      production:[],
       subTotal: 0,
                 taxes: 0,
                 total: 0,
@@ -873,7 +875,18 @@ export default {
       this.openTag = false
       this.openMarkAsPaid = false
       this.openReserve = false
-    }
+    },
+    async getProducts() {
+            //this.loading = true
+            const products = await axios.post('/products/get-order-products')
+            this.production = products.data.data
+            //this.loading = false
+            console.log(products)
+        },
+      browseProduct(){
+        this.openModal=true
+        this.getProducts()
+      }
   },
   setup() {
     const open = ref(false);

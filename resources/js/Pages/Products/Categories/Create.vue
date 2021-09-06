@@ -17,7 +17,7 @@
               </div>
               <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4 justify-between">
                   <inertia-link href="/categories">
-                    <button   class="inline-flex items-center px-6 py-3 border border-cyan-600 shadow-sm rounded-md text-cyan-600 bg-white hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                    <button   class="inline-flex items-center px-6 py-3 border border-cyan-600 shadow-sm rounded-md text-cyan-600  hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
                     Cancel
                     </button>
                   </inertia-link>
@@ -151,9 +151,6 @@ import CatDropDown from './Components/CatDropdown.vue'
 import Condition from './Components/Condition.vue'
 import {ChevronUpIcon,ChevronDownIcon,ExclamationCircleIcon,SelectorIcon} from '@heroicons/vue/solid'
 
-const Comp = {
- template: '<Condition/>'
-}
 
 export default {
         data:function(){

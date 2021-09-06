@@ -26,10 +26,6 @@
               aria-hidden="true"
             />
             <span>Add a new Customer</span>
-            <span>
-              <button class="px-6 py-3 text-center border border-gray-400 cursor-pointer rounded-md">Cancel</button>
-              <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer bg-indigo-600 text-white  rounded-md ml-4">Save as Draft</button>
-            </span>
           </inertia-link>
         </div>
       </nav>
@@ -39,10 +35,18 @@
 
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
-          <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-            <h1 class="text-2xl font-extrabold text-blue-gray-900">
-              Add New Customer
-            </h1>
+          <div class="flex justify-between mt-5 mx-5">
+               <h1 class="text-2xl font-extrabold text-blue-gray-900">
+                Add New Customer
+              </h1>
+              <span>
+                <button class="px-6 py-3 text-center border border-indigo-600 text-indigo-600 cursor-pointer rounded-md">Cancel</button>
+                <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer bg-indigo-600 text-white  rounded-md ml-4">Add Customer</button>
+              </span>
+            </div>
+          <div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:py-12 lg:px-8">
+            
+           
             <div class="bg-white pb-10 pt-1 mt-4">
               <personal-info-form :info="info"></personal-info-form>
               <div class="border-b border-gray-200"></div>
