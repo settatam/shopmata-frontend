@@ -71,7 +71,7 @@
                           </p>
                         </td>
                         <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          <inertia-link href="/categories/create">
+                          <inertia-link href="/categories/update">
                             <p class="truncate text-left break-normal text-cyan-800">Edit</p>
                           </inertia-link>
                         </td>

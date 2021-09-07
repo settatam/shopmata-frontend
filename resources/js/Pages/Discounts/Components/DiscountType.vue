@@ -49,7 +49,7 @@
                     </div>
                     <div>
                         <div class="inline-block mb-2" v-for="(country, index) in discount.countries" :key="index">
-                        <span class="py-1.5 flex py-3 pl-4 pr-3 bg-yellow-darker mr-2 items-center" >{{country.name}} <span class="pl-2.5"><cancel-icon /></span></span>
+                        <span class="flex py-3 pl-4 pr-3 bg-yellow-darker mr-2 items-center" >{{country.name}} <span class="pl-2.5"><cancel-icon /></span></span>
                         </div>
                     </div>
                 </div>
