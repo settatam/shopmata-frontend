@@ -180,3 +180,8 @@ export default {
       }
 }
 </script>
+<style scoped>
+.tbody tr:hover {
+  background: transparent;
+}
+</style>

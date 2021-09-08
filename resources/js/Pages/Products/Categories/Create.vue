@@ -144,7 +144,7 @@
                             <div class="mt-1 relative rounded-md shadow-sm">
                                 <input type="text" name="url" id="title" class="block w-full pr-10 sm:text-sm rounded-md border-gray-300 placeholder-gray-500" v-model="page.url" placeholder="https://www.cashinmybag.com/products/"/>
                             </div>
-                            <span v-if="v$.page.url.$error">
+                            <span v-if="v$.page.url.$error" class="text-red-400">
                                 {{v$.page.url.$errors[0].$message}}
                             </span>
                         </div>  
@@ -188,7 +188,7 @@ import CatDropDown from './Components/CatDropdown.vue'
 import Condition from './Components/Condition.vue'
 import {ChevronUpIcon,ChevronDownIcon,ExclamationCircleIcon,SelectorIcon} from '@heroicons/vue/solid'
 import useVuelidate from '@vuelidate/core'
-import { required, minLength,url,helpers } from '@vuelidate/validators'
+import { required, maxLength,url,helpers } from '@vuelidate/validators'
 
 
 export default {
@@ -273,10 +273,7 @@ export default {
             submitForm(){
                 this.v$.$validate()
                 if (!this.v$.$error){
-                    this.$inertia.post('/product/categories/create', this.formData)
-                }
-                else{
-                    alert('Form field empty')
+                    this.$inertia.post('/categories', this.formData)
                 }
             },
             updateTemp(val){
@@ -300,8 +297,8 @@ export default {
          validations () {
             return {
                 page:{
-                    description:{required: helpers.withMessage('This field cannot be empty', required), minLength:minLength(70)},
-                    title:{required: helpers.withMessage('This field cannot be empty', required), minLength:minLength(70)},
+                    description:{required: helpers.withMessage('This field cannot be empty', required), maxLength:maxLength(70)},
+                    title:{required: helpers.withMessage('This field cannot be empty', required), maxLength:maxLength(70)},
                     url:{required: helpers.withMessage('This field cannot be empty', required),url},
                 },
                 category:{

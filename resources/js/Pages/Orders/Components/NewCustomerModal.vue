@@ -21,28 +21,28 @@
               <div>
                 <label for="first-name" class="block text-warm-gray-900">First name</label>
                 <div class="mt-1">
-                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="customer.firstname" />
                 </div>
               </div>
               <div>
                 <label for="last-name" class="block text-warm-gray-900">Last name</label>
                 <div class="mt-1">
-                  <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="customer.lastname" />
                 </div>
               </div>
               <div class=" col-span-2">
                 <label for="email" class="block text-sm font-medium text-warm-gray-900">Email</label>
                 <div class="mt-1">
-                  <input id="email" name="email" type="email" autocomplete="email" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input id="email" name="email" type="email" autocomplete="email" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="customer.email" />
                 </div>
               </div>
               <div class="mt-4 col-span-2">
                 <div class="flex">
-                  <input aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded mr-4 my-auto" />
+                  <input aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded mr-4 my-auto" v-model="acceptsMail" value="acceptsMail"/>
                   <label for="" class="">Customer accepts email marketing</label>  
                 </div>
                 <div class="flex mt-3">
-                  <input aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded mr-4 my-auto" />
+                  <input aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded mr-4 my-auto" v-model="taxExempt" value="taxExempt" />
                   <label for="" class="">Customer is tax exempt</label>
                 </div>
               </div>
@@ -51,58 +51,57 @@
       <div class=" mt-6 mb-4 -mx-6 border-t border-gray-300"></div>
       <div>
         <h2 class="text-lg">Shipping Address</h2>
-        <form action="#" method="POST" class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+        <form  class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
               <div>
-                <label for="first-name" class="block text-warm-gray-900">Company</label>
+                <label  class="block text-warm-gray-900">Company</label>
                 <div class="mt-1">
-                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.company" />
                 </div>
               </div>
               <div>
-                <label for="last-name" class="block text-warm-gray-900">Phone Number</label>
+                <label  class="block text-warm-gray-900">Phone Number</label>
                 <div class="mt-1">
-                   <vue-tel-input v-model="phone" mode="international"></vue-tel-input>
+                   <vue-tel-input v-model="shipping.phone" mode="international"></vue-tel-input>
                   <!-- <input type="tel" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" /> -->
                 </div>
               </div>
                <div>
-                <label for="first-name" class="block text-warm-gray-900">Address</label>
+                <label  class="block text-warm-gray-900">Address</label>
                 <div class="mt-1">
-                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input type="text" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.address"/>
                 </div>
               </div>
               <div>
-                <label for="last-name" class="block text-warm-gray-900">Apartment, suite etc (optional)</label>
+                <label  class="block text-warm-gray-900">Apartment, suite etc (optional)</label>
                 <div class="mt-1">
-                  <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input type="text" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.appartment"/>
                 </div>
               </div>
               <div>
-                <label for="first-name" class="block text-warm-gray-900">City</label>
+                <label  class="block text-warm-gray-900">City</label>
                 <div class="mt-1">
-                  <v-select :options="cities" v-model="city" ></v-select>
-                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md border"  v-model="shipping.city"/>
                 </div>
               </div>
               <div>
                 <label for="last-name" class="block text-warm-gray-900">Country/Region</label>
                 <div class="mt-1">
                   <!-- <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" /> -->
-                  <select name="" id="" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md">
-                    <option  v-for="(county,index) in this.country" :key="index">{{county['name']}}</option>
+                  <select name="" id="" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.country">
+                    <option  v-for="(country,index) in this.country" :key="index">{{country['name']}}</option>
                   </select>
                 </div>
               </div>
                <div>
-                <label for="first-name" class="block text-warm-gray-900">State</label>
+                <label class="block text-warm-gray-900">State</label>
                 <div class="mt-1">
-                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.state" />
                 </div>
               </div>
               <div>
-                <label for="last-name" class="block text-warm-gray-900">ZIP/Postal Code</label>
+                <label  class="block text-warm-gray-900">ZIP/Postal Code</label>
                 <div class="mt-1">
-                  <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" />
+                  <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.zip" />
                 </div>
               </div>
             </form>
@@ -154,12 +153,36 @@ export default {
       country: [],
       cities: [],
       city: null,
+      customer:{
+        firstname:'',
+        lastname:'',
+        email:'',
+      },
+      shipping:{
+        company:'',
+        phone:"",
+        address:'',
+        appartment:'',
+        city:'',
+        country:'',
+        state:'',
+        zip:'',
+      },
+      acceptsMail:'',
+      taxExempt:''
     }
   },
+  computed:{
+    formData(){
+      return{...this.customer, ...this.shipping}
+    }},
   methods:{
     emitClose(){
       this.open = false
       this.$emit('emitClose')
+    },
+    submitForm(){
+      this.$inertia.post('/customers/create', this.formData)
     }
   },
   setup() {

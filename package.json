@@ -32,6 +32,7 @@
         "@fortawesome/vue-fontawesome": "^3.0.0-4",
         "@headlessui/vue": "^0.0.0-d60d2a5",
         "@heroicons/vue": "^1.0.2",
+        "@johmun/vue-tags-input": "^2.1.0",
         "@vueform/multiselect": "^2.0.1",
         "@vuelidate/core": "^2.0.0-alpha.25",
         "@vuelidate/validators": "^2.0.0-alpha.21",
