@@ -9,7 +9,7 @@
                   <div>
                     <div class="flex items-center">
                       <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                       New Collections
+                       Collections Page
                       </h1>
                     </div>
                   </div>
@@ -36,7 +36,7 @@
                     <div class="mt-4">
                         <label for="name" class="block text-sm text-gray-700">Category Name</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
-                            <input type="text" name="name" class="block w-full pr-10 sm:text-sm rounded-md" :class="v$.category.name.$error?'border-2 border-red-500':'border-gray-300 border'" v-model="category.name"/>
+                            <input type="text" name="name" class="block w-full pr-10 sm:text-sm rounded-md border-gray-300 border" v-model="category.name"/>
                         </div>
                         <span v-if="v$.category.name.$error" class="text-red-400">
                             {{v$.category.name.$errors[0].$message}}
@@ -44,7 +44,7 @@
                     </div> 
                     <div class="mt-5">
                         <label for="description" class="block text-sm text-gray-700">Description</label>
-                        <textarea class="shadow-sm block w-full sm:text-sm  rounded-md h-40" :class="v$.category.description.$error?'border-2 border-red-500':'border-gray-300 border'" rows="5" v-model="category.description"/>
+                        <textarea class="shadow-sm block w-full sm:text-sm  rounded-md h-40 border-gray-300 border" rows="5" v-model="category.description"/>
                     </div>
                     <span v-if="v$.category.description.$error" class="text-red-400">
                         {{v$.category.description.$errors[0].$message}}

@@ -55,7 +55,7 @@
                             <div class="flex-shrink-0 h-12 w-12 mr-5 border-2 border-r">
                               <img :src="category.image" alt="category_image">
                             </div>
-                            <inertia-link href="/categories/create" class="group inline-flex space-x-2 w-72">
+                            <inertia-link href="/categories/edit" class="group inline-flex space-x-2 w-72">
                               <p class="text-gray-800 truncate group-hover:text-gray-900 break-normal">
                                 {{category.description}}
                               </p>
@@ -71,7 +71,7 @@
                           </p>
                         </td>
                         <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          <inertia-link href="/categories/update">
+                          <inertia-link :href="'categories/'+category.id+'/edit'">
                             <p class="truncate text-left break-normal text-cyan-800">Edit</p>
                           </inertia-link>
                         </td>

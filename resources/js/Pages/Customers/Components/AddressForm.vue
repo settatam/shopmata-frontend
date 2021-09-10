@@ -17,20 +17,12 @@
             type="text"
             name="email"
             id="email"
-            class="
-              shadow-sm
-              focus:ring-indigo-500
-              focus:border-indigo-500
-              block
-              w-full
-              sm:text-sm
-              border-gray-300
-              rounded-md
-            "
+            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
             placeholder="First Name"
             v-model="address.first_name"
             required
           />
+          <span v-if="v$.address.first_name.$error" class="text-red-400">{{v$.address.first_name.$errors[0].$message}}</span>
         </div>
         <div class="form-group required w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
           <label
@@ -56,6 +48,7 @@
             placeholder="Last Name"
             v-model="address.last_name"
           />
+           <span v-if="v$.address.last_name.$error" class="text-red-400">{{v$.address.last_name.$errors[0].$message}}</span>
         </div> 
       </div>
       <div class="flex flex-wrap mb-10">
@@ -83,6 +76,7 @@
             placeholder="Address"
             v-model="address.address"
           />
+           <span v-if="v$.address.address.$error" class="text-red-400">{{v$.address.address.$errors[0].$message}}</span>
         </div>
         <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
           <label
@@ -108,6 +102,7 @@
             placeholder="Apartment"
             v-model="address.apartment"
           />
+           <span v-if="v$.address.apartment.$error" class="text-red-400">{{v$.address.apartment.$errors[0].$message}}</span>
         </div>
       </div>
       <div class="flex flex-wrap mb-10">
@@ -135,6 +130,7 @@
             placeholder="City"
             v-model="address.city"
           />
+          <span v-if="v$.address.city.$error" class="text-red-400">{{v$.address.city.$errors[0].$message}}</span>
         </div>
         <div class="form-group required w-full md:w-1/3 mb-6 md:mb-0 md:pl-3">
           <label
@@ -160,6 +156,7 @@
             placeholder="State"
             v-model="address.state"
           />
+          <span v-if="v$.address.state.$error" class="text-red-400">{{v$.address.state.$errors[0].$message}}</span>
         </div>
         <div class="w-full md:w-1/3 mb-6 md:mb-0 md:pl-3">
           <label
@@ -185,6 +182,7 @@
             placeholder="Postal Code"
             v-model="address.postal_code"
           />
+          <span v-if="v$.address.postal_code.$error" class="text-red-400">{{v$.address.postal_code.$errors[0].$message}}</span>
         </div>
       </div>
       <div class="flex flex-wrap mb-10">
@@ -207,6 +205,7 @@
             class="text-xs text-black font-semibold w-full"
           ></multiselect>
         </div>
+          <span v-if="v$.address.country.$error" class="text-red-400">{{v$.address.country.$errors[0].$message}}</span>
       </div>
     </div>
   </div>
@@ -216,6 +215,10 @@
 import Multiselect from "@vueform/multiselect";
 // import 'vue-multiselect/dist/vue-multiselect.min.css'
 // import {countries} from '../../../constants/countries'
+import useVuelidate from '@vuelidate/core'
+import { required,helpers,email } from '@vuelidate/validators'
+
+
 export default {
   name: "address-form",
   props: ["address", "addTag", "countries"],
@@ -224,6 +227,7 @@ export default {
   },
   data() {
     return {
+      v$: useVuelidate(),
       // options: thiscountries,
     };
   },
@@ -232,7 +236,21 @@ export default {
       this.$emit("added");
     },
   },
-};
+  validations () {
+  return {
+    address: {
+      first_name:  {required: helpers.withMessage('This field cannot be empty', required)},
+      last_name:  {required: helpers.withMessage('This field cannot be empty', required)},
+      postal_code:  {required: helpers.withMessage('This field cannot be empty', required)},
+      address:  {required: helpers.withMessage('This field cannot be empty', required)},
+      apartment:  {required: helpers.withMessage('This field cannot be empty', required)},
+      state:  {required: helpers.withMessage('This field cannot be empty', required)},
+      city:  {required: helpers.withMessage('This field cannot be empty', required)},
+      country:  {required: helpers.withMessage('This field cannot be empty', required)},
+    },
+  }
+}
+}
 </script>
 
 <style scoped>

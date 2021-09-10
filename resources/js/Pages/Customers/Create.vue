@@ -6,21 +6,8 @@
         aria-label="Breadcrumb"
         class="bg-white border-b border-blue-gray-200 xl:hidden"
       >
-        <div
-          class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8"
-        >
-          <inertia-link
-            href="#"
-            class="
-              -ml-1
-              inline-flex
-              items-center
-              space-x-3
-              text-sm
-              font-medium
-              text-blue-gray-900
-            "
-          >
+        <div class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8">
+          <inertia-link href="#" class=" -ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
             <ChevronLeftIcon
               class="h-5 w-5 text-blue-gray-400"
               aria-hidden="true"
@@ -41,7 +28,7 @@
               </h1>
               <span>
                 <button class="px-6 py-3 text-center border border-indigo-600 text-indigo-600 cursor-pointer rounded-md">Cancel</button>
-                <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer bg-indigo-600 text-white  rounded-md ml-4">Add Customer</button>
+                <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer bg-indigo-600 text-white  rounded-md ml-4" @click="submitForm">Add Customer</button>
               </span>
             </div>
           <div class="max-w-3xl mx-auto py-8 px-4 sm:px-6 lg:py-12 lg:px-8">
@@ -72,6 +59,10 @@
                 >
               </div> -->
             </div>
+            <span class="flex justify-between mt-5">
+              <button class="px-6 py-3 text-center border border-indigo-600 text-indigo-600 cursor-pointer rounded-md">Cancel</button>
+              <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer bg-indigo-600 text-white  rounded-md ml-4" @click="submitForm">Add Customer</button>
+            </span>
           </div>
         </div>
         <!-- <Nav page="General"></Nav> -->
@@ -81,18 +72,13 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref,} from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 // import Search from "../Search.vue";
 import Nav from "../../Layouts/Nav";
 // import axios from "axios";
 
-import {
-  Dialog,
-  DialogOverlay,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
+import { Dialog,DialogOverlay,TransitionChild,TransitionRoot} from "@headlessui/vue";
 
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
@@ -103,6 +89,7 @@ import Multiselect from "@vueform/multiselect";
 import PersonalInfoForm from "./Components/PersonalInfoForm";
 import AddressForm from "./Components/AddressForm";
 // import SideNav from './../../Layouts/SideNav'
+import useVuelidate from '@vuelidate/core'
 
 const statusStyles = {
   success: "bg-green-100 text-green-800",
@@ -130,6 +117,7 @@ export default {
 
   data() {
     return {
+      v$: useVuelidate(),
       formFields: {
         first_name: "",
         last_name: "",
@@ -183,16 +171,18 @@ export default {
     },
   },
   methods: {
-    submit() {
+    submitForm() {
+      this.v$.$validate()
+     
       // console.log({...this.address, ...this.info});
-      this.$inertia.post("/customers", {...this.address, ...this.info});
+      if(!this.v$.$error){
+        this.$inertia.post("/customers", {...this.address, ...this.info});
+      }
     },
   },
   setup() {
     const open = ref(false);
-    return {
-      statusStyles,
-    };
+    return { statusStyles, }
   },
 };
 </script>

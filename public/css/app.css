@@ -1170,6 +1170,9 @@ select {
 .col-start-1 {
 	grid-column-start: 1;
 }
+.float-right {
+	float: right;
+}
 .m-2 {
 	margin: 0.5rem;
 }
@@ -1511,6 +1514,9 @@ select {
 .mt-32 {
 	margin-top: 8rem;
 }
+.mr-8 {
+	margin-right: 2rem;
+}
 .block {
 	display: block;
 }
@@ -1759,6 +1765,15 @@ select {
 }
 .w-11\/12 {
 	width: 91.666667%;
+}
+.w-9\/10 {
+	width: 90%;
+}
+.w-4\/12 {
+	width: 33.333333%;
+}
+.w-2\/12 {
+	width: 16.666667%;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -2359,6 +2374,10 @@ select {
 .bg-yellow-400 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(251, 191, 36, var(--tw-bg-opacity));
+}
+.bg-indigo-700 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(67, 56, 202, var(--tw-bg-opacity));
 }
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
@@ -3387,6 +3406,10 @@ input[type='checkbox']:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
 }
+.active\:bg-indigo-700:active {
+	--tw-bg-opacity: 1;
+	background-color: rgba(67, 56, 202, var(--tw-bg-opacity));
+}
 .active\:text-gray-700:active {
 	--tw-text-opacity: 1;
 	color: rgba(55, 65, 81, var(--tw-text-opacity));
@@ -3910,6 +3933,10 @@ input[type='checkbox']:focus {
 		margin-left: 2rem;
 	}
 
+	.md\:ml-56 {
+		margin-left: 14rem;
+	}
+
 	.md\:block {
 		display: block;
 	}
@@ -4407,6 +4434,10 @@ input[type='checkbox']:focus {
 
 	.xl\:hidden {
 		display: none;
+	}
+
+	.xl\:w-3\/5 {
+		width: 60%;
 	}
 
 	.xl\:grid-cols-10 {
