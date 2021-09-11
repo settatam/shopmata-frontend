@@ -5,10 +5,8 @@
       </div>
       <div class="flex-1 min-h-0 overflow-y-auto">
           <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-50 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
-            <component :is="item.icon" class="flex-shrink-0 -mt-0.5 h-6 w-6 text-blue-gray-400" aria-hidden="true" />
               <div class="ml-3 text-sm">
                 <p class="font-medium text-blue-gray-900">{{ item.name }}</p>
-                <p class="mt-1 text-blue-gray-500">{{ item.description }}</p>
               </div>
             </inertia-link>
         </div>
@@ -77,49 +75,49 @@ export default {
         {
           name: 'General',
           description: 'View and update store details.',
-          href: '/settings/general',
+          href: '#general',
           icon: CogIcon,
           current: this.page == 'General' ? true : false,
         },
         {
           name: 'Data',
           description: 'Manage notifications sent to you.',
-          href: '/settings/notifications',
+          href: '#data',
           icon: BellIcon,
           current: this.page == 'Notifications' ? true : false,
         },
         {
           name: 'Images',
           description: 'Manage store payment options.',
-          href: '/settings/payments',
+          href: '#images',
           icon: PhotographIcon,
           current: this.page == 'Payments' ? true : false,
         },
         {
           name: 'Variants',
           description: 'Manage how you ship to customers.',
-          href: '/settings/shipping-and-delivery',
+          href: '#images',
           icon: ViewListIcon,
           current: this.page == 'Shipping' ? true : false,
         },
         {
           name: 'Shipping',
           description: 'Manage gift card settings.',
-          href: '/settings/gift-cards',
+          href: '#shipping',
           icon: CashIcon,
           current: this.page == 'GiftCards' ? true : false,
         },
         {
           name: 'Inventory',
           description: 'Manage gift card settings.',
-          href: '/settings/gift-cards',
+          href: '#inventory',
           icon: CashIcon,
           current: this.page == 'GiftCards' ? true : false,
         },
         {
           name: 'SEO',
           description: 'Enter SEO details for this product.',
-          href: '/settings/gift-cards',
+          href: '#seo',
           icon: CashIcon,
           current: this.page == 'GiftCards' ? true : false,
         },
