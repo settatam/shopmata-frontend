@@ -1965,6 +1965,9 @@ select {
 .border-t-2 {
 	border-top-width: 2px;
 }
+.border-dashed {
+	border-style: dashed;
+}
 .border-gray-300 {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));
@@ -2370,6 +2373,15 @@ select {
 .pb-5 {
 	padding-bottom: 1.25rem;
 }
+.pl-1 {
+	padding-left: 0.25rem;
+}
+.pl-7 {
+	padding-left: 1.75rem;
+}
+.pr-12 {
+	padding-right: 3rem;
+}
 .text-left {
 	text-align: left;
 }
@@ -2743,6 +2755,10 @@ select {
 	--tw-ring-opacity: 1;
 	--tw-ring-color: rgba(59, 130, 246, var(--tw-ring-opacity));
 }
+.focus-within\:ring-indigo-500:focus-within {
+	--tw-ring-opacity: 1;
+	--tw-ring-color: rgba(99, 102, 241, var(--tw-ring-opacity));
+}
 .focus-within\:ring-offset-2:focus-within {
 	--tw-ring-offset-width: 2px;
 }
@@ -3058,6 +3074,10 @@ select {
 
 	.sm\:col-span-3 {
 		grid-column: span 3 / span 3;
+	}
+
+	.sm\:col-span-2 {
+		grid-column: span 2 / span 2;
 	}
 
 	.sm\:mx-0 {

@@ -28,20 +28,19 @@
             <form @submit.prevent="submit">
               <div class="bg-white mb-10 pt-7">
                 <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
-                  <p class="text-black text-2xl font-semilbold mb-6">
-                    Add Product
-                  </p>
                   <span><angle-up-icon></angle-up-icon></span>
                 </div>
                 <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
                   <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
                   <div class="mb-10">
-                    <label class="block text-black font-semibold mb-2 bg-transparent" for="title">
+                    <label class="block text-sm font-bold text-gray-700" for="title">
                       Title
                     </label>
-                    <input class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none" type="text" placeholder="Cargo Pants"
-                      v-model="formFields.title"/>
+                    <div class="mt-1">
+                        <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="formFields.title">
+                    </div>
                   </div>
+
                   <div class="mb-6">
                     <label
                       class="block text-black font-semibold mb-2 bg-transparent"
