@@ -62,4 +62,12 @@ class Store extends Model
     public function theme() {
         return $this->belongsTo(Theme::class, 'theme_id', 'id');
     }
+
+    public function currency() {
+        return $this->belongsTo(Currency::class, 'currency_id', 'id');
+    }
+
+    public function weight() {
+        return $this->belongsTo(Unit::class, 'default_weight_unit_id', 'id');
+    }
 }

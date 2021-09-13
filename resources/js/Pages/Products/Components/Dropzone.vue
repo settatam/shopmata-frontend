@@ -29,7 +29,8 @@ import axios from "axios";
 
 export default {
   name: "UseDropzone",
-  setup() {
+  emits: ['addImage'],
+  setup(_, {emit}) {
     const url = "/product-images"; // Your url on the server side
     const saveFiles = (files) => {
       const formData = new FormData(); // pass data as a form
@@ -48,6 +49,7 @@ export default {
         })
         .then((response) => {
           console.info(response.data);
+          emit('addImage', response)
         })
         .catch((err) => {
           console.error(err);

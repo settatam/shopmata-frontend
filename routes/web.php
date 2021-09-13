@@ -55,6 +55,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('login', [LoginController::class, 'getLogin'])->name('login');
+Route::get('register/step-2', [RegisterController::class, 'registerStep2'])->name('register-step-2');
+Route::get('register', [RegisterController::class, 'getRegister'])->name('register');
 Route::post('login', [LoginController::class, 'authenticate']);
 Route::post('register', [RegisterController::class, 'RegisterUser']);
 

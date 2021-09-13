@@ -12,25 +12,38 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Torann\GeoIP\Facades\GeoIP;
 
 class RegisterController extends Controller
 {
+    
+    public function getRegister() {
+        return \Inertia\Inertia::render('Register');
+    }
+
+    public function registerStep2() {
+        return \Inertia\Inertia::render('RegisterStep2');
+    }
+    
     public function RegisterUser(Request $request)
     {
         try {
+            $geoip = geoip($ip=null);
+
             $data = $request->all();
 
-            $data['email'] = session('email');
-            $data['store'] = session('store');
-            $data['store_domain'] = session('store_domain');
+            // $data['email'] = session('email');
+            // $data['store_domain'] = session('store_domain');
+
 
             $validator = Validator::make($data, [
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'email' => ['required', 'string', 'email', 'max:255'],
                 'password' => ['required', 'string', 'min:8'],
-                'store' => ['required', 'string'],
-                'store_domain' => ['required', 'string'],
+                'store_name' => ['required', 'string'],
+                // 'store_domain' => ['required', 'string'],
             ]);
 
             if ($validator->fails()) {
@@ -42,6 +55,32 @@ class RegisterController extends Controller
                 ];
                 return response()->json(['notification' => $notification], 400);
             }
+
+            $slug = Str::slug($data['store_name']);
+            $store_count = Store::where('name', $data['store_name'])->count();
+            if($store_count) {
+                $slug .= '-'.$store_count;
+            }
+
+            //Time to create Store
+
+            $store_data = [
+                'is_active'=>0,
+                'name'=>$data['store_name'],
+                'slug'=>$slug,
+                'store_plan_id'=>1,
+            ];
+            
+
+            //Create Store
+            //Create Default TimeZone
+            //Create Default Theme
+            //Create Default Currency
+            //Create Domains
+            //Create Default Weight Unit
+            //Create Store Users -- Current user will be super user
+            //Create Store Plan
+
 
             $registered = User::create([
                 'first_name' => $data['first_name'],
