@@ -87,7 +87,8 @@ module.exports = {
             height: {
                 "84": "21rem",
                 "30": "7.5rem",
-                "10.5":"2.625rem"
+                "10.5":"2.625rem",
+                "content":"max-content"
             },
             padding:{
                 "4.5":"1.125rem",

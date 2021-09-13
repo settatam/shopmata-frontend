@@ -149,15 +149,15 @@
           </div>
             <div class="flex pl-6">
               <div class="bg-white h-screen w-52 mr-5 pt-7 pl-4.5">
-                <p :class="activeGeneral?'text-indigo-700  border-l border-indigo-700':'text-gray-500'" class="mb-4 pl-2 py-1 ">General</p>
-                <p :class="activeData?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Data</p>
-                <p :class="activeVariants?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Variants</p>
-                <p :class="activeImages?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Images</p>
-                <p :class="activePricing?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Pricing</p>
-                <p :class="activeLinks?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Links</p>
-                <p :class="activeShipping?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Shipping</p>
-                <p :class="activeInventory?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Inventory</p>
-                <p :class="activeSEO?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">SEO</p>
+                <p :class="activeGeneral?'text-indigo-700  border-l border-indigo-700':'text-gray-500'" class="mb-4 pl-2 py-1 cursor-pointer" @click="general">General</p>
+                <p :class="activeData?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="data">Data</p>
+                <p :class="activeVariants?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="variants">Variants</p>
+                <p :class="activeImages?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="images">Images</p>
+                <p :class="activePricing?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="pricing">Pricing</p>
+                <p :class="activeLinks?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="links">Links</p>
+                <p :class="activeShipping?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="shipping">Shipping</p>
+                <p :class="activeInventory?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="inventory">Inventory</p>
+                <p :class="activeSEO?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="seo">SEO</p>
               </div>
               <General v-if="activeGeneral"/>
               <Data v-if="activeData"/>
@@ -249,9 +249,9 @@ export default {
   data() {
     return {
       v$: useVuelidate(),
-      activeGeneral:false,
+      activeGeneral:true,
       activeData:false,
-      activeVariants:true,
+      activeVariants:false,
       activeImages:false,
       activePricing:false,
       activeLinks:false,
@@ -369,6 +369,105 @@ export default {
   methods: {
     showFormFields() {
       console.log(this.formData);
+    },
+    general(){
+      this.activeGeneral = true,
+      this.activeData = false,
+      this.activeVariants=false,
+      this.activeImages=false,
+      this.activePricing=false,
+      this.activeLinks=false,
+      this.activeShipping=false,
+      this.activeInventory=false,
+      this.activeSEO=false
+    },
+    data(){
+      this.activeGeneral = false,
+      this.activeData = true,
+      this.activeVariants=false,
+      this.activeImages=false,
+      this.activePricing=false,
+      this.activeLinks=false,
+      this.activeShipping=false,
+      this.activeInventory=false,
+      this.activeSEO=false
+    },
+    variants(){
+      this.activeGeneral = false,
+      this.activeData = false,
+      this.activeVariants=true,
+      this.activeImages=false,
+      this.activePricing=false,
+      this.activeLinks=false,
+      this.activeShipping=false,
+      this.activeInventory=false,
+      this.activeSEO=false
+    },
+    images(){
+      this.activeGeneral = false,
+      this.activeData = false,
+      this.activeVariants=false,
+      this.activeImages=true,
+      this.activePricing=false,
+      this.activeLinks=false,
+      this.activeShipping=false,
+      this.activeInventory=false,
+      this.activeSEO=false
+    },
+    pricing(){
+      this.activeGeneral = false,
+      this.activeData = false,
+      this.activeVariants=false,
+      this.activeImages=false,
+      this.activePricing=true,
+      this.activeLinks=false,
+      this.activeShipping=false,
+      this.activeInventory=false,
+      this.activeSEO=false
+    },
+    links(){
+      this.activeGeneral = false,
+      this.activeData = false,
+      this.activeVariants=false,
+      this.activeImages=false,
+      this.activePricing=false,
+      this.activeLinks=true,
+      this.activeShipping=false,
+      this.activeInventory=false,
+      this.activeSEO=false
+    },
+    shipping(){
+      this.activeGeneral = false,
+      this.activeData = false,
+      this.activeVariants=false,
+      this.activeImages=false,
+      this.activePricing=false,
+      this.activeLinks=false,
+      this.activeShipping=true,
+      this.activeInventory=false,
+      this.activeSEO=false
+    },
+    inventory(){
+      this.activeGeneral = false,
+      this.activeData = false,
+      this.activeVariants=false,
+      this.activeImages=false,
+      this.activePricing=false,
+      this.activeLinks=false,
+      this.activeShipping=false,
+      this.activeInventory=true,
+      this.activeSEO=false
+    },
+    seo(){
+      this.activeGeneral = false,
+      this.activeData = false,
+      this.activeVariants=false,
+      this.activeImages=false,
+      this.activePricing=false,
+      this.activeLinks=false,
+      this.activeShipping=false,
+      this.activeInventory=false,
+      this.activeSEO=true
     },
     addOption(e) {
       this.variants.options.push({

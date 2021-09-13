@@ -58,3 +58,7 @@ tbody tr:hover {
 svg {
     display: inline;
 }
+
+tbody tr:hover {
+    background: transparent;
+}
