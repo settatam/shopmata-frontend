@@ -12,12 +12,18 @@
                         Price
                     </label>
                     <input class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " type="number" placeholder="$ 0.00" step=".01" v-model="pricing.price">
+                    <span v-if="v$.pricing.price.$error" class="text-red-400">
+                            {{v$.pricing.price.$errors[0].$message}}
+                        </span>
                 </div>
                 <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
                     <label class="block text-black font-semibold mb-2 bg-transparent" for="compare_at_price">
                         Compare at price
                     </label>
                     <input class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none" type="number" step=".01" placeholder="$ 0.00" v-model="pricing.compare_at_price">
+                    <span v-if="v$.pricing.compare_at_price.$error" class="text-red-400">
+                            {{v$.pricing.compare_at_price.$errors[0].$message}}
+                        </span>
                 </div>
             </div>
         </div>
@@ -27,6 +33,9 @@
                     Cost per item
                 </label>
                 <input class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none" type="number" step=".01" placeholder="$ 0.00" v-model="pricing.cost_per_item">
+                <span v-if="v$.pricing.cost_per_item.$error" class="text-red-400">
+                            {{v$.pricing.cost_per_item.$errors[0].$message}}
+                        </span>
                 <p class="text-gray-300 font-semibold flex items-center text-xs mt-2"><warning-icon></warning-icon><span class="mx-1">Customers won't see this</span></p>
             </div>
             <div class="w-full md:w-1/2 md:pl-3 mb-6 md:mb-0 flex flex-wrap">
@@ -59,8 +68,11 @@
 <script>
 import AngleUpIcon from '../../../../assets/AngleUpIcon'
 import WarningIcon from '../../../../assets/WarningIcon'
+import useVuelidate from '@vuelidate/core'
+import { required,helpers } from '@vuelidate/validators'
+
 export default {
-     name: 'pricing-form',
+    name: 'pricing-form',
     props: ['pricing'],
     components: {
         AngleUpIcon,
@@ -68,12 +80,22 @@ export default {
     },
     data() {
         return {
+            v$: useVuelidate(),
             expand: true
         }
     },
     methods: {
         expandForm() {
             this.expand = !this.expand;
+        }
+    },
+    validations(){
+        return{
+            pricing: {
+                price: {required:helpers.withMessage('This field cannot be empty', required)},
+                compare_at_price: {required:helpers.withMessage('This field cannot be empty', required)},
+                cost_per_item: {required:helpers.withMessage('This field cannot be empty', required)},
+            },
         }
     }
 }

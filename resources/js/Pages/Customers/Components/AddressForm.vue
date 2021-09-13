@@ -13,38 +13,18 @@
           >
             First Name
           </label>
-          <input
-            type="text"
-            name="email"
-            id="email"
-            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-            placeholder="First Name"
-            v-model="address.first_name"
-            required
-          />
+          <input type="text" name="email" id="email" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="First Name" v-model="address.first_name" required/>
           <span v-if="v$.address.first_name.$error" class="text-red-400">{{v$.address.first_name.$errors[0].$message}}</span>
         </div>
         <div class="form-group required w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
-          <label
-            class="block text-black font-semibold mb-2 bg-transparent"
-            for="last_name"
-          >
+          <label class="block text-black font-semibold mb-2 bg-transparent" for="last_name">
             Last Name
           </label>
           <input
             type="text"
             name="email"
             id="email"
-            class="
-              shadow-sm
-              focus:ring-indigo-500
-              focus:border-indigo-500
-              block
-              w-full
-              sm:text-sm
-              border-gray-300
-              rounded-md
-            "
+            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-s border-gray-300  rounded-md"
             placeholder="Last Name"
             v-model="address.last_name"
           />
@@ -53,10 +33,7 @@
       </div>
       <div class="flex flex-wrap mb-10">
         <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
-          <label
-            class="block text-black font-semibold mb-2 bg-transparent"
-            for="address"
-          >
+          <label class="block text-black font-semibold mb-2 bg-transparent" for="address">
             Address
           </label>
           <input

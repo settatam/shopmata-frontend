@@ -12,7 +12,7 @@
               class="h-5 w-5 text-blue-gray-400"
               aria-hidden="true"
             />
-            <span>Add a new Product</span>
+            <span>Add Product</span>
           </inertia-link>
         </div>
       </nav>
@@ -22,11 +22,11 @@
 
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
-          <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+          <div class="max-w-3xl py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
             <h1 class="text-2xl font-extrabold text-blue-gray-900">
               Add New Product
             </h1>
-            <form @submit.prevent="submit">
+            <!-- <form @submit.prevent="submit">
               <div class="bg-white mb-10 pt-7">
                 <div
                   class="bg-white flex justify-between px-8 cursor-pointer"
@@ -38,7 +38,7 @@
                   <span><angle-up-icon></angle-up-icon></span>
                 </div>
                 <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
-                  <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
+                  <p class="text-black text-2xl font-semilbold mb-6">Update Product</p>
                   <div class="mb-10">
                     <label
                       class="block text-black font-semibold mb-2 bg-transparent"
@@ -47,11 +47,14 @@
                       Title
                     </label>
                     <input
-                      class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none"
+                      class="appearance-none border border-gray-300 rounded-md bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none"
                       type="text"
                       placeholder="Cargo Pants"
                       v-model="formFields.title"
                     />
+                     <span v-if="v$.formFields.title.$error" class="text-red-400">
+                            {{v$.formFields.title.$errors[0].$message}}
+                        </span>
                   </div>
                   <div class="mb-6">
                     <label
@@ -60,7 +63,7 @@
                     >
                       Description
                     </label>
-                    <div class="quill">
+                    <div class="quill border-gray-300 rounded-md">
                       <quill-editor
                         class="editor text-black"
                         ref="description"
@@ -73,7 +76,11 @@
                         @focus="onEditorFocus($event)"
                         @ready="onEditorReady($event)"
                       />
+                       <span v-if="v$.formFields.description.$error" class="text-red-400">
+                            {{v$.formFields.description.$errors[0].$message}}
+                        </span>
                     </div>
+                    
                   </div>
                   <div class="mt-20">
                     <label
@@ -92,6 +99,9 @@
                       searchable="true"
                       class="text-xs text-black font-semibold"
                     ></multiselect>
+                     <span v-if="v$.formFields.brand.$error" class="text-red-400">
+                            {{v$.formFields.brand.$errors[0].$message}}
+                        </span>
                   </div>
                 </div>
               </div>
@@ -135,10 +145,32 @@
                   >Add Product</t-button
                 >
               </div>
-            </form>
+            </form> -->
           </div>
+            <div class="flex pl-6">
+              <div class="bg-white h-screen w-52 mr-5 pt-7 pl-4.5">
+                <p :class="activeGeneral?'text-indigo-700  border-l border-indigo-700':'text-gray-500'" class="mb-4 pl-2 py-1 ">General</p>
+                <p :class="activeData?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Data</p>
+                <p :class="activeVariants?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Variants</p>
+                <p :class="activeImages?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Images</p>
+                <p :class="activePricing?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Pricing</p>
+                <p :class="activeLinks?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Links</p>
+                <p :class="activeShipping?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Shipping</p>
+                <p :class="activeInventory?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">Inventory</p>
+                <p :class="activeSEO?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 ">SEO</p>
+              </div>
+              <General v-if="activeGeneral"/>
+              <Data v-if="activeData"/>
+              <Variants v-if="activeVariants"/>
+              <Images v-if="activeImages"/>
+              <Pricing v-if="activePricing"/>
+              <Links v-if="activeLinks"/>
+              <Shipping v-if="activeShipping"/>
+              <Inventory v-if="activeInventory"/>
+              <SEO v-if="activeSEO"/>
+            </div>
         </div>
-        <Nav page="General"></Nav>
+        <!-- <Nav page="General"></Nav> -->
       </div>
     </div>
   </app-layout>
@@ -150,6 +182,8 @@ import AppLayout from "../../Layouts/AppLayout.vue";
 import Search from "../Search.vue";
 import Nav from "../../Layouts/Nav";
 import axios from "axios";
+import useVuelidate from '@vuelidate/core'
+import { required,helpers } from '@vuelidate/validators'
 
 import {
   Dialog,
@@ -159,17 +193,22 @@ import {
 } from "@headlessui/vue";
 import { ChevronLeftIcon } from "@heroicons/vue/solid";
 import hljs from "highlight.js";
-import InventoryForm from "./Components/InventoryForm";
-import ShippingForm from "./Components/ShippingForm";
-import VariantsForm from "./Components/VariantsForm";
-import SearchEngineForm from "./Components/SearchEngineForm";
-import MediaUrlModal from "./Components/MediaUrlModal";
-import PricingForm from "./Components/PricingForm";
+import Inventory from "./Components/Inventory";
+import Shipping from "./Components/Shipping";
+import Variants from "./Components/Variants";
+import SEO from "./Components/SEO";
+import Images from "./Components/Images";
+import Pricing from "./Components/Pricing";
+import General from "./Components/General";
+import Data from "./Components/Data";
+import Links from "./Components/Links";
 import Dropzone from "./Components/Dropzone";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
 // import "vue-multiselect/dist/vue-multiselect.min.css";
+
+
 
 const statusStyles = {
   success: "bg-green-100 text-green-800",
@@ -193,18 +232,32 @@ export default {
     TransitionRoot,
     Multiselect,
     // InventoryForm,
-    ShippingForm,
-    VariantsForm,
-    SearchEngineForm,
-    PricingForm,
+    Shipping,
+    Variants,
+    Images,
+    Inventory,
+    Links,
+    SEO,
+    Pricing,
+    General,
+    Data,
     UploadIcon,
     AngleUpIcon,
-    MediaUrlModal,
     Dropzone
   },
 
   data() {
     return {
+      v$: useVuelidate(),
+      activeGeneral:false,
+      activeData:false,
+      activeVariants:true,
+      activeImages:false,
+      activePricing:false,
+      activeLinks:false,
+      activeShipping:false,
+      activeInventory:false,
+      activeSEO:false,
       valueContent: '',
       variantList: [],
       dropzoneOptions: {
@@ -381,8 +434,10 @@ export default {
     },
     submit() {
       // this.sending = true
-
-      this.$inertia.post("/products", this.formData);
+      this.v$.$validate()
+      if(!this.v$.$error){
+        this.$inertia.post("/products", this.formData);
+      }
     },
     afterComplete(file) {
       // console.log(file);
@@ -475,6 +530,16 @@ export default {
 
            this.variantList = variantList;
         },
+  },
+  validations(){
+    return{
+      formFields: {
+        title: {required:helpers.withMessage('This field cannot be empty', required)},
+        description: {required:helpers.withMessage('This field cannot be empty', required)},
+        brand: {required:helpers.withMessage('This field cannot be empty', required)},
+      },
+      
+    }
   },
   setup() {
     const open = ref(false);
