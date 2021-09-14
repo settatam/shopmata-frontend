@@ -694,6 +694,7 @@ export default {
            this.variantList = variantList;
         },
   },
+  
   setup() {
     const open = ref(false);
     return {

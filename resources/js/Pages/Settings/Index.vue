@@ -6,7 +6,7 @@
             <div class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8">
               <inertia-link href="#" class="-ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
                 <ChevronLeftIcon class="h-5 w-5 text-blue-gray-400" aria-hidden="true" />
-                <span>Settings</span>
+                <span class="font-semibold text-2xl">Settings</span>
               </inertia-link>
             </div>
           </nav>
@@ -16,124 +16,159 @@
             <Nav page="General"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-                <h1 class="text-3xl font-extrabold text-blue-gray-900">General</h1>
-                <form class="mt-6 space-y-8 divide-y divide-y-blue-gray-200">
-                  <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
-                    <div class="sm:col-span-6">
-                      <h2 class="text-xl font-medium text-blue-gray-900">Profile</h2>
-                      <p class="mt-1 text-sm text-blue-gray-500">This information will be displayed publicly so be careful what you share.</p>
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="first-name" class="block text-sm font-medium text-blue-gray-900">
-                        First name
+              <div class="w-8/10 ml-7">
+                <div class="p-8 bg-white">
+                  <h1 class="text-2xl mb-2 font-semibold">General information</h1>
+                  <h2 class="text-lg font-semibold mb-9">Store Details</h2>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Store Name
+                    </label>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.name" required/>
+                     <span v-if="v$.details.name.$error" class="text-red-400">{{v$.details.name.$errors[0].$message}}</span>
+                  </div>
+                  <div class="flex required  mb-4">
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Email Address
                       </label>
-                      <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
+                      <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.account_email" required/>
+                      <span v-if="v$.details.account_email.$error" class="text-red-400">{{v$.details.account_email.$errors[0].$message}}</span>
                     </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="last-name" class="block text-sm font-medium text-blue-gray-900">
-                        Last name
+                    <div class="ml-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Sender Email
                       </label>
-                      <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
+                      <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.customer_email" required/>
                     </div>
-
-                    <div class="sm:col-span-6">
-                      <label for="username" class="block text-sm font-medium text-blue-gray-900">
-                        Username
+                    <span v-if="v$.details.customer_email.$error" class="text-red-400">{{v$.details.customer_email.$errors[0].$message}}</span>
+                  </div>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Store Industry
+                    </label>
+                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.industry" required>
+                      <option v-for="(industry,index) in this.industries" :key="index">{{industry.name}}</option>
+                    </select>
+                      <span v-if="v$.details.industry.$error" class="text-red-400">{{v$.details.industry.$errors[0].$message}}</span>
+                  </div>
+                  <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
+                  <h2 class="text-lg font-semibold mb-2">Store Address</h2>
+                  <p class="w-6/10 text-gray-400 mb-4">This address will appear on your invoices. You can edit the address used to calculate shipping rates in your <span class="text-indigo-700 cursor-pointer">shipping settings</span></p>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Legal Name of Business
+                    </label>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.business_name" required/>
+                      <span v-if="v$.address.business_name.$error" class="text-red-400">{{v$.address.business_name.$errors[0].$message}}</span>
+                  </div>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Phone Number
+                    </label>
+                    <input type="tel"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.phone"  required/>
+                     <span v-if="v$.address.phone.$error" class="text-red-400">{{v$.address.phone.$errors[0].$message}}</span>
+                  </div>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Country
+                    </label>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="address.country" required @change="stateList">
+                      <option v-for="(country,index) in this.countries" :key="index">{{country.name}}</option>
+                    </select>
+                     <span v-if="v$.address.country.$error" class="text-red-400">{{v$.address.country.$errors[0].$message}}</span>
+                  </div>
+                  <div class="flex required  mb-4">
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        City
                       </label>
-                      <div class="mt-1 flex rounded-md shadow-sm">
-                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-blue-gray-300 bg-blue-gray-50 text-blue-gray-500 sm:text-sm">
-                          workcation.com/
-                        </span>
-                        <input type="text" name="username" id="username" autocomplete="username" value="lisamarie" class="flex-1 block w-full min-w-0 border-blue-gray-300 rounded-none rounded-r-md text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                      </div>
+                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="address.city" required>
+                        <option v-for="(city,index) in this.citylist" :key="index">{{city}}</option>
+                      </select>
+                     <span v-if="v$.address.city.$error" class="text-red-400">{{v$.address.city.$errors[0].$message}}</span>
                     </div>
-
-                    <div class="sm:col-span-6">
-                      <label for="photo" class="block text-sm font-medium text-blue-gray-900">
-                        Photo
+                    <div class="mx-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        State
                       </label>
-                      <div class="mt-1 flex items-center">
-                        <img class="inline-block h-12 w-12 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80" alt="" />
-                        <div class="ml-4 flex">
-                          <div class="relative bg-white py-2 px-3 border border-blue-gray-300 rounded-md shadow-sm flex items-center cursor-pointer hover:bg-blue-gray-50 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-blue-gray-50 focus-within:ring-blue-500">
-                            <label for="user-photo" class="relative text-sm font-medium text-blue-gray-900 pointer-events-none">
-                              <span>Change</span>
-                              <span class="sr-only"> user photo</span>
-                            </label>
-                            <input id="user-photo" name="user-photo" type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md" />
-                          </div>
-                          <button type="button" class="ml-3 bg-transparent py-2 px-3 border border-transparent rounded-md text-sm font-medium text-blue-gray-900 hover:text-blue-gray-700 focus:outline-none focus:border-blue-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-gray-50 focus:ring-blue-500">
-                            Remove
-                          </button>
-                        </div>
-                      </div>
+                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.state"  required>
+                        <option v-for="(state,index) in this.statelist.states" :key="index">{{state.name}}</option>
+                      </select>
+                       <span v-if="v$.address.state.$error" class="text-red-400">{{v$.address.state.$errors[0].$message}}</span>
                     </div>
-
-                    <div class="sm:col-span-6">
-                      <label for="description" class="block text-sm font-medium text-blue-gray-900">
-                        Description
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        ZIP / Postal Code
                       </label>
-                      <div class="mt-1">
-                        <textarea id="description" name="description" rows="4" class="block w-full border border-blue-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                      </div>
-                      <p class="mt-3 text-sm text-blue-gray-500">Brief description for your profile. URLs are hyperlinked.</p>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.zip"  required/>
                     </div>
-
-                    <div class="sm:col-span-6">
-                      <label for="url" class="block text-sm font-medium text-blue-gray-900">
-                        URL
+                     <span v-if="v$.address.zip.$error" class="text-red-400">{{v$.address.zip.$errors[0].$message}}</span>
+                  </div>
+                  
+                  <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
+                  <h2 class="text-lg font-semibold mb-2">Standards and Formats</h2>
+                  <p class="w-6/10 text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Time Zone
+                    </label>
+                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.timezone" required>
+                      <option v-for="(timezone,index) in this.timezones" :key="index">{{timezone.name}}</option>
+                    </select>
+                     <span v-if="v$.standards.timezone.$error" class="text-red-400">{{v$.standards.timezone.$errors[0].$message}}</span>
+                  </div>
+                  <div class="flex required  mb-4">
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Unit System
                       </label>
-                      <input type="text" name="url" id="url" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
+                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.unit"  required>
+                        <option v-for="(unit,index) in this.units" :key="index">{{unit.unit}}</option>
+                      </select>
+                      <span v-if="v$.standards.unit.$error" class="text-red-400">{{v$.standards.unit.$errors[0].$message}}</span>
+                    </div>
+                    <div class="ml-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Default Weight Unit
+                      </label>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.default_weight_unit" required/>
+                      <span v-if="v$.standards.default_weight_unit.$error" class="text-red-400">{{v$.standards.default_weight_unit.$errors[0].$message}}</span>
                     </div>
                   </div>
-
-                  <div class="pt-8 grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
-                    <div class="sm:col-span-6">
-                      <h2 class="text-xl font-medium text-blue-gray-900">Personal Information</h2>
-                      <p class="mt-1 text-sm text-blue-gray-500">This information will be displayed publicly so be careful what you share.</p>
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="email-address" class="block text-sm font-medium text-blue-gray-900">
-                        Email address
+                  <h2 class="text-lg font-semibold mb-2">Edit Order ID Format (Optional)</h2>
+                  <p class="w-6/10 text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <div class="flex required  mb-4">
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Prefix
                       </label>
-                      <input type="text" name="email-address" id="email-address" autocomplete="email" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.order_id_prefix" required/>
+                     <span v-if="v$.standards.order_id_prefix.$error" class="text-red-400">{{v$.standards.order_id_prefix.$errors[0].$message}}</span>
                     </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="phone-number" class="block text-sm font-medium text-blue-gray-900">
-                        Phone number
+                    <div class="ml-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Suffix
                       </label>
-                      <input type="text" name="phone-number" id="phone-number" autocomplete="tel" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.order_id_suffix"  required/>
+                      <span v-if="v$.standards.order_id_suffix.$error" class="text-red-400">{{v$.standards.order_id_suffix.$errors[0].$message}}</span>
                     </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="country" class="block text-sm font-medium text-blue-gray-900">
-                        Country
-                      </label>
-                      <input type="text" name="country" id="country" autocomplete="country" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="language" class="block text-sm font-medium text-blue-gray-900">
-                        Language
-                      </label>
-                      <input type="text" name="language" id="language" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-
-                    <p class="text-sm text-blue-gray-500 sm:col-span-6">This account was created on <time datetime="2017-01-05T20:35:40">January 5, 2017, 8:35:40 PM</time>.</p>
                   </div>
-
-                  <div class="pt-8 flex justify-end">
-                    <button type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-blue-gray-900 hover:bg-blue-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                      Cancel
-                    </button>
-                    <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Save</button>
+                  <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
+                  <h2 class="text-lg font-semibold mb-2">Store Currency</h2>
+                  <p class="w-6/10 text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Store Currency
+                    </label>
+                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_currency.currency" required>
+                      <option v-for="(currency,index) in this.currencies" :key="index">{{currency.symbol_left + ' '}}  {{ currency.code}}</option>
+                    </select>
+                    <span v-if="v$.store_currency.currency.$error" class="text-red-400">{{v$.store_currency.currency.$errors[0].$message}}</span>
+                    <p class="w-6/10 text-gray-400 mb-4">You have made your first sale, so you need to <span class="text-indigo-700 cursor-pointer">contact support</span> if you want to change your currency</p>
                   </div>
-                </form>
+                </div>
+                <button class="text-white bg-indigo-700 rounded-md px-4.5 py-3 float-right my-5" @click="submit">Save Changes</button>
               </div>
             </div>
           </div>
@@ -148,6 +183,9 @@ import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import Nav from './Nav';
 import axios from "axios"
+import useVuelidate from '@vuelidate/core'
+import { required, email, helpers } from '@vuelidate/validators'
+
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon } from '@heroicons/vue/solid'
@@ -158,12 +196,7 @@ const statusStyles = {
   failed: 'bg-gray-100 text-gray-800',
 }
 export default {
-  props: {
-            products: Object,
-            filters: Object,
-            brands: Array,
-            categories: Array
-        },
+   props: ["store", 'countries', 'currencies', 'units', 'industries', "timezones"],
   
   components: {
     Nav,
@@ -173,13 +206,168 @@ export default {
   
   data() {
     return {
+      notification:null,
+      details: {
+        account_email: "",
+        customer_email: "",
+        name: "",
+        industry: null,
+      },
+      address: {
+        business_name: "",
+        phone: "",
+        state: "",
+        city: "",
+        zip: "",
+        address: "",
+        address2: "",
+        country: null,
+      },
+      standards: {
+        timezone: null,
+        unit: null,
+        default_weight_unit: null,
+        order_id_suffix: "",
+        order_id_prefix: "",
+      },
+      store_currency: {
+        currency: "",
+      },
+      statelist:[],
+      citylist:[],
+      dialCode:[],
+    }
+  },
+  methods: {
+    async submit() {
+      console.log(this.v$.$error)
+      if(!this.v$.$error){
+        console.log(this.details);
+        const {account_email, customer_email, industry, name} = this.details;
+        const {business_name, phone, address, address2, state, country, city, zip } = this.address;
+        const {default_weight_unit, unit, timezone, order_id_suffix, order_id_prefix } = this.standards;
+        const data = {
+          name,
+          account_email,
+          customer_email,
+          industry_id: industry.id,
+          address: address || "",
+          address2: address2 || "",
+          business_name: business_name || "",
+          city: city || "",
+          country_id: country?.id || "",
+          currency_id: this.store_currency.currency !== "" ? this.store_currency.currency.id : "",
+          default_weight_unit_id: default_weight_unit?.id || "",
+          order_id_suffix: order_id_suffix,
+          order_id_prefix: order_id_prefix,
+          phone: phone || "",
+          state: state || "",
+          timezone_id: this.standards.timezone !== "" ? this.standards.timezone.id : "",
+          unit_id: unit?.id || "",
+          zip: zip || ""
+        };
+        try {
+          const res = await axios.put("/settings/general", data);
+          const { notification } = res.data;
+          this.notification = notification;
+          setTimeout(function(){ window.location.reload() }, 2000);
+        } catch (error) {
+          console.log(error);
+          const { notification } = error.response.data;
+          this.notification = notification;
+        }
+      }},
+      stateList(){
+        axios.post('https://countriesnow.space/api/v0.1/countries/states',{"country": `${this.address.country}`}).then(res=>{
+              this.statelist = res.data.data
+              console.log(res.data)
+          }
+        )
+        axios.post('https://countriesnow.space/api/v0.1/countries/cities',{"country": `${this.address.country}`}).then(res=>{
+              this.citylist = res.data.data
+              console.log(res.data)
+          }
+        )
 
+      }
+    /* addTag(newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
+      };
+      this.options.push(tag);
+      this.value.push(tag);
+    }, */
+  },
+mounted() {
+    const{account_email, customer_email, name, industry_id, phone, country_id, state, city, business_name, zip, address, address2,order_id_suffix, order_id_prefix, default_weight_unit_id, unit_id, timezone, currency_id } = this.store;
+    const industry = this.industries.filter(data => data.id === industry_id);
+    const country = this.countries.filter(data => data.id === country_id);
+    const currency = this.currencies.filter(data => data.id === currency_id);
+    const unitSystem = this.units.filter(data => data.id === unit_id);
+    const weightUnitSystem = this.units.filter(data => data.id === default_weight_unit_id);
+    this.details = {
+      account_email: account_email || "",
+      customer_email: customer_email || "",
+      name: name || "",
+      industry: industry[0] || {},
+    };
+    (this.address = {
+      business_name: business_name || "",
+      phone: phone || "",
+      state: state || "",
+      city: city || "",
+      zip: zip | "",
+      address: address || "",
+      address2: address2 || "",
+      country: country[0],
+    }),
+      (this.standards = {
+        timezone: timezone || "",
+        unit: unitSystem[0] || "",
+        default_weight_unit: weightUnitSystem[0].title,
+        order_id_prefix: order_id_prefix || "",
+        order_id_suffix: order_id_suffix || "",
+      }),
+      (this.store_currency = {
+        currency: currency[0],
+      });
+  },
+  validations(){
+    return{
+      details: {
+        account_email: {required: helpers.withMessage('This field cannot be empty', required,email)},
+        customer_email: {required: helpers.withMessage('This field cannot be empty', required,email)},
+        name: {required: helpers.withMessage('This field cannot be empty', required)},
+        industry: {required: helpers.withMessage('This field cannot be empty', required)},
+      },
+      address: {
+        business_name: {required: helpers.withMessage('This field cannot be empty', required)},
+        phone: {required: helpers.withMessage('This field cannot be empty', required)},
+        state: {required: helpers.withMessage('This field cannot be empty', required)},
+        city: {required: helpers.withMessage('This field cannot be empty', required)},
+        zip: {required: helpers.withMessage('This field cannot be empty', required)},
+        address: {required: helpers.withMessage('This field cannot be empty', required)},
+        address2: {required: helpers.withMessage('This field cannot be empty', required)},
+        country: {required: helpers.withMessage('This field cannot be empty', required)},
+      },
+      standards: {
+        timezone: {required: helpers.withMessage('This field cannot be empty', required)},
+        unit: {required: helpers.withMessage('This field cannot be empty', required)},
+        default_weight_unit: {required: helpers.withMessage('This field cannot be empty', required)},
+        order_id_suffix: {required: helpers.withMessage('This field cannot be empty', required)},
+        order_id_prefix: {required: helpers.withMessage('This field cannot be empty', required)},
+      },
+      store_currency: {
+        currency: {required: helpers.withMessage('This field cannot be empty', required)},
+      },
     }
   },
   setup() {
     const open = ref(false)
     return {
       statusStyles,
+      v$: useVuelidate() 
     }
   },
 
