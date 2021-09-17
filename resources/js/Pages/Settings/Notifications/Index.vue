@@ -16,9 +16,11 @@
             <Nav page="Notifications"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-                <h1 class="text-3xl font-extrabold text-blue-gray-900">Notifications</h1>
-
+              <div class="w-8/10 ml-7">
+                <div class="p-8 bg-white">
+                  <h1 class="text-2xl mb-2 font-semibold">Notifications</h1>
+                  
+                </div>
               </div>
             </div>
           </div>

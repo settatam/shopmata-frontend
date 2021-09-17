@@ -16,9 +16,26 @@
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-                <h1 class="text-3xl font-extrabold text-blue-gray-900">Gift Card</h1>
-
+              <div class="w-8.5/10 ml-7">
+                <div class="p-8 bg-white">
+                  <h1 class="text-2xl mb-2 font-semibold">Gift Cards</h1>
+                    <h2 class="text-lg font-semibold">Auto-expiration</h2>
+                    <p class="text-gray-400 text-sm mt-2 mb-5">Set your gift cards to expire a certain amount of time after they,ve been purchased.</p>
+                    <div class="border border-gray-300 px-7 pt-7 pb-6">
+                      <p class="ml-9 mb-2">Gift cards expires</p>
+                      <p class="ml-9 mb-6">Gift cards never expires</p>
+                      <div class="flex mb-6">
+                        <input type="text" name="" v-model="gift.duration" placeholder="5" class="w-20 mr-2.5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md">
+                        <select name="" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="5" v-model="gift.type" >
+                          <option value="year" >Years after purchase</option>
+                          <option value="month">Months after purchase</option>
+                          <option value="day">Days after purchase</option>
+                        </select>
+                      </div>
+                        <p class="text-gray-400">Countries have different laws for gift card expiry dates. Check the laws for your country before changing this date.</p>
+                    </div>
+                </div>
+                    <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit" >Save Changes</button>
               </div>
             </div>
           </div>
@@ -33,6 +50,7 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
 import axios from "axios"
+
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon } from '@heroicons/vue/solid'
@@ -58,7 +76,20 @@ export default {
   
   data() {
     return {
-
+      gift:{
+        duration:'1',
+        type:'day'
+      }
+    }
+  },
+  methods:{
+    submit(){
+      
+      try {
+        axios.post('settings/gift-cards',this.gift)
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   setup() {

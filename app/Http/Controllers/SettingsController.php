@@ -82,7 +82,7 @@ class SettingsController extends Controller
 
     public function manageLocalDelivery()
     {
-        return Inertia::render('Settings/Components/ManageLocalDelivery');
+        return Inertia::render('Settings/Shipping/Components/ManageLocalDelivery');
     }
 
     public function manageLocalPickup()
@@ -92,12 +92,12 @@ class SettingsController extends Controller
 
     public function generalShippingRate()
     {
-        return Inertia::render('Settings/Components/GeneralShippingRate');
+        return Inertia::render('Settings/Shipping/Components/GeneralShippingRate');
     }
 
     public function shippingProfile()
     {
-        return Inertia::render('Settings/Components/ShippingProfile');
+        return Inertia::render('Settings/Shipping/Components/ShippingProfile');
     }
 
     public function payments()

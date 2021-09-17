@@ -16,7 +16,7 @@
             <Nav page="General"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-8/10 ml-7">
+              <div class="w-8.5/10 ml-7">
                 <div class="p-8 bg-white">
                   <h1 class="text-2xl mb-2 font-semibold">General information</h1>
                   <h2 class="text-lg font-semibold mb-9">Store Details</h2>
@@ -168,7 +168,7 @@
                     <p class="w-6/10 text-gray-400 mb-4">You have made your first sale, so you need to <span class="text-indigo-700 cursor-pointer">contact support</span> if you want to change your currency</p>
                   </div>
                 </div>
-                <button class="text-white bg-indigo-700 rounded-md px-4.5 py-3 float-right my-5" @click="submit">Save Changes</button>
+                <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Changes</button>
               </div>
             </div>
           </div>
@@ -240,6 +240,7 @@ export default {
   },
   methods: {
     async submit() {
+      this.v$.$validate()
       console.log(this.v$.$error)
       if(!this.v$.$error){
         console.log(this.details);
