@@ -13,26 +13,31 @@
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-                <div class="w-8.5/10 ml-5 max-w-2lg ">
+                <div class="w-9/10 ml-5 max-w-2lg ">
                     <div class="mb-6 pt-2">
                         <h1 class="text-2xl font-semibold">Shipping and Delivery</h1>
                         <div class="p-8 mb-6 bg-white">
                             <h2 class="text-xl font-semibold">General Shipping Rates</h2>
                             <div class="pl-5 pr-2 border border-gray-300 mt-5 pt-8">
                                 <p class="text-xl font-semibold">Products</p>
-                                <p class="text-gray-500">0 products </p>
-                                <p class="text-gray-600">New products are added to this profile. </p>
-                                <div class="border-t -mr-2 -ml-5 border-gray-300 bg-gray-100 px-5">
+                                <p class="text-gray-500 my-2.5">0 products </p>
+                                <p class="text-gray-600 mb-2.5">New products are added to this profile. </p>
+                                <div class="border-t -mr-2 -ml-5 border-gray-300 bg-gray-100 px-5 pt-5">
                                     <p class="text-gray-500 pb-8">To charge different rates for only certain products, create a new profile in <span class="text-indigo-700 underline cursor-pointer">shipping settings.</span></p>
                                 </div>
                             </div>
                             <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8">
                                 <div class="flex justify-between items-center">
-                                    <p class="font-semibold uppercase mr-8">Shipping From</p>
+                                    <p class="font-semibold mr-8 mb-4">Shipping From</p>
+                                </div>
+                                <div class="flex justify-between">
+                                    <location-marker-icon class="w-5 h-5 mr-1 pt-2"/>
+                                    <div>
+                                        <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
+                                        <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
+                                    </div>
                                     <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
                                 </div>
-                                <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
-                                <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
                             </div>
                             <div class="mt-6 border border-gray pt-5 pl-8 pr-5 flex-col">
                     <div class="flex justify-between mt-4 mb-2">
@@ -107,11 +112,13 @@
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Search from '../../../Search.vue'
 import Nav from '../../Nav';
+import {LocationMarkerIcon} from '@heroicons/vue/outline'
 
 export default {
     components: {
         Nav,
         AppLayout,
+        LocationMarkerIcon
     }
 }
 </script>

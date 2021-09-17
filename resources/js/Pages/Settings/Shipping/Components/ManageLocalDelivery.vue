@@ -24,11 +24,11 @@
                                     <span class="mt-1.5 w-3"><img src="../../../../../assets/location-marker.svg" alt="location marker icon" /></span>
                                     <div class="ml-3">
                                         <p class="font-semibold mr-4 md:mb-0 mb-2">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
-                                        <p class="text-gray-400 mt-2">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
+                                        <p class="text-gray-500 mt-2">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
                                     </div>
                                 </div>
 
-                                <div class="md:flex justify-between w-full my-4">
+                                <div class="md:flex justify-between w-full mt-4">
                                     <div class="md:w-7/10 w-full">
                                         <div class="flex w-full">
                                             <input aria-describedby="comments-description" name="comments" type="checkbox" class="h-4 w-4 text-indigo-600 border-gray-300 rounded mr-3" v-model="localDelivery.offersLocalDelivery" />
@@ -36,8 +36,7 @@
                                                 This location offers local delivery
                                             </label>
                                         </div>
-
-                                        <p class="text-sm text-gray-400 my-4">*Delivery prices in this location are  in Nigerian Naira, which are subjected to the local currency of the country selected. </p>
+                                        <p class="text-sm text-gray-500 mt-4">* Delivery prices in this location are  in Nigerian Naira, which are subjected to the local currency of the country selected. </p>
                                     </div>
                                     <div class="md:w-3/10 w-full text-right">
                                         <t-button @click="handleShowCurrencyForm" class="text-indigo-700 cursor-pointer ">Change Currency</t-button>
@@ -45,14 +44,14 @@
                                 </div>
                             </div>
 
-                            <div class="my-9 rounded md:px-7 px-3 py-5 border border-gray-200">
+                            <div class="my-3 rounded md:px-7 px-3 py-5 border border-gray-200">
                                 <p class="font-semibold text-xl pb-2 pt-0.5">Delivery Area</p>
-                                <p class="text-gray-400">Use of the methods below to define your delivery area</p>
+                                <p class="text-gray-500">Use of the methods below to define your delivery area</p>
                                 <div class="flex my-5">
                                     <input  type="radio" name="postalCodes" value="postalCodes" v-model="localDelivery.deliveryArea" id="postal-codes" class="cursor-pointer custom-form-radio mt-1">
                                     <label for="postal-codes" class="ml-3 block cursor-pointer w-full">
                                         <p class="text-black font-semibold">Postal Codes</p>
-                                        <p class="text-gray-400">Choose specific areas that you deliver to.</p>
+                                        <p class="text-gray-500">Choose specific areas that you deliver to.</p>
                                     </label>
                                 </div>
 
@@ -60,18 +59,18 @@
                                     <input type="radio" name="setRadius" value="setRadius" id="set-radius" v-model="localDelivery.deliveryArea" class="cursor-pointer custom-form-radio mt-1">
                                     <label for="set-radius" class="ml-3 block cursor-pointer w-full">
                                         <p class="text-black font-semibold">Set Delivery Radius</p>
-                                        <p class="text-gray-400"> Set a distance around your location that you deliver to.</p>
+                                        <p class="text-gray-500"> Set a distance around your location that you deliver to.</p>
                                     </label>
                                 </div>
 
-                                <p class="font-semibold text-xl pb-2 pt-0.5 md:mt-16">Delivery Zone</p>
+                                <p class="font-semibold text-xl pb-2 pt-0.5 md:mt-5">Delivery Zone</p>
 
                                 <div class="flex flex-wrap md:mb-8">
                                     <div class="w-full ">
                                         <label class="block text-black mb-2 bg-transparent" for="zoneName">
                                             Zone name
                                         </label>
-                                        <input class="appearance-none border  rounded-smborder-gray-200 bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none " type="text" placeholder="Local delivery" v-model="deliveryZone.zoneName" required>
+                                        <input class="appearance-none border  rounded-sm border-gray-200 bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none " type="text" placeholder="Local delivery" v-model="deliveryZone.zoneName" required>
                                     </div>
                                 </div>
                                 <div class="flex flex-wrap md:mb-8">
@@ -80,10 +79,10 @@
                                             Postal  codes
                                         </label>
                                         <input class="appearance-none border rounded-sm border-gray-200 bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none " type="text" placeholder="" v-model="deliveryZone.postalCodes" required>
-                                        <p class="text-gray-400 text-xs mt-0.5">Enter postal codes separated by a comma.</p>
+                                        <p class="text-gray-500 text-xs mt-0.5">Enter postal codes separated by a comma.</p>
                                     </div>
                                 </div>
-                                <div class="flex flex-wrap md:mb-8">
+                                <div class="flex flex-wrap md:mb-4">
                                     <div class="w-full md:w-1/2 mb-8 md:pr-3">
                                         <label class="block text-black mb-2 bg-transparent" for="minOrderPrice">
                                             Minimum order price
@@ -91,37 +90,23 @@
                                         <input class="appearance-none border rounded-sm border-gray-200 bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none " type="number" placeholder="$0.00" v-model="deliveryZone.minOrderPrice" >
                                         <inertia-link href="" class="text-indigo-700 text-sm mt-2.5">Remove conditional pricing</inertia-link>
                                     </div>
-                                    <div class="w-full md:w-1/2 mb-8 md:pl-3">
+                                    <div class="w-full md:w-1/2 mb-4 md:pl-3">
                                         <label class="block text-black mb-2 bg-transparent" for="deliveryPrice">
                                             Delivery price
                                         </label>
                                         <input class="appearance-none border border-gray-200 rounded-sm bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none" type="number" placeholder="$0.00" v-model="deliveryZone.deliveryPrice" >
                                     </div>
                                 </div>
-                                <div class="flex flex-wrap md:mb-8">
-                                    <div class="w-full md:w-1/2 mb-8 md:pr-3">
-                                        <label class="block text-black mb-2 bg-transparent" for="orderPrice">
-                                            Orders from ₦ {{parseInt(deliveryZone.minOrderPrice)+'.00'}} up to
-                                        </label>
-                                        <input class="appearance-none border rounded-sm border-gray-200 bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none " type="number" placeholder="$0.00" v-model="deliveryZone.orderPrice" >
-                                    </div>
-                                    <div class="w-full md:w-1/2 mb-8 md:pl-3">
-                                        <label class="block text-black mb-2 bg-transparent" for="deliveryPrice">
-                                            Delivery price
-                                        </label>
-                                        <input class="appearance-none border rounded-sm border-gray-200 bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none" type="number" placeholder="$0.00" v-model="deliveryZone.deliveryPrice">
-                                    </div>
-                                </div>
                                 <div class="flex flex-wrap">
-                                    <div class="w-full md:my-8 my-4 relative">
+                                    <div class="w-full mb-4 relative">
                                         <label class="block text-black mb-2 bg-transparent" for="deliveryInfo">
                                             Delivery information
                                         </label>
                                         <textarea name="deliveryInfo" rows="6" cols="30" class="appearance-none border border-gray-300 rounded bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none " placeholder="" v-model="deliveryZone.deliveryInfo" />
                                         <div class="absolute md:bottom-8 bottom-12 md:right-7 right-4">
-                                            <p class="text-gray-400 ">{{deliveryZone.deliveryInfo.length}}/255</p>
+                                            <p class="text-gray-500 ">{{deliveryZone.deliveryInfo.length}}/255</p>
                                         </div>
-                                        <p class="text-gray-400 text-xs">This message will appear at checkout and in the <inertia-link href="" class=" text-indigo-700">confirmation notification.</inertia-link></p>
+                                        <p class="text-gray-500 text-sm">This message will appear at checkout and in the <inertia-link href="" class=" text-indigo-700">confirmation notification.</inertia-link></p>
                                     </div>
                                 </div>
 
@@ -155,7 +140,6 @@ export default {
             deliveryZone: {
                 zoneName: "",
                 postalCodes: "",
-                minOrderPrice: 0,
                 orderPrice: 0,
                 deliveryPrice: 0,
                 deliveryInfo: "",

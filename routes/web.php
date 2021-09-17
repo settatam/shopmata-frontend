@@ -118,7 +118,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Settings -> Plan and Permissions
 	Route::get('settings/plan-and-permissions', [SettingsController::class, 'permissions'])->name('settings.permissions');
-	Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.iviteStaff');
+	Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.inviteStaff');
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
 	#Settings -> Shipping and Delivery

@@ -10,13 +10,13 @@
         </nav>
         <div class="flex-1 flex xl:overflow-hidden">
             <!-- Secondary sidebar -->
-            <Nav page="Shipping"></Nav>
+            <Nav page="Plans"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
                 <div class="w-8.5/10 ml-5 max-w-2lg ">
                     <div class="mb-6 mt-4 pt-2">
                         <div class="p-8 mb-6 bg-white">
-                            <h2 class="text-xl font-semibold">Plan and Permissions</h2>
+                            <h2 class="text-xl font-semibold mb-4">Plan and Permissions</h2>
                             <h3 class="text-lg font-semibold">Plan details</h3>
                             <p class="text-sm text-gray-400">View our <span class="text-indigo-700 cursor-pointer">terms of service</span>  and <span class="text-indigo-700 cursor-pointer">privacy policy.</span></p>
 
@@ -70,7 +70,8 @@
                                     <h2 class="text-xl font-semibold">Plan and Permissions</h2>
                                     <p class="text-sm text-gray-400">Manage what staff can see or do in your store.</p>
                                 </div>
-                                <PlusCircleIcon class="w-11 h-11 text-indigo-700"/>
+                                <PlusCircleIcon class="w-11 h-11 text-indigo-700 cursor-pointer" @click="this.popModal=true"/>
+                            <permission-modal v-if="popModal" @close="this.popModal=false"/>
                             </div>
                              <div class="px-5  border border-gray-300 mt-5 py-4 rounded">
                                 <h3 class="text-lg font-bold mb-6">Store Owner</h3>
@@ -92,7 +93,7 @@
                                     <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
-                                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                         </th> 
                                         <th scope="col" class="w-3/10  px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                             Names
@@ -111,10 +112,10 @@
                                     <tbody class="bg-white divide-y divide-gray-200" v-for="user in storeUsers " :key=" user.id">
                                     <tr class="bg-white">
                                         <td scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selected" :value="user.user.first_name" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                         </td> 
                                         <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                                            <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.user.first_name + '' +user.user.last_name}}</p>  
+                                            <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.user.first_name + ' ' +user.user.last_name}}</p>  
                                         </td>
                                         <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                                             <p class="text-gray-800 text-left ">{{moment(user.updated_at).format("YYYY-MM-DD")}}</p>  
@@ -147,6 +148,8 @@ import Search from '../../Search.vue'
 import Nav from '../Nav';
 import {PlusCircleIcon,DotsVerticalIcon} from '@heroicons/vue/solid'
 import moment from "moment";
+import PermissionModal from './PermissionModal.vue';
+
 
 
 const plans = [
@@ -156,11 +159,19 @@ const plans = [
 ]
 export default {
   props: ['user', 'storeUsers', 'groups','login'],
-  components: { AppLayout,Nav,PlusCircleIcon,DotsVerticalIcon },
+  components: { AppLayout,Nav,PlusCircleIcon,DotsVerticalIcon,PermissionModal },
+  data(){
+      return{
+          popModal:false,
+          selectAll:false,
+          selected:[],
+      }
+  },
+
     setup() {
     return {
       plans,
-      moment
+      moment,
     }
   },
 }

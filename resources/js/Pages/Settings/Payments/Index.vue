@@ -38,14 +38,16 @@
                     <ChevronUpIcon class="w-5 h-5" v-if="gate"/>
                     <ChevronDownIcon class="w-5 h-5" v-else/>
                   </div>
-                    <!-- <div v-for="provider in providers" :key="provider.id">
+                     <div v-for="provider in providers" :key="provider.id">
                         <div class="flex justify-between" >
                           <input type="radio" name="" class="">
                           <h2 class="w-8/10 font-semibold">{{provider.name}}</h2>
-                          <img :src='provider.icon'  alt="icon">
+                         
+                          <img src='../../../../assets/paystack-logo.svg' alt="icon">
                         </div>
                         <p class="text-gray-400">{{provider.description}}</p>
-                    </div> -->
+                    </div> 
+                    <!-- 
                   <div class="bg-white my-6 py-8 px-4 md:px-11" v-for="(gateway, index) in payment_gateways" :key="index">
                       <div class="flex justify-between items-center">
                           <div class="md:flex items-center">
@@ -60,7 +62,7 @@
                           </t-button>
                       </div>
                   </div>
-                
+                 -->
                 </div>
                 <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Changes</button>
               </div>

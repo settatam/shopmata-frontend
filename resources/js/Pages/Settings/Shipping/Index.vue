@@ -16,29 +16,29 @@
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-8.5/10 ml-5 max-w-2lg ">
+              <div class="w-9/10 ml-5 max-w-2lg ">
                 <div class="mb-6 pt-2">
                   <h1 class="text-2xl mb-2 font-semibold">Shipping and Delivery</h1>
-                  <div class="p-8 mb-6 bg-white">
+                  <div class="px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>
                       <p class="text-gray-500">Manage how customers receive their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">delivery methods.</span> </p>
-                      <div class="pl-5 pr-2 border border-gray-300 mt-5 pt-8">
+                      <div class="pl-5 pr-2 border border-gray-300 mt-5 pt-8 rounded-sm">
                         <p class="text-xl font-semibold">Shipping</p>
                         <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <span class="text-indigo-700 underline cursor-pointer">about shipping rates</span> </p>
                         <div class="flex justify-between items-center mt-6">
                           <div class="flex">
                             <p class="font-semibold uppercase mr-8">General Shipping Rate</p>
-                            <p class="px-2 bg-gray-300 text-gray-500">Default</p>
+                            <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
                           <inertia-link href="shipping-and-delivery/general-shipping-rate">
-                            <p class="text-indigo-700 mr-11 cursor-pointer">Manage rates</p>
+                            <p class="text-indigo-700 mr-10 cursor-pointer text-right">Manage rates</p>
                           </inertia-link>
                         </div>
-                          <p> All Products</p>
-                            <div class="flex flex-col mb-8">
-                              <p class="font-semibold">Rates for</p>
-                              <span class="flex"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-600"/> Domestic</span>
-                              <span class="flex"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-600"/> Rest of the world</span>
+                          <p class="mt-2 text-gray-500"> All Products</p>
+                            <div class="flex flex-col mb-8 mt-2">
+                              <p class="font-semibold mb-3">Rates for</p>
+                              <span class="flex text-gray-500 mb-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Domestic</span>
+                              <span class="flex text-gray-500 mt-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Rest of the world</span>
                             </div>
                             <div class="border-t -mr-2 -ml-5 border-gray-300 bg-gray-100 px-5">
                             
@@ -49,30 +49,41 @@
                                   </inertia-link>
                                 </div>
                               <p class="text-gray-500 pb-8">Create a shipping profile to add custom rates or destination restrictions for groups of products. Learn more about <span class="text-indigo-700 underline cursor-pointer">shipping profiles.</span></p>
-                          
                             </div>
                       </div>
-                      <div class="pl-5 pr-2 border border-gray-300 mt-5 py-8">
-                        <p class="text-xl font-semibold">Local Delivery</p>
-                        <p>Deliver orders directly to local customers. Learn more about <span class="text-indigo-700 underline cursor-pointer">local delivery.</span></p>
-                        <div class="flex justify-between items-center mt-6">
+                      <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm">
+                        <p class="text-xl font-semibold ">Local Delivery</p>
+                        <p class="text-gray-500 mt-2.5">Deliver orders directly to local customers. Learn more about <span class="text-indigo-700 underline cursor-pointer">local delivery.</span></p>
+                        <div class="flex justify-between items-center mt-5 mb-2">
                             <p class="font-semibold uppercase mr-8">MANAGE DELIVERY BY LOCATION</p>
                             <inertia-link href="shipping-and-delivery/local-delivery/manage">
                               <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
                             </inertia-link>
                         </div>
-                        <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
-                        <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
-                      </div>
-                      <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8">
-                        <p class="text-xl font-semibold">Local Pickup</p>
-                        <p>Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
-                        <div class="flex justify-between items-center mt-6">
-                            <p class="font-semibold uppercase mr-8">MANAGE DELIVERY BY LOCATION</p>
-                            <p class="text-indigo-700 mr-5">Manage</p> 
+                        <div class="flex justify-between">
+                          <location-marker-icon class="w-5 h-5"/>
+                          <div>
+                            <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
+                            <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
+                          </div>
+                          <p class="bg-green-200 text-green-500 px-2 py-1 text-sm h-6 -ml-24">Offer Delivery</p>
                         </div>
-                        <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
-                        <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
+                      </div>
+                      <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm">
+                        <p class="text-xl font-semibold">Local Pickup</p>
+                        <p class="mt-2.5 text-gray-500">Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
+                        <div class="flex justify-between items-center mt-5 mb-2">
+                            <p class="font-semibold uppercase mr-8">MANAGE DELIVERY BY LOCATION</p>
+                            <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
+                        </div>
+                        <div class="flex justify-between">
+                          <location-marker-icon class="w-5 h-5"/>
+                          <div>
+                            <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
+                            <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
+                          </div>
+                          <p class="bg-red-200 text-red-500 px-2 py-1 text-sm h-6 -ml-36">Doesnt Offer Delivery</p>
+                        </div>
                       </div>
                       <div class="border-t -mx-8 mt-5 border-gray-300"></div>
                       <div>
@@ -83,12 +94,12 @@
                                 <p class="font-semibold text-xl uppercase mr-8">Saved Packages</p>
                                 <p class="text-indigo-700">Add Package</p> 
                             </div>
-                            <div class="flex justify-between items-center mt-4">
-                              <div class="flex">
+                            <div class="flex justify-between  mt-4">
+                              <div class="flex items-center">
                                 <BriefcaseIcon class="w-5 h-5 mr-4"/>
-                                <div class="">
+                                <div class=" text-gray-500">
                                   <p>Sample box</p>
-                                  <p>22 × 13.7 × 4.2 cm, 0 kg</p>
+                                  <p >22 × 13.7 × 4.2 cm, 0 kg</p>
                                 </div>
                               </div>
                               <p class="text-indigo-700 underline cursor-pointer">Edit</p>
@@ -131,7 +142,7 @@ import axios from "axios"
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,GlobeAltIcon } from '@heroicons/vue/solid'
-import { BriefcaseIcon } from '@heroicons/vue/outline'
+import { BriefcaseIcon,LocationMarkerIcon } from '@heroicons/vue/outline'
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -151,7 +162,8 @@ export default {
     AppLayout,
     Dialog, DialogOverlay, TransitionChild, TransitionRoot,
     GlobeAltIcon,
-    BriefcaseIcon
+    BriefcaseIcon,
+    LocationMarkerIcon
   },
   
   data() {

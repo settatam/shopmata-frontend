@@ -13,7 +13,7 @@
 
           <div class="flex-1 flex xl:overflow-hidden">
             <!-- Secondary sidebar -->
-            <Nav page="Shipping"></Nav>
+            <Nav page="GiftCards"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
               <div class="w-8.5/10 ml-7">

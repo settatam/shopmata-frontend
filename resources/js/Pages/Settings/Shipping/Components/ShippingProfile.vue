@@ -27,22 +27,27 @@
                                     </div>
                                 </div>
                                 <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
-                                    <div class="flex justify-between items-center">
-                                        <p class="font-semibold uppercase mr-8">Products</p>
+                                    <div class="flex justify-between items-center mb-14">
+                                        <p class="font-semibold mr-8 text-xl">Products</p>
                                         <p class="text-indigo-700 mr-5">Add Products</p> 
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <p class="font-semibold">No Products</p>
+                                        <p class="font-semibold mb-4">No Products</p>
                                         <p class="text-gray-500">Move products here to set up separate rates.</p>
                                     </div>
                                 </div>
                                     <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
                                         <div class="flex justify-between items-center">
-                                            <p class="font-semibold uppercase mr-8">Shipping From</p>
-                                            <p class="text-indigo-700 mr-5">Manage</p> 
+                                            <p class="font-semibold mr-8 mb-4">Shipping From</p>
                                         </div>
-                                            <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
-                                            <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
+                                            <div class="flex justify-between">
+                                                <location-marker-icon class="w-5 h-5 mr-1 pt-2"/>
+                                                <div>
+                                                    <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
+                                                    <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
+                                                </div>
+                                                <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
+                                            </div>
                                     </div>
                                     <div class="mt-6 border border-gray-300 pt-5 pl-8 pr-5 flex-col rounded">
                             <div class="flex justify-between mt-4 mb-2">
@@ -101,22 +106,22 @@
                                     <button class="mt-4 w-28 mb-5 h-14 bg-gray-100">Add Rate</button>
                                 </div>       
                                     </div>
-                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
-                                    <div class="flex justify-between items-center">
-                                        <p class="font-semibold uppercase mr-8">Shipping To</p>
+                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8  rounded">
+                                    <div class="flex justify-between items-center mb-14">
+                                        <p class="font-semibold mr-8">Shipping To</p>
                                         <p class="text-indigo-700 mr-5">Create Shipping zone</p> 
                                     </div>
                                     <div class="flex flex-col items-center">
-                                        <p class="font-semibold">No zones or rates </p>
+                                        <p class="font-semibold mb-4">No zones or rates </p>
                                         <p class="text-gray-500">Add zones to create rates for places you want to ship to.</p>
                                     </div>
                                 </div>
                                  </div>
                             </div>
-                                    <div class="flex justify-end">
-                                        <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-3  my-5" >Cancel</button>
-                                        <button class="text-white bg-indigo-700 rounded-md px-8 py-3 my-5 ml-5" >Save</button>
-                                    </div>
+                            <div class="flex justify-end">
+                                <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-3  my-5" >Cancel</button>
+                                <button class="text-white bg-indigo-700 rounded-md px-8 py-3 my-5 ml-5" >Save</button>
+                            </div>
                 </div>
             </div>
          </div>
@@ -126,10 +131,12 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav';
+import {LocationMarkerIcon} from '@heroicons/vue/outline'
 export default {
      components: {
         Nav,
         AppLayout,
+        LocationMarkerIcon
     }
 }
 </script>
