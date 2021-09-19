@@ -16,7 +16,7 @@
             <Nav page="GiftCards"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-8.5/10 ml-7">
+              <div class="w-8.5/10 ml-7 mt-5">
                 <div class="p-8 bg-white">
                   <h1 class="text-2xl mb-2 font-semibold">Gift Cards</h1>
                     <h2 class="text-lg font-semibold">Auto-expiration</h2>
