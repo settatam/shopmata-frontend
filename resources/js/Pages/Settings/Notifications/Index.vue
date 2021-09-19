@@ -17,7 +17,7 @@
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
               <div class="w-8.5/10 ml-5 max-w-2lg">
-                <div class="mb-6 pt-2">
+                <div class="mb-6 pt-2 mt-2">
                   <h1 class="text-2xl font-semibold">Notifications</h1>
                   <p class="text-gray-500 mb-4">Choose which notifications you want to get for this site.</p>
                   <div class="p-8 mb-6 bg-white">
