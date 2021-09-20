@@ -57,11 +57,17 @@ class StoreController extends Controller
 
             $storeOwnerDetails = StoreGroup::where('name', 'Owner')->first();
 
-            StoreUser::create( [
+            $store_user = [
                 'store_id' => $store->id,
                 'user_id' => $user->id,
                 'store_group_id' => $storeOwnerDetails->id ?? 1
-            ]);
+            ];
+            
+            if(StoreUser::create($store_user)) {
+                Log::info('Created a new owner with the following details', $store_user);
+            }
+
+            //create 
             
             $notification = [
                 "title" => "Store Created Successfully",
@@ -89,6 +95,10 @@ class StoreController extends Controller
 
             return response()->json(['notification' => $notification ], 500);
         }
+    }
+
+    public function update(Request $request) {
+
     }
 
     private function generateSlug($str){

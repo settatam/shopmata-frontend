@@ -36,7 +36,11 @@ class Store extends Model
     						'store_domain',
     						'industry_id',
     						'order_id_suffix',
-    						'order_id_prefix'
+    						'order_id_prefix',
+                            'allow_guest_checkout',
+                            'login_wall',
+                            'enable_store_pickup',
+                            'enable_pay_on_delivery'
     					];
 
     // protected static function booted()
@@ -70,4 +74,6 @@ class Store extends Model
     public function weight() {
         return $this->belongsTo(Unit::class, 'default_weight_unit_id', 'id');
     }
+
+    
 }

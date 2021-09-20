@@ -1,34 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Country;
-use App\Models\Currency;
-use App\Models\GiftCard;
-use App\Models\Login;
-use App\Models\PaymentGateway;
-use App\Models\Settings;
-use App\Models\ShippingProfile;
-use App\Models\Store;
-use App\Models\StoreGroup;
-use App\Models\StoreIndustry;
-use App\Models\StoreNotification;
-use App\Models\StorePaymentGateway;
-use App\Models\StoreUser;
-use App\Models\Timezone;
-use App\Models\Unit;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
-use Inertia\Inertia;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use App\Models\Country;
+use App\Http\Resources\CountriesCollection;
+use App\Http\Resources\Countries;
 
-class GeneralController extends Controller
+class CountriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,13 +18,8 @@ class GeneralController extends Controller
     public function index()
     {
         //
-        $store = Store::find(session('store_id'));
-        $countries = Country::where('status', 1)->get(); //Should be cached
-        $currencies = Currency::all();
-        $units = Unit::all();
-        $industries = StoreIndustry::all();
-        $timezones = Timezone::all();
-        return Inertia::render('Settings/Index', compact('store', 'countries', 'currencies', 'units', 'industries', 'timezones'));
+        $countries = Country::where('status', 1)->get();
+        return Countries::collection($countries);
     }
 
     /**
