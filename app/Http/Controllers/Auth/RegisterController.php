@@ -25,6 +25,10 @@ class RegisterController extends Controller
     public function registerStep2() {
         return \Inertia\Inertia::render('RegisterStep2');
     }
+
+    public function registerStep3() {
+        return \Inertia\Inertia::render('RegisterStep3');
+    }
     
     public function RegisterUser(Request $request)
     {

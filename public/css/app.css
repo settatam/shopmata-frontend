@@ -1176,14 +1176,14 @@ select {
 .float-right {
 	float: right;
 }
+.m-auto {
+	margin: auto;
+}
 .m-2 {
 	margin: 0.5rem;
 }
 .m-4 {
 	margin: 1rem;
-}
-.m-auto {
-	margin: auto;
 }
 .mx-auto {
 	margin-left: auto;
@@ -1217,6 +1217,10 @@ select {
 	margin-top: -0.5rem;
 	margin-bottom: -0.5rem;
 }
+.my-10 {
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+}
 .my-auto {
 	margin-top: auto;
 	margin-bottom: auto;
@@ -1240,10 +1244,6 @@ select {
 .mx-2 {
 	margin-left: 0.5rem;
 	margin-right: 0.5rem;
-}
-.my-10 {
-	margin-top: 2.5rem;
-	margin-bottom: 2.5rem;
 }
 .my-2 {
 	margin-top: 0.5rem;
@@ -1648,6 +1648,9 @@ select {
 .w-1\/2 {
 	width: 50%;
 }
+.w-9\/10 {
+	width: 90%;
+}
 .w-2 {
 	width: 0.5rem;
 }
@@ -1686,9 +1689,6 @@ select {
 }
 .w-1\/5 {
 	width: 20%;
-}
-.w-9\/10 {
-	width: 90%;
 }
 .w-3\/6 {
 	width: 50%;
@@ -2440,6 +2440,9 @@ select {
 }
 .pb-9 {
 	padding-bottom: 2.25rem;
+}
+.pr-10 {
+	padding-right: 2.5rem;
 }
 .pl-10 {
 	padding-left: 2.5rem;
@@ -3587,6 +3590,10 @@ select {
 		margin-top: 8rem;
 	}
 
+	.md\:ml-56 {
+		margin-left: 14rem;
+	}
+
 	.md\:mb-10 {
 		margin-bottom: 2.5rem;
 	}
@@ -3727,14 +3734,14 @@ select {
 		padding-bottom: 1.5rem;
 	}
 
-	.md\:px-4 {
-		padding-left: 1rem;
-		padding-right: 1rem;
-	}
-
 	.md\:px-11 {
 		padding-left: 2.75rem;
 		padding-right: 2.75rem;
+	}
+
+	.md\:px-4 {
+		padding-left: 1rem;
+		padding-right: 1rem;
 	}
 
 	.md\:px-10 {
@@ -4042,6 +4049,10 @@ select {
 
 	.xl\:hidden {
 		display: none;
+	}
+
+	.xl\:w-3\/5 {
+		width: 60%;
 	}
 
 	.xl\:grid-cols-10 {
