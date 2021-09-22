@@ -5,13 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Store;
 
 class DashboardController extends Controller
 {
     /**
      * Dashboard Data
      */
-    public function index()
+    public function index() {
+        $store_id = session()->get('store_id');
+        if($store_id) {
+            $store = Store::find($store_id);
+            if(null !== $store) {
+                if($store->step == 3) {
+                    return \Inertia\Inertia::render('Dashboard');
+                }else if($store->step == 2)
+                    return \Redirect::route('register-step-2');  
+                }else if($store->step == 1) {
+                    return \Redirect::route('register');
+                }  
+            }
+        return \Redirect::route('register'); 
+    }
+    
+
+    public function getData()
     {
         try {
             $date = date("Y-m-d");

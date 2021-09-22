@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Scopes\StoreScope;
+use Illuminate\Support\Str;
 
 class Store extends Model
 {
@@ -40,7 +41,8 @@ class Store extends Model
                             'allow_guest_checkout',
                             'login_wall',
                             'enable_store_pickup',
-                            'enable_pay_on_delivery'
+                            'enable_pay_on_delivery',
+                            'step'
     					];
 
     // protected static function booted()
@@ -75,5 +77,34 @@ class Store extends Model
         return $this->belongsTo(Unit::class, 'default_weight_unit_id', 'id');
     }
 
+    public function makeNew() {
+        //timezone_id,
+        //currency_id
+        //default_unit
+        //store_plan_id,
+        //payment_gateway_id
+
+    }
+
+
+    public function createNotifications() {
+
+    }
+
+    public function createTheme() {
+
+    }
+
+    public function generateSlug() {
+
+        $slug = Str::slug($this->name);
+        $slug_count  = $this->where('name', $this->name)->count();
+
+        if ($slug_count >= 1) {
+            $slug .= '-';
+            $slug .= $slug_count;
+        }
+        return $slug;
+    }
     
 }

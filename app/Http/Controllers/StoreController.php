@@ -10,10 +10,11 @@ use App\Models\StoreGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class StoreController extends Controller
 {
-    public function createStore(Request $request){
+    public function store(Request $request){
         try {
             $data = $request->all();
 
@@ -67,6 +68,7 @@ class StoreController extends Controller
                 Log::info('Created a new owner with the following details', $store_user);
             }
 
+
             //create 
             
             $notification = [
@@ -98,7 +100,52 @@ class StoreController extends Controller
     }
 
     public function update(Request $request) {
+        
+        $redirect = false;
+        $input = $request->input();
+        $redirect = 'settings.general';
+        
+        if($request->has('step')) {
+            if($request->step == 2) {
+                $request->validate([
+                    'country_id'=>['required'],
+                    'sales_method_id'=>['required'],
+                    'has_website'=>['required']
+                ]);
+                $input['step'] = 3;
 
+                $country = Country::find($request->country_id);
+                if(null !== $country) {
+                    $input['timezone_id'] = $country->default_time_zone_id;
+                    $input['currency_id'] = $country->currency_id;
+                }
+                $redirect = 'register-step-3';
+            }else if($request->step == 3){
+                $request->validate([
+                    'country_id'=>['required'],
+                    'sales_method_id'=>['required'],
+                    'has_website'=>['required']
+                ]);
+                $input['step'] = 4;
+                $redirect = 'dashboard';
+            }
+            
+        }else{
+
+            //This is the if the store update when not in a step
+        }
+
+        $store_id = $request->session()->get('store_id');
+        if($store_id) {
+            $store = Store::find($store_id);
+            if($store->update($input)) {
+                Log::info(Auth::id() . 'updated store ' . $store_id . 'with the following details', $input);
+            }else{
+                Log::info(Auth::id() . 'could not update store ' . $store_id . 'with the following details', $input);
+            }
+        }
+
+        return \Redirect::route($redirect);
     }
 
     private function generateSlug($str){
