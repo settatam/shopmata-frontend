@@ -70,8 +70,7 @@
                       <div class="absolute inset-y-0 left-0 flex items-center">
                         <label for="country" class="sr-only">Country</label>
                         <select id="country" name="country" class="h-full py-0 pl-4 pr-8 border-transparent bg-transparent text-gray-500 focus:ring-indigo-500 focus:border-indigo-500 rounded-md" v-model="store_details.country_id">
-                          <option>NG</option>
-                          <option>US</option>
+                          <option v-for="country in countries" :value="country.id"> {{ country.iso_code_2 }}</option>
                         </select>
                       </div>
                       <input type="text" name="phone-number" id="phone-number" autocomplete="tel" class="appearance-none block w-full px-3 py-2 border border-gray-300 pl-20 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="0803 123 5678" v-model="store_details.phone"/>
@@ -128,7 +127,9 @@
 </template>
 
 <script>
+
 import {ref, reactive} from 'vue';
+import { Inertia } from '@inertiajs/inertia'
 
 export default {
   props: {

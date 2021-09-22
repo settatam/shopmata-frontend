@@ -121,13 +121,32 @@ class StoreController extends Controller
                 }
                 $redirect = 'register-step-3';
             }else if($request->step == 3){
+                
                 $request->validate([
-                    'country_id'=>['required'],
-                    'sales_method_id'=>['required'],
-                    'has_website'=>['required']
+                    'first_name'=>['required'],
+                    'last_name'=>['required'],
+                    'business_name'=>['required']
                 ]);
+
+                $user = User::find(Auth::id());
+                $user_details = [
+                                    'first_name'=>$input['first_name'], 
+                                    'last_name'=>$input['last_name']
+                                ];
+                if(null !== $user){
+                    if($user->update($user_details)){
+                        Log::info(Auth::id() . ' updated user details', $user_details);
+                    }else{
+                        Log::error(Auth::id() . ' Could not update user details', Auth::id());
+                    }
+                }
+
+                unset($input['first_name']);
+                unset($input['last_name']);
+                
                 $input['step'] = 4;
                 $redirect = 'dashboard';
+
             }
             
         }else{
