@@ -24,13 +24,13 @@
               </ol>
             </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden">
+          <div class="flex-1 flex xl:overflow-hidden mt-5">
             <!-- Secondary sidebar -->
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
               <div class="w-9.5/10 ml-5 ">
-                <div class="mb-6 pt-2 mt-2">
+                <div class="mb-6">
                   <h1 class="text-2xl mb-2 font-semibold">Shipping and Delivery</h1>
                   <div class="px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>

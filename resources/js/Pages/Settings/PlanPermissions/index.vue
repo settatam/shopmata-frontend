@@ -22,13 +22,13 @@
                 </li>
               </ol>
             </nav>
-        <div class="flex-1 flex xl:overflow-hidden">
+        <div class="flex-1 flex xl:overflow-hidden mt-5">
             <!-- Secondary sidebar -->
             <Nav page="Plans"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
                 <div class="w-9.5/10 ml-5">
-                    <div class="mb-6 mt-3 pt-2">
+                    <div class="mb-6">
                         <div class="p-8 mb-6 bg-white">
                             <h2 class="text-xl font-semibold mb-4">Plan and Permissions</h2>
                             <h3 class="text-lg font-semibold">Plan details</h3>

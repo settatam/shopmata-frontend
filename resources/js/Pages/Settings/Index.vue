@@ -24,11 +24,11 @@
               </ol>
             </nav>
         <!-- Secondary sidebar -->
-          <div class="flex-1 flex xl:overflow-hidden">
+          <div class="flex-1 flex xl:overflow-hidden mt-5">
             <Nav page="General"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-9.5/10 ml-7 mt-5">
+              <div class="w-9.5/10 ml-7">
                 <div class="p-8 bg-white">
                   <h1 class="text-2xl mb-2 font-semibold">General information</h1>
                   <h2 class="text-lg font-semibold mb-9">Store Details</h2>
@@ -95,9 +95,7 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         City
                       </label>
-                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="address.city" required>
-                        <option v-for="(city,index) in this.citylist" :key="index">{{city}}</option>
-                      </select>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.city" required/>
                      <span v-if="v$.address.city.$error" class="text-red-400">{{v$.address.city.$errors[0].$message}}</span>
                     </div>
                     <div class="mx-2 w-full">
