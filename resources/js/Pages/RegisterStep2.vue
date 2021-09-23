@@ -26,7 +26,7 @@
 
                   <select id="sales_method_id" name="location" v-model="store.sales_method_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                     <option value="0"> Choose method</option>
-                    <option v-for="method in methods" :value="method.id">{{ method.name }}</option>
+                    <option v-for="method in methods" :key="method.id" :value="method.id">{{ method.name }}</option>
                   </select>
                 </div>
 
@@ -41,7 +41,7 @@
 
                   <select id="location" name="location" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" v-model="store.industry_id">
                     <option value="0"> Choose Industry</option>
-                    <option v-for="industry in industries" :value="industry.id">{{ industry.name }}</option>
+                    <option v-for="industry in industries" :key="industry.id" :value="industry.id">{{ industry.name }}</option>
                   </select>
                 </div>
 
@@ -72,7 +72,7 @@
 
                   <select id="country" name="country_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" v-model="store.country_id">
                     <option value="0"> Choose Country</option>
-                    <option v-for="country in countries" :value="country.id">{{ country.name }}</option>
+                    <option v-for="country in countries" :key="country.id" :value="country.id">{{ country.name }}</option>
                   </select>
                 </div>
 

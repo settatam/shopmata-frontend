@@ -37,7 +37,6 @@
                       Store Name
                     </label>
                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.name" required/>
-                     <span v-if="v$.details.name.$error" class="text-red-400">{{v$.details.name.$errors[0].$message}}</span>
                   </div>
                   <div class="flex required  mb-4">
                     <div class="mr-2 w-full">
@@ -45,7 +44,6 @@
                         Email Address
                       </label>
                       <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.account_email" required/>
-                      <span v-if="v$.details.account_email.$error" class="text-red-400">{{v$.details.account_email.$errors[0].$message}}</span>
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -53,7 +51,6 @@
                       </label>
                       <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.customer_email" required/>
                     </div>
-                    <span v-if="v$.details.customer_email.$error" class="text-red-400">{{v$.details.customer_email.$errors[0].$message}}</span>
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -62,7 +59,6 @@
                     <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.industry" required>
                       <option v-for="(industry,index) in this.industries" :key="index">{{industry.name}}</option>
                     </select>
-                      <span v-if="v$.details.industry.$error" class="text-red-400">{{v$.details.industry.$errors[0].$message}}</span>
                   </div>
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
                   <h2 class="text-lg font-semibold mb-2">Store Address</h2>
@@ -72,14 +68,12 @@
                       Legal Name of Business
                     </label>
                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.business_name" required/>
-                      <span v-if="v$.address.business_name.$error" class="text-red-400">{{v$.address.business_name.$errors[0].$message}}</span>
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Phone Number
                     </label>
                     <input type="tel"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.phone"  required/>
-                     <span v-if="v$.address.phone.$error" class="text-red-400">{{v$.address.phone.$errors[0].$message}}</span>
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -88,7 +82,6 @@
                     <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="address.country" required @change="stateList">
                       <option v-for="(country,index) in this.countries" :key="index">{{country.name}}</option>
                     </select>
-                     <span v-if="v$.address.country.$error" class="text-red-400">{{v$.address.country.$errors[0].$message}}</span>
                   </div>
                   <div class="flex required  mb-4">
                     <div class="mr-2 w-full">
@@ -96,15 +89,12 @@
                         City
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.city" required/>
-                     <span v-if="v$.address.city.$error" class="text-red-400">{{v$.address.city.$errors[0].$message}}</span>
                     </div>
                     <div class="mx-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         State
                       </label>
-                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.state"  required>
-                        <option v-for="(state,index) in this.statelist.states" :key="index">{{state.name}}</option>
-                      </select>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.state"  required/>
                        <span v-if="v$.address.state.$error" class="text-red-400">{{v$.address.state.$errors[0].$message}}</span>
                     </div>
                     <div class="mr-2 w-full">
@@ -113,7 +103,6 @@
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.zip"  required/>
                     </div>
-                     <span v-if="v$.address.zip.$error" class="text-red-400">{{v$.address.zip.$errors[0].$message}}</span>
                   </div>
                   
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
@@ -126,7 +115,6 @@
                     <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.timezone" required>
                       <option v-for="(timezone,index) in this.timezones" :key="index">{{timezone.name}}</option>
                     </select>
-                     <span v-if="v$.standards.timezone.$error" class="text-red-400">{{v$.standards.timezone.$errors[0].$message}}</span>
                   </div>
                   <div class="flex required  mb-4">
                     <div class="mr-2 w-full">
@@ -136,7 +124,6 @@
                       <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.unit"  required>
                         <option v-for="(unit,index) in this.units" :key="index">{{unit.unit}}</option>
                       </select>
-                      <span v-if="v$.standards.unit.$error" class="text-red-400">{{v$.standards.unit.$errors[0].$message}}</span>
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -154,14 +141,12 @@
                         Prefix
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.order_id_prefix" required/>
-                     <span v-if="v$.standards.order_id_prefix.$error" class="text-red-400">{{v$.standards.order_id_prefix.$errors[0].$message}}</span>
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Suffix
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.order_id_suffix"  required/>
-                      <span v-if="v$.standards.order_id_suffix.$error" class="text-red-400">{{v$.standards.order_id_suffix.$errors[0].$message}}</span>
                     </div>
                   </div>
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
@@ -174,7 +159,6 @@
                     <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_currency.currency" required>
                       <option v-for="(currency,index) in this.currencies" :key="index">{{currency.symbol_left + ' '}}  {{ currency.code}}</option>
                     </select>
-                    <span v-if="v$.store_currency.currency.$error" class="text-red-400">{{v$.store_currency.currency.$errors[0].$message}}</span>
                     <p class="w-6/10 text-gray-400 mb-4">You have made your first sale, so you need to <span class="text-indigo-700 cursor-pointer">contact support</span> if you want to change your currency</p>
                   </div>
                 </div>
@@ -255,10 +239,6 @@ export default {
   },
   methods: {
     async submit() {
-      this.v$.$validate()
-      console.log(this.v$.$error)
-      if(!this.v$.$error){
-        console.log(this.details);
         const {account_email, customer_email, industry, name} = this.details;
         const {business_name, phone, address, address2, state, country, city, zip } = this.address;
         const {default_weight_unit, unit, timezone, order_id_suffix, order_id_prefix } = this.standards;
@@ -292,20 +272,8 @@ export default {
           const { notification } = error.response.data;
           this.notification = notification;
         }
-      }},
-      stateList(){
-        axios.post('https://countriesnow.space/api/v0.1/countries/states',{"country": `${this.address.country}`}).then(res=>{
-              this.statelist = res.data.data
-              console.log(res.data)
-          }
-        )
-        axios.post('https://countriesnow.space/api/v0.1/countries/cities',{"country": `${this.address.country}`}).then(res=>{
-              this.citylist = res.data.data
-              console.log(res.data)
-          }
-        )
-
-      }
+      },
+      
     /* addTag(newTag) {
       const tag = {
         name: newTag,
@@ -349,36 +317,7 @@ mounted() {
         currency: currency[0],
       });
   },
-  validations(){
-    return{
-      details: {
-        account_email: {required: helpers.withMessage('This field cannot be empty', required,email)},
-        customer_email: {required: helpers.withMessage('This field cannot be empty', required,email)},
-        name: {required: helpers.withMessage('This field cannot be empty', required)},
-        industry: {required: helpers.withMessage('This field cannot be empty', required)},
-      },
-      address: {
-        business_name: {required: helpers.withMessage('This field cannot be empty', required)},
-        phone: {required: helpers.withMessage('This field cannot be empty', required)},
-        state: {required: helpers.withMessage('This field cannot be empty', required)},
-        city: {required: helpers.withMessage('This field cannot be empty', required)},
-        zip: {required: helpers.withMessage('This field cannot be empty', required)},
-        address: {required: helpers.withMessage('This field cannot be empty', required)},
-        address2: {required: helpers.withMessage('This field cannot be empty', required)},
-        country: {required: helpers.withMessage('This field cannot be empty', required)},
-      },
-      standards: {
-        timezone: {required: helpers.withMessage('This field cannot be empty', required)},
-        unit: {required: helpers.withMessage('This field cannot be empty', required)},
-        default_weight_unit: {required: helpers.withMessage('This field cannot be empty', required)},
-        order_id_suffix: {required: helpers.withMessage('This field cannot be empty', required)},
-        order_id_prefix: {required: helpers.withMessage('This field cannot be empty', required)},
-      },
-      store_currency: {
-        currency: {required: helpers.withMessage('This field cannot be empty', required)},
-      },
-    }
-  },
+
   setup() {
     const open = ref(false)
     return {
