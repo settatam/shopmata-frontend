@@ -59,7 +59,7 @@
                     Suite / Apt
                   </label>
                   <div class="mt-1 relative rounded-md shadow-sm mr-4">
-                    <input id="first_name" name="first_name" type="text" autocomplete="first_name" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="store_details.first_name"/>
+                    <input id="address2" name="address2" type="text" autocomplete="address2" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="store_details.address2"/>
                   </div>
                 </div>
                 <div class="lg:w-1/2 md:w-1/2">
@@ -70,8 +70,7 @@
                       <div class="absolute inset-y-0 left-0 flex items-center">
                         <label for="country" class="sr-only">Country</label>
                         <select id="country" name="country" class="h-full py-0 pl-4 pr-8 border-transparent bg-transparent text-gray-500 focus:ring-indigo-500 focus:border-indigo-500 rounded-md" v-model="store_details.country_id">
-                          <option>NG</option>
-                          <option>US</option>
+                          <option v-for="country in countries" :value="country.id"> {{ country.iso_code_2 }}</option>
                         </select>
                       </div>
                       <input type="text" name="phone-number" id="phone-number" autocomplete="tel" class="appearance-none block w-full px-3 py-2 border border-gray-300 pl-20 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="0803 123 5678" v-model="store_details.phone"/>
@@ -95,7 +94,7 @@
                     State / Province
                   </label>
                   <div class="mt-1 relative rounded-md shadow-sm" v-if="states.length">
-                    <select name="state_id" id="state_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <select name="state_id" id="state_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" v-model="store_details.state_id">
                           <option v-for="state in states" :value="state.id"> {{ state.name }}</option>
                       </select>
                   </div>
@@ -108,7 +107,7 @@
                     Zip / Postal Code
                   </label>
                   <div class="mt-1 relative rounded-md shadow-sm">
-                    <input id="postal-code" name="postal_code" type="text" autocomplete="postal-code" required="" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="store_details.postal_code"/>
+                    <input id="postal-code" name="postal_code" type="text" autocomplete="postal-code" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" v-model="store_details.postal_code"/>
                   </div>
                 </div>
               </div>
@@ -128,7 +127,9 @@
 </template>
 
 <script>
+
 import {ref, reactive} from 'vue';
+import { Inertia } from '@inertiajs/inertia'
 
 export default {
   props: {

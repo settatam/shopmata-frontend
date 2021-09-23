@@ -104,8 +104,7 @@ class RegisterController extends Controller
                 'step'=>2,
                 'account_email'=>$data['email'],
                 'user_id'=>$user->id,
-                'template_id'=>1,
-
+                'theme_id'=>1,
             ];
 
             //Log new store

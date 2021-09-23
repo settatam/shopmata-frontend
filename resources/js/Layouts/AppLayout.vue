@@ -134,7 +134,7 @@
                     <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
-                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Logout</a>
+                    <a @click="doLogout" href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Logout</a>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -155,6 +155,7 @@
 
 <script>
 import { ref } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
 import {
   Dialog,
   DialogOverlay,
@@ -270,6 +271,11 @@ export default {
   setup() {
     const sidebarOpen = ref(false)
     const open = ref(false)
+
+    function doLogout() {
+      Inertia.post('logout');
+    }
+    
     return {
       navigation,
       secondaryNavigation,
@@ -277,6 +283,7 @@ export default {
       transactions,
       statusStyles,
       sidebarOpen,
+      doLogout
     }
   },
   methods: {

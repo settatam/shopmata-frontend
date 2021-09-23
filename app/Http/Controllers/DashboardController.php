@@ -14,17 +14,22 @@ class DashboardController extends Controller
      */
     public function index() {
         $store_id = session()->get('store_id');
+
         if($store_id) {
-            $store = Store::find($store_id);
+            $store = Store::find($store_id);      
             if(null !== $store) {
-                if($store->step == 3) {
-                    return \Inertia\Inertia::render('Dashboard');
-                }else if($store->step == 2)
+                if($store->step == 4) {
+                    $notifications = $store->getDashBoardNotifications();
+                    return \Inertia\Inertia::render('Dashboard', compact('notifications'));
+                }else if($store->step == 3){
+                    return \Redirect::route('register-step-3');
+                }else if($store->step == 2){
                     return \Redirect::route('register-step-2');  
                 }else if($store->step == 1) {
                     return \Redirect::route('register');
                 }  
             }
+        }
         return \Redirect::route('register'); 
     }
     

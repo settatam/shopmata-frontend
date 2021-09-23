@@ -36,28 +36,38 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Store Name
                     </label>
+<<<<<<< HEAD
                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.name" required/>
+=======
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.name" required/>
+                     <span v-if="v$.details.name.$error" class="text-red-400">{{v$.details.name.$errors[0].$message}}</span>
+>>>>>>> dev
                   </div>
                   <div class="flex required  mb-4">
                     <div class="mr-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Email Address
                       </label>
+<<<<<<< HEAD
                       <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.account_email" required/>
+=======
+                      <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.account_email" required/>
+                      <span v-if="v$.details.account_email.$error" class="text-red-400">{{v$.details.account_email.$errors[0].$message}}</span>
+>>>>>>> dev
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Sender Email
                       </label>
-                      <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.customer_email" required/>
+                      <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.customer_email" required/>
                     </div>
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Store Industry
                     </label>
-                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.industry" required>
-                      <option v-for="(industry,index) in this.industries" :key="index">{{industry.name}}</option>
+                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.industry_id" required>
+                      <option v-for="(industry,index) in this.industries" :key="index" :value="industry.id">{{industry.name}}</option>
                     </select>
                   </div>
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
@@ -67,20 +77,30 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Legal Name of Business
                     </label>
+<<<<<<< HEAD
                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.business_name" required/>
+=======
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.business_name" required/>
+                      <span v-if="v$.address.business_name.$error" class="text-red-400">{{v$.address.business_name.$errors[0].$message}}</span>
+>>>>>>> dev
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Phone Number
                     </label>
+<<<<<<< HEAD
                     <input type="tel"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.phone"  required/>
+=======
+                    <input type="tel"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.phone"  required/>
+                     <span v-if="v$.address.phone.$error" class="text-red-400">{{v$.address.phone.$errors[0].$message}}</span>
+>>>>>>> dev
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Country
                     </label>
-                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="address.country" required @change="stateList">
-                      <option v-for="(country,index) in this.countries" :key="index">{{country.name}}</option>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="store_details.country_id" required @change="stateList">
+                      <option v-for="(country,index) in this.countries" :key="index" :value="country.id">{{country.name}}</option>
                     </select>
                   </div>
                   <div class="flex required  mb-4">
@@ -94,14 +114,20 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         State
                       </label>
+<<<<<<< HEAD
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.state"  required/>
+=======
+                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.state_id"  required>
+                        <option v-for="(state,index) in states" :key="index" :value="state.id">{{state.name}}</option>
+                      </select>
+>>>>>>> dev
                        <span v-if="v$.address.state.$error" class="text-red-400">{{v$.address.state.$errors[0].$message}}</span>
                     </div>
                     <div class="mr-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         ZIP / Postal Code
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.zip"  required/>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.postal_code"  required/>
                     </div>
                   </div>
                   
@@ -112,8 +138,9 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Time Zone
                     </label>
-                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.timezone" required>
-                      <option v-for="(timezone,index) in this.timezones" :key="index">{{timezone.name}}</option>
+                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.timezone_id" required>
+                      <option value="0">Select Timezone</option>
+                      <option v-for="(timezone,index) in timezones" :key="index" :value="timezone.id">{{timezone.text}}</option>
                     </select>
                   </div>
                   <div class="flex required  mb-4">
@@ -156,8 +183,8 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Store Currency
                     </label>
-                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_currency.currency" required>
-                      <option v-for="(currency,index) in this.currencies" :key="index">{{currency.symbol_left + ' '}}  {{ currency.code}}</option>
+                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.currency_id" required>
+                      <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">{{currency.symbol_left + ' '}}  {{ currency.title }} ({{ currency.code }})</option>
                     </select>
                     <p class="w-6/10 text-gray-400 mb-4">You have made your first sale, so you need to <span class="text-indigo-700 cursor-pointer">contact support</span> if you want to change your currency</p>
                   </div>
@@ -172,7 +199,7 @@
 
 <script>
 
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import Nav from './Nav';
@@ -182,7 +209,11 @@ import { required, email, helpers } from '@vuelidate/validators'
 
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
+<<<<<<< HEAD
 import { ChevronLeftIcon, ChevronRightIcon,CogIcon } from '@heroicons/vue/solid'
+=======
+import { ChevronLeftIcon } from '@heroicons/vue/solid';
+>>>>>>> dev
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -195,7 +226,17 @@ const pages = [
 ]
 
 export default {
-   props: ["store", 'countries', 'currencies', 'units', 'industries', "timezones"],
+   props: {
+          store: Object, 
+          countries: Array, 
+          currencies: Array, 
+          units: Array,
+          industries: Array,
+          timezones: Array,
+          errors: Object,
+          states: Array,
+
+  },
   
   components: {
     Nav,
@@ -268,7 +309,6 @@ export default {
           this.notification = notification;
           setTimeout(function(){ window.location.reload() }, 2000);
         } catch (error) {
-          console.log(error);
           const { notification } = error.response.data;
           this.notification = notification;
         }
@@ -309,7 +349,7 @@ mounted() {
       (this.standards = {
         timezone: timezone || "",
         unit: unitSystem[0] || "",
-        default_weight_unit: weightUnitSystem[0].title,
+        // default_weight_unit: weightUnitSystem[0].title,
         order_id_prefix: order_id_prefix || "",
         order_id_suffix: order_id_suffix || "",
       }),
@@ -320,6 +360,13 @@ mounted() {
 
   setup() {
     const open = ref(false)
+    const store_details = reactive(props.store)
+    const states = props.states
+
+    function submit() {
+      Inertia.put('/store', store_details);
+    }
+
     return {
       statusStyles,
       v$: useVuelidate() ,
