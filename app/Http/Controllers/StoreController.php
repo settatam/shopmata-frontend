@@ -7,6 +7,7 @@ use App\Models\Store;
 use App\Models\Product;
 use App\Models\StoreUser;
 use App\Models\StoreGroup;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -118,6 +119,7 @@ class StoreController extends Controller
                 if(null !== $country) {
                     $input['timezone_id'] = $country->default_time_zone_id;
                     $input['currency_id'] = $country->currency_id;
+                    $input['unit_id'] = $country->unit_id;
                 }
                 $redirect = 'register-step-3';
             }else if($request->step == 3){
@@ -128,11 +130,20 @@ class StoreController extends Controller
                     'business_name'=>['required']
                 ]);
 
+                $country = Country::find($request->country_id);
+                
+                if(null !== $country) {
+                    $input['timezone_id'] = $country->default_time_zone_id;
+                    $input['currency_id'] = $country->currency_id;
+                    $input['unit_id'] = $country->unit_id;
+                }
+
                 $user = User::find(Auth::id());
                 $user_details = [
                                     'first_name'=>$input['first_name'], 
                                     'last_name'=>$input['last_name']
                                 ];
+
                 if(null !== $user){
                     if($user->update($user_details)){
                         Log::info(Auth::id() . ' updated user details', $user_details);
@@ -140,12 +151,20 @@ class StoreController extends Controller
                         Log::error(Auth::id() . ' Could not update user details', Auth::id());
                     }
                 }
-
+                
                 unset($input['first_name']);
                 unset($input['last_name']);
+                unset($input['id']);
+                unset($input['created_at']);
+                unset($input['updated_at']);
                 
                 $input['step'] = 4;
                 $redirect = 'dashboard';
+
+                foreach($input as $index => $value) {
+                    if(is_array($value)) unset($input[$index]);
+                    if(is_null($value)) unset($input[$index]);
+                }
 
             }
             
@@ -158,9 +177,9 @@ class StoreController extends Controller
         if($store_id) {
             $store = Store::find($store_id);
             if($store->update($input)) {
-                Log::info(Auth::id() . 'updated store ' . $store_id . 'with the following details', $input);
+                Log::info(Auth::id() . ' updated store ' . $store_id . ' with the following details', $input);
             }else{
-                Log::info(Auth::id() . 'could not update store ' . $store_id . 'with the following details', $input);
+                Log::info(Auth::id() . ' could not update store ' . $store_id . ' with the following details', $input);
             }
         }
 

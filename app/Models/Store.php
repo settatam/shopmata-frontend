@@ -18,13 +18,14 @@ class Store extends Model
     						'name', 
     						'account_email',
     						'customer_email',
-    						'business_email',
+    						'business_name',
     						'address',
     						'address2',
     						'city',
     						'state',
     						'country_id',
-    						'timezone',
+                            'state_id',
+    						'timezone_id',
     						'unit_id',
     						'default_weight_unit_id',
     						'currency_id',
@@ -77,6 +78,14 @@ class Store extends Model
         return $this->belongsTo(Unit::class, 'default_weight_unit_id', 'id');
     }
 
+    public function has_product() {
+        return $this->hasOne(Product::class, 'store_id', 'id');
+    }
+
+    public function unfulfilled_orders() {
+        return $this->hasMany(Order::class, 'store_id', 'id');
+    }
+
     public function makeNew() {
         //timezone_id,
         //currency_id
@@ -105,6 +114,38 @@ class Store extends Model
             $slug .= $slug_count;
         }
         return $slug;
+    }
+
+    public function getDashBoardNotifications() {
+        $dashboard_notifications = [];
+            if(!count($this->domains)) {
+                $dashboard_notifications[] = [
+                    'icon'=>'ShoppingBagIcon',
+                    'title'=>'Domain',
+                    'message'=>'Customize Your Store with your domain name',
+                    'link'=>'store/domains'
+                ];
+            }
+
+            if(null !== $this->has_product) {
+                $dashboard_notifications[] = [
+                    'icon'=>'ShoppingBagIcon',
+                    'title'=>'Product',
+                    'message'=>'Customize Your Store with your domain name',
+                    'link'=>'products/create'
+                ];
+            }
+
+            if(count($this->unfulfilled_orders)) {
+                $dashboard_notifications[] = [
+                    'icon'=>'ShoppingBagIcon',
+                    'title'=>'Pending Orders',
+                    'message'=>'You have unfulfilled orders',
+                    'link'=>'/orders?pending=true'
+                ];
+        }
+
+        return $dashboard_notifications;
     }
     
 }
