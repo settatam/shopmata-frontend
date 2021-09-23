@@ -25,22 +25,20 @@
                     <p class="text-black font-semibold py-4">Option {{index+1}}</p>
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
-                            <!-- <select v-model="option.type" class="data-focus-visible-added appearance-none border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none ">
-                                <option :key="index" v-for="(name, index) in types">{{ name }}</option>
-                            </select> -->
                             <input class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " v-model="option.type" type="text" :data-index="index" @blur="setVariant">
                         </div>
-                        <div class="relative w-full md:w-1/2 mb-6 md:pr-3 md:mb-0 border border-border bg-transparent text-black leading-tight" >
-                        <span class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700" v-for="(item, i) in option.values" :key="i"> {{item}}
-                            <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" @click="removeItem(index, i)">
+                        <div class="flex md:w-1/2 rounded-md shadow-sm flex-wrap">
+                            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm flex-wrap">
+                                <span class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700" v-for="(item, i) in option.values" :key="i"> {{item}}
+                                    <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" @click="removeItem(index, i)">
                                         <span class="sr-only"> Remove {{item}} option</span>
-                                          <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
-                                            <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
-                                          </svg>
-                            </button>
-                        </span>
-                        <input type="text" @blur="addVariantValue" :data-index="index" v-model="valueContent"/>                            
-                            <!-- <input v-if="option.type !== ''" v-model="newVariant" class="col-span-2 data-focus-visible-added appearance-none border border-border bg-transparent w-full py-2 px-3 text-black leading-tight focus:outline-none" type="text" placeholder="Add Variant" @blur="pushVariant(index)"> -->
+                                            <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                                                <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                                            </svg>
+                                    </button>
+                                </span>
+                            </span>
+                         <input type="text" name="values[]" class="flex-1 min-w-0 px-3 py-2 rounded-none rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300" placeholder="" @blur="addVariantValue" :data-index="index" v-model="valueContent"/>                           
                         </div>
                     </div>
                 </div>

@@ -9,22 +9,8 @@
         <div
           class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8"
         >
-          <inertia-link
-            href="#"
-            class="
-              -ml-1
-              inline-flex
-              items-center
-              space-x-3
-              text-sm
-              font-medium
-              text-blue-gray-900
-            "
-          >
-            <ChevronLeftIcon
-              class="h-5 w-5 text-blue-gray-400"
-              aria-hidden="true"
-            />
+          <inertia-link href="#" class="ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
+            <ChevronLeftIcon class="h-5 w-5 text-blue-gray-400" aria-hidden="true"/>
             <span>Add a new Product</span>
           </inertia-link>
         </div>
@@ -32,7 +18,7 @@
 
       <div class="flex-1 flex xl:overflow-hidden">
         <!-- Secondary sidebar -->
-
+        <Nav page="General"></Nav>
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
           <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
@@ -41,41 +27,20 @@
             </h1>
             <form @submit.prevent="submit">
               <div class="bg-white mb-10 pt-7">
-                <div
-                  class="bg-white flex justify-between px-8 cursor-pointer"
-                  @click="expandForm"
-                >
-                  <p class="text-black text-2xl font-semilbold mb-6">
-                    Add Product
-                  </p>
+                <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
                   <span><angle-up-icon></angle-up-icon></span>
-                </div>
+                </div> -->
                 <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
                   <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
                   <div class="mb-10">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="title"
-                    >
+                    <label class="block text-sm font-bold text-gray-700" for="title">
                       Title
                     </label>
-                    <input
-                      class="
-                        appearance-none
-                        border border-border
-                        bg-transparent
-                        w-full
-                        py-2
-                        px-3
-                        text-black
-                        leading-tight
-                        focus:outline-none
-                      "
-                      type="text"
-                      placeholder="Cargo Pants"
-                      v-model="formFields.title"
-                    />
+                    <div class="mt-1">
+                        <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="formFields.title">
+                    </div>
                   </div>
+
                   <div class="mb-6">
                     <label
                       class="block text-black font-semibold mb-2 bg-transparent"
@@ -99,10 +64,7 @@
                     </div>
                   </div>
                   <div class="mt-20">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="brand"
-                    >
+                    <label class="block text-black font-semibold mb-2 bg-transparent" for="brand">
                       Brand
                     </label>
                     <multiselect
@@ -121,26 +83,225 @@
 
               <div class="bg-white mb-10 py-6">
                 <div class="px-8">
-                  <div
-                    class="bg-white flex justify-between cursor-pointer"
-                    @click="expandMediaForm"
-                  >
-                    <p class="text-black font-semibold text-lg mb-6">Media</p>
-                    <div class="flex">
-                      
-                    </div>
+                  <div class="bg-white flex justify-between">
+                    <p class="text-black font-semibold text-lg mb-6">Medias</p>
                   </div>
                   <div>
+                    <images-list></images-list>
                     <Dropzone></Dropzone>
                   </div>
                 </div>
               </div>
-              <pricing-form :pricing="pricing"></pricing-form>
-              <inventory-form
-                :inventory="inventory"
-                :categories="categories"
-              ></inventory-form>
-              <shipping-form :shipping="shipping"></shipping-form>
+
+              <!-- Princing Start here -->
+
+            <div class="bg-white pt-7 pb-1 mb-10">
+                <div class="flex justify-between px-8 cursor-pointer" @click="expandForm">
+                    <p class="text-black font-semibold text-lg mb-6">Pricing</p>
+                    <span><angle-up-icon></angle-up-icon></span>
+                </div>
+                <div class="px-8">
+                    <div class="mb-5 md:mb-10">
+                        <div class="flex flex-wrap mb-6">
+                            <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">
+                                      {{ store.currency.symbol_left }}
+                                    </span>
+                                  </div>
+                                  <input type="text" name="price" id="price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="pricing.price"/>
+                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
+                                      {{ store.currency.code }}
+                                    </span>
+                                  </div>
+                                </div>
+                            </div> 
+
+                            <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                <label for="price" class="block text-sm font-medium text-gray-700">Compare at price</label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">
+                                      {{ store.currency.symbol_left }}
+                                    </span>
+                                  </div>
+                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="pricing.compare_at_price"/>
+                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
+                                      {{ store.currency.code }}
+                                    </span>
+                                  </div>
+                                </div>
+                            </div>               
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mb-6">
+                        <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                            <label class="block text-black font-semibold mb-2 bg-transparent" for="cost_per_item">
+                                Cost per item
+                            </label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">
+                                      {{ store.currency.symbol_left }}
+                                    </span>
+                                  </div>
+                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.cost_per_item"/>
+                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
+                                      {{ store.currency.code }}
+                                    </span>
+                                  </div>
+                              </div>
+                            <p class="text-gray-300 font-semibold flex items-center text-xs mt-2">
+                            <warning-icon></warning-icon><span class="mx-1">Customers won't see this</span></p>
+                        </div>
+                        <div class="w-full md:w-1/2 md:pl-3 mb-6 md:mb-0 flex flex-wrap">
+                            <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                <label class="block text-black font-semibold mb-2 bg-transparent" >
+                                    Margin
+                                </label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">
+                                      {{ store.currency.symbol_left }}
+                                    </span>
+                                  </div>
+                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.margin"/>
+                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
+                                      {{ store.currency.code }}
+                                    </span>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                <label class="block text-black font-semibold mb-2 bg-transparent" >
+                                    Profit
+                                </label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">
+                                      {{ store.currency.symbol_left }}
+                                    </span>
+                                  </div>
+                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.profit"/>
+                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
+                                      {{ store.currency.code }}
+                                    </span>
+                                  </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 mb-6">
+                        <div class="flex items-center">
+                            <input type="checkbox" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none" id="charge_tax">
+                            <label for="charge_tax" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
+                                Charge tax on this product
+                            </label>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+
+              <!-- Inventory Starts here -->
+
+              <div class="bg-white pt-7 pb-1 mb-10">
+                  <div class="flex justify-between px-8 cursor-pointer">
+                      <p class="text-black font-semibold text-lg mb-6">Inventory</p>
+                  </div>
+                  <div v-if="expand" class="px-8">
+                      <div class="mb-8">
+                          <div class="flex flex-wrap mb-6">
+                              <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                  <label class="block text-black font-semibold mb-2 bg-transparent" for="page-title">
+                                      SKU(Stock Keeping Unit)
+                                  </label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <input type="text" name="sku" id="sku" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="product sku" v-model="product.sku"/>
+                                  </div>
+                              </div>
+                              <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
+                                  <label class="block text-black font-semibold mb-2 bg-transparent" for="page-title">
+                                      Barcode (ISBN, UPC, GTIN, etc)
+                                  </label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <input type="text" name="barcode" id="barcode" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="product barcode" v-model="product.barcode"/>
+                                  </div>
+                              </div>
+                              <div class="mt-8 mb-6">
+                                  <div class="flex items-center">
+                                      <input v-model="product.track_quantity" type="checkbox" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none" id="track_quantity">
+                                      <label for="track_quantity" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
+                                          Track Quantity
+                                      </label>
+                                  </div>
+                                  <div class="flex items-center mt-4">
+                                      <input v-model="product.out_of_stock" type="checkbox" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none" id="out_of_stock">
+                                      <label for="out_of_stock" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
+                                          Continue selling when out of stock
+                                      </label>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <p class="text-gray-700 font-semibold text-lg mb-6">Quantity</p>
+                      <div class="flex flex-wrap -mx-3 mb-6">
+                          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                              <label class="block text-gray-700 font-semibold mb-2 bg-transparent" for="page-title">
+                                  Available
+                              </label>
+                              <input class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none" type="number" placeholder="0" v-model="product.quantity">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Inventory Ends here -->
+
+              <!-- Shipping starts here -->
+              
+              <div class="bg-white pt-7 pb-1 mb-10 px-8">
+                  <div class="flex justify-between cursor-pointer">
+                      <p class="text-black font-semibold text-lg mb-6">Shipping</p>
+                      <span><angle-up-icon></angle-up-icon></span>
+                  </div>
+                  <div class="flex flex-wrap mb-6">
+                      <div class="mb-6">
+                          <div class="flex items-center">
+                              <input v-model="product.physical_product" type="checkbox" id="physical_product" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none">
+                              <label for="physical_product" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
+                                  This is a physical product
+                              </label>
+                          </div>
+                      </div>
+                  </div>
+                  <p class="text-black font-semibold text-lg mb-3">Weight</p>
+                  <p class="text-gray-600 pb-4">Used to calculate shipping rates at checkout and label prices during fulfillment.</p>
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-4/5 px-3 mb-6 md:mb-0">
+                          <label class="block text-black font-semibold mb-2 bg-transparent" for="weight">
+                              Weight
+                          </label>
+                          <div class="mt-1 relative rounded-md shadow-sm">
+                              <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.weight"/>
+                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
+                                      {{ store.weight !== null ? store.weight.unit : '' }}
+                                    </span>
+                                  </div>
+                              </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Shipping ends here -->
+            
               <variants-form
                 :variants="variants"
                 :types="variant_types"
@@ -150,27 +311,44 @@
                 @add-variant-name="addVariantName"
                 @added-variant-value="addVariantValue"
               ></variants-form>
-              <search-engine-form :search="search"></search-engine-form>
+
+              <!-- Search Engine Starts Here -->
+              <div class="bg-white pt-7 pb-1 mb-10 px-8">
+                  <div class="flex justify-between">
+                      <div class="cursor-pointer" @click="expandForm">
+                          <p class="text-black font-semibold text-lg mb-6">Search engine listing preview</p>
+                          <p class="text-black text-sm mb-6">Add a title and description to see how this product might appear in a search engine listing</p>
+                      </div>     
+                  </div>
+                  <div class="my-6">
+                      <label class="block text-black mb-2 bg-transparent" for="page-title">
+                          Page title
+                      </label>
+                      <input class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="text" placeholder="Short sleeve t-shirt" v-model="search.page_title">
+                      <p class="text-gray-600">{{pageTitleLength}} of 70 characters used</p>
+                  </div>
+                  <div class="mb-6">
+                      <label class="block text-black mb-2 bg-transparent" for="search_engine_desc">
+                          Description
+                      </label>
+                      <textarea name="w3review" rows="6" cols="50" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md" placeholder="" v-model="search.search_engine_desc"/>
+                      <p class="text-gray-600">{{searchEngDescLength}} of 320 characters used</p>
+                  </div>
+                  <div class="mb-6">
+                      <label class="block text-black mb-2 bg-transparent" for="url_handle">
+                          URL and handle
+                      </label>
+                      <input class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="text" placeholder="https://www.shopmata.com/products/" v-model="search.url_handle">
+                  </div>
+              </div>
+              <!-- Search Engine Ends here -->
+              
               <div class="text-center bg-white pt-6 pb-6 mb-6">
-                <t-button
-                  class="
-                    text-white
-                    bg-purple-darker
-                    active:bg-purple-darker
-                    font-medium
-                    border border-transparent
-                    px-11
-                    py-3.5
-                    cursor-pointer
-                  "
-                  @click="submit"
-                  >Add Product</t-button
-                >
+                <t-button class="text-white bg-purple-darker active:bg-purple-darker font-medium border border-transparent px-11 py-3.5 cursor-pointer" @click="submit">Add Product</t-button>
               </div>
             </form>
           </div>
         </div>
-        <Nav page="General"></Nav>
       </div>
     </div>
   </app-layout>
@@ -179,8 +357,8 @@
 <script>
 import { ref } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import Search from "../Search.vue";
-import Nav from "../../Layouts/Nav";
+// import Search from "../Search.vue";
+import Nav from "./Components/Nav";
 import axios from "axios";
 
 import {
@@ -198,6 +376,7 @@ import SearchEngineForm from "./Components/SearchEngineForm";
 import MediaUrlModal from "./Components/MediaUrlModal";
 import PricingForm from "./Components/PricingForm";
 import Dropzone from "./Components/Dropzone";
+import ImagesList from "./Components/ImagesList";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
@@ -214,6 +393,7 @@ export default {
     filters: Object,
     brands: Array,
     categories: Array,
+    store: Object
   },
 
   components: {
@@ -232,26 +412,19 @@ export default {
     UploadIcon,
     AngleUpIcon,
     MediaUrlModal,
-    Dropzone
+    Dropzone,
+    ImagesList
   },
 
   data() {
     return {
       valueContent: '',
       variantList: [],
-      dropzoneOptions: {
-        url: "/product-images",
-        thumbnailWidth: 150,
-        maxFilesize: 0.5,
-        addRemoveLinks: true,
-        headers: { "My-Awesome-Header": "header value" },
-        dictDefaultMessage: `<span><svg class="inline mb-3" xmlns="http://www.w3.org/2000/svg" width="72" height="58" viewBox="0 0 72 58" fill="none">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M19.827 6.039C24.3247 2.16061 30.0611 0.0186233 36 0C48.105 0 58.1535 9 59.247 20.6055C66.411 21.618 72 27.6165 72 34.9785C72 43.0605 65.259 49.5 57.0915 49.5H45C44.4033 49.5 43.831 49.2629 43.409 48.841C42.9871 48.419 42.75 47.8467 42.75 47.25C42.75 46.6533 42.9871 46.081 43.409 45.659C43.831 45.2371 44.4033 45 45 45H57.096C62.9055 45 67.5 40.446 67.5 34.9785C67.5 29.5065 62.91 24.9525 57.0915 24.9525H54.8415V22.7025C54.846 12.7125 46.476 4.5 36 4.5C31.1394 4.51942 26.4458 6.27495 22.7655 9.45C19.359 12.384 17.577 15.921 17.577 18.6975V20.7135L15.5745 20.934C9.288 21.6225 4.5 26.784 4.5 32.931C4.5 39.5325 10.035 45 17.0145 45H27C27.5967 45 28.169 45.2371 28.591 45.659C29.0129 46.081 29.25 46.6533 29.25 47.25C29.25 47.8467 29.0129 48.419 28.591 48.841C28.169 49.2629 27.5967 49.5 27 49.5H17.0145C7.686 49.5 0 42.147 0 32.931C0 24.9975 5.697 18.4275 13.239 16.7625C13.8825 12.879 16.38 9.009 19.827 6.039Z" fill="#CCCCCC"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M35.438 28.3899C35.5626 28.265 35.7105 28.166 35.8734 28.0984C36.0363 28.0308 36.2109 27.996 36.3873 27.996C36.5637 27.996 36.7383 28.0308 36.9012 28.0984C37.0641 28.166 37.212 28.265 37.3366 28.3899L45.3814 36.4347C45.6331 36.6865 45.7746 37.0279 45.7746 37.384C45.7746 37.7401 45.6331 38.0815 45.3814 38.3333C45.1296 38.5851 44.7881 38.7265 44.4321 38.7265C44.076 38.7265 43.7346 38.5851 43.4828 38.3333L37.7281 32.5759V56.1552C37.7281 56.5108 37.5868 56.8518 37.3354 57.1033C37.0839 57.3547 36.7429 57.496 36.3873 57.496C36.0317 57.496 35.6907 57.3547 35.4392 57.1033C35.1878 56.8518 35.0465 56.5108 35.0465 56.1552V32.5759L29.2918 38.3333C29.04 38.5851 28.6985 38.7265 28.3425 38.7265C27.9864 38.7265 27.645 38.5851 27.3932 38.3333C27.1414 38.0815 27 37.7401 27 37.384C27 37.0279 27.1414 36.6865 27.3932 36.4347L35.438 28.3899Z" fill="#632A6D"/></span><br/><p class="m-4">Drag and drop your image here or </p><br/> <t-button class="text-white bg-purple-darker active:bg-purple-darker font-medium border border-transparent px-4 py-3.5" type="submit">Choose File</t-button>`,
-      },
       expand: true,
       expandMedia: true,
       content: "",
+      pageTitleLength: 0,
+      searchEngDescLength: 0,
       editorOption: {
         modules: {
           toolbar: [
@@ -270,6 +443,14 @@ export default {
         title: "",
         description: "",
         brand: "",
+      },
+      product: {
+        title: "",
+        description: "",
+        brand: "",
+        images: [],
+        pricing: '',
+        compare_at_price: '',
       },
       pricing: {
         price: "",
@@ -320,6 +501,9 @@ export default {
     },
     calculateProfit() {
       return `$ ${0}`;
+    },
+    activeDomain() {
+
     },
     formData() {
       return {
@@ -413,8 +597,10 @@ export default {
     },
     submit() {
       // this.sending = true
+      this.product.variants = this.variantList;
+      console.log(this.product);
 
-      this.$inertia.post("/products", this.formData);
+      // this.$inertia.post("/products", this.formData);
     },
     afterComplete(file) {
       // console.log(file);
@@ -508,6 +694,7 @@ export default {
            this.variantList = variantList;
         },
   },
+  
   setup() {
     const open = ref(false);
     return {

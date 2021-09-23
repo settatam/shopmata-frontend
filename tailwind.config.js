@@ -13,10 +13,12 @@ module.exports = {
     theme: {
         fontSize: {
             'base': '1rem',
-            'lg': '1.125rem',
+            'lg': '1.075rem',
             'xl': '1.25rem',
             '2xl': '1.5rem',
-            '3xl': '1.875rem'
+            '3xl': '1.875rem',
+            'sm' :'0.985rem',
+            'xs' : '0.725rem'
         },
         extend: {
             fontFamily: {
@@ -76,6 +78,9 @@ module.exports = {
             },
             inset:{
                 "42":"10.625rem"
+            },
+            maxWidth:{
+                "2lg":"690px"
             }
         },
     },

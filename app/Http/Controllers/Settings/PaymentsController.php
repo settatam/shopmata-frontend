@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentGateway;
+use App\Models\StorePaymentGateway;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,8 +17,9 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        //
-        return Inertia::render('Settings/Payments/Index');
+        $payment_gateways = StorePaymentGateway::all();   
+        $gateways = PaymentGateway::all();
+        return Inertia::render('Settings/Payments/Index',compact('payment_gateways', 'gateways'));
     }
 
     /**
