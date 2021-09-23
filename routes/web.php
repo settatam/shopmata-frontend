@@ -50,15 +50,20 @@ Route::get('/', function () {
 	return Inertia\Inertia::render('Landing');
 })->name('landing');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-	return Inertia\Inertia::render('Dashboard');
-})->name('dashboard');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+// 	return Inertia\Inertia::render('Dashboard');
+// })->name('dashboard');
 
 Route::get('login', [LoginController::class, 'getLogin'])->name('login');
 Route::get('register/step-2', [RegisterController::class, 'registerStep2'])->name('register-step-2');
+Route::get('register/step-3', [RegisterController::class, 'registerStep3'])->name('register-step-3');
 Route::get('register', [RegisterController::class, 'getRegister'])->name('register');
 Route::post('login', [LoginController::class, 'authenticate']);
 Route::post('register', [RegisterController::class, 'RegisterUser']);
+
+//Create Store here
+
+Route::post('store', ['StoreController', 'store'])->name('create-new-store');
 
 
 Route::group(['prefix' => 'auth'], function () {
@@ -76,9 +81,11 @@ Route::get('staff/registration/new', [StaffsController::class, 'registration']);
 Route::post('staff/registration/new', [StaffsController::class, 'createStaff']);
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-	Route::get('dashboard/data', [DashboardController::class, 'index']);
+	Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+	Route::get('dashboard/data', [DashboardController::class, 'getData']);
 
 	Route::get('/get/user/store/products', [StoreController::class, 'getStoreProducts']);
+
 
 	#Products
 	Route::get('products', [ProductsController::class, 'index'])->name('products');
@@ -192,6 +199,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::delete('online-store/editor-pages/{id}', [OpenEditorPagesController::class, 'destroy']);
 
 	Route::get('online-store/themes', [ThemeController::class, 'index']);
+
+	Route::put('store', [StoreController::class, 'update']);
 
 	Route::get('store/pages/generate-slug/{title}', [PagesController::class, 'generateSlug']);
 	Route::get('store/pages/editor/{id?}', [PagesController::class, 'editor']);
