@@ -31,8 +31,8 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       User Roles <span class="text-red-500">*</span>
                     </label>
-                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="invite.role" required>
-                      <option v-for="(role,index) in this.roles" :key="index">{{role.name}}</option>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="invite.role_id" required>
+                      <option v-for="(role,index) in groups" :key="index" :value="role.id">{{role.name}}</option>
                     </select>
                   </div>
                 
@@ -54,12 +54,12 @@
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
-import { email } from '@vuelidate/validators'
-import axios from 'axios'
+import { Inertia } from '@inertiajs/inertia'
 
 
 export default {
     emits:['close'],
+    props:['groups'],
   components: {
     Dialog,
     DialogOverlay,
@@ -70,7 +70,7 @@ export default {
   },
   methods:{
       submit(){
-          axios.post('settings/plan-and-permissions/staffs/invite',this.invite)
+          Inertia.post('plan-and-permissions/staffs/invite',this.invite)
           this.$emit('close')
           this.open = false
       },
@@ -86,16 +86,8 @@ export default {
       open,
       invite:{
           email:"",
-          role:"Administrator",
+          role_id:1,
       },
-      roles:{
-          0:{
-              name: "Administrator"
-          },
-          1:{
-              name: "Employee"
-          }
-      }
     }
   }
 }

@@ -2,7 +2,7 @@
     <app-layout>
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
-            <div class="flex-shrink-0 mb-3 px-6 flex items-center">
+          <div class="flex-shrink-0 mb-3 px-6 flex items-center">
               <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
             </div>
             <nav class="flex px-6" aria-label="Breadcrumb">
@@ -23,12 +23,13 @@
                 </li>
               </ol>
             </nav>
-        <!-- Secondary sidebar -->
+
           <div class="flex-1 flex xl:overflow-hidden mt-5">
+            <!-- Secondary sidebar -->
             <Nav page="General"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-9.5/10 ml-7">
+              <div class="w-auto  lg:ml-7 lg:mr-2">
                 <div class="p-8 bg-white">
                   <h1 class="text-2xl mb-2 font-semibold">General information</h1>
                   <h2 class="text-lg font-semibold mb-9">Store Details</h2>
@@ -36,24 +37,14 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Store Name
                     </label>
-<<<<<<< HEAD
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.name" required/>
-=======
                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.name" required/>
-                     <span v-if="v$.details.name.$error" class="text-red-400">{{v$.details.name.$errors[0].$message}}</span>
->>>>>>> dev
                   </div>
                   <div class="flex required  mb-4">
                     <div class="mr-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Email Address
                       </label>
-<<<<<<< HEAD
-                      <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="details.account_email" required/>
-=======
                       <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.account_email" required/>
-                      <span v-if="v$.details.account_email.$error" class="text-red-400">{{v$.details.account_email.$errors[0].$message}}</span>
->>>>>>> dev
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -61,13 +52,14 @@
                       </label>
                       <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.customer_email" required/>
                     </div>
+                    
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Store Industry
                     </label>
                     <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.industry_id" required>
-                      <option v-for="(industry,index) in this.industries" :key="index" :value="industry.id">{{industry.name}}</option>
+                      <option v-for="(industry,index) in industries" :key="index" :value="industry.id">{{industry.name}}</option>
                     </select>
                   </div>
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
@@ -77,29 +69,19 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Legal Name of Business
                     </label>
-<<<<<<< HEAD
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.business_name" required/>
-=======
                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.business_name" required/>
-                      <span v-if="v$.address.business_name.$error" class="text-red-400">{{v$.address.business_name.$errors[0].$message}}</span>
->>>>>>> dev
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Phone Number
                     </label>
-<<<<<<< HEAD
-                    <input type="tel"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.phone"  required/>
-=======
                     <input type="tel"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.phone"  required/>
-                     <span v-if="v$.address.phone.$error" class="text-red-400">{{v$.address.phone.$errors[0].$message}}</span>
->>>>>>> dev
                   </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Country
                     </label>
-                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="store_details.country_id" required @change="stateList">
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="store_details.country_id" required>
                       <option v-for="(country,index) in this.countries" :key="index" :value="country.id">{{country.name}}</option>
                     </select>
                   </div>
@@ -108,26 +90,21 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         City
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.city" required/>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="store_details.city" required />
                     </div>
                     <div class="mx-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         State
                       </label>
-<<<<<<< HEAD
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="address.state"  required/>
-=======
                       <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.state_id"  required>
                         <option v-for="(state,index) in states" :key="index" :value="state.id">{{state.name}}</option>
                       </select>
->>>>>>> dev
-                       <span v-if="v$.address.state.$error" class="text-red-400">{{v$.address.state.$errors[0].$message}}</span>
                     </div>
                     <div class="mr-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         ZIP / Postal Code
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.postal_code"  required/>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.zip"  required/>
                     </div>
                   </div>
                   
@@ -148,16 +125,15 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Unit System
                       </label>
-                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.unit"  required>
-                        <option v-for="(unit,index) in this.units" :key="index">{{unit.unit}}</option>
+                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.unit_id"  required>
+                        <option v-for="(unit,index) in units" :key="index" :value="unit.id">{{unit.unit}}</option>
                       </select>
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Default Weight Unit
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.default_weight_unit" required/>
-                      <span v-if="v$.standards.default_weight_unit.$error" class="text-red-400">{{v$.standards.default_weight_unit.$errors[0].$message}}</span>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.default_weight_unit" required/>
                     </div>
                   </div>
                   <h2 class="text-lg font-semibold mb-2">Edit Order ID Format (Optional)</h2>
@@ -167,13 +143,13 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Prefix
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.order_id_prefix" required/>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.order_id_prefix" required/>
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Suffix
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="standards.order_id_suffix"  required/>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.order_id_suffix"  required/>
                     </div>
                   </div>
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
@@ -198,7 +174,6 @@
 </template>
 
 <script>
-
 import { ref, reactive } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
@@ -206,15 +181,9 @@ import Nav from './Nav';
 import axios from "axios"
 import useVuelidate from '@vuelidate/core'
 import { required, email, helpers } from '@vuelidate/validators'
-
-
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-<<<<<<< HEAD
-import { ChevronLeftIcon, ChevronRightIcon,CogIcon } from '@heroicons/vue/solid'
-=======
-import { ChevronLeftIcon } from '@heroicons/vue/solid';
->>>>>>> dev
-
+import { ChevronLeftIcon, ChevronRightIcon,CogIcon  } from '@heroicons/vue/solid';
+import { Inertia } from '@inertiajs/inertia'
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
   processing: 'bg-yellow-100 text-yellow-800',
@@ -235,145 +204,40 @@ export default {
           timezones: Array,
           errors: Object,
           states: Array,
-
   },
   
   components: {
     Nav,
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,CogIcon
+    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,CogIcon 
   },
   
   data() {
     return {
       notification:null,
-      details: {
-        account_email: "",
-        customer_email: "",
-        name: "",
-        industry: null,
-      },
-      address: {
-        business_name: "",
-        phone: "",
-        state: "",
-        city: "",
-        zip: "",
-        address: "",
-        address2: "",
-        country: null,
-      },
-      standards: {
-        timezone: null,
-        unit: null,
-        default_weight_unit: null,
-        order_id_suffix: "",
-        order_id_prefix: "",
-      },
-      store_currency: {
-        currency: "",
-      },
-      statelist:[],
-      citylist:[],
-      dialCode:[],
+      
     }
   },
   methods: {
-    async submit() {
-        const {account_email, customer_email, industry, name} = this.details;
-        const {business_name, phone, address, address2, state, country, city, zip } = this.address;
-        const {default_weight_unit, unit, timezone, order_id_suffix, order_id_prefix } = this.standards;
-        const data = {
-          name,
-          account_email,
-          customer_email,
-          industry_id: industry.id,
-          address: address || "",
-          address2: address2 || "",
-          business_name: business_name || "",
-          city: city || "",
-          country_id: country?.id || "",
-          currency_id: this.store_currency.currency !== "" ? this.store_currency.currency.id : "",
-          default_weight_unit_id: default_weight_unit?.id || "",
-          order_id_suffix: order_id_suffix,
-          order_id_prefix: order_id_prefix,
-          phone: phone || "",
-          state: state || "",
-          timezone_id: this.standards.timezone !== "" ? this.standards.timezone.id : "",
-          unit_id: unit?.id || "",
-          zip: zip || ""
-        };
-        try {
-          const res = await axios.put("/settings/general", data);
-          const { notification } = res.data;
-          this.notification = notification;
-          setTimeout(function(){ window.location.reload() }, 2000);
-        } catch (error) {
-          const { notification } = error.response.data;
-          this.notification = notification;
-        }
-      },
-      
-    /* addTag(newTag) {
-      const tag = {
-        name: newTag,
-        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
-      };
-      this.options.push(tag);
-      this.value.push(tag);
-    }, */
-  },
+    submit() {
+      Inertia.put('/store', this.store_details);
+    }
+  }, 
 mounted() {
-    const{account_email, customer_email, name, industry_id, phone, country_id, state, city, business_name, zip, address, address2,order_id_suffix, order_id_prefix, default_weight_unit_id, unit_id, timezone, currency_id } = this.store;
-    const industry = this.industries.filter(data => data.id === industry_id);
-    const country = this.countries.filter(data => data.id === country_id);
-    const currency = this.currencies.filter(data => data.id === currency_id);
-    const unitSystem = this.units.filter(data => data.id === unit_id);
-    const weightUnitSystem = this.units.filter(data => data.id === default_weight_unit_id);
-    this.details = {
-      account_email: account_email || "",
-      customer_email: customer_email || "",
-      name: name || "",
-      industry: industry[0] || {},
-    };
-    (this.address = {
-      business_name: business_name || "",
-      phone: phone || "",
-      state: state || "",
-      city: city || "",
-      zip: zip | "",
-      address: address || "",
-      address2: address2 || "",
-      country: country[0],
-    }),
-      (this.standards = {
-        timezone: timezone || "",
-        unit: unitSystem[0] || "",
-        // default_weight_unit: weightUnitSystem[0].title,
-        order_id_prefix: order_id_prefix || "",
-        order_id_suffix: order_id_suffix || "",
-      }),
-      (this.store_currency = {
-        currency: currency[0],
-      });
+    
   },
-
-  setup() {
+  setup(props) {
     const open = ref(false)
     const store_details = reactive(props.store)
     const states = props.states
-
-    function submit() {
-      Inertia.put('/store', store_details);
-    }
-
+    
+    
     return {
       statusStyles,
-      v$: useVuelidate() ,
+      store_details,
+      states,
       pages
     }
   },
-
 }
 </script>
-

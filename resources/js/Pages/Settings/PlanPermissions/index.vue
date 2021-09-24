@@ -27,7 +27,7 @@
             <Nav page="Plans"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-                <div class="w-9.5/10 ml-5">
+                <div class="w-auto  lg:ml-7 lg:mr-2">
                     <div class="mb-6">
                         <div class="p-8 mb-6 bg-white">
                             <h2 class="text-xl font-semibold mb-4">Plan and Permissions</h2>
@@ -85,17 +85,17 @@
                                     <p class="text-sm text-gray-400">Manage what staff can see or do in your store.</p>
                                 </div>
                                 <PlusCircleIcon class="w-11 h-11 text-indigo-700 cursor-pointer" @click="this.popModal=true"/>
-                            <permission-modal v-if="popModal" @close="this.popModal=false"/>
+                            <permission-modal v-if="popModal" @close="this.popModal=false" :groups="groups"/>
                             </div>
                              <div class="px-5  border border-gray-300 mt-5 py-4 rounded">
                                 <h3 class="text-lg font-bold mb-6">Store Owner</h3>
                                     <div v-for="user in storeUsers" :key="user.id">
                                         <div v-if="user.store_group_id==1">
                                             <div class="flex items-center">
-                                                <img :src="user.user.profile_photo_url" alt="Profile Photo" class=" rounded-full mr-4">
+                                                <p class="h-10 w-10 rounded-full capitalize bg-green-800 text-white text-center text-sm py-2.5 font-semibold mr-4">{{user.user.first_name.charAt(0)}}{{user.user.last_name.charAt(0)}}</p>
                                                 <div>
-                                                    <p class="text-sm text-indigo-700">{{user.user.first_name + '' +user.user.last_name}}</p>
-                                                    <p>Last login was {{user.last_login.created_at}} </p>
+                                                    <p class="text-sm text-indigo-700 font-semibold">{{user.user.first_name + ' ' + user.user.last_name}}</p>
+                                                    <p>Last login was {{formatDate(user.last_login.created_at)}} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -128,17 +128,17 @@
                                         <td scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selected" :value="user.user.first_name" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                                         </td> 
-                                        <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                        <td class="w-3/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
                                             <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.user.first_name + ' ' +user.user.last_name}}</p>  
                                         </td>
-                                        <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                                            <p class="text-gray-800 text-left ">{{moment(user.updated_at).format("YYYY-MM-DD")}}</p>  
+                                        <td class="w-3/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
+                                            <p class="text-gray-800 text-left ">{{moment(user.last_login).format("LLLL")}}</p>  
                                         </td>
-                                        <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==1">Full Access</p>  
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==2">Edit Access</p>  
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==3">Read/Write Access</p>  
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==4">Read Only Access</p>  
+                                        <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500" >
+                                           <p class="text-gray-800 text-left " v-if="user.store_group_id==1">Owner</p>  
+                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==2">Developer</p>  
+                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==3">Guest</p>  
+                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==4">Admin</p>
                                         </td>
                                     
                                         <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">                              
@@ -164,6 +164,7 @@ import Nav from '../Nav';
 import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,CogIcon} from '@heroicons/vue/solid'
 import moment from "moment";
 import PermissionModal from './PermissionModal.vue';
+//import moment from 'moment'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -185,7 +186,11 @@ export default {
           selected:[],
       }
   },
-
+    methods:{
+        formatDate(created_at){
+            return moment(created_at).format('LLLL')
+        }
+    },
     setup() {
     return {
       plans,
