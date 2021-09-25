@@ -29,7 +29,7 @@
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-9.5/10 ml-5 ">
+              <div class="w-auto  lg:ml-7 lg:mr-2">
                 <div class="mb-6">
                   <h1 class="text-2xl mb-2 font-semibold">Shipping and Delivery</h1>
                   <div class="px-8 py-6 mb-6 bg-white">
@@ -43,7 +43,7 @@
                             <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
                             <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
-                          <inertia-link href="shipping-and-delivery/general-shipping-rate">
+                          <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
                             <p class="text-indigo-700 mr-10 cursor-pointer text-right">Manage rates</p>
                           </inertia-link>
                         </div>
@@ -73,12 +73,12 @@
                         </div>
                       </div> -->
                       <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm flex">
-                        <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1"/>
+                        <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1" v-model="local_delivery"/>
                         <div class="flex flex-col items-start">
                           <p class="text-xl font-semibold">Local Pickup</p>
                           <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
                          </div>
-                         <p class="text-indigo-700 -ml-10 cursor-pointer" @click="popModal=true">Add New Location</p>
+                         <p class="text-indigo-700 -ml-10 cursor-pointer" @click="popModal=true" v-if="local_delivery">Add New Location</p>
                       </div>
                       <pick-up-modal @close="this.popModal=false"  v-if="this.popModal"/>
                   </div>
@@ -142,9 +142,11 @@ export default {
   },
   setup() {
     const open = ref(false)
+    const local_delivery = ref(false)
     return {
       statusStyles,
-      pages
+      pages,
+      local_delivery
     }
   },
 
