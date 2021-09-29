@@ -15,10 +15,6 @@ class DashboardController extends Controller
      */
     public function index() {
         $store_id = session()->get('store_id');
-        $theme = new Theme;
-        $h = $theme->themeContent();
-        return response()->json($theme->sections());
-
         if($store_id) {
             $store = Store::find($store_id);      
             if(null !== $store) {
