@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers\OnlineStore;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use App\Models\StoreLocation;
+use Illuminate\Support\Facades\Log;
 
-class ShippingController extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,6 @@ class ShippingController extends Controller
     public function index()
     {
         //
-        $locations = StoreLocation::orderBy('id', 'desc')->get();
-        return Inertia::render('Settings/Shipping/Index', compact('locations'));
     }
 
     /**
@@ -40,6 +37,17 @@ class ShippingController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'address'=>['string']
+        ]);
+        
+        $input = $request->input();
+        $input['store_id'] = $request->session()->get('store_id');
+
+        if(StoreLocation::create($input)) {
+            Log::info(Auth::id() . ' created a new location', $input);
+            \Redirect::route('settings.shipping');
+        }
 
     }
 
@@ -52,6 +60,7 @@ class ShippingController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**

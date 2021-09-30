@@ -35,6 +35,8 @@ use App\Http\Controllers\OnlineStore\CodeEditorController;
 use App\Http\Controllers\OnlineStore\ThemeController;
 use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
 use App\Http\Controllers\OnlineStore\NavigationController;
+use App\Http\Controllers\OnlineStore\LocationController;
+use App\Http\Controllers\OnlineStore\StoreUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -193,6 +195,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::put('online-store/code-editor/{id}', [CodeEditorController::class, 'update']);
 	Route::get('online-store/code-editor/{id}', [CodeEditorController::class, 'show']);
     Route::get('online-store/editor', [CodeEditorController::class, 'index']);
+
+    Route::resource('online-store/locations', LocationController::class);
+    Route::resource('online-store/store-users', StoreUserController::class);
 
     // Navigation
 

@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers\OnlineStore;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
-use App\Models\StoreLocation;
 
-class ShippingController extends Controller
+class StoreUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,6 @@ class ShippingController extends Controller
     public function index()
     {
         //
-        $locations = StoreLocation::orderBy('id', 'desc')->get();
-        return Inertia::render('Settings/Shipping/Index', compact('locations'));
     }
 
     /**
@@ -40,7 +36,6 @@ class ShippingController extends Controller
     public function store(Request $request)
     {
         //
-
     }
 
     /**

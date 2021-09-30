@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CountriesController;
 use App\Http\Controllers\API\StatesController;
+use App\Http\Controllers\API\StoreLocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\API\StatesController;
 
 Route::get('countries', [CountriesController::class, 'index']);
 Route::get('states', [StatesController::class, 'index']);
+Route::get('store-locations/{id}', [StoreLocationController::class, 'show']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
