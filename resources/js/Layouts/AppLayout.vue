@@ -120,7 +120,7 @@
             <Menu as="div" class="ml-3 relative">
               <div>
                 <MenuButton class="max-w-xs bg-white rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50">
-                  <p class="h-8 w-8 rounded-full capitalize bg-gray-200 text-black text-center text-sm py-2 font-bold">{{$page.props.user.first_name.charAt(0)}}{{$page.props.user.last_name.charAt(0)}}</p>
+                  <p class="h-10 w-10 rounded-full capitalize bg-blue-400 text-white text-center text-sm py-2.5 font-semibold mr-4">{{$page.props.user.first_name.charAt(0)}}{{$page.props.user.last_name.charAt(0)}}</p>
                  <!--  <span class="hidden ml-3 text-gray-700 text-sm font-medium lg:block"><span class="sr-only">Open user menu for </span>{{$page.props.user.first_name}} {{$page.props.user.first_name}}</span> -->
                   <ChevronDownIcon class="hidden flex-shrink-0 ml-1 h-5 w-5 text-black font-extrabold lg:block" aria-hidden="true" />
                 </MenuButton>

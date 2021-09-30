@@ -36,15 +36,15 @@
                     <p class="text-gray-400 text-sm mt-2 mb-5">Set your gift cards to expire a certain amount of time after they,ve been purchased.</p>
                     <div class="border border-gray-300 px-7 pt-7 pb-6">
                       <div class="flex flex-col ">
-                        <p class="ml-9 mb-2 my-auto"> <input  type="radio" name="" value="expire" v-model="gift.option" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards expires</p>
-                        <p class="ml-9 mb-6 my-auto"> <input  type="radio" name="" value="never_expire" v-model="gift.option" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards never expires</p>
+                        <p class="ml-9 mb-2 my-auto"> <input  type="radio" name="" value=1 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards expires</p>
+                        <p class="ml-9 mb-6 my-auto"> <input  type="radio" name="" value=2 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards never expires</p>
                       </div>
                       <div class="flex mb-6">
-                        <input type="text" name="" v-model="gift.duration" placeholder="5" class="w-20 mr-2.5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md">
-                        <select name="" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="5" v-model="gift.type" >
-                          <option value="year" >Years after purchase</option>
-                          <option value="month">Months after purchase</option>
-                          <option value="day">Days after purchase</option>
+                        <input type="text" name="" v-model="gift.period" placeholder="5" class="w-20 mr-2.5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md">
+                        <select name="" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="gift.duration" >
+                          <option value="years" >Years after purchase</option>
+                          <option value="months">Months after purchase</option>
+                          <option value="days">Days after purchase</option>
                         </select>
                       </div>
                         <p class="text-gray-400">Countries have different laws for gift card expiry dates. Check the laws for your country before changing this date.</p>
@@ -95,9 +95,9 @@ export default {
   data() {
     return {
       gift:{
-        duration:'1',
-        type:'day',
-        option:'expire'
+        duration:'days',
+        period:"",
+        expire:1
       }
     }
   },
@@ -105,7 +105,7 @@ export default {
     submit(){
       
       try {
-        axios.post('settings/gift-cards',this.gift)
+        axios.post('gift-cards',this.gift)
       } catch (error) {
         console.log(error)
       }

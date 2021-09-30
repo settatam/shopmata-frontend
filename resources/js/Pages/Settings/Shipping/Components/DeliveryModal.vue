@@ -54,13 +54,29 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Rate
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.rate" required/>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="NGN" v-model="delivery_rate.rate" required/>
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Delivery Time
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.delivery_time" required/>
+                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.time" required>
+                        <option value="1">Same day</option>
+                        <option value="2">Next day</option>
+                        <option value="3">1-3 days</option>
+                        <option value="4">3-5 days</option>
+                        <option value="5">5-7 days</option>
+                        <option value="7">More than 7 days</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="flex">
+                  <div class="mr-2 w-full mb-3 relative">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Description
+                      </label>
+                      <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="delivery_rate.note" required></textarea>
+                      <span class="text-gray-400 absolute bottom-1 right-3">{{delivery_rate.note.length}}/50</span>
                     </div>
                 </div>
                 <p class="text-gray-500 text-sm">Customers will see this at checkout.</p>
@@ -128,7 +144,7 @@ export default {
     const open = ref(true)
     const condition = ref(false)
     const shipping_rate = ref('local_shipping')
-    const delivery_rate = reactive({state:'',city:'',rate:'',delivery_time:'',min_price:0,max_price:0})
+    const delivery_rate = reactive({state:'',city:'',rate:'',time:"1",note:"",min_price:0,max_price:0})
 
     return {
       open,

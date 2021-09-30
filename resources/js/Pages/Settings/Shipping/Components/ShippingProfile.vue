@@ -30,18 +30,17 @@
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
                 <div class="w-auto  lg:ml-7 lg:mr-2">
                     <div class="mb-6">
-                        <h1 class="text-2xl font-semibold">Manage Shipping Profile</h1>
-                         <div class="p-8 mb-6 bg-white">
-                             <h2 class="text-xl font-semibold">Flat Rates</h2>
-                             <p class=" text-gray-500">Enter flat rates to your shipping locations.</p>            
+                         <div class="px-8 pb-8 pt-6  mb-6 bg-white">
+                            <h1 class="text-2xl font-semibold">Manage Shipping Profile</h1>
+                             <p class=" text-gray-500">Create a shipping profile to add custom rates </p>            
                                 <div class="w-auto">
                                     <label class="block mt-4 mb-2 bg-transparent">
-                                        Profile Name
+                                        Rate Name
                                     </label>
                                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  required/>
                                 </div>
 
-                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
+                                   <!--  <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
                                         <div class="flex justify-between items-center">
                                             <p class="font-semibold text-xl mr-8 mb-4">Shipping From</p>
                                         </div>
@@ -53,7 +52,7 @@
                                                 </div>
                                                 <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
                                             </div>
-                                    </div>
+                                    </div> -->
                                    <!--  <div class="mt-6 border border-gray-300 pt-5 pl-8 pr-5 flex-col rounded">
                             <div class="flex justify-between mt-4 mb-2">
                                 <h3 class="font-semibold text-xl">Shipping to</h3>
@@ -111,23 +110,22 @@
                                     <button class="mt-4 w-28 mb-5 h-14 bg-gray-100">Add Rate</button>
                                 </div>       
                                     </div> -->
-                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8  rounded">
-                                    <div class="flex justify-between items-center mb-14">
-                                        <p class="font-semibold text-xl mr-8">Shipping To</p>
-                                        <button class="text-indigo-700 mr-5 cursor-pointer" @click='popModal'>Create Shipping zone</button> 
+                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 h-56 rounded">
+                                        <div class="flex justify-between items-center mb-8">
+                                            <p class="font-semibold text-xl mr-8">Shipping To</p>
+                                            <button class="text-indigo-700 mr-5 cursor-pointer" @click='popModal'>Create Shipping Rate</button> 
+                                        </div>
+                                        <div class="flex items-center justify-around">
+                                            <p class="text-gray-500">No data</p>
+                                        </div>
                                     </div>
-                                    <div class="flex flex-col items-center">
-                                        <p class="font-semibold mb-4">No zones or rates </p>
-                                        <p class="text-gray-500">Add zones to create rates for places you want to ship to.</p>
-                                    </div>
-                                </div>
+                                        <div class="flex justify-between">
+                                            <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-3  my-5" >Cancel</button>
+                                            <button class="text-white bg-indigo-700 rounded-md px-8 py-3 my-5 ml-5" >Save</button>
+                                        </div> 
                                  </div>
                             </div>
                            <delivery-modal v-if="Modal" @close="Modal=false"/>
-                            <!-- <div class="flex justify-end">
-                                <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-3  my-5" >Cancel</button>
-                                <button class="text-white bg-indigo-700 rounded-md px-8 py-3 my-5 ml-5" >Save</button>
-                            </div> -->
                 </div>
             </div>
          </div>

@@ -72,13 +72,18 @@
                           <p class="bg-green-200 text-green-500 px-2 py-1 text-sm h-6 -ml-24">Offer Delivery</p>
                         </div>
                       </div> -->
-                      <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm flex">
-                        <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1" v-model="local_delivery"/>
-                        <div class="flex flex-col items-start">
-                          <p class="text-xl font-semibold">Local Pickup</p>
-                          <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
-                         </div>
-                         <p class="text-indigo-700 -ml-10 cursor-pointer" @click="popModal=true" v-if="local_delivery">Add New Location</p>
+                      <div class="pl-5 pr-2  mt-5 py-7">
+                        <div class="rounded-sm flex">
+                          <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1" v-model="local_delivery"/>
+                          <div class="flex flex-col items-start">
+                            <p class="text-xl font-semibold">Local Pickup</p>
+                            <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
+                          </div>
+                        </div>
+                        <div class="flex flex-col items-center" v-if="local_pickup.length==0">
+                          <p class="mt-8 mb-6">No local pickup address, add a location to select local pickup </p>
+                          <button type="button" class=" h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"  @click="popModal=true">Add location</button>
+                        </div>
                       </div>
                       <pick-up-modal @close="this.popModal=false"  v-if="this.popModal"/>
                   </div>
@@ -143,10 +148,12 @@ export default {
   setup() {
     const open = ref(false)
     const local_delivery = ref(false)
+    const local_pickup = ref([])
     return {
       statusStyles,
       pages,
-      local_delivery
+      local_delivery,
+      local_pickup,
     }
   },
 

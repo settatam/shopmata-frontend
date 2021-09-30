@@ -41,7 +41,7 @@
                     </div>
                     <div v-if="openOrder">
                       <div v-for="(order,index) in orders" :key="index" class="flex mb-5" >
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{order.title}}</a>
+                        <p class="font-bold text-indigo-700 no-underline w-3/10 cursor-pointer" @click="openNotificationModal(order.title,order.description)">{{order.title}}</p>
                         <p class="text-gray-500 w-7/10">{{order.description}}</p>
                       </div>
                     </div>
@@ -49,8 +49,8 @@
                   <div class="p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Local Delivery</h2>
-                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openLocal" @click="openLocal=false"/>
-                      <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openLocal" @click="openLocal=false"/>
+                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openLocal" @click="openLocal=true"/>
+                      <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else @click="openLocal=false"/>
                     </div>
                     <div v-if="openLocal">
                       <div v-for="(delivery,index) in localDeliveries" :key="index" class="flex mb-5">
@@ -76,12 +76,12 @@
                   <div class="p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Local Pickup</h2>
-                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openPickup=false" v-if="openPickup"/>
-                      <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openPickup=true"  v-else/>
+                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openPickup" @click="openPickup=false"/>
+                      <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openPickup==false"  @click="openPickup=true"/>
                     </div>
                     <div v-if="openPickup">
                       <div v-for="(pickup,index) in localPickups" :key="index" class="flex mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{pickup.title}}</a>
+                        <p class="font-bold text-indigo-700 no-underline w-3/10" href="" @click="open">{{pickup.title}}</p>
                         <p class="text-gray-500 w-7/10">{{pickup.description}}</p>
                       </div>
                     </div>
@@ -135,7 +135,7 @@
                         <span class="text-indigo-700 font-bold"><input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5" /> Require customers to confirm their subscription</span>
                         <p class="text-gray-500 mt-4">Customers who sign up will receive a confirmation email to validate their subscription. Previous subscribers will not be affected.</p>
                       </div>
-                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/>
+                      <!-- <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/> -->
                     </div>
                   </div>
                   <div class="p-8 my-6 bg-white">
@@ -185,6 +185,7 @@
                       </div>
                      </div>
                    </div>
+                   <notification-modal @close="openModal=false" :modalTitle="modalTitle" :modalContent="modalContent" v-if="openModal"/>
                    <div class="p-8 my-6  bg-white">
                       <div class="flex items-center justify-between mb-5">
                         <h2 class="font-bold text-xl ">Desktop Notification</h2>
@@ -211,6 +212,7 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
 import axios from "axios"
+import NotificationModal from './NotificationModal.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon,CogIcon  } from '@heroicons/vue/solid'
@@ -232,11 +234,18 @@ export default {
             brands: Array,
             categories: Array
         },
-  
+   emits:['close'],
   components: {
     Nav,
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronUpIcon,ChevronDownIcon,ChevronRightIcon,CogIcon 
+    NotificationModal,
+    Dialog, DialogOverlay,
+    TransitionChild, 
+    TransitionRoot,
+    ChevronUpIcon,
+    ChevronDownIcon,
+    ChevronRightIcon,
+    CogIcon 
   },
   
   data() {
@@ -252,6 +261,9 @@ export default {
       openTemplate:true,
       openRecipient:true,
       openNotification:true,
+      modalTitle:"Hi",
+      modalContent:"Hello",
+      openModal:false,
       orders:{
         0:{
           title:"Order confirmation",
@@ -398,11 +410,17 @@ export default {
       }
     }
   },
+  methods:{
+    openNotificationModal(title,body){
+      this.openModal = true 
+      this.modalTitle = title
+      this.modalContent= body
+    }
+  },
   setup() {
-    const open = ref(false)
     return {
       statusStyles,
-      pages
+      pages,
     }
   },
 
