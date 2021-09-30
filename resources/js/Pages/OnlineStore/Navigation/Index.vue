@@ -25,25 +25,31 @@
                   <div class="w-full mb-4" v-if="menu.length">
                     <inertia-link href="/online-store/navigation/create">Create Another Menu</inertia-link>
                     <div class="bg-white shadow overflow-hidden sm:rounded-md">
-                        <ul role="list" class="divide-y divide-gray-200">
-                          <li v-for="m in menu" :key="menu.id">
-                            <inertia-link :href="'/online-store/navigation/'+m.id" class="block hover:bg-gray-50">
-                              <div class="px-4 py-4 flex items-center sm:px-6">
-                                <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-                                  <div class="truncate">
-                                    <div class="flex text-sm">
-                                      <p class="font-medium text-indigo-600 truncate">{{ m.name }}</p>
-                                      <p class="ml-1 flex-shrink-0 font-normal text-gray-500">No menu items yet</p>
+                      <sortable-list v-model="menu">
+                        <template v-slot="{items}">
+                            <ul role="list" class="divide-y divide-gray-200">
+                              <!-- <sortable-item v-for="m in items" :key="m.id"> -->
+                                <li v-for="m in items" :key="m.id">
+                                  <inertia-link :href="'/online-store/navigation/'+m.id" class="block hover:bg-gray-50">
+                                    <div class="px-4 py-4 flex items-center sm:px-6">
+                                      <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+                                        <div class="truncate">
+                                          <div class="flex text-sm">
+                                            <p class="font-medium text-indigo-600 truncate">{{ m.name }}</p>
+                                            <p class="ml-1 flex-shrink-0 font-normal text-gray-500">No menu items yet</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="ml-5 flex-shrink-0">
+                                        <ChevronRightIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                      </div>
                                     </div>
-                                  </div>
-                                </div>
-                                <div class="ml-5 flex-shrink-0">
-                                  <ChevronRightIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                </div>
-                              </div>
-                            </inertia-link>
-                          </li>
-                        </ul>
+                                  </inertia-link>
+                                </li>
+                              <!-- </sortable-item> -->
+                            </ul>
+                          </template>
+                      </sortable-list>
                       </div>
 
                   </div>
@@ -65,6 +71,8 @@
 
 import { ref, reactive } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
+import SortableList from '../../../Components/SortableList.vue'
+import SortableItem from '../../../Components/SortableItem.vue'
 import Search from '../../Search.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -82,11 +90,18 @@ export default {
   
   components: {
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot, ChevronRightIcon
+    Dialog, 
+    DialogOverlay, 
+    TransitionChild, 
+    TransitionRoot, 
+    ChevronRightIcon,
+    SortableList,
+    SortableItem
   },
   
   setup(props) {
     const open = ref(false)
+    // const navMenu = props.menu;
 
     // function submit() {
     //   Inertia.put('/store', store_details);
@@ -94,6 +109,7 @@ export default {
 
     return {
       statusStyles,
+      // navMenu
     }
   },
 
