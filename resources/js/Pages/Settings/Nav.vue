@@ -1,8 +1,5 @@
 <template>
   <nav aria-label="Sections" class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-5">
-      <div class="flex-shrink-0 h-16 px-6 border-b border-blue-gray-200 flex items-center">
-          <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
-      </div>
       <div class="flex-1 min-h-0 overflow-y-auto">
           <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-100 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
             <component :is="item.icon" class="flex-shrink-0  h-6 w-6 text-indigo-700 my-auto" aria-hidden="true" />
