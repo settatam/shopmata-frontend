@@ -29,7 +29,7 @@
             <Nav page="Notifications"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-9.5/10 ml-5 ">
+             <div class="w-auto  lg:ml-7 lg:mr-2">
                 <div class="mb-6">
                   <h1 class="text-2xl font-semibold">Notifications</h1>
                   <p class="text-gray-500 mb-4">Choose which notifications you want to get for this site.</p>
