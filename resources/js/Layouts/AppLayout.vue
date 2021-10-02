@@ -211,7 +211,7 @@ const navigation = [
             { name: 'My Themes', href: 'store/themes' },
             { name: 'All Themes', href: '/online-store/themes' },
             { name: 'Pages', href: '/store/pages' },
-            { name: 'Navigation', href: '/store/navigation' },
+            { name: 'Navigation', href: '/online-store/navigation' },
             { name: 'Preferences', href: '/store/preferences' },
           ],
   }

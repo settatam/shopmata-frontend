@@ -127,11 +127,11 @@ class Store extends Model
                 ];
             }
 
-            if(null !== $this->has_product) {
+            if(!$this->has_product) {
                 $dashboard_notifications[] = [
                     'icon'=>'ShoppingBagIcon',
-                    'title'=>'Product',
-                    'message'=>'Customize Your Store with your domain name',
+                    'title'=>'Add your first Product',
+                    'message'=>"You haven't add a product yet. Click here to add your first product",
                     'link'=>'products/create'
                 ];
             }
@@ -143,7 +143,16 @@ class Store extends Model
                     'message'=>'You have unfulfilled orders',
                     'link'=>'/orders?pending=true'
                 ];
-        }
+            }
+
+            if(!$this->theme || $this->theme->id == 1) {
+                $dashboard_notifications[] = [
+                    'icon'=>'ShoppingBagIcon',
+                    'title'=>'Customize your store with a theme',
+                    'message'=>'Choose one of our themes to customize your website',
+                    'link'=>'store/themes'
+                ];
+            }
 
         return $dashboard_notifications;
     }

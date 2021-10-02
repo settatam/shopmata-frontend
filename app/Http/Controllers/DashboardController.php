@@ -6,6 +6,7 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Store;
+use App\Models\Theme;
 
 class DashboardController extends Controller
 {
@@ -14,7 +15,6 @@ class DashboardController extends Controller
      */
     public function index() {
         $store_id = session()->get('store_id');
-
         if($store_id) {
             $store = Store::find($store_id);      
             if(null !== $store) {

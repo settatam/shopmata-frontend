@@ -34,6 +34,7 @@ use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\OnlineStore\CodeEditorController;
 use App\Http\Controllers\OnlineStore\ThemeController;
 use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
+use App\Http\Controllers\OnlineStore\NavigationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -193,6 +194,17 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::put('online-store/code-editor/{id}', [CodeEditorController::class, 'update']);
 	Route::get('online-store/code-editor/{id}', [CodeEditorController::class, 'show']);
     Route::get('online-store/editor', [CodeEditorController::class, 'index']);
+
+    // Navigation
+
+    Route::get('online-store/navigation', [NavigationController::class, 'index'])->name('navigation.list');
+    Route::get('online-store/navigation/create', [NavigationController::class, 'create']);
+    Route::get('online-store/navigation/{id}', [NavigationController::class, 'show'])->name('navigation.show');
+    Route::put('online-store/navigation/{id}', [NavigationController::class, 'update']);
+    Route::post('online-store/navigation/{id}', [NavigationController::class, 'storeList']);
+    Route::post('online-store/navigation', [NavigationController::class, 'store']);
+    Route::delete('online-store/navigation/{id}', [NavigationController::class, 'delete']);
+
 
     //Open editor pages
 

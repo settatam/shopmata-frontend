@@ -83,7 +83,7 @@ class ImagesController extends Controller
                 Storage::disk('DO')->put($slug.'/'.$filename_thumb, $image_thumb->__toString(), 'public');
 
                 $data = [
-                       'image_url'=>env('DO_URL').$slug.'/'.$filename,
+                       'url'=>env('DO_URL').$slug.'/'.$filename,
                        'thumb'=>env('DO_URL').$slug.'/'.$filename_thumb,
                        'rank'=>$rank,
                        'store_id'=>$store_id
