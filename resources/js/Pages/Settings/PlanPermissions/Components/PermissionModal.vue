@@ -14,8 +14,8 @@
             <div>
               <div class="flex justify-between ">
                   <div>
-                      <p class="text-2xl font-bold">Invite Staff</p>
-                      <p class="text-gray-400 text-sm mt-4">Give people access to this site and assign them roles.</p>
+                      <p class="text-2xl font-bold">{{title}}</p>
+                      <p class="text-gray-400 text-sm mt-4" v-show="title=='Invite Staff'">Give people access to this site and assign them roles.</p>
                   </div>
                   <x-icon class="h-6 w-6 cursor-pointer" @click="closeModal"/>
               </div>
@@ -40,7 +40,7 @@
             </div>
             <div class="mt-5 sm:mt-6">
               <button type="button" class="flex justify-center align-middle items-centerrounded-md border border-transparent shadow-sm mx-auto px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
-                Send Invite
+                {{buttonMsg}}
               </button>
             </div>
           </div>
@@ -59,7 +59,7 @@ import { Inertia } from '@inertiajs/inertia'
 
 export default {
     emits:['close'],
-    props:['groups'],
+    props:['groups','title','buttonMsg'],
   components: {
     Dialog,
     DialogOverlay,

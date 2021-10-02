@@ -41,7 +41,9 @@
                     </div>
                     <div v-if="openOrder">
                       <div v-for="(order,index) in orders" :key="index" class="flex mb-5" >
-                        <p class="font-bold text-indigo-700 no-underline w-3/10 cursor-pointer" @click="openNotificationModal(order.title,order.description)">{{order.title}}</p>
+                        <inertia-link href="/settings/notifications/order-confirmation" class="w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{order.title}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-7/10">{{order.description}}</p>
                       </div>
                     </div>
@@ -185,7 +187,6 @@
                       </div>
                      </div>
                    </div>
-                   <notification-modal @close="openModal=false" :modalTitle="modalTitle" :modalContent="modalContent" v-if="openModal"/>
                    <div class="p-8 my-6  bg-white">
                       <div class="flex items-center justify-between mb-5">
                         <h2 class="font-bold text-xl ">Desktop Notification</h2>
@@ -212,7 +213,6 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
 import axios from "axios"
-import NotificationModal from './NotificationModal.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon,CogIcon  } from '@heroicons/vue/solid'
@@ -238,8 +238,8 @@ export default {
   components: {
     Nav,
     AppLayout,
-    NotificationModal,
-    Dialog, DialogOverlay,
+    Dialog,
+    DialogOverlay,
     TransitionChild, 
     TransitionRoot,
     ChevronUpIcon,
@@ -261,9 +261,6 @@ export default {
       openTemplate:true,
       openRecipient:true,
       openNotification:true,
-      modalTitle:"Hi",
-      modalContent:"Hello",
-      openModal:false,
       orders:{
         0:{
           title:"Order confirmation",
@@ -411,11 +408,7 @@ export default {
     }
   },
   methods:{
-    openNotificationModal(title,body){
-      this.openModal = true 
-      this.modalTitle = title
-      this.modalContent= body
-    }
+    
   },
   setup() {
     return {

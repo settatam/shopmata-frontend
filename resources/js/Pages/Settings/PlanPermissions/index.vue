@@ -84,8 +84,8 @@
                                     <h2 class="text-xl font-semibold">Plan and Permissions</h2>
                                     <p class="text-sm text-gray-400">Manage what staff can see or do in your store.</p>
                                 </div>
-                                <PlusCircleIcon class="w-11 h-11 text-indigo-700 cursor-pointer" @click="this.popModal=true"/>
-                            <permission-modal v-if="popModal" @close="this.popModal=false" :groups="groups" :login="login"/>
+                                <PlusCircleIcon class="w-11 h-11 text-indigo-700 cursor-pointer" @click="inviteStaff"/>
+                            <permission-modal v-if="popModal" @close="this.popModal=false" :groups="groups" :login="login" :title="title" :buttonMsg="buttonMsg"/>
                             </div>
                              <div class="px-5  border border-gray-300 mt-5 py-4 rounded">
                                 <h3 class="text-lg font-bold mb-6">Store Owner</h3>
@@ -147,7 +147,7 @@
                                         <td class="px-6 py-4 text-right  text-sm text-gray-500 relative">                              
                                             <DotsVerticalIcon class="w-6 h-6 cursor-pointer relative" @click="openSubMenu(user.id)"/>
                                             <div class="absolute top-12 -left-40 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==user.id && openSub">
-                                                 <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(user.id)">
+                                                 <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow()">
                                                      <p class="text-gray-600"> Change Roles</p>
                                                    
                                                 </div>
@@ -205,6 +205,8 @@ export default {
           currentRow: 0,
           openSub: false,
           deleteConfirmation:false,
+          title:"",
+          buttonMsg:""
       }
   },
     methods:{
@@ -219,8 +221,19 @@ export default {
                 this.openSub=true
             }
         },
-        editRow(id){
-            console.log(id)
+        inviteStaff(){
+            this.popModal=true
+            this.title = 'Invite Staff'
+            this.buttonMsg='Send Invite'
+        },
+        /* changeRole(){
+            this.popModal=true
+            this.title = 'Change Role'
+        }, */
+        editRow(){
+            this.popModal=true
+            this.title = 'Change Role',
+            this.buttonMsg='Save Changes'
         },
         deleteRow(id){
             this.deleteConfirmation = true
@@ -243,6 +256,7 @@ export default {
             },
             emitClose(){
                 this.openSub=false
+                this.deleteConfirmation = false
             }
     },
     setup() {
