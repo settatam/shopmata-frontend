@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -124,8 +124,8 @@ import Nav from '../Nav';
 import axios from "axios"
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot, Switch } from '@headlessui/vue'
-import { ChevronLeftIcon,ChevronRightIcon,CogIcon } from '@heroicons/vue/solid'
-import {QuestionMarkCircleIcon,ChevronDownIcon,ChevronUpIcon} from '@heroicons/vue/outline'
+import { ChevronLeftIcon,ChevronRightIcon } from '@heroicons/vue/solid'
+import {QuestionMarkCircleIcon,ChevronDownIcon,ChevronUpIcon,HomeIcon} from '@heroicons/vue/outline'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -150,7 +150,7 @@ export default {
     ChevronDownIcon,
     ChevronUpIcon,
     ChevronRightIcon, 
-    CogIcon,
+    HomeIcon,
     Switch
   },
   

@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -142,7 +142,8 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Search from '../../../Search.vue'
-import {ChevronRightIcon,CogIcon } from '@heroicons/vue/solid'
+import {ChevronRightIcon } from '@heroicons/vue/solid'
+import {HomeIcon} from '@heroicons/vue/outline'
 import Nav from '../../Nav';
 
 const pages = [
@@ -152,7 +153,7 @@ const pages = [
 ]
 
 export default {
-  components: { AppLayout,Nav,ChevronRightIcon,CogIcon, },
+  components: { AppLayout,Nav,ChevronRightIcon,HomeIcon, },
 
   data() {
         return{

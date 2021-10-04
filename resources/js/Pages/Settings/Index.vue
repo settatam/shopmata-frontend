@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -182,7 +182,8 @@ import axios from "axios"
 import useVuelidate from '@vuelidate/core'
 import { required, email, helpers } from '@vuelidate/validators'
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronLeftIcon, ChevronRightIcon,CogIcon  } from '@heroicons/vue/solid';
+import { ChevronLeftIcon, ChevronRightIcon  } from '@heroicons/vue/solid';
+import {HomeIcon} from '@heroicons/vue/outline'
 import { Inertia } from '@inertiajs/inertia'
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -209,7 +210,7 @@ export default {
   components: {
     Nav,
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,CogIcon 
+    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,HomeIcon 
   },
   
   data() {

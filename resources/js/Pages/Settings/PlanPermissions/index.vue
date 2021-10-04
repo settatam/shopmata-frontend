@@ -8,8 +8,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -108,11 +108,8 @@
                                  </div>
                                   <table class="w-full divide-y divide-gray-200 table-fixed">
                                     <thead class="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
-                                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" @click="checkAll" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                        </th> 
-                                        <th scope="col" class="w-3/10  px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                                    <tr> 
+                                        <th scope="col" class="w-4/10  px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                             Names
                                         </th>
                                         <th scope="col" class=" w-3/10 px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
@@ -128,10 +125,7 @@
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" v-for="user in storeUsers " :key=" user.id">
                                     <tr class="bg-white">
-                                        <td scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selected" :value="user" @click="uncheckParentBox(user)" :disabled="user.store_group_id==1" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                        </td> 
-                                        <td class="w-3/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
+                                        <td class="w-4/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
                                             <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.user.first_name + ' ' +user.user.last_name}}</p>  
                                         </td>
                                         <td class="w-3/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
@@ -174,8 +168,8 @@
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
-import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,CogIcon,PencilAltIcon,} from '@heroicons/vue/solid'
-import {TrashIcon} from '@heroicons/vue/outline'
+import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,PencilAltIcon,} from '@heroicons/vue/solid'
+import {TrashIcon,HomeIcon} from '@heroicons/vue/outline'
 import moment from "moment";
 import PermissionModal from './Components/PermissionModal.vue';
 import { ref } from '@vue/reactivity';
@@ -195,7 +189,7 @@ const plans = [
 ]
 export default {
   props: ['user', 'storeUsers', 'groups','login'],
-  components: { AppLayout,Nav,PlusCircleIcon,DotsVerticalIcon,PermissionModal,ChevronRightIcon,CogIcon,PencilAltIcon,TrashIcon, ConfirmationModal},
+  components: { AppLayout,Nav,PlusCircleIcon,DotsVerticalIcon,PermissionModal,ChevronRightIcon,HomeIcon,PencilAltIcon,TrashIcon, ConfirmationModal},
    emits:['close'],
   data(){
       return{

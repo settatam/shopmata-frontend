@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -106,8 +106,8 @@ import axios from "axios"
 import PickUpModal from "./Components/PickUpModal.vue"
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon,CogIcon } from '@heroicons/vue/solid'
-import { BriefcaseIcon,LocationMarkerIcon } from '@heroicons/vue/outline'
+import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
+import { BriefcaseIcon,LocationMarkerIcon,HomeIcon } from '@heroicons/vue/outline'
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -133,7 +133,7 @@ export default {
     TransitionChild, 
     TransitionRoot,
     ChevronRightIcon,
-    CogIcon,
+    HomeIcon,
     GlobeAltIcon,
     BriefcaseIcon,
     LocationMarkerIcon,

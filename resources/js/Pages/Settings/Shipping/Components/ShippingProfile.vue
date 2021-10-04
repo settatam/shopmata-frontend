@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -136,7 +136,7 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav';
-import {LocationMarkerIcon,ChevronRightIcon,CogIcon} from '@heroicons/vue/outline'
+import {LocationMarkerIcon,ChevronRightIcon,HomeIcon} from '@heroicons/vue/outline'
 import {reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import DeliveryModal from './DeliveryModal.vue'
@@ -150,7 +150,7 @@ export default {
      components: {
         Nav,
         AppLayout,
-        LocationMarkerIcon,ChevronRightIcon,CogIcon,
+        LocationMarkerIcon,ChevronRightIcon,HomeIcon,
           Button,
           DeliveryModal
     }, 

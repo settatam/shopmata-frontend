@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -82,9 +82,10 @@
 
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Nav from '../Nav'
-import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon,CogIcon,ArrowLeftIcon,EyeIcon  } from '@heroicons/vue/solid'
+import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon,ArrowLeftIcon,EyeIcon  } from '@heroicons/vue/solid'
 import { reactive, ref } from '@vue/reactivity'
 import ErrorIcon from '../../../../assets/ErrorIcon.vue'
+import  {HomeIcon} from '@heroicons/vue/outline'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -96,7 +97,7 @@ export default {
     components:{
         AppLayout,
         ChevronRightIcon,
-        CogIcon,
+        HomeIcon,
         Nav,
         ArrowLeftIcon,
         EyeIcon,
