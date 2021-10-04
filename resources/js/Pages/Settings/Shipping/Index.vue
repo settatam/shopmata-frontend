@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -24,13 +24,13 @@
               </ol>
             </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden">
+          <div class="flex-1 flex xl:overflow-hidden mt-5">
             <!-- Secondary sidebar -->
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-9.5/10 ml-5 ">
-                <div class="mb-6 pt-2 mt-2">
+              <div class="w-auto  lg:ml-7 lg:mr-2">
+                <div class="mb-6">
                   <h1 class="text-2xl mb-2 font-semibold">Shipping and Delivery</h1>
                   <div class="px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>
@@ -40,10 +40,10 @@
                         <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <span class="text-indigo-700 underline cursor-pointer">about shipping rates</span> </p>
                         <div class="flex justify-between items-center mt-6">
                           <div class="flex">
-                            <p class="font-semibold uppercase mr-8">General Shipping Rate</p>
+                            <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
                             <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
-                          <inertia-link href="shipping-and-delivery/general-shipping-rate">
+                          <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
                             <p class="text-indigo-700 mr-10 cursor-pointer text-right">Manage rates</p>
                           </inertia-link>
                         </div>
@@ -52,16 +52,6 @@
                               <p class="font-semibold mb-3">Rates for</p>
                               <span class="flex text-gray-500 mb-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Domestic</span>
                               <span class="flex text-gray-500 mt-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Rest of the world</span>
-                            </div>
-                            <div class="border-t -mr-2 -ml-5 border-gray-300 bg-gray-100 px-5">
-                            
-                                <div class="flex justify-between items-center mt-6">
-                                  <p class="font-semibold uppercase mr-8 mb-2">Custom shipping rates</p>
-                                  <inertia-link href="shipping-and-delivery/shipping-profile">
-                                    <p class="text-indigo-700 mr-5 cursor-pointer">Create new profile</p> 
-                                  </inertia-link>
-                                </div>
-                              <p class="text-gray-500 pb-8">Create a shipping profile to add custom rates or destination restrictions for groups of products. Learn more about <span class="text-indigo-700 underline cursor-pointer">shipping profiles.</span></p>
                             </div>
                       </div>
                       <!-- <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm">
@@ -82,59 +72,20 @@
                           <p class="bg-green-200 text-green-500 px-2 py-1 text-sm h-6 -ml-24">Offer Delivery</p>
                         </div>
                       </div> -->
-                      <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm">
-                        <p class="text-xl font-semibold">Local Pickup</p>
-                        <p class="mt-2.5 text-gray-500">Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
-                        <div class="flex justify-between items-center mt-5 mb-2">
-                            <p class="font-semibold uppercase mr-8">MANAGE DELIVERY BY LOCATION</p>
-                            <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
-                        </div>
-                        <div class="flex justify-between">
-                          <location-marker-icon class="w-5 h-5"/>
-                          <div>
-                            <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
-                            <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
+                      <div class="pl-5 pr-2  mt-5 py-7">
+                        <div class="rounded-sm flex">
+                          <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1" v-model="local_delivery"/>
+                          <div class="flex flex-col items-start">
+                            <p class="text-xl font-semibold">Local Pickup</p>
+                            <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
                           </div>
-                          <p class="bg-red-200 text-red-500 px-2 py-1 text-sm h-6 -ml-36">Doesnt Offer Delivery</p>
+                        </div>
+                        <div class="flex flex-col items-center" v-if="local_pickup.length==0">
+                          <p class="mt-8 mb-6">No local pickup address, add a location to select local pickup </p>
+                          <button type="button" class=" h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"  @click="popModal=true">Add location</button>
                         </div>
                       </div>
-                      <!-- <div class="border-t -mx-8 mt-5 border-gray-300"></div>
-                      <div>
-                        <p class="text-xl font-semibold mt-4">Packages</p>
-                        <p class="text-gray-500">The <span class="text-indigo-700 underline cursor-pointer">package sizes</span> you use to ship your products. Weight and dimensions of the default package are used when calculating shipping rates at checkout. </p>
-                        <div class="pl-5 pr-7 border border-gray-300 mt-7 py-4 rounded-sm">
-                          <div class="flex justify-between items-center">
-                                <p class="font-semibold text-xl uppercase mr-8">Saved Packages</p>
-                                <p class="text-indigo-700">Add Package</p> 
-                            </div>
-                            <div class="flex justify-between  mt-4">
-                              <div class="flex items-center">
-                                <BriefcaseIcon class="w-5 h-5 mr-4"/>
-                                <div class=" text-gray-500">
-                                  <p>Sample box</p>
-                                  <p >22 × 13.7 × 4.2 cm, 0 kg</p>
-                                </div>
-                              </div>
-                              <p class="text-indigo-700 underline cursor-pointer">Edit</p>
-                            </div>
-                        </div>
-                      </div>
-                      <div class="pl-5 pr-7 border border-gray-300 mt-7 py-4 rounded-sm">
-                          <div class="flex justify-between items-center">
-                                <p class="font-semibold uppercase text-lg mr-8">Packing Slip</p>
-                                <p class="text-indigo-700">Edit</p> 
-                            </div>
-                              <p class="text-gray-500 mt-3">A printed list of items in a shipment that often goes inside a package.</p>
-                        </div>
-                        <div class="border-t -mx-8 mt-5 border-gray-300"></div>
-                         <p class="text-xl font-semibold mt-4">Accounts and Integrations</p>
-                         <div class="pl-5 pr-7 border border-gray-300 mt-7 py-5 rounded-sm">
-                          <div class="flex justify-between items-center">
-                                <p class="font-semibold uppercase text-lg">Carrier accounts and fulfillment services</p>
-                                <p class="text-indigo-700">Manage Integrations</p> 
-                            </div>
-                              <p class="text-gray-500 mt-3">Connect and manage external shipping carrier accounts and fulfillment services</p>
-                        </div> -->
+                      <pick-up-modal @close="this.popModal=false"  v-if="this.popModal"/>
                   </div>
               </div>
 
@@ -152,10 +103,11 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
 import axios from "axios"
+import PickUpModal from "./Components/PickUpModal.vue"
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon,CogIcon } from '@heroicons/vue/solid'
-import { BriefcaseIcon,LocationMarkerIcon } from '@heroicons/vue/outline'
+import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
+import { BriefcaseIcon,LocationMarkerIcon,HomeIcon } from '@heroicons/vue/outline'
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -177,22 +129,31 @@ export default {
   components: {
     Nav,
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,CogIcon,
+    Dialog, DialogOverlay, 
+    TransitionChild, 
+    TransitionRoot,
+    ChevronRightIcon,
+    HomeIcon,
     GlobeAltIcon,
     BriefcaseIcon,
-    LocationMarkerIcon
+    LocationMarkerIcon,
+    PickUpModal
   },
   
   data() {
     return {
-
+      popModal : false,
     }
   },
   setup() {
     const open = ref(false)
+    const local_delivery = ref(false)
+    const local_pickup = ref([])
     return {
       statusStyles,
-      pages
+      pages,
+      local_delivery,
+      local_pickup,
     }
   },
 

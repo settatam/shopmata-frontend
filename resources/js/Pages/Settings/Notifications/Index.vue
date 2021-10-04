@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -24,13 +24,13 @@
               </ol>
             </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden">
+          <div class="flex-1 flex xl:overflow-hidden mt-5">
             <!-- Secondary sidebar -->
             <Nav page="Notifications"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-9.5/10 ml-5 ">
-                <div class="mb-6 pt-2 mt-2">
+             <div class="w-auto  lg:ml-7 lg:mr-2">
+                <div class="mb-6">
                   <h1 class="text-2xl font-semibold">Notifications</h1>
                   <p class="text-gray-500 mb-4">Choose which notifications you want to get for this site.</p>
                   <div class="p-8 mb-6 bg-white">
@@ -41,7 +41,9 @@
                     </div>
                     <div v-if="openOrder">
                       <div v-for="(order,index) in orders" :key="index" class="flex mb-5" >
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{order.title}}</a>
+                        <inertia-link href="/settings/notifications/order-confirmation" class="w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{order.title}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-7/10">{{order.description}}</p>
                       </div>
                     </div>
@@ -49,8 +51,8 @@
                   <div class="p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Local Delivery</h2>
-                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openLocal" @click="openLocal=false"/>
-                      <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openLocal" @click="openLocal=false"/>
+                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openLocal" @click="openLocal=true"/>
+                      <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else @click="openLocal=false"/>
                     </div>
                     <div v-if="openLocal">
                       <div v-for="(delivery,index) in localDeliveries" :key="index" class="flex mb-5">
@@ -76,12 +78,12 @@
                   <div class="p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Local Pickup</h2>
-                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openPickup=false" v-if="openPickup"/>
-                      <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openPickup=true"  v-else/>
+                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openPickup" @click="openPickup=false"/>
+                      <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openPickup==false"  @click="openPickup=true"/>
                     </div>
                     <div v-if="openPickup">
                       <div v-for="(pickup,index) in localPickups" :key="index" class="flex mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{pickup.title}}</a>
+                        <p class="font-bold text-indigo-700 no-underline w-3/10" href="" @click="open">{{pickup.title}}</p>
                         <p class="text-gray-500 w-7/10">{{pickup.description}}</p>
                       </div>
                     </div>
@@ -135,7 +137,7 @@
                         <span class="text-indigo-700 font-bold"><input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5" /> Require customers to confirm their subscription</span>
                         <p class="text-gray-500 mt-4">Customers who sign up will receive a confirmation email to validate their subscription. Previous subscribers will not be affected.</p>
                       </div>
-                      <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/>
+                      <!-- <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/> -->
                     </div>
                   </div>
                   <div class="p-8 my-6 bg-white">
@@ -213,7 +215,8 @@ import Nav from '../Nav';
 import axios from "axios"
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon,CogIcon  } from '@heroicons/vue/solid'
+import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon } from '@heroicons/vue/solid'
+import {HomeIcon} from '@heroicons/vue/outline'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -232,11 +235,18 @@ export default {
             brands: Array,
             categories: Array
         },
-  
+   emits:['close'],
   components: {
     Nav,
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronUpIcon,ChevronDownIcon,ChevronRightIcon,CogIcon 
+    Dialog,
+    DialogOverlay,
+    TransitionChild, 
+    TransitionRoot,
+    ChevronUpIcon,
+    ChevronDownIcon,
+    ChevronRightIcon,
+    HomeIcon 
   },
   
   data() {
@@ -398,11 +408,13 @@ export default {
       }
     }
   },
+  methods:{
+    
+  },
   setup() {
-    const open = ref(false)
     return {
       statusStyles,
-      pages
+      pages,
     }
   },
 

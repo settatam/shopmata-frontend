@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -23,13 +23,13 @@
                 </li>
               </ol>
             </nav>
-        <div class="flex-1 flex xl:overflow-hidden">
+        <div class="flex-1 flex xl:overflow-hidden mt-5">
             <!-- Secondary sidebar -->
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
                 <div class="w-9.5/10 ml-5">
-                    <div class="mb-6 pt-2 mt-2">
+                    <div class="mb-6">
                         <h1 class="text-2xl font-semibold">Shipping and Delivery</h1>
                         <div class="p-8 mb-6 bg-white">
                           <h2 class="text-lg font-semibold">Local delivery for 1, Road C Akinfenwa Street, Hope Road Old-Ife Road</h2>  
@@ -142,7 +142,8 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Search from '../../../Search.vue'
-import {ChevronRightIcon,CogIcon } from '@heroicons/vue/solid'
+import {ChevronRightIcon } from '@heroicons/vue/solid'
+import {HomeIcon} from '@heroicons/vue/outline'
 import Nav from '../../Nav';
 
 const pages = [
@@ -152,7 +153,7 @@ const pages = [
 ]
 
 export default {
-  components: { AppLayout,Nav,ChevronRightIcon,CogIcon, },
+  components: { AppLayout,Nav,ChevronRightIcon,HomeIcon, },
 
   data() {
         return{
@@ -177,6 +178,28 @@ export default {
                     label: "Nigerian Naira(NGN)",
                     code: "NGN"
                 }
+            ],
+            localAddress:[
+                {
+                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
+                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
+                },
+                {
+                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
+                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
+                },
+                {
+                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
+                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
+                },
+                {
+                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
+                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
+                },
+                {
+                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
+                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
+                },
             ]
         }
     },

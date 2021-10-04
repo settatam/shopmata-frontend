@@ -152,6 +152,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Settings -> Notifications
 	Route::get('settings/notifications', [NotificationsController::class, 'index']);
+	Route::get('settings/notifications/order-confirmation', [NotificationsController::class, 'order']);
 
 	#Settings -> User
 	Route::get('settings/user', [SettingsController::class, 'user'])->name('settings.user');

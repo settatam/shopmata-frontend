@@ -9,8 +9,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -23,37 +23,26 @@
                 </li>
               </ol>
             </nav>
-          <div class="flex-1 flex xl:overflow-hidden">
+          <div class="flex-1 flex xl:overflow-hidden mt-5">
             <!-- Secondary sidebar -->
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-                <div class="w-9.5/10 ml-5">
-                    <div class="mb-6 pt-2 mt-2">
-                        <h1 class="text-2xl font-semibold">Shipping and Delivery</h1>
-                         <div class="p-8 mb-6 bg-white">
-                             <h2 class="text-xl font-semibold">Create Shipping Profile</h2>
-                                <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
-                                    <div class="ml-2 w-8/10">
-                                        <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                                            Profile Name
-                                        </label>
-                                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  required/>
-                                    </div>
+                <div class="w-auto  lg:ml-7 lg:mr-2">
+                    <div class="mb-6">
+                         <div class="px-8 pb-8 pt-6  mb-6 bg-white">
+                            <h1 class="text-2xl font-semibold">Manage Shipping Profile</h1>
+                             <p class=" text-gray-500">Create a shipping profile to add custom rates </p>            
+                                <div class="w-auto">
+                                    <label class="block mt-4 mb-2 bg-transparent">
+                                        Rate Name
+                                    </label>
+                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  required/>
                                 </div>
-                                <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
-                                    <div class="flex justify-between items-center mb-14">
-                                        <p class="font-semibold mr-8 text-xl">Products</p>
-                                        <p class="text-indigo-700 mr-5">Add Products</p> 
-                                    </div>
-                                    <div class="flex flex-col items-center">
-                                        <p class="font-semibold mb-4">No Products</p>
-                                        <p class="text-gray-500">Move products here to set up separate rates.</p>
-                                    </div>
-                                </div>
-                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
+
+                                   <!--  <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 rounded">
                                         <div class="flex justify-between items-center">
-                                            <p class="font-semibold mr-8 mb-4">Shipping From</p>
+                                            <p class="font-semibold text-xl mr-8 mb-4">Shipping From</p>
                                         </div>
                                             <div class="flex justify-between">
                                                 <location-marker-icon class="w-5 h-5 mr-1 pt-2"/>
@@ -63,8 +52,8 @@
                                                 </div>
                                                 <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
                                             </div>
-                                    </div>
-                                    <div class="mt-6 border border-gray-300 pt-5 pl-8 pr-5 flex-col rounded">
+                                    </div> -->
+                                   <!--  <div class="mt-6 border border-gray-300 pt-5 pl-8 pr-5 flex-col rounded">
                             <div class="flex justify-between mt-4 mb-2">
                                 <h3 class="font-semibold text-xl">Shipping to</h3>
                                 <inertia-link href="" class="text-indigo-700  cursor-pointer">Create Shipping zone</inertia-link>
@@ -120,23 +109,23 @@
                                     </div>
                                     <button class="mt-4 w-28 mb-5 h-14 bg-gray-100">Add Rate</button>
                                 </div>       
+                                    </div> -->
+                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 h-56 rounded">
+                                        <div class="flex justify-between items-center mb-8">
+                                            <p class="font-semibold text-xl mr-8">Shipping To</p>
+                                            <button class="text-indigo-700 mr-5 cursor-pointer" @click='popModal'>Create Shipping Rate</button> 
+                                        </div>
+                                        <div class="flex items-center justify-around">
+                                            <p class="text-gray-500">No data</p>
+                                        </div>
                                     </div>
-                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8  rounded">
-                                    <div class="flex justify-between items-center mb-14">
-                                        <p class="font-semibold mr-8">Shipping To</p>
-                                        <p class="text-indigo-700 mr-5">Create Shipping zone</p> 
-                                    </div>
-                                    <div class="flex flex-col items-center">
-                                        <p class="font-semibold mb-4">No zones or rates </p>
-                                        <p class="text-gray-500">Add zones to create rates for places you want to ship to.</p>
-                                    </div>
-                                </div>
+                                        <div class="flex justify-between">
+                                            <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-3  my-5" >Cancel</button>
+                                            <button class="text-white bg-indigo-700 rounded-md px-8 py-3 my-5 ml-5" >Save</button>
+                                        </div> 
                                  </div>
                             </div>
-                            <div class="flex justify-end">
-                                <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-3  my-5" >Cancel</button>
-                                <button class="text-white bg-indigo-700 rounded-md px-8 py-3 my-5 ml-5" >Save</button>
-                            </div>
+                           <delivery-modal v-if="Modal" @close="Modal=false"/>
                 </div>
             </div>
          </div>
@@ -147,7 +136,10 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav';
-import {LocationMarkerIcon,ChevronRightIcon,CogIcon} from '@heroicons/vue/outline'
+import {LocationMarkerIcon,ChevronRightIcon,HomeIcon} from '@heroicons/vue/outline'
+import {reactive, ref} from 'vue'
+import Button from '../../../../Jetstream/Button.vue';
+import DeliveryModal from './DeliveryModal.vue'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -158,11 +150,19 @@ export default {
      components: {
         Nav,
         AppLayout,
-        LocationMarkerIcon,ChevronRightIcon,CogIcon
+        LocationMarkerIcon,ChevronRightIcon,HomeIcon,
+          Button,
+          DeliveryModal
     }, 
     setup(){
+        const Modal = ref(false)
+        const popModal = () => {
+            Modal.value = true
+        }
         return{
-            pages
+            pages,
+            Modal,
+            popModal
         }
     }
 }

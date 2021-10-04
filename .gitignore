@@ -16,3 +16,5 @@ yarn-error.log
 /.idea
 /.vscode
 .prettierrc
+public/css/app.css
+public/js/app.js

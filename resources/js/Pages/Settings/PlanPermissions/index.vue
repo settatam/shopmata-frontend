@@ -8,8 +8,8 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">
-                      <CogIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -22,13 +22,13 @@
                 </li>
               </ol>
             </nav>
-        <div class="flex-1 flex xl:overflow-hidden">
+        <div class="flex-1 flex xl:overflow-hidden mt-5">
             <!-- Secondary sidebar -->
             <Nav page="Plans"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-                <div class="w-9.5/10 ml-5">
-                    <div class="mb-6 mt-3 pt-2">
+                <div class="w-auto  lg:ml-7 lg:mr-2">
+                    <div class="mb-6">
                         <div class="p-8 mb-6 bg-white">
                             <h2 class="text-xl font-semibold mb-4">Plan and Permissions</h2>
                             <h3 class="text-lg font-semibold">Plan details</h3>
@@ -84,32 +84,32 @@
                                     <h2 class="text-xl font-semibold">Plan and Permissions</h2>
                                     <p class="text-sm text-gray-400">Manage what staff can see or do in your store.</p>
                                 </div>
-                                <PlusCircleIcon class="w-11 h-11 text-indigo-700 cursor-pointer" @click="this.popModal=true"/>
-                            <permission-modal v-if="popModal" @close="this.popModal=false"/>
+                                <PlusCircleIcon class="w-11 h-11 text-indigo-700 cursor-pointer" @click="inviteStaff"/>
+                            <permission-modal v-if="popModal" @close="this.popModal=false" :groups="groups" :login="login" :title="title" :buttonMsg="buttonMsg"/>
                             </div>
                              <div class="px-5  border border-gray-300 mt-5 py-4 rounded">
                                 <h3 class="text-lg font-bold mb-6">Store Owner</h3>
                                     <div v-for="user in storeUsers" :key="user.id">
                                         <div v-if="user.store_group_id==1">
                                             <div class="flex items-center">
-                                                <img :src="user.user.profile_photo_url" alt="Profile Photo" class=" rounded-full mr-4">
+                                                <p class="h-10 w-10 rounded-full capitalize bg-blue-400 text-white text-center text-sm py-2.5 font-semibold mr-4">{{user.user.first_name.charAt(0)}}{{user.user.last_name.charAt(0)}}</p>
                                                 <div>
-                                                    <p class="text-sm text-indigo-700">{{user.user.first_name + '' +user.user.last_name}}</p>
-                                                    <p>Last login was {{user.last_login.created_at}} </p>
+                                                    <p class="text-sm text-indigo-700 font-semibold">{{user.user.first_name + ' ' + user.user.last_name}}</p>
+                                                    <p>Last login was {{formatDate(user.last_login.created_at)}} </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div> 
                              </div>
                              <div class="px-2 border border-gray-300 py-2.5 mt-6 rounded">
-                                  <h3 class="text-lg font-bold pl-5 py-5 ">Staff Accounts</h3>
+                                 <div class="flex justify-between items-center px-5">
+                                  <h3 class="text-lg font-bold  py-5 ">Staff Accounts</h3>
+                                    <TrashIcon class="w-8 h-8 text-indigo-700 border border-indigo-600 p-1.5 rounded-sm cursor-pointer" v-if="selected.length>0"/>
+                                 </div>
                                   <table class="w-full divide-y divide-gray-200 table-fixed">
                                     <thead class="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
-                                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                        </th> 
-                                        <th scope="col" class="w-3/10  px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                                    <tr> 
+                                        <th scope="col" class="w-4/10  px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                             Names
                                         </th>
                                         <th scope="col" class=" w-3/10 px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
@@ -125,28 +125,35 @@
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200" v-for="user in storeUsers " :key=" user.id">
                                     <tr class="bg-white">
-                                        <td scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selected" :value="user.user.first_name" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-                                        </td> 
-                                        <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                                        <td class="w-4/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
                                             <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.user.first_name + ' ' +user.user.last_name}}</p>  
                                         </td>
-                                        <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                                            <p class="text-gray-800 text-left ">{{moment(user.updated_at).format("YYYY-MM-DD")}}</p>  
+                                        <td class="w-3/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
+                                            <p class="text-gray-800 text-left ">{{moment(user.last_login).format("LLLL")}}</p>  
                                         </td>
-                                        <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==1">Full Access</p>  
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==2">Edit Access</p>  
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==3">Read/Write Access</p>  
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==4">Read Only Access</p>  
+                                        <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500" >
+                                           <p class="text-gray-800 text-left " v-if="user.store_group_id==1">Owner</p>  
+                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==2">Developer</p>  
+                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==3">Guest</p>  
+                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==4">Admin</p>
                                         </td>
                                     
-                                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">                              
-                                            <DotsVerticalIcon/>
+                                        <td class="px-6 py-4 text-right  text-sm text-gray-500 relative">                              
+                                            <DotsVerticalIcon class="w-6 h-6 cursor-pointer relative" @click="openSubMenu(user.id)"/>
+                                            <div class="absolute top-12 -left-40 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==user.id && openSub">
+                                                 <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow()">
+                                                     <p class="text-gray-600"> Change Roles</p>
+                                                   
+                                                </div>
+                                                 <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="deleteRow(user.id)">
+                                                     <p class="text-red-600">Delete User</p>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
+                                <ConfirmationModal v-if="deleteConfirmation" :open="this.open" @close="emitClose" />
                              </div>
                         </div>
                     </div>
@@ -161,9 +168,14 @@
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
-import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,CogIcon} from '@heroicons/vue/solid'
+import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,PencilAltIcon,} from '@heroicons/vue/solid'
+import {TrashIcon,HomeIcon} from '@heroicons/vue/outline'
 import moment from "moment";
-import PermissionModal from './PermissionModal.vue';
+import PermissionModal from './Components/PermissionModal.vue';
+import { ref } from '@vue/reactivity';
+import Inertia from '@inertiajs/inertia-vue3'
+import ConfirmationModal from './Components/ConfirmationModal.vue';
+//import moment from 'moment'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -177,20 +189,76 @@ const plans = [
 ]
 export default {
   props: ['user', 'storeUsers', 'groups','login'],
-  components: { AppLayout,Nav,PlusCircleIcon,DotsVerticalIcon,PermissionModal,ChevronRightIcon,CogIcon },
+  components: { AppLayout,Nav,PlusCircleIcon,DotsVerticalIcon,PermissionModal,ChevronRightIcon,HomeIcon,PencilAltIcon,TrashIcon, ConfirmationModal},
+   emits:['close'],
   data(){
       return{
           popModal:false,
           selectAll:false,
           selected:[],
+          currentRow: 0,
+          openSub: false,
+          deleteConfirmation:false,
+          title:"",
+          buttonMsg:""
       }
   },
-
+    methods:{
+        formatDate(created_at){
+            return moment(created_at).format('LLLL')
+        },
+        openSubMenu(id){
+            this.currentRow = id
+            if (this.openSub==true) {
+                this.openSub =false
+            }else{
+                this.openSub=true
+            }
+        },
+        inviteStaff(){
+            this.popModal=true
+            this.title = 'Invite Staff'
+            this.buttonMsg='Send Invite'
+        },
+        /* changeRole(){
+            this.popModal=true
+            this.title = 'Change Role'
+        }, */
+        editRow(){
+            this.popModal=true
+            this.title = 'Change Role',
+            this.buttonMsg='Save Changes'
+        },
+        deleteRow(id){
+            this.deleteConfirmation = true
+            this.open = true
+            console.log(id)
+        }, 
+        checkAll(){
+            this.selected = !this.selectAll ? [...this.storeUsers] : [];
+            console.log(this.selectAll,...this.storeUsers)
+        },
+        uncheckParentBox(user) {
+                event.stopPropagation();
+                let rows = this.selected.filter(s =>s.id == user.id);
+                if(rows.length > 0) { // unselect
+                    this.selected = this.selected.filter(s => s.id != user.id);
+                }   else { // select
+                    this.selected.push(user);
+                }
+                this.storeUsers.length == this.selected.length ? this.selectAll = true : this.selectAll = false;
+            },
+            emitClose(){
+                this.openSub=false
+                this.deleteConfirmation = false
+            }
+    },
     setup() {
+
     return {
       plans,
       moment,
-      pages
+      pages,
     }
   },
 }
