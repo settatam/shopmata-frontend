@@ -1657,8 +1657,11 @@ select {
 .w-11 {
 	width: 2.75rem;
 }
-.w-8\.5\/10 {
-	width: 85%;
+.w-9\.5\/10 {
+	width: 95%;
+}
+.w-9 {
+	width: 2.25rem;
 }
 .w-6\/10 {
 	width: 60%;
@@ -1678,6 +1681,9 @@ select {
 .w-1\.5\/10 {
 	width: 15%;
 }
+.w-8\.5\/10 {
+	width: 85%;
+}
 .w-3\/10 {
 	width: 30%;
 }
@@ -1686,9 +1692,6 @@ select {
 }
 .w-1\/5 {
 	width: 20%;
-}
-.w-9\/10 {
-	width: 90%;
 }
 .w-3\/6 {
 	width: 50%;
@@ -1701,12 +1704,6 @@ select {
 }
 .w-3 {
 	width: 0.75rem;
-}
-.w-9\.5\/10 {
-	width: 95%;
-}
-.w-9 {
-	width: 2.25rem;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -1743,9 +1740,6 @@ select {
 }
 .max-w-0 {
 	max-width: 0rem;
-}
-.max-w-2lg {
-	max-width: 690px;
 }
 .flex-1 {
 	flex: 1 1 0%;
@@ -3275,11 +3269,6 @@ select {
 		margin-bottom: 2rem;
 	}
 
-	.sm\:-mx-6 {
-		margin-left: -1.5rem;
-		margin-right: -1.5rem;
-	}
-
 	.sm\:ml-3 {
 		margin-left: 0.75rem;
 	}
@@ -3872,11 +3861,6 @@ select {
 	.lg\:mx-auto {
 		margin-left: auto;
 		margin-right: auto;
-	}
-
-	.lg\:-mx-8 {
-		margin-left: -2rem;
-		margin-right: -2rem;
 	}
 
 	.lg\:mr-4 {

@@ -269,7 +269,6 @@ export default {
   methods: {
     async submit() {
       this.v$.$validate()
-      console.log(this.v$.$error)
       if(!this.v$.$error){
         console.log(this.details);
         const {account_email, customer_email, industry, name} = this.details;
