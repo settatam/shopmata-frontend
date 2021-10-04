@@ -182,14 +182,10 @@ import axios from "axios"
 import useVuelidate from '@vuelidate/core'
 import { required, email, helpers } from '@vuelidate/validators'
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-<<<<<<< HEAD
-import { ChevronLeftIcon, ChevronRightIcon,CogIcon } from '@heroicons/vue/solid'
-
-=======
 import { ChevronLeftIcon, ChevronRightIcon  } from '@heroicons/vue/solid';
 import {HomeIcon} from '@heroicons/vue/outline'
 import { Inertia } from '@inertiajs/inertia'
->>>>>>> toye-settings
+
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
   processing: 'bg-yellow-100 text-yellow-800',
@@ -225,132 +221,8 @@ export default {
     }
   },
   methods: {
-<<<<<<< HEAD
-    async submit() {
-      this.v$.$validate()
-      if(!this.v$.$error){
-        console.log(this.details);
-        const {account_email, customer_email, industry, name} = this.details;
-        const {business_name, phone, address, address2, state, country, city, zip } = this.address;
-        const {default_weight_unit, unit, timezone, order_id_suffix, order_id_prefix } = this.standards;
-        const data = {
-          name,
-          account_email,
-          customer_email,
-          industry_id: industry.id,
-          address: address || "",
-          address2: address2 || "",
-          business_name: business_name || "",
-          city: city || "",
-          country_id: country?.id || "",
-          currency_id: this.store_currency.currency !== "" ? this.store_currency.currency.id : "",
-          default_weight_unit_id: default_weight_unit?.id || "",
-          order_id_suffix: order_id_suffix,
-          order_id_prefix: order_id_prefix,
-          phone: phone || "",
-          state: state || "",
-          timezone_id: this.standards.timezone !== "" ? this.standards.timezone.id : "",
-          unit_id: unit?.id || "",
-          zip: zip || ""
-        };
-        try {
-          const res = await axios.put("/settings/general", data);
-          const { notification } = res.data;
-          this.notification = notification;
-          setTimeout(function(){ window.location.reload() }, 2000);
-        } catch (error) {
-          const { notification } = error.response.data;
-          this.notification = notification;
-        }
-      }},
-      stateList(){
-        axios.post('https://countriesnow.space/api/v0.1/countries/states',{"country": `${this.address.country}`}).then(res=>{
-              this.statelist = res.data.data
-              console.log(res.data)
-          }
-        )
-        axios.post('https://countriesnow.space/api/v0.1/countries/cities',{"country": `${this.address.country}`}).then(res=>{
-              this.citylist = res.data.data
-              console.log(res.data)
-          }
-        )
-
-      }
-    /* addTag(newTag) {
-      const tag = {
-        name: newTag,
-        code: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000),
-      };
-      this.options.push(tag);
-      this.value.push(tag);
-    }, */
-  },
-mounted() {
-    const{account_email, customer_email, name, industry_id, phone, country_id, state, city, business_name, zip, address, address2,order_id_suffix, order_id_prefix, default_weight_unit_id, unit_id, timezone, currency_id } = this.store;
-    const industry = this.industries.filter(data => data.id === industry_id);
-    const country = this.countries.filter(data => data.id === country_id);
-    const currency = this.currencies.filter(data => data.id === currency_id);
-    const unitSystem = this.units.filter(data => data.id === unit_id);
-    const weightUnitSystem = this.units.filter(data => data.id === default_weight_unit_id);
-    this.details = {
-      account_email: account_email || "",
-      customer_email: customer_email || "",
-      name: name || "",
-      industry: industry[0] || {},
-    };
-    (this.address = {
-      business_name: business_name || "",
-      phone: phone || "",
-      state: state || "",
-      city: city || "",
-      zip: zip | "",
-      address: address || "",
-      address2: address2 || "",
-      country: country[0],
-    }),
-      (this.standards = {
-        timezone: timezone || "",
-        unit: unitSystem[0] || "",
-        // default_weight_unit: weightUnitSystem[0].title,
-        order_id_prefix: order_id_prefix || "",
-        order_id_suffix: order_id_suffix || "",
-      }),
-      (this.store_currency = {
-        currency: currency[0],
-      });
-  },
-  validations(){
-    return{
-      details: {
-        account_email: {required: helpers.withMessage('This field cannot be empty', required,email)},
-        customer_email: {required: helpers.withMessage('This field cannot be empty', required,email)},
-        name: {required: helpers.withMessage('This field cannot be empty', required)},
-        industry: {required: helpers.withMessage('This field cannot be empty', required)},
-      },
-      address: {
-        business_name: {required: helpers.withMessage('This field cannot be empty', required)},
-        phone: {required: helpers.withMessage('This field cannot be empty', required)},
-        state: {required: helpers.withMessage('This field cannot be empty', required)},
-        city: {required: helpers.withMessage('This field cannot be empty', required)},
-        zip: {required: helpers.withMessage('This field cannot be empty', required)},
-        address: {required: helpers.withMessage('This field cannot be empty', required)},
-        address2: {required: helpers.withMessage('This field cannot be empty', required)},
-        country: {required: helpers.withMessage('This field cannot be empty', required)},
-      },
-      standards: {
-        timezone: {required: helpers.withMessage('This field cannot be empty', required)},
-        unit: {required: helpers.withMessage('This field cannot be empty', required)},
-        default_weight_unit: {required: helpers.withMessage('This field cannot be empty', required)},
-        order_id_suffix: {required: helpers.withMessage('This field cannot be empty', required)},
-        order_id_prefix: {required: helpers.withMessage('This field cannot be empty', required)},
-      },
-      store_currency: {
-        currency: {required: helpers.withMessage('This field cannot be empty', required)},
-      },
-=======
     submit() {
       Inertia.put('/store', this.store_details);
->>>>>>> toye-settings
     }
   }, 
 mounted() {
@@ -366,10 +238,6 @@ mounted() {
       statusStyles,
       store_details,
       states,
-<<<<<<< HEAD
-      v$: useVuelidate(),
-=======
->>>>>>> toye-settings
       pages
     }
   },

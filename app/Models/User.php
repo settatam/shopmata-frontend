@@ -104,4 +104,8 @@ class User extends Authenticatable
     public function login() {
         return $this->hasOne(Login::class)->latest();
     }
+
+    public function canDo($permission) {
+        return true;
+    }
 }
