@@ -1,6 +1,6 @@
 <template>
   <app-layout>
-    <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
+    <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden" >
          <div class="flex-shrink-0 mb-3 px-6 flex items-center">
               <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
             </div>
@@ -89,17 +89,13 @@
                             </div>
                              <div class="px-5  border border-gray-300 mt-5 py-4 rounded">
                                 <h3 class="text-lg font-bold mb-6">Store Owner</h3>
-                                    <div v-for="user in storeUsers" :key="user.id">
-                                        <div v-if="user.store_group_id==1">
-                                            <div class="flex items-center">
-                                                <p class="h-10 w-10 rounded-full capitalize bg-blue-400 text-white text-center text-sm py-2.5 font-semibold mr-4">{{user.user.first_name.charAt(0)}}{{user.user.last_name.charAt(0)}}</p>
-                                                <div>
-                                                    <p class="text-sm text-indigo-700 font-semibold">{{user.user.first_name + ' ' + user.user.last_name}}</p>
-                                                    <p>Last login was {{formatDate(user.last_login.created_at)}} </p>
-                                                </div>
-                                            </div>
+                                    <div class="flex items-center">
+                                        <p class="h-10 w-10 rounded-full capitalize bg-blue-400 text-white text-center text-sm py-2.5 font-semibold mr-4">{{user.first_name.charAt(0)}}{{user.last_name.charAt(0)}}</p>
+                                        <div>
+                                            <p class="text-sm text-indigo-700 font-semibold">{{user.first_name + ' ' + user.last_name}}</p>
+                                            <p>Last login was {{formatDate(user.last_login.created_at)}} </p>
                                         </div>
-                                    </div> 
+                                    </div>
                              </div>
                              <div class="px-2 border border-gray-300 py-2.5 mt-6 rounded">
                                  <div class="flex justify-between items-center px-5">
