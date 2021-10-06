@@ -1,5 +1,19 @@
 <template>
     <app-layout>
+       <div class="px-4 sm:px-6 lg:mx-auto lg:px-8">
+          <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
+            <div class="flex-1 min-w-0">
+              <!-- Profile -->
+                <div>
+                  <div class="flex items-center">
+                    <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                      Online Store
+                    </h1>
+                  </div>
+              </div>
+            </div>
+          </div>
+       </div>
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
           <nav aria-label="Breadcrumb" class="bg-white border-b border-blue-gray-200 xl:hidden">
@@ -11,20 +25,66 @@
             </div>
           </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden">
+          <!-- <div class="flex-1 flex xl:overflow-hidden"> -->
             <!-- Secondary sidebar -->
-            <div class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-5">
-              <h1> Navigation Menu</h1>
-              <p> Place to create a menu is here </p>
-            </div>
+            <!-- <div class="hidden ml-5 flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-5">
+              <div class="pl-7 pt-7 pb-12 space-y-4">
+                <div>
+                  <h1 class=" font-semibold">My Themes</h1>
+                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                  <h1 class=" font-semibold">Marketing</h1>
+                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                  <h1 class=" font-semibold">Logo</h1>
+                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                  <h1 class=" font-semibold">Blog Posts</h1>
+                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                  <h1 class=" font-semibold">Pages</h1>
+                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                  <h1 class=" font-semibold">Navigation</h1>
+                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                  <h1 class=" font-semibold">Domains</h1>
+                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
+                </div>
+                <div>
+                  <h1 class=" font-semibold">Preferences</h1>
+                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
+                </div>
+              </div> -->
+            <!-- </div> -->
             <!-- Main content -->
-            <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-8.5/10 ml-7 mt-5">
-                <div class="p-8 bg-white">
-                  <h2 class="text-lg font-semibold mb-9">Menu Details</h2>
-                  <div class="w-full mb-4" v-if="menu.length">
-                    <inertia-link href="/online-store/navigation/create">Create Another Menu</inertia-link>
-                    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+            <div class="flex items-center justify-center flex-1 xl:overflow-y-auto">
+              <div class="w-2/3 mt-5 bg-white card">
+                <div class="p-8">
+                  <div class="flex justify-between">
+                    <h1 class="text-xl font-bold mb-4.5">Menu Lists</h1>
+                    <div class="text-indigo-600">
+                      <inertia-link href="/online-store/navigation/create" class="underline flex"><span class="pl-2 mt-1"><Plus-icon class="w-4 h-4" /></span>Add Menu</inertia-link>
+                    </div>
+                  </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
+                  <div class="w-full mt-6">
+                    <div class="flex justify-between text-gray-500  mb-1.5">
+                      <p class="w-1/2">Menu Title</p>
+                      <p class="w-1/2">Menu Items</p>
+                    </div>
+                    <div class="border-b border-gray-300 -mx-8">
+                    </div>
+                  </div>
+                  <div class="w-full mt-6" v-if="false">
+                    
+                    <!-- <div class="bg-white shadow overflow-hidden sm:rounded-md">
                         <ul role="list" class="divide-y divide-gray-200">
                           <li v-for="m in menu" :key="menu.id">
                             <inertia-link :href="'/online-store/navigation/'+m.id" class="block hover:bg-gray-50">
@@ -44,22 +104,30 @@
                             </inertia-link>
                           </li>
                         </ul>
-                      </div>
+                      </div> -->
 
                   </div>
-                  <div class="w-full mb-4" v-else>
-                    <p> <span>You do not have any menu created.</span> <inertia-link href="/online-store/navigation/create">Create Menu</inertia-link>
+                  <div class="flex justify-center mt-14 mb-4" v-else>
+                    <p class="text-gray-500"> <span>No menu created yet.</span> <inertia-link href="/online-store/navigation/create">Create Menu</inertia-link>
                     </p>
                   </div>
+                <div class="flex justify-center">
+                  <button class="text-white bg-indigo-700 rounded-md px-8 py-3" @click="submit">Add Menu</button>
+                </div>
 
                 </div>
-                <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Menu</button>
               </div>
             </div>
           </div>
-        </div>
+        <!-- </div> -->
     </app-layout>
 </template>
+
+<style>
+ .card {
+   min-height: 70vh;
+ }
+</style>
 
 <script>
 
@@ -69,6 +137,7 @@ import Search from '../../Search.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronRightIcon } from '@heroicons/vue/solid';
+import { PlusIcon } from '@heroicons/vue/solid';
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -82,7 +151,8 @@ export default {
   
   components: {
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot, ChevronRightIcon
+    Dialog, DialogOverlay, TransitionChild, TransitionRoot, ChevronRightIcon,
+    PlusIcon
   },
   
   setup(props) {

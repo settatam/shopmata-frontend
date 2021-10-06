@@ -13,13 +13,13 @@
 
           <div class="flex-1 flex xl:overflow-hidden">
             <!-- Secondary sidebar -->
-            <div class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-5">
+            <div class="hidden flex-shrink-0 w-84 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-5">
               <h1> Navigation Menu</h1>
               <p> Place to create a menu is here </p>
             </div>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-8.5/10 ml-7 mt-5">
+              <div class=" w-3/4 ml-7 mt-5">
                 <div class="p-8 bg-white">
                   <h2 class="text-lg font-semibold mb-9">Menu Details</h2>
                   <div class="w-full mb-4" v-if="menu.list.length">
