@@ -1,68 +1,30 @@
 <template>
     <app-layout>
-       <div class="px-4 sm:px-6 lg:mx-auto lg:px-8">
-          <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
-            <div class="flex-1 min-w-0">
-              <!-- Profile -->
-                <div>
-                  <div class="flex items-center">
-                    <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                      Online Store
-                    </h1>
-                  </div>
-              </div>
+       <div class="flex-shrink-0 px-8 py-4 flex items-center">
+              <p class="text-2xl font-semibold text-blue-gray-900">Online Store</p>
             </div>
-          </div>
-       </div>
+            <nav class="flex px-8" aria-label="Breadcrumb">
+              <ol role="list" class="flex items-center space-x-4">
+                <li>
+                  <div>
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                      <span class="sr-only">Online Store</span>
+                    </a>
+                  </div>
+                </li>
+                <li v-for="page in pages" :key="page.name">
+                  <div class="flex items-center">
+                    <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+                  </div>
+                </li>
+              </ol>
+            </nav>
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
-          <nav aria-label="Breadcrumb" class="bg-white border-b border-blue-gray-200 xl:hidden">
-            <div class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8">
-              <inertia-link href="#" class="-ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
-                <ChevronLeftIcon class="h-5 w-5 text-blue-gray-400" aria-hidden="true" />
-                <span class="font-semibold text-2xl">Settings</span>
-              </inertia-link>
-            </div>
-          </nav>
+          
 
-          <!-- <div class="flex-1 flex xl:overflow-hidden"> -->
-            <!-- Secondary sidebar -->
-            <!-- <div class="hidden ml-5 flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-5">
-              <div class="pl-7 pt-7 pb-12 space-y-4">
-                <div>
-                  <h1 class=" font-semibold">My Themes</h1>
-                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
-                </div>
-                <div>
-                  <h1 class=" font-semibold">Marketing</h1>
-                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
-                </div>
-                <div>
-                  <h1 class=" font-semibold">Logo</h1>
-                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
-                </div>
-                <div>
-                  <h1 class=" font-semibold">Blog Posts</h1>
-                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
-                </div>
-                <div>
-                  <h1 class=" font-semibold">Pages</h1>
-                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
-                </div>
-                <div>
-                  <h1 class=" font-semibold">Navigation</h1>
-                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
-                </div>
-                <div>
-                  <h1 class=" font-semibold">Domains</h1>
-                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
-                </div>
-                <div>
-                  <h1 class=" font-semibold">Preferences</h1>
-                  <p class=" text-gray-400">Lorem ipsum dolor sit amet</p>
-                </div>
-              </div> -->
-            <!-- </div> -->
             <!-- Main content -->
             <div class="flex items-center justify-center flex-1 xl:overflow-y-auto">
               <div class="w-2/3 mt-5 bg-white card">
@@ -70,7 +32,7 @@
                   <div class="flex justify-between">
                     <h1 class="text-xl font-bold mb-4.5">Menu Lists</h1>
                     <div class="text-indigo-600">
-                      <inertia-link href="/online-store/navigation/create" class="underline flex"><span class="pl-2 mt-1"><Plus-icon class="w-4 h-4" /></span>Add Menu</inertia-link>
+                      <inertia-link href="/online-store/navigation/create" class="underline flex"><span class="pl-3"><PlusIcon class="w-5 h-5" /></span>Add Menu</inertia-link>
                     </div>
                   </div>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
@@ -140,12 +102,18 @@ import Search from '../../Search.vue'
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronRightIcon } from '@heroicons/vue/solid';
 import { PlusIcon } from '@heroicons/vue/solid';
+import { HomeIcon } from '@heroicons/vue/outline';
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
   processing: 'bg-yellow-100 text-yellow-800',
   failed: 'bg-gray-100 text-gray-800',
 }
+const pages = [
+  { name: 'Online Store', href: '/online-store', current: false },
+  { name: 'Navigation', href: '/online-store/navigation', current: true },
+]
+
 export default {
    props: {
     menu: Array
@@ -158,6 +126,8 @@ export default {
     TransitionChild, 
     TransitionRoot, 
     ChevronRightIcon,
+    PlusIcon,
+    HomeIcon,
     SortableList,
     SortableItem
   },
@@ -172,6 +142,7 @@ export default {
 
     return {
       statusStyles,
+      pages
       // navMenu
     }
   },
