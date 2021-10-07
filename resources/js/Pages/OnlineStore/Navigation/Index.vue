@@ -74,7 +74,8 @@
                     </p>
                   </div>
                 <div class="flex justify-center">
-                  <button class="text-white bg-indigo-700 rounded-md px-8 py-3" @click="submit">Add Menu</button>
+                  <button class="text-white bg-indigo-700 rounded-md px-8 py-3" @click="addMenu">Add Menu</button>
+                   <add-menu-modal v-if="popModal" @close="this.popModal=false" :login="login" :title="title" :buttonMsg="buttonMsg" />
                 </div>
 
                 </div>
@@ -97,6 +98,7 @@ import { ref, reactive } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import SortableList from '../../../Components/SortableList.vue'
 import SortableItem from '../../../Components/SortableItem.vue'
+import AddMenuModal from './Components/AddMenuModal.vue'
 import Search from '../../Search.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -116,10 +118,9 @@ const pages = [
 
 export default {
    props: {
-    menu: Array
+    
   },
-  
-  components: {
+   components: {
     AppLayout,
     Dialog, 
     DialogOverlay, 
@@ -129,21 +130,46 @@ export default {
     PlusIcon,
     HomeIcon,
     SortableList,
-    SortableItem
+    SortableItem,
+    AddMenuModal
   },
+  
+   emits:['close'],
+  data(){
+      return{
+          popModal:false,
+          selectAll:false,
+          selected:[],
+          currentRow: 0,
+          openSub: false,
+          deleteConfirmation:false,
+          title:"",
+          buttonMsg:""
+      }
+  },
+  methods: {
+      addMenu(){
+            this.popModal=true
+            this.title = 'Add Menu'
+            this.buttonMsg='Save Menu'
+        },
+    },
   
   setup(props) {
     const open = ref(false)
-    // const navMenu = props.menu;
+    const menu = {
+      title: '',
+      handle: '',
+    }
+    function submit() {
+      Inertia.post('/online-store/navigation', menu);
+    }
 
-    // function submit() {
-    //   Inertia.put('/store', store_details);
-    // }
-
+    
     return {
       statusStyles,
-      pages
-      // navMenu
+      pages,
+      menu
     }
   },
 
