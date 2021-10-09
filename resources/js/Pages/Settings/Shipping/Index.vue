@@ -47,12 +47,13 @@
                             <p class="text-indigo-700 mr-10 cursor-pointer text-right">Manage rates</p>
                           </inertia-link>
                         </div>
-                          <p class="mt-2 text-gray-500"> All Products</p>
+                          <p class="mt-2 mb-10 text-gray-500"> Choose shipping rates for both domestic and international delivery. </p>
+                         <!--  <p class="mt-2 text-gray-500"> All Products</p>
                             <div class="flex flex-col mb-8 mt-2">
                               <p class="font-semibold mb-3">Rates for</p>
                               <span class="flex text-gray-500 mb-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Domestic</span>
                               <span class="flex text-gray-500 mt-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Rest of the world</span>
-                            </div>
+                            </div> -->
                       </div>
                       <!-- <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm">
                         <p class="text-xl font-semibold ">Local Delivery</p>

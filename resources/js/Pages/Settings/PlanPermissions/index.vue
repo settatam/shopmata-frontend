@@ -85,7 +85,7 @@
                                     <p class="text-sm text-gray-400">Manage what staff can see or do in your store.</p>
                                 </div>
                                 <PlusCircleIcon class="w-11 h-11 text-indigo-700 cursor-pointer" @click="inviteStaff"/>
-                            <permission-modal v-if="popModal" @close="this.popModal=false" :groups="groups" :login="login" :title="title" :buttonMsg="buttonMsg"/>
+                            <permission-modal v-if="popModal" @close="this.popModal=false" :groups="groups" :login="login" :title="title" :buttonMsg="buttonMsg" :user_id="user_id" :user_email="user_email"/>
                             </div>
                              <div class="px-5  border border-gray-300 mt-5 py-4 rounded">
                                 <h3 class="text-lg font-bold mb-6">Store Owner</h3>
@@ -137,7 +137,7 @@
                                         <td class="px-6 py-4 text-right  text-sm text-gray-500 relative">                              
                                             <DotsVerticalIcon class="w-6 h-6 cursor-pointer relative" @click="openSubMenu(user.id)"/>
                                             <div class="absolute top-12 -left-40 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==user.id && openSub">
-                                                 <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow()">
+                                                 <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(user)">
                                                      <p class="text-gray-600"> Change Roles</p>
                                                    
                                                 </div>
@@ -149,7 +149,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <ConfirmationModal v-if="deleteConfirmation" :open="this.open" @close="emitClose" />
+                                <ConfirmationModal v-if="deleteConfirmation" :open="this.open" @close="emitClose" :id="this.user_id" />
                              </div>
                         </div>
                     </div>
@@ -196,7 +196,9 @@ export default {
           openSub: false,
           deleteConfirmation:false,
           title:"",
-          buttonMsg:""
+          buttonMsg:"",
+          user_id: '',
+          user_email:''
       }
   },
     methods:{
@@ -220,15 +222,18 @@ export default {
             this.popModal=true
             this.title = 'Change Role'
         }, */
-        editRow(){
+        editRow(user){
+            this.openSub =false
             this.popModal=true
             this.title = 'Change Role',
-            this.buttonMsg='Save Changes'
+            this.buttonMsg='Save Changes',
+            this.user_id = user.id
+            this.user_email = user.user.email
         },
         deleteRow(id){
             this.deleteConfirmation = true
             this.open = true
-            console.log(id)
+            this.user_id = id
         }, 
         checkAll(){
             this.selected = !this.selectAll ? [...this.storeUsers] : [];

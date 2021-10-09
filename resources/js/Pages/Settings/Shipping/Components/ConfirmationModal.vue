@@ -66,7 +66,7 @@ export default {
       deleteUser(id){
           this.open = false
            this.$emit('close')
-           axios.delete(`/settings/store-users/${id}`)
+           axios.delete(`/settings/store-locations/${id}`)
       }
   },
   setup() {

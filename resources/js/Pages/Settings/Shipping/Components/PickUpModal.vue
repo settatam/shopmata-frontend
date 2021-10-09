@@ -32,7 +32,9 @@
                         <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                           Country
                         </label>
-                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.country" required/>
+                        <select id="country" name="country_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" placeholder="" v-model="local_pickup.country">
+                          <option :value="country.id" v-for="country in countries" :key="country.id">{{country.name}} {{country.iso_code_2}}</option>
+                        </select>
                       </div>
                       <div class="ml-2 w-full">
                         <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -52,7 +54,7 @@
                         <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                           Postal Code
                         </label>
-                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.state" required/>
+                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.postal_code" required/>
                       </div>
                     </div>
                     <div class=" required w-full mb-4">
@@ -81,9 +83,10 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onBeforeMount } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
+import axios from 'axios'
 //import { Inertia } from '@inertiajs/inertia'
 
 
@@ -98,26 +101,42 @@ export default {
     XIcon,
     TransitionRoot,
   },
+  data(){
+    return{
+      countries:''
+    }
+  },
   methods:{
       closeModal(){
           this.open = false
            this.$emit('close')
-      }
+      },
+      
+  },
+  mounted(){
+    axios.get('/api/countries').then(res=>{
+        this.countries=res.data.data;
+        //console.log(countries)
+      })
   },
   setup() {
     const open = ref(true)
 
     function submit() {
-      axios.post('/settings/store-locations', local_pickup)
-      .then((res)=> {
-        console.log(res.data)
-      })
+      if (local_pickup.address.length<1) {
+        alert('Address field can be empty')
+      } else {
+        axios.post('/settings/store-locations', local_pickup)
+        .then((res)=> {
+          console.log(res.data)
+        })
+      }
     }
-
+    
     const local_pickup = reactive({
           name:"",
           address:"",
-          country:"",
+          country:1,
           state:"",
           postal_code:"",
           city:""

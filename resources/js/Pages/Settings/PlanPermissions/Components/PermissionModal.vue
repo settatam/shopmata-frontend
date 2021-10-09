@@ -39,7 +39,7 @@
               </div>
             </div>
             <div class="mt-5 sm:mt-6">
-              <button type="button" class="flex justify-center align-middle items-centerrounded-md border border-transparent shadow-sm mx-auto px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+              <button type="button" class="flex justify-center align-middle items-centerrounded-md border border-transparent shadow-sm mx-auto px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit(this.user_id)">
                 {{buttonMsg}}
               </button>
             </div>
@@ -51,15 +51,16 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
 import { Inertia } from '@inertiajs/inertia'
+import axios from 'axios'
 
 
 export default {
     emits:['close'],
-    props:['groups','title','buttonMsg'],
+    props:['groups','title','buttonMsg','user_id','user_email'],
   components: {
     Dialog,
     DialogOverlay,
@@ -69,25 +70,30 @@ export default {
     TransitionRoot,
   },
   methods:{
-      submit(){
+      submit(id){
+        if(this.title=='Invite Staff'){
           Inertia.post('plan-and-permissions/staffs/invite',this.invite)
           this.$emit('close')
           this.open = false
+        }else{
+          console.log(id)
+          axios.patch(`/settings/store-users/${id}`)
+          this.$emit('close')
+          this.open = false
+        }
+
       },
       closeModal(){
           this.open = false
            this.$emit('close')
       }
   },
-  setup() {
+  setup(props) {
     const open = ref(true)
-
+    const invite = reactive({email:props.user_email,role_id:1})
     return {
       open,
-      invite:{
-          email:"",
-          role_id:1,
-      },
+      invite
     }
   }
 }
