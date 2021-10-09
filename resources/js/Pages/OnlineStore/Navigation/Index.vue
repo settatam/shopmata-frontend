@@ -35,7 +35,7 @@
                       <inertia-link href="/online-store/navigation/create" class="underline flex"><span class="pl-3"><PlusIcon class="w-5 h-5" /></span>Add Menu</inertia-link>
                     </div>
                   </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
+                    <p> In this section, you can create your menu and adjust your menu settings to reflect your design, tap the button below to begin. You can ( Create menu)  or Edit menu</p>
                   <div class="w-full mt-6">
                     <div class="flex justify-between text-gray-500  mb-1.5">
                       <p class="w-1/2">Menu Title</p>
