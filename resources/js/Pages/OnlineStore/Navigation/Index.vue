@@ -44,18 +44,25 @@
                     <div class="border-b border-gray-300 -mx-8">
                     </div>
                   </div>
-                  <div class="w-full mt-6" v-if="false">
+                  <div class="w-full mt-6" v-if="menu.length">
                     
-                    <!-- <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                  <div class="bg-white overflow-hidden sm:rounded-md">
                         <ul role="list" class="divide-y divide-gray-200">
                           <li v-for="m in menu" :key="menu.id">
                             <inertia-link :href="'/online-store/navigation/'+m.id" class="block hover:bg-gray-50">
                               <div class="px-4 py-4 flex items-center sm:px-6">
                                 <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                   <div class="truncate">
-                                    <div class="flex text-sm">
+                                    <div class="flex text-sm flex-col">
                                       <p class="font-medium text-indigo-600 truncate">{{ m.name }}</p>
-                                      <p class="ml-1 flex-shrink-0 font-normal text-gray-500">No menu items yet</p>
+                                      <div v-if="m.items.length">
+                                        <span v-for="item in m.items" :key="item.id" class="mr-2 text-gray-500">
+                                         {{ item.name }}
+                                        </span>
+                                      </div>
+                                      <div v-else>
+                                        <p class="ml-1 flex-shrink-0 font-normal text-gray-500">No menu items yet</p>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -66,7 +73,7 @@
                             </inertia-link>
                           </li>
                         </ul>
-                      </div> -->
+                      </div>
 
                   </div>
                   <div class="flex justify-center mt-14 mb-4" v-else>
@@ -106,19 +113,9 @@ import { ChevronRightIcon } from '@heroicons/vue/solid';
 import { PlusIcon } from '@heroicons/vue/solid';
 import { HomeIcon } from '@heroicons/vue/outline';
 
-const statusStyles = {
-  success: 'bg-green-100 text-green-800',
-  processing: 'bg-yellow-100 text-yellow-800',
-  failed: 'bg-gray-100 text-gray-800',
-}
-const pages = [
-  { name: 'Online Store', href: '/online-store', current: false },
-  { name: 'Navigation', href: '/online-store/navigation', current: true },
-]
-
 export default {
    props: {
-    
+    menu: Array
   },
    components: {
     AppLayout,
@@ -137,39 +134,43 @@ export default {
    emits:['close'],
   data(){
       return{
-          popModal:false,
-          selectAll:false,
-          selected:[],
-          currentRow: 0,
-          openSub: false,
-          deleteConfirmation:false,
-          title:"",
-          buttonMsg:""
+          
       }
   },
-  methods: {
-      addMenu(){
-            this.popModal=true
-            this.title = 'Add Menu'
-            this.buttonMsg='Save Menu'
-        },
-    },
   
-  setup(props) {
+  setup(props, { emit }) {
     const open = ref(false)
+    const popModal= ref(false)
+    const selectAll = ref(false)
+    const selected = ref([])
+    const currentRow = ref(0)
+    const buttonMsg = ref('Add New Menu List')
+
     const menu = {
       title: '',
       handle: '',
     }
+
+    function addMenu() {
+      popModal.value=true
+      title.value = 'Add Menu'
+      buttonMsg.value='Save Menu'
+    }
+    
     function submit() {
       Inertia.post('/online-store/navigation', menu);
     }
 
-    
     return {
-      statusStyles,
-      pages,
-      menu
+      // menu
+      open,
+      popModal,
+      selectAll,
+      selected,
+      currentRow,
+      buttonMsg,
+      submit,
+      addMenu
     }
   },
 

@@ -22,11 +22,11 @@
               <div class=" w-3/4 ml-7 mt-5">
                 <div class="p-8 bg-white">
                   <h2 class="text-lg font-semibold mb-9">Menu Details</h2>
-                  <div class="w-full mb-4" v-if="menu.list.length">
+                  <div class="w-full mb-4" v-if="menu.items.length">
                     <inertia-link href="/online-store/navigation/create">Create Another Menu List</inertia-link>
                     <div class="bg-white shadow overflow-hidden sm:rounded-md">
                         <ul role="list" class="divide-y divide-gray-200">
-                          <li v-for="m in menu.list" :key="menu.id">
+                          <li v-for="m in menu.items" :key="menu.id">
                             <inertia-link :href="'online-store/navigation/'+menu.id" class="block hover:bg-gray-50">
                               <div class="px-4 py-4 flex items-center sm:px-6">
                                 <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">

@@ -24,7 +24,7 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Menu Title
                     </label>
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="enter a menu title" v-model="menu.title" required/>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="enter a menu title" v-model="menu.name" required/>
                   </div>
                   <div class="w-full mb-4 mt-6">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
 import { QuestionMarkCircleIcon } from '@heroicons/vue/outline';
@@ -62,6 +62,7 @@ import { Inertia } from '@inertiajs/inertia'
 export default {
     emits:['close'],
     props:['title','buttonMsg'],
+  
   components: {
     Dialog,
     DialogOverlay,
@@ -79,18 +80,29 @@ export default {
       },
       closeModal(){
           this.open = false
-           this.$emit('close')
+          this.$emit('close')
       }
   },
-  setup() {
+  setup(props, context) {
     const open = ref(true)
+    const menu = reactive({
+          name:"",
+          handle: "",
+          is_ajax: 1
+    })
+
+    function submit() {
+      console.log(menu);
+      axios.post('/online-store/navigation', menu)
+            .then(res=>{
+              console.log(res)
+            })
+      }
 
     return {
       open,
-      menu:{
-          title:"",
-          handle: "",
-      },
+      menu,
+      submit
     }
   }
 }

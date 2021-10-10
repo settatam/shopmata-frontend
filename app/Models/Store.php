@@ -150,7 +150,7 @@ class Store extends Model
                     'icon'=>'ShoppingBagIcon',
                     'title'=>'Customize your store with a theme',
                     'message'=>'Choose one of our themes to customize your website',
-                    'link'=>'store/themes'
+                    'link'=>'online-store/themes'
                 ];
             }
 
