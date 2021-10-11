@@ -2,17 +2,21 @@
     background: url('../../../assets/icons/clarity_search-line.svg') no-repeat left 1rem center/14px;
     width: 276px;
 }
+
 .add-btn {
     background: #632A6D url('../../../assets/icons/plus.svg') no-repeat left 1rem center/14px;
 }
+
 select {
-    -moz-appearance:none; /* Firefox */
-    -webkit-appearance:none; /* Safari and Chrome */
-    appearance:none;
+    -moz-appearance: none;
+    /* Firefox */
+    -webkit-appearance: none;
+    /* Safari and Chrome */
+    appearance: none;
     background: url('../../../assets/ArrowDownFilled.svg') no-repeat right 0.3rem center/14px 4px
 }
 
-tbody tr:hover{
+tbody tr:hover {
     background: rgba(217, 0, 255, 0.08);
 }
 
@@ -32,23 +36,29 @@ tbody tr:hover{
     bottom: 0;
 }
 
-.tab-0::after{
+.tab-0::after {
     width: 64px;
 }
 
-.tab-1::after{
+.tab-1::after {
     width: 64px;
     left: 105px;
 }
-.tab-2::after{
+
+.tab-2::after {
     width: 64px;
     left: 198px;
 }
-.tab-3::after{
+
+.tab-3::after {
     width: 64px;
     left: 295px;
 }
 
 svg {
     display: inline;
+}
+
+tbody tr:hover {
+    background: transparent;
 }

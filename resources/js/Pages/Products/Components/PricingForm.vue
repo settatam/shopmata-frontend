@@ -93,8 +93,10 @@
 <script>
 import AngleUpIcon from '../../../../assets/AngleUpIcon'
 import WarningIcon from '../../../../assets/WarningIcon'
+import useVuelidate from '@vuelidate/core'
+import { required,helpers } from '@vuelidate/validators'
+
 export default {
-    name: 'pricing-form',
     props: ['pricing', 'store'],
     components: {
         AngleUpIcon,
@@ -102,12 +104,22 @@ export default {
     },
     data() {
         return {
+            v$: useVuelidate(),
             expand: true
         }
     },
     methods: {
         expandForm() {
             this.expand = !this.expand;
+        }
+    },
+    validations(){
+        return{
+            pricing: {
+                price: {required:helpers.withMessage('This field cannot be empty', required)},
+                compare_at_price: {required:helpers.withMessage('This field cannot be empty', required)},
+                cost_per_item: {required:helpers.withMessage('This field cannot be empty', required)},
+            },
         }
     }
 }
