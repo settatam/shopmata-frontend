@@ -116,18 +116,22 @@ class StoreLocationController extends Controller
     {
         //
         if(Auth::user()->canDo('delete-store-location')){
-            $user = StoreLocation::find($id);
-            if(null !== $user) {
-                if($user->delete()) {
+            $location = StoreLocation::find($id);
+            if(null !== $location) {
+                if($location->delete()) {
                     Log::info('User ' . Auth::id() . ' deleted a store location ' . $id);
-                    return response()->json(['success'=>true]);
+                    return \Redirect::route('settings.shipping');
+                    // return response()->json(['success'=>true]);
+
                 }else{
                     Log::error('User ' . Auth::id() . ' could not delete a store location ' . $id);
-                    return response()->json(['success'=>false], 422);
+                    return \Redirect::route('settings.shipping');
+                    // return response()->json(['success'=>false], 422);
                 }
             }else{
                 //
-                return response()->json(['success'=>false, 'message'=>'You do not have permissions to delete a store'], 422);
+                return \Redirect::route('settings.shipping');
+                // return response()->json(['success'=>false, 'message'=>'You do not have permissions to delete a store'], 422);
             }
         }
     }
