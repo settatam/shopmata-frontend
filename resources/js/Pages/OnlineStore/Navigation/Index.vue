@@ -35,7 +35,49 @@
                     </div>
                   </div>
                     <p> In this section, you can create your menu and adjust your menu settings to reflect your design, tap the button below to begin. You can ( Create menu)  or Edit menu</p>
-                  <div class="w-full mt-6">
+                    <div class="w-full mt-6">
+                      <table class="w-full divide-y divide-gray-200 table-fixed">
+                        <thead class="">
+                          <tr> 
+                            <th scope="col" class="w-1/3 px-6 text-left text-sm font-medium text-gray-500 tracking-wider">
+                                Menu Title
+                            </th>
+                            <th scope="col" class=" w-1/3 px-6 text-left text-sm font-medium text-gray-500 tracking-wider">
+                                Menu Items
+                            </th>
+                            <th scope="col" class="relative px-6 py-3">
+                                <span class="sr-only"></span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" v-if="menu.length">
+                          <tr class="bg-white" v-for="m in menu" :key="m.id">
+                            <td class="w-4/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
+                                <p class="text-indigo-700 text-left text-sm font-semibold "> {{ m.name }} </p>  
+                            </td>
+                              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" >
+                                <span v-for="item in m.items" :key="item.id" class="text-gray-800 text-left "> {{ item.name }}, </span>  
+                              </td>
+                        
+                            <td class="px-6 py-4 text-right text-sm text-gray-500 relative">                              
+                              <DotsVerticalIcon class="w-6 h-6 cursor-pointer relative ml-auto" @click="openSubMenu(m.id)"/>
+                              <div class="absolute top-12 -left-0 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
+                                <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow()">
+                                    <p class="text-gray-600"> Rename Item</p>
+                                </div>
+                                <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="deleteRow(m.id)">
+                                  <p class="text-red-600">Delete Item</p>
+                                </div>
+                              </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                     <div v-if="menu.length === 0">
+                        <p class="ml-1 flex-shrink-0 font-normal text-gray-500">No menu items yet</p>
+                      </div>
+                  </div>
+                  <!-- <div class="w-full mt-6">
                     <div class="flex justify-between text-gray-500  mb-1.5">
                       <p class="w-1/2">Menu Title</p>
                       <p class="w-1/2">Menu Items</p>
@@ -74,11 +116,11 @@
                         </ul>
                       </div>
 
-                  </div>
-                  <div class="flex justify-center mt-14 mb-4" v-else>
+                  </div> -->
+                  <!-- <div class="flex justify-center mt-14 mb-4" v-else>
                     <p class="text-gray-500"> <span>No menu created yet.</span> <inertia-link href="/online-store/navigation/create">Create Menu</inertia-link>
                     </p>
-                  </div>
+                  </div> -->
                 <div class="flex justify-center">
                   <button class="text-white bg-indigo-700 rounded-md px-8 py-3" @click="addMenu">Add Menu</button>
                    <add-menu-modal v-if="popModal" @close="this.popModal=false" :login="login" :title="title" :buttonMsg="buttonMsg" />
@@ -108,7 +150,7 @@ import AddMenuModal from './Components/AddMenuModal.vue'
 import Search from '../../Search.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronRightIcon } from '@heroicons/vue/solid';
+import { ChevronRightIcon, DotsVerticalIcon } from '@heroicons/vue/solid';
 import { PlusIcon } from '@heroicons/vue/solid';
 import { HomeIcon } from '@heroicons/vue/outline';
 
@@ -128,18 +170,35 @@ export default {
     TransitionChild, 
     TransitionRoot, 
     ChevronRightIcon,
+    DotsVerticalIcon,
     PlusIcon,
     HomeIcon,
     SortableList,
     SortableItem,
     AddMenuModal
   },
+
+  mounted() {
+    console.log(this.menu)
+  },
   
    emits:['close'],
   data(){
       return{
-         pages 
+        pages,
+        openSub: false,
       }
+  },
+
+  methods: {
+    openSubMenu(id){
+      this.currentRow = id
+      if (this.openSub==true) {
+          this.openSub =false
+      }else{
+          this.openSub=true
+      }
+    },
   },
   
   setup(props, { emit }) {
