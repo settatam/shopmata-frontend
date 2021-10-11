@@ -23,6 +23,19 @@
           </ol>
         </nav>
 
+        <div class="flex justify-between items-center mx-8 mt-8">
+          <inertia-link href="/online-store/navigation/" class="hover:text-gray-700">
+            <div class="flex items-center">
+                <ArrowLeftIcon class="flex-shrink-0 h-5 w-5 text-gray-800" aria-hidden="true" />
+                <h1 class="ml-4 text-xl font-extrabold text-gray-800">{{ menu.name }}</h1>
+            </div>
+          </inertia-link>
+          <div class="">
+            <button class="text-white bg-indigo-700 rounded-sm px-5 py-2" @click="addMenu">Add Menu Item</button>
+              <add-menu-modal v-if="popModal" @close="this.popModal=false" :login="login" :title="title" :buttonMsg="buttonMsg" />
+          </div>
+        </div>
+
           <div class="flex-1 flex xl:overflow-hidden">
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
@@ -63,22 +76,22 @@
 
                 <div class="p-8 bg-white w-full">
                   <h3> Create New menu list</h3>
-                          <div class=" required w-full mb-4">
-                            <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                              Menu Title
-                            </label>
-                            <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="list.name" required/>
-                          </div>
+                    <div class=" required w-full mb-4">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Menu Title
+                      </label>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="list.name" required/>
+                    </div>
 
-                          <div class=" required w-full mb-4">
-                            <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                              Link
-                            </label>
-                            <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="list.handle" required/>
-                          </div>
-                          <p> **We should have a target</p>
-                          <p> **All pavailable pages should drop down</p>
-                      </div>
+                    <div class=" required w-full mb-4">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Link
+                      </label>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="list.handle" required/>
+                    </div>
+                    <p> **We should have a target</p>
+                    <p> **All pavailable pages should drop down</p>
+                </div>
                 <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Menu</button>
               </div>
             </div>
@@ -90,16 +103,15 @@
 
 import { ref, reactive } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
-import Search from '../../Search.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronRightIcon } from '@heroicons/vue/solid';
+import { ChevronRightIcon, ArrowLeftIcon } from '@heroicons/vue/solid';
 import { HomeIcon } from '@heroicons/vue/outline';
 import { Inertia } from '@inertiajs/inertia'
 
 const pages = [
   { name: 'Online Store', href: '/online-store', current: false },
-  { name: 'Navigation', href: ('/online-store/navigation/${m.name}'), current: true },
+  { name: 'Navigation', href: '/online-store/navigation', current: false },
 ];
 
 const statusStyles = {
@@ -118,6 +130,7 @@ export default {
     DialogOverlay, 
     TransitionChild, 
     TransitionRoot, 
+    ArrowLeftIcon,
     ChevronRightIcon,
     HomeIcon
   },
@@ -128,7 +141,11 @@ export default {
       name: '',
       link: ''
     }
-    const m = props.menu
+    const m = props.menu;
+
+    pages.push(
+      { name: m.name, href: (`/online-store/navigation/${m.name}`), current: true },
+    )
 
     function submit() {
       Inertia.post(`/online-store/navigation/${m.id}`, list);

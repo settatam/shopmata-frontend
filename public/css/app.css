@@ -2511,6 +2511,10 @@ select {
 	padding-top: 1.75rem;
 	padding-bottom: 1.75rem;
 }
+.px-4\.5 {
+	padding-left: 1.125rem;
+	padding-right: 1.125rem;
+}
 .pt-6 {
 	padding-top: 1.5rem;
 }
