@@ -39,34 +39,36 @@
                       <table class="w-full divide-y divide-gray-200 table-fixed">
                         <thead class="">
                           <tr> 
-                            <th scope="col" class="w-1/3 px-6 text-left text-sm font-medium text-gray-500 tracking-wider">
+                            <th scope="col" class="text-left text-sm font-medium text-gray-500 tracking-wider">
                                 Menu Title
                             </th>
-                            <th scope="col" class=" w-1/3 px-6 text-left text-sm font-medium text-gray-500 tracking-wider">
+                            <th scope="col" class="text-left text-sm font-medium text-gray-500 tracking-wider">
                                 Menu Items
                             </th>
-                            <th scope="col" class="relative px-6 py-3">
-                                <span class="sr-only"></span>
+                            <th scope="col" class="relative py-3">
+                              <span class="sr-only"></span>
                             </th>
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" v-if="menu.length">
                           <tr class="bg-white" v-for="m in menu" :key="m.id">
-                            <td class="w-4/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
-                                <p class="text-indigo-700 text-left text-sm font-semibold "> {{ m.name }} </p>  
-                            </td>
-                              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" >
+                            <inertia-link :href="'/online-store/navigation/'+m.id" class="block hover:bg-gray-50">
+                              <td class="w-4/10 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
+                                  <p class="text-indigo-700 text-left text-sm font-semibold "> {{ m.name }} </p>  
+                              </td>
+                            </inertia-link>
+                              <td class="py-4 whitespace-nowrap text-sm text-gray-500" >
                                 <span v-for="item in m.items" :key="item.id" class="text-gray-800 text-left "> {{ item.name }}, </span>  
                               </td>
                         
                             <td class="px-6 py-4 text-right text-sm text-gray-500 relative">                              
                               <DotsVerticalIcon class="w-6 h-6 cursor-pointer relative ml-auto" @click="openSubMenu(m.id)"/>
                               <div class="absolute top-12 -left-0 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
-                                <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow()">
-                                    <p class="text-gray-600"> Rename Item</p>
+                                <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(m.name)">
+                                    <p class="text-gray-600">Rename Title</p>
                                 </div>
                                 <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="deleteRow(m.id)">
-                                  <p class="text-red-600">Delete Item</p>
+                                  <p class="text-red-600">Delete Menu</p>
                                 </div>
                               </div>
                             </td>
@@ -178,10 +180,6 @@ export default {
     AddMenuModal
   },
 
-  mounted() {
-    console.log(this.menu)
-  },
-  
    emits:['close'],
   data(){
       return{
@@ -199,9 +197,23 @@ export default {
           this.openSub=true
       }
     },
+    editRow(){
+      this.popModal=true
+      this.title = 'Rename Menu Title',
+      this.buttonMsg='Save Changes'
+    },
+    deleteRow(id){
+      this.deleteConfirmation = true
+      this.open = true
+      console.log(id)
+    },
+    emitClose(){
+      this.openSub=false
+      this.deleteConfirmation = false
+    }
   },
   
-  setup(props, { emit }) {
+  setup() {
     const open = ref(false)
     const popModal= ref(false)
     const selectAll = ref(false)

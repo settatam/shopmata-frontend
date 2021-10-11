@@ -1303,6 +1303,22 @@ select {
 	margin-top: 0.625rem;
 	margin-bottom: 0.625rem;
 }
+.-mx-10 {
+	margin-left: -2.5rem;
+	margin-right: -2.5rem;
+}
+.-mx-4 {
+	margin-left: -1rem;
+	margin-right: -1rem;
+}
+.-mx-12 {
+	margin-left: -3rem;
+	margin-right: -3rem;
+}
+.-mx-0 {
+	margin-left: 0px;
+	margin-right: 0px;
+}
 .ml-3 {
 	margin-left: 0.75rem;
 }
