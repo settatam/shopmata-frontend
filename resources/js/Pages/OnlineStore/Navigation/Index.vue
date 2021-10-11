@@ -79,50 +79,7 @@
                         <p class="ml-1 flex-shrink-0 font-normal text-gray-500">No menu items yet</p>
                       </div>
                   </div>
-                  <!-- <div class="w-full mt-6">
-                    <div class="flex justify-between text-gray-500  mb-1.5">
-                      <p class="w-1/2">Menu Title</p>
-                      <p class="w-1/2">Menu Items</p>
-                    </div>
-                    <div class="border-b border-gray-300 -mx-8">
-                    </div>
-                  </div>
-                  <div class="w-full mt-6" v-if="menu.length">
-                    
-                  <div class="bg-white overflow-hidden sm:rounded-md">
-                        <ul role="list" class="divide-y divide-gray-200">
-                          <li v-for="m in menu" :key="menu.id">
-                            <inertia-link :href="'/online-store/navigation/'+m.id" class="block hover:bg-gray-50">
-                              <div class="px-4 py-4 flex items-center sm:px-6">
-                                <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-                                  <div class="truncate">
-                                    <div class="flex text-sm flex-col">
-                                      <p class="font-medium text-indigo-600 truncate">{{ m.name }}</p>
-                                      <div v-if="m.items.length">
-                                        <span v-for="item in m.items" :key="item.id" class="mr-2 text-gray-500">
-                                         {{ item.name }}
-                                        </span>
-                                      </div>
-                                      <div v-else>
-                                        <p class="ml-1 flex-shrink-0 font-normal text-gray-500">No menu items yet</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="ml-5 flex-shrink-0">
-                                  <ChevronRightIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                </div>
-                              </div>
-                            </inertia-link>
-                          </li>
-                        </ul>
-                      </div>
-
-                  </div> -->
-                  <!-- <div class="flex justify-center mt-14 mb-4" v-else>
-                    <p class="text-gray-500"> <span>No menu created yet.</span> <inertia-link href="/online-store/navigation/create">Create Menu</inertia-link>
-                    </p>
-                  </div> -->
+                  
                 <div class="flex justify-center">
                   <button class="text-white bg-indigo-700 rounded-md px-8 py-3" @click="addMenu">Add Menu</button>
                    <add-menu-modal v-if="popModal" @close="this.popModal=false" :login="login" :title="title" :buttonMsg="buttonMsg" />
