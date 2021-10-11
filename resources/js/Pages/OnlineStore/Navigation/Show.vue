@@ -99,7 +99,7 @@ import { Inertia } from '@inertiajs/inertia'
 
 const pages = [
   { name: 'Online Store', href: '/online-store', current: false },
-  { name: 'Navigation', href: ('/online-store/navigation/${m.id}'), current: true },
+  { name: 'Navigation', href: ('/online-store/navigation/${m.name}'), current: true },
 ];
 
 const statusStyles = {
