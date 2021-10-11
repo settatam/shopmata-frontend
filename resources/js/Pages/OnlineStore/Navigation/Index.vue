@@ -52,7 +52,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" v-if="menu.length">
                           <tr class="bg-white" v-for="m in menu" :key="m.id">
-                            <inertia-link :href="'/online-store/navigation/'+m.id" class="block hover:bg-gray-50">
+                            <inertia-link :href="'/online-store/navigation/'+m.id" class="">
                               <td class="w-4/10 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
                                   <p class="text-indigo-700 text-left text-sm font-semibold "> {{ m.name }} </p>  
                               </td>

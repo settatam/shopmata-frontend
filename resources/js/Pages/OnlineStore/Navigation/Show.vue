@@ -1,22 +1,29 @@
 <template>
     <app-layout>
-      <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
-          <!-- Breadcrumb -->
-          <nav aria-label="Breadcrumb" class="bg-white border-b border-blue-gray-200 xl:hidden">
-            <div class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8">
-              <inertia-link href="#" class="-ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
-                <ChevronLeftIcon class="h-5 w-5 text-blue-gray-400" aria-hidden="true" />
-                <span class="font-semibold text-2xl">Settings</span>
-              </inertia-link>
-            </div>
-          </nav>
+     <!-- Breadcrumb -->
+       <div class="flex-shrink-0 px-8 py-4 flex items-center">
+          <p class="text-2xl font-semibold text-blue-gray-900">Online Store</p>
+       </div>
+        <nav class="flex px-8" aria-label="Breadcrumb">
+          <ol role="list" class="flex items-center space-x-4">
+            <li>
+              <div>
+                <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                  <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                  <span class="sr-only">Online Store</span>
+                </a>
+              </div>
+            </li>
+            <li v-for="page in pages" :key="page.name">
+              <div class="flex items-center">
+                <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+              </div>
+            </li>
+          </ol>
+        </nav>
 
           <div class="flex-1 flex xl:overflow-hidden">
-            <!-- Secondary sidebar -->
-            <div class="hidden flex-shrink-0 w-84 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col mt-5">
-              <h1> Navigation Menu</h1>
-              <p> Place to create a menu is here </p>
-            </div>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
               <div class=" w-3/4 ml-7 mt-5">
@@ -26,7 +33,7 @@
                     <inertia-link href="/online-store/navigation/create">Create Another Menu List</inertia-link>
                     <div class="bg-white shadow overflow-hidden sm:rounded-md">
                         <ul role="list" class="divide-y divide-gray-200">
-                          <li v-for="m in menu.items" :key="menu.id">
+                          <li v-for="m in menu.items" :key="m.id">
                             <inertia-link :href="'online-store/navigation/'+menu.id" class="block hover:bg-gray-50">
                               <div class="px-4 py-4 flex items-center sm:px-6">
                                 <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
@@ -76,7 +83,6 @@
               </div>
             </div>
           </div>
-        </div>
     </app-layout>
 </template>
 
@@ -88,7 +94,13 @@ import Search from '../../Search.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronRightIcon } from '@heroicons/vue/solid';
+import { HomeIcon } from '@heroicons/vue/outline';
 import { Inertia } from '@inertiajs/inertia'
+
+const pages = [
+  { name: 'Online Store', href: '/online-store', current: false },
+  { name: 'Navigation', href: ('/online-store/navigation/${m.id}'), current: true },
+];
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -102,7 +114,12 @@ export default {
   
   components: {
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot, ChevronRightIcon
+    Dialog, 
+    DialogOverlay, 
+    TransitionChild, 
+    TransitionRoot, 
+    ChevronRightIcon,
+    HomeIcon
   },
   
   setup(props) {
@@ -118,6 +135,7 @@ export default {
     }
 
     return {
+      pages,
       statusStyles,
       list,
       submit
