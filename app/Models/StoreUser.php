@@ -10,6 +10,10 @@ class StoreUser extends Model
 {
     use HasFactory;
 
+    public static $PENDING = 'invite sent';
+    public static $ACCEPTED = 'accepted';
+    public static $DECLINED = 'declined';
+
     protected static function booted()
     {
         //static::addGlobalScope(new StoreScope);
