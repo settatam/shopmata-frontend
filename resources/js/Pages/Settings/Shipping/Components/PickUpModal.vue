@@ -129,6 +129,8 @@ export default {
         axios.post('/settings/store-locations', local_pickup)
         .then((res)=> {
           console.log(res.data)
+            this.open = false
+            this.$emit('close')
         })
       }
     }
