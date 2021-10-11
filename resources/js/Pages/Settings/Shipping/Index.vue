@@ -147,11 +147,7 @@ const pages = [
 ]
 export default {
   props: {
-            products: Object,
-            filters: Object,
-            brands: Array,
-            categories: Array
-        },
+  },
   
   components: {
     Nav,
