@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\StoreLocation;
 use Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\MessageBag;
 
 class StoreLocationController extends Controller
 {
@@ -130,7 +131,8 @@ class StoreLocationController extends Controller
                 }
             }else{
                 //
-                return \Redirect::route('settings.shipping');
+                // $bag = new MessageBag;
+                return \Redirect::route('settings.shipping')->withErrors(['location', 'This location does not exist']);
                 // return response()->json(['success'=>false, 'message'=>'You do not have permissions to delete a store'], 422);
             }
         }
