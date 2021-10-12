@@ -135,7 +135,7 @@
                                         </td>
                                     
                                         <td class="px-6 py-4 text-right  text-sm text-gray-500 relative">                              
-                                            <DotsVerticalIcon class="w-6 h-6 cursor-pointer relative" @click="openSubMenu(user.id)"/>
+                                            <!-- <DotsVerticalIcon class="w-6 h-6 cursor-pointer relative" @click="openSubMenu(user.id)"/>
                                             <div class="absolute top-12 -left-40 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==user.id && openSub">
                                                  <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(user)">
                                                      <p class="text-gray-600"> Change Roles</p>
@@ -144,7 +144,28 @@
                                                  <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="deleteRow(user.id)">
                                                      <p class="text-red-600">Delete User</p>
                                                 </div>
-                                            </div>
+                                            </div> -->
+                                             <Menu as="div" class="relative inline-block text-left">
+                                                <div>
+                                                <MenuButton class=" flex items-center">
+                                                    <span class="sr-only">Open options</span>
+                                                    <DotsVerticalIcon class="h-5 w-6" aria-hidden="true" />
+                                                </MenuButton>
+                                                </div>
+
+                                                <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                                                <MenuItems class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40">
+                                                    <div class="py-1">
+                                                    <MenuItem v-slot="{ active }">
+                                                        <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"  @click="editRow(user)">Change Roles</a>
+                                                    </MenuItem>
+                                                    <MenuItem v-slot="{ active }">
+                                                        <a href="#" :class="[active ? 'bg-gray-100 text-red-600' : 'text-red-400', 'block px-4 py-2 text-sm']" @click="deleteRow(user.id)">Delete User</a>
+                                                    </MenuItem>
+                                                    </div>
+                                                </MenuItems>
+                                                </transition>
+                                            </Menu>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -165,6 +186,7 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
 import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,PencilAltIcon,} from '@heroicons/vue/solid'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import {TrashIcon,HomeIcon} from '@heroicons/vue/outline'
 import moment from "moment";
 import PermissionModal from './Components/PermissionModal.vue';
@@ -185,7 +207,19 @@ const plans = [
 ]
 export default {
   props: ['user', 'storeUsers', 'groups','login'],
-  components: { AppLayout,Nav,PlusCircleIcon,DotsVerticalIcon,PermissionModal,ChevronRightIcon,HomeIcon,PencilAltIcon,TrashIcon, ConfirmationModal},
+  components: { AppLayout,
+  Nav,
+  PlusCircleIcon,
+  DotsVerticalIcon,
+  PermissionModal,
+  ChevronRightIcon,
+  HomeIcon,
+  PencilAltIcon,
+  TrashIcon,
+   ConfirmationModal, Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,},
    emits:['close'],
   data(){
       return{
@@ -198,7 +232,7 @@ export default {
           title:"",
           buttonMsg:"",
           user_id: '',
-          user_email:''
+          user_email:'',
       }
   },
     methods:{
@@ -255,11 +289,16 @@ export default {
             }
     },
     setup() {
-
+        const open = ref(false)
+    
     return {
       plans,
       moment,
       pages,
+      Menu,
+      MenuButton,
+      MenuItem,
+      MenuItems,
     }
   },
 }

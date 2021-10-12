@@ -40,7 +40,10 @@
                         <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                           State
                         </label>
-                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.state" required/>
+                        <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.state_id"  required>
+                          <option value="">Choose a State</option>
+                          <option v-for="(state,index) in country_state" :key="index" :value="state.id">{{state.name}}</option>
+                        </select>
                       </div>
                     </div>
                     <div class="flex required  mb-4">
@@ -86,11 +89,13 @@ import { ref, reactive, onBeforeMount } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
 import axios from 'axios'
+import { Inertia } from '@inertiajs/inertia'
 //import { Inertia } from '@inertiajs/inertia'
 
 
 export default {
     emits:['close'],
+    props:['store'],
     
   components: {
     Dialog,
@@ -102,7 +107,8 @@ export default {
   },
   data(){
     return{
-      countries:''
+      countries:'',
+      country_state :{},
     }
   },
   methods:{
@@ -117,19 +123,29 @@ export default {
         this.countries=res.data.data;
         //console.log(countries)
       })
+
+  },
+  watch:{
+    'local_pickup.country_id'(newVal,oldVal) {
+    console.log(oldVal)
+      axios.get(`/api/states?country_id=${newVal}`).then(res=>{
+         this.country_state = res.data.data
+         console.log(this.country_state)
+    }) 
+    }
   },
   setup() {
     const open = ref(true)
-
+      
     function submit() {
       if (local_pickup.address.length<1) {
         alert('Address field can be empty')
       } else {
         axios.post('/settings/store-locations', local_pickup)
         .then((res)=> {
-          console.log(res.data)
+          //console.log(res.data)
             this.open = false
-            this.$emit('close')
+            Inertia.visit('/settings/shipping-and-delivery')
         })
       }
     }
