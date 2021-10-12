@@ -55,10 +55,11 @@
                     
                   </div>
                   <div class=" required w-full mb-4">
-                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="industry">
                       Store Industry
                     </label>
-                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.industry_id" required>
+                    <select type="text"  id="industry" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.industry_id" required>
+                      <option value="">Choose Industry</option>
                       <option v-for="(industry,index) in industries" :key="index" :value="industry.id">{{industry.name}}</option>
                     </select>
                   </div>
@@ -97,7 +98,8 @@
                         State
                       </label>
                       <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.state_id"  required>
-                        <option v-for="(state,index) in states" :key="index" :value="state.id">{{state.name}}</option>
+                        <option value="">Choose a State</option>
+                        <option v-for="(state,index) in country_state" :key="index" :value="state.id">{{state.name}}</option>
                       </select>
                     </div>
                     <div class="mr-2 w-full">
@@ -174,7 +176,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch} from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import Nav from './Nav';
@@ -216,8 +218,10 @@ export default {
   
   data() {
     return {
+      states: this.states,
       notification:null,
-      
+      country_state :{},
+      store_details:this.store
     }
   },
   methods: {
@@ -225,20 +229,37 @@ export default {
       Inertia.put('/store', this.store_details);
     }
   }, 
-mounted() {
-    
+  mounted(){
+    this.country_state = this.states
   },
+  watch:{
+    'store_details.country_id'(newVal,oldVal) {
+    console.log(oldVal)
+      axios.get(`/api/states?country_id=${newVal}`).then(res=>{
+         this.country_state = res.data.data
+         console.log(this.country_state)
+    }) 
+    }
+  },
+
   setup(props) {
     const open = ref(false)
-    const store_details = reactive(props.store)
-    const states = props.states
-    
+    //const store_details = reactive(props.store)
+    //let states = reactive(props.states)
+    /* watch(()=> store_details.country_id, (update) =>{
+      axios.get(`/api/states?country_id=${update}`).then(res=>{
+         states = res.data
+         console.log(states)
+         return states
+      })
+    }) */
     
     return {
       statusStyles,
-      store_details,
-      states,
-      pages
+      //store_details,
+      //states,
+      pages,
+      //updateStates
     }
   },
 }

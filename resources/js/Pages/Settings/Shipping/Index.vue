@@ -98,7 +98,7 @@
                                 <div class="flex">
                                   <location-marker-icon class="w-7 h-7 mr-1 pt-2"/>
                                   <div class=" flex flex-col">
-                                    <p class="font-bold">{{location.name}}</p>
+                                    <p class="font-bold">{{location.city}} Branch</p>
                                     <p class="text-gray-500">{{location.address}}</p>
                                   </div>
                                 </div>
@@ -111,7 +111,7 @@
                            </div>
                          </div>
                       </div>
-                      <pick-up-modal @close="this.popModal=false"  v-if="this.popModal"/>
+                      <pick-up-modal @close="this.popModal=false"  v-if="this.popModal" :store='store'/>
                   </div>
               </div>
 
@@ -146,8 +146,7 @@ const pages = [
   { name: 'Shipping and Delivery', href: '/settings/shipping-and-delivery', current: true },
 ]
 export default {
-  props: {
-  },
+  props: ['locations','store'],
   
   components: {
     Nav,
@@ -167,36 +166,27 @@ export default {
   data() {
     return {
       popModal : false,
-      local_pickup:[
-        {
-          id: 1,
-          name:"Hope Road Branch",
-          address:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
-        },
-        {
-          id:2,
-          name:"Hope Road Branch",
-          address:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
-        },
-      ]
+      
     }
   },
-  setup() {
+  setup(props) {
     const open = ref(false)
     const local_delivery = ref(false)
     const edit_location = function(id){
       console.log('edit',id)
     }
     const delete_location = function(id){
-      Inertia.delete(`/settings/store-locations/${id}`)
+      Inertia.delete(`/settings/store-locations/${id}`)  
     }
+    const local_pickup=props.locations
     
     return {
       statusStyles,
       pages,
       local_delivery,
       edit_location,
-      delete_location
+      delete_location,
+      local_pickup
     }
   },
 
