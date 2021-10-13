@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full xl:px-28 px-6">
+  <div class="w-full px-9">
     <div class="my-12">
       <p class="text-black font-semibold text-lg">Personal Information</p>
       <p class="text-gray-300">This information will be used to contact you</p>
@@ -17,45 +17,29 @@
             type="text"
             name="email"
             id="email"
-            class="
-              shadow-sm
-              focus:ring-indigo-500
-              focus:border-indigo-500
-              block
-              w-full
-              sm:text-sm
-              border-gray-300
-              rounded-md
-            "
+            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
             placeholder="First Name"
             v-model="info.first_name"
           />
-          
+          <span v-if="v$.info.first_name.$error" class="text-red-400">{{v$.info.first_name.$errors[0].$message}}</span>
         </div>
         <div class="form-group required w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
           <label
             class="block text-black font-semibold mb-2 bg-transparent"
             for="last_name"
           >
-            Last Name </label
-          ><input
+            Last Name </label>
+          <input
             type="text"
             name="email"
             id="email"
-            class="
-              shadow-sm
-              focus:ring-indigo-500
-              focus:border-indigo-500
-              block
-              w-full
-              sm:text-sm
-              border-gray-300
-              rounded-md
-            "
+            class=" shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md "
             placeholder="Last Name"
             v-model="info.last_name"
           />
+          <span v-if="v$.info.last_name.$error" class="text-red-400">{{v$.info.last_name.$errors[0].$message}}</span>
         </div>
+        
       </div>
       <div class="flex flex-wrap mb-10">
         <div class="form-group required w-full md:mb-0">
@@ -70,18 +54,10 @@
             type="text"
             name="email"
             id="email"
-            class="
-              shadow-sm
-              focus:ring-indigo-500
-              focus:border-indigo-500
-              block
-              w-full
-              sm:text-sm
-              border-gray-300
-              rounded-md
-            "
+            class=" shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md "
             placeholder="you@example.com"
           />
+          <span v-if="v$.info.email.$error" class="text-red-400">{{v$.info.email.$errors[0].$message}}</span>
         </div>
       </div>
       <div class="flex flex-wrap mb-10">
@@ -98,19 +74,7 @@
               <select
                 id="country"
                 name="country"
-                class="
-                  focus:ring-indigo-500
-                  focus:border-indigo-500
-                  h-full
-                  py-0
-                  pl-3
-                  pr-7
-                  border-transparent
-                  bg-transparent
-                  text-gray-500
-                  sm:text-sm
-                  rounded-md
-                "
+                class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
               >
                 <option>US</option>
                 <option>NG</option>
@@ -122,19 +86,11 @@
               type="text"
               name="phone-number"
               id="phone-number"
-              class="
-                focus:ring-indigo-500
-                focus:border-indigo-500
-                block
-                w-full
-                pl-16
-                sm:text-sm
-                border-gray-300
-                rounded-md
-              "
+              class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:text-sm border-gray-300 rounded-md"
               placeholder="+1 (555) 987-6543"
             />
           </div>
+           <span v-if="v$.info.phone_number.$error" class="text-red-400">{{v$.info.phone_number.$errors[0].$message}}</span>
         </div>
       </div>
     </div>
@@ -142,8 +98,27 @@
 </template>
 
 <script>
+import useVuelidate from '@vuelidate/core'
+import { required,helpers,email } from '@vuelidate/validators'
+
 export default {
   name: "personal-info-form",
   props: ["info"],
+
+  data() {
+    return {
+      v$: useVuelidate(),
+    };
+  },
+  validations () {
+    return{
+      info: {
+        first_name: {required: helpers.withMessage('This field cannot be empty', required)},
+        last_name: {required: helpers.withMessage('This field cannot be empty', required),},
+        email: {required: helpers.withMessage('This field cannot be empty', required,email)},
+        phone_number: {required: helpers.withMessage('This field cannot be empty', required),},
+      },
+    }
+  }
 };
 </script>

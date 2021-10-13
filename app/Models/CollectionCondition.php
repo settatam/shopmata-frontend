@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class CollectionCondition extends Model
 {
     use HasFactory;
+
+    $fillable = [
+    	'collection_id',
+    	'condition',
+    	'value',
+    	'user_id'
+    ];
+
 }

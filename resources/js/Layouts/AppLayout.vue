@@ -169,7 +169,7 @@ import {
 } from '@headlessui/vue'
 import {
   BellIcon,
-  ClockIcon,
+  ChartPieIcon,
   CogIcon,
   CreditCardIcon,
   DocumentReportIcon,
@@ -198,11 +198,29 @@ const navigation = [
       icon: HomeIcon, 
       current: true 
   },
-  { name: 'Products', href: '/products', icon: ClockIcon, current: false },
-  { name: 'Orders', href: '/orders', icon: ShoppingBagIcon, current: false },
+  { name: 'Products', 
+          href: '',
+          icon: ChartPieIcon, 
+          current: false,children: [
+            { name: 'All Products', href: '/products' },
+            { name: 'Add Product', href: '/products/create' },
+            { name: 'All Brands', href: '/brands' },
+            { name: 'Add Brand', href: '/brands/create' },
+            { name: 'All Collections', href: '/categories' },
+            { name: 'New Collection', href: '/categories/create' },
+          ], 
+  },
+  { name: 'Orders', href: '/orders', icon: ShoppingBagIcon, current: false,
+      children: [
+            { name: 'Orders', href: '/orders' },
+            { name: 'Gift Vouchers', href: '#' },
+            { name: 'Vector Themes', href: '#' },
+            
+          ], 
+  },
   { name: 'Customers', href: '/customers', icon: UserGroupIcon, current: false },
   { name: 'Analytics', href: 'analytics', icon: ChartBarIcon, current: false },
-  { name: 'Discounts', href: 'discounts', icon: CashIcon, current: false },
+  { name: 'Discounts', href: '/discounts', icon: CashIcon, current: false },
   { name: 'Online Store', 
           href: '#', 
           icon: OfficeBuildingIcon, 
@@ -266,7 +284,8 @@ export default {
     ChartBarIcon,
     Disclosure,
     DisclosurePanel,
-    DisclosureButton
+    DisclosureButton,
+    ChartPieIcon
   },
   setup() {
     const sidebarOpen = ref(false)

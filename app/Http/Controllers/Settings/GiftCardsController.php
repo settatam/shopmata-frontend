@@ -19,7 +19,6 @@ class GiftCardsController extends Controller
         // $giftCardsSettings = GiftCard::all();
         $store = Store::find(session('store_id'));
         return Inertia::render('Settings/GiftCards/Index', compact('store'));
-
     }
 
     /**
