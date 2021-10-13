@@ -3,31 +3,13 @@
     <!-- Page header -->
     <div class="">
       <div class="px-4 sm:px-6 lg:mx-auto lg:px-8">
-        <div
-          class="
-            py-6
-            md:flex
-            md:items-center
-            md:justify-between
-            lg:border-t lg:border-gray-200
-          "
-        >
+        <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
           <div class="flex-1 min-w-0">
             <!-- Profile -->
             <div class="flex items-center">
               <div>
                 <div class="flex items-center">
-                  <h1
-                    class="
-                      ml-3
-                      text-2xl
-                      font-bold
-                      leading-7
-                      text-gray-900
-                      sm:leading-9
-                      sm:truncate
-                    "
-                  >
+                  <h1 class=" ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
                     Customers
                   </h1>
                 </div>
@@ -38,22 +20,7 @@
             <inertia-link
               href="customers/create"
               type="button"
-              class="
-                inline-flex
-                items-center
-                px-4
-                py-2
-                border border-transparent
-                shadow-sm
-                text-sm
-                font-medium
-                rounded-md
-                text-white
-                bg-cyan-600
-                hover:bg-cyan-700
-                focus:outline-none
-                focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500
-              "
+              class=" inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 "
             >
               Create New Customer
             </inertia-link>
@@ -73,86 +40,37 @@
         <div class="mx-auto px-4 sm:px-6 lg:px-8">
           <Search v-bind:suggestions="suggestions"></Search>
           <div class="flex flex-col mt-2">
-            <div
-              class="
-                align-middle
-                min-w-full
-                overflow-x-auto
-                shadow
-                overflow-hidden
-                sm:rounded-lg
-              "
-            >
+            <div class=" align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 table-fixed">
                 <thead class="bg-gray-50">
                   <tr>
                     <th
                       scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
+                      class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       First Name
                     </th>
                     <th
                       scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
+                      class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Last Name
                     </th>
                     <th
                       scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
+                      class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Locations
                     </th>
                     <th
                       scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
+                      class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Orders
                     </th>
                     <th
                       scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
+                      class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Created
                     </th>
@@ -168,70 +86,20 @@
                     :key="customer.id"
                     class="bg-white"
                   >
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {{ customer.first_name }}
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {{ customer.last_name }}
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {{ customer.cty }} {{ customer.state }}
                       {{ customer.country }}
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {{ customer.total_order }}
                     </td>
-                    <td
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
-                    >
+                    <td class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {{ moment(customer.created_at).format("YYYY-MM-DD") }}
                     </td>
                   </tr>
@@ -239,16 +107,7 @@
               </table>
               <!-- Pagination -->
               <nav
-                class="
-                  bg-white
-                  px-4
-                  py-3
-                  flex
-                  items-center
-                  justify-between
-                  border-t border-gray-200
-                  sm:px-6
-                "
+                class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
                 aria-label="Pagination"
               >
                 <div class="hidden sm:block">
@@ -269,43 +128,10 @@
                   </p>
                 </div>
                 <div class="flex-1 flex justify-between sm:justify-end">
-                  <a
-                    href="#"
-                    class="
-                      relative
-                      inline-flex
-                      items-center
-                      px-4
-                      py-2
-                      border border-gray-300
-                      text-sm
-                      font-medium
-                      rounded-md
-                      text-gray-700
-                      bg-white
-                      hover:bg-gray-50
-                    "
-                  >
+                  <a href="#" class=" relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                     Previous
                   </a>
-                  <a
-                    href="#"
-                    class="
-                      ml-3
-                      relative
-                      inline-flex
-                      items-center
-                      px-4
-                      py-2
-                      border border-gray-300
-                      text-sm
-                      font-medium
-                      rounded-md
-                      text-gray-700
-                      bg-white
-                      hover:bg-gray-50
-                    "
-                  >
+                  <a href="#" class=" ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                     Next
                   </a>
                 </div>

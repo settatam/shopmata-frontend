@@ -16,7 +16,7 @@ class StoreUser extends Model
 
     protected static function booted()
     {
-        //static::addGlobalScope(new StoreScope);
+        // static::addGlobalScope(new StoreScope);
     }
 
     protected $fillable = ['store_id', 'user_id', 'store_group_id'];

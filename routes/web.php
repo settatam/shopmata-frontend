@@ -171,6 +171,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('discounts', [DiscountsController::class, 'index'])->name('discounts');
 	Route::post('discounts', [DiscountsController::class, 'store']);
 	Route::put('discounts', [DiscountsController::class, 'update']);
+	Route::get('discounts/create', [DiscountsController::class, 'create'])->name('discounts.create');
 
 	Route::post('/generate/user/discount/code', [DiscountsController::class, 'createDiscountCode']);
 

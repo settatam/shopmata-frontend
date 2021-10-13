@@ -583,9 +583,7 @@ export default {
           }else{
             this.active_file_index = 0;
           } 
-
       }
-      
     },
     popLayout() {
       this.popUp = true;
