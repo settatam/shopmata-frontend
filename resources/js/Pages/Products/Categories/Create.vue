@@ -66,16 +66,9 @@
                         <template v-for="(condition, index) in conditions" :key="index" >
                         <div class="flex flex-col lg:flex-row lg:justify-between">
                             <div class="flex flex-col w-3/10">
-                                <!-- <cat-drop-down
-                                    :label="product_tag"
-                                    :options="template_opt"
-                                    @updateVal="updateTemp($event)"
-                                    class="h-5"
-                                    v-model="category.tag"
-                                /> -->
                                 <select name="conditions" id="" v-model="condition.tag" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
-                                    <option v-for="(option,index) in template_opt" :key="index" v-bind:value="option.value">
-                                        {{ option.text }}
+                                    <option v-for="(option,index) in product_options" :key="index" v-bind:value="option.title">
+                                        {{ option.title }}
                                     </option>
                                 </select>
                             </div>
@@ -87,9 +80,9 @@
                                     class="h-5"
                                     v-model="category.equal"
                                 /> -->
-                                 <select name="conditions" id="" v-model="condition.equal" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
-                                    <option v-for="(option,index) in condition_opt" :key="index" v-bind:value="option.value" class="text-gray-700', 'block px-4 py-2 text-sm">
-                                        {{ option.text }}
+                                 <select name="conditions" id="" v-model="condition.value" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
+                                    <option v-for="(option,index) in condition_options" :key="index" v-bind:value="option.title" class="text-gray-700', 'block px-4 py-2 text-sm">
+                                        {{ option.title }}
                                     </option>
                                 </select>
                             </div>
@@ -114,14 +107,14 @@
                         <div class="mt-8">
                             <label for="title" class="block text-sm font-medium text-gray-700">Page Title</label>
                             <div class="mt-1 relative rounded-md shadow-sm">
-                                <input type="text" name="title" id="title" class="block w-full pr-10 sm:text-sm rounded-md border-gray-300" :class="(page.title.length > 70) ?'[border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500]':''"  v-model="page.title" />
-                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" v-if="(page.title.length > 70)">
+                                <input type="text" name="title" id="title" class="block w-full pr-10 sm:text-sm rounded-md border-gray-300" :class="(page.page_title.length > 70) ?'[border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500]':''"  v-model="page.page_title" />
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" v-if="(page.page_title.length > 70)">
                                     <ExclamationCircleIcon class="h-5 w-5 text-red-500" aria-hidden="true" />
                                 </div>
                             </div>
-                             <p class="text-gray-500">{{page.title.length}} of 70 characters used</p>
+                             <p class="text-gray-500">{{page.page_title.length}} of 70 characters used</p>
                             <!-- <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.title.length > 70)">Your title must be less than 70 characters.</p> -->
-                            <span v-if="v$.page.title.$error" class="text-red-400">
+                            <span v-if="v$.page.page_title.$error" class="text-red-400">
                                 {{v$.page.title.$errors[0].$message}}
                             </span>
                         </div>   
@@ -142,10 +135,10 @@
                         <div class="mt-9">
                             <label for="title" class="block text-sm font-medium text-gray-700">URL and Handle</label>
                             <div class="mt-1 relative rounded-md shadow-sm">
-                                <input type="text" name="url" id="title" class="block w-full pr-10 sm:text-sm rounded-md border-gray-300 placeholder-gray-500" v-model="page.url" placeholder="https://www.cashinmybag.com/products/"/>
+                                <input type="text" name="url" id="title" class="block w-full pr-10 sm:text-sm rounded-md border-gray-300 placeholder-gray-500" v-model="page.handle" placeholder="https://www.cashinmybag.com/products/"/>
                             </div>
-                            <span v-if="v$.page.url.$error" class="text-red-400">
-                                {{v$.page.url.$errors[0].$message}}
+                            <span v-if="v$.page.handle.$error" class="text-red-400">
+                                {{v$.page.handle.$errors[0].$message}}
                             </span>
                         </div>  
                     </div>
@@ -182,6 +175,7 @@
 </template>
 
 <script>
+import {ref, reactive} from 'vue';
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import DropZone from './Components/Dropzone.vue'
 import CatDropDown from './Components/CatDropdown.vue'
@@ -192,6 +186,10 @@ import { required, maxLength,url,helpers } from '@vuelidate/validators'
 
 
 export default {
+        props: {
+            product_options: Array,
+            condition_options: Array
+        },
         data:function(){
             return{
                 v$: useVuelidate(),
@@ -200,7 +198,7 @@ export default {
                     {
                         tag:"Product Title",
                         condition:"",
-                        equal:"equal",
+                        value:"value",
                     }
                 ],
                 template_opt: {
@@ -244,8 +242,8 @@ export default {
                 toggle : true,
                 page:{
                     description:"",
-                    title:"",
-                    url:"",
+                    page_title:"",
+                    handle:"",
                 },
                 category:{
                     name:"",
@@ -266,15 +264,16 @@ export default {
         },
         computed: {
             formData() {
-                return {...this.conditions,...this.category, ...this.search};
+                return {...this.category, ...this.page};
             }
         },
         methods:{
             submitForm(){
-                this.v$.$validate()
-                if (!this.v$.$error){
-                    this.$inertia.post('/categories', this.formData)
-                }
+                // this.v$.$validate()
+                // if (!this.v$.$error){
+                this.formData.conditions = this.conditions;
+                this.$inertia.post('/categories', this.formData)
+                // }
             },
             updateTemp(val){
                 //console.log(val)
@@ -282,30 +281,34 @@ export default {
                 //console.log(this.conditions.tag)
             },
             updateCondition(val){
-                this.conditions.equal = val
+                this.conditions.value = val
                 //console.log(this.conditions.equal)
             },
             add () {
     	        this.conditions.push({
                     tag:"",
                     condition:"",
-                    equal:""
+                    value:""
                 })
             }
         },
 
-         validations () {
+        validations () {
             return {
                 page:{
                     description:{required: helpers.withMessage('This field cannot be empty', required), maxLength:maxLength(70)},
-                    title:{required: helpers.withMessage('This field cannot be empty', required), maxLength:maxLength(70)},
-                    url:{required: helpers.withMessage('This field cannot be empty', required),url},
+                    page_title:{required: helpers.withMessage('This field cannot be empty', required), maxLength:maxLength(70)},
+                    handle:{required: helpers.withMessage('This field cannot be empty', required),url},
                 },
                 category:{
                     name:{required: helpers.withMessage('This field cannot be empty', required),},
                     description:{required: helpers.withMessage('This field cannot be empty', required),},
                 }
             }
+        },
+        
+        setup() {
+
         }
 }
 </script>
