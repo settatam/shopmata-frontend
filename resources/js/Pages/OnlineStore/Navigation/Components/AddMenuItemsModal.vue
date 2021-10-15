@@ -14,7 +14,7 @@
             <div>
               <div class="flex justify-between ">
                   <div>
-                      <p class="text-2xl font-bold">{{title}}</p>
+                      <p class="text-2xl font-bold">Add Menu Item</p>
                   </div>
                   <x-icon class="h-6 w-6 cursor-pointer" @click="closeModal"/>
               </div>
@@ -22,16 +22,16 @@
                 <div class="mt-3 sm:mt-5">
                   <div class="w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                      Menu Title
+                      Menu Item
                     </label>
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="enter a menu title" v-model="menu.name" required/>
+                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="enter a menu item" v-model="list.name" required/>
                   </div>
                   <div class="w-full mb-4 mt-6">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                      Handle 
+                      Link 
                     </label>
                     <div class="relative">
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="menu.handle" required/>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="list.handle" required/>
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                       <QuestionMarkCircleIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="mt-5 sm:mt-6 flex justify-end">
               <button type="button" class="items-centerrounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
-                {{buttonMsg}}
+                Save Menu Item
               </button>
             </div>
           </div>
@@ -56,12 +56,11 @@ import { ref, reactive } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
 import { QuestionMarkCircleIcon } from '@heroicons/vue/outline';
-import { Inertia } from '@inertiajs/inertia'
-
+import { Inertia } from '@inertiajs/inertia';
 
 export default {
     emits:['close'],
-    props:['title','buttonMsg'],
+    props:['title','buttonMsg', 'menu'],
   
   components: {
     Dialog,
@@ -80,26 +79,28 @@ export default {
   },
   setup(props, context) {
     const open = ref(true)
-    const menu = {
+    const list = {
           name:"",
-          handle: "",
+          link: "",
           // is_ajax: 1
     }
 
     function submit() {
-         try {
-        Inertia.post('/online-store/navigation', menu)
+      const m = props.menu;
+      try {
+        Inertia.post(`/online-store/navigation/${m.id}`, list)
         context.emit('close')
         
       } catch (error) {
         console.log(error)
         
       }
-      }
+
+    }
 
     return {
       open,
-      menu,
+      list,
       submit
     }
   }
