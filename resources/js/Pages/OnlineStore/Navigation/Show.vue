@@ -37,12 +37,12 @@
         </div>
 
           <!-- Main content -->
-           <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
-            <div class="flex items-center justify-center flex-1 xl:overflow-y-auto">
+           <div class="flex-1 flex flex-col ">
+            <div class="flex items-center justify-center flex-1">
               <div class="w-2/3 ml-7 mt-5">
                 <div class="p-8 bg-white mb-4">
                   <h2 class="text-2xl font-semibold">Menu Title</h2>
-                  <div class="flex items-center mt-1 mb-2 p-2 bg-white border overflow-hidden sm:rounded-sm">
+                  <div class="flex items-center mt-2 mb-2 p-2 bg-white border sm:rounded-sm">
                     <h3 class="text-lg font-medium text-gray-500">{{ menu.name }}</h3>
                   </div>
                 </div>
@@ -67,8 +67,8 @@
                               </div>
                             </inertia-link>
                             <div class="text-right relative text-gray-500">
-                              <DotsVerticalIcon class="relative w-6 h-6 cursor-pointer" @click="openSubMenu(m.id)" />
-                              <div class="absolute top-12 -right-10 z-10 w-56 rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
+                              <DotsHorizontalIcon class="relative w-6 h-6 cursor-pointer" @click="openSubMenu(m.id)" />
+                              <div class="absolute top-12 -right-8 z-10 w-56 rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
                                 <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(m.name)">
                                     <p class="text-gray-600">Rename Item</p>
                                 </div>
@@ -101,7 +101,7 @@ import { ref, reactive } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronRightIcon, ArrowLeftIcon, DotsVerticalIcon } from '@heroicons/vue/solid';
+import { ChevronRightIcon, ArrowLeftIcon, DotsHorizontalIcon } from '@heroicons/vue/solid';
 import { HomeIcon, QuestionMarkCircleIcon } from '@heroicons/vue/outline';
 import { Inertia } from '@inertiajs/inertia'
 import AddMenuItemsModal from './Components/AddMenuItemsModal.vue'
@@ -130,7 +130,7 @@ export default {
     TransitionRoot, 
     ArrowLeftIcon,
     ChevronRightIcon,
-    DotsVerticalIcon,
+    DotsHorizontalIcon,
     HomeIcon,
     QuestionMarkCircleIcon
   },

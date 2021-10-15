@@ -62,8 +62,8 @@
                               </td>
                         
                             <td class="px-6 py-4 text-right text-sm text-gray-500 relative">                              
-                              <DotsVerticalIcon class="w-6 h-6 cursor-pointer relative ml-auto" @click="openSubMenu(m.id)"/>
-                              <div class="absolute top-12 -left-0 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
+                              <DotsHorizontalIcon class="w-6 h-6 cursor-pointer relative ml-auto" @click="openSubMenu(m.id)"/>
+                              <div class="absolute top-12 -right-8 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
                                 <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(m.name)">
                                   <p class="text-gray-600">Rename Title</p>
                                 </div>
@@ -109,7 +109,7 @@ import AddMenuModal from './Components/AddMenuModal.vue'
 import Search from '../../Search.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronRightIcon, DotsVerticalIcon } from '@heroicons/vue/solid';
+import { ChevronRightIcon, DotsHorizontalIcon } from '@heroicons/vue/solid';
 import { PlusIcon } from '@heroicons/vue/solid';
 import { HomeIcon } from '@heroicons/vue/outline';
 import { Inertia } from '@inertiajs/inertia'
@@ -130,7 +130,7 @@ export default {
     TransitionChild, 
     TransitionRoot, 
     ChevronRightIcon,
-    DotsVerticalIcon,
+    DotsHorizontalIcon,
     PlusIcon,
     HomeIcon,
     SortableList,
