@@ -26,44 +26,61 @@
         <div class="flex justify-between items-center mx-8 mt-8">
           <a href="/online-store/navigation/" class="hover:text-gray-700">
             <div class="flex items-center">
-                <ArrowLeftIcon class="flex-shrink-0 h-5 w-5 text-gray-800" aria-hidden="true" />
-                <h1 class="ml-4 text-xl font-extrabold text-gray-800">{{ menu.name }}</h1>
+              <ArrowLeftIcon class="flex-shrink-0 h-5 w-5 text-gray-800" aria-hidden="true" />
+              <h1 class="ml-4 text-xl font-extrabold text-gray-800">{{ menu.name }}</h1>
             </div>
           </a>
           <div class="">
-            <button class="text-white bg-indigo-700 rounded-sm px-5 py-2" @click="addMenu">Add Menu Item</button>
-              <add-menu-modal v-if="popModal" @close="this.popModal=false" :login="login" :title="title" :buttonMsg="buttonMsg" />
+            <button class="text-white bg-indigo-700 rounded-sm px-5 py-2" @click="addMenuItem()">Add Menu Item</button>
+              <add-menu-items-modal v-if="openAddMenuItemModal" @close="this.openAddMenuItemModal=false" :groups="groups" :login="login" :title="title" :buttonMsg="buttonMsg" :menu="menu" />
           </div>
         </div>
 
-          <div class="flex-1 flex xl:overflow-hidden">
-            <!-- Main content -->
-            <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-3/4 ml-7 mt-5">
-                <div class="p-8 bg-white">
-                  <h2 class="text-lg font-semibold mb-9">Menu Details</h2>
+          <!-- Main content -->
+           <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
+            <div class="flex items-center justify-center flex-1 xl:overflow-y-auto">
+              <div class="w-2/3 ml-7 mt-5">
+                <div class="p-8 bg-white mb-4">
+                  <h2 class="text-lg font-semibold">Menu Title</h2>
+                  <div class="flex items-center mt-1 mb-2 p-2 bg-white border-2 overflow-hidden sm:rounded-sm">
+                    <h3 class="text-lg font-medium text-gray-800">{{ menu.name }}</h3>
+                  </div>
+                </div>
+                <div>
                   <div class="w-full mb-4" v-if="menu.items.length">
-                    <inertia-link href="/online-store/navigation/create">Create Another Menu List</inertia-link>
-                    <div class="bg-white shadow overflow-hidden sm:rounded-md">
-                        <ul role="list" class="divide-y divide-gray-200">
+                    <!-- <inertia-link href="/online-store/navigation/create">Create Another Menu List</inertia-link> -->
+                    <div class="bg-white shadow sm:rounded-sm p-6">
+                      <div class="flex items-center mb-3.5">
+                        <h2 class="text-lg text-indigo-700 font-semibold mr-2">Menu Items</h2>
+                        <QuestionMarkCircleIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <ul role="list" class="">
                           <li v-for="m in menu.items" :key="m.id">
+                          <div class="flex items-center justify-between mt-1 mb-2 p-2 bg-white border-2 sm:rounded-sm">
                             <inertia-link :href="'online-store/navigation/'+menu.id" class="block hover:bg-gray-50">
-                              <div class="px-4 py-4 flex items-center sm:px-6">
-                                <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
-                                  <div class="truncate">
-                                    <div class="flex flex-col text-sm">
-                                      <p class="font-medium text-indigo-600 truncate">{{ m.name }}</p>
-                                      <p class="font-normal text-gray-500">{{ m.link }}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="ml-5 flex-shrink-0">
-                                  <ChevronRightIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                              <div class="flex justify-between truncate">
+                                <div class="flex text-sm">
+                                  <p class="font-medium text-indigo-600 truncate">{{ m.name }}</p>
+                                  <!-- <p class="font-normal text-gray-500">{{ m.link }}</p> -->
                                 </div>
                               </div>
                             </inertia-link>
+                            <div class="text-right relative">
+                              <DotsVerticalIcon class="relative w-6 h-6 cursor-pointer" @click="openSubMenu(m.id)" aria-hidden="true" />
+                              <div class="absolute top-12 -right-4 z-10 w-56 rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
+                                <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(m.name)">
+                                    <p class="text-gray-600">Rename Item</p>
+                                </div>
+                                <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="deleteRow(m.id)">
+                                  <p class="text-red-600">Delete Menu</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           </li>
                         </ul>
+                        </div>
                       </div>
 
                   </div>
@@ -73,29 +90,9 @@
                   </div>
 
                 </div>
-
-                <div class="p-8 bg-white w-full">
-                  <h3> Create New menu list</h3>
-                    <div class=" required w-full mb-4">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                        Menu Title
-                      </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="list.name" required/>
-                    </div>
-
-                    <div class=" required w-full mb-4">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                        Link
-                      </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="list.handle" required/>
-                    </div>
-                    <p> **We should have a target</p>
-                    <p> **All pavailable pages should drop down</p>
                 </div>
-                <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Menu</button>
-              </div>
             </div>
-          </div>
+            </div>
     </app-layout>
 </template>
 
@@ -105,9 +102,10 @@ import { ref, reactive } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronRightIcon, ArrowLeftIcon } from '@heroicons/vue/solid';
-import { HomeIcon } from '@heroicons/vue/outline';
+import { ChevronRightIcon, ArrowLeftIcon, DotsVerticalIcon } from '@heroicons/vue/solid';
+import { HomeIcon, QuestionMarkCircleIcon } from '@heroicons/vue/outline';
 import { Inertia } from '@inertiajs/inertia'
+import AddMenuItemsModal from './Components/AddMenuItemsModal.vue'
 
 const pages = [
   { name: 'Online Store', href: '/online-store', current: false },
@@ -125,6 +123,7 @@ export default {
   },
   
   components: {
+    AddMenuItemsModal,
     AppLayout,
     Dialog, 
     DialogOverlay, 
@@ -132,9 +131,51 @@ export default {
     TransitionRoot, 
     ArrowLeftIcon,
     ChevronRightIcon,
-    HomeIcon
+    DotsVerticalIcon,
+    HomeIcon,
+    QuestionMarkCircleIcon
   },
+
+  emits:['close'],
   
+  data(){
+      return{
+        pages,
+        openSub: false,
+        currentRow: null,
+        openAddMenuItemModal: false,
+      }
+  },
+
+  methods: {
+    openSubMenu(id){
+      this.currentRow = id
+      if (this.openSub==true) {
+          this.openSub =false
+      }else{
+          this.openSub=true
+      }
+    },
+    addMenuItem(){
+      this.openAddMenuItemModal=true
+    },
+    editRow(){
+      this.popModal=true
+      this.title = 'Rename Item',
+      this.buttonMsg='Delete Menu'
+    },
+    deleteRow(id){
+      this.deleteConfirmation = true
+      this.open = true
+      console.log(id)
+    },
+    emitClose(){
+      this.openSub=false
+      this.openAddMenuItemModal=false
+      this.deleteConfirmation = false
+    }
+  },
+
   setup(props) {
     const open = ref(false)
     const list = {
@@ -148,11 +189,13 @@ export default {
     )
 
     function submit() {
+      console.log("jnn")
       Inertia.post(`/online-store/navigation/${m.id}`, list);
     }
 
     return {
       pages,
+      // popModal,
       statusStyles,
       list,
       submit

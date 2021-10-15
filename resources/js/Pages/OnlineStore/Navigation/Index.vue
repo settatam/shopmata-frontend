@@ -30,8 +30,8 @@
                 <div class="p-8">
                   <div class="flex justify-between">
                     <h1 class="text-xl font-bold mb-4.5">Menu Lists</h1>
-                    <div class="text-indigo-600">
-                      <inertia-link href="/online-store/navigation/create" class="underline flex"><span class="pl-3"><PlusIcon class="w-5 h-5" /></span>Add Menu</inertia-link>
+                    <div class="text-indigo-600 cursor-pointer">
+                      <p @click="addMenu" class="underline flex cursor-pointer"><span class="pl-3"><PlusIcon class="w-5 h-5" /></span>Add Menu</p>
                     </div>
                   </div>
                     <p> In this section, you can create your menu and adjust your menu settings to reflect your design, tap the button below to begin. You can ( Create menu)  or Edit menu</p>
@@ -112,6 +112,7 @@ import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headles
 import { ChevronRightIcon, DotsVerticalIcon } from '@heroicons/vue/solid';
 import { PlusIcon } from '@heroicons/vue/solid';
 import { HomeIcon } from '@heroicons/vue/outline';
+import { Inertia } from '@inertiajs/inertia'
 
 const pages = [
   { name: 'Online Store', href: '/online-store', current: false },
