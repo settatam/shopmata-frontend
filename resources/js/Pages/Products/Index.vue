@@ -32,7 +32,12 @@
           <!-- Activity table (small breakpoint and up) -->
           <div class="hidden sm:block">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
-              <search v-bind:suggestions="suggestions"></search>
+              <search 
+                :suggestions="suggestions"
+                @autocomplete="getAutoCompleteData"
+                @update-current-list="updateCurrentList"
+                :selection="selection"
+                ></search>
               <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
@@ -168,30 +173,35 @@ export default {
             categories: Array
         },
   components: {AppLayout, ScaleIcon, Search},
-  data() {
-    return {
-      notification: null,
-      suggestions: [],
-      dashboard: {
-        highRiskOrder: 0, 
-        ordersToFulfill: 0,
-        paymentToCapture: 0, 
-        percentage: 0,
-        todaySales: 0, 
-        totalSales: 0,
-        graphData: {
-          months: [],
-          sales: []
-        }
-      }
-    }
-  },
   setup() {
     const open = ref(false)
+    const suggestions = ref([]);
+    const selection = ref('');
+    
+    function getAutoCompleteData(term){
+      selection.value = term
+      if(term.length > 2) {
+          axios.get(`/products/get-data?term=${term}`, )
+            .then(res=>{
+                suggestions.value = res.data
+            }) 
+          }
+      }
+
+    function updateCurrentList(index){
+      console.log(index)
+      selection.value = suggestions.value[index].title;
+      suggestions.value= [];
+    }
+    
     return {
       transactions,
       statusStyles,
-      cards
+      cards,
+      getAutoCompleteData,
+      suggestions,
+      selection,
+      updateCurrentList
     }
   },
   async mounted() {

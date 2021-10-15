@@ -152,11 +152,6 @@ class ProductsController extends Controller
         return Redirect::route('products')->with('success', 'Product created.');
     }
 
-    public function getData(Reqeust $request) {
-        $response = Product::where('title', 'LIKE', '%'.$request->term.'%')->take(20)->get();
-        return response()->json($response);
-    }
-
     /**
      * Display the specified resource.
      *
