@@ -26,8 +26,8 @@
         <div class="flex justify-between items-center mx-8 mt-8">
           <a href="/online-store/navigation/" class="hover:text-gray-700">
             <div class="flex items-center">
-              <ArrowLeftIcon class="flex-shrink-0 h-5 w-5 text-gray-800" aria-hidden="true" />
-              <h1 class="ml-4 text-xl font-extrabold text-gray-800">{{ menu.name }}</h1>
+              <ArrowLeftIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+              <h1 class="ml-4 text-2xl font-semibold">{{ menu.name }}</h1>
             </div>
           </a>
           <div class="">
@@ -41,9 +41,9 @@
             <div class="flex items-center justify-center flex-1 xl:overflow-y-auto">
               <div class="w-2/3 ml-7 mt-5">
                 <div class="p-8 bg-white mb-4">
-                  <h2 class="text-lg font-semibold">Menu Title</h2>
-                  <div class="flex items-center mt-1 mb-2 p-2 bg-white border-2 overflow-hidden sm:rounded-sm">
-                    <h3 class="text-lg font-medium text-gray-800">{{ menu.name }}</h3>
+                  <h2 class="text-2xl font-semibold">Menu Title</h2>
+                  <div class="flex items-center mt-1 mb-2 p-2 bg-white border overflow-hidden sm:rounded-sm">
+                    <h3 class="text-lg font-medium text-gray-500">{{ menu.name }}</h3>
                   </div>
                 </div>
                 <div>
@@ -57,18 +57,18 @@
                       <div>
                         <ul role="list" class="">
                           <li v-for="m in menu.items" :key="m.id">
-                          <div class="flex items-center justify-between mt-1 mb-2 p-2 bg-white border-2 sm:rounded-sm">
+                          <div class="flex items-center justify-between mt-1 mb-2 p-2 bg-white border sm:rounded-sm">
                             <inertia-link :href="'online-store/navigation/'+menu.id" class="block hover:bg-gray-50">
                               <div class="flex justify-between truncate">
                                 <div class="flex text-sm">
-                                  <p class="font-medium text-indigo-600 truncate">{{ m.name }}</p>
+                                  <p class="text-indigo-600 text-sm truncate">{{ m.name }}</p>
                                   <!-- <p class="font-normal text-gray-500">{{ m.link }}</p> -->
                                 </div>
                               </div>
                             </inertia-link>
-                            <div class="text-right relative">
-                              <DotsVerticalIcon class="relative w-6 h-6 cursor-pointer" @click="openSubMenu(m.id)" aria-hidden="true" />
-                              <div class="absolute top-12 -right-4 z-10 w-56 rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
+                            <div class="text-right relative text-gray-500">
+                              <DotsVerticalIcon class="relative w-6 h-6 cursor-pointer" @click="openSubMenu(m.id)" />
+                              <div class="absolute top-12 -right-10 z-10 w-56 rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
                                 <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(m.name)">
                                     <p class="text-gray-600">Rename Item</p>
                                 </div>
@@ -84,9 +84,8 @@
                       </div>
 
                   </div>
-                  <div class="w-full mb-4" v-else>
-                    <p> <span>You do not have any menu created.</span> <inertia-link href="/online-store/navigation/create">Create Menu List</inertia-link>
-                    </p>
+                  <div class="mb-4 text-center" v-else>
+                    <h3>You do not have any menu items created.</h3>
                   </div>
 
                 </div>

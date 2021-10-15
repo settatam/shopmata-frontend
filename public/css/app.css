@@ -1182,6 +1182,12 @@ select {
 .-right-4 {
 	right: -1rem;
 }
+.-right-40 {
+	right: -10rem;
+}
+.-right-10 {
+	right: -2.5rem;
+}
 .z-0 {
 	z-index: 0;
 }
@@ -2043,6 +2049,9 @@ select {
 }
 .overflow-y-hidden {
 	overflow-y: hidden;
+}
+.overflow-y-visible {
+	overflow-y: visible;
 }
 .overflow-x-scroll {
 	overflow-x: scroll;
