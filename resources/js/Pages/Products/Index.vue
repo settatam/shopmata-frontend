@@ -173,7 +173,9 @@ export default {
             categories: Array
         },
   components: {AppLayout, ScaleIcon, Search},
+  
   setup() {
+    
     const open = ref(false)
     const suggestions = ref([]);
     const selection = ref('');
@@ -181,15 +183,14 @@ export default {
     function getAutoCompleteData(term){
       selection.value = term
       if(term.length > 2) {
-          axios.get(`/products/get-data?term=${term}`, )
+          axios.get(`/products/get-data?term=${term}`)
             .then(res=>{
                 suggestions.value = res.data
             }) 
           }
-      }
+    }
 
     function updateCurrentList(index){
-      console.log(index)
       selection.value = suggestions.value[index].title;
       suggestions.value= [];
     }

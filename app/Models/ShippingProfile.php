@@ -11,7 +11,7 @@ class ShippingProfile extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'store_id', 'profile','max_amount', 'name' ];
+    protected $fillable = [ 'store_id', 'name', 'price', 'description' ];
 
     protected static function booted() {
         static::addGlobalScope(new StoreScope);

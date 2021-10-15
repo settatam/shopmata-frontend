@@ -20,6 +20,7 @@
                         <li class="p-3 cursor-pointer hover:bg-gray-100"
                             v-for="(list,index) in suggestions" :key="list.id"
                             v-bind:class="{'bg-gray-100': isActive(index)}"
+                            @click="setList(list.id)"
                             >
                             {{list.title}}
                         </li>
@@ -124,8 +125,9 @@ export default {
         }
         
         function enter() {
-            emit('update-current-list', current.value);
+            emit('update-current-list', props.suggestions[current.value].id);    
         }
+        
         function up() {
             if(current.value > 0)
                 current.value--;
@@ -138,6 +140,10 @@ export default {
 
         function isActive(index) {
             return index === current.value;
+        }
+
+        function setList(){
+            emit('update-current-list', current.value);
         }
 
         onMounted(() => document.addEventListener('keydown', closeOnEscape))

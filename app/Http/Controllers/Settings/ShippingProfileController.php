@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use App\Models\ShippingRate;
+use App\Models\ShippingRateCondition;
 
 class ShippingProfileController extends Controller
 {

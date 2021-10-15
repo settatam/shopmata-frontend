@@ -15,6 +15,9 @@ class CreateCustomProductTypesTable extends Migration
     {
         Schema::create('custom_product_types', function (Blueprint $table) {
             $table->id();
+            $table->integer('store_id');
+            $table->integer('user_id');
+            $table->string('name');
             $table->timestamps();
         });
     }
