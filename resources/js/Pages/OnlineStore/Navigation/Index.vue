@@ -54,7 +54,7 @@
                           <tr class="bg-white" v-for="m in menu" :key="m.id">
                             <inertia-link :href="'/online-store/navigation/'+m.id" class="">
                               <td class="py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
-                                  <p class="text-indigo-700 text-left text-sm font-semibold "> {{ m.name }} </p>  
+                                <p class="sm:w-2/3 lg:w-7.5/10 xl:w-full text-indigo-700 text-left text-sm font-semibold"> {{ m.name }} </p>  
                               </td>
                             </inertia-link>
                               <td class="py-4 whitespace-pre-wrap text-sm text-gray-500" >
@@ -63,11 +63,8 @@
                         
                             <td class="px-6 py-4 text-right text-sm text-gray-500 relative">                              
                               <DotsHorizontalIcon class="w-6 h-6 cursor-pointer relative ml-auto" @click="openSubMenu(m.id)"/>
-                              <div class="absolute top-12 -right-8 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
-                                <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(m.name)">
-                                  <p class="text-gray-600">Rename Title</p>
-                                </div>
-                                <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="deleteRow(m.id)">
+                              <div class="absolute top-12 -right-8 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-2" v-show="currentRow==m.id && openSub">
+                                <div href="#" class="text-gray-900 group flex items-center px-4 text-sm align-middle cursor-pointer" @click="deleteRow(m.id)">
                                   <p class="text-red-600">Delete Menu</p>
                                 </div>
                               </div>

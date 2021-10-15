@@ -1777,6 +1777,12 @@ select {
 .w-3 {
 	width: 0.75rem;
 }
+.w-7\.5\/10 {
+	width: 75%;
+}
+.w-7 {
+	width: 1.75rem;
+}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -3489,6 +3495,10 @@ select {
 		width: auto;
 	}
 
+	.sm\:w-2\/3 {
+		width: 66.666667%;
+	}
+
 	.sm\:max-w-md {
 		max-width: 28rem;
 	}
@@ -4087,6 +4097,14 @@ select {
 		width: 18rem;
 	}
 
+	.lg\:w-7\.5\/10 {
+		width: 75%;
+	}
+
+	.lg\:w-7 {
+		width: 1.75rem;
+	}
+
 	.lg\:min-w-0 {
 		min-width: 0px;
 	}
@@ -4254,6 +4272,10 @@ select {
 
 	.xl\:hidden {
 		display: none;
+	}
+
+	.xl\:w-full {
+		width: 100%;
 	}
 
 	.xl\:grid-cols-10 {

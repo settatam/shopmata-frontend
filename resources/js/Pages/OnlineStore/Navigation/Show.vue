@@ -68,11 +68,8 @@
                             </inertia-link>
                             <div class="text-right relative text-gray-500">
                               <DotsHorizontalIcon class="relative w-6 h-6 cursor-pointer" @click="openSubMenu(m.id)" />
-                              <div class="absolute top-12 -right-8 z-10 w-56 rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==m.id && openSub">
-                                <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="editRow(m.name)">
-                                    <p class="text-gray-600">Rename Item</p>
-                                </div>
-                                <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="deleteRow(m.id)">
+                              <div class="absolute top-12 -right-8 z-10 w-56 rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-2" v-show="currentRow==m.id && openSub">
+                                <div href="#" class="text-gray-900 group flex items-center px-4 text-sm align-middle cursor-pointer" @click="deleteRow(m.id)">
                                   <p class="text-red-600">Delete Menu</p>
                                 </div>
                               </div>
