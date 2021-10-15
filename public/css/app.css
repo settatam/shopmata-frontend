@@ -1218,9 +1218,6 @@ select {
 .m-10 {
 	margin: 2.5rem;
 }
-.m-10 {
-	margin: 2.5rem;
-}
 .mx-auto {
 	margin-left: auto;
 	margin-right: auto;
@@ -1531,12 +1528,6 @@ select {
 .mt-32 {
 	margin-top: 8rem;
 }
-<<<<<<< HEAD
-=======
-.mt-1\.5 {
-	margin-top: 0.375rem;
-}
->>>>>>> sophia-navigation
 .mr-0 {
 	margin-right: 0px;
 }
@@ -1546,16 +1537,20 @@ select {
 .mt-0 {
 	margin-top: 0px;
 }
-<<<<<<< HEAD
 .mt-1\.5 {
 	margin-top: 0.375rem;
-=======
-.mb-7 {
-	margin-bottom: 1.75rem;
->>>>>>> sophia-navigation
 }
 .ml-7 {
 	margin-left: 1.75rem;
+}
+.mb-4\.5 {
+	margin-bottom: 1.125rem;
+}
+.mb-1\.5 {
+	margin-bottom: 0.375rem;
+}
+.mt-14 {
+	margin-top: 3.5rem;
 }
 .-mr-9 {
 	margin-right: -2.25rem;
@@ -1607,15 +1602,6 @@ select {
 }
 .mt-11 {
 	margin-top: 2.75rem;
-}
-.mb-4\.5 {
-	margin-bottom: 1.125rem;
-}
-.mb-1\.5 {
-	margin-bottom: 0.375rem;
-}
-.mt-14 {
-	margin-top: 3.5rem;
 }
 .block {
 	display: block;
@@ -1850,12 +1836,6 @@ select {
 .w-6\/10 {
 	width: 60%;
 }
-<<<<<<< HEAD
-=======
-.w-9\/10 {
-	width: 90%;
-}
->>>>>>> sophia-navigation
 .w-4\/5 {
 	width: 80%;
 }
@@ -1879,6 +1859,12 @@ select {
 }
 .w-8\.5\/10 {
 	width: 85%;
+}
+.w-2\/3 {
+	width: 66.666667%;
+}
+.w-84 {
+	width: 21rem;
 }
 .w-40 {
 	width: 10rem;
@@ -1915,12 +1901,6 @@ select {
 }
 .w-3\/6 {
 	width: 50%;
-}
-.w-2\/3 {
-	width: 66.666667%;
-}
-.w-84 {
-	width: 21rem;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -2325,27 +2305,21 @@ select {
 .border-r {
 	border-right-width: 1px;
 }
-<<<<<<< HEAD
 .border-b-4 {
 	border-bottom-width: 4px;
 }
 .border-l {
 	border-left-width: 1px;
 }
-=======
->>>>>>> sophia-navigation
 .border-t-2 {
 	border-top-width: 2px;
 }
 .border-r-0 {
 	border-right-width: 0px;
 }
-<<<<<<< HEAD
 .border-solid {
 	border-style: solid;
 }
-=======
->>>>>>> sophia-navigation
 .border-dashed {
 	border-style: dashed;
 }
@@ -2865,16 +2839,8 @@ select {
 .pr-12 {
 	padding-right: 3rem;
 }
-<<<<<<< HEAD
 .pl-4\.5 {
 	padding-left: 1.125rem;
-=======
-.pb-5 {
-	padding-bottom: 1.25rem;
-}
-.pr-7 {
-	padding-right: 1.75rem;
->>>>>>> sophia-navigation
 }
 .pl-16 {
 	padding-left: 4rem;
@@ -2888,12 +2854,9 @@ select {
 .pb-20 {
 	padding-bottom: 5rem;
 }
-<<<<<<< HEAD
 .pt-2\.5 {
 	padding-top: 0.625rem;
 }
-=======
->>>>>>> sophia-navigation
 .pl-1 {
 	padding-left: 0.25rem;
 }
@@ -3446,10 +3409,6 @@ input[type='checkbox']:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
 }
-.hover\:bg-gray-200:hover {
-	--tw-bg-opacity: 1;
-	background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
-}
 .hover\:bg-opacity-50:hover {
 	--tw-bg-opacity: 0.5;
 }
@@ -3665,13 +3624,10 @@ input[type='checkbox']:focus {
 .active\:bg-transparent:active {
 	background-color: transparent;
 }
-<<<<<<< HEAD
 .active\:bg-cyan-600:active {
 	--tw-bg-opacity: 1;
 	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
 }
-=======
->>>>>>> sophia-navigation
 .active\:text-gray-700:active {
 	--tw-text-opacity: 1;
 	color: rgba(55, 65, 81, var(--tw-text-opacity));
@@ -3694,12 +3650,9 @@ input[type='checkbox']:focus {
 .disabled\:opacity-75:disabled {
 	opacity: 0.75;
 }
-<<<<<<< HEAD
 .disabled\:opacity-50:disabled {
 	opacity: 0.5;
 }
-=======
->>>>>>> sophia-navigation
 .group:hover .group-hover\:text-cyan-400 {
 	--tw-text-opacity: 1;
 	color: rgba(129, 140, 248, var(--tw-text-opacity));
@@ -4186,17 +4139,12 @@ input[type='checkbox']:focus {
 		margin-bottom: 2.5rem;
 	}
 
-<<<<<<< HEAD
 	.md\:mr-2 {
 		margin-right: 0.5rem;
 	}
 
 	.md\:mt-10 {
 		margin-top: 2.5rem;
-=======
-	.md\:ml-56 {
-		margin-left: 14rem;
->>>>>>> sophia-navigation
 	}
 
 	.md\:ml-64 {
@@ -4207,13 +4155,10 @@ input[type='checkbox']:focus {
 		margin-right: 2rem;
 	}
 
-<<<<<<< HEAD
 	.md\:ml-8 {
 		margin-left: 2rem;
 	}
 
-=======
->>>>>>> sophia-navigation
 	.md\:mt-5 {
 		margin-top: 1.25rem;
 	}
@@ -4362,20 +4307,9 @@ input[type='checkbox']:focus {
 		padding-bottom: 1.5rem;
 	}
 
-<<<<<<< HEAD
 	.md\:px-11 {
 		padding-left: 2.75rem;
 		padding-right: 2.75rem;
-=======
-	.md\:px-4 {
-		padding-left: 1rem;
-		padding-right: 1rem;
-	}
-
-	.md\:px-6 {
-		padding-left: 1.5rem;
-		padding-right: 1.5rem;
->>>>>>> sophia-navigation
 	}
 
 	.md\:px-6 {
@@ -4391,11 +4325,6 @@ input[type='checkbox']:focus {
 	.md\:px-10 {
 		padding-left: 2.5rem;
 		padding-right: 2.5rem;
-	}
-
-	.md\:px-11 {
-		padding-left: 2.75rem;
-		padding-right: 2.75rem;
 	}
 
 	.md\:px-7 {
@@ -4825,14 +4754,14 @@ input[type='checkbox']:focus {
 		padding-right: 6rem;
 	}
 
-	.xl\:px-10 {
-		padding-left: 2.5rem;
-		padding-right: 2.5rem;
-	}
-
 	.xl\:px-28 {
 		padding-left: 7rem;
 		padding-right: 7rem;
+	}
+
+	.xl\:px-10 {
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
 	}
 
 	.xl\:pl-6 {
