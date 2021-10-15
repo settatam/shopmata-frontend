@@ -21,7 +21,7 @@ class Navigation extends Model
         static::addGlobalScope(new StoreScope);
     }
 
-    public function list() {
+    public function items() {
     	return $this->hasMany(NavigationList::class);
     }
 }
