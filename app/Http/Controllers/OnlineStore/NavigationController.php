@@ -21,7 +21,7 @@ class NavigationController extends Controller
     public function index()
     {
         //
-        $menu = Navigation::orderBy('created_at', 'asc')->get();
+        $menu = Navigation::with('items')->orderBy('created_at', 'asc')->get();
         return Inertia::render('OnlineStore/Navigation/Index', compact('menu'));
         // return 
     }
@@ -57,11 +57,17 @@ class NavigationController extends Controller
             'store_id'=>$request->session()->get('store_id')
         ];
 
-        if(Navigation::create($data)) {
+        if($nav = Navigation::create($data)) {
             Log::info(Auth::id() . ' created a new menu item ', $data);
         }else{
             Log::error(Auth::id() . ' could not create a new menu item ', $data);
         }
+
+        $nav->load('items');
+
+        if($request->has('is_ajax')) {
+            return response()->json($nav);
+        }  
 
         return \Redirect::route('navigation.list');
     }
@@ -109,7 +115,7 @@ class NavigationController extends Controller
     public function show($id)
     {
         //
-        $menu = Navigation::with('list')->find($id);
+        $menu = Navigation::with('items')->find($id);
         return Inertia::render('OnlineStore/Navigation/Show', compact('menu')); 
     }
 

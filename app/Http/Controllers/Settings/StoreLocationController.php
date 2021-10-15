@@ -8,6 +8,7 @@ use App\Models\StoreLocation;
 use Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\ViewErrorBag;
 
 class StoreLocationController extends Controller
 {
@@ -105,6 +106,25 @@ class StoreLocationController extends Controller
     public function update(Request $request, $id)
     {
         //
+        if(Auth::user()->canDo('update-store-location')){
+            $request->validate([
+                'address'=>['required']
+            ]);
+
+            $location = StoreLocation::find($id);
+            foreach($request->input() as $index => $value) {
+                $location->{$index} = $value;
+            }
+
+            try {
+                if($location->save()) {
+                    Log::info(Auth::id() . 'updated store location with the following details', $request->input());
+                }
+            } catch(\Illuminate\Database\QueryException $ex){ 
+                Log::error(Auth::id() . 'could not update store location', $request->input());
+            }
+  
+        }
     }
 
     /**

@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Products
 	Route::get('products', [ProductsController::class, 'index'])->name('products');
+	Route::get('products/get-data', [ProductsController::class, 'getData'])->name('products.data');
 	Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
 	Route::post('products', [ProductsController::class, 'store']);
 	Route::get('products/{id}/edit', [ProductsController::class, 'edit'])->name('products.edit');
@@ -139,7 +140,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('settings/shipping-and-delivery/local-pickup/manage', [SettingsController::class, 'manageLocalPickup'])->name('settings.shipping.manageLocalPickup');
 	Route::get('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'generalShippingRate'])->name('settings.shipping.generalShippingRate');
 	Route::post('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'createGeneralShippingRate']);
-	Route::get('settings/shipping-and-delivery/shipping-profile', [SettingsController::class, 'shippingProfile'])->name('settings.shipping.shippingProfile');
+	Route::get('settings/shipping-and-delivery/shipping-profile', [ShippingProfileController::class, 'index'])->name('settings.shipping.shippingProfile');
 
 	#Settings -> Payments
 	Route::get('settings/payments', [PaymentsController::class, 'index'])->name('settings.payments');

@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use App\Models\ShippingRate;
+use App\Models\ShippingRateCondition;
 
 class SettingsController extends Controller
 {
@@ -97,7 +99,10 @@ class SettingsController extends Controller
 
     public function shippingProfile()
     {
-        return Inertia::render('Settings/Shipping/Components/ShippingProfile');
+        $condition_options = ShippingRateCondition::$condition_options;
+        $rate_options = ShippingRateCondition::$rate_options;
+        $rates = ShippingRate::with('conditions')->orderBy('id', 'desc')->get();
+        return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rates', 'condition_options', 'rate_options'));
     }
 
     public function payments()
