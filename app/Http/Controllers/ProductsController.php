@@ -64,6 +64,17 @@ class ProductsController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getData(Request $request)
+    {
+        $products = Product::where('title', 'LIKE', '%'.$request->term.'%')->take(20)->get();
+        return response()->json($products);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
