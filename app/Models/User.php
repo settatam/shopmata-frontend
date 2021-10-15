@@ -90,7 +90,7 @@ class User extends Authenticatable
     }
 
     public function store_users() {
-        return $this->hasMany(StoreUser::class);
+        return $this->hasMany(StoreUser::class, 'user_id', 'id');
     }
 
     public function shipping_addresses() {
@@ -103,5 +103,9 @@ class User extends Authenticatable
 
     public function login() {
         return $this->hasOne(Login::class)->latest();
+    }
+
+    public function canDo($permission) {
+        return true;
     }
 }

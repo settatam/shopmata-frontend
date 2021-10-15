@@ -12,6 +12,9 @@ module.exports = {
 
     theme: {
         fontSize: {
+            'xxs':'0.625rem',
+            'xs':'0.875rem',
+            'xm' :'0.75rem',
             'base': '1rem',
             'lg': '1.075rem',
             'xl': '1.25rem',
@@ -32,6 +35,15 @@ module.exports = {
                     light: "#DE21FF",
                     darker: "#632A6D"
                 },
+                green:{
+                    light:"#ECFEEE",
+                    darker:"#00960F"
+                },
+                red:{
+                    light:"#C9000033",
+                    darker:"#FF0000"
+                },
+
             },
             opacity: {
                 "10": "0.1",
@@ -61,16 +73,24 @@ module.exports = {
                 "62/100": "62%",
                 "18": "4.5rem",
                 "84": "21rem",
-                "78": "19.5rem"
+                "74":"18.5rem",
+                "78": "19.5rem",
+                "111":"444px",
+                "175":"690px",
             },
             margin: {
                 "100": "28rem",
                 "17": "4.2rem",
-                "4.5": "1.125rem"
+                "4.5": "1.125rem",
+                "23":   "92px",
+                "6.5": "1.625rem",
+                "18.5": "4.625rem"
             },
             height: {
                 "84": "21rem",
-                "30": "7.5rem"
+                "30": "7.5rem",
+                "10.5":"2.625rem",
+                "content":"max-content"
             },
             padding:{
                 "4.5":"1.125rem",
@@ -79,9 +99,9 @@ module.exports = {
             inset:{
                 "42":"10.625rem"
             },
-            maxWidth:{
-                "2lg":"690px"
-            }
+            maxWidth: {
+                'xlg': '40rem',
+            },
         },
     },
 

@@ -23,6 +23,8 @@ use App\Http\Controllers\Settings\GeneralController;
 use App\Http\Controllers\Settings\PaymentsController;
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\GiftCardsController;
+use App\Http\Controllers\Settings\PlansAndPermissionsController;
+use App\Http\Controllers\Settings\StoreLocationController;
 use App\Http\Controllers\StorePreferencesController;
 use App\Http\Controllers\StoreDomainsController;
 use App\Http\Controllers\OnlineStoreController;
@@ -153,6 +155,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Settings -> Notifications
 	Route::get('settings/notifications', [NotificationsController::class, 'index']);
+	Route::get('settings/notifications/order-confirmation', [NotificationsController::class, 'order']);
 
 	#Settings -> User
 	Route::get('settings/user', [SettingsController::class, 'user'])->name('settings.user');
@@ -169,6 +172,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('discounts', [DiscountsController::class, 'index'])->name('discounts');
 	Route::post('discounts', [DiscountsController::class, 'store']);
 	Route::put('discounts', [DiscountsController::class, 'update']);
+	Route::get('discounts/create', [DiscountsController::class, 'create'])->name('discounts.create');
 
 	Route::post('/generate/user/discount/code', [DiscountsController::class, 'createDiscountCode']);
 
@@ -229,4 +233,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	Route::resource('store/domains', StoreDomainsController::class);
 	// Route::resource('store/themes', StoreThemesController::class);
+
+	Route::resource('settings/store-users', PlansAndPermissionsController::class);
+	Route::resource('settings/store-locations', StoreLocationController::class);
 });

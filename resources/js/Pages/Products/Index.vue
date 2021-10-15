@@ -32,13 +32,14 @@
           <!-- Activity table (small breakpoint and up) -->
           <div class="hidden sm:block">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
-              <Search v-bind:suggestions="suggestions"></Search>
+              <search v-bind:suggestions="suggestions"></search>
               <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead class="bg-gray-50">
                       <tr>
                         <th scope="col" class="w-1/2 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5" />
                           Name
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -58,7 +59,6 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr v-for="product in products.data" :key="product.id" class="bg-white">
                         <td class="max-w-0 w-1/2 px-6 py-4 items-center whitespace-nowrap text-gray-900">
-                        
                           <div class="flex items-center">
                             <div class="flex h-5 mr-5">
                                 <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />

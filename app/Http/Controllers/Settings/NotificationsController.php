@@ -140,4 +140,9 @@ class NotificationsController extends Controller
     {
         //
     }
+
+    public function order()
+    {
+        return Inertia::render('Settings/Notifications/OrderConfirmation');
+    }
 }

@@ -14,8 +14,8 @@
             <div>
               <div class="flex justify-between ">
                   <div>
-                      <p class="text-2xl font-bold">Invite Staff</p>
-                      <p class="text-gray-400 text-sm mt-4">Give people access to this site and assign them roles.</p>
+                      <p class="text-2xl font-bold">{{title}}</p>
+                      <p class="text-gray-400 text-sm mt-4" v-show="title=='Invite Staff'">Give people access to this site and assign them roles.</p>
                   </div>
                   <x-icon class="h-6 w-6 cursor-pointer" @click="closeModal"/>
               </div>
@@ -31,16 +31,16 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       User Roles <span class="text-red-500">*</span>
                     </label>
-                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="invite.role" required>
-                      <option v-for="(role,index) in this.roles" :key="index">{{role.name}}</option>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="invite.role_id" required>
+                      <option v-for="(role,index) in groups" :key="index" :value="role.id">{{role.name}}</option>
                     </select>
                   </div>
                 
               </div>
             </div>
             <div class="mt-5 sm:mt-6">
-              <button type="button" class="flex justify-center align-middle items-centerrounded-md border border-transparent shadow-sm mx-auto px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
-                Send Invite
+              <button type="button" class="flex justify-center align-middle items-centerrounded-md border border-transparent shadow-sm mx-auto px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit(this.user_id)">
+                {{buttonMsg}}
               </button>
             </div>
           </div>
@@ -51,15 +51,16 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
-import { email } from '@vuelidate/validators'
+import { Inertia } from '@inertiajs/inertia'
 import axios from 'axios'
 
 
 export default {
     emits:['close'],
+    props:['groups','title','buttonMsg','user_id','user_email'],
   components: {
     Dialog,
     DialogOverlay,
@@ -69,33 +70,30 @@ export default {
     TransitionRoot,
   },
   methods:{
-      submit(){
-          axios.post('settings/plan-and-permissions/staffs/invite',this.invite)
+      submit(id){
+        if(this.title=='Invite Staff'){
+          Inertia.post('plan-and-permissions/staffs/invite',this.invite)
           this.$emit('close')
           this.open = false
+        }else{
+          console.log(id)
+          axios.patch(`/settings/store-users/${id}`)
+          this.$emit('close')
+          this.open = false
+        }
+
       },
       closeModal(){
           this.open = false
            this.$emit('close')
       }
   },
-  setup() {
+  setup(props) {
     const open = ref(true)
-
+    const invite = reactive({email:props.user_email,role_id:1})
     return {
       open,
-      invite:{
-          email:"",
-          role:"Administrator",
-      },
-      roles:{
-          0:{
-              name: "Administrator"
-          },
-          1:{
-              name: "Employee"
-          }
-      }
+      invite
     }
   }
 }
