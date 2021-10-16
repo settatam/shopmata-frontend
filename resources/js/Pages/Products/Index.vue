@@ -136,6 +136,7 @@ import { ref } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import axios from "axios"
+import { Inertia } from '@inertiajs/inertia'
 
 import {
   ScaleIcon,
@@ -191,8 +192,10 @@ export default {
     }
 
     function updateCurrentList(index){
-      selection.value = suggestions.value[index].title;
+      const suggestion = suggestions.value.filter(list => list.id == index)
+      selection.value = suggestion[0].title;
       suggestions.value= [];
+      Inertia.visit(`products/${suggestion[0].id}`)
     }
     
     return {

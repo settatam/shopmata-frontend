@@ -192,7 +192,7 @@ class ProductsController extends Controller
                 }
             }
         }
-        return Inertia::render('Products/Update', compact('product', 'categories', 'brands'));
+        return Inertia::render('Products/Create', compact('product', 'categories', 'brands'));
     }
 
     /**
