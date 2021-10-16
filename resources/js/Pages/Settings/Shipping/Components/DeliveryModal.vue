@@ -18,7 +18,7 @@
                   </div>
                   <x-icon class="h-6 w-6 cursor-pointer" @click="closeModal"/>
               </div>
-                <div class="flex-1 flex mb-6">
+                <!-- <div class="flex-1 flex mb-6">
                     <form class="w-full flex md:ml-0" action="#" method="GET">
                     <label for="search-field" class="sr-only">Search</label>
                     <div class="relative w-full text-gray-400 focus-within:text-gray-600">
@@ -28,21 +28,30 @@
                         <input id="search-field" name="search-field" class="block w-full h-full pl-10 pr-3 py-2 border-gray-200 text-gray-900 rounded placeholder-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 sm:text-sm" placeholder="Search countries and regions...." type="search" />
                     </div>
                     </form>
-                </div>
-                <div>
+                </div> -->
+                <!-- <div>
                     <p class="font-semibold">Rates for</p>
                     <div class="flex flex-col justify-items-center">
                        <div class="flex align-middle my-3"> <input type="radio" name="" id="" v-model="shipping_rate" value="local_shipping" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded-sm mr-2.5 mt-1"> Domestic </div>
                         <div class="align-middle flex"> <input type="radio" name="" id="" v-model="shipping_rate" value="global_shipping" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded-sm mr-2.5 mt-1"> Rest of the World </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="mt-2.5 mb-5 border-t border-gray-200 -mx-8"></div>
+                <div class="w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="name">
+                        Name
+                      </label>
+                      <input type="text" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="NGN" v-model="delivery_rate.name" required/>
+                  </div>
                 <div class="flex flex-col required  mb-1 lg:flex lg:flex-row">
                     <div class="mr-2 w-full">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="state">
                         State
                       </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.state" required/>
+                      <select id="state" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.state" required>
+                        <option value="">Choose State</option>
+                        <opption>States</opption>
+                      </select>
                     </div>
                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -50,25 +59,12 @@
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.city" required/>
                     </div>
-                    <div class="ml-2 w-full">
+                    <!-- <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Rate
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="NGN" v-model="delivery_rate.rate" required/>
-                    </div>
-                    <div class="ml-2 w-full">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                        Delivery Time
-                      </label>
-                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.time" required>
-                        <option value="1">Same day</option>
-                        <option value="2">Next day</option>
-                        <option value="3">1-3 days</option>
-                        <option value="4">3-5 days</option>
-                        <option value="5">5-7 days</option>
-                        <option value="7">More than 7 days</option>
-                      </select>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="flex">
                   <div class="mr-2 w-full mb-3 relative">
@@ -76,7 +72,7 @@
                         Description
                       </label>
                       <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="delivery_rate.note" required></textarea>
-                      <span class="text-gray-400 absolute bottom-1 right-3">{{delivery_rate.note.length}}/50</span>
+                      <span class="text-gray-400 absolute bottom-1 right-3">{{delivery_rate.note.length}}/120</span>
                     </div>
                 </div>
                 <p class="text-gray-500 text-sm">Customers will see this at checkout.</p>
@@ -148,12 +144,10 @@ export default {
     const open = ref(true)
     const condition = ref(false)
     const shipping_rate = ref('local_shipping')
-    const delivery_rate = reactive({state:'',city:'',rate:'',time:"1",note:"",min_price:0,max_price:0})
-    const local_pickup = reactive({ location_name:"", address:"",country:"", state:"", postal_code:"", city:""})
+    const delivery_rate = reactive({state:'',city:'',rate:'',time:"1",note:"",name:"",min_price:0,max_price:0})
 
     return {
       open,
-      local_pickup,
       shipping_rate,
       delivery_rate,
       condition
