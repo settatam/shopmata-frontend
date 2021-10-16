@@ -41,16 +41,16 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="name">
                         Name
                       </label>
-                      <input type="text" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="NGN" v-model="delivery_rate.name" required/>
+                      <input type="text" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" required/>
                   </div>
-                <div class="flex flex-col required  mb-1 lg:flex lg:flex-row">
+               <!--  <div class="flex flex-col required  mb-1 lg:flex lg:flex-row">
                     <div class="mr-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="state">
                         State
                       </label>
                       <select id="state" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.state" required>
                         <option value="">Choose State</option>
-                        <opption>States</opption>
+                        <opption value="">States</opption>
                       </select>
                     </div>
                     <div class="ml-2 w-full">
@@ -59,23 +59,23 @@
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.city" required/>
                     </div>
-                    <!-- <div class="ml-2 w-full">
+                     <div class="ml-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Rate
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="NGN" v-model="delivery_rate.rate" required/>
-                    </div> -->
-                </div>
+                    </div> 
+                </div> -->
                 <div class="flex">
                   <div class="mr-2 w-full mb-3 relative">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Description
                       </label>
-                      <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="delivery_rate.note" required></textarea>
-                      <span class="text-gray-400 absolute bottom-1 right-3">{{delivery_rate.note.length}}/120</span>
+                      <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......."  required></textarea>
+                      <span class="text-gray-400 absolute bottom-1 right-3">{{}}/120</span>
                     </div>
                 </div>
-                <p class="text-gray-500 text-sm">Customers will see this at checkout.</p>
+               <!--  <p class="text-gray-500 text-sm">Customers will see this at checkout.</p>
                 <p class="text-indigo-700 text-sm mt-3 cursor-pointer" @click="condition=true" v-if="!condition">Add conditions</p>
                 <p class="text-indigo-700 text-sm mt-3 cursor-pointer" @click="condition=false" v-else>Remove conditions</p>
                 <div v-if="condition">
@@ -94,7 +94,30 @@
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.max_price" required/>
                     </div>
                 </div>
-                </div>
+                </div> -->
+                      <template v-for="(datum, index) in data" :key="index" >
+                        <div class="flex flex-col lg:flex-row lg:justify-between">
+                            <div class="flex flex-col w-3/10">
+                                <select name="conditions" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm" v-model="datum.rate">
+                                    <option v-for="(option,index) in rate" :key="index">
+                                        {{option.title}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col w-3/10">  
+                                 <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm" v-model="datum.condition">
+                                    <option v-for="(condition, index) in conditions" :key="index">
+                                       {{condition.title}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col w-3.5/10 mb-2">
+                                <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-model="datum.price">
+                            </div>
+                        </div>
+                      </template>
+                         <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4" @click="add()">Add another condition</button>
+            
             </div>
             <div class=" flex justify-center lg:justify-end">
               <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
@@ -121,6 +144,7 @@ import axios from 'axios'
 
 export default {
     emits:['close'],
+    props:['rate_options','condition_options'],
     
   components: {
     Dialog,
@@ -140,17 +164,37 @@ export default {
         axios.post('')
       }
   },
-  setup() {
+  setup(props) {
     const open = ref(true)
-    const condition = ref(false)
-    const shipping_rate = ref('local_shipping')
-    const delivery_rate = reactive({state:'',city:'',rate:'',time:"1",note:"",name:"",min_price:0,max_price:0})
+    //const condition = ref(false)
+    /* const shipping_rate = ref('local_shipping')
+    const delivery_rate = reactive({state:'',city:'',rate:'',time:"1",note:"",name:"",min_price:0,max_price:0}) */
+
+     /* axios.get(`/api/states?country_id=${newVal}`).then(res=>{
+         this.country_state = res.data.data
+         console.log(this.country_state)
+    })  */
+    const conditions = props.condition_options
+    const rate = props.rate_options
+    const data = ref([{condition:'',rate:'',price:''}])
+    const add = ()=> {
+      console.log(data.value)
+    	       data.value.push({
+                    rate:"",
+                    condition:"",
+                    price:""
+                })
+            }
 
     return {
       open,
-      shipping_rate,
-      delivery_rate,
-      condition
+      //shipping_rate,
+      //delivery_rate,
+      //condition,
+      conditions,
+      rate,
+      add,
+      data
     }
   }
 }

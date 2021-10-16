@@ -254,7 +254,7 @@
                                     </div> 
                                  </div>
                             </div>
-                           <delivery-modal v-if="Modal" @close="Modal=false"/>
+                           <delivery-modal v-if="Modal" @close="Modal=false" :condition_options="condition_options" :rate_options="rate_options"/>
                 </div>
             </div>
          </div>
@@ -277,6 +277,7 @@ const pages = [
   { name: 'Shipping Profile', href: '/settings/shipping-and-delivery/shipping-profile', current: true },
 ]
 export default {
+    props:['rate_options','condition_options'],
      components: {
         Nav,
         AppLayout,
@@ -327,17 +328,21 @@ export default {
             this.hidden = !this.hidden
         }
     },
-    setup(){
+    setup(props){
         const Modal = ref(false)
         const popModal = () => {
             Modal.value = true
         }
         const local_locations = [{ id:0, state: 'Lagos', city: 'Egbeda', condition: '-', price: 'Free', delivery_time:'3-6 days' },]
+         const conditions = props.condition_options
+        const rate = props.rate_options
         return{
             pages,
             Modal,
             popModal,
             local_locations, 
+            rate,
+            conditions
         }
     }
 }

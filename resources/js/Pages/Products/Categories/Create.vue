@@ -73,13 +73,6 @@
                                 </select>
                             </div>
                             <div class="flex flex-col w-3/10">  
-                                <!-- <cat-drop-down
-                                    :label="condition_label"
-                                    :options="condition_opt"
-                                    @updateVal ="updateCondition($event)"
-                                    class="h-5"
-                                    v-model="category.equal"
-                                /> -->
                                  <select name="conditions" id="" v-model="condition.value" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
                                     <option v-for="(option,index) in condition_options" :key="index" v-bind:value="option.title" class="text-gray-700', 'block px-4 py-2 text-sm">
                                         {{ option.title }}
