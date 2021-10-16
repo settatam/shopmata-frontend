@@ -1179,6 +1179,9 @@ select {
 .right-4 {
 	right: 1rem;
 }
+.-right-8 {
+	right: -2rem;
+}
 .z-0 {
 	z-index: 0;
 }
@@ -3817,6 +3820,10 @@ input[type='checkbox']:focus {
 		width: 1rem;
 	}
 
+	.sm\:w-2\/3 {
+		width: 66.666667%;
+	}
+
 	.sm\:max-w-md {
 		max-width: 28rem;
 	}
@@ -4525,6 +4532,14 @@ input[type='checkbox']:focus {
 		width: 18rem;
 	}
 
+	.lg\:w-7\.5\/10 {
+		width: 75%;
+	}
+
+	.lg\:w-7 {
+		width: 1.75rem;
+	}
+
 	.lg\:min-w-0 {
 		min-width: 0px;
 	}
@@ -4723,6 +4738,10 @@ input[type='checkbox']:focus {
 
 	.xl\:w-3\/5 {
 		width: 60%;
+	}
+
+	.xl\:w-full {
+		width: 100%;
 	}
 
 	.xl\:grid-cols-10 {
