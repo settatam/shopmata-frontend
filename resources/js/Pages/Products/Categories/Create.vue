@@ -66,14 +66,14 @@
                         <template v-for="(condition, index) in conditions" :key="index" >
                         <div class="flex flex-col lg:flex-row lg:justify-between">
                             <div class="flex flex-col w-3/10">
-                                <select name="conditions" id="" v-model="condition.tag" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
+                                <select name="conditions" id="" v-model="condition.tag" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
                                     <option v-for="(option,index) in product_options" :key="index" v-bind:value="option.title">
                                         {{ option.title }}
                                     </option>
                                 </select>
                             </div>
                             <div class="flex flex-col w-3/10">  
-                                 <select name="conditions" id="" v-model="condition.value" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
+                                 <select name="conditions" id="" v-model="condition.value" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
                                     <option v-for="(option,index) in condition_options" :key="index" v-bind:value="option.title" class="text-gray-700', 'block px-4 py-2 text-sm">
                                         {{ option.title }}
                                     </option>

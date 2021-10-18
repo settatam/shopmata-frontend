@@ -58,7 +58,7 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="industry">
                       Store Industry
                     </label>
-                    <select type="text"  id="industry" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.industry_id" required>
+                    <select   id="industry" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.industry_id" required>
                       <option value="">Choose Industry</option>
                       <option v-for="(industry,index) in industries" :key="index" :value="industry.id">{{industry.name}}</option>
                     </select>
@@ -97,7 +97,7 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         State
                       </label>
-                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.state_id"  required>
+                      <select   class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.state_id"  required>
                         <option value="">Choose a State</option>
                         <option v-for="(state,index) in country_state" :key="index" :value="state.id">{{state.name}}</option>
                       </select>
@@ -117,7 +117,7 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Time Zone
                     </label>
-                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.timezone_id" required>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.timezone_id" required>
                       <option value="0">Select Timezone</option>
                       <option v-for="(timezone,index) in timezones" :key="index" :value="timezone.id">{{timezone.text}}</option>
                     </select>
@@ -127,7 +127,7 @@
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Unit System
                       </label>
-                      <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.unit_id"  required>
+                      <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.unit_id"  required>
                         <option v-for="(unit,index) in units" :key="index" :value="unit.id">{{unit.unit}}</option>
                       </select>
                     </div>
@@ -161,7 +161,7 @@
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Store Currency
                     </label>
-                    <select type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.currency_id" required>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.currency_id" required>
                       <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">{{currency.symbol_left + ' '}}  {{ currency.title }} ({{ currency.code }})</option>
                     </select>
                     <p class="w-6/10 text-gray-400 mb-4">You have made your first sale, so you need to <span class="text-indigo-700 cursor-pointer">contact support</span> if you want to change your currency</p>

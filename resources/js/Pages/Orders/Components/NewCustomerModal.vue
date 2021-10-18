@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog as="div" auto-reopen="true" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
+    <Dialog as="div" auto-reopen="true" class="fixed z-10 inset-0 overflow-y-auto" @close="emitClose()">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -60,10 +60,17 @@
               </div>
               <div>
                 <label  class="block text-warm-gray-900">Phone Number</label>
-                <div class="mt-1">
-                   <vue-tel-input v-model="shipping.phone" mode="international"></vue-tel-input>
-                  <!-- <input type="tel" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" /> -->
-                </div>
+                  <div class="mt-1 relative rounded-md shadow-sm">
+                      <div class="absolute inset-y-0 left-0 flex items-center">
+                        <label for="country" class="sr-only">Country</label>
+                        <select id="country" name="country" class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+                          <option>US</option>
+                          <option>CA</option>
+                          <option>EU</option>
+                        </select>
+                      </div>
+                      <input type="text" name="phone-number" id="phone-number" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-16 sm:text-sm border-gray-300 rounded-md" placeholder="+1 (555) 987-6543" v-model="shipping.phone" />
+                    </div>
               </div>
                <div>
                 <label  class="block text-warm-gray-900">Address</label>
@@ -88,14 +95,18 @@
                 <div class="mt-1">
                   <!-- <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" /> -->
                   <select name="" id="" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.country">
-                    <option  v-for="(country,index) in this.country" :key="index">{{country['name']}}</option>
+                    <option value="">Choose a country</option>
+                    <option  v-for="(country,index) in this.countries" :key="index" :value="country.id">{{country.name}}</option>
                   </select>
                 </div>
               </div>
                <div>
                 <label class="block text-warm-gray-900">State</label>
                 <div class="mt-1">
-                  <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.state" />
+                  <select name="" id="" class="py-2 px-2 block w-full shadow-sm text-warm-gray-900 focus:ring-teal-500 focus:border-teal-500 border-gray-300 rounded-md" v-model="shipping.state">
+                    <option value="">Choose a state</option>
+                    <option  v-for="(state,index) in this.states" :key="index" :value="state.id">{{state.name}}</option>
+                  </select>
                 </div>
               </div>
               <div>
@@ -127,15 +138,15 @@
 import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XIcon } from '@heroicons/vue/outline'
-import { VueTelInput } from 'vue-tel-input';
-import 'vue-tel-input/dist/vue-tel-input.css';
+import axios from 'axios'
 
 
 export default {
   emits: ['emitClose'],
    mounted() {
-      axios.get('https://restcountries.eu/rest/v2/all').then(res => {
-            this.country = res.data
+     
+      axios.get('/api/countries').then(res => {
+            this.countries = res.data.data
       });
     },
   components: {
@@ -145,14 +156,14 @@ export default {
     TransitionChild,
     TransitionRoot,
     XIcon,
-    VueTelInput,
     
   },
   data(){
     return{
-      country: [],
+      countries: [],
       cities: [],
       city: null,
+      states:[],
       customer:{
         firstname:'',
         lastname:'',
@@ -184,6 +195,15 @@ export default {
     submitForm(){
       this.$inertia.post('/customers', this.formData)
       this.open = false
+    }
+  },
+  watch:{
+    'shipping.country'(newVal) {
+    //console.log(newVal)
+      axios.get(`/api/states?country_id=${newVal}`).then(res=>{
+         this.states = res.data.data
+         //console.log(this.state)
+    }) 
     }
   },
   setup() {

@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto " @close="open = false">
+    <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto " @close="closeModal()">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -39,73 +39,41 @@
                 <div class="mt-2.5 mb-5 border-t border-gray-200 -mx-8"></div>
                 <div class="w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="name">
-                        Name
+                        Rate Name
                       </label>
-                      <input type="text" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" required/>
+                      <input type="text" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="rates.name" required/>
                   </div>
-               <!--  <div class="flex flex-col required  mb-1 lg:flex lg:flex-row">
-                    <div class="mr-2 w-full">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="state">
-                        State
-                      </label>
-                      <select id="state" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.state" required>
-                        <option value="">Choose State</option>
-                        <opption value="">States</opption>
-                      </select>
-                    </div>
-                    <div class="ml-2 w-full">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                        City
-                      </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.city" required/>
-                    </div>
-                     <div class="ml-2 w-full">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                        Rate
-                      </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="NGN" v-model="delivery_rate.rate" required/>
-                    </div> 
-                </div> -->
                 <div class="flex">
                   <div class="mr-2 w-full mb-3 relative">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Description
                       </label>
-                      <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......."  required></textarea>
-                      <span class="text-gray-400 absolute bottom-1 right-3">{{}}/120</span>
+                      <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
+                      <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/120</span>
                     </div>
                 </div>
-               <!--  <p class="text-gray-500 text-sm">Customers will see this at checkout.</p>
-                <p class="text-indigo-700 text-sm mt-3 cursor-pointer" @click="condition=true" v-if="!condition">Add conditions</p>
-                <p class="text-indigo-700 text-sm mt-3 cursor-pointer" @click="condition=false" v-else>Remove conditions</p>
-                <div v-if="condition">
-                    <p class="font-semibold my-3">Based on order price</p>
-                    <div class="flex required  mb-8">
-                    <div class="mr-2 w-full">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                        Minimum Price
-                      </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.min_price" required/>
-                    </div>
-                    <div class="ml-2 w-full">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                       Maximum Price
-                      </label>
-                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="delivery_rate.max_price" required/>
-                    </div>
-                </div>
-                </div> -->
+                    <div class="flex flex-col lg:flex-row lg:justify-between">
+                            <div class="flex flex-col w-3/10">
+                                <label for="tag" class="text-gray-700 lg:mb-4">Options</label>  
+                            </div>
+                            <div class="flex flex-col w-3/10">
+                                <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0">Condition</label>  
+                            </div>
+                            <div class="flex flex-col w-3.5/10">
+                                <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0" >Price</label>  
+                            </div>
+                        </div>
                       <template v-for="(datum, index) in data" :key="index" >
                         <div class="flex flex-col lg:flex-row lg:justify-between">
                             <div class="flex flex-col w-3/10">
-                                <select name="conditions" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm" v-model="datum.rate">
+                                <select name="conditions" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.rate">
                                     <option v-for="(option,index) in rate" :key="index">
                                         {{option.title}}
                                     </option>
                                 </select>
                             </div>
                             <div class="flex flex-col w-3/10">  
-                                 <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm" v-model="datum.condition">
+                                 <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.condition">
                                     <option v-for="(condition, index) in conditions" :key="index">
                                        {{condition.title}}
                                     </option>
@@ -117,17 +85,16 @@
                         </div>
                       </template>
                          <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4" @click="add()">Add another condition</button>
-            
-            </div>
-            <div class=" flex justify-center lg:justify-end">
-              <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
-                Cancel
-              </button>
-              <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
-                Save
-              </button>
-            </div>
-          </div>
+                </div>
+                <div class=" flex justify-center lg:justify-end">
+                  <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
+                    Cancel
+                  </button>
+                  <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+                    Save
+                  </button>
+                </div>
+              </div>
         </TransitionChild>
       </div>
     </Dialog>
@@ -177,6 +144,7 @@ export default {
     const conditions = props.condition_options
     const rate = props.rate_options
     const data = ref([{condition:'',rate:'',price:''}])
+    const rates = ref({name:'',description:'',price:''})
     const add = ()=> {
       console.log(data.value)
     	       data.value.push({
@@ -194,7 +162,8 @@ export default {
       conditions,
       rate,
       add,
-      data
+      data,
+      rates
     }
   }
 }
