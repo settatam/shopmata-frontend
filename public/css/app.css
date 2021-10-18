@@ -1140,11 +1140,8 @@ select {
 .top-12 {
 	top: 3rem;
 }
-.-left-0 {
-	left: 0px;
-}
-.-right-4 {
-	right: -1rem;
+.-right-8 {
+	right: -2rem;
 }
 .left-3 {
 	left: 0.75rem;
@@ -1178,9 +1175,6 @@ select {
 }
 .right-4 {
 	right: 1rem;
-}
-.-right-8 {
-	right: -2rem;
 }
 .z-0 {
 	z-index: 0;
@@ -1869,9 +1863,6 @@ select {
 .w-2\/3 {
 	width: 66.666667%;
 }
-.w-4\/10 {
-	width: 40%;
-}
 .w-56 {
 	width: 14rem;
 }
@@ -1898,6 +1889,9 @@ select {
 }
 .w-9\.5\/10 {
 	width: 95%;
+}
+.w-4\/10 {
+	width: 40%;
 }
 .w-7 {
 	width: 1.75rem;
@@ -3812,16 +3806,16 @@ input[type='checkbox']:focus {
 		width: auto;
 	}
 
+	.sm\:w-2\/3 {
+		width: 66.666667%;
+	}
+
 	.sm\:w-4\.5\/10 {
 		width: 45%;
 	}
 
 	.sm\:w-4 {
 		width: 1rem;
-	}
-
-	.sm\:w-2\/3 {
-		width: 66.666667%;
 	}
 
 	.sm\:max-w-md {
