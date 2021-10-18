@@ -95,6 +95,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	#Products
 	Route::get('products', [ProductsController::class, 'index'])->name('products');
 	Route::get('products/get-data', [ProductsController::class, 'getData'])->name('products.data');
+	Route::get('products/get-single/{id}', [ProductsController::class, 'getSingle'])->name('products.single');
 	Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
 	Route::post('products', [ProductsController::class, 'store']);
 	Route::get('products/{id}', [ProductsController::class, 'edit'])->name('products.edit');

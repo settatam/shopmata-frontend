@@ -29,7 +29,7 @@ import axios from "axios";
 
 export default {
   name: "UseDropzone",
-  emits: ['addImage'],
+  emits: ['add-image'],
   setup(_, {emit}) {
     const url = "/product-images"; // Your url on the server side
     const saveFiles = (files) => {
@@ -48,8 +48,7 @@ export default {
           },
         })
         .then((response) => {
-          console.info(response.data);
-          emit('addImage', response)
+          emit('add-image', response)
         })
         .catch((err) => {
           console.error(err);
