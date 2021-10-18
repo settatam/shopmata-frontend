@@ -94,9 +94,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Products
 	Route::get('products', [ProductsController::class, 'index'])->name('products');
+	Route::get('products/get-data', [ProductsController::class, 'getData'])->name('products.data');
+	Route::get('products/get-single/{id}', [ProductsController::class, 'getSingle'])->name('products.single');
 	Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
 	Route::post('products', [ProductsController::class, 'store']);
-	Route::get('products/{id}/edit', [ProductsController::class, 'edit'])->name('products.edit');
+	Route::get('products/{id}', [ProductsController::class, 'edit'])->name('products.edit');
 	Route::put('products/{id}', [ProductsController::class, 'update']);
 	Route::post('products/get-order-products', [ProductsController::class, 'getOrderProducts']);
 
@@ -139,7 +141,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('settings/shipping-and-delivery/local-pickup/manage', [SettingsController::class, 'manageLocalPickup'])->name('settings.shipping.manageLocalPickup');
 	Route::get('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'generalShippingRate'])->name('settings.shipping.generalShippingRate');
 	Route::post('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'createGeneralShippingRate']);
-	Route::get('settings/shipping-and-delivery/shipping-profile', [SettingsController::class, 'shippingProfile'])->name('settings.shipping.shippingProfile');
+	Route::get('settings/shipping-and-delivery/shipping-profile', [ShippingProfileController::class, 'index'])->name('settings.shipping.shippingProfile');
 
 	#Settings -> Payments
 	Route::get('settings/payments', [PaymentsController::class, 'index'])->name('settings.payments');
@@ -154,6 +156,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Settings -> Notifications
 	Route::get('settings/notifications', [NotificationsController::class, 'index']);
+	Route::get('settings/notifications/order-confirmation', [NotificationsController::class, 'order']);
 
 	#Settings -> User
 	Route::get('settings/user', [SettingsController::class, 'user'])->name('settings.user');
@@ -170,6 +173,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('discounts', [DiscountsController::class, 'index'])->name('discounts');
 	Route::post('discounts', [DiscountsController::class, 'store']);
 	Route::put('discounts', [DiscountsController::class, 'update']);
+	Route::get('discounts/create', [DiscountsController::class, 'create'])->name('discounts.create');
 
 	Route::post('/generate/user/discount/code', [DiscountsController::class, 'createDiscountCode']);
 

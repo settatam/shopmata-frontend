@@ -119,6 +119,7 @@
 import { reactive, ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot,} from '@headlessui/vue'
 import{XIcon, SearchIcon} from '@heroicons/vue/solid'
+import axios from 'axios'
 //import { Inertia } from '@inertiajs/inertia'
 
 
@@ -138,6 +139,9 @@ export default {
       closeModal(){
           this.open = false
            this.$emit('close')
+      },
+      submit(){
+        axios.post('')
       }
   },
   setup() {
@@ -145,17 +149,11 @@ export default {
     const condition = ref(false)
     const shipping_rate = ref('local_shipping')
     const delivery_rate = reactive({state:'',city:'',rate:'',time:"1",note:"",min_price:0,max_price:0})
+    const local_pickup = reactive({ location_name:"", address:"",country:"", state:"", postal_code:"", city:""})
 
     return {
       open,
-      local_pickup:{
-          location_name:"",
-          address:"",
-          country:"",
-          state:"",
-          postal_code:"",
-          city:""
-      },
+      local_pickup,
       shipping_rate,
       delivery_rate,
       condition

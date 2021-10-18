@@ -9,7 +9,6 @@
         <!-- This element is to trick the browser into centering the modal contents. -->
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-          <form @submit.prevent="submit">
             <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
               <div>
                 <div class="flex justify-between ">
@@ -29,16 +28,22 @@
                     
                     <div class="flex required  mb-4">
                       <div class="mr-2 w-full">
-                        <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="country_id">
                           Country
                         </label>
-                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.country" required/>
+                        <select id="country_id" name="country_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" placeholder="" v-model="local_pickup.country_id">
+                          <option value="">Choose Country</option>
+                          <option :value="country.id" v-for="country in countries" :key="country.id">{{country.name}} {{country.iso_code_2}}</option>
+                        </select>
                       </div>
                       <div class="ml-2 w-full">
                         <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                           State
                         </label>
-                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.state" required/>
+                        <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.state_id"  required>
+                          <option value="">Choose a State</option>
+                          <option v-for="(state,index) in country_state" :key="index" :value="state.id">{{state.name}}</option>
+                        </select>
                       </div>
                     </div>
                     <div class="flex required  mb-4">
@@ -52,7 +57,7 @@
                         <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                           Postal Code
                         </label>
-                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.state" required/>
+                        <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="local_pickup.postal_code" required/>
                       </div>
                     </div>
                     <div class=" required w-full mb-4">
@@ -73,7 +78,6 @@
                 </button>
               </div>
             </div>
-          </form>
         </TransitionChild>
       </div>
     </Dialog>
@@ -81,14 +85,17 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onBeforeMount } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
+import axios from 'axios'
+import { Inertia } from '@inertiajs/inertia'
 //import { Inertia } from '@inertiajs/inertia'
 
 
 export default {
     emits:['close'],
+    props:['store'],
     
   components: {
     Dialog,
@@ -98,26 +105,55 @@ export default {
     XIcon,
     TransitionRoot,
   },
+  data(){
+    return{
+      countries:'',
+      country_state :{},
+    }
+  },
   methods:{
       closeModal(){
           this.open = false
            this.$emit('close')
-      }
+      },
+      
+  },
+  mounted(){
+    axios.get('/api/countries').then(res=>{
+        this.countries=res.data.data;
+        //console.log(countries)
+      })
+
+  },
+  watch:{
+    'local_pickup.country_id'(newVal,oldVal) {
+    console.log(oldVal)
+      axios.get(`/api/states?country_id=${newVal}`).then(res=>{
+         this.country_state = res.data.data
+         console.log(this.country_state)
+    }) 
+    }
   },
   setup() {
     const open = ref(true)
-
+      
     function submit() {
-      axios.post('/settings/store-locations', local_pickup)
-      .then((res)=> {
-        console.log(res.data)
-      })
+      if (local_pickup.address.length<1) {
+        alert('Address field can be empty')
+      } else {
+        axios.post('/settings/store-locations', local_pickup)
+        .then((res)=> {
+          //console.log(res.data)
+            this.open = false
+            Inertia.visit('/settings/shipping-and-delivery')
+        })
+      }
     }
-
+    
     const local_pickup = reactive({
           name:"",
           address:"",
-          country:"",
+          country_id:'',
           state:"",
           postal_code:"",
           city:""

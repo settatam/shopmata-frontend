@@ -44,8 +44,10 @@ class LoginController extends Controller
                 return response()->json(['notification' => $notification], 400);
             }
 
-            $user = User::with('store_users')->whereHas('store_users')
+            $user = User::with('store_users')
                 ->where('email', $request->email)->first();
+
+               // return response()->json($user, 422);
 
             if ($user === null) {
                 $notification = [

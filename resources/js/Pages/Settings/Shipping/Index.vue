@@ -47,12 +47,13 @@
                             <p class="text-indigo-700 mr-10 cursor-pointer text-right">Manage rates</p>
                           </inertia-link>
                         </div>
-                          <p class="mt-2 text-gray-500"> All Products</p>
+                          <p class="mt-2 mb-10 text-gray-500"> Choose shipping rates for both domestic and international delivery. </p>
+                         <!--  <p class="mt-2 text-gray-500"> All Products</p>
                             <div class="flex flex-col mb-8 mt-2">
                               <p class="font-semibold mb-3">Rates for</p>
                               <span class="flex text-gray-500 mb-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Domestic</span>
                               <span class="flex text-gray-500 mt-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Rest of the world</span>
-                            </div>
+                            </div> -->
                       </div>
                       <!-- <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm">
                         <p class="text-xl font-semibold ">Local Delivery</p>
@@ -73,19 +74,44 @@
                         </div>
                       </div> -->
                       <div class="pl-5 pr-2  mt-5 py-7">
-                        <div class="rounded-sm flex">
+                        <div class="rounded-sm flex flex-col">
+                          <div class="flex">
                           <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1" v-model="local_delivery"/>
-                          <div class="flex flex-col items-start">
-                            <p class="text-xl font-semibold">Local Pickup</p>
+                            <div class="flex justify-between items-center w-full">
+                              <p class="text-xl font-semibold">Local Pickup</p> 
+                              <p class="text-indigo-600 cursor-pointer" v-if="this.local_pickup.length!=0" @click="popModal=true">Add Location</p>
+                            </div>
+                          </div>
+                          <div class="flex flex-col items-start mb-6 ml-6">
                             <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
                           </div>
                         </div>
-                        <div class="flex flex-col items-center" v-if="local_pickup.length==0">
+                        <div class="flex flex-col items-center" v-if="this.local_pickup.length==0">
                           <p class="mt-8 mb-6">No local pickup address, add a location to select local pickup </p>
                           <button type="button" class=" h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"  @click="popModal=true">Add location</button>
                         </div>
+                         <div class="flex flex-col" v-else>
+                           <div v-for="(location, index) in this.local_pickup" :key="location.id" class="bg-gray-50 border border-gray-300 h-32 pl-8 pr-7 mb-3 flex justify-between" >
+                             <div class="flex flex-col">
+                              <p class="font-bold mt-3 mb-2">Address {{index+1}}</p>
+                              <div class="flex justify-between">
+                                <div class="flex">
+                                  <location-marker-icon class="w-7 h-7 mr-1 pt-2"/>
+                                  <div class=" flex flex-col">
+                                    <p class="font-bold">{{location.city}} Branch</p>
+                                    <p class="text-gray-500">{{location.address}}</p>
+                                  </div>
+                                </div>
+                              </div>
+                             </div>
+                              <div class="flex flex-col justify-between py-5">
+                                <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer" @click="edit_location(location.id)"/>
+                                <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="delete_location(location.id)"/>
+                              </div>
+                           </div>
+                         </div>
                       </div>
-                      <pick-up-modal @close="this.popModal=false"  v-if="this.popModal"/>
+                      <pick-up-modal @close="this.popModal=false"  v-if="this.popModal" :store='store'/>
                   </div>
               </div>
 
@@ -98,7 +124,7 @@
 
 <script>
 
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
@@ -107,7 +133,8 @@ import PickUpModal from "./Components/PickUpModal.vue"
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
-import { BriefcaseIcon,LocationMarkerIcon,HomeIcon } from '@heroicons/vue/outline'
+import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon } from '@heroicons/vue/outline'
+import { Inertia } from '@inertiajs/inertia';
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -119,12 +146,7 @@ const pages = [
   { name: 'Shipping and Delivery', href: '/settings/shipping-and-delivery', current: true },
 ]
 export default {
-  props: {
-            products: Object,
-            filters: Object,
-            brands: Array,
-            categories: Array
-        },
+  props: ['locations','store'],
   
   components: {
     Nav,
@@ -137,23 +159,34 @@ export default {
     GlobeAltIcon,
     BriefcaseIcon,
     LocationMarkerIcon,
-    PickUpModal
+    PickUpModal,
+    TrashIcon,PencilIcon 
   },
   
   data() {
     return {
       popModal : false,
+      
     }
   },
-  setup() {
+  setup(props) {
     const open = ref(false)
     const local_delivery = ref(false)
-    const local_pickup = ref([])
+    const edit_location = function(id){
+      console.log('edit',id)
+    }
+    const delete_location = function(id){
+      Inertia.delete(`/settings/store-locations/${id}`)  
+    }
+    const local_pickup=props.locations
+    
     return {
       statusStyles,
       pages,
       local_delivery,
-      local_pickup,
+      edit_location,
+      delete_location,
+      local_pickup
     }
   },
 

@@ -65,9 +65,10 @@
                    <p class="">Receive cash from your customers when you deliver their order.</p>
                  </div>
                 </div>
+                <PaymentModal @close="this.popModal=false"  v-if="this.popModal"/>
                 <div class="px-7 pt-7 pb-3 bg-white rounded-md mb-6">
                   <div class="flex justify-between">
-                  <span class="text-2xl mb-2 font-semibold flex items-center">Shopmata Payment<QuestionMarkCircleIcon class="w-5 h-5 ml-2"/></span>
+                  <span class="text-2xl mb-2 font-semibold flex items-center">International Payments<QuestionMarkCircleIcon class="w-5 h-5 ml-2"/></span>
                       <Switch v-model="enabledShopmata" :class="[enabledShopmata ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-25 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
                         <span class="sr-only">Use setting</span>
                         <span :class="[enabledShopmata ? 'translate-x-20' : 'translate-x-0', 'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']">
@@ -80,32 +81,14 @@
                         </span>
                       </Switch>
                   </div>
-                 <div v-if="enabledShopmata" class="mt-6  bg-gray-50 py-4 px-7 rounded">
-                   <p class="font-bold text-lg">Bank Account Details</p>
-                   <p class="text-gray-500 mb-5">Enter your bank account details to receive payments.</p>
+                 
+                 <div class="flex flex-col justify-center" v-if="enabledShopmata">
+                    <p class="text-gray-400">View and manage the payment methods in your account. Based on your country, accept payments from customers into your preferred bank account. <span class="text-indigo-500 cursor-pointer">Learn More </span></p>
+                    <div class="flex flex-col items-center">
+                      <p class="text-gray-400 mt-8">No bank details added yet </p>
+                      <button class="text-white bg-indigo-700 rounded-md px-4 py-3 my-5 w-48" @click="this.popModal=true" >Add Accounts Details</button>
 
-                   <div class=" required w-full mb-4">
-                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                      Bank Name
-                    </label>
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Select bank name" v-model="payment.bank_name" required/>
-                  </div>
-                  <div class=" required w-full mb-4">
-                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                      Account Name
-                    </label>
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Enter your account name" v-model="payment.acct_name" required/>
-                  </div>
-                  <div class=" required w-full mb-4">
-                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                      Account Number
-                    </label>
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Enter your account number" v-model="payment.acct_number" required/>
-                  </div>
-                 </div>
-                 <div class="flex justify-between" v-if="enabledShopmata">
-                    <div></div>
-                    <button class="text-white bg-indigo-700 rounded-md px-8 py-3  my-5" @click="submit">Save Changes</button>
+                    </div>
                  </div>
                 </div>
               </div>
@@ -126,6 +109,7 @@ import axios from "axios"
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot, Switch } from '@headlessui/vue'
 import { ChevronLeftIcon,ChevronRightIcon } from '@heroicons/vue/solid'
 import {QuestionMarkCircleIcon,ChevronDownIcon,ChevronUpIcon,HomeIcon} from '@heroicons/vue/outline'
+import PaymentModal from './Components/PaymentModal.vue'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -151,20 +135,15 @@ export default {
     ChevronUpIcon,
     ChevronRightIcon, 
     HomeIcon,
-    Switch
+    Switch,
+    PaymentModal
   },
   
   data() {
     return {
       gate : true,
       payment_method_added: true,
-      payment:{
-        acct_name:'',
-        acct_number:"",
-        bank_name:""
-
-      }
-    
+      popModal : false,
     }
   },
   methods:{
@@ -199,7 +178,8 @@ export default {
       statusStyles,
       pages,
       enabledPayment,
-      enabledShopmata
+      enabledShopmata,
+      PaymentModal
     }
   },
 

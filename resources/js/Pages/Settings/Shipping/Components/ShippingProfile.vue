@@ -1,5 +1,5 @@
 <template>
-  <app-layout>
+  <app-layout >
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
            <div class="flex-shrink-0 mb-3 px-6 flex items-center">
@@ -110,19 +110,148 @@
                                     <button class="mt-4 w-28 mb-5 h-14 bg-gray-100">Add Rate</button>
                                 </div>       
                                     </div> -->
-                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8 h-56 rounded">
+                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8  rounded">
                                         <div class="flex justify-between items-center mb-8">
                                             <p class="font-semibold text-xl mr-8">Shipping To</p>
                                             <button class="text-indigo-700 mr-5 cursor-pointer" @click='popModal'>Create Shipping Rate</button> 
                                         </div>
-                                        <div class="flex items-center justify-around">
+                                        <!-- <div class="flex items-center justify-around">
                                             <p class="text-gray-500">No data</p>
+                                        </div> -->
+                                        <div class="w-full">
+                                            <div class="flex w-3/4">
+                                                <div class="mr-2 mt-1"><img src="../../../../../assets/nigeria-flag.svg" alt="nigeria-flag"></div>
+                                                <div class="flex-col">
+                                                    <p class="pt-0 mt-0">Domestic</p>
+                                                    <p class="text-indigo-700">Nigeria</p>
+                                                </div>
+                                            </div>
+                                            <table class="w- lg:w-full" >
+                                                <thead class=" border-b border-gray-200">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-2 font-normal text-base text-left  ">
+                                                    State
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-2 font-normal text-base text-center ">
+                                                    City
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-2 font-normal text-base text-center  ">
+                                                    Conditions
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-2 font-normal text-base text-center ">
+                                                    Price
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-2 font-normal text-center ">
+                                                    Delivery Time
+                                                    </th>
+                                                    <th scope="col" class="relative px-6 py-2 font-normal text-base">
+                                                    <span class="sr-only">Edit</span>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr v-for="location in local_locations" :key="location.id">
+                                                    <td class="px-6 py-2  text-left font-medium text-gray-900">
+                                                    {{ location.state }}
+                                                    </td>
+                                                    <td class="px-3 py-2  text-center text-gray-500">
+                                                    {{ location.city }}
+                                                    </td>
+                                                    <td class="px-3 py-2  text-center text-gray-500">
+                                                    {{ location.condition }}
+                                                    </td>
+                                                    <td class="px-3 py-2  text-center text-gray-500">
+                                                    {{ location.price }}
+                                                    </td>
+                                                    <td class="px-3 py-2  text-center text-gray-500" >
+                                                    {{ location.delivery_time }}
+                                                    </td>
+                                                    <td class="px-6 py-2  text-right font-medium relative">
+                                                    <DotsHorizontalIcon class="w-6 h-6 cursor-pointer relative" @click="open_local_submenu(location.id)"/>
+                                                        <div class="absolute top-12 -left-40 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="current_local_row==location.id && open_local_sub">
+                                                            <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer">
+                                                                <p class="text-gray-600"> Edit Shipping zone</p>
+                                                            
+                                                            </div>
+                                                            <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer">
+                                                                <p class="text-red-600">Delete User</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="w-full mt-11">
+                                            <div class="flex w-3/4">
+                                                <div class="mr-2 mt-1"><img src="../../../../../assets/globe.svg" alt="globe"></div>
+                                                <div class="flex-col">
+                                                    <p class="pt-0 mt-0">International</p>
+                                                    <p class="text-indigo-700">All countries</p>
+                                                </div>
+                                            </div>
+                                            <table class="w- lg:w-full">
+                                                <thead class=" border-b border-gray-200">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-2 font-normal text-base text-left  ">
+                                                    State
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-2 font-normal text-base text-center ">
+                                                    City
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-2 font-normal text-base text-center  ">
+                                                    Conditions
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-2 font-normal text-base text-center ">
+                                                    Price
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-2 font-normal text-center ">
+                                                    Delivery Time
+                                                    </th>
+                                                    <th scope="col" class="relative px-6 py-2 font-normal text-base">
+                                                    <span class="sr-only">Edit</span>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200">
+                                                <tr v-for="location in local_locations" :key="location.id">
+                                                    <td class="px-6 py-2  text-left font-medium text-gray-900">
+                                                    {{ location.state }}
+                                                    </td>
+                                                    <td class="px-3 py-2  text-center text-gray-500">
+                                                    {{ location.city }}
+                                                    </td>
+                                                    <td class="px-3 py-2  text-center text-gray-500">
+                                                    {{ location.condition }}
+                                                    </td>
+                                                    <td class="px-3 py-2  text-center text-gray-500" >
+                                                    {{ location.price }}
+                                                    </td>
+                                                    <td class="px-3 py-2  text-center text-gray-500">
+                                                    {{ location.delivery_time }}
+                                                    </td>
+                                                    <td class="px-6 py-2  text-right font-medium relative">
+                                                    <DotsHorizontalIcon class="w-6 h-6 cursor-pointer relative" @click="openSubMenu(location.id)"/>
+                                                        <div class="absolute top-12 -left-40 z-10 w-56  rounded-sm border border-gray-50 bg-white shadow-2xl px-7 py-5" v-show="currentRow==location.id && openSub">
+                                                            <div class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer">
+                                                                <p class="text-gray-600"> Edit Shipping zone</p>
+                                                            
+                                                            </div>
+                                                            <div href="#" class="text-gray-900 group flex items-center px-4 py-2 text-sm align-middle cursor-pointer" @click="deleteRow(location.id)">
+                                                                <p class="text-red-600">Delete</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                        <div class="flex justify-between">
-                                            <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-3  my-5" >Cancel</button>
-                                            <button class="text-white bg-indigo-700 rounded-md px-8 py-3 my-5 ml-5" >Save</button>
-                                        </div> 
+                                     <ConfirmationModal v-if="deleteConfirmation" :open="this.open" @close="emitClose" :id="this.location_id" />
+                                    <div class="flex justify-between">
+                                        <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-2 font-normal text-base  my-5" >Cancel</button>
+                                        <button class="text-white bg-indigo-700 rounded-md px-8 py-3 my-5 ml-5" >Save</button>
+                                    </div> 
                                  </div>
                             </div>
                            <delivery-modal v-if="Modal" @close="Modal=false"/>
@@ -136,10 +265,11 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav';
-import {LocationMarkerIcon,ChevronRightIcon,HomeIcon} from '@heroicons/vue/outline'
+import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon} from '@heroicons/vue/outline'
 import {reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import DeliveryModal from './DeliveryModal.vue'
+import ConfirmationModal from './ConfirmationModal.vue'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -152,17 +282,62 @@ export default {
         AppLayout,
         LocationMarkerIcon,ChevronRightIcon,HomeIcon,
           Button,
-          DeliveryModal
+          DeliveryModal,
+          DotsHorizontalIcon, 
+          ConfirmationModal
     }, 
+    data(){
+        return{
+            currentRow:0,
+            openSub:false,
+            current_local_row:0,
+            open_local_sub:false,
+            open:false,
+            location_id:'',
+            deleteConfirmation:false,
+            hidden:true,
+        }
+    },
+    methods:{
+        openSubMenu(id){
+            this.currentRow = id
+            if (this.openSub==true) {
+                this.openSub =false
+            }else{
+                this.openSub=true
+                this.hidden = false
+            }
+        },
+        open_local_submenu(id){
+            this.current_local_row = id
+            if (this.open_local_sub==true) {
+                this.open_local_sub =false
+            }else{
+                this.open_local_sub=true
+                this.hidden = false
+            }
+        },
+        deleteRow(id){
+            this.deleteConfirmation = true
+            this.open = true
+            this.location_id = id
+        }, 
+        hide(){
+            console.log('clicked')
+            this.hidden = !this.hidden
+        }
+    },
     setup(){
         const Modal = ref(false)
         const popModal = () => {
             Modal.value = true
         }
+        const local_locations = [{ id:0, state: 'Lagos', city: 'Egbeda', condition: '-', price: 'Free', delivery_time:'3-6 days' },]
         return{
             pages,
             Modal,
-            popModal
+            popModal,
+            local_locations, 
         }
     }
 }

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use App\Models\ShippingRate;
+use App\Models\ShippingRateCondition;
 
 class ShippingProfileController extends Controller
 {
@@ -20,8 +22,10 @@ class ShippingProfileController extends Controller
     public function index()
     {
         //
-        $profiles = OrderShippingProfile::with('price_profiles')->orderBy('id', 'desc')->get();
-        return Inertia::render('Settings/ShippingProfiles/Index', compact('profiles'));
+        $condition_options = ShippingRateCondition::$condition_options;
+        $rate_options = ShippingRateCondition::$rate_options;
+        $rates = ShippingRate::with('conditions')->orderBy('id', 'desc')->get();
+        return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rates', 'condition_options', 'rate_options'));
 
 
     }
@@ -45,6 +49,16 @@ class ShippingProfileController extends Controller
     public function store(Request $request)
     {
         //
+        if(Auth::user()->canDo('create-shipping-rate')) {
+            $request->validate([
+                'name'=>['required']
+            ]);
+
+            // $data = 
+
+        }else{
+            return \Redirect::route('')->withErrors('You do not have permissions perform this action');
+        }
     }
 
     /**

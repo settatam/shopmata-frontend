@@ -32,13 +32,19 @@
           <!-- Activity table (small breakpoint and up) -->
           <div class="hidden sm:block">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
-              <Search v-bind:suggestions="suggestions"></Search>
+              <search 
+                :suggestions="suggestions"
+                @autocomplete="getAutoCompleteData"
+                @update-current-list="updateCurrentList"
+                :selection="selection"
+                ></search>
               <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead class="bg-gray-50">
                       <tr>
                         <th scope="col" class="w-1/2 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5" />
                           Name
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -58,7 +64,6 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr v-for="product in products.data" :key="product.id" class="bg-white">
                         <td class="max-w-0 w-1/2 px-6 py-4 items-center whitespace-nowrap text-gray-900">
-                        
                           <div class="flex items-center">
                             <div class="flex h-5 mr-5">
                                 <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
@@ -131,6 +136,7 @@ import { ref } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import axios from "axios"
+import { Inertia } from '@inertiajs/inertia'
 
 import {
   ScaleIcon,
@@ -168,30 +174,38 @@ export default {
             categories: Array
         },
   components: {AppLayout, ScaleIcon, Search},
-  data() {
-    return {
-      notification: null,
-      suggestions: [],
-      dashboard: {
-        highRiskOrder: 0, 
-        ordersToFulfill: 0,
-        paymentToCapture: 0, 
-        percentage: 0,
-        todaySales: 0, 
-        totalSales: 0,
-        graphData: {
-          months: [],
-          sales: []
-        }
-      }
-    }
-  },
+  
   setup() {
+    
     const open = ref(false)
+    const suggestions = ref([]);
+    const selection = ref('');
+    
+    function getAutoCompleteData(term){
+      selection.value = term
+      if(term.length > 2) {
+          axios.get(`/products/get-data?term=${term}`)
+            .then(res=>{
+                suggestions.value = res.data
+            }) 
+          }
+    }
+
+    function updateCurrentList(index){
+      const suggestion = suggestions.value.filter(list => list.id == index)
+      selection.value = suggestion[0].title;
+      suggestions.value= [];
+      Inertia.visit(`products/${suggestion[0].id}`)
+    }
+    
     return {
       transactions,
       statusStyles,
-      cards
+      cards,
+      getAutoCompleteData,
+      suggestions,
+      selection,
+      updateCurrentList
     }
   },
   async mounted() {

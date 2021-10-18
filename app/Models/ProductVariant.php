@@ -17,4 +17,8 @@ class ProductVariant extends Model
         'barcode',
         'is_active'
     ];
+
+    public function attributes() {
+    	return $this->hasMany(ProductAttribute::class, 'sku', 'sku');
+    }
 }
