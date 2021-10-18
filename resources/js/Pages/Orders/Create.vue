@@ -28,139 +28,6 @@
           <div class="pl-5 flex w-full">
               <div class="flex flex-col">
                 <div class=" bg-white pl-8 pr-6 pt-9 w-175">
-                    <!-- <form @submit.prevent="submit">
-                  <div class="bg-white mb-10 pt-7">
-                    <div
-                      class="bg-white flex justify-between px-8 cursor-pointer"
-                      @click="expandForm"
-                    >
-                      <p class="text-black text-2xl font-semilbold mb-6">
-                        Add Order
-                      </p>
-                      <span><angle-up-icon></angle-up-icon></span>
-                    </div>
-                    <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
-                    <p class="text-black text-2xl font-semilbold mb-6">Update Product</p>
-                      <div class="mb-10">
-                        <label
-                          class="block text-black font-semibold mb-2 bg-transparent"
-                          for="title"
-                        >
-                          Title
-                        </label>
-                        <input
-                          class="
-                            appearance-none
-                            border border-border
-                            bg-transparent
-                            w-full
-                            py-2
-                            px-3
-                            text-black
-                            leading-tight
-                            focus:outline-none
-                          "
-                          type="text"
-                          placeholder="Cargo Pants"
-                          v-model="formFields.title"
-                        />
-                      </div>
-                      <div class="mb-6">
-                        <label
-                          class="block text-black font-semibold mb-2 bg-transparent"
-                          for="description"
-                        >
-                          Description
-                        </label>
-                        <div class="quill">
-                          <quill-editor
-                            class="editor text-black"
-                            ref="description"
-                            theme="snow"
-                            style="min-height: 300px"
-                            :value="formFields.description"
-                            :options="editorOption"
-                            @change="onEditorChange"
-                            @blur="onEditorBlur($event)"
-                            @focus="onEditorFocus($event)"
-                            @ready="onEditorReady($event)"
-                          />
-                        </div>
-                      </div>
-                      <div class="mt-20">
-                        <label
-                          class="block text-black font-semibold mb-2 bg-transparent"
-                          for="brand"
-                        >
-                          Brand
-                        </label>
-                        <multiselect
-                          v-model="formFields.brand"
-                          placeholder="Pick a brand"
-                          label="name"
-                          trackBy="name"
-                          valueProp="id"
-                          :options="brands"
-                          searchable="true"
-                          class="text-xs text-black font-semibold"
-                        ></multiselect>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bg-white mb-10 py-6">
-                    <div class="px-8">
-                      <div
-                        class="bg-white flex justify-between cursor-pointer"
-                        @click="expandMediaForm"
-                      >
-                        <p class="text-black font-semibold text-lg mb-6">Media</p>
-                        <div class="flex">
-                          <media-url-modal :media="media"></media-url-modal
-                          ><span><angle-up-icon></angle-up-icon></span>
-                        </div>
-                      </div>
-                      <div v-if="expandMedia">
-                        <vue-dropzone
-                          ref="mediaFiles"
-                          id="dropzone"
-                          :options="dropzoneOptions"
-                          @vdropzone-complete="afterComplete"
-                        ></vue-dropzone>
-                      </div>
-                    </div>
-                  </div>
-                  <pricing-form :pricing="pricing"></pricing-form>
-                  <inventory-form
-                    :inventory="inventory"
-                    :categories="categories"
-                  ></inventory-form>
-                  <shipping-form :shipping="shipping"></shipping-form>
-                  <variants-form
-                    :variants="variants"
-                    :types="variant_types"
-                    :valueContent="valueContent"
-                    @added="addOption"
-                    @add-variant-name="addVariantName"
-                    @added-variant-value="addVariantValue"
-                  ></variants-form>
-                  <search-engine-form :search="search"></search-engine-form>
-                  <div class="text-center bg-white pt-6 pb-6 mb-6">
-                    <t-button
-                      class="
-                        text-white
-                        bg-purple-darker
-                        active:bg-purple-darker
-                        font-medium
-                        border border-transparent
-                        px-11
-                        py-3.5
-                        cursor-pointer
-                      "
-                      @click="submit"
-                      >Add Product</t-button
-                    >
-                  </div>
-                    </form> -->
                   <div class="flex justify-between">
                     <p class="font-semibold text-lg">Order Details</p>
                     
@@ -178,10 +45,10 @@
                         </span>
                         <div class="min-w-0 flex-1">
                           <label for="search" class="sr-only">Search</label>
-                          <input id="text3" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-111"/>
+                          <input id="text3" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-111"/>
                         </div>
                       </div>
-                    <button class="px-8 border border-gray-300 text-xs h-10 mt-4 rounded-md" @click="browseProduct">Browse Products</button>
+                    <button class="px-4 border border-gray-300 mt-4 rounded-md" @click="browseProduct">Browse Products</button>
                   </div>
                   <empty-product-modal v-if="openModal && products.length == 0"/>
                   <product-modal v-if="openModal && products.length > 0" :products="products" :production="production" :variantSelected="variantSelected" @emitClose="emitClose" />
@@ -254,54 +121,31 @@
                       </div>
                     </div>
                     <div class="-mr-6 -ml-8 border-b-2 border-gray-100"></div>
-                    <div class="grid grid-cols-6 bg-white gap-2 border-gray-200 pt-4">
-                                <div class="col-span-3 md:col-span-4 my-9">
+                    <div class="flex justify-between bg-white border-gray-200 pt-4">
+                                <div class=" my-9">
                                     <h4 class="block font-semibold mb-2" >
                                         Email Invoice
                                     </h4>
                                 </div>
-                                <div class="col-span-3 md:col-span-2 my-8">
-                                    <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs ml-18.5 rounded-md" @click="addAttr('email')">
+                                <div class=" my-8">
+                                    <button class="px-6 py-2.5 text-center border border-gray-300 cursor-pointer  rounded-md" @click="addAttr('email')">
                                         Email invoice
                                     </button>
                                 </div>
                     </div>
                     <div class="-mr-6 -ml-8 border-b-2 border-gray-100"></div>
-                    <!-- <div class="grid grid-cols-6 bg-white gap-2 border-gray-200">
-                                <div class="col-span-2 my-9">
-                                    <h4 class="block font-semibold mb-2" >
-                                        Accept Payment
-                                    </h4>
-                                </div>
-                                <div class="col-span-4 my-6">
-                                    <div class="">
-                                        <div class="col-span-2">
-                                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md" @click="addAttr('paid')">
-                                                Mark as Pending
-                                            </button>
-                                        </div>
-                                        <div class="col-span-2">
-                                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md">
-                                                Pay with credit Card
-                                            </button>
-                                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md" @click="addAttr('paid')">
-                                                Mark as Paid
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                    </div> -->
+                    
                       <div class="flex flex-col mt-5">
                         <div class="flex justify-between">
                           <h2 class="font-semibold my-auto"> Accept Payment </h2>
                           <div>
-                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md">Mark as Pending</button>
-                            <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md ml-6">Pay with Credit Card</button>
+                            <button class="px-6 py-2.5  text-center border border-gray-300 cursor-pointer  rounded-md">Mark as Pending</button>
+                            <button class="px-6 py-2.5  text-center border border-gray-300 cursor-pointer  rounded-md ml-6">Pay with Credit Card</button>
                           </div>
                         </div>
                         <div class="flex justify-between mt-2">
                           <div></div>
-                          <button class="px-6 py-2.5 h-10 text-center border border-gray-300 cursor-pointer text-xs rounded-md mb-8" @click="this.openMarkAsPaid = true" >Mark as Paid</button>
+                          <button class="px-6 py-2.5  text-center border border-gray-300 cursor-pointer  rounded-md mb-8" @click="this.openMarkAsPaid = true" >Mark as Paid</button>
                         </div>
                       </div>
                   </div>
@@ -323,7 +167,7 @@
                     </span>
                     <div class="min-w-0 flex-1">
                       <label for="search" class="sr-only">Search</label>
-                      <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
+                      <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300  text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
                     </div>
 
                   </div>
@@ -338,7 +182,7 @@
                   <h2 class="text-cyan-700 font-semibold">View all tags</h2>
                 </div>
                 <label for="search" class="sr-only">Search</label>
-                <input id="text" type="text" placeholder="Urgent, reviewed, wholesale" class="block pl-10 py-2 rounded-md border border-gray-300 text-xs text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
+                <input id="text" type="text" placeholder="Urgent, reviewed, wholesale" class="block pl-10 py-2 rounded-md border border-gray-300  text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
               </div>
             </div>
             </div>
@@ -396,8 +240,6 @@ export default {
   props: {
     //products: Object,
     filters: Object,
-    brands: Array,
-    categories: Array,
     orders: Array
   },
 

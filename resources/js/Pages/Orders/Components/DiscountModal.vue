@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog as="div" auto-reopen="true" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
+    <Dialog as="div" auto-reopen="true" class="fixed z-10 inset-0 overflow-y-auto" @close="emitClose()">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -17,7 +17,7 @@
                 </div>
               <div class=" mt-3 -mx-6"></div>
               <div>
-                <p class="text-xs">Discount this order by</p>
+                <p class="">Discount this order by</p>
                 <div class="flex justify-between mt-2">
                   <button class="h-10 w-14 border border-gray-300 rounded" @click="openCash">$</button>
                   <button class="h-10 w-14 border border-gray-300 rounded" @click="openPercent">%</button>
@@ -27,7 +27,7 @@
               </div>
               <div class="mt-6">
                 <p>Reason</p>
-                <input type="text" name="" class="w-full border border-gray-300 rounded text-xs mt-2" placeholder="damged goods, black friday......">
+                <input type="text" name="" class="w-full border border-gray-300 rounded  mt-2" placeholder="damged goods, black friday......">
               </div>
             </div>
               <div class=" mt-3 -mx-6"></div>

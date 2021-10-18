@@ -43,9 +43,9 @@
                             <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
                             <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
-                          <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
-                            <p class="text-indigo-700 mr-10 cursor-pointer text-right">Manage rates</p>
-                          </inertia-link>
+                            <button class="text-indigo-700 mr-5 cursor-pointer" @click='popModal'>Create Shipping Rate</button>
+                          <!-- <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
+                          </inertia-link> -->
                         </div>
                           <p class="mt-2 mb-10 text-gray-500"> Choose shipping rates for both domestic and international delivery. </p>
                          <!--  <p class="mt-2 text-gray-500"> All Products</p>
@@ -111,10 +111,10 @@
                            </div>
                          </div>
                       </div>
-                      <pick-up-modal @close="this.popModal=false"  v-if="this.popModal" :store='store'/>
+                       <delivery-modal v-if="Modal" @close="Modal=false" :condition_options="condition_options" :rate_options="rate_options"/>
+                      <!-- <pick-up-modal @close="this.popModal=false"  v-if="this.popModal" :store='store' /> -->
                   </div>
-              </div>
-
+                </div>
               </div>
             </div>
           </div>
@@ -130,11 +130,12 @@ import Search from '../../Search.vue'
 import Nav from '../Nav';
 import axios from "axios"
 import PickUpModal from "./Components/PickUpModal.vue"
-
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
 import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon } from '@heroicons/vue/outline'
 import { Inertia } from '@inertiajs/inertia';
+import DeliveryModal from './Components/DeliveryModal.vue'
+
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -147,7 +148,6 @@ const pages = [
 ]
 export default {
   props: ['locations','store'],
-  
   components: {
     Nav,
     AppLayout,
@@ -160,18 +160,28 @@ export default {
     BriefcaseIcon,
     LocationMarkerIcon,
     PickUpModal,
-    TrashIcon,PencilIcon 
+    TrashIcon,PencilIcon,
+    DeliveryModal
   },
+
   
   data() {
     return {
-      popModal : false,
+      //popModal : false,
       
     }
   },
+  methods:{
+    
+  },
+
   setup(props) {
     const open = ref(false)
     const local_delivery = ref(false)
+    const Modal = ref(false)
+    const popModal = () => {
+            Modal.value = true
+      }
     const edit_location = function(id){
       console.log('edit',id)
     }
@@ -186,7 +196,9 @@ export default {
       local_delivery,
       edit_location,
       delete_location,
-      local_pickup
+      local_pickup,
+      Modal,
+      popModal
     }
   },
 

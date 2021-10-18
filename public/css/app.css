@@ -1606,6 +1606,15 @@ select {
 .mt-11 {
 	margin-top: 2.75rem;
 }
+.mb-4\.5 {
+	margin-bottom: 1.125rem;
+}
+.ml-auto {
+	margin-left: auto;
+}
+.mb-3\.5 {
+	margin-bottom: 0.875rem;
+}
 .block {
 	display: block;
 }
@@ -1901,6 +1910,9 @@ select {
 }
 .w-3\/6 {
 	width: 50%;
+}
+.w-2\/3 {
+	width: 66.666667%;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -2580,9 +2592,6 @@ select {
 .p-4 {
 	padding: 1rem;
 }
-.p-3 {
-	padding: 0.75rem;
-}
 .p-8 {
 	padding: 2rem;
 }
@@ -2591,6 +2600,9 @@ select {
 }
 .p-0 {
 	padding: 0px;
+}
+.p-3 {
+	padding: 0.75rem;
 }
 .p-1\.5 {
 	padding: 0.375rem;
@@ -3489,6 +3501,10 @@ input[type='checkbox']:focus {
 	--tw-border-opacity: 1;
 	border-color: rgba(99, 102, 241, var(--tw-border-opacity));
 }
+.focus\:border-pink-500:focus {
+	--tw-border-opacity: 1;
+	border-color: rgba(236, 72, 153, var(--tw-border-opacity));
+}
 .focus\:border-red-500:focus {
 	--tw-border-opacity: 1;
 	border-color: rgba(239, 68, 68, var(--tw-border-opacity));
@@ -3586,6 +3602,10 @@ input[type='checkbox']:focus {
 .focus\:ring-indigo-500:focus {
 	--tw-ring-opacity: 1;
 	--tw-ring-color: rgba(99, 102, 241, var(--tw-ring-opacity));
+}
+.focus\:ring-pink-500:focus {
+	--tw-ring-opacity: 1;
+	--tw-ring-color: rgba(236, 72, 153, var(--tw-ring-opacity));
 }
 .focus\:ring-red-500:focus {
 	--tw-ring-opacity: 1;

@@ -38,7 +38,7 @@
                   <span class="flex"> {{ tab.name }}</span>
                  </div>
                  <div v-else>
-                  <span class="flex"> {{ tab.name }} <ChevronDownIcon class="h-5 my-auto ml-2" v-if="!tab.current"/> <ChevronUpIcon class="h-5 my-auto ml-2" v-else/> </span>
+                  <span class="flex"> {{ tab.name }}  </span>
                  </div>
                 </a>
               </nav>
@@ -268,11 +268,9 @@ import ArrowRight from '../../../assets/ArrowRight.vue';
 const tabs = [
   { name: 'All', href: '#', current: true },
   { name: 'Fulfilment', href: '#', current: false },
-  { name: 'Payment', href: '#', current: false },
-  { name: 'Shipping Method', href: '#', current: false },
-  { name: 'Ship to', href: '#', current: false },
-  { name: 'Note', href: '#', current: false },
-  { name: 'Archived', href: '#', current: false },
+  { name: 'Unfulfilment', href: '#', current: false },
+  { name: 'Sales Withdrawal', href: '#', current: false },
+  
 ]
 
 
