@@ -1137,8 +1137,8 @@ select {
 .top-12 {
 	top: 3rem;
 }
-.-left-0 {
-	left: 0px;
+.-right-8 {
+	right: -2rem;
 }
 .top-2 {
 	top: 0.5rem;
@@ -1175,24 +1175,6 @@ select {
 }
 .right-4 {
 	right: 1rem;
-}
-.-right-0 {
-	right: 0px;
-}
-.-right-4 {
-	right: -1rem;
-}
-.-right-40 {
-	right: -10rem;
-}
-.-right-10 {
-	right: -2.5rem;
-}
-.-right-20 {
-	right: -5rem;
-}
-.-right-8 {
-	right: -2rem;
 }
 .z-0 {
 	z-index: 0;
@@ -1741,9 +1723,6 @@ select {
 .w-2\/3 {
 	width: 66.666667%;
 }
-.w-4\/10 {
-	width: 40%;
-}
 .w-56 {
 	width: 14rem;
 }
@@ -1758,6 +1737,9 @@ select {
 }
 .w-25 {
 	width: 100px;
+}
+.w-4\/10 {
+	width: 40%;
 }
 .w-1\/5 {
 	width: 20%;
@@ -1776,12 +1758,6 @@ select {
 }
 .w-3 {
 	width: 0.75rem;
-}
-.w-7\.5\/10 {
-	width: 75%;
-}
-.w-7 {
-	width: 1.75rem;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -1886,9 +1862,6 @@ select {
 }
 .cursor-pointer {
 	cursor: pointer;
-}
-.cursor-wait {
-	cursor: wait;
 }
 .list-inside {
 	list-style-position: inside;
@@ -2061,9 +2034,6 @@ select {
 }
 .overflow-y-hidden {
 	overflow-y: hidden;
-}
-.overflow-y-visible {
-	overflow-y: visible;
 }
 .overflow-x-scroll {
 	overflow-x: scroll;
