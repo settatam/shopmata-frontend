@@ -70,12 +70,12 @@
                 user-format="Y-m-d"
               />
               <arrow-right class="my-auto mx-3"/>
-              <datepicker
+              <!-- <datepicker
                 v-model="form.to"
                 class="date-filter text-black focus:outline-none w-36 rounded-md border-1 border-gray-300 to"
                 date-format="Y-m-d"
                 user-format="Y-m-d"
-              />
+              /> -->
             </div>
           </div>
       </div>
@@ -262,7 +262,7 @@ import AppLayout from "../../Layouts/AppLayout.vue";
 import { ChevronDownIcon,ChevronUpIcon } from "@heroicons/vue/solid"
 import Input from '../../Jetstream/Input.vue';
 import ArrowRight from '../../../assets/ArrowRight.vue';
-import Datepicker from 'vue3-datepicker'
+// import Datepicker from 'vue3-datepicker'
 // import Search from '../Search.vue'
 // import axios from "axios"
 const tabs = [
