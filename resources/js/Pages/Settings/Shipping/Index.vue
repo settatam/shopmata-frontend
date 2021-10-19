@@ -79,7 +79,7 @@
                           <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1" v-model="local_delivery"/>
                             <div class="flex justify-between items-center w-full">
                               <p class="text-xl font-semibold">Local Pickup</p> 
-                              <p class="text-indigo-600 cursor-pointer" v-if="this.local_pickup.length!=0" @click="popModal=true">Add Location</p>
+                              <p class="text-indigo-600 cursor-pointer" v-if="this.local_pickup.length!=0" @click="this.popUp=true">Add Location</p>
                             </div>
                           </div>
                           <div class="flex flex-col items-start mb-6 ml-6">
@@ -88,7 +88,7 @@
                         </div>
                         <div class="flex flex-col items-center" v-if="this.local_pickup.length==0">
                           <p class="mt-8 mb-6">No local pickup address, add a location to select local pickup </p>
-                          <button type="button" class=" h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"  @click="popModal=true">Add location</button>
+                          <button type="button" class=" h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"  @click="this.popUp = true">Add location</button>
                         </div>
                          <div class="flex flex-col" v-else>
                            <div v-for="(location, index) in this.local_pickup" :key="location.id" class="bg-gray-50 border border-gray-300 h-32 pl-8 pr-7 mb-3 flex justify-between" >
@@ -102,6 +102,7 @@
                                     <p class="text-gray-500">{{location.address}}</p>
                                   </div>
                                 </div>
+                                  <pick-up-modal-edit @close="this.popUpEdit=false" :location='location.id' v-if="this.popUpEdit"  /> 
                               </div>
                              </div>
                               <div class="flex flex-col justify-between py-5">
@@ -112,7 +113,7 @@
                          </div>
                       </div>
                        <delivery-modal v-if="Modal" @close="Modal=false" :condition_options="condition_options" :rate_options="rate_options"/>
-                      <!-- <pick-up-modal @close="this.popModal=false"  v-if="this.popModal" :store='store' /> -->
+                      <pick-up-modal @close="this.popUp=false"  v-if="this.popUp" :store='store' /> 
                   </div>
                 </div>
               </div>
@@ -130,6 +131,7 @@ import Search from '../../Search.vue'
 import Nav from '../Nav';
 import axios from "axios"
 import PickUpModal from "./Components/PickUpModal.vue"
+import PickUpModalEdit from "./Components/PickUpModalEdit.vue"
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
 import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon } from '@heroicons/vue/outline'
@@ -160,19 +162,24 @@ export default {
     BriefcaseIcon,
     LocationMarkerIcon,
     PickUpModal,
+    PickUpModalEdit,
     TrashIcon,PencilIcon,
-    DeliveryModal
+    DeliveryModal,
+    
   },
 
   
   data() {
     return {
-      //popModal : false,
+      popUp :false,
+      popUpEdit :false,
       
     }
   },
   methods:{
-    
+     edit_location(){
+      this.popUpEdit = true
+    }
   },
 
   setup(props) {
@@ -182,11 +189,9 @@ export default {
     const popModal = () => {
             Modal.value = true
       }
-    const edit_location = function(id){
-      console.log('edit',id)
-    }
-    const delete_location = function(id){
-      Inertia.delete(`/settings/store-locations/${id}`)  
+    const delete_location = (id)=>{
+      Inertia.delete(`/settings/store-locations/${id}`)
+      location.reload()  
     }
     const local_pickup=props.locations
     
@@ -194,11 +199,10 @@ export default {
       statusStyles,
       pages,
       local_delivery,
-      edit_location,
       delete_location,
       local_pickup,
       Modal,
-      popModal
+      popModal,
     }
   },
 

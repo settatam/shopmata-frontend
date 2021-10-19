@@ -38,12 +38,12 @@
                 </div> -->
                 <div class="mt-2.5 mb-5 border-t border-gray-200 -mx-8"></div>
                 <div class="w-full">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="name">
+                      <p class="block text-gray-600 font-semibold mb-2 bg-transparent" for="name">
                         Rate Name
-                      </label>
+                      </p>
                       <input type="text" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="rates.name" required/>
                   </div>
-                <div class="flex">
+                <!-- <div class="flex">
                   <div class="mr-2 w-full mb-3 relative">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Description
@@ -51,8 +51,23 @@
                       <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
                       <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/120</span>
                     </div>
-                </div>
-                    <div class="flex flex-col lg:flex-row lg:justify-between">
+                </div> -->
+                <div class="w-full">
+                      <p class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Rate for
+                      </p>
+                      <div class=" items-center">
+                        <input type="radio" value="1"  class="" v-model="rates.for" name="domestic">
+                        <label for="domestic"> Domestic</label>
+                      </div>
+                      
+                      <div class=" items-center">
+                        <input type="radio" class="" value="2" v-model="rates.for" name="international">
+                        <label for="international"> International</label>
+                      </div>
+                  </div>
+
+                   <!--  <div class="flex flex-col lg:flex-row lg:justify-between">
                             <div class="flex flex-col w-3/10">
                                 <label for="tag" class="text-gray-700 lg:mb-4">Options</label>  
                             </div>
@@ -85,13 +100,24 @@
                         </div>
                       </template>
                          <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4" @click="add()">Add another condition</button>
-                </div>
-                <div class=" flex justify-center lg:justify-end">
-                  <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
-                    Cancel
-                  </button>
+               -->  </div>
+                <div class="w-full">
+                      <p class="block text-gray-600 font-semibold mb-2 bg-transparent" for="name">
+                        Price
+                      </p>
+                      <input type="checkbox" name="price" id="">
+                      <label for="price">Price is a flat rate for all products and locations</label>
+                      <input type="text" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="rates.price" required/>
+                  </div>
+                <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
+                  <p class="text-indigo-500">Add Shipping Profile</p>
+                </inertia-link>
+                <div class=" flex justify-center lg:justify-between">
                   <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
                     Save
+                  </button>
+                  <button type="button" class=" rounded-md border border-gray-500  shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" placeholder="Enter Price" @click="closeModal">
+                    Cancel
                   </button>
                 </div>
               </div>
@@ -106,6 +132,7 @@ import { reactive, ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot,} from '@headlessui/vue'
 import{XIcon, SearchIcon} from '@heroicons/vue/solid'
 import axios from 'axios'
+import Label from '../../../../Jetstream/Label.vue'
 //import { Inertia } from '@inertiajs/inertia'
 
 
@@ -144,7 +171,7 @@ export default {
     const conditions = props.condition_options
     const rate = props.rate_options
     const data = ref([{condition:'',rate:'',price:''}])
-    const rates = ref({name:'',description:'',price:''})
+    const rates = ref({name:'',description:'',price:'',for:''})
     const add = ()=> {
       console.log(data.value)
     	       data.value.push({
@@ -169,7 +196,7 @@ export default {
 }
 </script>
 <style scoped>
-[type="radio"]:checked {
+/* [type="radio"]:checked {
   background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
-}
+} */
 </style>

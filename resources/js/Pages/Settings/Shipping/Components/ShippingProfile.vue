@@ -31,11 +31,17 @@
                 <div class="w-auto  lg:ml-7 lg:mr-2">
                     <div class="mb-6">
                          <div class="px-8 pb-8 pt-6  mb-6 bg-white">
-                            <h1 class="text-2xl font-semibold">Manage Shipping Profile</h1>
+                            <h1 class="text-2xl font-semibold">Shipping Profile</h1>
                              <p class=" text-gray-500">Create a shipping profile to add custom rates </p>            
                                 <div class="w-auto">
                                     <label class="block mt-4 mb-2 bg-transparent">
-                                        Rate Name
+                                        Condition Name
+                                    </label>
+                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  required/>
+                                </div>
+                                <div class="w-auto">
+                                    <label class="block mt-4 mb-2 bg-transparent">
+                                        Price
                                     </label>
                                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  required/>
                                 </div>
@@ -110,14 +116,14 @@
                                     <button class="mt-4 w-28 mb-5 h-14 bg-gray-100">Add Rate</button>
                                 </div>       
                                     </div> -->
-                                    <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8  rounded">
+                                    <!-- <div class="pl-5 pr-2 border border-gray-300 mt-7 py-8  rounded">
                                         <div class="flex justify-between items-center mb-8">
                                             <p class="font-semibold text-xl mr-8">Shipping To</p>
                                             <button class="text-indigo-700 mr-5 cursor-pointer" @click='popModal'>Create Shipping Rate</button> 
                                         </div>
-                                        <!-- <div class="flex items-center justify-around">
+                                        <div class="flex items-center justify-around">
                                             <p class="text-gray-500">No data</p>
-                                        </div> -->
+                                        </div>
                                         <div class="w-full">
                                             <div class="flex w-3/4">
                                                 <div class="mr-2 mt-1"><img src="../../../../../assets/nigeria-flag.svg" alt="nigeria-flag"></div>
@@ -246,7 +252,31 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
+                                    </div> -->
+                                    <p>Product must match</p>
+                      <template v-for="(datum, index) in data" :key="index" >
+                        <div class="flex flex-col lg:flex-row lg:justify-between">
+                            <div class="flex flex-col w-3/10">
+                                <select name="conditions" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.rate">
+                                    <option v-for="(option,index) in rate" :key="index">
+                                        {{option.title}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col w-3/10">  
+                                 <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.condition">
+                                    <option v-for="(condition, index) in conditions" :key="index">
+                                       {{condition.title}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col w-3.5/10 mb-2">
+                                <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-model="datum.price">
+                            </div>
+                        </div>
+                      </template>
+                         <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4" @click="add()">Add another condition</button>
+               
                                      <ConfirmationModal v-if="deleteConfirmation" :open="this.open" @close="emitClose" :id="this.location_id" />
                                     <div class="flex justify-between">
                                         <button class="text-gray-500 bg-transparent border border-gray-500 rounded-md px-8 py-2 font-normal text-base  my-5" >Cancel</button>
@@ -333,16 +363,29 @@ export default {
         const popModal = () => {
             Modal.value = true
         }
+        const conditions = props.condition_options
+    const rate = props.rate_options
+    const data = ref([{condition:'',rate:'',price:''}])
+    //const rates = ref({name:'',description:'',price:'',for:''})
+    const add = ()=> {
+      console.log(data.value)
+    	       data.value.push({
+                    rate:"",
+                    condition:"",
+                    price:""
+                })
+            }
         const local_locations = [{ id:0, state: 'Lagos', city: 'Egbeda', condition: '-', price: 'Free', delivery_time:'3-6 days' },]
-         const conditions = props.condition_options
-        const rate = props.rate_options
+       
         return{
             pages,
             Modal,
             popModal,
             local_locations, 
             rate,
-            conditions
+            data,
+            conditions,
+            add
         }
     }
 }
