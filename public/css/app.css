@@ -1905,6 +1905,9 @@ select {
 .w-2\/3 {
 	width: 66.666667%;
 }
+.w-24 {
+	width: 6rem;
+}
 .min-w-0 {
 	min-width: 0px;
 }
