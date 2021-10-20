@@ -121,7 +121,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('orders', [OrdersController::class, 'index'])->name('orders');
 	Route::get('orders/create', [OrdersController::class, 'create'])->name('orders.create');
 	Route::post('orders/create', [OrdersController::class, 'store']);
-	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.view');
+	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
 
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');

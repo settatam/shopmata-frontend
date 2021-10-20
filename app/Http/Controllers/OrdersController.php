@@ -131,7 +131,7 @@ class OrdersController extends Controller
         $order = Order::with('items')->where('id', $id)->first();
         \Log::info("get order with id $id".print_r($order, true));
 
-        return Inertia::render('Orders/ViewOrder', compact('notification', 'order'));
+        return Inertia::render('Orders/Show', compact('notification', 'order'));
     }
 
     /**
