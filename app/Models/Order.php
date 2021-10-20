@@ -29,6 +29,14 @@ class Order extends Model
 		return $this->hasMany(CartDetail::class, 'cart_id', 'cart_id');
 	}
 
+    public function tags() {
+        return $this->hasMany(OrderTag::class);
+    }
+
+    public function activities() {
+        return $this->hasMany(OrderActivity::class);
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
