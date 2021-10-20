@@ -25,6 +25,7 @@ use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\GiftCardsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\Settings\StoreLocationController;
+use App\Http\Controllers\Settings\ShippingRatesController;
 use App\Http\Controllers\StorePreferencesController;
 use App\Http\Controllers\StoreDomainsController;
 use App\Http\Controllers\OnlineStoreController;
@@ -203,6 +204,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('online-store/locations', LocationController::class);
     Route::resource('online-store/store-users', StoreUserController::class);
+
+    Route::resource('settings/shipping-rates', ShippingRatesController::class);
 
     // Navigation
 
