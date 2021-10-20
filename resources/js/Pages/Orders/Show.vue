@@ -24,6 +24,37 @@
               New Order
             </h1>
           </div>
+
+            <!-- <div class="flex-shrink-0 px-8 py-4 flex items-center">
+          <p class="text-2xl font-semibold text-blue-gray-900">Online Store</p>
+       </div>
+        <nav class="flex px-8" aria-label="Breadcrumb">
+          <ol role="list" class="flex items-center space-x-4">
+            <li>
+              <div>
+                <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                  <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                  <span class="sr-only">Online Store</span>
+                </a>
+              </div>
+            </li>
+            <li v-for="page in pages" :key="page.name">
+              <div class="flex items-center">
+                <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+              </div>
+            </li>
+          </ol>
+        </nav>
+
+        <div class="flex justify-between items-center mx-8 mt-8">
+          <a href="/online-store/orders/" class="hover:text-gray-700">
+            <div class="flex items-center">
+              <ArrowLeftIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+              <h1 class="ml-4 text-2xl font-semibold">{{ menu.name }}</h1>
+            </div>
+          </a>
+        </div> -->
           
           <div class="pl-5 flex w-full">
               <div class="flex flex-col">
