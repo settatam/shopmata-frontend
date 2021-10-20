@@ -33,17 +33,18 @@
                          <div class="px-8 pb-8 pt-6  mb-6 bg-white">
                             <h1 class="text-2xl font-semibold">Add Shipping Rate</h1>
                              <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <span class="text-indigo-700 underline cursor-pointer">Watch a demo</span></p>            
-                                <div class="w-auto">
+                                <div class="w-auto relative" >
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Rate Name
                                     </label>
-                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  required/>
+                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="rates.name" required/>
+                                    <error-icon class="absolute top-8 right-0" v-show="bodyError && !rates.name.length "/>
                                 </div>
                                 <div class="w-auto">
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Price
                                     </label>
-                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  required/>
+                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="rates.price" required/>
                                 </div>
                                  <div class="w-full mt-4 ">
                                     <p class="block text-gray-600 font-semibold text-lg mb-2 bg-transparent">
@@ -131,6 +132,8 @@ import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon} from '@
 import {onBeforeMount, reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import { Inertia } from '@inertiajs/inertia';
+//import ErrorIcon from '../../assets/ErrorIcon.vue'
+import ErrorIcon from '../../../ErrorIcon.vue'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -145,6 +148,7 @@ export default {
         LocationMarkerIcon,ChevronRightIcon,HomeIcon,
           Button,
           DotsHorizontalIcon, 
+          ErrorIcon,
     }, 
     data(){
         return{
@@ -164,6 +168,7 @@ export default {
         const rate = props.rate_options
         const data = ref([{condition:'is equal to',rate:'Price',price:'',state:''}])
         const rates = ref({name:'',description:'',price:'',for:'1',condition:'1'})
+        const bodyError = ref(false)
         const add = ()=> {
             data.value.push({
                 rate:"Price",
@@ -179,6 +184,7 @@ export default {
         })
        const submit=()=>{
            if (!rates.value.name) {
+               bodyError.value = true
                alert("Rate Name cannot be empty")
            } else {
                
@@ -195,7 +201,8 @@ export default {
             conditions,
             add,
             states,
-            submit
+            submit,
+            bodyError
         }
     }
 }
