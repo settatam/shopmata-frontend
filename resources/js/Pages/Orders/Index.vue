@@ -60,41 +60,41 @@
       </div>
     </div>
 
-    <div class="mt-8">
+    <div class="flex flex-col mt-12">
       <!-- Activity table (small breakpoint and up) -->
-      <div class="hidden sm:block">
-        <div class="mx-auto px-4 sm:px-6 lg:px-">
+      <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
+        <div class="px-4 sm:px-6 lg:px-">
           <!-- <Search v-bind:suggestions="suggestions"></Search> -->
-          <div class="flex flex-col mt-2">
-            <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
-              <table class="min-w-full divide-y divide-gray-200 table-fixed">
+          <div class="flex flex-col">
+            <div class="min-w-full overflow-x-auto shadow sm:rounded-lg">
+              <table class="w-full divide-y divide-gray-200 table-fixed">
                 <thead class="bg-gray-50">
                   <tr>
-                    <th scope="col" class="w-2 pl-6 pr-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" pl-6 pr-2  text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" @click="checkAll" :disabled="orders.data.length === 0" />
                     </th> 
-                    <th scope="col" class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                    <th scope="col" class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
                       Order No.
                     </th>
-                    <th scope="col" class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
-                    <th scope="col" class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Customer
                     </th>
-                    <th scope="col" class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Items
                     </th>
-                    <th scope="col" class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <th scope="col" class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       Payment
                     </th>
-                    <th scope="col" class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Fulfillment
                     </th>
-                    <th scope="col" class="w-1/6 py-3 px-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" py-3 px-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Shipping Method
                     </th>
-                    <th scope="col" class="w-1/10 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Date Added
                     </th>
                     <!-- <th scope="col" class="relative px-6 py-3">
@@ -102,24 +102,24 @@
                     </th> -->
                   </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <tr v-for="order in orders.data" :key="order.id" class="bg-white" >
-                    <td scope="col" class="w-2 pl-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" :value="order" v-model="selected" @click='uncheckParentBox(order)' class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                <tbody class="divide-y divide-gray-200">
+                  <tr v-for="order in orders.data" :key="order.id" class="" >
+                    <td scope="col" class="pl-6 pr-2  text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" :value="order" v-model="selected" @click='uncheckParentBox(order)' class="focus:ring-indigo-500  text-indigo-600 border-gray-300 rounded" />
                     </td> 
-                    <td class="w-1/12 pr-7 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider " >
+                    <td class="pl-8 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider " >
                       {{ order.id }}
                     </td>
-                    <td class="w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <td class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       {{ order.country }}
                     </td>
-                    <td class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                    <td class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
                       {{ order.user.first_name }} {{ order.user.last_name }}
                     </td>
-                    <td class="w-1/6 px-1 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       {{order.items.length == 1 ? "1 item": order.items.length + "Items"}}
                     </td>
-                    <td class=" w-1/12 px-1 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                    <td class="  px-3 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                       <div class="sm:pr-2 sm:py-2 md:pr-4 md:py-6 text-left leading-4 font-semibold tracking-wide text-gray-600">
                         <div v-if="!order.status || order.status == 'unpaid'">
                           <div class="text-xs inline-flex leading-5 bg-red-lighter text-red-darker">
@@ -133,7 +133,7 @@
                         </div>
                       </div>
                     </td>
-                    <td class="w-1/12 px-1 py-3 text-left text-xs font-semibold tracking-wider">
+                    <td class=" px-3 py-3 text-left text-xs font-semibold tracking-wider">
                       <div v-if="order.fulfillment">
                         <div class=" text-xs px-5 py-1 inline-flex leading-5 bg-red-darker text-red-light ">
                           Unfulfilled
@@ -145,10 +145,10 @@
                         </div>
                       </div>
                     </td>
-                    <td class="w-1/6 py-3 px-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td class=" px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       {{ order.shipping }}
                     </td>
-                    <td class="w-1/10 px-1 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" >
+                    <td class=" px-3 py-3 text-left text-xs font-medium text-gray-500 tracking-wider" >
                       {{ order.created_at }}
                     </td>
                   </tr>
@@ -157,7 +157,6 @@
               <!-- Pagination -->
               <nav
                 class="
-                  bg-white
                   px-4
                   py-3
                   flex
@@ -172,15 +171,15 @@
                   <p class="text-sm text-gray-700">
                     Showing
                     {{ " " }}
-                    <span class="font-medium">1</span>
+                    <span class="font-semibold">1</span>
                     {{ " " }}
                     to
                     {{ " " }}
-                    <span class="font-medium">10</span>
+                    <span class="font-semibold">10</span>
                     {{ " " }}
                     of
                     {{ " " }}
-                    <span class="font-medium">20</span>
+                    <span class="font-semibold">20</span>
                     {{ " " }}
                     results
                   </p>
@@ -219,7 +218,7 @@
                       font-medium
                       rounded-md
                       text-gray-700
-                      bg-white
+                      bg-indigo-700
                       hover:bg-gray-50
                     "
                   >
@@ -476,4 +475,3 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   --elem-selected-bg-color: var(--vdp-selected-bg-color, #4f46e5);
 }
 </style>
-

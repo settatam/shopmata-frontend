@@ -103,7 +103,6 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import SortableList from '../../../Components/SortableList.vue'
 import SortableItem from '../../../Components/SortableItem.vue'
 import AddMenuModal from './Components/AddMenuModal.vue'
-import Search from '../../Search.vue'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronRightIcon, DotsHorizontalIcon } from '@heroicons/vue/solid';
