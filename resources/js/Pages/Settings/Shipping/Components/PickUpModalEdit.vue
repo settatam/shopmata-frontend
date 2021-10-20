@@ -85,12 +85,11 @@
 </template>
 
 <script>
-import { ref, reactive, onBeforeMount } from 'vue'
+import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
-//import { Inertia } from '@inertiajs/inertia'
 
 
 export default {
@@ -123,7 +122,6 @@ export default {
       } else {
         axios.put(`/settings/store-locations/${this.location}`, this.local_pickup)
         .then(()=> {
-          //console.log(res.data)
             this.open = false
             Inertia.visit('/settings/shipping-and-delivery')
         })
@@ -145,19 +143,13 @@ export default {
   },
   watch:{
     'local_pickup.country_id'(newVal) {
-    //console.log(oldVal)
       axios.get(`/api/states?country_id=${newVal}`).then(res=>{
          this.country_state = res.data.data
-         //console.log(this.country_state)
     }) 
     }
   },
   setup() {
     const open = ref(true)
-        
-      onBeforeMount(()=>{
-         
-      })
     return {
       open,
     

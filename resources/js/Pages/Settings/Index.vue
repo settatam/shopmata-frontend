@@ -181,8 +181,6 @@ import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import Nav from './Nav';
 import axios from "axios"
-import useVuelidate from '@vuelidate/core'
-import { required, email, helpers } from '@vuelidate/validators'
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon, ChevronRightIcon  } from '@heroicons/vue/solid';
 import {HomeIcon} from '@heroicons/vue/outline'
@@ -234,7 +232,7 @@ export default {
   },
   watch:{
     'store_details.country_id'(newVal,oldVal) {
-    console.log(oldVal)
+    //console.log(oldVal)
       axios.get(`/api/states?country_id=${newVal}`).then(res=>{
          this.country_state = res.data.data
          console.log(this.country_state)
@@ -244,15 +242,6 @@ export default {
 
   setup(props) {
     const open = ref(false)
-    //const store_details = reactive(props.store)
-    //let states = reactive(props.states)
-    /* watch(()=> store_details.country_id, (update) =>{
-      axios.get(`/api/states?country_id=${update}`).then(res=>{
-         states = res.data
-         console.log(states)
-         return states
-      })
-    }) */
     
     return {
       statusStyles,

@@ -35,7 +35,7 @@
                   <div class="px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>
                       <p class="text-gray-500">Manage how customers receive their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">delivery methods.</span> </p>
-                      <div class="pl-5 pr-2 border border-gray-300 mt-5 pt-8 rounded-sm">
+                      <div class="pl-5 pr-2  border border-gray-300 mt-5 pt-8 pb-12 rounded-sm">
                         <p class="text-xl font-semibold">Shipping</p>
                         <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <span class="text-indigo-700 underline cursor-pointer">about shipping rates</span> </p>
                         <div class="flex justify-between items-center mt-6">
@@ -43,37 +43,36 @@
                             <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
                             <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
-                            <button class="text-indigo-700 mr-5 cursor-pointer" @click='popModal'>Create Shipping Rate</button>
-                          <!-- <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
-                          </inertia-link> -->
+                          <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
+                            <button class="text-indigo-700 mr-5 cursor-pointer">Create Shipping Rate</button>
+                          </inertia-link>
                         </div>
-                          <p class="mt-2 mb-10 text-gray-500"> Choose shipping rates for both domestic and international delivery. </p>
-                         <!--  <p class="mt-2 text-gray-500"> All Products</p>
-                            <div class="flex flex-col mb-8 mt-2">
-                              <p class="font-semibold mb-3">Rates for</p>
-                              <span class="flex text-gray-500 mb-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Domestic</span>
-                              <span class="flex text-gray-500 mt-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Rest of the world</span>
-                            </div> -->
+                          <p class="mt-2 mb-10 text-gray-500"> Create a shipping a shipping profile to add custom rate </p>
+                            <div class="mt-6 flex-col">
+                                <div>
+                                    <div class="flex-col mt-2">
+                                        <div class="flex items-center text-gray-600">
+                                            <div class="w-10 flex items-center"><img class="w-5 h-5 " src="../../../../assets/globe.svg" alt="globe"></div>
+                                            <div class="w-3/10">Domestic</div>
+                                            <div class="w-1/10 text-center">Price</div>
+                                            <div class="w-4/10 text-center">Conditions</div>
+                                            <div class="w-2/10 invisible">...</div>
+                                        </div>
+                                        <div class=" mt-1 border-t border-gray-100 -mr-5 -ml-8"></div>
+                                        <div class="flex mt-1">
+                                            <div class="w-10"></div>
+                                            <div class="w-3/10">Standard Rate</div>
+                                            <div class="w-1/10 text-center">Free</div>
+                                            <div class="w-4/10 text-center">-</div>
+                                            <div class="w-2/10 cursor-pointer justify-between flex"><span class="text-indigo-700 underline">Edit</span><span class="text-red-600 underline mr-0  2xl:mr-52">Delete</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                       </div>
-                      <!-- <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm">
-                        <p class="text-xl font-semibold ">Local Delivery</p>
-                        <p class="text-gray-500 mt-2.5">Deliver orders directly to local customers. Learn more about <span class="text-indigo-700 underline cursor-pointer">local delivery.</span></p>
-                        <div class="flex justify-between items-center mt-5 mb-2">
-                            <p class="font-semibold uppercase mr-8">MANAGE DELIVERY BY LOCATION</p>
-                            <inertia-link href="shipping-and-delivery/local-delivery/manage">
-                              <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
-                            </inertia-link>
-                        </div>
-                        <div class="flex justify-between">
-                          <location-marker-icon class="w-5 h-5"/>
-                          <div>
-                            <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
-                            <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
-                          </div>
-                          <p class="bg-green-200 text-green-500 px-2 py-1 text-sm h-6 -ml-24">Offer Delivery</p>
-                        </div>
-                      </div> -->
-                      <div class="pl-5 pr-2  mt-5 py-7">
+                    
+                </div>
+                      <div class="pl-5 pr-2  mt-5 py-7 bg-white">
                         <div class="rounded-sm flex flex-col">
                           <div class="flex">
                           <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1" v-model="local_delivery"/>
@@ -112,9 +111,6 @@
                            </div>
                          </div>
                       </div>
-                       <delivery-modal v-if="Modal" @close="Modal=false" :condition_options="condition_options" :rate_options="rate_options"/>
-                      <pick-up-modal @close="this.popUp=false"  v-if="this.popUp" :store='store' /> 
-                  </div>
                 </div>
               </div>
             </div>

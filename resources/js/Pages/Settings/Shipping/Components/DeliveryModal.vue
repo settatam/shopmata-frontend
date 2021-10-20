@@ -18,24 +18,6 @@
                   </div>
                   <x-icon class="h-6 w-6 cursor-pointer" @click="closeModal"/>
               </div>
-                <!-- <div class="flex-1 flex mb-6">
-                    <form class="w-full flex md:ml-0" action="#" method="GET">
-                    <label for="search-field" class="sr-only">Search</label>
-                    <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-                        <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none" aria-hidden="true">
-                        <SearchIcon class="h-5 w-5 ml-2 text-gray-400" aria-hidden="true" />
-                        </div>
-                        <input id="search-field" name="search-field" class="block w-full h-full pl-10 pr-3 py-2 border-gray-200 text-gray-900 rounded placeholder-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 sm:text-sm" placeholder="Search countries and regions...." type="search" />
-                    </div>
-                    </form>
-                </div> -->
-                <!-- <div>
-                    <p class="font-semibold">Rates for</p>
-                    <div class="flex flex-col justify-items-center">
-                       <div class="flex align-middle my-3"> <input type="radio" name="" id="" v-model="shipping_rate" value="local_shipping" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded-sm mr-2.5 mt-1"> Domestic </div>
-                        <div class="align-middle flex"> <input type="radio" name="" id="" v-model="shipping_rate" value="global_shipping" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded-sm mr-2.5 mt-1"> Rest of the World </div>
-                    </div>
-                </div> -->
                 <div class="mt-2.5 mb-5 border-t border-gray-200 -mx-8"></div>
                 <div class="w-full">
                       <p class="block text-gray-600 font-semibold mb-2 bg-transparent" for="name">
@@ -43,15 +25,6 @@
                       </p>
                       <input type="text" id="name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="rates.name" required/>
                   </div>
-                <!-- <div class="flex">
-                  <div class="mr-2 w-full mb-3 relative">
-                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                        Description
-                      </label>
-                      <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
-                      <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/120</span>
-                    </div>
-                </div> -->
                 <div class="w-full">
                       <p class="block text-gray-600 font-semibold mb-2 bg-transparent">
                         Rate for
@@ -67,40 +40,7 @@
                       </div>
                   </div>
 
-                   <!--  <div class="flex flex-col lg:flex-row lg:justify-between">
-                            <div class="flex flex-col w-3/10">
-                                <label for="tag" class="text-gray-700 lg:mb-4">Options</label>  
-                            </div>
-                            <div class="flex flex-col w-3/10">
-                                <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0">Condition</label>  
-                            </div>
-                            <div class="flex flex-col w-3.5/10">
-                                <label for="condition" class="text-gray-700 mt-5 lg:mb-4 lg:mt-0" >Price</label>  
-                            </div>
-                        </div>
-                      <template v-for="(datum, index) in data" :key="index" >
-                        <div class="flex flex-col lg:flex-row lg:justify-between">
-                            <div class="flex flex-col w-3/10">
-                                <select name="conditions" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.rate">
-                                    <option v-for="(option,index) in rate" :key="index">
-                                        {{option.title}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="flex flex-col w-3/10">  
-                                 <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.condition">
-                                    <option v-for="(condition, index) in conditions" :key="index">
-                                       {{condition.title}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="flex flex-col w-3.5/10 mb-2">
-                                <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-model="datum.price">
-                            </div>
-                        </div>
-                      </template>
-                         <button class="text-gray-700 sm:text-sm rounded-md border border-gray-300 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4" @click="add()">Add another condition</button>
-               -->  </div>
+                  </div>
                 <div class="w-full">
                       <p class="block text-gray-600 font-semibold mb-2 bg-transparent" for="name">
                         Price

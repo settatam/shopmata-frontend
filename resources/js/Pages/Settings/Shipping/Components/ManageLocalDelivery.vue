@@ -178,28 +178,6 @@ export default {
                     label: "Nigerian Naira(NGN)",
                     code: "NGN"
                 }
-            ],
-            localAddress:[
-                {
-                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
-                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
-                },
-                {
-                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
-                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
-                },
-                {
-                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
-                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
-                },
-                {
-                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
-                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
-                },
-                {
-                    summary:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road",
-                    main:"1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria"
-                },
             ]
         }
     },
