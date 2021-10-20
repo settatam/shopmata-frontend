@@ -85,17 +85,16 @@
 </template>
 
 <script>
-import { ref, reactive} from 'vue'
+import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
-//import { Inertia } from '@inertiajs/inertia'
 
 
 export default {
     emits:['close'],
-    props:['store'],
+    props:['location'],
     
   components: {
     Dialog,
@@ -109,6 +108,7 @@ export default {
     return{
       countries:'',
       country_state :{},
+      local_pickup : {}
     }
   },
   methods:{
@@ -116,50 +116,43 @@ export default {
           this.open = false
            this.$emit('close')
       },
-      
-  },
-  mounted(){
-    axios.get('/api/countries').then(res=>{
-        this.countries=res.data.data;
-      })
-
-  },
-  watch:{
-    'local_pickup.country_id'(newVal,oldVal) {
-      axios.get(`/api/states?country_id=${newVal}`).then(res=>{
-         this.country_state = res.data.data
-      }) 
-    }
-  },
-  setup() {
-    const open = ref(true)
-      
-    function submit() {
-      if (local_pickup.address.length<1) {
+     submit(){
+      if (this.local_pickup.address.length<1) {
         alert('Address field can be empty')
       } else {
-        axios.post('/settings/store-locations', local_pickup)
-        .then((res)=> {
-          //console.log(res.data)
+        axios.put(`/settings/store-locations/${this.location}`, this.local_pickup)
+        .then(()=> {
             this.open = false
             Inertia.visit('/settings/shipping-and-delivery')
         })
       }
     }
-    
-    const local_pickup = reactive({
-          name:"",
-          address:"",
-          country_id:'',
-          state:"",
-          postal_code:"",
-          city:""
-      })
+      
+  },
+  mounted(){
+    axios.get('/api/countries').then(res=>{
+        this.countries=res.data.data;
+        //console.log(countries)
+      }),
+      axios.get(`/settings/store-locations/${this.location}`).then(res=>{
+          this.local_pickup= res.data;
+        })
 
+      
+
+  },
+  watch:{
+    'local_pickup.country_id'(newVal) {
+      axios.get(`/api/states?country_id=${newVal}`).then(res=>{
+         this.country_state = res.data.data
+    }) 
+    }
+  },
+  setup() {
+    const open = ref(true)
     return {
       open,
-      local_pickup,
-      submit
+    
     }
   }
 }

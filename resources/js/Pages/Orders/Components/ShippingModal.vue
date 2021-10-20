@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="open">
-    <Dialog as="div" auto-reopen="true" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
+    <Dialog as="div" auto-reopen="true" class="fixed z-10 inset-0 overflow-y-auto" @close="emitClose()">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
           <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -40,8 +40,8 @@
               </RadioGroup>
             </div>
             <div class="flex justify-between">
-              <input type="text" name="" v-model="text" class="w-6.5/10 border border-gray-300 rounded text-xs" placeholder="custom rate name">
-              <input type="text" name="" class="w-3/10 border border-gray-300 rounded text-xs" placeholder="$ 0">
+              <input type="text" name="" v-model="text" class="w-6.5/10 border border-gray-300 rounded" placeholder="custom rate name">
+              <input type="text" name="" class="w-3/10 border border-gray-300 rounded" placeholder="$ 0">
             </div>
             <div class="mt-5 flex justify-between">
               <button type="button" class="inline-flex w-20 justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm" @click="open = false">

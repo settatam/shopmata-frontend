@@ -1606,6 +1606,12 @@ select {
 .mt-11 {
 	margin-top: 2.75rem;
 }
+<<<<<<< HEAD
+=======
+.ml-10 {
+	margin-left: 2.5rem;
+}
+>>>>>>> toye-settings
 .block {
 	display: block;
 }
@@ -1901,6 +1907,9 @@ select {
 }
 .w-3\/6 {
 	width: 50%;
+}
+.w-24 {
+	width: 6rem;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -2314,6 +2323,9 @@ select {
 .border-r-0 {
 	border-right-width: 0px;
 }
+.border-l {
+	border-left-width: 1px;
+}
 .border-solid {
 	border-style: solid;
 }
@@ -2394,6 +2406,13 @@ select {
 	--tw-border-opacity: 1;
 	border-color: rgba(239, 68, 68, var(--tw-border-opacity));
 }
+<<<<<<< HEAD
+=======
+.border-indigo-700 {
+	--tw-border-opacity: 1;
+	border-color: rgba(67, 56, 202, var(--tw-border-opacity));
+}
+>>>>>>> toye-settings
 .bg-white {
 	--tw-bg-opacity: 1;
 	background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
@@ -2855,6 +2874,12 @@ select {
 }
 .pt-0\.5 {
 	padding-top: 0.125rem;
+}
+.pl-4\.5 {
+	padding-left: 1.125rem;
+}
+.pb-12 {
+	padding-bottom: 3rem;
 }
 .text-left {
 	text-align: left;
@@ -4780,6 +4805,12 @@ input[type='checkbox']:focus {
 
 	.xl\:pr-0 {
 		padding-right: 0px;
+	}
+}
+@media (min-width: 1536px) {
+
+	.\32xl\:mr-52 {
+		margin-right: 13rem;
 	}
 }
 
