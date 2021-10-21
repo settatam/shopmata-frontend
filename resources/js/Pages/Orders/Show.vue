@@ -1,40 +1,16 @@
 <template>
   <app-layout>
-    <div class="flex-1 flex flex-col  overflow-y-auto xl:overflow-hidden">
-      <!-- Breadcrumb -->
-      <nav aria-label="Breadcrumb" class="bg-white border-b border-blue-gray-200 xl:hidden">
-        <div class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8">
-          <inertia-link href="#" class=" -ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
-            <ChevronLeftIcon
-              class="h-5 w-5 text-blue-gray-400"
-              aria-hidden="true"
-            />
-            <span>Add a new Order</span>
-          </inertia-link>
-        </div>
-      </nav>
-
-      <div class="flex-1 flex xl:overflow-hidden">
-        <!-- Secondary sidebar -->
-
-        <!-- Main content -->
-        <div class="flex-1 max-h-screen xl:overflow-y-auto">
-          <div class="max-w-3xl mx-5 mt-4 px- sm:px- lg:py- lg:px-">
-            <h1 class="text-xl font-semibold mb-6 text-blue-gray-900">
-              New Order
-            </h1>
-          </div>
-
-            <!-- <div class="flex-shrink-0 px-8 py-4 flex items-center">
-          <p class="text-2xl font-semibold text-blue-gray-900">Online Store</p>
+    <div class="flex-1 flex flex-col mt-4 min-h-screen">
+       <div class="flex-shrink-0 px-8 py-4 flex items-center">
+          <p class="text-2xl font-semibold text-blue-gray-900">Orders</p>
        </div>
-        <nav class="flex px-8" aria-label="Breadcrumb">
+        <nav class="flex px-8 mb-4" aria-label="Breadcrumb">
           <ol role="list" class="flex items-center space-x-4">
             <li>
               <div>
                 <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
                   <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-                  <span class="sr-only">Online Store</span>
+                  <span class="sr-only">Orders</span>
                 </a>
               </div>
             </li>
@@ -47,39 +23,101 @@
           </ol>
         </nav>
 
-        <div class="flex justify-between items-center mx-8 mt-8">
-          <a href="/online-store/orders/" class="hover:text-gray-700">
-            <div class="flex items-center">
-              <ArrowLeftIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-              <h1 class="ml-4 text-2xl font-semibold">{{ menu.name }}</h1>
-            </div>
-          </a>
-        </div> -->
-          
-          <div class="pl-5 flex w-full">
-              <div class="flex flex-col">
-                <div class=" bg-white pl-8 pr-6 pt-9 w-175">
-                  <div class="flex justify-between">
-                    <p class="font-semibold text-lg">Order Details</p>
-                    
-                    <div class="flex justify-between font-semibold mb-2">
-                      <a href="#" class="text-cyan-500 font-semibold mr-6" @click="openReserve=true" >Reserve Items</a>
-                      <a href="#" class="text-cyan-500 font-semibold">Add Custom Item</a>
+          <div class="px-6 flex w-full">
+             <div class="flex flex-col w-1/3 mr-5">
+              <div class=" bg-white pl-5 pr-7 pb-10 pt-6 mb-5 ">
+                <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                  <div class="px-5 flex justify-between mb-4">
+                    <h2 class="font-semibold text-xl">Customer overview</h2>
+                    <a href="/order/edit" class="text-indigo-700 font-semibold">Edit</a>
+                  </div>
+                  <div class="px-5 mb-6">
+                    <h2 class="font-semibold text-indigo-700 mb-3">jeremiah.g@gmail.com</h2>
+                    <h2 class="text-gray-400">Account invite sent</h2>
+                  </div>
+                </div>
+                <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                  <div class="px-5 flex justify-between mb-4">
+                    <h2 class="font-semibold text-xl">Default Address</h2>
+                    <a href="/order/manage" class="text-indigo-700 font-semibold">Manage</a>
+                  </div>
+                  <div class="px-5 text-gray-500 mb-6">
+                    <h2 class="font-normal mb-1">Jeremiah Gyang</h2>
+                    <h2 class="mb-1">1004 East Side Boulevard</h2>
+                    <h2 class="mb-1">Apt 402</h2>
+                    <h2 class="mb-1">Boston Massachusetts</h2>
+                    <h2 class="mb-6">United States</h2>
+                    <a href="/order/address" class="font-semibold text-indigo-700">Add new address</a>
+                  </div>
+                </div>
+                  <div class="-mx-5">
+                    <div class="px-5 flex justify-between mb-4">
+                      <h2 class="font-semibold text-xl">Tax Settings</h2>
+                      <a href="/order/manage" class="text-indigo-700 font-semibold">Manage</a>
+                    </div>
+                    <div class="px-5 text-gray-400">
+                      <h2>No exemptions</h2>
                     </div>
                   </div>
-                  <div class="flex justify-between">
-                    <div class="relative mt-4">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-                          <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-                            <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                          </button>
-                        </span>
-                        <div class="min-w-0 flex-1">
-                          <label for="search" class="sr-only">Search</label>
-                          <input id="text3" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-111"/>
-                        </div>
-                      </div>
-                    <button class="px-4 border border-gray-300 mt-4 rounded-md" @click="browseProduct">Browse Products</button>
+                  <!-- <h2 class="font-semibold text-lg">Find or create a customer</h2>
+                  <div class="relative mt-4">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                      <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                        <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                      </button>
+                    </span>
+                    <div class="min-w-0 flex-1">
+                      <label for="search" class="sr-only">Search</label>
+                      <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300  text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
+                    </div>
+
+                  </div>
+                  <div class="flex mx-auto justify-center mt-5 cursor-pointer" @click="openCustomer=true">
+                    <PlusIcon class="h-4 w-4 my-auto mr-3"/>
+                    <p class="text-gray-400">Create a new customer</p>
+                  </div> -->
+              </div>
+              <div class="bg-white pl-5 pr-7 pt-6 pb-9 mb-6">
+                <div class="flex justify-between">
+                  <h2 class="font-semibold text-lg mb-6">Email marketing</h2>
+                  <h2 class="text-cyan-700 font-semibold">Unsubscribe</h2>
+                </div>
+                <div class="mb-3.5 text-sm inline-flex leading-5 bg-green-100 text-green-500 px-2 py-1">
+                  Subscribed
+                </div>
+                <div class="">
+                  <h2 class="font-semibold text-indigo-700 mb-3.5">jeremiah.g@gmail.com</h2>
+                  <h2 class="text-gray-400">Subscribed on December 30, 2018</h2>
+                </div>
+              </div>
+
+               <div class="bg-white pl-5 pr-7 pb-9 pt-6">
+                <div class="flex justify-between mb-4.5">
+                  <h2 class="font-semibold text-lg">Tags</h2>
+                  <h2 class="text-cyan-700 font-semibold">View all tags</h2>
+                </div>
+                <label for="search" class="sr-only">Search</label>
+                <input id="text" type="text" placeholder="VIP, sale, shopper, etc" class="block pl-3 py-2 rounded-md border border-gray-300  text-gray-900 placeholder-gray-300 focus:outline-none w-full"/>
+              </div>
+            </div>
+
+              <div class="flex flex-col w-2/3">
+                <div class=" bg-white pt-6 px-8">
+                  <div class="mb-4">
+                    <h2 class="font-semibold text-xl mb-2.5">Customer overview</h2>
+                    <div class="text-gray-400 mb-4">
+                      <h2 class="font-normal">Boston, MA, United States</h2>
+                      <h2>Customer for about 4 years</h2>
+                    </div>
+                </div>
+                  <div class="flex mb-2">
+                    <h2 class="font-semibold text-lg">Customer Note</h2>
+                  </div>
+                  <div class="flex w-full mb-6">
+                    <div class="w-full mr-2">
+                      <input id="text3" type="text" placeholder="Add a note" class="w-full pl-4 py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none"/>
+                    </div>
+                    <button class="px-8 py-2 text-center bg-indigo-700 border text-white rounded-md" @click="browseProduct">Add</button>
                   </div>
                   <empty-product-modal v-if="openModal && products.length == 0"/>
                   <product-modal v-if="openModal && products.length > 0" :products="products" :production="production" :variantSelected="variantSelected" @emitClose="emitClose" />
@@ -109,7 +147,24 @@
                       </div>
                       <XIcon class="w-3 h-3 my-auto"/>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-5 bg-white gap-2 border-gray-200 pt-8">
+                    <div class="mb-8 lg:w-7/10 flex items-center justify-between">
+                      <div class="">
+                        <h4 class="mb-3">Last Order</h4>
+                        <h4 class="mb-3 font-semibold text-lg">7 months ago</h4>
+                        <h4 class="">From Online Store</h4>
+                      </div>
+                      <div class="">
+                        <h4 class="mb-3">Total spent to date</h4>
+                        <h4 class="mb-3 font-semibold text-lg">$29.30</h4>
+                        <h4 class="">1 Order</h4>
+                      </div>
+                      <div>
+                        <h4 class="mb-3">Average order value</h4>
+                        <h4 class="mb-3 font-semibold text-lg">$9.20</h4>
+                        <h4></h4>
+                      </div>
+                    </div>
+                    <!-- <div class="grid grid-cols-1 md:grid-cols-5 bg-white gap-2 border-gray-200 pt-8">
                       <div class="col-span-1 md:col-span-3 md:mb-10">
                           <h4 class="block text-black mb-2 bg-transparent" >
                               Notes
@@ -150,76 +205,47 @@
                                 </div>
                             </div>
                       </div>
+                    </div> -->
+
+                    <!-- <div class="-mr-6 -ml-8 border-b-2 border-gray-100 "></div> -->
+                    <!-- <div class="flex justify-between bg-white border-gray-200 pt-4">
+                      <div class=" my-9">
+                        <h4 class="block font-semibold mb-2" >
+                          Email Invoice
+                        </h4>
+                      </div>
+                      <div class=" my-8">
+                        <button class="px-6 py-2.5 text-center border border-gray-300 cursor-pointer  rounded-md" @click="addAttr('email')">
+                          Email invoice
+                        </button>
+                      </div>
                     </div>
-                    <div class="-mr-6 -ml-8 border-b-2 border-gray-100"></div>
-                    <div class="flex justify-between bg-white border-gray-200 pt-4">
-                                <div class=" my-9">
-                                    <h4 class="block font-semibold mb-2" >
-                                        Email Invoice
-                                    </h4>
-                                </div>
-                                <div class=" my-8">
-                                    <button class="px-6 py-2.5 text-center border border-gray-300 cursor-pointer  rounded-md" @click="addAttr('email')">
-                                        Email invoice
-                                    </button>
-                                </div>
-                    </div>
-                    <div class="-mr-6 -ml-8 border-b-2 border-gray-100"></div>
+                    <div class="-mr-6 -ml-8 border-b-2 border-gray-100"></div> -->
                     
-                      <div class="flex flex-col mt-5">
+                      <!-- <div class="flex flex-col mt-5">
                         <div class="flex justify-between">
                           <h2 class="font-semibold my-auto"> Accept Payment </h2>
                           <div>
                             <button class="px-6 py-2.5  text-center border border-gray-300 cursor-pointer  rounded-md">Mark as Pending</button>
                             <button class="px-6 py-2.5  text-center border border-gray-300 cursor-pointer  rounded-md ml-6">Pay with Credit Card</button>
                           </div>
-                        </div>
-                        <div class="flex justify-between mt-2">
+                        </div> -->
+                        <!-- <div class="flex justify-between mt-2">
                           <div></div>
                           <button class="px-6 py-2.5  text-center border border-gray-300 cursor-pointer  rounded-md mb-8" @click="this.openMarkAsPaid = true" >Mark as Paid</button>
-                        </div>
-                      </div>
+                        </div> -->
+                      <!-- </div> -->
                   </div>
                 </div>
-                <div class="flex mt-6.5 justify-end mb-32">
+                <!-- <div class="flex mt-6.5 justify-end mb-32">
                    <inertia-link href="/orders">
                   <button class="px-6 py-3 text-center border border-gray-400 cursor-pointer rounded-md">Cancel</button> </inertia-link>
                   <button class="px-6 py-3  text-center border border-gray-400 cursor-pointer bg-indigo-600 text-white  rounded-md ml-4">Save as Draft</button>
-                </div>
+                </div> -->
               </div>
-              <div class="flex flex-col ml-5">
-              <div class=" bg-white pl-5 pr-7 pb-10 pt-6 mb-5 ">
-                  <h2 class="font-semibold text-lg">Find or create a customer</h2>
-                  <div class="relative mt-4">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-                      <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-                        <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                      </button>
-                    </span>
-                    <div class="min-w-0 flex-1">
-                      <label for="search" class="sr-only">Search</label>
-                      <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300  text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
-                    </div>
-
-                  </div>
-                  <div class="flex mx-auto justify-center mt-5 cursor-pointer" @click="openCustomer=true">
-                    <PlusIcon class="h-4 w-4 my-auto mr-3"/>
-                    <p class="text-gray-400">Create a new customer</p>
-                  </div>
-              </div>
-              <div class="bg-white pl-5 pr-7 pb-9 pt-6">
-                <div class="flex justify-between mb-6">
-                  <h2 class="font-semibold text-lg">Tags</h2>
-                  <h2 class="text-cyan-700 font-semibold">View all tags</h2>
-                </div>
-                <label for="search" class="sr-only">Search</label>
-                <input id="text" type="text" placeholder="Urgent, reviewed, wholesale" class="block pl-10 py-2 rounded-md border border-gray-300  text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
-              </div>
-            </div>
+              
             </div>
         </div>
-      </div>
-    </div>
   </app-layout>
 </template>
 
@@ -248,7 +274,8 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ChevronLeftIcon,XIcon,PlusIcon } from "@heroicons/vue/solid";
+import { ChevronLeftIcon,XIcon,PlusIcon,ChevronRightIcon, ArrowLeftIcon } from "@heroicons/vue/solid";
+import {  HomeIcon } from "@heroicons/vue/outline";
 import hljs from "highlight.js";
 // import InventoryForm from "./Components/InventoryForm";
 // import ShippingForm from "./Components/ShippingForm";
@@ -261,6 +288,10 @@ import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
 import Button from '../../Jetstream/Button.vue';
 // import "vue-multiselect/dist/vue-multiselect.min.css";
+
+const pages = [
+  { name: 'Orders', href: '/orders', current: false },
+];
 
 const statusStyles = {
   success: "bg-green-100 text-green-800",
@@ -304,11 +335,15 @@ export default {
     AddressModal,
     TagModal,
     MarkAsPaidModal,
-    ReserveItemsModal
+    ReserveItemsModal,
+    ChevronRightIcon,
+    ArrowLeftIcon,
+    HomeIcon
   },
-
+  
   data() {
     return {
+      pages,
       valueContent: '',
       openShipping: false,
       selected:'',
@@ -763,8 +798,10 @@ export default {
   },
   setup() {
     const open = ref(false);
+
     return {
       statusStyles,
+      pages
     };
   },
 };
