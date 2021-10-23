@@ -459,7 +459,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class=" flex justify-between mt-4.5 border-b-2 border-gray-200">
+                        <div class=" flex justify-between mt-4.5 pb-2 border-b-2 border-gray-200">
                           <p class="font-semibold text-lg">Timeline</p>
                           <div class="flex items-center">
                             <input type="checkbox" class="focus:ring-indigo-500 text-indigo-600 border-gray-300 mr-2" />
