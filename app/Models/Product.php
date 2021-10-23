@@ -19,7 +19,7 @@ class Product extends Model
         'compare_at_price',
         'has_variants',
         'store_id',
-        'slug',
+        'handle',
         'date_available',
         'minimum_order',
         'brand_id'
@@ -77,6 +77,13 @@ class Product extends Model
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
+    public function options() {
+        return $this->hasMany(ProductOption::class);
+    }
+
+    public function tags() {
+        return $this->hasMany(ProductTag::class);
+    }
 
 
     public static function makeSlug($title, $store_id)

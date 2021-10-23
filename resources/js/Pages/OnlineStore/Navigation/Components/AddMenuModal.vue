@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="mt-5 sm:mt-6 flex justify-end">
-              <button type="button" class="items-centerrounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+              <button type="button" class="items-centerrounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-700 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
                 {{buttonMsg}}
               </button>
             </div>
