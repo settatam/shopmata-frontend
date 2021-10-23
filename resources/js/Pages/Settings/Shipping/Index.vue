@@ -35,7 +35,7 @@
                   <div class="px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>
                       <p class="text-gray-500">Manage how customers receive their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">delivery methods.</span> </p>
-                      <div class="pl-5 pr-2 border border-gray-300 mt-5 pt-8 rounded-sm">
+                      <div class="pl-5 pr-2  border border-gray-300 mt-5 pt-8 pb-12 rounded-sm">
                         <p class="text-xl font-semibold">Shipping</p>
                         <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <span class="text-indigo-700 underline cursor-pointer">about shipping rates</span> </p>
                         <div class="flex justify-between items-center mt-6">
@@ -43,43 +43,42 @@
                             <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
                             <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
-                            <button class="text-indigo-700 mr-5 cursor-pointer" @click='popModal'>Create Shipping Rate</button>
-                          <!-- <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
-                          </inertia-link> -->
+                          <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
+                            <button class="text-indigo-700 mr-5 cursor-pointer">Create Shipping Rate</button>
+                          </inertia-link>
                         </div>
-                          <p class="mt-2 mb-10 text-gray-500"> Choose shipping rates for both domestic and international delivery. </p>
-                         <!--  <p class="mt-2 text-gray-500"> All Products</p>
-                            <div class="flex flex-col mb-8 mt-2">
-                              <p class="font-semibold mb-3">Rates for</p>
-                              <span class="flex text-gray-500 mb-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Domestic</span>
-                              <span class="flex text-gray-500 mt-1"><GlobeAltIcon class="w-5 h-5 mr-3 my-auto text-gray-400"/> Rest of the world</span>
-                            </div> -->
+                          <p class="mt-2 mb-10 text-gray-500"> Create a shipping a shipping profile to add custom rate </p>
+                            <div class="mt-6 flex-col">
+                                <div>
+                                    <div class="flex-col mt-2">
+                                        <div class="flex items-center text-gray-600">
+                                            <div class="w-10 flex items-center"><img class="w-5 h-5 " src="../../../../assets/globe.svg" alt="globe"></div>
+                                            <div class="w-3/10">Domestic</div>
+                                            <div class="w-1/10 text-center">Price</div>
+                                            <div class="w-4/10 text-center">Conditions</div>
+                                            <div class="w-2/10 invisible">...</div>
+                                        </div>
+                                        <div class=" mt-1 border-t border-gray-100 -mr-5 -ml-8"></div>
+                                        <div class="flex mt-1">
+                                            <div class="w-10"></div>
+                                            <div class="w-3/10">Standard Rate</div>
+                                            <div class="w-1/10 text-center">Free</div>
+                                            <div class="w-4/10 text-center">-</div>
+                                            <div class="w-2/10 cursor-pointer justify-between flex"><span class="text-indigo-700 underline">Edit</span><span class="text-red-600 underline mr-0  2xl:mr-52">Delete</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                       </div>
-                      <!-- <div class="pl-5 pr-2 border border-gray-300 mt-5 py-7 rounded-sm">
-                        <p class="text-xl font-semibold ">Local Delivery</p>
-                        <p class="text-gray-500 mt-2.5">Deliver orders directly to local customers. Learn more about <span class="text-indigo-700 underline cursor-pointer">local delivery.</span></p>
-                        <div class="flex justify-between items-center mt-5 mb-2">
-                            <p class="font-semibold uppercase mr-8">MANAGE DELIVERY BY LOCATION</p>
-                            <inertia-link href="shipping-and-delivery/local-delivery/manage">
-                              <p class="text-indigo-700 mr-5 cursor-pointer">Manage</p> 
-                            </inertia-link>
-                        </div>
-                        <div class="flex justify-between">
-                          <location-marker-icon class="w-5 h-5"/>
-                          <div>
-                            <p class="font-semibold">1, Road C Akinfenwa Street, Hope Road Old-Ife Road</p>
-                            <p class="text-gray-500">1, Road C Akinfenwa Street, Hope Road Old-Ife Road, 200221 Ibadan Nigeria</p>
-                          </div>
-                          <p class="bg-green-200 text-green-500 px-2 py-1 text-sm h-6 -ml-24">Offer Delivery</p>
-                        </div>
-                      </div> -->
-                      <div class="pl-5 pr-2  mt-5 py-7">
+                    
+                </div>
+                      <div class="pl-5 pr-2  mt-5 py-7 bg-white">
                         <div class="rounded-sm flex flex-col">
                           <div class="flex">
                           <input type="checkbox" id="" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 mt-1" v-model="local_delivery"/>
                             <div class="flex justify-between items-center w-full">
                               <p class="text-xl font-semibold">Local Pickup</p> 
-                              <p class="text-indigo-600 cursor-pointer" v-if="this.local_pickup.length!=0" @click="popModal=true">Add Location</p>
+                              <p class="text-indigo-600 cursor-pointer" v-if="this.local_pickup.length!=0" @click="this.popUp=true">Add Location</p>
                             </div>
                           </div>
                           <div class="flex flex-col items-start mb-6 ml-6">
@@ -88,7 +87,7 @@
                         </div>
                         <div class="flex flex-col items-center" v-if="this.local_pickup.length==0">
                           <p class="mt-8 mb-6">No local pickup address, add a location to select local pickup </p>
-                          <button type="button" class=" h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"  @click="popModal=true">Add location</button>
+                          <button type="button" class=" h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"  @click="this.popUp = true">Add location</button>
                         </div>
                          <div class="flex flex-col" v-else>
                            <div v-for="(location, index) in this.local_pickup" :key="location.id" class="bg-gray-50 border border-gray-300 h-32 pl-8 pr-7 mb-3 flex justify-between" >
@@ -102,6 +101,7 @@
                                     <p class="text-gray-500">{{location.address}}</p>
                                   </div>
                                 </div>
+                                  <pick-up-modal-edit @close="this.popUpEdit=false" :location='location.id' v-if="this.popUpEdit"  /> 
                               </div>
                              </div>
                               <div class="flex flex-col justify-between py-5">
@@ -111,9 +111,6 @@
                            </div>
                          </div>
                       </div>
-                       <delivery-modal v-if="Modal" @close="Modal=false" :condition_options="condition_options" :rate_options="rate_options"/>
-                      <!-- <pick-up-modal @close="this.popModal=false"  v-if="this.popModal" :store='store' /> -->
-                  </div>
                 </div>
               </div>
             </div>
@@ -130,6 +127,7 @@ import Search from '../../Search.vue'
 import Nav from '../Nav';
 import axios from "axios"
 import PickUpModal from "./Components/PickUpModal.vue"
+import PickUpModalEdit from "./Components/PickUpModalEdit.vue"
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
 import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon } from '@heroicons/vue/outline'
@@ -160,19 +158,24 @@ export default {
     BriefcaseIcon,
     LocationMarkerIcon,
     PickUpModal,
+    PickUpModalEdit,
     TrashIcon,PencilIcon,
-    DeliveryModal
+    DeliveryModal,
+    
   },
 
   
   data() {
     return {
-      //popModal : false,
+      popUp :false,
+      popUpEdit :false,
       
     }
   },
   methods:{
-    
+     edit_location(){
+      this.popUpEdit = true
+    }
   },
 
   setup(props) {
@@ -182,11 +185,9 @@ export default {
     const popModal = () => {
             Modal.value = true
       }
-    const edit_location = function(id){
-      console.log('edit',id)
-    }
-    const delete_location = function(id){
-      Inertia.delete(`/settings/store-locations/${id}`)  
+    const delete_location = (id)=>{
+      Inertia.delete(`/settings/store-locations/${id}`)
+      location.reload()  
     }
     const local_pickup=props.locations
     
@@ -194,11 +195,10 @@ export default {
       statusStyles,
       pages,
       local_delivery,
-      edit_location,
       delete_location,
       local_pickup,
       Modal,
-      popModal
+      popModal,
     }
   },
 

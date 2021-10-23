@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import { ref, reactive, onBeforeMount } from 'vue'
+import { ref, reactive} from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
 import axios from 'axios'
@@ -121,17 +121,14 @@ export default {
   mounted(){
     axios.get('/api/countries').then(res=>{
         this.countries=res.data.data;
-        //console.log(countries)
       })
 
   },
   watch:{
     'local_pickup.country_id'(newVal,oldVal) {
-    //console.log(oldVal)
       axios.get(`/api/states?country_id=${newVal}`).then(res=>{
          this.country_state = res.data.data
-         //console.log(this.country_state)
-    }) 
+      }) 
     }
   },
   setup() {

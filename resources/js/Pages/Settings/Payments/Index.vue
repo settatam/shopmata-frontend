@@ -48,7 +48,7 @@
                 <div class="px-7 pt-7 pb-3 bg-white rounded-md mb-6">
                   <div class="flex justify-between">
                   <span class="text-2xl mb-2 font-semibold flex items-center">Pay on Delivery <QuestionMarkCircleIcon class="w-5 h-5 ml-2"/></span>
-                      <Switch v-model="enabledPayment" :class="[enabledPayment ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-25 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
+                      <Switch v-model="enabledPayment" :class="[enabledPayment ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-24 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
                         <span class="sr-only">Use setting</span>
                         <span :class="[enabledPayment ? 'translate-x-20' : 'translate-x-0', 'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']">
                           <span :class="[enabledPayment ? 'opacity-0 ease-out duration-100' : 'opacity-100 ease-in duration-200', 'absolute inset-0 h-full w-full flex items-center justify-start transition-opacity text-white ml-6']" aria-hidden="true">
@@ -69,7 +69,7 @@
                 <div class="px-7 pt-7 pb-3 bg-white rounded-md mb-6">
                   <div class="flex justify-between">
                   <span class="text-2xl mb-2 font-semibold flex items-center">International Payments<QuestionMarkCircleIcon class="w-5 h-5 ml-2"/></span>
-                      <Switch v-model="enabledShopmata" :class="[enabledShopmata ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-25 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
+                      <Switch v-model="enabledShopmata" :class="[enabledShopmata ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-24 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
                         <span class="sr-only">Use setting</span>
                         <span :class="[enabledShopmata ? 'translate-x-20' : 'translate-x-0', 'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']">
                           <span :class="[enabledShopmata? 'opacity-0 ease-out duration-100' : 'opacity-100 ease-in duration-200', 'absolute inset-0 h-full w-full flex items-center justify-start transition-opacity text-white ml-6']" aria-hidden="true">

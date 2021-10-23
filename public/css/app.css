@@ -1606,6 +1606,9 @@ select {
 .mt-4\.5 {
 	margin-top: 1.125rem;
 }
+.ml-10 {
+	margin-left: 2.5rem;
+}
 .block {
 	display: block;
 }
@@ -1901,6 +1904,9 @@ select {
 }
 .w-5\/6 {
 	width: 83.333333%;
+}
+.w-24 {
+	width: 6rem;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -2868,6 +2874,9 @@ select {
 }
 .pt-0\.5 {
 	padding-top: 0.125rem;
+}
+.pb-12 {
+	padding-bottom: 3rem;
 }
 .text-left {
 	text-align: left;
@@ -4789,6 +4798,12 @@ input[type='checkbox']:focus {
 
 	.xl\:pr-0 {
 		padding-right: 0px;
+	}
+}
+@media (min-width: 1536px) {
+
+	.\32xl\:mr-52 {
+		margin-right: 13rem;
 	}
 }
 
