@@ -191,7 +191,7 @@ export default {
                bodyError.value = true       
            } else {
                Inertia.post('/settings/shipping-rates',formData)
-                location.reload()
+                //location.reload()
            }
        }
         return{
