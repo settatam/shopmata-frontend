@@ -32,7 +32,7 @@
                         <div class="p-8 mb-6 bg-white">
                             <h2 class="text-xl font-semibold mb-4">Plan and Permissions</h2>
                             <h3 class="text-lg font-semibold">Plan details</h3>
-                            <p class="text-sm text-gray-400">View our <span class="text-indigo-700 cursor-pointer">terms of service</span>  and <span class="text-indigo-700 cursor-pointer">privacy policy.</span></p>
+                
 
                             <div class="px-2  border border-gray-300 mt-5 py-2.5 rounded">
                                 <div class="flex flex-col">
@@ -105,13 +105,13 @@
                                   <table class="w-full divide-y divide-gray-200 table-fixed">
                                     <thead class="bg-gray-50">
                                     <tr> 
-                                        <th scope="col" class="w-4/10  px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                                        <th scope="col" class="w-4/10  px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
                                             Names
                                         </th>
-                                        <th scope="col" class=" w-3/10 px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                                        <th scope="col" class=" w-3/10 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
                                             Last Login
                                         </th>
-                                        <th scope="col" class="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-500 tracking-wider">
+                                        <th scope="col" class="w-1/5 px-6 py-3 text-center text-lg font-medium text-gray-500 tracking-wider">
                                             Permissions
                                         </th>
                                         <th scope="col" class="relative px-6 py-3">

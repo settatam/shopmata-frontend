@@ -65,7 +65,7 @@
                   </div>
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
                   <h2 class="text-lg font-semibold mb-2">Store Address</h2>
-                  <p class="w-6/10 text-gray-400 mb-4">This address will appear on your invoices. You can edit the address used to calculate shipping rates in your <span class="text-indigo-700 cursor-pointer">shipping settings</span></p>
+                    <p class="w-full text-gray-400 mb-4">This address will appear on your invoices. You can edit the address used to calculate shipping rates in your <a class="text-indigo-700 cursor-pointer" href="/settings/shipping-and-delivery">shipping settings</a></p>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Legal Name of Business
@@ -112,7 +112,7 @@
                   
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
                   <h2 class="text-lg font-semibold mb-2">Standards and Formats</h2>
-                  <p class="w-6/10 text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <p class="w-full text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Time Zone
@@ -139,7 +139,7 @@
                     </div>
                   </div>
                   <h2 class="text-lg font-semibold mb-2">Edit Order ID Format (Optional)</h2>
-                  <p class="w-6/10 text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <p class="w-full text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
                   <div class="flex required  mb-4">
                     <div class="mr-2 w-full">
                       <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -156,7 +156,7 @@
                   </div>
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
                   <h2 class="text-lg font-semibold mb-2">Store Currency</h2>
-                  <p class="w-6/10 text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <p class="w-full text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Store Currency
@@ -164,7 +164,7 @@
                     <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.currency_id" required>
                       <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">{{currency.symbol_left + ' '}}  {{ currency.title }} ({{ currency.code }})</option>
                     </select>
-                    <p class="w-6/10 text-gray-400 mb-4">You have made your first sale, so you need to <span class="text-indigo-700 cursor-pointer">contact support</span> if you want to change your currency</p>
+                    <p class="w-full text-gray-400 mb-4">You have made your first sale, so you need to contact support if you want to change your currency</p>
                   </div>
                 </div>
                 <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Changes</button>
