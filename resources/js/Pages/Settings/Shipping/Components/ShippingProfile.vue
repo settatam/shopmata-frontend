@@ -44,7 +44,7 @@
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Price
                                     </label>
-                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="rates.price" required/>
+                                    <input type="number"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="rates.price" required/>
                                     <error-icon class="absolute top-8 right-0" v-show="bodyError && !rates.price.length "/>
                                 </div>
                                  <div class="w-full mt-4 ">
@@ -191,7 +191,8 @@ export default {
                bodyError.value = true       
            } else {
                Inertia.post('/settings/shipping-rates',formData)
-                //location.reload()
+               rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
+               data.value =([{condition:'is equal to',tag:'Price',value:''}])
            }
        }
         return{

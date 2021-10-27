@@ -34,7 +34,7 @@
                   <h1 class="text-2xl mb-2 font-semibold">Shipping and Delivery</h1>
                   <div class="px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>
-                       <p class="text-gray-500">Manage how customers receive their orders. Learn more about <a class="text-indigo-700 underline cursor-pointer" href="/settings/delivery-methods">delivery methods.</a> </p>
+                       <p class="text-gray-500">Manage how customers receive their orders. </p>
                       <div class="pl-5 pr-2  border border-gray-300 mt-5 pt-8 pb-12 rounded-sm">
                         <p class="text-xl font-semibold">Shipping</p>
                         <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <a class="text-indigo-700 underline cursor-pointer" href="/settings/shipping-rate">about shipping rates</a> </p>
