@@ -83,7 +83,7 @@
                   </div>
                  
                  <div class="flex flex-col justify-center" v-if="enabledShopmata">
-                    <p class="text-gray-400">View and manage the payment methods in your account. Based on your country, accept payments from customers into your preferred bank account.</p>
+                    <p class="text-gray-400">View and manage the payment methods in your account. Based on your country, accept payments from customers into your preferred bank account.<a class="text-indigo-500 cursor-pointer" href="/settings/international-payment">Learn More </a></p>
                     <div class="flex flex-col items-center">
                       <p class="text-gray-400 mt-8">No bank details added yet </p>
                       <button class="text-white bg-indigo-700 rounded-md px-4 py-3 my-5 w-48" @click="this.popModal=true" >Add Accounts Details</button>

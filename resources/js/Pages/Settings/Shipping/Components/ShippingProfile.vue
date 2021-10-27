@@ -32,7 +32,7 @@
                     <div class="mb-6">
                          <div class="px-8 pb-8 pt-6  mb-6 bg-white">
                             <h1 class="text-2xl font-semibold">Add Shipping Rate</h1>
-                             <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items.</p>            
+                             <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <span class="text-indigo-700 underline cursor-pointer">Watch a demo</span></p>                       
                                 <div class="w-auto relative" >
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Rate Name

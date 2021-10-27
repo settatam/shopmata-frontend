@@ -126,6 +126,15 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
 
+	#Settings -> External Links
+	Route::get('settings/contact',[SettingsController::class, 'support']);
+	Route::get('settings/delivery-method',[SettingsController::class, 'deliveryMethod']);
+	Route::get('settings/international-payment',[SettingsController::class, 'internationalPayment']);
+	Route::get('settings/privacy-policy',[SettingsController::class, 'privacyPolicy']);
+	Route::get('settings/shipping-rate',[SettingsController::class, 'aboutShippingRate']);
+	Route::get('settings/terms-of-service',[SettingsController::class, 'termsOfService']);
+
+
 	#Settings -> General
 	Route::get('settings/general', [GeneralController::class, 'index'])->name('settings.general');
 	Route::put('settings/general', [SettingsController::class, 'updateStore'])->name('settings.updateStore');

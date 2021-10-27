@@ -164,7 +164,7 @@
                     <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.currency_id" required>
                       <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">{{currency.symbol_left + ' '}}  {{ currency.title }} ({{ currency.code }})</option>
                     </select>
-                    <p class="w-full text-gray-400 mb-4">You have made your first sale, so you need to contact support if you want to change your currency</p>
+                    <p class="w-full text-gray-400 mb-4">You have made your first sale, so you need to <a class="text-indigo-700 cursor-pointer" href="/settings/contact">contact support</a> if you want to change your currency</p>
                   </div>
                 </div>
                 <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Changes</button>
