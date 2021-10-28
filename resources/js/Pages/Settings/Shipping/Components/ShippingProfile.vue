@@ -171,7 +171,7 @@ export default {
         const bodyError = ref(false)
         const add = ()=> {
             data.value.push({
-                rate:"Price",
+                rate:"",
                 condition:"is equal to",
                 price:"",
                 state:''
