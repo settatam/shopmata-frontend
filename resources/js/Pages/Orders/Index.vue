@@ -24,19 +24,92 @@
             </inertia-link>
           </div>
         </div>
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-gray-900 text-xl leading-6 font-medium mr-2">All Orders()</h2>
+        <div class="flex items-center justify-between py-3 px-6 bg-white rounded">
+          <div class="w-full md:w-2/5 px-3">
+            <label for="search" class="block text-gray-600 font-semibold mb-2 bg-transparent">What are you looking for?</label>
+              <div class="relative">
+                <input
+                  id="search"
+                  type="search"
+                  placeholder="Search by order id, status...."
+                  class="
+                      block
+                      pl-10
+                      py-2
+                      rounded-md
+                      border border-gray-300
+                      text-gray-900
+                      placeholder-gray-300
+                      focus:outline-none
+                      w-full
+                  "
+                />
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <SearchIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                </div>
+              </div>
+            </div>
+            <div class="w-full md:w-1/5 px-3">
+              <label for="payment_type" class="block text-gray-600 font-semibold mb-2 bg-transparent">Payment Type</label>
+                  <select
+                    id="payment_type"
+                    type="payment_type"
+                    defaultValue="all"
+                    class="
+                        block
+                        py-2
+                        rounded-md
+                        border border-gray-300
+                        text-gray-900
+                        placeholder-gray-300
+                        focus:outline-none
+                        w-full
+                    "
+                  >
+                    <option value="all">All</option>
+                  </select>
+            </div>
+            <div class="w-full md:w-1/5 px-3">
+              <label for="delivery_type" class="block text-gray-600 font-semibold mb-2 bg-transparent">Delivery Type</label>
+                  <select
+                    id="delivery_type"
+                    type="delivery_type"
+                    defaultValue="all"
+                    class="
+                        block
+                        py-2
+                        rounded-md
+                        border border-gray-300
+                        text-gray-900
+                        placeholder-gray-300
+                        focus:outline-none
+                        w-full
+                    "
+                  >
+                    <option value="all">All</option>
+                  </select>
+            </div>
+            <div class="w-full md:w-1/5 md:px-3">
+              <label for="fulfillment_type" class="block text-gray-600 font-semibold mb-2 bg-transparent">Fulfillment Type</label>
+                  <select
+                    id="fulfillment_type"
+                    type="fulfillment_type"
+                    defaultValue="all"
+                    class="
+                        block
+                        py-2
+                        rounded-md
+                        border border-gray-300
+                        text-gray-900
+                        placeholder-gray-300
+                        focus:outline-none
+                        w-full
+                    "
+                  >
+                    <option value="all">All</option>
+                  </select>
+            </div>
           </div>
-          <div class="flex items-center justify-end">
-            <search 
-              :suggestions="suggestions"
-              @autocomplete="getAutoCompleteData"
-              @update-current-list="updateCurrentList"
-              :selection="selection"
-            ></search>
-          </div>
-        </div>
             <!-- <div class="mt-6 flex"> -->
              <!--  <div class="">
                 <button class="">
@@ -60,7 +133,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col mt-12">
+    <div class="flex flex-col mt-5">
       <!-- Activity table (small breakpoint and up) -->
       
         <div class="px-4 sm:px-6 lg:px-">
@@ -68,7 +141,7 @@
           <div class="flex flex-col">
             <div class="min-w-full overflow-x-auto shadow sm:rounded-lg">
               <table class="w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead class="bg-white">
                   <tr>
                     <th scope="col" class=" pl-6 pr-2  text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" @click="checkAll" :disabled="orders.data.length === 0" />
@@ -258,7 +331,7 @@
 import { ref } from 'vue'
 import AppLayout from "../../Layouts/AppLayout.vue";
 import { ChevronDownIcon,ChevronUpIcon, PlusIcon } from "@heroicons/vue/solid"
-import { FilterIcon } from "@heroicons/vue/outline"
+import { FilterIcon, SearchIcon } from "@heroicons/vue/outline"
 import Input from '../../Jetstream/Input.vue';
 import ArrowRight from '../../../assets/ArrowRight.vue';
 // import Datepicker from 'vue3-datepicker'
@@ -327,9 +400,6 @@ export default {
         domestic: false,
       },
     };
-  },
-  mounted(){
-    console.log(this.orders)
   },
   computed: {
     myProps() {
@@ -425,6 +495,7 @@ export default {
     Input,
     ArrowRight,
     PlusIcon,
+    SearchIcon,
     FilterIcon,
     Search,
     
