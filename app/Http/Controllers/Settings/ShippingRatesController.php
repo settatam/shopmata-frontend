@@ -44,6 +44,8 @@ class ShippingRatesController extends Controller
     public function store(Request $request)
     {
         //
+        dd($request->input());
+        
         $request->validate([
             'name'=>['required'],
             'price'=>['required'],

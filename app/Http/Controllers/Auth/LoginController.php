@@ -60,7 +60,10 @@ class LoginController extends Controller
                 if (count($user->store_users) == 1) {
                     if (Auth::attempt($credentials)) {
                         Login::create(
-                            ['user_id' => Auth::id(), 'store_id' => $user->store_users[0]->store_id]
+                            ['user_id' => Auth::id(), 
+                            'store_id' => $user->store_users[0]->store_id,
+                            'ip_address' => $request->ip()
+                        ]
                         );
 
                         //Log the user ..
@@ -112,7 +115,10 @@ class LoginController extends Controller
 
                         if (Auth::attempt($credentials)) {
                             Login::create(
-                                ['user_id' => Auth::id(), 'store_id' => $selectedStore->store->id ]
+                                ['user_id' => Auth::id(), 
+                                 'store_id' => $selectedStore->store->id,
+                                 'ip_address'=>$request->ip()
+                                ]
                             );
                             //Log the user ..
                             session(['store_id' => $selectedStore->store->id ]);

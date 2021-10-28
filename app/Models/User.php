@@ -108,4 +108,18 @@ class User extends Authenticatable
     public function canDo($permission) {
         return true;
     }
+
+    public function lastLogin()
+    {
+        return $this->belongsTo(Login::class);
+    }
+
+    public function scopeWithLastLogin($query)
+    {
+        $query->addSelect(['last_login_id' => Login::select('id')
+            ->whereColumn('user_id', 'users.id')
+            ->latest()
+            ->take(1),
+        ])->with('lastLogin');
+    }
 }

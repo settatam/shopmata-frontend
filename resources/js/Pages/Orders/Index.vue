@@ -83,10 +83,7 @@
                       Customer
                     </th>
                     <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Delivery Items
-                    </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Qty
+                      Number of Items
                     </th>
                     <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Total
@@ -118,20 +115,17 @@
                         {{ order.id }}
                       </td>
                     </inertia-link>
-                    <td class=" px-3  text-left text-xs font-medium text-gray-500 tracking-wider" >
+                    <td class=" px-3 text-left text-xs font-medium text-gray-500 tracking-wider" >
                       {{ order.created_at }}
                     </td>
-                    <td class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                    <td class=" px-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
                       {{ order.user.first_name }} {{ order.user.last_name }}
                     </td>
-                    <td class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
-                      
-                    </td>
-                    <td class="px-3 pl-5 text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td class="px-3 pl-16  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       {{order.items.length == 1 ? "1": order.items.length }}
                     </td>
                     <td class="px-3 text-xs font-medium text-gray-500 uppercase tracking-wider" >
-                      {{order.total }}
+                      {{ order.total }}
                     </td>
                     <td class="  px-3  text-left text-xs font-medium text-gray-500 tracking-wider">
                       <div class="sm:pr-2 md:pr-4 py-3 text-left leading-4 font-semibold tracking-wide">
@@ -170,8 +164,14 @@
                     <!-- <td class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
                       {{ order.shipping }}
                     </td> -->
-                    <td class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
-                      {{ !order.tag || order.tag == '-'}}
+                    <td  v-if="order.tags.length > 0" class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                      <span v-for="tag in order.tags" :key="tag.id">
+                        {{tag.title}}
+                        <span v-if="tag.id < order.tags.length">, </span>
+                      </span>
+                    </td>
+                    <td  v-else class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                     -
                     </td>
                   </tr>
                 </tbody>
@@ -329,6 +329,7 @@ export default {
     };
   },
   mounted(){
+    console.log(this.orders)
   },
   computed: {
     myProps() {

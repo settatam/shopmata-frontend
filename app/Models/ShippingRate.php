@@ -14,4 +14,8 @@ class ShippingRate extends Model
     public function profiles() {
     	return $this->hasMany(ShippingRateProfile::class);
     }
+
+    public function conditions() {
+    	return $this->hasMany(ShippingRateCondition::class);
+    }
 }

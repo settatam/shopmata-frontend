@@ -190,6 +190,8 @@ export default {
            if (!rates.value.name || !rates.value.price) {
                bodyError.value = true       
            } else {
+                let xyz = formData();
+                console.log(xyz);
                Inertia.post('/settings/shipping-rates',formData)
                rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
                data.value =([{condition:'is equal to',tag:'Price',value:''}])
