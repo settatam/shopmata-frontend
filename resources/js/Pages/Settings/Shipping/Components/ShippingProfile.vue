@@ -107,7 +107,7 @@
                                             Description
                                         </label>
                                         <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
-                                        <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/120</span>
+                                        <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/50</span>
                                         </div>
                                     </div>
                                      
@@ -189,7 +189,7 @@ export default {
            if (!rates.value.name || !rates.value.price) {
                bodyError.value = true       
            } else {
-               console.log(formData)
+               //console.log(formData)
                Inertia.post('/settings/shipping-rates',formData)
                rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
                data.value =([{condition:'is equal to',tag:'Price',value:''}])
