@@ -182,14 +182,15 @@ export default {
                 states.value = res.data.data
             }) 
         })
-        //const formData =[...data.value, rates.value]
+        const formData = {conditions:data.value,
+                          rate_details: rates.value}
 
        const submit=()=>{
            if (!rates.value.name || !rates.value.price) {
                bodyError.value = true       
            } else {
-               console.log([data.value],rates.value)
-               Inertia.post('/settings/shipping-rates',([data.value],rates.value))
+               console.log(formData)
+               Inertia.post('/settings/shipping-rates',formData)
                rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
                data.value =([{condition:'is equal to',tag:'Price',value:''}])
            }
