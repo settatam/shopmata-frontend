@@ -73,7 +73,7 @@
                                     class="h-5"
                                     v-model="category.tag"
                                 /> -->
-                                <select name="conditions" id="" v-model="condition.tag" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
+                                <select name="conditions" id="" v-model="condition.tag" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white  font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
                                     <option v-for="(option,index) in template_opt" :key="index" v-bind:value="option.value">
                                         {{ option.text }}
                                     </option>
@@ -87,7 +87,7 @@
                                     class="h-5"
                                     v-model="category.equal"
                                 /> -->
-                                 <select name="conditions" id="" v-model="condition.equal" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
+                                 <select name="conditions" id="" v-model="condition.equal" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
                                     <option v-for="(option,index) in condition_opt" :key="index" v-bind:value="option.value" class="text-gray-700', 'block px-4 py-2 text-sm">
                                         {{ option.text }}
                                     </option>

@@ -32,7 +32,7 @@
                     <div class="mb-6">
                          <div class="px-8 pb-8 pt-6  mb-6 bg-white">
                             <h1 class="text-2xl font-semibold">Add Shipping Rate</h1>
-                             <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <span class="text-indigo-700 underline cursor-pointer">Watch a demo</span></p>            
+                             <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <span class="text-indigo-700 underline cursor-pointer">Watch a demo</span></p>                       
                                 <div class="w-auto relative" >
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Rate Name
@@ -40,35 +40,36 @@
                                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="rates.name" required/>
                                     <error-icon class="absolute top-8 right-0" v-show="bodyError && !rates.name.length "/>
                                 </div>
-                                <div class="w-auto">
+                                <div class="w-auto relative">
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Price
                                     </label>
-                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="rates.price" required/>
+                                    <input type="number"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="rates.price" required/>
+                                    <error-icon class="absolute top-8 right-0" v-show="bodyError && !rates.price.length "/>
                                 </div>
                                  <div class="w-full mt-4 ">
                                     <p class="block text-gray-600 font-semibold text-lg mb-2 bg-transparent">
                                         Rate for
                                     </p>
                                     <div class=" items-center">
-                                        <input type="radio" value="1"  :class="[rates.for==1 ?' ring-2 ring-offset-2 ring-indigo-500':'','mr-2']" v-model="rates.for" name="domestic">
+                                        <input type="radio" value="0"  class="mr-2" v-model="rates.is_domestic" name="domestic">
                                         <label for="domestic"> Domestic</label>
                                     </div>
                                     
                                     <div class=" items-center mt-2">
-                                        <input type="radio" :class="[rates.for==2?'mr-2 ring-2 ring-offset-2 ring-indigo-500':'','mr-2']" value="2" v-model="rates.for" name="international">
+                                        <input type="radio" class="mr-2" value="1" v-model="rates.is_domestic" name="international">
                                         <label for="international"> International</label>
                                     </div>
                                 </div>
                                     <p class="font-semibold mt-6 text-lg">Orders must match</p>
                                     <div class="flex mt-4">
                                         <div class=" items-center">
-                                            <input type="radio" value="1"  :class="[rates.condition==1 ?' ring-2 ring-offset-2 ring-indigo-500':'','mr-2']" v-model="rates.condition">
+                                            <input type="radio" value="0"  class="mr-2" v-model="rates.match_all_condition">
                                             <label for=""> All Conditions</label>
                                         </div>
                                     
                                         <div class=" items-center ml-10">
-                                            <input type="radio" :class="[rates.condition==2?'mr-2 ring-2 ring-offset-2 ring-indigo-500':'','mr-2']" value="2" v-model="rates.condition">
+                                            <input type="radio" class="mr-2" value="1" v-model="rates.match_all_condition">
                                             <label for=""> Any Condition</label>
                                         </div>
                                     </div>
@@ -76,7 +77,7 @@
                                         <template v-for="(datum, index) in data" :key="index" >
                                             <div class="flex flex-col lg:flex-row lg:justify-between mt-4">
                                                 <div class="flex flex-col w-3/10">
-                                                    <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.rate">
+                                                    <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.tag">
                                                         <option v-for="(option,index) in rate" :key="index" :value="option.title">
                                                             {{option.title}}
                                                         </option>
@@ -90,12 +91,12 @@
                                                     </select>
                                                 </div>
                                                 <div class="flex flex-col w-3.5/10 mb-2">
-                                                    <select name="state" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-if="datum.rate=='State'" v-model="datum.state">
+                                                    <select name="state" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-if="datum.tag=='State'" v-model="datum.value">
                                                         <option v-for="(state,index) in states" :key="index" :value="state.id">
                                                             {{state.name}}
                                                         </option>
                                                     </select>
-                                                    <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.price">
+                                                    <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.value">
                                                 </div>
                                             </div>
                                         </template>
@@ -132,7 +133,6 @@ import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon} from '@
 import {onBeforeMount, reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import { Inertia } from '@inertiajs/inertia';
-//import ErrorIcon from '../../assets/ErrorIcon.vue'
 import ErrorIcon from '../../../ErrorIcon.vue'
 
 const pages = [
@@ -166,8 +166,8 @@ export default {
         const states = ref([])
         const conditions = props.condition_options
         const rate = props.rate_options
-        const data = ref([{condition:'is equal to',rate:'Price',price:'',state:''}])
-        const rates = ref({name:'',description:'',price:'',for:'1',condition:'1'})
+        const data = ref([{condition:'is equal to',tag:'Price',value:''}])
+        const rates = ref({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
         const bodyError = ref(false)
         const add = ()=> {
             data.value.push({
@@ -177,18 +177,22 @@ export default {
                 state:''
             })
         }
+        
         onBeforeMount(()=>{
             axios.get(`/api/states?country_id=${props.store.country_id}`).then(res=>{
                 states.value = res.data.data
             }) 
         })
+    const formData = ()=>{
+        return {...data, ...rates}
+    }
        const submit=()=>{
-           if (!rates.value.name) {
-               bodyError.value = true
-               alert("Rate Name cannot be empty")
+           if (!rates.value.name || !rates.value.price) {
+               bodyError.value = true       
            } else {
-               
-               Inertia.post('/settings/shipping-and-delivery/general-shipping-rate',)
+               Inertia.post('/settings/shipping-rates',formData)
+               rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
+               data.value =([{condition:'is equal to',tag:'Price',value:''}])
            }
        }
         return{

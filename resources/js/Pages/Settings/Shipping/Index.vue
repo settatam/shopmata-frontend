@@ -34,10 +34,10 @@
                   <h1 class="text-2xl mb-2 font-semibold">Shipping and Delivery</h1>
                   <div class="px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>
-                      <p class="text-gray-500">Manage how customers receive their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">delivery methods.</span> </p>
+                       <p class="text-gray-500">Manage how customers receive their orders. </p>
                       <div class="pl-5 pr-2  border border-gray-300 mt-5 pt-8 pb-12 rounded-sm">
                         <p class="text-xl font-semibold">Shipping</p>
-                        <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <span class="text-indigo-700 underline cursor-pointer">about shipping rates</span> </p>
+                        <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <a class="text-indigo-700 underline cursor-pointer" href="/settings/shipping-rate">about shipping rates</a> </p>
                         <div class="flex justify-between items-center mt-6">
                           <div class="flex">
                             <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
@@ -64,7 +64,10 @@
                                             <div class="w-3/10">Standard Rate</div>
                                             <div class="w-1/10 text-center">Free</div>
                                             <div class="w-4/10 text-center">-</div>
-                                            <div class="w-2/10 cursor-pointer justify-between flex"><span class="text-indigo-700 underline">Edit</span><span class="text-red-600 underline mr-0  2xl:mr-52">Delete</span></div>
+                                            <div class="w-2/10 cursor-pointer justify-between flex">
+                                              <span class="text-indigo-700 underline">Edit</span>
+                                              <span class="text-red-600 underline mr-0  2xl:mr-52">Delete</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +85,7 @@
                             </div>
                           </div>
                           <div class="flex flex-col items-start mb-6 ml-6">
-                            <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about <span class="text-indigo-700 underline cursor-pointer">local pickup.</span></p>
+                            <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about local pickup.</p>
                           </div>
                         </div>
                         <div class="flex flex-col items-center" v-if="this.local_pickup.length==0">
