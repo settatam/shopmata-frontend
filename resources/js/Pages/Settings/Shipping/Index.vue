@@ -59,15 +59,17 @@
                                             <div class="w-2/10 invisible">...</div>
                                         </div>
                                         <div class=" mt-1 border-t border-gray-100 -mr-5 -ml-8"></div>
-                                        <div class="flex mt-1">
-                                            <div class="w-10"></div>
-                                            <div class="w-3/10">Standard Rate</div>
-                                            <div class="w-1/10 text-center">Free</div>
-                                            <div class="w-4/10 text-center">-</div>
-                                            <div class="w-2/10 cursor-pointer justify-between flex">
-                                              <span class="text-indigo-700 underline">Edit</span>
-                                              <span class="text-red-600 underline mr-0  2xl:mr-52">Delete</span>
-                                            </div>
+                                        <div v-for="shipping in shipping_rate" :key="shipping.id">
+                                          <div class="flex mt-1">
+                                              <div class="w-10"></div>
+                                              <div class="w-3/10">{{shipping.name}}</div>
+                                              <div class="w-1/10 text-center">{{shipping.price}}</div>
+                                              <div class="w-4/10 text-center">{{shipping.conditions.length}} condition(s)</div>
+                                              <div class="w-2/10 cursor-pointer justify-between flex">
+                                                <a class="text-indigo-700 underline" :href="`/settings/shipping-rates/${shipping.id}`" >Edit</a>
+                                                <span class="text-red-600 underline mr-0  2xl:mr-52" @click="deleteShipping_rate(shipping.id)">Delete</span>
+                                              </div>
+                                          </div>
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +126,7 @@
 
 <script>
 
-import { reactive, ref } from 'vue'
+import { reactive, ref, onBeforeMount } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
@@ -185,6 +187,7 @@ export default {
     const open = ref(false)
     const local_delivery = ref(false)
     const Modal = ref(false)
+    const shipping_rate = ref([])
     const popModal = () => {
             Modal.value = true
       }
@@ -193,7 +196,15 @@ export default {
       location.reload()  
     }
     const local_pickup=props.locations
-    
+    onBeforeMount(()=>{
+        axios.get('/settings/shipping-rates').then(res=>{
+              shipping_rate.value=res.data.data
+          })
+        })
+    const deleteShipping_rate = (id) =>{
+      Inertia.delete(`/settings/shipping-rates/${id}`)
+    }
+  
     return {
       statusStyles,
       pages,
@@ -202,6 +213,8 @@ export default {
       local_pickup,
       Modal,
       popModal,
+      shipping_rate,
+      deleteShipping_rate
     }
   },
 

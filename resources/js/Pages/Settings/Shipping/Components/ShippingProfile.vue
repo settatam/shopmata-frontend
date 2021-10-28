@@ -182,7 +182,7 @@ export default {
                 states.value = res.data.data
             }) 
         })
-    //const formData =[...data.value, rates.value]
+        //const formData =[...data.value, rates.value]
 
        const submit=()=>{
            if (!rates.value.name || !rates.value.price) {
