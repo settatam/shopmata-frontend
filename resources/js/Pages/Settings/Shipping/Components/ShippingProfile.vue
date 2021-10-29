@@ -98,6 +98,7 @@
                                                     </select>
                                                     <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.value">
                                                 </div>
+                                                <x-icon class="text-red-500 w-5 h-5 my-auto cursor-pointer" @click="removeCondition(index)"/>
                                             </div>
                                         </template>
                                             <button class="text-indigo-700 sm:text-sm text-xs font-semibold mt-4 " @click="add()">Add New Condition</button>
@@ -129,7 +130,7 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav';
-import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon} from '@heroicons/vue/outline'
+import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon,XIcon} from '@heroicons/vue/outline'
 import {onBeforeMount, reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import { Inertia } from '@inertiajs/inertia';
@@ -149,6 +150,7 @@ export default {
           Button,
           DotsHorizontalIcon, 
           ErrorIcon,
+          XIcon
     }, 
     data(){
         return{
@@ -169,6 +171,10 @@ export default {
         const data = ref([{condition:'is equal to',tag:'Price',value:''}])
         const rates = ref({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
         const bodyError = ref(false)
+
+        const removeCondition=(id)=>{
+            data.value.splice(id , id+1)
+        }
         const add = ()=> {
             data.value.push({
                 condition:"is equal to",
@@ -206,7 +212,8 @@ export default {
             add,
             states,
             submit,
-            bodyError
+            bodyError,
+            removeCondition
         }
     }
 }

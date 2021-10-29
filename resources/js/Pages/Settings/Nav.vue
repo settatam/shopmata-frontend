@@ -37,7 +37,7 @@ import {
 } from '@heroicons/vue/outline'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronLeftIcon } from '@heroicons/vue/solid'
+import { ChevronLeftIcon,InboxInIcon } from '@heroicons/vue/solid'
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -65,6 +65,7 @@ export default {
     UserIcon,
     ViewGridAddIcon,
     XIcon,
+    InboxInIcon,
     ChevronLeftIcon,
     Dialog, DialogOverlay, TransitionChild, TransitionRoot
   },
@@ -92,6 +93,13 @@ export default {
           href: '/settings/payments',
           icon: KeyIcon,
           current: this.page == 'Payments' ? true : false,
+        },
+        {
+          name: 'Remittance',
+          description: 'To receive your remittance via transfer.',
+          href: '/settings/remittance',
+          icon: InboxInIcon,
+          current: this.page == 'Remittance' ? true : false,
         },
         {
           name: 'Shipping and Delivery',
