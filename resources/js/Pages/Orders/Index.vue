@@ -34,7 +34,7 @@
                   placeholder="Search by order id, status...."
                   class="
                       block
-                      pl-10
+                      pl-12
                       py-2
                       rounded-md
                       border border-gray-300
