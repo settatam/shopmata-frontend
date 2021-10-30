@@ -28,13 +28,15 @@ class OrdersController extends Controller
             // $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_sum')
             //                 ->whereColumn('store_id', 'orders.store_id'),
             // ]);
-       })->with('user')->withTotalOrders()->withAverageOrders()
+       })->with('user')
             ->with('items')
             ->with('tags')
             ->orderBy('id', 'asc')->paginate(50);
 
+        $shipping_addresses = ShippingAddress::where('user_id', Auth::id())->orderBy('is_default')->get();
+
         // dd($orders);
-        return Inertia::render('Orders/Index', compact('orders', 'filters'));
+        return Inertia::render('Orders/Index', compact('orders', 'filters', 'shipping_addresses'));
     }
 
     /**
@@ -134,8 +136,8 @@ class OrdersController extends Controller
      */
     public function show($id, $notification = null )
     {
-        $order = Order::with('items')->with('tags')->with('user')->with('activities')->where('id', $id)->first();
-    
+        $order = Order::with('items')->with('tags')->with('user')->with('activities')->with('shipping_addresses')->withTotalOrders()->withAverageOrders()->where('id', $id)->first();
+
         return Inertia::render('Orders/Show', compact('notification', 'order'));
     }
 

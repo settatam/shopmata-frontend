@@ -37,6 +37,10 @@ class Order extends Model
         return $this->hasMany(OrderActivity::class);
     }
 
+    public function shipping_addresses() {
+        return $this->hasMany(ShippingAddress::class, 'user_id', 'user_id');
+    }
+
     public function scopeWithTotalOrders($query) {
         return $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_orders')
                     ->whereColumn('store_id', 'orders.store_id')

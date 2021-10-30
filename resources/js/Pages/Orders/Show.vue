@@ -466,7 +466,47 @@
                             <p class="">Show comments</p>
                           </div>
                         </div>
+                        <div class="mt-5 flex justify-evenly">
+                            <div class="flex items-center">
+                                <p class="h-10 w-10 rounded-full capitalize bg-blue-400 text-white text-center text-sm py-2.5 font-semibold mr-4">
+                                    <!-- {{user.first_name.charAt(0)}}{{user.last_name.charAt(0)}} -->
+                                    SA
+                                </p>
+                            </div>
+                            <div class="w-full mr-2">
+                                <input
+                                    id="text3"
+                                    type="text"
+                                    placeholder="Add a note"
+                                    class="
+                                        w-full
+                                        pl-4
+                                        py-2
+                                        rounded-md
+                                        border border-gray-300
+                                        text-gray-900
+                                        placeholder-gray-300
+                                        focus:outline-none
+                                    "
+                                />
+                            </div>
+                            <button
+                                class="
+                                    px-8
+                                    py-2
+                                    text-center
+                                    bg-indigo-700
+                                    border
+                                    text-white
+                                    rounded-md
+                                "
+                                @click="browseProduct"
+                            >
+                                Post
+                            </button>
+                        </div>
                     </div>
+                        <p class="text-right text-gray-400 mt-1">Only you and other staff can see comments</p>
                 </div>
             </div>
         </div>
