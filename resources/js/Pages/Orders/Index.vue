@@ -24,9 +24,9 @@
             </inertia-link>
           </div>
         </div>
-        <div class="flex items-center justify-between py-3 px-6 bg-white rounded">
-          <div class="w-full md:w-2/5 px-3">
-            <label for="search" class="block text-gray-600 font-semibold mb-2 bg-transparent">What are you looking for?</label>
+        <div class="flex items-center justify-between py-2 px-8 bg-white rounded">
+          <div class="w-full md:w-2/5">
+            <label for="search" class="block text-gray-600 font-semibold mb-2 bg-transparent">Search</label>
               <div class="relative">
                 <input
                   id="search"
@@ -34,7 +34,7 @@
                   placeholder="Search by order id, status...."
                   class="
                       block
-                      pl-10
+                      pl-12
                       py-2
                       rounded-md
                       border border-gray-300

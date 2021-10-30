@@ -3166,10 +3166,13 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(55, 48, 163, var(--tw-text-opacity));
 }
+<<<<<<< HEAD
 .text-yellow-500 {
 	--tw-text-opacity: 1;
 	color: rgba(245, 158, 11, var(--tw-text-opacity));
 }
+=======
+>>>>>>> 243e267ac8188cf642a94c526a3c75029734b583
 .text-opacity-40 {
 	--tw-text-opacity: 0.4;
 }
@@ -4266,12 +4269,16 @@ input[type='checkbox']:focus {
 		width: 33.333333%;
 	}
 
-	.md\:w-4\/5 {
-		width: 80%;
-	}
-
 	.md\:w-2\/5 {
 		width: 40%;
+	}
+
+	.md\:w-1\/5 {
+		width: 20%;
+	}
+
+	.md\:w-4\/5 {
+		width: 80%;
 	}
 
 	.md\:w-3\/5 {
@@ -4286,10 +4293,13 @@ input[type='checkbox']:focus {
 		width: 30%;
 	}
 
+<<<<<<< HEAD
 	.md\:w-1\/5 {
 		width: 20%;
 	}
 
+=======
+>>>>>>> 243e267ac8188cf642a94c526a3c75029734b583
 	.md\:grid-cols-3 {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
@@ -4377,6 +4387,11 @@ input[type='checkbox']:focus {
 		padding-right: 1rem;
 	}
 
+	.md\:px-3 {
+		padding-left: 0.75rem;
+		padding-right: 0.75rem;
+	}
+
 	.md\:px-10 {
 		padding-left: 2.5rem;
 		padding-right: 2.5rem;
@@ -4385,11 +4400,6 @@ input[type='checkbox']:focus {
 	.md\:px-7 {
 		padding-left: 1.75rem;
 		padding-right: 1.75rem;
-	}
-
-	.md\:px-3 {
-		padding-left: 0.75rem;
-		padding-right: 0.75rem;
 	}
 
 	.md\:pr-11 {
