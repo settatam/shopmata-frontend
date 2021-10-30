@@ -32,9 +32,49 @@
                     <div class="p-8 pb-20 bg-white rounded-md mb-6">
                         <h2 class="font-bold">Bank Information</h2>
                         <p class="text-gray-600">Enter your bank account details to receive your remittance via transfer.</p>
-                        <div class="flex flex-col items-center">
+                        <div class="flex flex-col items-center" v-if="account_detail.length==0">
                             <p class="mt-8 mb-6 text-gray-600" >No bank details added yet  </p>
                             <button type="button" class=" h-12 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700  sm:text-sm" @click="this.popModal=true">Add Account Details</button>
+                        </div>
+                        <div v-else class="mt-9">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="">
+                                <tr>
+                                    <th scope="col" class="pr-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    Bank Name
+                                    </th>
+                                    <th scope="col" class="px-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    Account Number
+                                    </th>
+                                    <th scope="col" class="px-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    Account Name
+                                    </th>
+                                    
+                                    <th scope="col" class="relative px-2 py-1">
+                                        <span class="sr-only">Edit</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(account) in account_detail" :key="account.email" class="bg-white">
+                                    <td class="pr-2 py-1 w-1/4 font-semibold">
+                                    {{ account.name }}
+                                    </td>
+                                    <td class="px-2 py-1 w-1/4 font-semibold ">
+                                    {{ account.title }}
+                                    </td>
+                                    <td class="px-2 py-1 w-1/4 font-semibold ">
+                                    {{ account.email }}
+                                    </td>
+                                    <td class="px-2 py-1">
+                                        <div class="flex">
+                                            <pencil-icon class="h-8 w-8 p-2 mr-6 rounded-sm border border-gray-300 cursor-pointer"/>
+                                            <trash-icon class="h-8 w-8 p-2 rounded-sm border border-gray-300 cursor-pointer"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -49,10 +89,10 @@
 
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Nav from '../Nav';
-import { ChevronLeftIcon,ChevronRightIcon } from '@heroicons/vue/solid'
-import {QuestionMarkCircleIcon,ChevronDownIcon,ChevronUpIcon,HomeIcon} from '@heroicons/vue/outline'
+import { ChevronLeftIcon,ChevronRightIcon, } from '@heroicons/vue/solid'
+import {QuestionMarkCircleIcon,ChevronDownIcon,ChevronUpIcon,HomeIcon,PencilIcon,TrashIcon} from '@heroicons/vue/outline'
 import RemittanceModal from './Components/RemittanceModal.vue'
-import { ref } from '@vue/reactivity';
+import { reactive, ref } from '@vue/reactivity';
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
   { name: 'Remittance', href: '/settings/remittance', current: true },
@@ -66,18 +106,25 @@ export default {
         ChevronDownIcon,
         ChevronUpIcon,
         ChevronRightIcon,
-        RemittanceModal 
+        RemittanceModal ,
+        PencilIcon,
+        TrashIcon
     },
     data(){
         return{
             popModal:false
         }
     },
+    
     setup(){
-        
+        const account_detail = [
+            { name: 'Access Bank', title: '01000434236', email: 'Opeyemi John' },
+        ]
+        //const account_detail = reactive({bank_name:'Access Bank', account_number:'01000434236',account_name:'Opeyemi John'})
         return{
             pages,
-
+            //people,
+            account_detail
         }
     }
 }
