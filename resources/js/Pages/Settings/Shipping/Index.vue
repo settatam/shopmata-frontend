@@ -77,6 +77,7 @@
                       </div>
                     
                 </div>
+                  <pick-up-modal @close="this.popUp=false" v-if="this.popUp"/>
                       <div class="pl-5 pr-2  mt-5 py-7 bg-white">
                         <div class="rounded-sm flex flex-col">
                           <div class="flex">

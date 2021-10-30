@@ -32,7 +32,9 @@
                     <div class="mb-6">
                          <div class="px-8 pb-8 pt-6  mb-6 bg-white">
                             <h1 class="text-2xl font-semibold">Add Shipping Rate</h1>
-                             <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <span class="text-indigo-700 underline cursor-pointer">Watch a demo</span></p>                       
+                             <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <a class="text-indigo-700 underline cursor-pointer" @click="this.videoPop=true">Watch a demo</a></p>                       
+                                <demo-video-modal @close="this.videoPop=false"  v-if="this.videoPop"/>
+                                
                                 <div class="w-auto relative" >
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Rate Name
@@ -135,6 +137,7 @@ import {onBeforeMount, reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import { Inertia } from '@inertiajs/inertia';
 import ErrorIcon from '../../../ErrorIcon.vue'
+import DemoVideoModal from './DemoVideoModal.vue'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -150,12 +153,14 @@ export default {
           Button,
           DotsHorizontalIcon, 
           ErrorIcon,
-          XIcon
+          XIcon,
+          DemoVideoModal
     }, 
     data(){
         return{
             open:false,
             location_id:'', 
+            videoPop: false,
         }
     },
     methods:{
@@ -168,7 +173,7 @@ export default {
         const states = ref([])
         const conditions = props.condition_options
         const rate = props.rate_options
-        const data = ref([{condition:'is equal to',tag:'Price',value:''}])
+        const data = ref([{condition:'is equal to',tag:'Total Amount',value:''}])
         const rates = ref({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
         const bodyError = ref(false)
 
@@ -178,7 +183,7 @@ export default {
         const add = ()=> {
             data.value.push({
                 condition:"is equal to",
-                tag:"Price",
+                tag:"Total Amount",
                 value:''
             })
         }
@@ -198,7 +203,7 @@ export default {
                //console.log(formData)
                Inertia.post('/settings/shipping-rates',formData)
                rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
-               data.value =([{condition:'is equal to',tag:'Price',value:''}])
+               data.value =([{condition:'is equal to',tag:'Total Amount',value:''}])
            }
        }
         return{
