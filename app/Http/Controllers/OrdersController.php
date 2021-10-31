@@ -9,6 +9,7 @@ use App\Models\CartDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\ShippingAddress;
 
 class OrdersController extends Controller
 {

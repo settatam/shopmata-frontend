@@ -10,7 +10,16 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ "user_id", "total", "status", "deleted_at", "store_id", "payment_gateqay_id", "sales_tax", "shipping_cost", "discount_cost", "cart_id", "sub_total", "shipping_weight", "shipping" ];
+    protected $fillable = [ "user_id", "total", "status", "deleted_at", "store_id", "payment_gateqay_id", "sales_tax", "shipping_cost", "discount_cost", "cart_id", "sub_total", "shipping_weight", "shipping_gateway_id", "order_id" ];
+
+    public static $PENDING = 'pending';
+    public static $CONFIRMED = 'confirmed';
+    public static $CANCELLED = 'cancelled';
+    public static $FULFILLED = 'fulfilled';
+    public static $RETURNED = 'returned';
+    public static $REFUNDED = 'refunded';
+    public static $SHIPPED = 'shipped';
+    public static $DELIVERED = 'delivered';
 
     protected static function booted()
     {
@@ -18,7 +27,11 @@ class Order extends Model
     }
 
     public function user() {
-    	return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
+
+    public function customer() {
+    	return $this->belongsTo(Customer::class);
     }
 
     public function getCreatedAtAttribute($value){
@@ -44,7 +57,7 @@ class Order extends Model
     public function scopeWithTotalOrders($query) {
         return $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_orders')
                     ->whereColumn('store_id', 'orders.store_id')
-                    ->whereColumn('user_id', 'orders.user_id')
+                    ->whereColumn('customer_id', 'orders.customer_id')
                     // ->where('user_id', 'orders.user_id')
                     // ->groupBy('user_id')
                 ]);
@@ -53,7 +66,7 @@ class Order extends Model
     public function scopeWithAverageOrders($query) {
         return $query->addSelect(['average_orders'=>Order::selectRaw('avg(total) as average_orders')
                     ->whereColumn('store_id', 'orders.store_id')
-                    ->whereColumn('user_id', 'orders.user_id')
+                    ->whereColumn('customer_id', 'orders.customer_id')
                 ]);
     }
 
