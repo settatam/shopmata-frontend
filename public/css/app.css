@@ -4631,6 +4631,10 @@ input[type='checkbox']:focus {
 		width: 20rem;
 	}
 
+	.lg\:w-3\/10 {
+		width: 30%;
+	}
+
 	.lg\:min-w-0 {
 		min-width: 0px;
 	}
@@ -4866,6 +4870,14 @@ input[type='checkbox']:focus {
 
 	.xl\:w-9 {
 		width: 2.25rem;
+	}
+
+	.xl\:w-3\/10 {
+		width: 30%;
+	}
+
+	.xl\:w-7\/10 {
+		width: 70%;
 	}
 
 	.xl\:grid-cols-10 {
