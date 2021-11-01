@@ -3943,6 +3943,10 @@ input[type='checkbox']:focus {
 		border-radius: 0.125rem;
 	}
 
+	.sm\:rounded {
+		border-radius: 0.25rem;
+	}
+
 	.sm\:rounded-tl-md {
 		border-top-left-radius: 0.375rem;
 	}

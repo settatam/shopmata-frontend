@@ -139,8 +139,8 @@
         <div class="px-4 sm:px-6 lg:px-">
           <!-- <Search v-bind:suggestions="suggestions"></Search> -->
           <div class="flex flex-col">
-            <div class="min-w-full overflow-x-auto shadow sm:rounded-lg">
-              <table class="w-full divide-y divide-gray-200">
+            <div class="min-w-full overflow-x-auto shadow sm:rounded">
+              <table class="w-full divide-y bg-white divide-gray-200">
                 <thead class="bg-white">
                   <tr>
                     <th scope="col" class=" pl-6 pr-2  text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
@@ -250,15 +250,14 @@
                 </tbody>
               </table>
               <!-- Pagination -->
-              <nav
+            </div>
+
+             <nav
                 class="
-                  px-4
                   py-3
                   flex
                   items-center
                   justify-between
-                  border-t border-gray-200
-                  sm:px-6
                 "
                 aria-label="Pagination"
               >
@@ -320,7 +319,7 @@
                   </a>
                 </div>
               </nav>
-            </div>
+
           </div>
         </div>
       </div>
