@@ -24,7 +24,7 @@
               </ol>
             </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden mt-5">
+          <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
@@ -32,14 +32,14 @@
               <div class="w-auto  lg:ml-7 lg:mr-2">
                 <div class="mb-6">
                   <h1 class="text-2xl mb-2 font-semibold">Shipping and Delivery</h1>
-                  <div class="px-8 py-6 mb-6 bg-white">
+                  <div class="px-4 lg:px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>
                        <p class="text-gray-500">Manage how customers receive their orders. </p>
                       <div class="pl-5 pr-2  border border-gray-300 mt-5 pt-8 pb-12 rounded-sm">
                         <p class="text-xl font-semibold">Shipping</p>
                         <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <a class="text-indigo-700 underline cursor-pointer" href="/settings/shipping-rate">about shipping rates</a> </p>
                         <div class="flex justify-between items-center mt-6">
-                          <div class="flex">
+                          <div class="flex items-center">
                             <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
                             <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
@@ -55,17 +55,17 @@
                                             <div class="w-10 flex items-center"><img class="w-5 h-5 " src="../../../../assets/globe.svg" alt="globe"></div>
                                             <div class="w-3/10">Domestic</div>
                                             <div class="w-1/10 text-center">Price</div>
-                                            <div class="w-4/10 text-center">Conditions</div>
-                                            <div class="w-2/10 invisible">...</div>
+                                            <div class="min-w-max md:w-4/10 text-center hidden md:block">Conditions</div>
+                                            <div class="min-w-max md:w-2/10 invisible">...</div>
                                         </div>
                                         <div class=" mt-1 border-t border-gray-100 -mr-5 -ml-8"></div>
                                         <div v-for="shipping in shipping_rate" :key="shipping.id">
                                           <div class="flex mt-1">
                                               <div class="w-10"></div>
-                                              <div class="w-3/10">{{shipping.name}}</div>
-                                              <div class="w-1/10 text-center">{{shipping.price}}</div>
-                                              <div class="w-4/10 text-center">{{shipping.conditions.length}} condition(s)</div>
-                                              <div class="w-2/10 cursor-pointer justify-between flex">
+                                              <div class="min-w-max md:w-3/10">{{shipping.name}}</div>
+                                              <div class="min-w-max md:w-1/10 text-center">{{shipping.price}}</div>
+                                              <div class="min-w-max md:w-4/10 text-center hidden md:block">{{shipping.conditions.length}} condition(s)</div>
+                                              <div class="min-w-max md:w-2/10 cursor-pointer justify-between flex">
                                                 <a class="text-indigo-700 underline" :href="`/settings/shipping-rates/${shipping.id}`" >Edit</a>
                                                 <span class="text-red-600 underline mr-0  2xl:mr-52" @click="deleteShipping_rate(shipping.id)">Delete</span>
                                               </div>

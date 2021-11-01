@@ -23,14 +23,14 @@
                 </li>
               </ol>
             </nav>
-          <div class="flex-1 flex xl:overflow-hidden mt-5">
+          <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
-            <div class="flex-1 max-h-screen xl:overflow-y-auto">
+            <div class="flex-1 max-h-screen xl:overflow-y-auto overflow-x-scroll">
                 <div class="w-auto  lg:ml-7 lg:mr-2">
                     <div class="mb-6">
-                         <div class="px-8 pb-8 pt-6  mb-6 bg-white">
+                         <div class="px-4 md:px-8 pb-8 pt-6  mb-6 bg-white">
                             <h1 class="text-2xl font-semibold">Add Shipping Rate</h1>
                              <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <a class="text-indigo-700 underline cursor-pointer" @click="this.videoPop=true">Watch a demo</a></p>                       
                                 <demo-video-modal @close="this.videoPop=false"  v-if="this.videoPop"/>
@@ -78,22 +78,22 @@
 
                                         <template v-for="(datum, index) in data" :key="index" >
                                             <div class="flex flex-col lg:flex-row lg:justify-between mt-4">
-                                                <div class="flex flex-col w-3/10">
-                                                    <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.tag">
+                                                <div class=" w-full">
+                                                    <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.tag">
                                                         <option v-for="(option,index) in rate" :key="index" :value="option.title">
                                                             {{option.title}}
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="flex flex-col w-3/10">  
-                                                    <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.condition">
+                                                <div class="w-full">  
+                                                    <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.condition">
                                                         <option v-for="(condition, index) in conditions" :key="index" :value="condition.title">
                                                         {{condition.title}}
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="flex flex-col w-3.5/10 mb-2">
-                                                    <select name="state" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-if="datum.tag=='State'" v-model="datum.value">
+                                                <div class="w-full mb-2">
+                                                    <select name="state" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 w-full hover:bg-gray-50 focus:outline-none" v-if="datum.tag=='State'" v-model="datum.value">
                                                         <option v-for="(state,index) in states" :key="index" :value="state.id">
                                                             {{state.name}}
                                                         </option>

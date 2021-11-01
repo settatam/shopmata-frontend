@@ -24,31 +24,30 @@
               </ol>
             </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden mt-5">
+          <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-">
             <!-- Secondary sidebar -->
             <Nav page="Payments"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
               <div class="w-auto  lg:ml-7 lg:mr-2">
-                <div class="p-8 bg-white rounded-md mb-6">
-                  <div class="flex justify-between">
+                <div class=" p-4 md:p-8 bg-white rounded-md mb-6">
+                  <div class="flex md:flex-row flex-col justify-between">
                   <h1 class="text-2xl mb-2 font-semibold">Payments</h1>
-                  <div class="flex">
-                    <p class="text-gray-400 mr-4">Your business is located in </p>
-                    <!-- Dynamically Change Location -->
-                    <p class="mr-2">Nigeria</p>
-                    <QuestionMarkCircleIcon class="text-indigo-700 w-5 h-5"/>
-                  </div>
-
+                    <div class="flex flex-wrap">
+                      <p class="text-gray-400 mr-4">Your business is located in </p>
+                      <!-- Dynamically Change Location -->
+                      <p class="mr-2">{{country()}}</p>
+                      <QuestionMarkCircleIcon class="text-indigo-700 w-5 h-5"/>
+                    </div>
                   </div>
                   <p class="text-gray-400">
                     View and manage the payment methods in your account. Based on your country, these options have been selected. You can always add more, or change providers later.
                   </p>
                 </div>
-                <div class="px-7 pt-7 pb-3 bg-white rounded-md mb-6">
-                  <div class="flex justify-between">
-                  <span class="text-2xl mb-2 font-semibold flex items-center">Pay on Delivery <QuestionMarkCircleIcon class="w-5 h-5 ml-2"/></span>
-                      <Switch v-model="enabledPayment" :class="[enabledPayment ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-24 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
+                <div class="p-3 md:px-7 pt-7 pb-3 bg-white rounded-md mb-6">
+                  <div class="flex justify-between items-center">
+                  <span class=" text-xl md:text-2xl mb-2 font-semibold flex items-center ">Pay on Delivery <QuestionMarkCircleIcon class="w-5 h-5  md:ml-2"/></span>
+                      <Switch v-model="enabledPayment" :class="[enabledPayment ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-24 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 ']">
                         <span class="sr-only">Use setting</span>
                         <span :class="[enabledPayment ? 'translate-x-20' : 'translate-x-0', 'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']">
                           <span :class="[enabledPayment ? 'opacity-0 ease-out duration-100' : 'opacity-100 ease-in duration-200', 'absolute inset-0 h-full w-full flex items-center justify-start transition-opacity text-white ml-6']" aria-hidden="true">
@@ -66,10 +65,10 @@
                  </div>
                 </div>
                 <PaymentModal @close="this.popModal=false"  v-if="this.popModal"/>
-                <div class="px-7 pt-7 pb-3 bg-white rounded-md mb-6">
-                  <div class="flex justify-between">
-                  <span class="text-2xl mb-2 font-semibold flex items-center">International Payments<QuestionMarkCircleIcon class="w-5 h-5 ml-2"/></span>
-                      <Switch v-model="enabledShopmata" :class="[enabledShopmata ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-24 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500']">
+                <div class="px-3 md:px-7 pt-7 pb-3 bg-white rounded-md mb-6">
+                  <div class="flex justify-between items-center">
+                  <span class="text-xl md:text-2xl mb-2 font-semibold flex items-center">International Payments<QuestionMarkCircleIcon class="w-5 h-5  md:ml-2"/></span>
+                      <Switch v-model="enabledShopmata" :class="[enabledShopmata ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-24 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200']">
                         <span class="sr-only">Use setting</span>
                         <span :class="[enabledShopmata ? 'translate-x-20' : 'translate-x-0', 'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']">
                           <span :class="[enabledShopmata? 'opacity-0 ease-out duration-100' : 'opacity-100 ease-in duration-200', 'absolute inset-0 h-full w-full flex items-center justify-start transition-opacity text-white ml-6']" aria-hidden="true">
@@ -122,7 +121,7 @@ const statusStyles = {
   failed: 'bg-gray-100 text-gray-800',
 }
 export default {
-  props: ["payment_gateways", 'gateways'],
+  props: ["payment_gateways", 'gateways','countries','store'],
   components: {
     Nav,
     AppLayout,
@@ -168,6 +167,17 @@ export default {
                 this.loading = false;
             }
             // console.log(this.selectedProviders.manual);
+        },
+        country(){
+          //console.log(this.countries)
+          for (let index = 0; index < this.countries.length; index++) {
+            const element = this.countries[index];
+            if (element.id ==this.store.country_id) {
+              return element.name
+            }
+            
+          }
+          
         }
   },
   setup() {

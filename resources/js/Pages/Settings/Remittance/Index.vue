@@ -23,13 +23,13 @@
                 </li>
               </ol>
             </nav>
-             <div class="flex-1 flex xl:overflow-hidden mt-5">
+             <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="Remittance"></Nav>
             <!-- Main content -->
-            <div class="flex-1 max-h-screen xl:overflow-y-auto">
+            <div class="flex-1 max-h-screen xl:overflow-y-auto overflow-x-scroll">
                 <div class="w-auto  lg:ml-7 lg:mr-2">
-                    <div class="p-8 pb-20 bg-white rounded-md mb-6">
+                    <div class="p-4 md:p-8 pb-20 bg-white rounded-md mb-6 w-max md:w-full">
                         <h2 class="font-bold">Bank Information</h2>
                         <p class="text-gray-600">Enter your bank account details to receive your remittance via transfer.</p>
                         <div class="flex flex-col items-center" v-if="account_detail.length==0">

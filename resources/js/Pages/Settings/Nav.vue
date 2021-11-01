@@ -1,5 +1,20 @@
 <template>
-  <nav aria-label="Sections" class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col">
+        <button class="mb-4 border-r border-gray-200 text-gray-400 lg:hidden" @click="sidebarOpen = !sidebarOpen">
+          <span class="sr-only">Open sidebar</span>
+          <MenuAlt1Icon class="h-6 w-6" aria-hidden="true" />
+        </button>
+  <nav aria-label="Sections" v-if="sidebarOpen" class=" flex-shrink-0 w-full bg-white border-r mb-4 border-blue-gray-200">
+      <div class="flex-1 min-h-0 overflow-y-auto">
+          <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-100 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
+            <component :is="item.icon" class="flex-shrink-0  h-6 w-6 text-indigo-700 my-auto" aria-hidden="true" />
+              <div class="ml-3 text-sm">
+                <p class="font-semibold text-blue-gray-900 text-lg">{{ item.name }}</p>
+                <p class="mt-1 text-gray-500">{{ item.description }}</p>
+              </div>
+            </inertia-link>
+        </div>
+    </nav>
+    <nav aria-label="Sections" class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 lg:w-80 xl:w-96 lg:flex lg:flex-col">
       <div class="flex-1 min-h-0 overflow-y-auto">
           <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-100 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
             <component :is="item.icon" class="flex-shrink-0  h-6 w-6 text-indigo-700 my-auto" aria-hidden="true" />
@@ -34,6 +49,7 @@ import {
   UserIcon,
   ViewGridAddIcon,
   XIcon,
+  MenuAlt1Icon
 } from '@heroicons/vue/outline'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -46,8 +62,8 @@ const statusStyles = {
 }
 export default {
   props: {
-            page: String
-        },
+    page: String
+  },
   
   components: {
     AppLayout,
@@ -67,6 +83,7 @@ export default {
     XIcon,
     InboxInIcon,
     ChevronLeftIcon,
+    MenuAlt1Icon,
     Dialog, DialogOverlay, TransitionChild, TransitionRoot
   },
   
@@ -129,8 +146,10 @@ export default {
   },
   setup() {
     const open = ref(false)
+    const sidebarOpen = ref(false)
     return {
       statusStyles,
+      sidebarOpen
     }
   },
 

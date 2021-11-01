@@ -24,7 +24,7 @@
               </ol>
             </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden mt-5">
+          <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="General"></Nav>
             <!-- Main content -->
@@ -65,7 +65,11 @@
                   </div>
                   <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
                   <h2 class="text-lg font-semibold mb-2">Store Address</h2>
-                    <p class="w-full text-gray-400 mb-4">This address will appear on your invoices. You can edit the address used to calculate shipping rates in your <a class="text-indigo-700 cursor-pointer" href="/settings/shipping-and-delivery">shipping settings</a></p>
+                    <p class="w-full text-gray-400 mb-4">This address will appear on your invoices. You can edit the address used to calculate shipping rates in your 
+                      <inertia-link href="/settings/shipping-and-delivery">
+                        <span class="text-indigo-700 cursor-pointer" >shipping settings</span>
+                      </inertia-link>
+                    </p>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Legal Name of Business
@@ -164,7 +168,11 @@
                     <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.currency_id" required>
                       <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">{{currency.symbol_left + ' '}}  {{ currency.title }} ({{ currency.code }})</option>
                     </select>
-                    <p class="w-full text-gray-400 mb-4">You have made your first sale, so you need to <a class="text-indigo-700 cursor-pointer" href="/settings/contact">contact support</a> if you want to change your currency</p>
+                    <p class="w-full text-gray-400 mb-4">You have made your first sale, so you need to 
+                      <inertia-link href="/settings/contact">
+                        <span class="text-indigo-700 cursor-pointer" >contact support</span> 
+                      </inertia-link>
+                    if you want to change your currency</p>
                   </div>
                 </div>
                 <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Changes</button>
