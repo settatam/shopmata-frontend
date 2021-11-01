@@ -199,12 +199,12 @@
                                 {{ getCustomer.last_name }}
                             </h2>
                             <div class="text-gray-400 mb-4">
-                                <h2 class="font-normal">
+                                <!-- <h2 class="font-normal">
                                     {{ getCustomer.address }},
                                     {{ getCustomer.city }}
                                     {{ getCustomer.state }},
                                     {{ getCustomer.country }}
-                                </h2>
+                                </h2> -->
                                 <h2>Customer for about 4 years</h2>
                             </div>
                         </div>

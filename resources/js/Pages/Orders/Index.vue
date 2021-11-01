@@ -143,34 +143,34 @@
               <table class="w-full divide-y divide-gray-200">
                 <thead class="bg-white">
                   <tr>
-                    <th scope="col" class=" pl-6 pr-2  text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" pl-6 pr-2  text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                         <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" @click="checkAll" :disabled="orders.data.length === 0" />
                     </th> 
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider ">
                       Order No.
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Customer
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Number of Items
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Total
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider" >
                       Payment
                     </th>
-                    <!-- <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <!-- <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Fulfillment
                     </th> -->
-                    <th scope="col" class=" py-3 whitespace-nowrap px-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" py-3 whitespace-nowrap px-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Tag
                     </th>
-                    <!-- <th scope="col" class=" py-3 whitespace-nowrap px-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <!-- <th scope="col" class=" py-3 whitespace-nowrap px-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Shipping Method
                     </th> -->
                     <!-- <th scope="col" class="relative px-6 py-3">
@@ -180,70 +180,70 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                   <tr v-for="order in orders.data" :key="order.id" class="" >
-                    <td scope="col" class="pl-6 pr-2  text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <td scope="col" class="pl-6 pr-2  text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                         <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" :value="order" v-model="selected" @click='uncheckParentBox(order)' class="focus:ring-indigo-500  text-indigo-600 border-gray-300 rounded" />
                     </td>
                     <inertia-link :href="'/orders/' +order.id" class="">
-                      <td class="pl-8 px-3 pt-4.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider " >
+                      <td class="pl-8 px-3 pt-4.5 text-left text-sm font-medium text-gray-500 uppercase tracking-wider " >
                         {{ order.id }}
                       </td>
                     </inertia-link>
-                    <td class=" px-3 text-left text-xs font-medium text-gray-500 tracking-wider" >
+                    <td class=" px-3 text-left text-sm font-medium text-gray-500 tracking-wider" >
                       {{ order.created_at }}
                     </td>
-                    <td class=" px-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">
+                    <td class=" px-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider ">
                       {{ order.user.first_name }} {{ order.user.last_name }}
                     </td>
-                    <td class="px-3 pl-16  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td class="px-3 pl-16  text-left text-sm font-medium text-gray-500 uppercase tracking-wider" >
                       {{order.items.length == 1 ? "1": order.items.length }}
                     </td>
-                    <td class="px-3 text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td class="px-3 text-sm font-medium text-gray-500 uppercase tracking-wider" >
                       {{ order.total }}
                     </td>
-                    <td class="  px-3  text-left text-xs font-medium text-gray-500 tracking-wider">
+                    <td class="  px-3  text-left text-sm font-medium text-gray-500 tracking-wider">
                       <div class="sm:pr-2 md:pr-4 py-3 text-left leading-4 font-semibold tracking-wide">
                         <div v-if="!order.status || order.status == 'expired'">
-                          <div class="text-xs inline-flex leading-5 bg-red-100 text-red-500 px-4 py-1">
+                          <div class="text-sm inline-flex leading-5 bg-red-100 text-red-500 px-4 py-1">
                             Expired
                           </div>
                         </div>
                         <div v-else-if="!order.status || order.status == 'pending'">
-                          <div class="text-xs inline-flex leading-5 bg-yellow-100 text-yellow-500 px-4 py-1">
+                          <div class="text-sm inline-flex leading-5 bg-yellow-100 text-yellow-500 px-4 py-1">
                             Pending
                           </div>
                         </div>
                         <div v-else>
-                          <div class=" text-xs inline-flex leading-5 bg-green-light text-green-darker px-4 py-1">
+                          <div class=" text-sm inline-flex leading-5 bg-green-light text-green-darker px-4 py-1">
                             Paid
                           </div>
                         </div>
                       </div>
                     </td>
-                    <!-- <td class=" px-3  text-left text-xs font-semibold tracking-wider">
+                    <!-- <td class=" px-3  text-left text-sm font-semibold tracking-wider">
                       <div v-if="order.fulfillment">
-                        <div class=" text-xs px-5 py-1 inline-flex leading-5 bg-red-darker text-red-light ">
+                        <div class=" text-sm px-5 py-1 inline-flex leading-5 bg-red-darker text-red-light ">
                           Unfulfilled
                         </div>
                       </div>
                       <div v-else>
-                        <div class=" text-xs px-5 py-1 inline-flex leading-5 bg-green-light text-green-darker" >
+                        <div class=" text-sm px-5 py-1 inline-flex leading-5 bg-green-light text-green-darker" >
                           Fulfilled
                         </div>
                       </div>
                     </td> -->
-                    <!-- <td class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <!-- <td class=" px-3  text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       {{ order.country }}
                     </td> -->
-                    <!-- <td class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <!-- <td class=" px-3  text-left text-sm font-medium text-gray-500 uppercase tracking-wider" >
                       {{ order.shipping }}
                     </td> -->
-                    <td  v-if="order.tags.length > 0" class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td  v-if="order.tags.length > 0" class=" px-3  text-left text-sm font-medium text-gray-500 uppercase tracking-wider" >
                       <span v-for="tag in order.tags" :key="tag.id">
                         {{tag.title}}
                         <span v-if="tag.id < order.tags.length">, </span>
                       </span>
                     </td>
-                    <td  v-else class=" px-3  text-left text-xs font-medium text-gray-500 uppercase tracking-wider" >
+                    <td  v-else class=" px-3  text-left text-sm font-medium text-gray-500 uppercase tracking-wider" >
                      -
                     </td>
                   </tr>

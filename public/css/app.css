@@ -2822,6 +2822,9 @@ select {
 .pr-7 {
 	padding-right: 1.75rem;
 }
+.pl-12 {
+	padding-left: 3rem;
+}
 .pt-4\.5 {
 	padding-top: 1.125rem;
 }
@@ -2839,9 +2842,6 @@ select {
 }
 .pr-20 {
 	padding-right: 5rem;
-}
-.pl-12 {
-	padding-left: 3rem;
 }
 .pb-20 {
 	padding-bottom: 5rem;
