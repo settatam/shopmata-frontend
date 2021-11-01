@@ -435,27 +435,27 @@
                                   />
                                   <div class="ml-3">
                                     <h2 class="text-cyan-700 text-base mb-1">
-                                        3.1 Dolce & Gabanna
+                                        {{ order.title }}
                                     </h2>
-                                    <p class="text-base text-gray-500">Chanel / Pink</p>
-                                    <p class="text-base text-gray-500">SKU: 12345</p>
+                                    <p class="text-base text-gray-500">{{ order.item_name }}</p>
+                                    <p class="text-base text-gray-500">{{ order.item_color }}</p>
                                   </div>
                                 </div>
                                 <div>
                                   <p class="text-sm mb-1">Promotion</p>
-                                  <p class=" font-semibold text-lg">J120</p>
+                                  <p class=" font-semibold text-lg">{{ order.promotion }}</p>
                                 </div>
                                 <div>
                                   <p class="text-sm mb-1">Product Price</p>
-                                  <p class=" font-semibold text-lg">$9.20</p>
+                                  <p class=" font-semibold text-lg">{{ order.price }}</p>
                                 </div>
                                 <div>
                                   <p class="text-sm mb-1">Shipping</p>
-                                  <p class=" font-semibold text-lg">$0.20</p>
+                                  <p class=" font-semibold text-lg">{{ order.shipping_cost }}</p>
                                 </div>
                                 <div>
                                   <p class="text-sm mb-1">Total Amount</p>
-                                  <p class=" font-semibold text-lg">$9.40</p>
+                                  <p class=" font-semibold text-lg">{{ order.total }}</p>
                                 </div>
                             </div>
                         </div>
