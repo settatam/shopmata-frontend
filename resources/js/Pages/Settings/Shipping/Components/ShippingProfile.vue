@@ -77,28 +77,28 @@
                                     </div>
 
                                         <template v-for="(datum, index) in data" :key="index" >
-                                            <div class="flex flex-col lg:flex-row lg:justify-between mt-4">
-                                                <div class=" w-full">
-                                                    <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.tag">
+                                            <div class="flex flex-wrap justify-between lg:flex-row lg:justify-between mt-4">
+                                                <div class="w-4.5/10 lg:w-3/10">
+                                                    <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none mb-2 lg:mb-0" v-model="datum.tag">
                                                         <option v-for="(option,index) in rate" :key="index" :value="option.title">
                                                             {{option.title}}
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="w-full">  
+                                                <div class="w-4.5/10 lg:w-3/10">  
                                                     <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.condition">
                                                         <option v-for="(condition, index) in conditions" :key="index" :value="condition.title">
                                                         {{condition.title}}
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="w-full mb-2">
+                                                <div class="w-8.5/10 lg:w-3/10 mb-2">
                                                     <select name="state" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 w-full hover:bg-gray-50 focus:outline-none" v-if="datum.tag=='State'" v-model="datum.value">
                                                         <option v-for="(state,index) in states" :key="index" :value="state.id">
                                                             {{state.name}}
                                                         </option>
                                                     </select>
-                                                    <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.value">
+                                                    <input type="number" class="w-full text-xs py-2 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.value">
                                                 </div>
                                                 <x-icon class="text-red-500 w-5 h-5 my-auto cursor-pointer" @click="removeCondition(index)"/>
                                             </div>
@@ -173,7 +173,7 @@ export default {
         const states = ref([])
         const conditions = props.condition_options
         const rate = props.rate_options
-        const data = ref([{condition:'is equal to',tag:'Total Amount',value:''}])
+        const data = ref([{condition:'is equal to',tag:'State',value:''}])
         const rates = ref({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
         const bodyError = ref(false)
 
@@ -183,7 +183,7 @@ export default {
         const add = ()=> {
             data.value.push({
                 condition:"is equal to",
-                tag:"Total Amount",
+                tag:"State",
                 value:''
             })
         }
@@ -193,14 +193,28 @@ export default {
                 states.value = res.data.data
             }) 
         })
-        const formData = {conditions:data.value,
-                          rate_details: rates.value}
+        const formData = {
+            name:rates.value.name, 
+            price:rates.value.price,
+            description:rates.value.description,
+            is_domestic:rates.value.is_domestic,
+            match_all_condition:rates.value.match_all_condition,
+            conditions:data.value 
+        }
 
        const submit=()=>{
            if (!rates.value.name || !rates.value.price) {
                bodyError.value = true       
            } else {
-               //console.log(formData)
+               const formData = {
+                    name:rates.value.name, 
+                    price:rates.value.price,
+                    description:rates.value.description,
+                    is_domestic:rates.value.is_domestic,
+                    match_all_condition:rates.value.match_all_condition,
+                    conditions:data.value 
+                }
+               console.log(formData)
                Inertia.post('/settings/shipping-rates',formData)
                rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
                data.value =([{condition:'is equal to',tag:'Total Amount',value:''}])
