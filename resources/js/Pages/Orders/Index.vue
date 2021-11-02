@@ -157,7 +157,7 @@
                     </th>
                     <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Number of Items
-                    </th>
+                    </th> 
                     <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Total
                     </th>
@@ -185,7 +185,7 @@
                     </td>
                     <inertia-link :href="'/orders/' +order.id" class="">
                       <td class="pl-8 px-3 pt-4.5 text-left text-base font-medium text-gray-500 uppercase tracking-wider " >
-                        {{ order.id }}
+                        {{ " " + order.id }}
                       </td>
                     </inertia-link>
                     <td class=" px-3 text-left text-base font-medium text-gray-500 tracking-wider" >
