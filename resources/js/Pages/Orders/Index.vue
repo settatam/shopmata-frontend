@@ -143,34 +143,34 @@
               <table class="w-full divide-y bg-white divide-gray-200">
                 <thead class="bg-white">
                   <tr>
-                    <th scope="col" class=" pl-6 pr-2 text-left text-xm font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" pl-6 pr-2 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                         <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" @click="checkAll" :disabled="orders.data.length === 0" />
                     </th> 
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider ">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider ">
                       Order No.
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Date
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Customer
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Number of Items
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Total
                     </th>
-                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider" >
+                    <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider" >
                       Payment
                     </th>
-                    <!-- <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider">
+                    <!-- <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Fulfillment
                     </th> -->
-                    <th scope="col" class=" py-3 whitespace-nowrap px-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col" class=" py-3 whitespace-nowrap px-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Tag
                     </th>
-                    <!-- <th scope="col" class=" py-3 whitespace-nowrap px-3 text-left text-xm font-medium text-gray-500 uppercase tracking-wider">
+                    <!-- <th scope="col" class=" py-3 whitespace-nowrap px-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Shipping Method
                     </th> -->
                     <!-- <th scope="col" class="relative px-6 py-3">
@@ -243,7 +243,7 @@
                         <span v-if="tag.id < order.tags.length">, </span>
                       </span>
                     </td>
-                    <td  v-else class=" px-3  text-left text-base font-medium text-gray-500 uppercase tracking-wider" >
+                    <td  v-else class="px-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider" >
                      -
                     </td>
                   </tr>

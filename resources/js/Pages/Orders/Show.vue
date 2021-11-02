@@ -46,170 +46,202 @@
             </nav>
 
             <div class="px-6 flex w-full">
-                <div class="flex flex-col w-1/3 mr-5">
-                    <div class="bg-white pl-5 pr-7 pb-10 pt-6 mb-5">
-                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
-                            <div class="px-5 flex justify-between mb-4">
+                <div class="flex flex-col w-2/3 mr-5">
+                    <div class="bg-white py-6 px-8">
+                            <div class="flex justify-between mb-3.5">
                                 <h2 class="font-semibold text-xl">
-                                    Customer overview
+                                    Orders placed
                                 </h2>
-                                <a
-                                    href="/order/edit"
-                                    class="text-indigo-700 font-semibold"
-                                    >Edit</a
+                                <button
+                                    class="
+                                        px-8
+                                        py-2
+                                        text-center
+                                        bg-gray-100
+                                        border
+                                        text-black
+                                        rounded-md
+                                    "
+                                    @click="browseProduct"
                                 >
+                                    Send Invoice
+                                </button>
                             </div>
-                            <div class="px-5 mb-6">
-                                <h2 class="font-semibold text-indigo-700 mb-3">
-                                    {{ getCustomer.email }}
+                            <div class="flex justify-between">
+                                <h2
+                                    class="
+                                        font-semibold
+                                        text-xl text-indigo-700
+                                    "
+                                >
+                                    Order #{{ order.id }}
                                 </h2>
-                                <h2 class="text-gray-400">
-                                    Account invite sent
-                                </h2>
+                                <p class="text-gray-400">
+                                    {{ order.created_at }}
+                                </p>
+                            </div>
+                            <p class="mt-2.5 text-base">
+                                ${{ order.total }} from Online Store
+                            </p>
+                            <!-- <div class="flex mt-3.5">
+                                <p class="mt-2.5">Status</p>
+                                <select
+                                    class="
+                                        shadow-sm
+                                        focus:ring-indigo-500
+                                        focus:border-indigo-500
+                                        block
+                                        w-1/5
+                                        ml-4
+                                        sm:text-sm
+                                        border-gray-300
+                                        rounded-md
+                                    "
+                                    placeholder=""
+                                    required
+                                >
+                                    <option value="fulfilled">Fulfilled</option>
+                                    <option value="unfulfilled" selected>
+                                        Unfulfilled
+                                    </option>
+                                </select>
+                            </div> -->
+                            <!-- <div
+                                class="
+                                    mt-2.5
+                                    text-sm
+                                    inline-flex
+                                    leading-5
+                                    bg-red-100
+                                    text-red-500
+                                    px-3.5
+                                    py-2.5
+                                "
+                            >
+                               {{ order.status }}
+                            </div> -->
+                            <div class=" mt-10 flex justify-between mr-10">
+                                <div class="flex">
+                                  <img
+                                    src="../../../assets/placeholder_theme.jpg"
+                                    alt="category_image"
+                                    class="w-10 h-10"
+                                  />
+                                  <div class="ml-3">
+                                    <h2 class="text-cyan-700 text-base mb-1">
+                                        {{ order.description }}
+                                    </h2>
+                                    <p class="text-base text-gray-500">{{ order.item_name }}</p>
+                                    <p class="text-base text-gray-500">Qty: {{ order.quantity }}</p>
+                                    <p class="text-base text-gray-500">SKU: {{ order.sku }}</p>
+                                  </div>
+                                </div>
+                                <div>
+                                  <p class=" text-sm mb-1">Promotion</p>
+                                  <p class=" font-semibold text-lg">{{ order.promotion }}</p>
+                                </div>
+                                <div>
+                                  <p class="text-sm mb-1">Product Price</p>
+                                  <p class=" font-semibold text-lg">{{ order.price }}</p>
+                                </div>
+                                <div>
+                                  <p class="text-sm mb-1">Shipping</p>
+                                  <p class=" font-semibold text-lg">{{ order.shipping_cost }}</p>
+                                </div>
+                                <div>
+                                  <p class="text-sm mb-1">Total Amount</p>
+                                  <p class=" font-semibold text-lg">{{ order.total }}</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
-                            <div class="px-5 flex justify-between mb-4">
-                                <h2 class="font-semibold text-xl">
-                                    Default Address
-                                </h2>
-                                <a
-                                    href="/order/manage"
-                                    class="text-indigo-700 font-semibold"
-                                    >Manage</a
-                                >
-                            </div>
-                            <div class="px-5 text-gray-500 mb-6">
-                                <h2 class="font-normal mb-1">
-                                    {{ getCustomer.first_name }}
-                                    {{ getCustomer.last_name }}
-                                </h2>
-                                <h2 class="mb-1">{{ getCustomer.address }}</h2>
-                                <!-- <h2 class="mb-1">Apt 402</h2> -->
-                                <h2 class="mb-1">
-                                    {{ getCustomer.city }}
-                                    {{ getCustomer.state }}
-                                </h2>
-                                <h2 class="mb-6">{{ getCustomer.country }}</h2>
-                                <a
-                                    href="/order/address"
-                                    class="font-semibold text-indigo-700"
-                                    >Add new address</a
-                                >
-                            </div>
-                        </div>
-                        <div class="-mx-5">
-                            <div class="px-5 flex justify-between mb-4">
-                                <h2 class="font-semibold text-xl">
-                                    Tax Settings
-                                </h2>
-                                <a
-                                    href="/order/manage"
-                                    class="text-indigo-700 font-semibold"
-                                    >Manage</a
-                                >
-                            </div>
-                            <div class="px-5 text-gray-400">
-                                <h2>No exemptions</h2>
-                            </div>
-                        </div>
-                        <!-- <h2 class="font-semibold text-lg">Find or create a customer</h2>
-                  <div class="relative mt-4">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-                      <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-                        <svg fill="none" stroke="#666666" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                      </button>
-                    </span>
-                    <div class="min-w-0 flex-1">
-                      <label for="search" class="sr-only">Search</label>
-                      <input id="text1" type="text" placeholder="Search for products..." class="block pl-10 py-2 rounded-md border border-gray-300  text-gray-900 placeholder-gray-300 focus:outline-none w-72"/>
-                    </div>
 
-                  </div>
-                  <div class="flex mx-auto justify-center mt-5 cursor-pointer" @click="openCustomer=true">
-                    <PlusIcon class="h-4 w-4 my-auto mr-3"/>
-                    <p class="text-gray-400">Create a new customer</p>
-                  </div> -->
-                    </div>
-                    <div class="bg-white pl-5 pr-7 pt-6 pb-9 mb-6">
-                        <div class="flex justify-between">
-                            <h2 class="font-semibold text-lg mb-6">
-                                Email marketing
-                            </h2>
-                            <h2 class="text-cyan-700 font-semibold">
-                                Unsubscribe
-                            </h2>
-                        </div>
-                        <div
-                            class="
-                                mb-3.5
-                                text-sm
-                                inline-flex
-                                leading-5
-                                bg-green-100
-                                text-green-500
-                                px-2
-                                py-1
-                            "
-                        >
-                            Subscribed
-                        </div>
-                        <div class="">
-                            <h2 class="font-semibold text-indigo-700 mb-3.5">
-                                {{ getCustomer.email }}
-                            </h2>
-                            <h2 class="text-gray-400">
-                                Subscribed on December 30, 2018
-                            </h2>
-                        </div>
-                    </div>
-
-                    <div class="bg-white pl-5 pr-7 pb-9 pt-6">
-                        <div class="flex justify-between mb-4.5">
-                            <h2 class="font-semibold text-lg">Tags</h2>
-                            <h2 class="text-cyan-700 font-semibold">
-                                View all tags
-                            </h2>
-                        </div>
-                        <label for="search" class="sr-only">Search</label>
-                        <input
-                            id="text"
-                            type="text"
-                            placeholder="VIP, sale, shopper, etc"
-                            class="
-                                block
-                                pl-3
-                                py-2
-                                rounded-md
-                                border border-gray-300
-                                text-gray-900
-                                placeholder-gray-300
-                                focus:outline-none
-                                w-full
-                            "
-                        />
-                    </div>
-                </div>
-
-                <div class="flex flex-col w-2/3">
-                    <div class="bg-white pt-6 px-8">
+                    <div class="bg-white pt-8 px-8 mt-6">
                         <div class="mb-4">
-                            <h2 class="font-semibold text-xl mb-2.5">
+                            <div class="flex justify-between">
+                                <div>
+                                    <p class="text-sm mb-3">Data Added</p>
+                                    <p class="font-semibold text-lg">{{ order.created_at }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm mb-3">Status</p>
+                                    <div
+                                        class="
+                                            text-sm
+                                            bg-green-100
+                                            text-green-500
+                                            w-full
+                                            pl-8
+                                            pr-8
+                                            py-1.5
+                                        "
+                                    >
+                                        {{ order.status }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-sm mb-3">Customer Note</p>
+                                    <p v-if="order.customer_note" class="font-semibold text-lg">{{ order.created_at }}</p>
+                                    <p v-else class="w-2 font-semibold text-gray-900">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm mb-3">Customer Notified</p>
+                                    <p class="font-semibold text-lg">{{ order.customer_notified }}</p>
+                                </div>
+                            </div>
+                            <!-- <h2 class="font-semibold text-xl mb-2.5">
                                 {{ getCustomer.first_name }}
                                 {{ getCustomer.last_name }}
-                            </h2>
-                            <div class="text-gray-400 mb-4">
+                            </h2> -->
+                            <div class="text-gray-400">
                                 <!-- <h2 class="font-normal">
                                     {{ getCustomer.address }},
                                     {{ getCustomer.city }}
                                     {{ getCustomer.state }},
                                     {{ getCustomer.country }}
                                 </h2> -->
-                                <h2>Customer for about 4 years</h2>
+                                <!-- <h2>Customer for about 4 years</h2> -->
                             </div>
                         </div>
+                        <div class="mt-3.5 border-t border-gray-200 -mx-6">
+                        </div>
+                            <div class="mt-5">
+                                <h2 class="font-semibold text-xl mb-5">
+                                    Order History
+                                </h2>
+                                <div class="flex mb-8 justify-evenly">
+                                    <div class="flex items-center w-1/5">
+                                        <h2 class="font-normal text-base">Order Status</h2>
+                                    </div>
+                                    <div class="w-full ml-5">
+                                        <select
+                                        class="
+                                            shadow-sm
+                                            focus:ring-indigo-500
+                                            focus:border-indigo-500
+                                            w-full
+                                            sm:text-sm
+                                            border-gray-300
+                                            rounded-md
+                                        "
+                                        placeholder=""
+                                        required
+                                    >
+                                        <option value="fulfilled">Fulfilled</option>
+                                        <option value="unfulfilled" selected>
+                                            Unfulfilled
+                                        </option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="mb-5 flex">
+                                    <p class="mr-10 font-normal text-base">Notify Customer</p>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="focus:ring-indigo-500 text-indigo-600 border-gray-300 mr-2" />
+                                    </div>
+                                </div>
+                            </div>
                         <div class="flex mb-2">
-                            <h2 class="font-semibold text-lg">Customer Note</h2>
+                            <h2 class="font-normal text-sm">Customer Note</h2>
                         </div>
                         <div class="flex w-full mb-6">
                             <div class="w-full mr-2">
@@ -307,7 +339,7 @@
                                 />
                                 <div class="mr-3">
                                     <p class="text-cyan-700">
-                                        3.1 Dolce & Gabanna
+                                        3.1 Dolce & Gabanna 
                                     </p>
                                     <p>{{ variant.color }}</p>
                                     <div>{{ variant.sku }}</div>
@@ -330,21 +362,21 @@
                                 <div class="">
                                     <h4 class="mb-3">Last Order</h4>
                                     <h4 class="mb-3 font-semibold text-lg">
-                                        7 months ago
+                                        {{ order.created_at }}
                                     </h4>
                                     <h4 class="">From Online Store</h4>
                                 </div>
                                 <div class="">
                                     <h4 class="mb-3">Total spent to date</h4>
                                     <h4 class="mb-3 font-semibold text-lg">
-                                        $29.30
+                                        {{ order.total }}
                                     </h4>
-                                    <h4 class="">1 Order</h4>
+                                    <!-- <h4 class="">1 Order</h4> -->
                                 </div>
                                 <div>
                                     <h4 class="mb-3">Average order value</h4>
                                     <h4 class="mb-3 font-semibold text-lg">
-                                        $9.20
+                                        {{ order.average_total }}
                                     </h4>
                                     <h4></h4>
                                 </div>
@@ -353,112 +385,7 @@
                     </div>
 
                     <div class="flex flex-col">
-                        <div class="bg-white mt-6 py-6 px-8">
-                            <div class="flex justify-between mb-3.5">
-                                <h2 class="font-semibold text-xl">
-                                    Orders placed
-                                </h2>
-                                <button
-                                    class="
-                                        px-8
-                                        py-2
-                                        text-center
-                                        bg-gray-100
-                                        border
-                                        text-black
-                                        rounded-md
-                                    "
-                                    @click="browseProduct"
-                                >
-                                    Send Invoice
-                                </button>
-                            </div>
-                            <div class="flex justify-between">
-                                <h2
-                                    class="
-                                        font-semibold
-                                        text-xl text-indigo-700
-                                    "
-                                >
-                                    Order #{{ order.id }}
-                                </h2>
-                                <p class="text-gray-400">
-                                    {{ order.created_at }}
-                                </p>
-                            </div>
-                            <p class="mt-2.5 text-base">
-                                ${{ order.total }} from Online Store
-                            </p>
-                            <div class="flex mt-3.5">
-                                <p class="mt-2.5">Status</p>
-                                <select
-                                    class="
-                                        shadow-sm
-                                        focus:ring-indigo-500
-                                        focus:border-indigo-500
-                                        block
-                                        w-1/5
-                                        ml-4
-                                        sm:text-sm
-                                        border-gray-300
-                                        rounded-md
-                                    "
-                                    placeholder=""
-                                    required
-                                >
-                                    <option value="fulfilled">Fulfilled</option>
-                                    <option value="unfulfilled" selected>
-                                        Unfulfilled
-                                    </option>
-                                </select>
-                            </div>
-                            <div
-                                class="
-                                    mt-2.5
-                                    text-sm
-                                    inline-flex
-                                    leading-5
-                                    bg-red-100
-                                    text-red-500
-                                    px-3.5
-                                    py-2.5
-                                "
-                            >
-                                Unfulfilled
-                            </div>
-                            <div class="mt-4 flex justify-between mr-10">
-                                <div class="flex">
-                                  <img
-                                    src="../../../assets/placeholder_theme.jpg"
-                                    alt="category_image"
-                                    class="w-10 h-10"
-                                  />
-                                  <div class="ml-3">
-                                    <h2 class="text-cyan-700 text-base mb-1">
-                                        {{ order.title }}
-                                    </h2>
-                                    <p class="text-base text-gray-500">{{ order.item_name }}</p>
-                                    <p class="text-base text-gray-500">{{ order.item_color }}</p>
-                                  </div>
-                                </div>
-                                <div>
-                                  <p class="text-sm mb-1">Promotion</p>
-                                  <p class=" font-semibold text-lg">{{ order.promotion }}</p>
-                                </div>
-                                <div>
-                                  <p class="text-sm mb-1">Product Price</p>
-                                  <p class=" font-semibold text-lg">{{ order.price }}</p>
-                                </div>
-                                <div>
-                                  <p class="text-sm mb-1">Shipping</p>
-                                  <p class=" font-semibold text-lg">{{ order.shipping_cost }}</p>
-                                </div>
-                                <div>
-                                  <p class="text-sm mb-1">Total Amount</p>
-                                  <p class=" font-semibold text-lg">{{ order.total }}</p>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class=" flex justify-between mt-4.5 pb-2 border-b-2 border-gray-200">
                           <p class="font-semibold text-lg">Timeline</p>
                           <div class="flex items-center">
@@ -477,7 +404,7 @@
                                 <input
                                     id="text3"
                                     type="text"
-                                    placeholder="Add a note"
+                                    placeholder="Leave a comment"
                                     class="
                                         w-full
                                         pl-4
@@ -507,8 +434,150 @@
                         </div>
                     </div>
                         <p class="text-right text-gray-400 mt-1">Only you and other staff can see comments</p>
+                    </div>
+
+                <div class="flex flex-col w-1/3">
+                    <div class="bg-white pl-5 pr-7 pb-10 pt-6 mb-5">
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                            <div class="px-5 flex justify-between mb-4">
+                                <h2 class="font-semibold text-xl">
+                                    Customer overview
+                                </h2>
+                                <a
+                                    href="/order/edit"
+                                    class="text-indigo-700 font-semibold"
+                                    >Edit</a
+                                >
+                            </div>
+                            <div class="px-5 mb-6">
+                                <h2 class="font-semibold text-indigo-700 mb-3">
+                                    {{ getCustomer.email }}
+                                </h2>
+                                <h2 class="text-gray-400">
+                                    Account invite sent
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                            <div class="px-5 flex justify-between mb-4">
+                                <h2 class="font-semibold text-xl">
+                                    Default Address
+                                </h2>
+                                <a
+                                    href="/order/manage"
+                                    class="text-indigo-700 font-semibold"
+                                    >Manage</a
+                                >
+                            </div>
+                            <div class="px-5 text-gray-500 mb-6">
+                                <h2 class="font-normal mb-1">
+                                    {{ getCustomer.first_name }}
+                                    {{ getCustomer.last_name }}
+                                </h2>
+                                <h2 class="mb-1">{{ getCustomer.address }}</h2>
+                                <!-- <h2 class="mb-1">Apt 402</h2> -->
+                                <h2 class="mb-1">
+                                    {{ getCustomer.city }}
+                                    {{ getCustomer.state }}
+                                </h2>
+                                <h2 class="mb-6">{{ getCustomer.country }}</h2>
+                                <a
+                                    href="/order/address"
+                                    class="font-semibold text-indigo-700"
+                                    >Add new address</a
+                                >
+                            </div>
+                        </div>
+                        <div class="-mx-5">
+                            <div class="px-5 flex justify-between mb-4">
+                                <h2 class="font-semibold text-xl">
+                                    Tax Settings
+                                </h2>
+                                <a
+                                    href="/order/manage"
+                                    class="text-indigo-700 font-semibold"
+                                    >Manage</a
+                                >
+                            </div>
+                            <div class="px-5 text-gray-400">
+                                <h2>No exemptions</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white pl-5 pr-7 pt-6 pb-9 mb-3">
+                        <div class="flex justify-between">
+                            <h2 class="font-semibold text-lg mb-6">
+                                Email marketing
+                            </h2>
+                            <h2 class="text-cyan-700 font-semibold">
+                                Unsubscribe
+                            </h2>
+                        </div>
+                        <div
+                            class="
+                                mb-3.5
+                                text-sm
+                                inline-flex
+                                leading-5
+                                bg-green-100
+                                text-green-500
+                                px-2
+                                py-1
+                            "
+                        >
+                            Subscribed
+                        </div>
+                        <div class="">
+                            <h2 class="font-semibold text-indigo-700 mb-3.5">
+                                {{ getCustomer.email }}
+                            </h2>
+                            <h2 class="text-gray-400">
+                                Subscribed on December 30, 2018
+                            </h2>
+                        </div>
+                    </div>
+
+                    <div class="bg-white pl-5 pr-7 pb-9 pt-6">
+                        <div class="flex justify-between mb-4.5">
+                            <h2 class="font-semibold text-lg">Tags</h2>
+                            <h2 class="text-cyan-700 font-semibold">
+                                View all tags
+                            </h2>
+                        </div>
+                        <label for="search" class="sr-only">Search</label>
+                        <input
+                            id="text"
+                            type="text"
+                            placeholder="VIP, sale, shopper, etc"
+                            class="
+                                block
+                                pl-3
+                                py-2
+                                rounded-md
+                                border border-gray-300
+                                text-gray-900
+                                placeholder-gray-300
+                                focus:outline-none
+                                w-full
+                            "
+                        />
+                    </div>
+
+                     <div class="bg-white pl-5 mt-3 mb-3 pr-7 pb-9 pt-6">
+                        <div class="flex justify-between mb-4.5">
+                            <h2 class="font-semibold text-lg">Notes</h2>
+                        </div>
+                            <h2 v-if="order.note" class="text-cyan-700 font-semibold">
+                                {{ order.note }}
+                            </h2>
+                            <p v-else class="font-normal text-base text-gray-400">No notes from customer</p>
+                     </div>
                 </div>
+
             </div>
+
+             
+
         </div>
     </app-layout>
 </template>
