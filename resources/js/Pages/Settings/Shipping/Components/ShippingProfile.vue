@@ -214,7 +214,7 @@ export default {
                     match_all_condition:rates.value.match_all_condition,
                     conditions:data.value 
                 }
-               console.log(formData)
+               
                Inertia.post('/settings/shipping-rates',formData)
                rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
                data.value =([{condition:'is equal to',tag:'Total Amount',value:''}])
