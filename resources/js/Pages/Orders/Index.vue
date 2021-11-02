@@ -147,7 +147,7 @@
                         <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="selectAll" class="h-4 w-4 text-indigo-600 border-gray-300 rounded" @click="checkAll" :disabled="orders.data.length === 0" />
                     </th> 
                     <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider ">
-                      Order No.
+                      Order ID
                     </th>
                     <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Date
