@@ -67,7 +67,7 @@
                                               <div class="min-w-max md:w-4/10 text-center hidden md:block">{{shipping.conditions.length}} condition(s)</div>
                                               <div class="min-w-max md:w-2/10 cursor-pointer justify-between flex">
                                                 <a class="text-indigo-700 underline" :href="`/settings/shipping-rates/${shipping.id}`" >Edit</a>
-                                                <span class="text-red-600 underline mr-0  2xl:mr-52" @click="deleteShipping_rate(shipping.id)">Delete</span>
+                                                <span class="text-red-600 underline mr-0 " @click="deleteShipping_rate(shipping.id)">Delete</span>
                                               </div>
                                           </div>
                                         </div>
