@@ -96,7 +96,8 @@ class ImagesController extends Controller
                 $response[] = ['status'=>0, 
                             'message'=>'Image Created', 
                             'thumb'=>$data['thumb'],
-                            'large'=>$data['image_url'],
+                            'large'=>$data['url'],
+                            'alt'=>'',
                             'id'=>$insert->id,
                 ];
             }

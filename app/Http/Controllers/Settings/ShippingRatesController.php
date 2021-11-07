@@ -44,6 +44,8 @@ class ShippingRatesController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request->input());
+        
         $request->validate([
             'name'=>['required'],
             'price'=>['required'],
@@ -52,6 +54,7 @@ class ShippingRatesController extends Controller
 
         $data = $request->input();
         $data['store_id'] = $request->session()->get('store_id');
+        $data['user_id'] = Auth::id();
 
         if($shipping_rate = ShippingRate::create($data)) {
             Log::info(Auth::id() . ' created a new shipping rate ' , $data);
@@ -65,6 +68,8 @@ class ShippingRatesController extends Controller
                 }
             }
         }
+
+        return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
     }
 
     /**
@@ -127,5 +132,13 @@ class ShippingRatesController extends Controller
     public function destroy($id)
     {
         //
+        if(Auth::user()->canDo('delete-shipping-rate')) {
+            $rate = ShippingRate::find($id)->delete();
+            ShippingRateCondition::where('shipping_rate_id', $id)->delete();
+            Log::info(Auth::id() . ' deleted a shipping rate ' . $id);
+            return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
+        }
+
+        return \Redirect::route('settings.shipping')->withErrors('You do not have permissions to delete this record');
     }
 }

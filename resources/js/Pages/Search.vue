@@ -113,9 +113,7 @@ export default {
         const closeOnEscape = (e) => {
             // console.log(a.length)
             if (a.length && e.keyCode === 27) {
-                console.log(a.length)
-                a = [];
-                // emit()
+                emit('empty-suggestions');
             }
         }
 
@@ -142,8 +140,8 @@ export default {
             return index === current.value;
         }
 
-        function setList(){
-            emit('update-current-list', current.value);
+        function setList(id){
+            emit('update-current-list', id);
         }
 
         onMounted(() => document.addEventListener('keydown', closeOnEscape))
@@ -158,7 +156,8 @@ export default {
             enter,
             current,
             select,
-            isActive
+            isActive,
+            setList
         }
     },
 }

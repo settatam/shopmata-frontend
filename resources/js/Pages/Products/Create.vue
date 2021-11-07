@@ -21,20 +21,23 @@
         <Nav page="General"></Nav>
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
-          <div class="max-w-3xl py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+          <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
             <h1 class="text-2xl font-extrabold text-blue-gray-900">
               Add New Product
             </h1>
             <form @submit.prevent="submit">
               <div class="bg-white mb-10 pt-7">
+                <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
+                  <span><angle-up-icon></angle-up-icon></span>
+                </div> -->
                 <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
-                  <p class="text-black text-2xl font-semilbold mb-6">Update Product</p>
+                  <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
                   <div class="mb-10">
                     <label class="block text-sm font-bold text-gray-700" for="title">
                       Title
                     </label>
                     <div class="mt-1">
-                        <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="formFields.title">
+                        <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="product.title">
                     </div>
                   </div>
 
@@ -45,31 +48,27 @@
                     >
                       Description
                     </label>
-                    <div class="quill border-gray-300 rounded-md">
+                    <div class="quill">
                       <quill-editor
                         class="editor text-black"
                         ref="description"
                         theme="snow"
                         style="min-height: 300px"
-                        :value="formFields.description"
+                        :value="product.description"
                         :options="editorOption"
                         @change="onEditorChange"
                         @blur="onEditorBlur($event)"
                         @focus="onEditorFocus($event)"
                         @ready="onEditorReady($event)"
                       />
-                       <span v-if="v$.formFields.description.$error" class="text-red-400">
-                            {{v$.formFields.description.$errors[0].$message}}
-                        </span>
                     </div>
-                    
                   </div>
                   <div class="mt-20">
                     <label class="block text-black font-semibold mb-2 bg-transparent" for="brand">
                       Brand
                     </label>
                     <multiselect
-                      v-model="formFields.brand"
+                      v-model="product.brand"
                       placeholder="Pick a brand"
                       label="name"
                       trackBy="name"
@@ -78,9 +77,6 @@
                       searchable="true"
                       class="text-xs text-black font-semibold"
                     ></multiselect>
-                     <span v-if="v$.formFields.brand.$error" class="text-red-400">
-                            {{v$.formFields.brand.$errors[0].$message}}
-                        </span>
                   </div>
                 </div>
               </div>
@@ -91,8 +87,10 @@
                     <p class="text-black font-semibold text-lg mb-6">Medias</p>
                   </div>
                   <div>
-                    <images-list></images-list>
-                    <Dropzone></Dropzone>
+                    <images-list :images="product.images" v-if="product.images.length"></images-list>
+                    <Dropzone
+                    @add-image="onAddImage"
+                    ></Dropzone>
                   </div>
                 </div>
               </div>
@@ -115,7 +113,7 @@
                                       {{ store.currency.symbol_left }}
                                     </span>
                                   </div>
-                                  <input type="text" name="price" id="price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="pricing.price"/>
+                                  <input type="text" name="price" id="price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.price"/>
                                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <span class="text-gray-500 sm:text-sm" id="price-currency">
                                       {{ store.currency.code }}
@@ -132,7 +130,7 @@
                                       {{ store.currency.symbol_left }}
                                     </span>
                                   </div>
-                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="pricing.compare_at_price"/>
+                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.compare_at_price"/>
                                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <span class="text-gray-500 sm:text-sm" id="price-currency">
                                       {{ store.currency.code }}
@@ -153,7 +151,7 @@
                                       {{ store.currency.symbol_left }}
                                     </span>
                                   </div>
-                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.cost_per_item"/>
+                                  <input type="text" name="compare_at_price" id="cost_per_item" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="cost_per_item" v-model="product.cost_per_item"/>
                                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <span class="text-gray-500 sm:text-sm" id="price-currency">
                                       {{ store.currency.code }}
@@ -192,7 +190,7 @@
                                       {{ store.currency.symbol_left }}
                                     </span>
                                   </div>
-                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.profit"/>
+                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="cost_per_item" v-model="product.profit"/>
                                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <span class="text-gray-500 sm:text-sm" id="price-currency">
                                       {{ store.currency.code }}
@@ -315,6 +313,7 @@
                 @add-variant-name="addVariantName"
                 @added-variant-value="addVariantValue"
               ></variants-form>
+
               <!-- Search Engine Starts Here -->
               <div class="bg-white pt-7 pb-1 mb-10 px-8">
                   <div class="flex justify-between">
@@ -327,21 +326,28 @@
                       <label class="block text-black mb-2 bg-transparent" for="page-title">
                           Page title
                       </label>
-                      <input class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="text" placeholder="Short sleeve t-shirt" v-model="search.page_title">
+                      <input class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="text" placeholder="Short sleeve t-shirt" v-model="product.seo_page_title">
                       <p class="text-gray-600">{{pageTitleLength}} of 70 characters used</p>
                   </div>
                   <div class="mb-6">
                       <label class="block text-black mb-2 bg-transparent" for="search_engine_desc">
                           Description
                       </label>
-                      <textarea name="w3review" rows="6" cols="50" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md" placeholder="" v-model="search.search_engine_desc"/>
+                      <textarea name="w3review" rows="6" cols="50" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md" placeholder="" v-model="product.seo_description"/>
                       <p class="text-gray-600">{{searchEngDescLength}} of 320 characters used</p>
                   </div>
                   <div class="mb-6">
                       <label class="block text-black mb-2 bg-transparent" for="url_handle">
                           URL and handle
                       </label>
-                      <input class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="text" placeholder="https://www.shopmata.com/products/" v-model="search.url_handle">
+                      <div class="mt-1 relative rounded-md shadow-sm">
+                          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                              <span class="text-gray-500 sm:text-sm" ref="domain_name">
+                                  {{ store.domains[0].name}}/
+                              </span>
+                          </div>
+                          <input type="text" :style="{paddingLeft: domainWidth}" name="handle" id="handle" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="price-currency" v-model="product.handle"/>
+                      </div>
                   </div>
               </div>
               <!-- Search Engine Ends here -->
@@ -351,28 +357,6 @@
               </div>
             </form>
           </div>
-            <div class="flex pl-6">
-              <div class="bg-white h-screen w-52 mr-5 pt-7 pl-4.5">
-                <p :class="activeGeneral?'text-indigo-700  border-l border-indigo-700':'text-gray-500'" class="mb-4 pl-2 py-1 cursor-pointer" @click="general">General</p>
-                <p :class="activeData?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="data">Data</p>
-                <p :class="activeVariants?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="variants">Variants</p>
-                <p :class="activeImages?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="images">Images</p>
-                <p :class="activePricing?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="pricing">Pricing</p>
-                <p :class="activeLinks?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="links">Links</p>
-                <p :class="activeShipping?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="shipping">Shipping</p>
-                <p :class="activeInventory?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="inventory">Inventory</p>
-                <p :class="activeSEO?'text-indigo-700  border-l border-indigo-700':'text-gray-500' " class="mb-4 pl-2 py-1 cursor-pointer" @click="seo">SEO</p>
-              </div>
-              <General v-if="activeGeneral"/>
-              <Data v-if="activeData"/>
-              <Variants v-if="activeVariants"/>
-              <Images v-if="activeImages"/>
-              <Pricing v-if="activePricing"/>
-              <Links v-if="activeLinks"/>
-              <Shipping v-if="activeShipping"/>
-              <Inventory v-if="activeInventory"/>
-              <SEO v-if="activeSEO"/>
-            </div>
         </div>
       </div>
     </div>
@@ -385,8 +369,6 @@ import AppLayout from "../../Layouts/AppLayout.vue";
 // import Search from "../Search.vue";
 import Nav from "./Components/Nav";
 import axios from "axios";
-import useVuelidate from '@vuelidate/core'
-import { required,helpers } from '@vuelidate/validators'
 
 import {
   Dialog,
@@ -396,23 +378,16 @@ import {
 } from "@headlessui/vue";
 import { ChevronLeftIcon } from "@heroicons/vue/solid";
 import hljs from "highlight.js";
-import Inventory from "./Components/Inventory";
-import Shipping from "./Components/Shipping";
-import Variants from "./Components/Variants";
-import SEO from "./Components/SEO";
-import Images from "./Components/Images";
-// import Pricing from "./Components/Pricing";
-import General from "./Components/General";
-import Data from "./Components/Data";
-import Links from "./Components/Links";
+import InventoryForm from "./Components/InventoryForm";
+import ShippingForm from "./Components/ShippingForm";
+import VariantsForm from "./Components/VariantsForm";
+import MediaUrlModal from "./Components/MediaUrlModal";
 import Dropzone from "./Components/Dropzone";
 import ImagesList from "./Components/ImagesList";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
 // import "vue-multiselect/dist/vue-multiselect.min.css";
-
-
 
 const statusStyles = {
   success: "bg-green-100 text-green-800",
@@ -437,15 +412,8 @@ export default {
     TransitionRoot,
     Multiselect,
     // InventoryForm,
-    Shipping,
-    Variants,
-    Images,
-    Inventory,
-    Links,
-    SEO,
-    Pricing,
-    General,
-    Data,
+    ShippingForm,
+    VariantsForm,
     UploadIcon,
     AngleUpIcon,
     MediaUrlModal,
@@ -455,16 +423,6 @@ export default {
 
   data() {
     return {
-      v$: useVuelidate(),
-      activeGeneral:true,
-      activeData:false,
-      activeVariants:false,
-      activeImages:false,
-      activePricing:false,
-      activeLinks:false,
-      activeShipping:false,
-      activeInventory:false,
-      activeSEO:false,
       valueContent: '',
       variantList: [],
       expand: true,
@@ -472,6 +430,7 @@ export default {
       content: "",
       pageTitleLength: 0,
       searchEngDescLength: 0,
+      domainWidth: '0',
       editorOption: {
         modules: {
           toolbar: [
@@ -486,44 +445,28 @@ export default {
           },
         },
       },
-      formFields: {
-        title: "",
-        description: "",
-        brand: "",
-      },
       product: {
         title: "",
         description: "",
         brand: "",
         images: [],
-        pricing: '',
+        price: '',
         compare_at_price: '',
-      },
-      pricing: {
-        price: "",
-        compare_at_price: "",
-        cost_per_item: "",
         margin: null,
         profit: null,
-      },
-      search: {
-        page_title: "",
-        search_engine_desc: "",
-        url_handle: "",
-      },
-      inventory: {
+        cost_per_item: '',
+        handle:'',
         sku: "",
         barcode: "",
         quantity: "",
         track_quantity: false,
         out_of_stock: false,
-        category: [],
+        has_variants: false,
       },
       shipping: {
         weight: "",
         physical_product: false,
       },
-      variant_types: ["size", "weight", "color"],
       variants: {
         has_variants: false,
         is_active: 0,
@@ -542,26 +485,8 @@ export default {
     };
   },
   computed: {
-    calculateMargin() {
-      this.formFields.margin = 0;
-      return `$ ${0}`;
-    },
-    calculateProfit() {
-      return `$ ${0}`;
-    },
     activeDomain() {
 
-    },
-    formData() {
-      return {
-        ...this.formFields,
-        description: this.$refs.description.$refs.editor.innerHTML,
-        ...this.inventory,
-        ...this.search,
-        ...this.pricing,
-        ...this.variants,
-        ...this.shipping,
-      };
     },
     editor() {
       return this.$refs.description?.quill;
@@ -576,108 +501,12 @@ export default {
       };
     },
   },
+  mounted() {
+    this.domainWidth = this.$refs.domain_name.clientWidth+8+'px'
+  },
   methods: {
     showFormFields() {
       console.log(this.formData);
-    },
-    general(){
-      this.activeGeneral = true,
-      this.activeData = false,
-      this.activeVariants=false,
-      this.activeImages=false,
-      this.activePricing=false,
-      this.activeLinks=false,
-      this.activeShipping=false,
-      this.activeInventory=false,
-      this.activeSEO=false
-    },
-    data(){
-      this.activeGeneral = false,
-      this.activeData = true,
-      this.activeVariants=false,
-      this.activeImages=false,
-      this.activePricing=false,
-      this.activeLinks=false,
-      this.activeShipping=false,
-      this.activeInventory=false,
-      this.activeSEO=false
-    },
-    variants(){
-      this.activeGeneral = false,
-      this.activeData = false,
-      this.activeVariants=true,
-      this.activeImages=false,
-      this.activePricing=false,
-      this.activeLinks=false,
-      this.activeShipping=false,
-      this.activeInventory=false,
-      this.activeSEO=false
-    },
-    images(){
-      this.activeGeneral = false,
-      this.activeData = false,
-      this.activeVariants=false,
-      this.activeImages=true,
-      this.activePricing=false,
-      this.activeLinks=false,
-      this.activeShipping=false,
-      this.activeInventory=false,
-      this.activeSEO=false
-    },
-    pricing(){
-      this.activeGeneral = false,
-      this.activeData = false,
-      this.activeVariants=false,
-      this.activeImages=false,
-      this.activePricing=true,
-      this.activeLinks=false,
-      this.activeShipping=false,
-      this.activeInventory=false,
-      this.activeSEO=false
-    },
-    links(){
-      this.activeGeneral = false,
-      this.activeData = false,
-      this.activeVariants=false,
-      this.activeImages=false,
-      this.activePricing=false,
-      this.activeLinks=true,
-      this.activeShipping=false,
-      this.activeInventory=false,
-      this.activeSEO=false
-    },
-    shipping(){
-      this.activeGeneral = false,
-      this.activeData = false,
-      this.activeVariants=false,
-      this.activeImages=false,
-      this.activePricing=false,
-      this.activeLinks=false,
-      this.activeShipping=true,
-      this.activeInventory=false,
-      this.activeSEO=false
-    },
-    inventory(){
-      this.activeGeneral = false,
-      this.activeData = false,
-      this.activeVariants=false,
-      this.activeImages=false,
-      this.activePricing=false,
-      this.activeLinks=false,
-      this.activeShipping=false,
-      this.activeInventory=true,
-      this.activeSEO=false
-    },
-    seo(){
-      this.activeGeneral = false,
-      this.activeData = false,
-      this.activeVariants=false,
-      this.activeImages=false,
-      this.activePricing=false,
-      this.activeLinks=false,
-      this.activeShipping=false,
-      this.activeInventory=false,
-      this.activeSEO=true
     },
     addOption(e) {
       this.variants.options.push({
@@ -703,6 +532,11 @@ export default {
         type: "",
         value: "",
       });
+    },
+    onAddImage(response) {
+      for(let i=0; i<response.data.length; i++) {
+        this.product.images.push(response.data[i]);
+      }
     },
     handleFileDrop(e) {
       let droppedFiles = e.dataTransfer.files;
@@ -743,8 +577,11 @@ export default {
     },
     submit() {
       // this.sending = true
+      this.product.description = this.$refs.description.$refs.editor.innerHTML;
       this.product.variants = this.variantList;
+      this.product.variant_options = this.variants.options
       console.log(this.product);
+      axios.post('/products', this.product);
 
       // this.$inertia.post("/products", this.formData);
     },
@@ -761,6 +598,8 @@ export default {
             
             let attributes = this.variants.options
             let total_count = 1;
+
+
             // return false
 
             // a loop can do this 
@@ -776,12 +615,6 @@ export default {
             let a = 0;
             
             let base_attribute = attributes[0];
-
-            // const gVal = (data, g) => {
-            //   let c = g.length;
-            //   if (data.values.indexOf(c)) return data.values[c]
-            //   return '';
-            // }
 
             let z = [];
 
@@ -831,15 +664,16 @@ export default {
             for(let l=0; l<z.length; l++) {
                 variantList.push({
                     name: z[l].join(', '),
-                    price: '34',
+                    price: '',
                     quantity: 1,
-                    sku: '123456'
+                    sku: ''
                 })
             }
 
            this.variantList = variantList;
         },
   },
+  
   setup() {
     const open = ref(false);
     return {

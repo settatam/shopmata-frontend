@@ -24,10 +24,16 @@ class OrdersController extends Controller
         $filters = $request->all('search', 'from', 'to', 'user');
         // $orders = Order::whereHas('user')->with('user')->with('items')->orderBy('id', 'asc')->paginate(50);
 
-       $orders = Order::whereHas('user', function (Builder $query) use($request) {
-            if($request->from && $request->to) $query->whereBetween('created_at', [$request->from ." 00:00:00", $request->to ." 23:59:59"]);
-        })->with('user')->with('items')->orderBy('id', 'asc')->paginate(50);
+       $orders = Order::whereHas('user', function($query){
+            // $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_sum')
+            //                 ->whereColumn('store_id', 'orders.store_id'),
+            // ]);
+       })->with('user')->withTotalOrders()->withAverageOrders()
+            ->with('items')
+            ->with('tags')
+            ->orderBy('id', 'asc')->paginate(50);
 
+        // dd($orders);
         return Inertia::render('Orders/Index', compact('orders', 'filters'));
     }
 
@@ -128,10 +134,9 @@ class OrdersController extends Controller
      */
     public function show($id, $notification = null )
     {
-        $order = Order::with('items')->where('id', $id)->first();
-        \Log::info("get order with id $id".print_r($order, true));
-
-        return Inertia::render('Orders/ViewOrder', compact('notification', 'order'));
+        $order = Order::with('items')->with('tags')->with('user')->with('activities')->where('id', $id)->first();
+    
+        return Inertia::render('Orders/Show', compact('notification', 'order'));
     }
 
     /**

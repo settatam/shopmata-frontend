@@ -9,6 +9,15 @@ class ShippingRateCondition extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'tag',
+        'condition',
+        'description',
+        'value',
+        'user_id',
+        'shipping_rate_id'
+    ];
+
     public static $condition_options = [
     	['title'=>'is equal to', 'type'=>'string'],
     	['title'=>'is not equal to', 'type'=>'string'],
@@ -20,5 +29,6 @@ class ShippingRateCondition extends Model
     	['title'=>'State', 'type'=>'string'],
     	['title'=>'Price', 'type'=>'string'],
     	['title'=>'Weight', 'type'=>'int'],
+        ['title'=>'Number of Items', 'type'=>'int'],
     ];
 }

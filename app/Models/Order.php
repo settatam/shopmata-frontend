@@ -14,7 +14,7 @@ class Order extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(new StoreScope);
+         static::addGlobalScope(new StoreScope);
     }
 
     public function user() {
@@ -28,6 +28,30 @@ class Order extends Model
 	public function items(){
 		return $this->hasMany(CartDetail::class, 'cart_id', 'cart_id');
 	}
+
+    public function tags() {
+        return $this->hasMany(OrderTag::class);
+    }
+
+    public function activities() {
+        return $this->hasMany(OrderActivity::class);
+    }
+
+    public function scopeWithTotalOrders($query) {
+        return $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_orders')
+                    ->whereColumn('store_id', 'orders.store_id')
+                    ->whereColumn('user_id', 'orders.user_id')
+                    // ->where('user_id', 'orders.user_id')
+                    // ->groupBy('user_id')
+                ]);
+    }
+
+    public function scopeWithAverageOrders($query) {
+        return $query->addSelect(['average_orders'=>Order::selectRaw('avg(total) as average_orders')
+                    ->whereColumn('store_id', 'orders.store_id')
+                    ->whereColumn('user_id', 'orders.user_id')
+                ]);
+    }
 
     /**
      * The attributes that should be cast to native types.

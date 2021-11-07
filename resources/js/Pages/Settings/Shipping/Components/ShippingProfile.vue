@@ -214,10 +214,10 @@ export default {
                     match_all_condition:rates.value.match_all_condition,
                     conditions:data.value 
                 }
-               
+    
                Inertia.post('/settings/shipping-rates',formData)
-               rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
-               data.value =([{condition:'is equal to',tag:'Total Amount',value:''}])
+               // rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
+               // data.value =([{condition:'is equal to',tag:'Total Amount',value:''}])
            }
        }
         return{

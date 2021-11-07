@@ -96,9 +96,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	#Products
 	Route::get('products', [ProductsController::class, 'index'])->name('products');
 	Route::get('products/get-data', [ProductsController::class, 'getData'])->name('products.data');
+	Route::get('products/get-single/{id}', [ProductsController::class, 'getSingle'])->name('products.single');
 	Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
 	Route::post('products', [ProductsController::class, 'store']);
-	Route::get('products/{id}/edit', [ProductsController::class, 'edit'])->name('products.edit');
+	Route::get('products/{id}', [ProductsController::class, 'edit'])->name('products.edit');
 	Route::put('products/{id}', [ProductsController::class, 'update']);
 	Route::post('products/get-order-products', [ProductsController::class, 'getOrderProducts']);
 
@@ -121,7 +122,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('orders', [OrdersController::class, 'index'])->name('orders');
 	Route::get('orders/create', [OrdersController::class, 'create'])->name('orders.create');
 	Route::post('orders/create', [OrdersController::class, 'store']);
-	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.view');
+	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
 
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
