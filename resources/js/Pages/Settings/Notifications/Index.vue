@@ -24,7 +24,7 @@
               </ol>
             </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden mt-5">
+          <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="Notifications"></Nav>
             <!-- Main content -->
@@ -33,103 +33,105 @@
                 <div class="mb-6">
                   <h1 class="text-2xl font-semibold">Notifications</h1>
                   <p class="text-gray-500 mb-4">Choose which notifications you want to get for this site.</p>
-                  <div class="p-8 mb-6 bg-white">
+                  <div class="p-4 lg:p-8 mb-6 bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Orders</h2>
                       <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openOrder" @click="openOrder=false" />
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else @click="openOrder=true"/>
                     </div>
                     <div v-if="openOrder">
-                      <div v-for="(order,index) in orders" :key="index" class="flex mb-5" >
-                        <inertia-link href="/settings/notifications/order-confirmation" class="w-3/10 ">
+                      <div v-for="(order,index) in orders" :key="index" class="flex mb-5 flex-col md:flex-row" >
+                        <inertia-link href="/settings/notifications/order-confirmation" class="w-full md:w-3/10 ">
                           <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{order.title}}</p>
                         </inertia-link>
-                        <p class="text-gray-500 w-7/10">{{order.description}}</p>
+                        <p class="text-gray-500 w-full md:w-7/10">{{order.description}}</p>
                       </div>
                     </div>
                   </div>
-                  <div class="p-8 my-6  bg-white">
+                  <div class="p-4 md:p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Local Delivery</h2>
                       <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openLocal" @click="openLocal=true"/>
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else @click="openLocal=false"/>
                     </div>
                     <div v-if="openLocal">
-                      <div v-for="(delivery,index) in localDeliveries" :key="index" class="flex mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{delivery.title}}</a>
-                        <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 my-auto" />
-                        <p class="text-gray-500 w-7/10">{{delivery.description}}</p>
+                      <div v-for="(delivery,index) in localDeliveries" :key="index" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{delivery.title}}</a>
+                        <div class="flex">
+                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 my-auto" />
+                          <p class="text-gray-500 w-full md:w-7/10">{{delivery.description}}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="p-8 my-6  bg-white">
+                  <div class="p-4 md:p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Shipping</h2>
                       <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openShipping" @click="openShipping=false"/>
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else  @click="openShipping=true"/>
                     </div>
                     <div v-if="openShipping">
-                      <div v-for="(shipping,index) in shippings" :key="index" class="flex mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{shipping.title}}</a>
-                        <p class="text-gray-500 w-7/10">{{shipping.description}}</p>
+                      <div v-for="(shipping,index) in shippings" :key="index" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{shipping.title}}</a>
+                        <p class="text-gray-500 w-full md:w-7/10">{{shipping.description}}</p>
                       </div>
                     </div>
                   </div>
-                  <div class="p-8 my-6  bg-white">
+                  <div class="p-4 md:p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Local Pickup</h2>
                       <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openPickup" @click="openPickup=false"/>
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openPickup==false"  @click="openPickup=true"/>
                     </div>
                     <div v-if="openPickup">
-                      <div v-for="(pickup,index) in localPickups" :key="index" class="flex mb-5">
-                        <p class="font-bold text-indigo-700 no-underline w-3/10" href="" @click="open">{{pickup.title}}</p>
-                        <p class="text-gray-500 w-7/10">{{pickup.description}}</p>
+                      <div v-for="(pickup,index) in localPickups" :key="index" class="flex flex-col md:flex-row mb-5">
+                        <p class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="" @click="open">{{pickup.title}}</p>
+                        <p class="text-gray-500 w-full md:w-7/10">{{pickup.description}}</p>
                       </div>
                     </div>
                   </div>
-                  <div class="p-8 my-6  bg-white">
+                  <div class="p-4 md:p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Customer</h2>
                       <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openCustomer" @click="openCustomer=false"/>
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else @click="openCustomer=true"/>
                     </div>
                     <div v-if="openCustomer">
-                      <div v-for="(customer,index) in customers" :key="index" class="flex mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{customer.title}}</a>
-                        <p class="text-gray-500 w-7/10">{{customer.description}}</p>
+                      <div v-for="(customer,index) in customers" :key="index" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{customer.title}}</a>
+                        <p class="text-gray-500 w-full md:w-7/10">{{customer.description}}</p>
                       </div>
                     </div>
                   </div>
-                  <div class="p-8 my-6  bg-white">
+                  <div class="p-4 md:p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Email Marketing</h2>
                       <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openMarketing=false" v-if="openMarketing"/>
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openMarketing=true" v-else/>
                     </div>
                     <div v-if="openMarketing">
-                      <div v-for="(email,index) in emailMarketings" :key="index" class="flex mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{email.title}}</a>
-                        <p class="text-gray-500 w-7/10">{{email.description}}</p>
+                      <div v-for="(email,index) in emailMarketings" :key="index" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{email.title}}</a>
+                        <p class="text-gray-500 w-full md:w-7/10">{{email.description}}</p>
                       </div>
                     </div>
                   </div>
-                  <div class="p-8 my-6  bg-white">
+                  <div class="p-4 md:p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl ">Returns</h2>
                       <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openReturn=false" v-if="openReturn" />
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openReturn=true" v-else />
                     </div>
                     <div v-if="openReturn">
-                      <div v-for="(ret,index) in returns" :key="index" class="flex mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-3/10" href="">{{ret.title}}</a>
-                        <p class="text-gray-500 w-7/10">{{ret.description}}</p>
+                      <div v-for="(ret,index) in returns" :key="index" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{ret.title}}</a>
+                        <p class="text-gray-500 w-full md:w-7/10">{{ret.description}}</p>
                       </div>
                     </div>
                   </div>
                   <h1 class="text-2xl font-semibold">Email Marketing</h1>
                   <p class="text-gray-500 mb-4">Choose consent and tracking options.</p>
-                  <div class="p-8 my-6  bg-white">
+                  <div class="p-4 md:p-8 my-6  bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <div>
                         <h2 class="font-bold text-xl">Double opt-in</h2>
@@ -140,7 +142,7 @@
                       <!-- <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/> -->
                     </div>
                   </div>
-                  <div class="p-8 my-6 bg-white">
+                  <div class="p-4 md:p-8 my-6 bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl">Shopmata Email open tracking</h2>
                       <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openTracking=false" v-if="openTracking"/>
@@ -159,7 +161,7 @@
                   </div>
                   <h1 class="text-2xl font-semibold">Staff order notifications</h1>
                   <p class="text-gray-500 mb-4">Choose how you want to be <span class="text-indigo-700">notified</span>  when a new order comes in or add other recipients. You can also subscribe to the <span class="text-indigo-700">RSS</span> feed for this store's orders.</p>
-                    <div class="p-8 my-6  bg-white">
+                    <div class="p-4 md:p-8 my-6  bg-white">
                       <div class="flex items-center justify-between mb-5">
                         <h2 class="font-bold text-xl ">Templates</h2>
                         <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openTemplate=false" v-if="openTemplate"/>
@@ -170,7 +172,7 @@
                         <p class="text-gray-500">Sent to order notification subscribers when a customer places an order.</p>
                       </div>
                    </div>
-                   <div class="p-8 my-6  bg-white">
+                   <div class="p-4 md:p-8 my-6  bg-white">
                      
                       <div class="flex items-center justify-between mb-5">
                         <h2 class="font-bold text-xl ">Recipients</h2>
@@ -178,16 +180,16 @@
                         <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openRecipient=true" v-else/>
                       </div>
                      <div v-if="openRecipient">
-                      <div class="flex items-center justify-between mb-5"> 
-                        <div>
+                      <div class="flex items-center justify-between mb-5 flex-col md:flex-row"> 
+                        <div class="">
                           <p class="text-indigo-700">Send test notification</p>
                           <p class="text-gray-500">Send email to "Esther Lagos" esthercoded@enkoded.com </p>
                         </div>
-                        <button type="button" class=" inline-flex items-center px-7 py-3 font-semibold border border-indigo-500 rounded-md shadow-sm  bg-transparent text-indigo-500 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500">Disable</button>
+                        <button type="button" class=" mt-7 md:mt-0 inline-flex items-center px-7 py-3 font-semibold border border-indigo-500 rounded-md shadow-sm  bg-transparent text-indigo-500 hover:bg-indigo-100">Disable</button>
                       </div>
                      </div>
                    </div>
-                   <div class="p-8 my-6  bg-white">
+                   <div class="p-4 md:p-8 my-6  bg-white">
                       <div class="flex items-center justify-between mb-5">
                         <h2 class="font-bold text-xl ">Desktop Notification</h2>
                         <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openNotification=false" v-if="openNotification"/>
@@ -195,7 +197,7 @@
                       </div>
                       <div v-if="openNotification">
                         <p class="text-gray-500">Get desktop notifications when you receive a new order. This setting only applies to your current browser — you must have the Shopify admin open in this browser to receive desktop notifications.</p>
-                        <button type="button" class="mt-7 inline-flex items-center px-3 py-2 font-semibold border border-indigo-500 rounded-md shadow-sm  bg-transparent text-indigo-500 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500">Enable Desktop Notifications</button>
+                        <button type="button" class="mt-7 inline-flex items-center px-3 py-2 font-semibold border border-indigo-500 rounded-md shadow-sm  bg-transparent text-indigo-500 hover:bg-indigo-100">Enable Desktop Notifications</button>
                       </div>
                    </div>
                 </div>

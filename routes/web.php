@@ -145,6 +145,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.inviteStaff');
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
+	#Settings -> Remittance
+	Route::get('settings/remittance',[SettingsController::class,'remittance']);
+	
 	#Settings -> Shipping and Delivery
 	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
 	Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
@@ -216,6 +219,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('online-store/store-users', StoreUserController::class);
 
     Route::resource('settings/shipping-rates', ShippingRatesController::class);
+    /* Route::put('settings/shipping-rates/{id}', ShippingRatesController::class,update); */
 
     // Navigation
 
