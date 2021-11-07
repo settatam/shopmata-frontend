@@ -54,20 +54,17 @@ class Order extends Model
         return $this->hasMany(ShippingAddress::class, 'user_id', 'user_id');
     }
 
-    public function scopeWithTotalOrders($query) {
+    public function scopeWithTotalOrders($query, $customer_id) {
         return $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_orders')
-                    ->whereColumn('store_id', 'orders.store_id')
-                    ->whereColumn('customer_id', 'orders.customer_id')
-                    // ->where('user_id', 'orders.user_id')
-                    // ->groupBy('user_id')
-                ]);
+                ->where('customer_id', $customer_id)
+        ]);
     }
 
-    public function scopeWithAverageOrders($query) {
-        return $query->addSelect(['average_orders'=>Order::selectRaw('avg(total) as average_orders')
-                    ->whereColumn('store_id', 'orders.store_id')
-                    ->whereColumn('customer_id', 'orders.customer_id')
-                ]);
+    public function scopeWithAverageOrders($query, $customer_id) {
+        return $query->addSelect(['average_orders'=>Order::from('orders as or')->selectRaw('avg(total) as average_orders')
+            ->where('customer_id', $customer_id)
+                    // ->whereColumn('customer_id', 'orders.customer_id')
+        ]);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\CartDetail;
+use App\Models\Cart;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CartDetailFactory extends Factory
@@ -21,12 +22,12 @@ class CartDetailFactory extends Factory
      */
     public function definition()
     {
-        $variant = \App\Models\ProductVariant::all()->random()->sku;
+        $variant = \App\Models\ProductVariant::all()->random();
         
         return [
             //
             "sku"=>$variant->sku, 
-            "cart_id"=>Cart::inRandomOrder()->first()->id, 
+            "cart_id"=>Cart::all()->random()->id, 
             "price"=>$variant->price, 
         ];
     }
