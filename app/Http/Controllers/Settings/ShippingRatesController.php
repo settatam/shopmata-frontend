@@ -133,12 +133,20 @@ class ShippingRatesController extends Controller
     {
         //
         if(Auth::user()->canDo('delete-shipping-rate')) {
-            $rate = ShippingRate::find($id)->delete();
-            ShippingRateCondition::where('shipping_rate_id', $id)->delete();
-            Log::info(Auth::id() . ' deleted a shipping rate ' . $id);
-            return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
-        }
+            $rate = ShippingRate::find($id);
+            if(null !== $rate && count($rate->conditions)) {
+                ShippingRateCondition::where('shipping_rate_id', $id)->delete();
+                if($rate->delete) {
+                    Log::info(Auth::id() . ' deleted a shipping rate ' . $id);
+                }
+                return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
+            }else{
+                return \Redirect::route('settings.shipping')->withErrors('This shipping rate does not exist');
+            }
+            
+        }else{
 
         return \Redirect::route('settings.shipping')->withErrors('You do not have permissions to delete this record');
+        }
     }
 }
