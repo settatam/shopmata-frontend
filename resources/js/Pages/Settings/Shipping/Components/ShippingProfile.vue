@@ -55,24 +55,24 @@
                                     </p>
                                     <div class=" items-center">
                                         <input type="radio" value="0"  class="mr-2" v-model="rates.is_domestic" name="domestic">
-                                        <label for="domestic"> Domestic</label>
+                                        <label for="domestic" @click="rates.is_domestic ='0'" class="cursor-pointer"> Domestic</label>
                                     </div>
                                     
                                     <div class=" items-center mt-2">
                                         <input type="radio" class="mr-2" value="1" v-model="rates.is_domestic" name="international">
-                                        <label for="international"> International</label>
+                                        <label for="international" @click="rates.is_domestic='1'" class="cursor-pointer"> International</label>
                                     </div>
                                 </div>
                                     <p class="font-semibold mt-6 text-lg">Orders must match</p>
                                     <div class="flex mt-4">
                                         <div class=" items-center">
-                                            <input type="radio" value="0"  class="mr-2" v-model="rates.match_all_condition">
-                                            <label for=""> All Conditions</label>
+                                            <input type="radio" value="0"  class="mr-2" v-model="rates.match_all_condition" name="all_condition">
+                                            <label for="all_condition" @click="rates.match_all_condition ='0'" class="cursor-pointer"> All Conditions</label>
                                         </div>
                                     
                                         <div class=" items-center ml-10">
-                                            <input type="radio" class="mr-2" value="1" v-model="rates.match_all_condition">
-                                            <label for=""> Any Condition</label>
+                                            <input type="radio" class="mr-2" value="1" v-model="rates.match_all_condition" name="any_condition">
+                                            <label for="any_condition" @click="rates.match_all_condition='1'" class="cursor-pointer"> Any Condition</label>
                                         </div>
                                     </div>
 

@@ -36,8 +36,8 @@
                     <p class="text-gray-400 text-sm mt-2 mb-5">Set your gift cards to expire a certain amount of time after they,ve been purchased.</p>
                     <div class="border border-gray-300 px-3 md:px-7 pt-7 pb-6">
                       <div class="flex flex-col ">
-                        <p class="ml-4 md:ml-9 mb-2 my-auto"> <input  type="radio" name="" value=1 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards expires</p>
-                        <p class="ml-4 md:ml-9 mb-6 my-auto"> <input  type="radio" name="" value=2 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards never expires</p>
+                        <p class="ml-4 md:ml-9 mb-2 my-auto"> <input  type="radio" name="" @click="gift.expire=0 " value=0 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards expires</p>
+                        <p class="ml-4 md:ml-9 mb-6 my-auto"> <input  type="radio" name=""  @click="gift.expire=1" value=1 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards never expires</p>
                       </div>
                       <div class="flex mb-6">
                         <input type="text" name="" v-model="gift.period" placeholder="5" class="w-20 mr-2.5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md">
