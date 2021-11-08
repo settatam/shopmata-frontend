@@ -454,15 +454,21 @@
                                     <td
                                         class="
                                             px-3
-                                            text-left text-base
+                                            text-left text-xs
                                             font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
                                         "
                                     >
-                                        {{ order.user.first_name }}
-                                        {{ order.user.last_name }}
+                                        <inertia-link
+                                            :href="
+                                                '/customers/' + order.user.id
+                                            "
+                                        >
+                                            {{ order.user.first_name }}
+                                            {{ order.user.last_name }}
+                                        </inertia-link>
                                     </td>
                                     <td
                                         class="
@@ -513,86 +519,25 @@
                                                 tracking-wide
                                             "
                                         >
-                                            <div
-                                                v-if="
-                                                    !order.status ||
-                                                    order.status == 'expired'
-                                                "
-                                            >
-                                                <div
-                                                    class="
-                                                        text-base
-                                                        inline-flex
-                                                        leading-5
-                                                        bg-red-100
-                                                        text-red-500
-                                                        px-4
-                                                        py-1
-                                                    "
+                                            <div>
+                                                <span
+                                                    :class="[
+                                                        statusStyles[
+                                                            order.status
+                                                        ],
+                                                        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize',
+                                                    ]"
                                                 >
-                                                    Expired
-                                                </div>
-                                            </div>
-                                            <div
-                                                v-else-if="
-                                                    !order.status ||
-                                                    order.status == 'pending'
-                                                "
-                                            >
-                                                <div
-                                                    class="
-                                                        text-base
-                                                        inline-flex
-                                                        leading-5
-                                                        bg-yellow-100
-                                                        text-yellow-500
-                                                        px-4
-                                                        py-1
-                                                    "
-                                                >
-                                                    Pending
-                                                </div>
-                                            </div>
-                                            <div v-else>
-                                                <div
-                                                    class="
-                                                        text-base
-                                                        inline-flex
-                                                        leading-5
-                                                        bg-green-light
-                                                        text-green-darker
-                                                        px-4
-                                                        py-1
-                                                    "
-                                                >
-                                                    Paid
-                                                </div>
+                                                    {{ order.status }}
+                                                </span>
                                             </div>
                                         </div>
                                     </td>
-                                    <!-- <td class=" px-3  text-left text-base font-semibold tracking-wider">
-                      <div v-if="order.fulfillment">
-                        <div class=" text-base px-5 py-1 inline-flex leading-5 bg-red-darker text-red-light ">
-                          Unfulfilled
-                        </div>
-                      </div>
-                      <div v-else>
-                        <div class=" text-base px-5 py-1 inline-flex leading-5 bg-green-light text-green-darker" >
-                          Fulfilled
-                        </div>
-                      </div>
-                    </td> -->
-                                    <!-- <td class=" px-3  text-left text-base font-medium text-gray-500 uppercase tracking-wider">
-                      {{ order.country }}
-                    </td> -->
-                                    <!-- <td class=" px-3  text-left text-base font-medium text-gray-500 uppercase tracking-wider" >
-                      {{ order.shipping }}
-                    </td> -->
                                     <td
                                         v-if="order.tags.length > 0"
                                         class="
                                             px-3
-                                            text-left text-base
+                                            text-left text-xs
                                             font-medium
                                             text-gray-500
                                             uppercase
@@ -716,6 +661,20 @@ const tabs = [
     { name: "Unfulfilment", href: "#", current: false },
     { name: "Sales Withdrawal", href: "#", current: false },
 ];
+
+const statusStyles = {
+    received: "bg-green-100 text-green-800",
+    shipped: "bg-green-100 text-green-800",
+    delivered: "bg-green-100 text-green-800",
+    fulfilled: "bg-green-100 text-green-800",
+    confirmed: "bg-green-100 text-green-800",
+    pending: "bg-yellow-100 text-yellow-800",
+    returned: "bg-yellow-100 text-yellow-800",
+    refunded: "bg-yellow-100 text-yellow-800",
+    failed: "bg-gray-100 text-gray-800",
+    expired: "bg-gray-100 text-gray-800",
+    cancelled: "bg-red-100 text-red-800",
+};
 
 export default {
     props: {
@@ -873,23 +832,6 @@ export default {
         SearchIcon,
         FilterIcon,
         Search,
-
-        // Datepicker,
-        // SideNav,
-        // ExportIcon,
-        // ImportIcon,
-        // SaveIcon,
-        // SortIcon,
-        // DeleteIcon,
-        // DeleteSolidIcon,
-        // EditIcon,
-        // AngleUpIcon,
-        // ArrowRight,
-        // Pagination,
-        // ArrowDownFilled,
-        // Multiselect,
-        // OrderRow,
-        // Badge
     },
 
     setup() {
@@ -921,6 +863,7 @@ export default {
             updateCurrentList,
             getAutoCompleteData,
             suggestions,
+            statusStyles,
         };
     },
 };

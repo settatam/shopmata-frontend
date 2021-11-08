@@ -183,7 +183,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('customers', [CustomersController::class, 'store']);
 	Route::get('customers/{id}/edit', [CustomersController::class, 'edit'])->name('customers.edit');
 	Route::put('customers/{id}', [CustomersController::class, 'update']);
-	Route::get('customers/{id}/view', [CustomersController::class, 'show'])->name('customers.view');
+	Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
 	Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
 	Route::post('product-images', [ImagesController::class, 'store']);
 	Route::get('product-images', [ImagesController::class, 'index']);

@@ -9,6 +9,7 @@ use App\Models\CartDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Models\ShippingAddress;
 
 class OrdersController extends Controller
 {
@@ -24,12 +25,19 @@ class OrdersController extends Controller
         $filters = $request->all('search', 'from', 'to', 'user');
         // $orders = Order::whereHas('user')->with('user')->with('items')->orderBy('id', 'asc')->paginate(50);
 
-       $orders = Order::whereHas('user', function (Builder $query) use($request) {
-            if($request->from && $request->to) $query->whereBetween('created_at', [$request->from ." 00:00:00", $request->to ." 23:59:59"]);
-        })->with('user')->with('items')->with('tags')->orderBy('id', 'asc')->paginate(50);
+       $orders = Order::whereHas('user', function($query){
+            // $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_sum')
+            //                 ->whereColumn('store_id', 'orders.store_id'),
+            // ]);
+       })->with('user')
+            ->with('items')
+            ->with('tags')
+            ->orderBy('id', 'asc')->paginate(50);
 
+        $shipping_addresses = ShippingAddress::where('user_id', Auth::id())->orderBy('is_default')->get();
 
-        return Inertia::render('Orders/Index', compact('orders', 'filters'));
+        // dd($orders);
+        return Inertia::render('Orders/Index', compact('orders', 'filters', 'shipping_addresses'));
     }
 
     /**
@@ -129,8 +137,9 @@ class OrdersController extends Controller
      */
     public function show($id, $notification = null )
     {
-        $order = Order::with('items')->with('tags')->with('user')->with('activities')->where('id', $id)->first();
-    
+        $o = Order::find($id);
+        $order = Order::with('items')->with('tags')->with('user')->with('activities')->with('shipping_addresses')->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
+
         return Inertia::render('Orders/Show', compact('notification', 'order'));
     }
 

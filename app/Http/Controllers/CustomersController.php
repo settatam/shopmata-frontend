@@ -116,7 +116,7 @@ class CustomersController extends Controller
     public function show($id)
     {
         //
-        $customer = Customer::with('orders')->with('shipping_addresses')->find($id);
+        $customer = Customer::with('orders.items')->with('shipping_addresses')->find($id);
         $user = User::find($customer->user_id);
 
         if (null === $customer) {
