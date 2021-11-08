@@ -30,7 +30,7 @@
                                 :href="page.href"
                                 class="
                                     ml-4
-                                    text-sm
+                                    text-base
                                     font-medium
                                     text-gray-500
                                     hover:text-gray-700
@@ -52,8 +52,7 @@
                             <h2 class="font-semibold text-xl">Orders placed</h2>
                             <button
                                 class="
-                                    px-8
-                                    py-2
+                                    px-6
                                     text-center
                                     bg-gray-100
                                     border
@@ -86,7 +85,7 @@
                                         block
                                         w-1/5
                                         ml-4
-                                        sm:text-sm
+                                        sm:text-base
                                         border-gray-300
                                         rounded-md
                                     "
@@ -102,7 +101,7 @@
                         <!-- <div
                                 class="
                                     mt-2.5
-                                    text-sm
+                                    text-base
                                     inline-flex
                                     leading-5
                                     bg-red-100
@@ -113,8 +112,12 @@
                             >
                                {{ order.status }}
                             </div> -->
-                        <div class="mt-10 flex justify-between mr-10">
-                            <div class="flex">
+                        <div
+                            v-for="item in order.items"
+                            v-bind:key="item.id"
+                            class="mt-10 flex justify-between mr-10"
+                        >
+                            <div class="flex w-4/12">
                                 <img
                                     src="../../../assets/placeholder_theme.jpg"
                                     alt="category_image"
@@ -122,41 +125,46 @@
                                 />
                                 <div class="ml-3">
                                     <h2 class="text-cyan-700 text-base mb-1">
-                                        {{ order.description }}
+                                        {{ item.description }}
                                     </h2>
                                     <p class="text-base text-gray-500">
-                                        {{ order.item_name }}
+                                        {{ item.item_name }}
                                     </p>
                                     <p class="text-base text-gray-500">
-                                        Qty: {{ order.quantity }}
+                                        Qty: {{ item.quantity }}
                                     </p>
-                                    <p class="text-base text-gray-500">
-                                        SKU: {{ order.sku }}
+                                    <p
+                                        class="
+                                            text-base text-gray-500
+                                            whitespace-nowrap
+                                        "
+                                    >
+                                        SKU: {{ item.sku }}
                                     </p>
                                 </div>
                             </div>
-                            <div>
-                                <p class="text-sm mb-1">Promotion</p>
+                            <div class="w-2/12">
+                                <p class="text-base mb-1">Promotion</p>
                                 <p class="font-semibold text-lg">
-                                    {{ order.promotion }}
+                                    {{ item.promotion }}
                                 </p>
                             </div>
-                            <div>
-                                <p class="text-sm mb-1">Product Price</p>
+                            <div class="w-2/12">
+                                <p class="text-base mb-1">Product Price</p>
                                 <p class="font-semibold text-lg">
-                                    {{ order.price }}
+                                    ${{ item.price }}
                                 </p>
                             </div>
-                            <div>
-                                <p class="text-sm mb-1">Shipping</p>
+                            <div class="w-2/12">
+                                <p class="text-base mb-1">Shipping</p>
                                 <p class="font-semibold text-lg">
                                     {{ order.shipping_cost }}
                                 </p>
                             </div>
-                            <div>
-                                <p class="text-sm mb-1">Total Amount</p>
+                            <div class="w-2/12">
+                                <p class="text-base mb-1">Total Amount</p>
                                 <p class="font-semibold text-lg">
-                                    {{ order.total }}
+                                    {{ item.total }}
                                 </p>
                             </div>
                         </div>
@@ -166,29 +174,13 @@
                         <div class="mb-4">
                             <div class="flex justify-between">
                                 <div>
-                                    <p class="text-sm mb-3">Data Added</p>
+                                    <p class="text-base mb-3">Data Added</p>
                                     <p class="font-semibold text-lg">
                                         {{ order.created_at }}
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="text-sm mb-3">Status</p>
-                                    <div
-                                        class="
-                                            text-sm
-                                            bg-green-100
-                                            text-green-500
-                                            w-full
-                                            pl-8
-                                            pr-8
-                                            py-1.5
-                                        "
-                                    >
-                                        {{ order.status }}
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-sm mb-3">Customer Note</p>
+                                    <p class="text-base mb-3">Customer Note</p>
                                     <p
                                         v-if="order.customer_note"
                                         class="font-semibold text-lg"
@@ -203,7 +195,24 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="text-sm mb-3">
+                                    <p class="text-base mb-3">Status</p>
+                                    <div
+                                        class="
+                                            text-base
+                                            bg-green-100
+                                            text-green-500
+                                            w-full
+                                            pl-8
+                                            pr-8
+                                            py-1.5
+                                        "
+                                    >
+                                        {{ order.status }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p class="text-base mb-3">
                                         Customer Notified
                                     </p>
                                     <p class="font-semibold text-lg">
@@ -240,24 +249,28 @@
                                 </div>
                                 <div class="w-full ml-5">
                                     <select
+                                        v-if="order.status.length > 0"
                                         class="
                                             shadow-sm
                                             focus:ring-indigo-500
                                             focus:border-indigo-500
                                             w-full
-                                            sm:text-sm
+                                            sm:text-base
                                             border-gray-300
                                             rounded-md
                                         "
                                         placeholder=""
                                         required
                                     >
-                                        <option value="fulfilled">
-                                            Fulfilled
+                                        <option
+                                            v-for="status in order.status"
+                                            :key="status.id"
+                                        >
+                                            {{ order.status }}
                                         </option>
-                                        <option value="unfulfilled" selected>
+                                        <!-- <option value="unfulfilled" selected>
                                             Unfulfilled
-                                        </option>
+                                        </option> -->
                                     </select>
                                 </div>
                             </div>
@@ -279,7 +292,7 @@
                             </div>
                         </div>
                         <div class="flex mb-2">
-                            <h2 class="font-normal text-sm">Customer Note</h2>
+                            <h2 class="font-normal text-base">Customer Note</h2>
                         </div>
                         <div class="flex w-full mb-6">
                             <div class="w-full mr-2">
@@ -455,7 +468,7 @@
                                         rounded-full
                                         capitalize
                                         bg-blue-400
-                                        text-white text-center text-sm
+                                        text-white text-center text-base
                                         py-2.5
                                         font-semibold
                                         mr-4
@@ -504,6 +517,90 @@
                 </div>
 
                 <div class="flex flex-col w-1/3">
+                    <div class="bg-white pl-5 mb-3 pr-7 pb-6 pt-6">
+                        <div class="flex justify-between mb-3">
+                            <h2 class="font-semibold text-xl">Order Details</h2>
+                        </div>
+                        <div>
+                            <div class="mb-2 flex justify-between">
+                                <div>
+                                    <h2
+                                        class="
+                                            text-lg text-gray-900
+                                            font-medium
+                                        "
+                                    >
+                                        Store:
+                                    </h2>
+                                </div>
+                                <div>
+                                    <h2
+                                        class="
+                                            text-lg text-blue-800
+                                            font-medium
+                                        "
+                                    >
+                                        {{ order.store_id }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="mb-2 flex justify-between">
+                                <h2 class="text-lg text-gray-900 font-medium">
+                                    Date:
+                                </h2>
+                                <div>
+                                    <h2
+                                        class="
+                                            text-lg text-blue-900
+                                            font-medium
+                                        "
+                                    >
+                                        {{ order.created_at }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="mb-2 flex justify-between">
+                                <h2 class="text-lg text-gray-900 font-medium">
+                                    Payment
+                                </h2>
+                                <div>
+                                    <h2
+                                        class="
+                                            text-lg text-blue-900
+                                            font-medium
+                                        "
+                                    >
+                                        {{ order.payment }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <h2 class="text-lg text-gray-900 font-medium">
+                                    Delivery
+                                </h2>
+                                <div>
+                                    <h2
+                                        class="
+                                            text-lg text-blue-900
+                                            font-medium
+                                        "
+                                    >
+                                        {{ order.delivery }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <h2
+                            v-if="order.note"
+                            class="text-cyan-700 font-semibold"
+                        >
+                            {{ order.note }}
+                        </h2> -->
+                        <!-- <p v-else class="font-normal text-base text-gray-400">
+                            No notes from customer
+                        </p> -->
+                    </div>
+
                     <div class="bg-white pl-5 pr-7 pb-10 pt-6 mb-5">
                         <div class="border-b border-gray-200 -mx-5 mb-6.5">
                             <div class="px-5 flex justify-between mb-4">
@@ -583,7 +680,7 @@
                         <div
                             class="
                                 mb-3.5
-                                text-sm
+                                text-base
                                 inline-flex
                                 leading-5
                                 bg-green-100
@@ -606,7 +703,7 @@
 
                     <div class="bg-white pl-5 pr-7 pb-9 pt-6">
                         <div class="flex justify-between mb-4.5">
-                            <h2 class="font-semibold text-lg">Tags</h2>
+                            <h2 class="font-semibold text-xl">Tags</h2>
                             <h2 class="text-cyan-700 font-semibold">
                                 View all tags
                             </h2>
@@ -639,7 +736,7 @@
                                     pl-2
                                     pr-2
                                     rounded-full
-                                    text-sm
+                                    text-base
                                     font-medium
                                     bg-yellow-100
                                     text-yellow-800
@@ -690,7 +787,7 @@
 
                     <div class="bg-white pl-5 mt-3 mb-3 pr-7 pb-9 pt-6">
                         <div class="flex justify-between mb-4.5">
-                            <h2 class="font-semibold text-lg">Notes</h2>
+                            <h2 class="font-semibold text-xl">Notes</h2>
                         </div>
                         <h2
                             v-if="order.note"

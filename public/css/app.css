@@ -1899,6 +1899,18 @@ select {
 .w-1\/6 {
 	width: 16.666667%;
 }
+.w-2\/5 {
+	width: 40%;
+}
+.w-2\/6 {
+	width: 33.333333%;
+}
+.w-4\/12 {
+	width: 33.333333%;
+}
+.w-2\/12 {
+	width: 16.666667%;
+}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -3144,6 +3156,14 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(217, 119, 6, var(--tw-text-opacity));
 }
+.text-blue-900 {
+	--tw-text-opacity: 1;
+	color: rgba(30, 58, 138, var(--tw-text-opacity));
+}
+.text-blue-800 {
+	--tw-text-opacity: 1;
+	color: rgba(30, 64, 175, var(--tw-text-opacity));
+}
 .text-opacity-40 {
 	--tw-text-opacity: 0.4;
 }
@@ -4099,6 +4119,10 @@ input[type='checkbox']:focus {
 
 	.sm\:text-sm {
 		font-size: 0.985rem;
+	}
+
+	.sm\:text-base {
+		font-size: 1rem;
 	}
 
 	.sm\:leading-9 {
