@@ -134,9 +134,12 @@ class ShippingRatesController extends Controller
         //
         if(Auth::user()->canDo('delete-shipping-rate')) {
             $rate = ShippingRate::find($id);
-            if(null !== $rate && count($rate->conditions)) {
-                ShippingRateCondition::where('shipping_rate_id', $id)->delete();
-                if($rate->delete) {
+            if(null !== $rate) {
+                if(count($rate->conditions)) {
+                    ShippingRateCondition::where('shipping_rate_id', $id)->delete();
+                }
+                
+                if($rate->delete()) {
                     Log::info(Auth::id() . ' deleted a shipping rate ' . $id);
                 }
                 return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
