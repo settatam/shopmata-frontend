@@ -628,6 +628,64 @@
                                 w-full
                             "
                         />
+                        <div class="mt-4" v-if="order.tags.length > 0">
+                            <span
+                                v-for="tag in order.tags"
+                                :key="tag.id"
+                                class="
+                                    inline-flex
+                                    items-center
+                                    py-1.5
+                                    pl-2
+                                    pr-2
+                                    rounded-full
+                                    text-sm
+                                    font-medium
+                                    bg-yellow-100
+                                    text-yellow-800
+                                    mr-2
+                                "
+                            >
+                                {{ tag.title }}
+                                <button
+                                    type="button"
+                                    class="
+                                        flex-shrink-0
+                                        ml-0.5
+                                        h-4
+                                        w-4
+                                        rounded-full
+                                        inline-flex
+                                        items-center
+                                        justify-center
+                                        text-yellow-600
+                                        hover:bg-yellow-100
+                                        hover:text-yellow-500
+                                        focus:outline-none
+                                        focus:bg-yellow-800
+                                        focus:text-white
+                                    "
+                                >
+                                    <span
+                                        class="sr-only"
+                                        v-if="tag.id < order.tags.length"
+                                        >Remove small option</span
+                                    >
+                                    <svg
+                                        class="h-2 w-2"
+                                        stroke="currentColor"
+                                        fill="none"
+                                        viewBox="0 0 8 8"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-width="1.5"
+                                            d="M1 1l6 6m0-6L1 7"
+                                        />
+                                    </svg>
+                                </button>
+                            </span>
+                        </div>
                     </div>
 
                     <div class="bg-white pl-5 mt-3 mb-3 pr-7 pb-9 pt-6">
