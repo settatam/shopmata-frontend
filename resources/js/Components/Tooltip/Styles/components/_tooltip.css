@@ -29,7 +29,7 @@
     content: "";
     border: 5px solid transparent;
     /* opinion 4 */
-    z-index: 1001;
+    z-index: 2001;
     /* absurdity 1 */
 }
 
@@ -44,17 +44,16 @@
     /* Let the content set the size of the tooltips but this will also keep them from being obnoxious */
     min-width: 281px;
     max-width: 21em;
-    height: max-content;
     /* white-space: nowrap;
     overflow: auto;
     text-overflow: ellipsis; */
     padding: 10px 12px;
     border-radius: 4px;
-    box-shadow: 1px 40px 65px 0px #E5E5E5A8;
+    box-shadow: 1px 40px 65px 0px #888787;
 
     background: #fff;
-    color: #212121;
-    z-index: 1000;
+    color: black;
+    z-index: 2000;
     /* absurdity 2 */
 }
 

@@ -121,7 +121,7 @@
                                         </th>
                                         <th scope="col" class="w-1/5 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider ">
                                             <span class="flex items-center"> Roles
-                                               <Tooltip :tooltipText="'Create roles for members of your staff e.g Administrator, Store Manager, Member'">
+                                                <Tooltip :tooltipText="'Create roles for members of your staff e.g Administrator, Store Manager, Member'">
                                                    <question-mark-circle-icon class="w-5 h-5 ml-1 cursor-pointer" />
                                                 </Tooltip>
                                             </span>
