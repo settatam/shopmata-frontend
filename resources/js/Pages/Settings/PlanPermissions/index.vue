@@ -119,8 +119,12 @@
                                         <th scope="col" class=" w-3/10 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
                                             Last Login
                                         </th>
-                                        <th scope="col" class="w-1/5 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
-                                            Permissions
+                                        <th scope="col" class="w-1/5 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider ">
+                                            <span class="flex items-center"> Roles
+                                               <Tooltip :tooltipText="'Create roles for members of your staff e.g Administrator, Store Manager, Member'">
+                                                   <question-mark-circle-icon class="w-5 h-5 ml-1 cursor-pointer" />
+                                                </Tooltip>
+                                            </span>
                                         </th>
                                         <th scope="col" class="relative px-6 py-3">
                                             <span class="sr-only"></span>
@@ -195,13 +199,15 @@ import Search from '../../Search.vue'
 import Nav from '../Nav';
 import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,PencilAltIcon,} from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import {TrashIcon,HomeIcon} from '@heroicons/vue/outline'
+import {TrashIcon,HomeIcon,QuestionMarkCircleIcon} from '@heroicons/vue/outline'
 import moment from "moment";
 import PermissionModal from './Components/PermissionModal.vue';
 import { ref } from '@vue/reactivity';
 import Inertia from '@inertiajs/inertia-vue3'
 import ConfirmationModal from './Components/ConfirmationModal.vue';
 //import moment from 'moment'
+import Tooltip from "../../../Components/Tooltip/Components/Tooltip.vue";
+
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -215,19 +221,24 @@ const plans = [
 ]
 export default {
   props: ['user', 'storeUsers', 'groups','login'],
-  components: { AppLayout,
-  Nav,
-  PlusCircleIcon,
-  DotsVerticalIcon,
-  PermissionModal,
-  ChevronRightIcon,
-  HomeIcon,
-  PencilAltIcon,
-  TrashIcon,
-   ConfirmationModal, Menu,
+  components: { 
+    AppLayout,
+    Nav,
+    PlusCircleIcon,
+    DotsVerticalIcon,
+    PermissionModal,
+    ChevronRightIcon,
+    HomeIcon,
+    QuestionMarkCircleIcon,
+    PencilAltIcon,
+    TrashIcon,
+    ConfirmationModal,
+    Menu,
     MenuButton,
     MenuItem,
-    MenuItems,},
+    MenuItems,
+    Tooltip
+},
    emits:['close'],
   data(){
       return{

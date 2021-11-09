@@ -8,20 +8,27 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import vueDebounce from 'vue-debounce'
 import "./index.css"
+import "../js/Components/Tooltip/Styles/main.css";
+import directives from "../js/Components/Tooltip/Directives/index";
 
 const el = document.getElementById('app');
+// register all directives
+const test = createApp(InertiaApp);
+directives(test);
+
 
 createApp({
     render: () =>
-        h(InertiaApp, {
-            initialPage: JSON.parse(el.dataset.page),
-            resolveComponent: (name) => require(`./Pages/${name}`).default,
-        }),
+    h(InertiaApp, {
+        initialPage: JSON.parse(el.dataset.page),
+        resolveComponent: (name) => require(`./Pages/${name}`).default,
+    }),
 })
-    .mixin({ methods: { route } })
-    .use(InertiaPlugin)
-    .component('QuillEditor', QuillEditor)
-    .component('vueDebounce', vueDebounce)
-    .mount(el);
+.mixin({ methods: { route } })
+.use(InertiaPlugin)
+.component('QuillEditor', QuillEditor)
+.component('vueDebounce', vueDebounce)
+.mount(el);
+
 
 InertiaProgress.init({ color: '#4B5563' });
