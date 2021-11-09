@@ -1140,11 +1140,8 @@ select {
 .top-12 {
 	top: 3rem;
 }
-.-left-0 {
-	left: 0px;
-}
-.-right-4 {
-	right: -1rem;
+.-right-8 {
+	right: -2rem;
 }
 .left-3 {
 	left: 0.75rem;
@@ -1178,9 +1175,6 @@ select {
 }
 .right-4 {
 	right: 1rem;
-}
-.-right-8 {
-	right: -2rem;
 }
 .z-0 {
 	z-index: 0;
@@ -1280,10 +1274,6 @@ select {
 	margin-top: 2.25rem;
 	margin-bottom: 2.25rem;
 }
-.mx-3 {
-	margin-left: 0.75rem;
-	margin-right: 0.75rem;
-}
 .mx-1 {
 	margin-left: 0.25rem;
 	margin-right: 0.25rem;
@@ -1307,6 +1297,10 @@ select {
 .my-2 {
 	margin-top: 0.5rem;
 	margin-bottom: 0.5rem;
+}
+.mx-3 {
+	margin-left: 0.75rem;
+	margin-right: 0.75rem;
 }
 .-mx-6 {
 	margin-left: -1.5rem;
@@ -1522,8 +1516,29 @@ select {
 .mb-32 {
 	margin-bottom: 8rem;
 }
-.-mb-px {
-	margin-bottom: -1px;
+.mb-6\.5 {
+	margin-bottom: 1.625rem;
+}
+.mb-3\.5 {
+	margin-bottom: 0.875rem;
+}
+.mb-4\.5 {
+	margin-bottom: 1.125rem;
+}
+.mb-2\.5 {
+	margin-bottom: 0.625rem;
+}
+.mt-2\.5 {
+	margin-top: 0.625rem;
+}
+.mt-3\.5 {
+	margin-top: 0.875rem;
+}
+.mr-10 {
+	margin-right: 2.5rem;
+}
+.mt-4\.5 {
+	margin-top: 1.125rem;
 }
 .mb-9 {
 	margin-bottom: 2.25rem;
@@ -1546,14 +1561,8 @@ select {
 .ml-7 {
 	margin-left: 1.75rem;
 }
-.mb-4\.5 {
-	margin-bottom: 1.125rem;
-}
 .ml-auto {
 	margin-left: auto;
-}
-.mb-3\.5 {
-	margin-bottom: 0.875rem;
 }
 .-mr-9 {
 	margin-right: -2.25rem;
@@ -1588,29 +1597,11 @@ select {
 .-mr-5 {
 	margin-right: -1.25rem;
 }
-.mt-2\.5 {
-	margin-top: 0.625rem;
-}
 .ml-10 {
 	margin-left: 2.5rem;
 }
-.mb-2\.5 {
-	margin-bottom: 0.625rem;
-}
 .-ml-5 {
 	margin-left: -1.25rem;
-}
-.mb-6\.5 {
-	margin-bottom: 1.625rem;
-}
-.mt-3\.5 {
-	margin-top: 0.875rem;
-}
-.mr-10 {
-	margin-right: 2.5rem;
-}
-.mt-4\.5 {
-	margin-top: 1.125rem;
 }
 .block {
 	display: block;
@@ -1833,14 +1824,11 @@ select {
 .w-36 {
 	width: 9rem;
 }
-.w-1\/12 {
-	width: 8.333333%;
+.w-2\/3 {
+	width: 66.666667%;
 }
-.w-1\/6 {
-	width: 16.666667%;
-}
-.w-52 {
-	width: 13rem;
+.w-1\/5 {
+	width: 20%;
 }
 .w-4\/5 {
 	width: 80%;
@@ -1866,12 +1854,6 @@ select {
 .w-8\.5\/10 {
 	width: 85%;
 }
-.w-2\/3 {
-	width: 66.666667%;
-}
-.w-4\/10 {
-	width: 40%;
-}
 .w-56 {
 	width: 14rem;
 }
@@ -1884,6 +1866,9 @@ select {
 .w-6\/10 {
 	width: 60%;
 }
+.w-52 {
+	width: 13rem;
+}
 .w-1\.5 {
 	width: 0.375rem;
 }
@@ -1893,11 +1878,11 @@ select {
 .w-3\.5\/10 {
 	width: 35%;
 }
-.w-1\/5 {
-	width: 20%;
-}
 .w-24 {
 	width: 6rem;
+}
+.w-4\/10 {
+	width: 40%;
 }
 .w-max {
 	width: -webkit-max-content;
@@ -1915,6 +1900,9 @@ select {
 }
 .w-3\/6 {
 	width: 50%;
+}
+.w-1\/6 {
+	width: 16.666667%;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -2215,9 +2203,6 @@ select {
 .overflow-y-auto {
 	overflow-y: auto;
 }
-.overflow-x-hidden {
-	overflow-x: hidden;
-}
 .overflow-y-hidden {
 	overflow-y: hidden;
 }
@@ -2327,9 +2312,6 @@ select {
 .border-b-4 {
 	border-bottom-width: 4px;
 }
-.border-l {
-	border-left-width: 1px;
-}
 .border-t-2 {
 	border-top-width: 2px;
 }
@@ -2384,14 +2366,6 @@ select {
 	--tw-border-opacity: 1;
 	border-color: rgba(0, 0, 0, var(--tw-border-opacity));
 }
-.border-indigo-500 {
-	--tw-border-opacity: 1;
-	border-color: rgba(99, 102, 241, var(--tw-border-opacity));
-}
-.border-indigo-700 {
-	--tw-border-opacity: 1;
-	border-color: rgba(67, 56, 202, var(--tw-border-opacity));
-}
 .border-gray-500 {
 	--tw-border-opacity: 1;
 	border-color: rgba(107, 114, 128, var(--tw-border-opacity));
@@ -2419,6 +2393,10 @@ select {
 .border-red-500 {
 	--tw-border-opacity: 1;
 	border-color: rgba(239, 68, 68, var(--tw-border-opacity));
+}
+.border-indigo-500 {
+	--tw-border-opacity: 1;
+	border-color: rgba(99, 102, 241, var(--tw-border-opacity));
 }
 .bg-white {
 	--tw-bg-opacity: 1;
@@ -2851,11 +2829,11 @@ select {
 .pr-7 {
 	padding-right: 1.75rem;
 }
-.pb-5 {
-	padding-bottom: 1.25rem;
+.pt-4\.5 {
+	padding-top: 1.125rem;
 }
-.pb-1\.5 {
-	padding-bottom: 0.375rem;
+.pl-16 {
+	padding-left: 4rem;
 }
 .pl-7 {
 	padding-left: 1.75rem;
@@ -2863,11 +2841,8 @@ select {
 .pr-12 {
 	padding-right: 3rem;
 }
-.pl-4\.5 {
-	padding-left: 1.125rem;
-}
-.pl-16 {
-	padding-left: 4rem;
+.pb-5 {
+	padding-bottom: 1.25rem;
 }
 .pr-20 {
 	padding-right: 5rem;
@@ -2892,9 +2867,6 @@ select {
 }
 .pt-0\.5 {
 	padding-top: 0.125rem;
-}
-.pt-4\.5 {
-	padding-top: 1.125rem;
 }
 .text-left {
 	text-align: left;
@@ -3130,9 +3102,9 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(99, 102, 241, var(--tw-text-opacity));
 }
-.text-red-darker {
+.text-yellow-500 {
 	--tw-text-opacity: 1;
-	color: rgba(255, 0, 0, var(--tw-text-opacity));
+	color: rgba(245, 158, 11, var(--tw-text-opacity));
 }
 .text-green-darker {
 	--tw-text-opacity: 1;
@@ -3140,6 +3112,10 @@ select {
 }
 .text-red-light {
 	color: #C9000033;
+}
+.text-red-darker {
+	--tw-text-opacity: 1;
+	color: rgba(255, 0, 0, var(--tw-text-opacity));
 }
 .text-red-400 {
 	--tw-text-opacity: 1;
@@ -3156,10 +3132,6 @@ select {
 .text-cyan-800 {
 	--tw-text-opacity: 1;
 	color: rgba(55, 48, 163, var(--tw-text-opacity));
-}
-.text-yellow-500 {
-	--tw-text-opacity: 1;
-	color: rgba(245, 158, 11, var(--tw-text-opacity));
 }
 .text-opacity-40 {
 	--tw-text-opacity: 0.4;
@@ -3783,12 +3755,12 @@ input[type='checkbox']:focus {
 		margin-top: -8rem;
 	}
 
-	.sm\:mt-4 {
-		margin-top: 1rem;
-	}
-
 	.sm\:mt-5 {
 		margin-top: 1.25rem;
+	}
+
+	.sm\:mt-4 {
+		margin-top: 1rem;
 	}
 
 	.sm\:mt-72 {
@@ -3847,16 +3819,16 @@ input[type='checkbox']:focus {
 		width: auto;
 	}
 
+	.sm\:w-2\/3 {
+		width: 66.666667%;
+	}
+
 	.sm\:w-4\.5\/10 {
 		width: 45%;
 	}
 
 	.sm\:w-4 {
 		width: 1rem;
-	}
-
-	.sm\:w-2\/3 {
-		width: 66.666667%;
 	}
 
 	.sm\:max-w-md {
@@ -4077,10 +4049,6 @@ input[type='checkbox']:focus {
 
 	.sm\:pt-12 {
 		padding-top: 3rem;
-	}
-
-	.sm\:pb-0 {
-		padding-bottom: 0px;
 	}
 
 	.sm\:pr-2 {
@@ -4607,16 +4575,16 @@ input[type='checkbox']:focus {
 		width: 20rem;
 	}
 
-	.lg\:w-3\/10 {
-		width: 30%;
-	}
-
 	.lg\:w-7\.5\/10 {
 		width: 75%;
 	}
 
 	.lg\:w-7 {
 		width: 1.75rem;
+	}
+
+	.lg\:w-3\/10 {
+		width: 30%;
 	}
 
 	.lg\:min-w-0 {
@@ -4816,10 +4784,6 @@ input[type='checkbox']:focus {
 		margin-left: 1.75rem;
 	}
 
-	.xl\:mr-52 {
-		margin-right: 13rem;
-	}
-
 	.xl\:block {
 		display: block;
 	}
@@ -4840,16 +4804,16 @@ input[type='checkbox']:focus {
 		width: 24rem;
 	}
 
+	.xl\:w-full {
+		width: 100%;
+	}
+
 	.xl\:w-9\.5\/10 {
 		width: 95%;
 	}
 
 	.xl\:w-9 {
 		width: 2.25rem;
-	}
-
-	.xl\:w-full {
-		width: 100%;
 	}
 
 	.xl\:grid-cols-10 {
@@ -4894,24 +4858,6 @@ input[type='checkbox']:focus {
 
 	.xl\:pr-0 {
 		padding-right: 0px;
-	}
-
-	.xl\:text-left {
-		text-align: left;
-	}
-}
-@media (min-width: 1536px) {
-
-	.\32xl\:mr-52 {
-		margin-right: 13rem;
-	}
-
-	.\32xl\:mr-48 {
-		margin-right: 12rem;
-	}
-
-	.\32xl\:text-left {
-		text-align: left;
 	}
 }
 

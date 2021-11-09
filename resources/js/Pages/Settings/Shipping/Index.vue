@@ -48,7 +48,7 @@
                           </inertia-link>
                         </div>
                           <span class="mt-2 mb-10 text-gray-500"> Create a shipping profile to add custom rates or destination restrictions for groups of products. 
-                            <Tooltip>
+                            <Tooltip :tooltipText="'A shipping profile enables you to decide how much you will charge your customer for shipping and also decide where you can ship to'">
                               <QuestionMarkCircleIcon class="h-5 w-5"/>
                             </Tooltip> 
                           </span>
@@ -92,7 +92,11 @@
                             </div>
                           </div>
                           <div class="flex flex-col items-start mb-6 ml-6">
-                            <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about local pickup.</p>
+                            <span class="text-gray-500">Allow local customers to pick up their orders. Learn more about local pickup.
+                              <Tooltip :tooltipText="'Customers can pick up their purchase from your physical store when you choose this option'">
+                                <QuestionMarkCircleIcon class="h-5 w-5"/>
+                              </Tooltip> 
+                            </span>
                           </div>
                         </div>
                         <div class="flex flex-col items-center" v-if="this.local_pickup.length==0">
