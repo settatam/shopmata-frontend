@@ -1,6 +1,6 @@
 <template>
     <app-layout>
-      <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
+      <div class="flex-1 flex flex-col overflow-y-auto ">
           <!-- Breadcrumb -->
           <div class="flex-shrink-0 mb-3 px-6 flex items-center">
               <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
@@ -24,11 +24,11 @@
               </ol>
             </nav>
 
-          <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-">
+          <div class="flex-1 flex flex-col  lg:flex-row mt-5 px-4 lg:px-">
             <!-- Secondary sidebar -->
             <Nav page="Payments"></Nav>
             <!-- Main content -->
-            <div class="flex-1 max-h-screen xl:overflow-y-auto">
+            <div class="flex-1 max-h-screen">
               <div class="w-auto  lg:ml-7 lg:mr-2">
                 <div class=" p-4 md:p-8 bg-white rounded-md mb-6">
                   <div class="flex md:flex-row flex-col justify-between">
@@ -36,8 +36,10 @@
                     <div class="flex flex-wrap">
                       <p class="text-gray-400 mr-4">Your business is located in </p>
                       <!-- Dynamically Change Location -->
-                      <p class="mr-2">{{country()}}</p>
-                      <QuestionMarkCircleIcon class="text-indigo-700 w-5 h-5"/>
+                      <p class="mr-2 text-indigo-700 underline">{{country()}}</p>
+                      <Tooltip :tooltipText="'You can change your store location if you choose'">
+                        <QuestionMarkCircleIcon class="text-indigo-700 w-5 h-5 cursor-pointer"/>
+                      </Tooltip>
                     </div>
                   </div>
                   <p class="text-gray-400">
@@ -46,7 +48,11 @@
                 </div>
                 <div class="p-3 md:px-7 pt-7 pb-3 bg-white rounded-md mb-6">
                   <div class="flex justify-between items-center">
-                  <span class=" text-xl md:text-2xl mb-2 font-semibold flex items-center ">Pay on Delivery <QuestionMarkCircleIcon class="w-5 h-5  md:ml-2"/></span>
+                  <span class=" text-xl md:text-2xl mb-2 font-semibold flex items-center ">Pay on Delivery 
+                    <Tooltip :tooltipText="'By enabling this option, customers will pay after receiving their orders'">
+                      <QuestionMarkCircleIcon class="w-5 h-5  md:ml-2"/>
+                    </Tooltip>
+                  </span>
                       <Switch v-model="enabledPayment" :class="[enabledPayment ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-24 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 ']">
                         <span class="sr-only">Use setting</span>
                         <span :class="[enabledPayment ? 'translate-x-20' : 'translate-x-0', 'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']">
@@ -67,7 +73,11 @@
                 <PaymentModal @close="this.popModal=false"  v-if="this.popModal"/>
                 <div class="px-3 md:px-7 pt-7 pb-3 bg-white rounded-md mb-6">
                   <div class="flex justify-between items-center">
-                  <span class="text-xl md:text-2xl mb-2 font-semibold flex items-center">International Payments<QuestionMarkCircleIcon class="w-5 h-5  md:ml-2"/></span>
+                  <span class="text-xl md:text-2xl mb-2 font-semibold flex items-center">International Payments
+                    <tooltip :tooltipText="' By enabling this option you can accept payment from different countries.'">
+                      <QuestionMarkCircleIcon class="w-5 h-5  md:ml-2"/>
+                    </tooltip>
+                  </span>
                       <Switch v-model="enabledShopmata" :class="[enabledShopmata ? 'bg-indigo-600' : 'bg-gray-500', 'relative inline-flex flex-shrink-0 h-6 w-24 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200']">
                         <span class="sr-only">Use setting</span>
                         <span :class="[enabledShopmata ? 'translate-x-20' : 'translate-x-0', 'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200']">
@@ -103,7 +113,8 @@ import { ref } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
-import axios from "axios"
+import axios from "axios";
+import Tooltip from "../../../Components/Tooltip/Components/Tooltip.vue";
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot, Switch } from '@headlessui/vue'
 import { ChevronLeftIcon,ChevronRightIcon } from '@heroicons/vue/solid'
@@ -135,7 +146,8 @@ export default {
     ChevronRightIcon, 
     HomeIcon,
     Switch,
-    PaymentModal
+    PaymentModal,
+    Tooltip
   },
   
   data() {

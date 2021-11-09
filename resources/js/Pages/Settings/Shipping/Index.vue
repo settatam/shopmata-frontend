@@ -47,7 +47,11 @@
                             <button class="text-indigo-700 mr-5 cursor-pointer">Create Shipping Rate</button>
                           </inertia-link>
                         </div>
-                          <p class="mt-2 mb-10 text-gray-500"> Create a shipping a shipping profile to add custom rate </p>
+                          <span class="mt-2 mb-10 text-gray-500"> Create a shipping profile to add custom rates or destination restrictions for groups of products. 
+                            <Tooltip>
+                              <QuestionMarkCircleIcon class="h-5 w-5"/>
+                            </Tooltip> 
+                          </span>
                             <div class="mt-6 flex-col">
                                 <div>
                                     <div class="flex-col mt-2">
@@ -136,9 +140,10 @@ import PickUpModal from "./Components/PickUpModal.vue"
 import PickUpModalEdit from "./Components/PickUpModalEdit.vue"
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
-import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon } from '@heroicons/vue/outline'
+import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon,QuestionMarkCircleIcon } from '@heroicons/vue/outline'
 import { Inertia } from '@inertiajs/inertia';
-import DeliveryModal from './Components/DeliveryModal.vue'
+import DeliveryModal from './Components/DeliveryModal.vue';
+import Tooltip from "../../../Components/Tooltip/Components/Tooltip.vue";
 
 
 const statusStyles = {
@@ -167,7 +172,8 @@ export default {
     PickUpModalEdit,
     TrashIcon,PencilIcon,
     DeliveryModal,
-    
+    QuestionMarkCircleIcon,
+    Tooltip,
   },
 
   

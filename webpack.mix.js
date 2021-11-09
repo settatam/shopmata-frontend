@@ -18,10 +18,6 @@ mix.js('resources/js/app.js', 'public/js').vue()
     ])
     .webpackConfig(require('./webpack.config'));
 
-mix.sass('resources/js/Components/Tooltip/Styles/components/_tooltip.scss', 'public/css', {
-    implementation: require('node-sass')
-    });
-
 if (mix.inProduction()) {
     mix.version();
 }
