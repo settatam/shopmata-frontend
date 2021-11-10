@@ -137,7 +137,7 @@ class CustomersController extends Controller
             $customer->average_order = round($customer->total_order / $customer->number_of_orders, 2);
         }
 
-        return Inertia::render('Customers/View', compact('customer', 'user'));
+        return Inertia::render('Customers/Show', compact('customer', 'user'));
     }
 
     /**
