@@ -53,6 +53,7 @@
                             <button
                                 class="
                                     px-6
+                                    py-1
                                     text-center
                                     bg-gray-100
                                     border
@@ -75,43 +76,6 @@
                         <p class="mt-2.5 text-base">
                             ${{ order.total }} from Online Store
                         </p>
-                        <!-- <div class="flex mt-3.5">
-                                <p class="mt-2.5">Status</p>
-                                <select
-                                    class="
-                                        shadow-sm
-                                        focus:ring-indigo-500
-                                        focus:border-indigo-500
-                                        block
-                                        w-1/5
-                                        ml-4
-                                        sm:text-base
-                                        border-gray-300
-                                        rounded-md
-                                    "
-                                    placeholder=""
-                                    required
-                                >
-                                    <option value="fulfilled">Fulfilled</option>
-                                    <option value="unfulfilled" selected>
-                                        Unfulfilled
-                                    </option>
-                                </select>
-                            </div> -->
-                        <!-- <div
-                                class="
-                                    mt-2.5
-                                    text-base
-                                    inline-flex
-                                    leading-5
-                                    bg-red-100
-                                    text-red-500
-                                    px-3.5
-                                    py-2.5
-                                "
-                            >
-                               {{ order.status }}
-                            </div> -->
                         <div
                             v-for="item in order.items"
                             v-bind:key="item.id"

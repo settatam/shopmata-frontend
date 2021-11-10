@@ -427,9 +427,8 @@
                                     >
                                         <td
                                             class="
-                                                pl-8
                                                 px-3
-                                                pt-4.5
+                                                pt-3
                                                 text-left text-base
                                                 font-medium
                                                 text-gray-500
