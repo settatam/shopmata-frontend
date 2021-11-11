@@ -69,9 +69,11 @@
                                               <div class="min-w-max md:w-3/10">{{shipping.name}}</div>
                                               <div class="min-w-max md:w-1/10 text-center">{{shipping.price}}</div>
                                               <div class="min-w-max md:w-4/10 text-center hidden md:block">{{shipping.conditions.length}} condition(s)</div>
-                                              <div class="min-w-max md:w-2/10 cursor-pointer justify-between flex">
-                                                <a class="text-indigo-700 underline" :href="`/settings/shipping-rates/${shipping.id}`" >Edit</a>
-                                                <span class="text-red-600 underline mr-0 " @click="deleteShipping_rate(shipping.id)">Delete</span>
+                                              <div class="min-w-max md:w-2/10 cursor-pointer justify-end flex">
+                                              <inertia-link :href="`/settings/shipping-rates/${shipping.id}`">
+                                                <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer mr-4"/>
+                                              </inertia-link>
+                                                <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="deleteShipping_rate(shipping.id)"/>    
                                               </div>
                                           </div>
                                         </div>

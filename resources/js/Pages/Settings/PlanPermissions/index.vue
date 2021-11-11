@@ -157,7 +157,7 @@
                                                      <p class="text-red-600">Delete User</p>
                                                 </div>
                                             </div> -->
-                                             <Menu as="div" class="relative inline-block text-left">
+                                             <!-- <Menu as="div" class="relative inline-block text-left">
                                                 <div>
                                                 <MenuButton class=" flex items-center">
                                                     <span class="sr-only">Open options</span>
@@ -172,12 +172,16 @@
                                                         <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"  @click="editRow(user)">Change Roles</a>
                                                     </MenuItem>
                                                     <MenuItem v-slot="{ active }">
-                                                        <a href="#" :class="[active ? 'bg-gray-100 text-red-600' : 'text-red-400', 'block px-4 py-2 text-sm']" @click="deleteRow(user.id)">Delete User</a>
+                                                        <span href="#" :class="[active ? 'bg-gray-100 text-red-600' : 'text-red-400',]" @click="deleteRow(user.id)"><TrashIcon class="w-5 h-5 text-red-500 my-auto cursor-pointer" @click="deleteRow(user.id)"/></span>
                                                     </MenuItem>
                                                     </div>
                                                 </MenuItems>
                                                 </transition>
-                                            </Menu>
+                                            </Menu> -->
+                                            <div class="flex"> 
+                                                    <pencil-icon class="h-8 w-8 p-2 mr-6 text-indigo-600 cursor-pointer" @click="editRow(user)" />
+                                                    <trash-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer" @click="deleteRow(user.id)"/> 
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -199,7 +203,7 @@ import Search from '../../Search.vue'
 import Nav from '../Nav';
 import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,PencilAltIcon,} from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import {TrashIcon,HomeIcon,QuestionMarkCircleIcon} from '@heroicons/vue/outline'
+import {TrashIcon,HomeIcon,QuestionMarkCircleIcon,PencilIcon} from '@heroicons/vue/outline'
 import moment from "moment";
 import PermissionModal from './Components/PermissionModal.vue';
 import { ref } from '@vue/reactivity';
@@ -234,6 +238,7 @@ export default {
     TrashIcon,
     ConfirmationModal,
     Menu,
+    PencilIcon,
     MenuButton,
     MenuItem,
     MenuItems,

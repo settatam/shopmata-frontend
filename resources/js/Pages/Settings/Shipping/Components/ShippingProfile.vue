@@ -100,7 +100,8 @@
                                                     </select>
                                                     <input type="number" class="w-full text-xs py-2 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.value">
                                                 </div>
-                                                <x-icon class="text-red-500 w-5 h-5 my-auto cursor-pointer" @click="removeCondition(index)"/>
+                                                <TrashIcon v-if="data.length>1 && index !=0" class="w-5 h-5 text-red-500 my-auto cursor-pointer" @click="removeCondition(index)"/>
+                                                <TrashIcon v-else class="w-5 h-5 invisible"/>
                                             </div>
                                         </template>
                                             <button class="text-indigo-700 sm:text-sm text-xs font-semibold mt-4 " @click="add()">Add New Condition</button>
@@ -132,7 +133,7 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav';
-import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon,XIcon} from '@heroicons/vue/outline'
+import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon,XIcon,TrashIcon} from '@heroicons/vue/outline'
 import {onBeforeMount, reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import { Inertia } from '@inertiajs/inertia';
@@ -154,7 +155,8 @@ export default {
           DotsHorizontalIcon, 
           ErrorIcon,
           XIcon,
-          DemoVideoModal
+          DemoVideoModal,
+          TrashIcon
     }, 
     data(){
         return{
