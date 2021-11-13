@@ -9,7 +9,7 @@
             <div class="flex items-center">
               <div>
                 <div class="flex items-center">
-                  <h1 class="text-2xl font-semibold leading-7 text-blue-gray-900 sm:leading-9 sm:truncate" >Orders</h1>
+                  <h1 class="text-2xl font-semibold leading-7 text-gray-900 sm:leading-9 sm:truncate" >Orders</h1>
                 </div>
               </div>
             </div>

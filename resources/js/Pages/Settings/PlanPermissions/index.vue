@@ -2,7 +2,7 @@
   <app-layout>
     <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden" >
          <div class="flex-shrink-0 mb-3 px-6 flex items-center">
-              <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
+              <p class="text-2xl font-semibold text-gray-900">Settings</p>
             </div>
             <nav class="flex px-6" aria-label="Breadcrumb">
               <ol role="list" class="flex items-center space-x-4">

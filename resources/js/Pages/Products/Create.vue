@@ -9,7 +9,7 @@
         <div
           class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8"
         >
-          <inertia-link href="#" class="ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
+          <inertia-link href="#" class="ml-1 inline-flex items-center space-x-3 text-sm font-medium text-gray-900">
             <ChevronLeftIcon class="h-5 w-5 text-blue-gray-400" aria-hidden="true"/>
             <span>Add a new Product</span>
           </inertia-link>
@@ -22,7 +22,7 @@
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
           <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-            <h1 class="text-2xl font-extrabold text-blue-gray-900">
+            <h1 class="text-2xl font-extrabold text-gray-900">
               Add New Product
             </h1>
             <form @submit.prevent="submit">

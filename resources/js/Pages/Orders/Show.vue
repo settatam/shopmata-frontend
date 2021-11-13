@@ -2,7 +2,7 @@
     <app-layout>
         <div class="flex-1 flex flex-col mt-4 min-h-screen">
             <div class="flex-shrink-0 px-8 py-4 flex items-center">
-                <p class="text-2xl font-semibold text-blue-gray-900">Orders</p>
+                <p class="text-2xl font-semibold text-gray-900">Orders</p>
             </div>
             <nav class="flex px-8 mb-4" aria-label="Breadcrumb">
                 <ol role="list" class="flex items-center space-x-4">
@@ -1036,8 +1036,8 @@ export default {
 <style scoped>
 @import "style.css";
 .quill {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 </style>
 <style src="@vueform/multiselect/themes/default.css"></style>

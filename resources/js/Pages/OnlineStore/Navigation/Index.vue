@@ -2,7 +2,7 @@
     <app-layout>
       <!-- Breadcrumb -->
        <div class="flex-shrink-0 px-8 py-4 flex items-center">
-          <p class="text-2xl font-semibold text-blue-gray-900">Online Store</p>
+          <p class="text-2xl font-semibold text-gray-900">Online Store</p>
        </div>
         <nav class="flex px-8" aria-label="Breadcrumb">
           <ol role="list" class="flex items-center space-x-4">
@@ -91,9 +91,9 @@
 </template>
 
 <style>
- .card {
-   min-height: 70vh;
- }
+.card {
+  min-height: 70vh;
+}
 </style>
 
 <script>
