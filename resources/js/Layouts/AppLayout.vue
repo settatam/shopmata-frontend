@@ -219,7 +219,7 @@ const navigation = [
           ], 
   },
   { name: 'Customers', href: '/customers', icon: UserGroupIcon, current: false },
-  { name: 'Analytics', href: 'analytics', icon: ChartBarIcon, current: false },
+  { name: 'Analytics', href: '/analytics', icon: ChartBarIcon, current: false },
   { name: 'Discounts', href: '/discounts', icon: CashIcon, current: false },
   { name: 'Online Store', 
           href: '#', 
