@@ -46,7 +46,7 @@ class CustomersController extends Controller
         foreach ($customers as $customer) {
             $categories = [];
             $customer_user = User::with('orders')->with('shipping_addresses')->find($customer->user_id);
-            $customer->total_order = $customer_user->orders->sum();
+            // $customer->total_order = $customer_user->orders->sum();
         }
 
         return Inertia::render('Customers/Index', compact('customers', 'filters'));
