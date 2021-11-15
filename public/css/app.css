@@ -1318,6 +1318,18 @@ select {
 	margin-top: 0.625rem;
 	margin-bottom: 0.625rem;
 }
+.-mx-4 {
+	margin-left: -1rem;
+	margin-right: -1rem;
+}
+.-mx-7 {
+	margin-left: -1.75rem;
+	margin-right: -1.75rem;
+}
+.-mx-9 {
+	margin-left: -2.25rem;
+	margin-right: -2.25rem;
+}
 .ml-3 {
 	margin-left: 0.75rem;
 }
@@ -4381,6 +4393,22 @@ input[type='checkbox']:focus {
 
 	.md\:pl-3 {
 		padding-left: 0.75rem;
+	}
+
+	.md\:pr-8 {
+		padding-right: 2rem;
+	}
+
+	.md\:pl-8 {
+		padding-left: 2rem;
+	}
+
+	.md\:pl-2 {
+		padding-left: 0.5rem;
+	}
+
+	.md\:pl-5 {
+		padding-left: 1.25rem;
 	}
 
 	.md\:text-right {
