@@ -9,16 +9,16 @@
                 <div class="flex items-center">
                   <div>
                     <div class="flex items-center">
-                      <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate">
-                        Products
+                      <h1 class="ml-3 text-2xl font-semibold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                        All Products
                       </h1>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-                <inertia-link href="products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                  Create New Product
+                <inertia-link href="products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm  rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                 <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
                 </inertia-link>
               </div>
             </div>
@@ -26,35 +26,39 @@
         </div>
 
         <div class="mt-8">
-          <div class="mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-xl leading-6 font-medium text-gray-900">All Products</h2>
-          </div>
+          
           <!-- Activity table (small breakpoint and up) -->
           <div class="hidden sm:block">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
-              <search 
+              <!-- <search 
                 :suggestions="suggestions"
                 @autocomplete="getAutoCompleteData"
                 @update-current-list="updateCurrentList"
                 :selection="selection"
-                ></search>
+                ></search> -->
               <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead class="bg-gray-50">
                       <tr>
-                        <th scope="col" class="w-1/2 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="w-2/5 max-w-0 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
                           <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5" />
-                          Name
+                          PRODUCTS
                         </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" class="w-2/10 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
+                          STOCK LEVEL
+                        </th>
+                        <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
+                          BRAND
+                        </th>
+                        <th scope="col" class=" w-1/10 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
+                          CATEGORY
+                        </th>
+                        <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
+                          PRICE
+                        </th>
+                        <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
                           Status
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Role
                         </th>
                         <th scope="col" class="relative px-6 py-3">
                           <span class="sr-only">Edit</span>
@@ -63,13 +67,13 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                       <tr v-for="product in products.data" :key="product.id" class="bg-white">
-                        <td class="max-w-0 w-1/2 px-6 py-4 items-center whitespace-nowrap text-gray-900">
+                        <td class="w-2/5 max-w-0 px-6 py-4 items-center text-gray-900">
                           <div class="flex items-center">
                             <div class="flex h-5 mr-5">
                                 <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                             </div>
                             <div class="flex-shrink-0 h-12 w-12 mr-5">
-                              <img class="h-12 w-12 rounded-full" :src="product.image" alt="" />
+                              <img class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
                             </div>
                             <inertia-link href="#" class="group inline-flex space-x-2 truncate">
                               <p class="text-gray-800 truncate group-hover:text-gray-900 break-normal">
@@ -78,24 +82,32 @@
                             </inertia-link>
                           </div>
                         </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          <span class="text-gray-900 font-medium">{{ product.amount }} </span>
+                        <td class="w-2/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                          <span class="text-gray-900 font-normal">{{ product.amount }} </span>
                           {{ product.currency }}
                         </td>
-                        <td class="hidden px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
-                          <span :class="[statusStyles[product.status], 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize']">
-                            {{ product.status }}
+                        <td class="w-1/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                          <span class="text-gray-900 font-normal">{{ product.amount }} </span>
+                          {{ product.currency }}
+                        </td>
+                        <td class=" w-1/10px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                          <span class="text-gray-900 font-normal">{{ product.amount }} </span>
+                          {{ product.currency }}
+                        </td>
+                        <td class="w-1/10 px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
+                          <span :class="[statusStyles[product.status], 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal capitalize']">
+                            {{product.status}}
                           </span>
                         </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                        <td class="w-1/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                           <time :datetime="product.datetime">{{ product.date }}</time>
                         </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500"> NOthing  </td>
+                        <td></td>
                       </tr>
                     </tbody>
                   </table>
                   <!-- Pagination -->
-                  <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
+                  <!-- <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
                     <div class="hidden sm:block">
                       <p class="text-sm text-gray-700">
                         Showing
@@ -121,7 +133,7 @@
                         Next
                       </a>
                     </div>
-                  </nav>
+                  </nav> -->
                 </div>
               </div>
             </div>
@@ -139,7 +151,7 @@ import axios from "axios"
 import { Inertia } from '@inertiajs/inertia'
 
 import {
-  ScaleIcon,
+  ScaleIcon,PlusIcon
 } from '@heroicons/vue/outline'
 
 const transactions = [
@@ -173,7 +185,7 @@ export default {
             brands: Array,
             categories: Array
         },
-  components: {AppLayout, ScaleIcon, Search},
+  components: {AppLayout, ScaleIcon, Search, PlusIcon},
   
   setup() {
     
