@@ -1254,10 +1254,6 @@ select {
 	margin-top: 2.5rem;
 	margin-bottom: 2.5rem;
 }
-.mx-5 {
-	margin-left: 1.25rem;
-	margin-right: 1.25rem;
-}
 .mx-8 {
 	margin-left: 2rem;
 	margin-right: 2rem;
@@ -1277,6 +1273,10 @@ select {
 .mx-0 {
 	margin-left: 0px;
 	margin-right: 0px;
+}
+.mx-5 {
+	margin-left: 1.25rem;
+	margin-right: 1.25rem;
 }
 .my-9 {
 	margin-top: 2.25rem;
@@ -1317,18 +1317,6 @@ select {
 .my-2\.5 {
 	margin-top: 0.625rem;
 	margin-bottom: 0.625rem;
-}
-.-mx-4 {
-	margin-left: -1rem;
-	margin-right: -1rem;
-}
-.-mx-7 {
-	margin-left: -1.75rem;
-	margin-right: -1.75rem;
-}
-.-mx-9 {
-	margin-left: -2.25rem;
-	margin-right: -2.25rem;
 }
 .ml-3 {
 	margin-left: 0.75rem;
@@ -1489,6 +1477,9 @@ select {
 .mt-7 {
 	margin-top: 1.75rem;
 }
+.mb-2 {
+	margin-bottom: 0.5rem;
+}
 .mb-7 {
 	margin-bottom: 1.75rem;
 }
@@ -1506,9 +1497,6 @@ select {
 }
 .ml-0 {
 	margin-left: 0px;
-}
-.mb-2 {
-	margin-bottom: 0.5rem;
 }
 .mr-7 {
 	margin-right: 1.75rem;
@@ -2818,6 +2806,9 @@ select {
 .pb-6 {
 	padding-bottom: 1.5rem;
 }
+.pl-12 {
+	padding-left: 3rem;
+}
 .pt-9 {
 	padding-top: 2.25rem;
 }
@@ -2835,9 +2826,6 @@ select {
 }
 .pr-7 {
 	padding-right: 1.75rem;
-}
-.pl-12 {
-	padding-left: 3rem;
 }
 .pt-3 {
 	padding-top: 0.75rem;
@@ -4354,6 +4342,11 @@ input[type='checkbox']:focus {
 		padding-right: 2.75rem;
 	}
 
+	.md\:px-3 {
+		padding-left: 0.75rem;
+		padding-right: 0.75rem;
+	}
+
 	.md\:px-6 {
 		padding-left: 1.5rem;
 		padding-right: 1.5rem;
@@ -4362,11 +4355,6 @@ input[type='checkbox']:focus {
 	.md\:px-4 {
 		padding-left: 1rem;
 		padding-right: 1rem;
-	}
-
-	.md\:px-3 {
-		padding-left: 0.75rem;
-		padding-right: 0.75rem;
 	}
 
 	.md\:px-10 {
