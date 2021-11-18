@@ -396,8 +396,14 @@
                                                 tracking-wider
                                             "
                                         >
-                                            {{ customer.first_name }}
-                                            {{ customer.last_name }}
+                                            <inertia-link
+                                                :href="
+                                                    '/customers/' + customer.id
+                                                "
+                                            >
+                                                {{ customer.first_name }}
+                                                {{ customer.last_name }}
+                                            </inertia-link>
                                         </td>
                                         <td
                                             class="
@@ -701,8 +707,8 @@ export default {
         edit(customer) {
             this.$inertia.visit(`/customers/${customer.id}/edit`, customer.id);
         },
-        view(customer) {
-            this.$inertia.visit(`/customers/${customer.id}/view`, customer.id);
+        show(customer) {
+            this.$inertia.visit(`/customers/${customer.id}/show`, customer.id);
         },
         sortByLastname() {
             this.form.orderBy = "last_name";
