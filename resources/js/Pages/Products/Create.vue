@@ -1,40 +1,54 @@
 <template>
   <app-layout>
-    <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
-      <!-- Breadcrumb -->
-      <nav
-        aria-label="Breadcrumb"
-        class="bg-white border-b border-blue-gray-200 xl:hidden"
-      >
-        <div
-          class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8"
-        >
-          <inertia-link href="#" class="ml-1 inline-flex items-center space-x-3 text-sm font-medium text-gray-900">
-            <ChevronLeftIcon class="h-5 w-5 text-blue-gray-400" aria-hidden="true"/>
-            <span>Add a new Product</span>
-          </inertia-link>
-        </div>
-      </nav>
+    <div class="flex-1 flex flex-col overflow-y-auto  xl:overflow-hidden">
 
-      <div class="flex-1 flex xl:overflow-hidden">
-        <!-- Secondary sidebar -->
-        <Nav page="General"></Nav>
+      <div class="flex-1 flex xl:overflow-auto">
         <!-- Main content -->
-        <div class="flex-1 max-h-screen xl:overflow-y-auto">
+        <div class="flex-1 h-full max-h-screen">
+          <!-- breadcrumbs -->
+          <nav class="flex px-6 mt-6" aria-label="Breadcrumb">
+              <ol role="list" class="flex items-center space-x-4">
+                <li>
+                  <div>
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <ChartPieIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                      <span class="sr-only">Settings</span>
+                    </a>
+                  </div>
+                </li>
+                <li v-for="page in pages" :key="page.name">
+                  <div class="flex items-center">
+                    <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+                  </div>
+                </li>
+              </ol>
+            </nav>
+            <div class="flex justify-between mt-4 px-6">
+              <h1 class="text-2xl font-bold text-gray-900">
+                Add New Product
+              </h1>
+              <div>
+                <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
+                    Cancel
+                  </button>
+                  <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+                    Save
+                  </button>
+              </div>
+            </div>
           <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-            <h1 class="text-2xl font-extrabold text-gray-900">
-              Add New Product
-            </h1>
-            <form @submit.prevent="submit">
+           
               <div class="bg-white mb-10 pt-7">
                 <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
                   <span><angle-up-icon></angle-up-icon></span>
                 </div> -->
                 <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
                   <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
+                  <p class="text-gray-700 font-bold text-lg mb-4">Product Information</p>
                   <div class="mb-10">
-                    <label class="block text-sm font-bold text-gray-700" for="title">
-                      Title
+                    <label class="block text-sm text-gray-500" for="title">
+                      Product Name
                     </label>
                     <div class="mt-1">
                         <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="product.title">
@@ -43,17 +57,17 @@
 
                   <div class="mb-6">
                     <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
+                      class="block text-gray-500  mb-2 bg-transparent"
                       for="description"
                     >
-                      Description
+                      Product Description
                     </label>
                     <div class="quill">
                       <quill-editor
                         class="editor text-black"
                         ref="description"
                         theme="snow"
-                        style="min-height: 300px"
+                        style="min-height: 102px"
                         :value="product.description"
                         :options="editorOption"
                         @change="onEditorChange"
@@ -63,39 +77,10 @@
                       />
                     </div>
                   </div>
-                  <div class="mt-20">
-                    <label class="block text-black font-semibold mb-2 bg-transparent" for="brand">
-                      Brand
-                    </label>
-                    <multiselect
-                      v-model="product.brand"
-                      placeholder="Pick a brand"
-                      label="name"
-                      trackBy="name"
-                      valueProp="id"
-                      :options="brands"
-                      searchable="true"
-                      class="text-xs text-black font-semibold"
-                    ></multiselect>
-                  </div>
                 </div>
               </div>
 
-              <div class="bg-white mb-10 py-6">
-                <div class="px-8">
-                  <div class="bg-white flex justify-between">
-                    <p class="text-black font-semibold text-lg mb-6">Medias</p>
-                  </div>
-                  <div>
-                    <images-list :images="product.images" v-if="product.images.length"></images-list>
-                    <Dropzone
-                    @add-image="onAddImage"
-                    ></Dropzone>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Princing Start here -->
+               <!-- Princing Start here -->
 
             <div class="bg-white pt-7 pb-1 mb-10">
                 <div class="flex justify-between px-8 cursor-pointer" @click="expandForm">
@@ -104,7 +89,7 @@
                 </div>
                 <div class="px-8">
                     <div class="mb-5 md:mb-10">
-                        <div class="flex flex-wrap mb-6">
+                        <div class="flex flex-wrap mb-4">
                             <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
                                 <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -113,12 +98,7 @@
                                       {{ store.currency.symbol_left }}
                                     </span>
                                   </div>
-                                  <input type="text" name="price" id="price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.price"/>
-                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
-                                      {{ store.currency.code }}
-                                    </span>
-                                  </div>
+                                  <input type="number" name="price" id="price" class=" block w-full pl-7 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.price"/>
                                 </div>
                             </div> 
 
@@ -130,79 +110,18 @@
                                       {{ store.currency.symbol_left }}
                                     </span>
                                   </div>
-                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.compare_at_price"/>
-                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
-                                      {{ store.currency.code }}
-                                    </span>
-                                  </div>
+                                  <input type="number" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.compare_at_price"/>
                                 </div>
-                            </div>               
+                            </div>   
+                            <span class="flex items-center text-gray-400 mt-1">
+                              <information-circle-icon class="h-5 w-5 "/> Customers will not see this
+                            </span>            
                         </div>
                     </div>
-                    <div class="flex flex-wrap mb-6">
-                        <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
-                            <label class="block text-black font-semibold mb-2 bg-transparent" for="cost_per_item">
-                                Cost per item
-                            </label>
-                            <div class="mt-1 relative rounded-md shadow-sm">
-                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm">
-                                      {{ store.currency.symbol_left }}
-                                    </span>
-                                  </div>
-                                  <input type="text" name="compare_at_price" id="cost_per_item" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="cost_per_item" v-model="product.cost_per_item"/>
-                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
-                                      {{ store.currency.code }}
-                                    </span>
-                                  </div>
-                              </div>
-                            <p class="text-gray-300 font-semibold flex items-center text-xs mt-2">
-                            <warning-icon></warning-icon><span class="mx-1">Customers won't see this</span></p>
-                        </div>
-                        <div class="w-full md:w-1/2 md:pl-3 mb-6 md:mb-0 flex flex-wrap">
-                            <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
-                                <label class="block text-black font-semibold mb-2 bg-transparent" >
-                                    Margin
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm">
-                                      {{ store.currency.symbol_left }}
-                                    </span>
-                                  </div>
-                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.margin"/>
-                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
-                                      {{ store.currency.code }}
-                                    </span>
-                                  </div>
-                              </div>
-                            </div>
-                            <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
-                                <label class="block text-black font-semibold mb-2 bg-transparent" >
-                                    Profit
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm">
-                                      {{ store.currency.symbol_left }}
-                                    </span>
-                                  </div>
-                                  <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="cost_per_item" v-model="product.profit"/>
-                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
-                                      {{ store.currency.code }}
-                                    </span>
-                                  </div>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-8 mb-6">
+                    
+                    <div class="mt-2 mb-6">
                         <div class="flex items-center">
-                            <input type="checkbox" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none" id="charge_tax">
+                            <input type="checkbox" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-indigo-500 transition duration-150 ease-in-out border border-border focus:outline-none" id="charge_tax">
                             <label for="charge_tax" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
                                 Charge tax on this product
                             </label>
@@ -211,6 +130,61 @@
                   </div>
               </div>
 
+              <div class="bg-white mb-10 py-6">
+                <div class="px-8">
+                  <div class="bg-white flex justify-between">
+                    <p class="text-black font-semibold text-lg mb-6">Media</p>
+                  </div>
+                  <div class="border-b  border-gray-300">
+                    <li class="flex text-gray-700  justify-between">
+                      <p class="w-3/10">Image</p>
+                      <p class="w-5/10 border-r border-l border-gray-300 px-6">Description</p>
+                      <p class="w-2/10 px-2">Thumbnail</p>
+                    </li>
+                  </div>
+                  <div class="mt-7">
+                    <images-list :images="product.images" v-if="product.images.length"/>
+                    <!-- <Dropzone
+                      @add-image="onAddImage"
+                    /> -->
+                  </div>
+                  
+                </div>
+              </div>
+
+             <!-- Variant Here -->
+             <variants-form
+                :variants="variants"
+                :types="variant_types"
+                :valueContent="valueContent"
+                :variantList="variantList"
+                @added="addOption"
+                @add-variant-name="addVariantName"
+                @added-variant-value="addVariantValue"
+              ></variants-form>
+
+              <!-- Link Starts Here -->
+              <div class="bg-white p-8 mb-10">
+                <div>
+                  <p class="text-black font-semibold text-lg mb-6">Link</p>
+                </div>
+                <div class="flex flex-col mt-4 text-gray-600">
+                  <label for="manufacturer">Manufacturer</label>
+                  <input type="text" name="manufacturer" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <div class="flex flex-col mt-4 text-gray-600">
+                  <label for="Collections">Collections</label>
+                  <input type="text" name="Collections" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <div class="flex flex-col mt-4 text-gray-600">
+                  <label for="filters">Filters</label>
+                  <input type="text" name="filters" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <div class="flex flex-col mt-4 text-gray-600">
+                  <label for="related">Related Products</label>
+                  <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                </div>
+              </div>
               <!-- Inventory Starts here -->
 
               <div class="bg-white pt-7 pb-1 mb-10">
@@ -252,7 +226,7 @@
                               </div>
                           </div>
                       </div>
-                      <p class="text-gray-700 font-semibold text-lg mb-6">Quantity</p>
+                      <!-- <p class="text-gray-700 font-semibold text-lg mb-6">Quantity</p>
                       <div class="flex flex-wrap -mx-3 mb-6">
                           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                               <label class="block text-gray-700 font-semibold mb-2 bg-transparent" for="page-title">
@@ -260,7 +234,7 @@
                               </label>
                               <input class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none" type="number" placeholder="0" v-model="product.quantity">
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </div>
 
@@ -268,7 +242,7 @@
 
               <!-- Shipping starts here -->
               
-              <div class="bg-white pt-7 pb-1 mb-10 px-8">
+             <!--  <div class="bg-white pt-7 pb-1 mb-10 px-8">
                   <div class="flex justify-between cursor-pointer">
                       <p class="text-black font-semibold text-lg mb-6">Shipping</p>
                       <span><angle-up-icon></angle-up-icon></span>
@@ -300,19 +274,11 @@
                               </div>
                       </div>
                   </div>
-              </div>
+              </div> -->
 
               <!-- Shipping ends here -->
             
-              <variants-form
-                :variants="variants"
-                :types="variant_types"
-                :valueContent="valueContent"
-                :variantList="variantList"
-                @added="addOption"
-                @add-variant-name="addVariantName"
-                @added-variant-value="addVariantValue"
-              ></variants-form>
+              
 
               <!-- Search Engine Starts Here -->
               <div class="bg-white pt-7 pb-1 mb-10 px-8">
@@ -351,11 +317,16 @@
                   </div>
               </div>
               <!-- Search Engine Ends here -->
-              
-              <div class="text-center bg-white pt-6 pb-6 mb-6">
-                <t-button class="text-white bg-purple-darker active:bg-purple-darker font-medium border border-transparent px-11 py-3.5 cursor-pointer" @click="submit">Add Product</t-button>
+              <div class="flex justify-between">
+                <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
+                    Cancel
+                  </button>
+                  <p  class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+                    Save
+                  </p>
               </div>
-            </form>
+              
+          
           </div>
         </div>
       </div>
@@ -376,7 +347,8 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ChevronLeftIcon } from "@heroicons/vue/solid";
+import { ChevronLeftIcon,ChevronRightIcon,HomeIcon } from "@heroicons/vue/solid";
+import { ChartPieIcon,InformationCircleIcon } from "@heroicons/vue/outline";
 import hljs from "highlight.js";
 import InventoryForm from "./Components/InventoryForm";
 import ShippingForm from "./Components/ShippingForm";
@@ -394,6 +366,12 @@ const statusStyles = {
   processing: "bg-yellow-100 text-yellow-800",
   failed: "bg-gray-100 text-gray-800",
 };
+
+const pages = [
+  { name: 'All Product', href: '/products', current: false },
+  { name: 'Create New Product', href: '/products/create', current: true },
+]
+
 export default {
   props: {
     products: Object,
@@ -411,6 +389,7 @@ export default {
     TransitionChild,
     TransitionRoot,
     Multiselect,
+    InformationCircleIcon,
     // InventoryForm,
     ShippingForm,
     VariantsForm,
@@ -418,7 +397,12 @@ export default {
     AngleUpIcon,
     MediaUrlModal,
     Dropzone,
-    ImagesList
+    ImagesList,
+    pages,
+    ChevronRightIcon,
+    ChevronLeftIcon,
+    HomeIcon,
+    ChartPieIcon
   },
 
   data() {
@@ -678,6 +662,7 @@ export default {
     const open = ref(false);
     return {
       statusStyles,
+      pages
     };
   },
 };

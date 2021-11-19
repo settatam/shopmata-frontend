@@ -10,7 +10,7 @@
                 <div class="flex flex-wrap -mx-3">
                     <div class="-mx-3 px-8">
                         <div class="flex items-center">
-                        <input v-model="variants.has_variants" type="checkbox" id="has_variants" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none">
+                        <input v-model="variants.has_variants" type="checkbox" id="has_variants" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-indigo-600 transition duration-150 ease-in-out border border-border focus:outline-none">
                         <label for="has_variants" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
                             This product has multiple options, like different sizes or colours
                         </label>
@@ -22,15 +22,15 @@
             <template v-if="variants.has_variants">
                 <p class="text-black font-semibold text-lg px-8">Options</p>
                 <div v-for="(option, index) of variants.options" :key="index" class="mx-8 mb-6" :data-index="index">
-                    <p class="text-black font-semibold py-4">Option {{index+1}}</p>
+                    <p class="text-gray-400 pt-4 pb-1">Option {{index+1}}</p>
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
                             <input class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " v-model="option.type" type="text" :data-index="index" @blur="setVariant">
                         </div>
-                        <div class="flex md:w-1/2 rounded-md shadow-sm flex-wrap">
-                            <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm flex-wrap">
-                                <span class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100 text-indigo-700" v-for="(item, i) in option.values" :key="i"> {{item}}
-                                    <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white" @click="removeItem(index, i)">
+                        <div class="flex md:w-1/2 rounded-md shadow-sm overflow-x-scroll">
+                            <span class="inline-flex items-center p-px rounded-l-md border-r-transparent border focus:border-r-0 focus:outline-none  border-gray-300 text-gray-500 sm:text-xm overflow-x-scroll">
+                                <span class="inline-flex rounded-full items-center m-2  py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100  text-indigo-700" v-for="(item, i) in option.values" :key="i"> {{item}}
+                                    <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500" @click="removeItem(index, i)">
                                         <span class="sr-only"> Remove {{item}} option</span>
                                             <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
                                                 <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
@@ -38,11 +38,19 @@
                                     </button>
                                 </span>
                             </span>
-                         <input type="text" name="values[]" class="flex-1 min-w-0 px-3 py-2 rounded-none rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300" placeholder="" @blur="addVariantValue" :data-index="index" v-model="valueContent"/>                           
+                         <input type="text" name="values[]" class="flex-1 min-w-0 px-3 py-2 rounded-none rounded-r-md border-l-transparent sm:text-xm border-gray-300 overflow-x-scroll focus:border-0 focus:outline-none" placeholder="" @blur="addVariantValue" :data-index="index" v-model="valueContent" @keypress.enter='addVariantValue'/>                           
                         </div>
+                       <!--  <div class="tag-input">
+                            <div v-for="(tag, index) in tags" :key="index" class="tag-input__tag">
+                                {{ tag }}
+                                <span @click='removeTag(index)'>x</span>
+                            </div>
+                            <input type="text" placeholder="Enter a Tag" @keypress.enter='addTag'  @keypress.,='addTag'  @keypress.esc='removeLastTag' class="tag-input__text" />
+                        </div> -->
+
                     </div>
                 </div>
-                <t-button v-if="variants.options.length<3" class="text-white bg-purple-darker active:bg-purple-darker text-sm font-medium border border-transparent mx-8 px-11 py-3 mb-6" v-model="newVariant" @click="added">Add another option</t-button>
+                <t-button v-if="variants.options.length<3" class="text-white  rounded bg-indigo-600 active:bg-indigo-600 text-sm font-medium cursor-pointer border border-transparent float-right mr-8 px-4 py-3 mb-6" v-model="newVariant" @click="added">Add another option</t-button>
                 
                  <!-- list variants -->
                 <div class="py-6">
@@ -96,6 +104,7 @@ export default {
             expand: true,
             newVariant: "",
             // variantList: []
+            tags: []
         }
     },
     methods: {
@@ -233,11 +242,33 @@ export default {
         },
         removeItem(index, i){
             this.variants.options[index].values.splice(i, 1)
-        }
+        },
+        /* addTag (event) {
+            event.preventDefault()
+            var val = event.target.value.trim()
+            console.log(val.length)
+            if (val.length > 0) {
+                this.tags.push(val)
+                event.target.value = ''
+            }
+        },
+        removeTag (index) {
+            this.tags.splice(index, 1)
+        },
+        removeLastTag(event) {
+            console.log(event)
+            if (event.target.value.length === 0) {
+            this.removeTag(this.tags.length - 1)
+            }
+        } */
     }
 }
 </script>
 
 <style scoped>
-
+[type="text"]:focus {
+  --tw-ring-color: none;
+  /* --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); */
+  --tw-ring-shadow: none;
+}
 </style>
