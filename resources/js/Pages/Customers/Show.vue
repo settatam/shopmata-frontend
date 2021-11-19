@@ -1,11 +1,6 @@
 <template>
     <app-layout>
         <div class="flex-1 flex flex-col mt-4 min-h-screen">
-            <div class="flex-shrink-0 px-8 py-4 flex items-center">
-                <p class="text-2xl font-semibold text-blue-gray-900">
-                    Customers
-                </p>
-            </div>
             <nav class="flex px-8 mb-4" aria-label="Breadcrumb">
                 <ol role="list" class="flex items-center space-x-4">
                     <li>
@@ -36,6 +31,7 @@
                                     font-medium
                                     text-gray-500
                                     hover:text-gray-700
+                                    mt-1
                                 "
                                 :aria-current="
                                     page.current ? 'page' : undefined
@@ -44,453 +40,487 @@
                             >
                         </div>
                     </li>
+                    <li>
+                        <div class="flex items-center">
+                            <ChevronRightIcon
+                                class="flex-shrink-0 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                            />
+                            <a
+                                href="/customers"
+                                class="
+                                    ml-4
+                                    text-base
+                                    font-medium
+                                    text-gray-500
+                                    hover:text-gray-700
+                                    mt-1
+                                "
+                                >{{ customer?.first_name }}
+                                {{ customer?.last_name }}
+                            </a>
+                        </div>
+                    </li>
                 </ol>
             </nav>
 
             <div class="mx-8 mt-4 mb-7">
-                <a href="/customer/" class="hover:text-gray-700">
+                <a href="/customers" class="hover:text-gray-700">
                     <div class="flex items-center">
                         <ArrowLeftIcon
                             class="flex-shrink-0 h-5 w-5"
                             aria-hidden="true"
                         />
-                        <h1 class="ml-4 text-2xl font-semibold">
+                        <h1 class="ml-4 text-lg font-semibold">
                             {{ customer?.first_name }}
+                            {{ customer?.last_name }}
                         </h1>
                     </div>
                 </a>
             </div>
 
-            <div class="px-6 flex w-full">
-                <div class="flex flex-col w-2/3 mr-5">
-                    <div class="bg-white py-6 px-8">
-                        <div class="flex justify-between mb-3.5">
-                            <h2 class="font-semibold text-xl">
-                                Customers Info
-                            </h2>
-                            <button
-                                class="
-                                    px-6
-                                    py-1
-                                    text-center
-                                    bg-gray-100
-                                    border
-                                    text-black
-                                    rounded-md
-                                "
-                                @click="browseProduct"
-                            >
-                                Send Invoice
-                            </button>
+            <div class="mx-6 flex">
+                <div class="w-2/3 mr-3">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-white py-6 mb-4 px-4 rounded-sm">
+                            <div class="flex flex-col">
+                                <green-total-revenue />
+                                <h2 class="font-bold text-lg mb-1 mt-2.5">
+                                    NGN{{ customer.total_order }}
+                                </h2>
+                                <p class="text-gray-400">Total Revenue</p>
+                            </div>
                         </div>
-                        <div class="flex justify-between">
-                            <h2 class="font-semibold text-xl text-indigo-700">
-                                Order #{{ customer?.id }}
-                            </h2>
-                            <p class="text-gray-400">
-                                {{ customer?.created_at }}
-                            </p>
+                        <div class="bg-white py-6 px-4 mb-4 rounded-sm">
+                            <div class="flex flex-col">
+                                <purple-orders-placed />
+                                <h2 class="font-bold text-lg mb-1 mt-2.5">
+                                    {{ customer.number_of_orders }}
+                                </h2>
+                                <p class="text-gray-400">Order Placed</p>
+                            </div>
                         </div>
-                        <p class="mt-2.5 text-base">
-                            <!-- ${{ customer.total }} from Online Store -->
-                        </p>
-                        <div class="mt-10 flex justify-between mr-10">
-                            <div class="flex w-4/12">
-                                <img
-                                    src="../../../assets/placeholder_theme.jpg"
-                                    alt="category_image"
-                                    class="w-10 h-10"
-                                />
-                                <div class="ml-3">
-                                    <!-- <h2 class="text-cyan-700 text-base mb-1">
-                                        {{ item.description }}
-                                    </h2> -->
-                                    <!-- <p class="text-base text-gray-500">
-                                        {{ item.item_name }}
-                                    </p>
-                                    <p class="text-base text-gray-500">
-                                        Qty: {{ item.quantity }}
-                                    </p>
-                                    <p
-                                        class="
-                                            text-base text-gray-500
-                                            whitespace-nowrap
-                                        "
-                                    >
-                                        SKU: {{ item.sku }}
-                                    </p> -->
-                                </div>
-                            </div>
-                            <div class="w-2/12">
-                                <p class="text-base mb-1">Promotion</p>
-                                <!-- <p class="font-semibold text-lg">
-                                    {{ item.promotion }}
-                                </p> -->
-                            </div>
-                            <div class="w-2/12">
-                                <p class="text-base mb-1">Product Price</p>
-                                <!-- <p class="font-semibold text-lg">
-                                    ${{ item.price }}
-                                </p> -->
-                            </div>
-                            <div class="w-2/12">
-                                <p class="text-base mb-1">Shipping</p>
-                                <!-- <p class="font-semibold text-lg">
-                                    {{ customer.shipping_cost }}
-                                </p> -->
-                            </div>
-                            <div class="w-2/12">
-                                <p class="text-base mb-1">Total Amount</p>
-                                <p class="font-semibold text-lg">
-                                    <!-- {{ item.total }} -->
-                                </p>
+                        <div class="bg-white py-6 px-4 mb-4 rounded-sm">
+                            <div class="flex flex-col">
+                                <yellow-pending-orders />
+                                <h2 class="font-bold text-lg mb-1 mt-2.5">
+                                    {{ customer.pending_order }}
+                                </h2>
+                                <p class="text-gray-400">Pending Order</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white pt-8 px-8 mt-6">
-                        <div class="mb-4">
-                            <div class="flex justify-between">
-                                <div>
-                                    <p class="text-base mb-3">Data Added</p>
-                                    <p class="font-semibold text-lg">
-                                        {{ customer?.created_at }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p class="text-base mb-3">Status</p>
-                                    <div
-                                        class="
-                                            text-base
-                                            bg-green-100
-                                            text-green-500
-                                            w-full
-                                            pl-8
-                                            pr-8
-                                            py-1.5
-                                        "
-                                    >
-                                        <!-- {{ customer.status }} -->
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <p class="text-base mb-3">
-                                        Customer Notified
-                                    </p>
-                                    <p class="font-semibold text-lg">
-                                        <!-- {{ customer.customer_notified }} -->
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- <h2 class="font-semibold text-xl mb-2.5">
-                                {{ getCustomer.first_name }}
-                                {{ getCustomer.last_name }}
-                            </h2> -->
-                            <div class="text-gray-400">
-                                <!-- <h2 class="font-normal">
-                                    {{ getCustomer.address }},
-                                    {{ getCustomer.city }}
-                                    {{ getCustomer.state }},
-                                    {{ getCustomer.country }}
-                                </h2> -->
-                                <!-- <h2>Customer for about 4 years</h2> -->
-                            </div>
-                        </div>
+                    <div
+                        class="
+                            shadow-sm
+                            rounded-lg
+                            overflow-hidden
+                            mt-4
+                            bg-white
+                        "
+                    >
                         <div
-                            class="mt-3.5 border-t border-gray-200 -mx-6"
-                        ></div>
-                        <div class="mt-5">
-                            <h2 class="font-semibold text-xl mb-5">
-                                Customer History
+                            class="py-3 px-5 flex justify-between items-center"
+                        >
+                            <h2 class="uppercase font-semibold">
+                                Total Revenue
                             </h2>
-                            <div class="flex mb-8 justify-evenly">
-                                <div class="flex items-center w-1/5">
-                                    <h2 class="font-normal text-base">
-                                        Customer Status
-                                    </h2>
-                                </div>
-                            </div>
-                            <div class="mb-5 flex">
-                                <p class="mr-10 font-normal text-base">
-                                    Notify Customer
-                                </p>
-                                <div class="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        class="
-                                            focus:ring-indigo-500
-                                            text-indigo-600
-                                            border-gray-300
-                                            mr-2
-                                        "
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex mb-2">
-                            <h2 class="font-normal text-base">Customer Note</h2>
-                        </div>
-                        <div class="flex w-full mb-6">
-                            <div class="w-full mr-2">
-                                <input
-                                    id="text3"
-                                    type="text"
-                                    placeholder="Add a note"
-                                    class="
-                                        w-full
-                                        pl-4
-                                        py-2
-                                        rounded-md
-                                        border border-gray-300
-                                        text-gray-900
-                                        placeholder-gray-300
-                                        focus:outline-none
-                                    "
-                                />
-                            </div>
-                            <button
-                                class="
-                                    px-8
-                                    py-2
-                                    text-center
-                                    bg-indigo-700
-                                    border
-                                    text-white
-                                    rounded-md
-                                "
-                                @click="browseProduct"
-                            >
-                                Add
-                            </button>
-                        </div>
-
-                        <div class="mb-8 lg:w-7/10 flex justify-between">
-                            <div class="">
-                                <h4 class="mb-3">Last Order</h4>
-                                <h4 class="mb-3 font-semibold text-lg">
-                                    {{ customer?.created_at }}
-                                </h4>
-                                <h4 class="">From Online Store</h4>
-                            </div>
-                            <div class="">
-                                <h4 class="mb-3">Total spent to date</h4>
-                                <h4 class="mb-3 font-semibold text-lg">
-                                    {{ customer?.total }}
-                                </h4>
-                                <!-- <h4 class="">1 Order</h4> -->
-                            </div>
                             <div>
-                                <h4 class="mb-3">Average customer value</h4>
-                                <h4 class="mb-3 font-semibold text-lg">
-                                    {{ customer?.average_orders }}
-                                </h4>
-                                <h4></h4>
+                                <select
+                                    id="month"
+                                    name="month"
+                                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                    defaultValue="February"
+                                >
+                                    <option value="" selected disabled>
+                                        Month
+                                    </option>
+                                    <option value="January">January</option>
+                                    <option value="February">February</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="August">August</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
+                                </select>
                             </div>
                         </div>
+                        <canvas class="p-10" id="chartBar"></canvas>
                     </div>
                 </div>
 
-                <div class="flex flex-col">
-                    <div
-                        class="
-                            flex
-                            justify-between
-                            mt-4.5
-                            pb-2
-                            border-b-2 border-gray-200
-                        "
-                    >
-                        <p class="font-semibold text-lg">Timeline</p>
-                        <div class="flex items-center">
-                            <input
-                                type="checkbox"
-                                class="
-                                    focus:ring-indigo-500
-                                    text-indigo-600
-                                    border-gray-300
-                                    mr-2
-                                "
-                            />
-                            <p class="">Show comments</p>
-                        </div>
-                    </div>
-                    <div class="mt-5 flex justify-evenly">
-                        <div class="flex items-center">
+                <div class="flex flex-col w-1/3">
+                    <div class="bg-white py-6 mb-4 px-4">
+                        <div class="flex items-center justify-center mt-8">
                             <p
                                 class="
-                                    h-10
-                                    w-10
+                                    h-16
+                                    w-16
                                     rounded-full
                                     capitalize
                                     bg-blue-400
-                                    text-white text-center text-base
+                                    text-white text-lg
+                                    flex
+                                    items-center
+                                    justify-center
                                     py-2.5
                                     font-semibold
-                                    mr-4
                                 "
                             >
                                 {{ customer?.first_name.charAt(0)
                                 }}{{ customer?.last_name.charAt(0) }}
                             </p>
                         </div>
-                        <div class="w-full mr-2">
-                            <input
-                                id="text3"
-                                type="text"
-                                placeholder="Leave a comment"
-                                class="
-                                    w-full
-                                    pl-4
-                                    py-2
-                                    rounded-md
-                                    border border-gray-300
-                                    text-gray-900
-                                    placeholder-gray-300
-                                    focus:outline-none
-                                "
-                            />
-                        </div>
-                        <button
+                        <div
                             class="
-                                px-8
-                                py-2
-                                text-center
-                                bg-indigo-700
-                                border
-                                text-white
-                                rounded-md
+                                flex flex-col
+                                items-center
+                                justify-center
+                                mt-3
                             "
-                            @click="browseProduct"
                         >
-                            Post
-                        </button>
-                    </div>
-                </div>
-                <p class="text-right text-gray-400 mt-1">
-                    Only you and other staff can see comments
-                </p>
-            </div>
-
-            <div class="flex flex-col w-1/3">
-                <div class="bg-white pl-5 mb-3 pr-7 pb-6 pt-6">
-                    <div class="flex justify-between mb-3">
-                        <h2 class="font-semibold text-xl">Order Details</h2>
-                    </div>
-                    <div>
-                        <div class="mb-2 flex justify-between">
-                            <h2 class="text-lg text-gray-900 font-medium">
-                                Date:
-                            </h2>
-                            <div>
-                                <h2 class="text-lg text-blue-900 font-medium">
-                                    {{ customer?.created_at }}
-                                </h2>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <h2
-                            v-if="order.note"
-                            class="text-cyan-700 font-semibold"
-                        >
-                            {{ order.note }}
-                        </h2> -->
-                    <!-- <p v-else class="font-normal text-base text-gray-400">
-                            No notes from customer
-                        </p> -->
-                </div>
-
-                <div class="bg-white pl-5 pr-7 pb-10 pt-6 mb-5">
-                    <div class="border-b border-gray-200 -mx-5 mb-6.5">
-                        <div class="px-5 flex justify-between mb-4">
-                            <h2 class="font-semibold text-xl">
-                                Customer overview
-                            </h2>
-                            <a
-                                href="/order/edit"
-                                class="text-indigo-700 font-semibold"
-                                >Edit</a
-                            >
-                        </div>
-                        <div class="px-5 mb-6">
-                            <h2 class="font-semibold text-indigo-700 mb-3">
-                                {{ customer?.email }}
-                            </h2>
-                            <h2 class="text-gray-400">Account invite sent</h2>
-                        </div>
-                    </div>
-                    <div class="border-b border-gray-200 -mx-5 mb-6.5">
-                        <div class="px-5 flex justify-between mb-4">
-                            <h2 class="font-semibold text-xl">
-                                Default Address
-                            </h2>
-                            <a
-                                href="/order/manage"
-                                class="text-indigo-700 font-semibold"
-                                >Manage</a
-                            >
-                        </div>
-                        <div class="px-5 text-gray-500 mb-6">
-                            <h2 class="font-normal mb-1">
+                            <h2 class="mb-1 text-xl text-gray-900">
                                 {{ customer?.first_name }}
                                 {{ customer?.last_name }}
                             </h2>
-                            <h2 class="mb-1">{{ customer?.address }}</h2>
-                            <!-- <h2 class="mb-1">Apt 402</h2> -->
-                            <h2 class="mb-1">
-                                {{ customer?.city }}
-                                {{ customer?.state }}
-                            </h2>
-                            <h2 class="mb-6">{{ customer?.country }}</h2>
-                            <a
-                                href="/order/address"
-                                class="font-semibold text-indigo-700"
-                                >Add new address</a
-                            >
+                            <p class="text-gray-400">{{ customer?.email }}</p>
+                            <p class="text-gray-400">
+                                {{ customer?.phone_number }}
+                            </p>
                         </div>
-                    </div>
-                    <div class="-mx-5">
-                        <div class="px-5 flex justify-between mb-4">
-                            <h2 class="font-semibold text-xl">Tax Settings</h2>
-                            <a
-                                href="/order/manage"
-                                class="text-indigo-700 font-semibold"
-                                >Manage</a
-                            >
+
+                        <div class="flex justify-between mt-9">
+                            <div class="flex">
+                                <LocationMarkerIcon
+                                    class="text-gray-400 h-5 w-5 mt-1"
+                                />
+                                <div class="ml-4">
+                                    <h2 class="font-semibold">Address</h2>
+                                    <p>{{ customer.address }}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <PencilIcon
+                                    class="
+                                        w-5
+                                        h-5
+                                        text-indigo-600
+                                        cursor-pointer
+                                        mr-4
+                                    "
+                                />
+                            </div>
                         </div>
-                        <div class="px-5 text-gray-400">
-                            <h2>No exemptions</h2>
+                        <div class="flex justify-between mt-9">
+                            <div class="flex">
+                                <LocationMarkerIcon
+                                    class="text-gray-400 h-5 w-5 mt-1"
+                                />
+                                <div class="ml-4">
+                                    <h2 class="font-semibold">ZIP</h2>
+                                    <p>{{ customer.zip_postal_code }}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <PencilIcon
+                                    class="
+                                        w-5
+                                        h-5
+                                        text-indigo-600
+                                        cursor-pointer
+                                        mr-4
+                                    "
+                                />
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-9">
+                            <div class="flex">
+                                <CalendarIcon
+                                    class="text-gray-400 h-5 w-5 mt-1"
+                                />
+                                <div class="ml-4">
+                                    <h2 class="font-semibold">Date Joined</h2>
+                                    <p>
+                                        {{
+                                            moment(customer.created_at).format(
+                                                "YYYY-MM-DD"
+                                            )
+                                        }}
+                                        <!-- {{ customer.created_at }} -->
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <PencilIcon
+                                    class="
+                                        w-5
+                                        h-5
+                                        text-indigo-600
+                                        cursor-pointer
+                                        mr-4
+                                    "
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white pl-5 pr-7 pt-6 pb-9 mb-3">
-                    <div class="flex justify-between">
-                        <h2 class="font-semibold text-lg mb-6">
-                            Email marketing
-                        </h2>
-                        <h2 class="text-cyan-700 font-semibold">Unsubscribe</h2>
-                    </div>
-                    <div
-                        class="
-                            mb-3.5
-                            text-base
-                            inline-flex
-                            leading-5
-                            bg-green-100
-                            text-green-500
-                            px-2
-                            py-1
-                        "
-                    >
-                        Subscribed
-                    </div>
-                    <div class="">
-                        <h2 class="font-semibold text-indigo-700 mb-3.5">
-                            {{ customer?.email }}
-                        </h2>
-                        <h2 class="text-gray-400">
-                            Subscribed on December 30, 2018
-                        </h2>
+            </div>
+
+            <div class="flex flex-col mt-6 mb-4">
+                <div class="px-4 sm:px-6 lg:px-">
+                    <div class="flex flex-col">
+                        <div
+                            class="min-w-full overflow-x-auto shadow sm:rounded"
+                        >
+                            <table
+                                class="w-full divide-y bg-white divide-gray-200"
+                            >
+                                <thead class="bg-white">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            class="
+                                                whitespace-nowrap
+                                                px-3
+                                                py-3
+                                                text-left text-sm
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            Order ID
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                                whitespace-nowrap
+                                                px-3
+                                                py-3
+                                                text-left text-sm
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            Date
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                                whitespace-nowrap
+                                                px-3
+                                                py-3
+                                                text-left text-sm
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            Products
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                                whitespace-nowrap
+                                                px-3
+                                                py-3
+                                                text-left text-sm
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            Qty
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                                whitespace-nowrap
+                                                px-3
+                                                py-3
+                                                text-left text-sm
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            Total
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                                whitespace-nowrap
+                                                px-3
+                                                py-3
+                                                text-left text-sm
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            Payment
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="
+                                                py-3
+                                                whitespace-nowrap
+                                                px-3
+                                                text-left text-sm
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr
+                                        class=""
+                                        v-for="order in customer.orders"
+                                        :key="order.id"
+                                    >
+                                        <inertia-link
+                                            :href="'/orders/' + order.id"
+                                            class=""
+                                        >
+                                            <td
+                                                class="
+                                                    px-3
+                                                    pt-3
+                                                    text-left text-base
+                                                    font-medium
+                                                    text-gray-500
+                                                    uppercase
+                                                    tracking-wider
+                                                "
+                                            >
+                                                {{ order.order_id }}
+                                            </td>
+                                        </inertia-link>
+                                        <td
+                                            class="
+                                                px-3
+                                                text-left text-base
+                                                font-medium
+                                                text-gray-500
+                                                tracking-wider
+                                            "
+                                        >
+                                            {{ order.created_at }}
+                                        </td>
+                                        <td
+                                            class="
+                                                px-3
+                                                text-left text-xs
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            {{ order.items.id }}
+                                        </td>
+                                        <td
+                                            class="
+                                                px-3
+                                                text-base
+                                                pl-6
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            {{ order.items.length }}
+                                        </td>
+                                        <td
+                                            class="
+                                                px-3
+                                                text-base
+                                                font-medium
+                                                text-gray-500
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            {{ order.total }}
+                                        </td>
+                                        <td
+                                            class="
+                                                px-3
+                                                text-left text-base
+                                                font-medium
+                                                text-gray-500
+                                                tracking-wider
+                                            "
+                                        >
+                                            <div
+                                                class="
+                                                    sm:pr-2
+                                                    md:pr-4
+                                                    py-3
+                                                    text-left
+                                                    leading-4
+                                                    font-semibold
+                                                    tracking-wide
+                                                "
+                                            >
+                                                <div>
+                                                    <span
+                                                        :class="[
+                                                            statusStyles[
+                                                                order.status
+                                                            ],
+                                                            'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize',
+                                                        ]"
+                                                    >
+                                                        {{ order.status }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="pl-5">
+                                                <PencilIcon
+                                                    class="
+                                                        w-5
+                                                        h-5
+                                                        text-indigo-600
+                                                        cursor-pointer
+                                                        mr-4
+                                                    "
+                                                />
+                                                <TrashIcon
+                                                    class="
+                                                        w-5
+                                                        h-5
+                                                        text-red-500
+                                                        cursor-pointer
+                                                    "
+                                                />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -518,31 +548,44 @@ import {
     ChevronRightIcon,
     ArrowLeftIcon,
 } from "@heroicons/vue/solid";
-import { HomeIcon } from "@heroicons/vue/outline";
+import {
+    HomeIcon,
+    LocationMarkerIcon,
+    PencilIcon,
+    CalendarIcon,
+    TrashIcon,
+} from "@heroicons/vue/outline";
 import hljs from "highlight.js";
-// import InventoryForm from "./Components/InventoryForm";
-// import ShippingForm from "./Components/ShippingForm";
-// import VariantsForm from "./Components/VariantsForm";
-// import SearchEngineForm from "./Components/SearchEngineForm";
-// import MediaUrlModal from "./Components/MediaUrlModal";
-// import PricingForm from "./Components/PricingForm";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
 import Button from "../../Jetstream/Button.vue";
+import YellowPendingOrders from "../../../assets/YellowPendingOrders.vue";
+import GreenTotalRevenue from "../../../assets/GreenTotalRevenue.vue";
+import PurpleOrdersPlaced from "../../../assets/PurpleOrdersPlaced.vue";
+import moment from "moment";
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
-const pages = [{ name: "Customers", href: "/customers", current: false }];
+const pages = [{ name: "All Customers", href: "/customers", current: false }];
 
 const statusStyles = {
-    success: "bg-green-100 text-green-800",
-    processing: "bg-yellow-100 text-yellow-800",
+    received: "bg-green-100 text-green-800",
+    shipped: "bg-green-100 text-green-800",
+    delivered: "bg-green-100 text-green-800",
+    fulfilled: "bg-green-100 text-green-800",
+    confirmed: "bg-green-100 text-green-800",
+    pending: "bg-yellow-100 text-yellow-800",
+    returned: "bg-yellow-100 text-yellow-800",
+    refunded: "bg-yellow-100 text-yellow-800",
     failed: "bg-gray-100 text-gray-800",
+    expired: "bg-gray-100 text-gray-800",
+    cancelled: "bg-red-100 text-red-800",
 };
+
 export default {
     props: {
         customer: Object,
-        // data: Object,
+        orders: Object,
     },
 
     components: {
@@ -562,11 +605,20 @@ export default {
         ChevronRightIcon,
         ArrowLeftIcon,
         HomeIcon,
+        GreenTotalRevenue,
+        YellowPendingOrders,
+        PurpleOrdersPlaced,
+        GreenTotalRevenue,
+        LocationMarkerIcon,
+        PencilIcon,
+        CalendarIcon,
+        TrashIcon,
     },
 
     data() {
         return {
             pages,
+            moment,
             valueContent: "",
             openShipping: false,
             selected: "",
@@ -654,158 +706,6 @@ export default {
             media: {
                 url: "",
             },
-            products: [
-                {
-                    id: 1,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 1,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 910,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 2,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 930,
-                        },
-                    ],
-                },
-                {
-                    id: 2,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 3,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 78,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 4,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 99,
-                        },
-                    ],
-                },
-                {
-                    id: 3,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 5,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 22,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 6,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 26,
-                        },
-                    ],
-                },
-                {
-                    id: 4,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 7,
-                            color: "Orange",
-                            price: 100,
-                            quantity: 20,
-                            sku: 33,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 8,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 35,
-                        },
-                    ],
-                },
-                {
-                    id: 5,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 9,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 90,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 10,
-                            color: "Pink",
-                            price: 100,
-                            quantity: 20,
-                            sku: 98,
-                        },
-                    ],
-                },
-                {
-                    id: 6,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: {},
-                },
-                {
-                    id: 7,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: {},
-                },
-                {
-                    id: 8,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            id: 11,
-                            color: "Black",
-                            price: 100,
-                            quantity: 20,
-                            sku: 78,
-                            image: "https://picsum.photos/200",
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 12,
-                            color: "Baige",
-                            price: 100,
-                            quantity: 20,
-                            sku: 899,
-                        },
-                    ],
-                },
-            ],
             production: [],
             subTotal: 0,
             taxes: 0,
@@ -817,8 +717,11 @@ export default {
     },
     computed: {
         getCustomer() {
-            return this.customers;
+            return this.customer;
         },
+        // myProps() {
+        //     return { data: this.orders.data, links: this.orders.links };
+        // },
         calculateMargin() {
             this.formFields.margin = 0;
             return `$ ${0}`;
@@ -978,16 +881,6 @@ export default {
                 }
             }
 
-            let third_attributes = total_count / attributes[2].values.length;
-
-            q = 0;
-            for (let k = 0; k < third_attributes; k++) {
-                for (let i = 0; i < attributes[2].values.length; i++) {
-                    z[q].push(attributes[2].values[i]);
-                    q++;
-                }
-            }
-
             console.log(z);
         },
         emitClose() {
@@ -1013,6 +906,9 @@ export default {
         browseProduct() {
             this.openModal = true;
             this.getProducts();
+        },
+        toggle(data) {
+            data = !data;
         },
     },
     setup() {
