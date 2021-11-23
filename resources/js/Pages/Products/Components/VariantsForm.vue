@@ -1,16 +1,19 @@
 <template>
     <div class="bg-white pt-7 pb-1 mb-10">
-        <div class="flex justify-between px-8 cursor-pointer" @click="expandForm">
+        <div class="flex justify-between px-8 cursor-pointer" @click="variant_open=!variant_open">
             <p class="text-black font-semibold text-lg mb-6">Variants</p>
-            <span><angle-up-icon></angle-up-icon></span>
+            <div>
+                <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="variant_open" />     
+                <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else />     
+            </div>
         </div>
-        <div v-if="expand">
+        <div v-if="variant_open">
             <div class="flex flex-wrap mb-6">
             <div class="px-8">
                 <div class="flex flex-wrap -mx-3">
                     <div class="-mx-3 px-8">
                         <div class="flex items-center">
-                        <input v-model="variants.has_variants" type="checkbox" id="has_variants" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-indigo-600 transition duration-150 ease-in-out border border-border focus:outline-none">
+                        <input v-model="variants.has_variants" type="checkbox" id="has_variants" class="form-checkbox cursor-pointer rounded-sm h-4 w-4 text-indigo-600 transition duration-150 ease-in-out border border-border focus:outline-none">
                         <label for="has_variants" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
                             This product has multiple options, like different sizes or colours
                         </label>
@@ -22,13 +25,13 @@
             <template v-if="variants.has_variants">
                 <p class="text-black font-semibold text-lg px-8">Options</p>
                 <div v-for="(option, index) of variants.options" :key="index" class="mx-8 mb-6" :data-index="index">
-                    <p class="text-gray-400 pt-4 pb-1">Option {{index+1}}</p>
+                    <p class="text-gray-600 pt-4 pb-1">Option {{index+1}}</p>
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
-                            <input class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " v-model="option.type" type="text" :data-index="index" @blur="setVariant">
+                            <input class="shadow-sm focus:ring-transparent focus:border-gray-300 block w-full sm:text-sm border-gray-300 rounded-md" v-model="option.type" type="text" :data-index="index" @blur="setVariant">
                         </div>
-                        <div class="flex md:w-1/2 rounded-md shadow-sm overflow-x-scroll">
-                            <span class="inline-flex items-center p-px rounded-l-md border-r-transparent border focus:border-r-0 focus:outline-none  border-gray-300 text-gray-500 sm:text-xm overflow-x-scroll">
+                        <div class="w-1/2">
+                            <!-- <span class="inline-flex items-center p-px rounded-l-md border-r-transparent border focus:border-r-0 focus:outline-none  border-gray-300 text-gray-500 sm:text-xm overflow-x-scroll">
                                 <span class="inline-flex rounded-full items-center m-2  py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100  text-indigo-700" v-for="(item, i) in option.values" :key="i"> {{item}}
                                     <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500" @click="removeItem(index, i)">
                                         <span class="sr-only"> Remove {{item}} option</span>
@@ -37,8 +40,18 @@
                                             </svg>
                                     </button>
                                 </span>
-                            </span>
-                         <input type="text" name="values[]" class="flex-1 min-w-0 px-3 py-2 rounded-none rounded-r-md border-l-transparent sm:text-xm border-gray-300 overflow-x-scroll focus:border-0 focus:outline-none" placeholder="" @blur="addVariantValue" :data-index="index" v-model="valueContent" @keypress.enter='addVariantValue'/>                           
+                            </span> -->
+                         <!-- <input type="text" name="values[]" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="separate options with a comma" @blur="addVariantValue" :data-index="index" v-model="valueContent" @keypress.,='addVariantValue'/>  -->
+                         <!-- <div class="tag-input relative">
+                            <input v-model="newTag" type="text"  class="w-full p-2.5 absolute top-0 bottom-0 left-2.5" @keypress.,='addTag(newTag)'/>
+                            <ul class="tags list-none flex items-center gap-2 overflow-x-auto z-40">
+                                <li v-for="(tag, index) in tags" :key="tag" class="tag bg-indigo-400 p-1 rounded whitespace-nowrap transition">
+                                {{ tag }}
+                                <span @click='removeTag(index)'>x</span>
+                                </li>
+                            </ul>
+                        </div> -->
+                        <TagInput v-model="tags" @blur="addVariantValue" />
                         </div>
                        <!--  <div class="tag-input">
                             <div v-for="(tag, index) in tags" :key="index" class="tag-input__tag">
@@ -92,19 +105,25 @@
 
 <script>
 import AngleUpIcon from '../../../../assets/AngleUpIcon'
+import {ChevronUpIcon,ChevronDownIcon} from '@heroicons/vue/solid'
+import TagInput from './TagInput.vue'
+import {ref} from 'vue'
 export default {
     name: 'variants-form',
     props: ['variants', 'types', 'addOption', 'variantList'],
     components: {
-        AngleUpIcon
+        AngleUpIcon,
+        TagInput,
+        ChevronUpIcon,
+        ChevronDownIcon
     },
     emits: ['added', 'added-variant-name', 'added-variant-value'],
     data() {
         return {
-            expand: true,
+            variant_open: true,
             newVariant: "",
-            // variantList: []
-            tags: []
+             variantList: []
+            //tags: []
         }
     },
     methods: {
@@ -261,7 +280,19 @@ export default {
             this.removeTag(this.tags.length - 1)
             }
         } */
-    }
+    },
+    /* setup(){
+        const tags = ref([]);
+        const newTag = ref('')
+        const addTag = (tag) => {
+            tags.value.push(tag); 
+            newTag.value = "";
+        };
+        const removeTag = (index) => {
+            tags.value.splice(index, 1);
+        };
+        return { tags,newTag,addTag, removeTag }
+    } */
 }
 </script>
 

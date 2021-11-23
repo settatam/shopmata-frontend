@@ -17,9 +17,9 @@
                 </div>
               </div>
               <div class="mt-6 flex  md:mt-0 md:ml-1">
-                <div class="border p-3 cursor-pointer rounded border-red-500 mr-1">
+                <!-- <div class="border p-3 cursor-pointer rounded border-red-500 mr-1">
                   <trash-icon class="w-4 h-4  text-red-500"/>
-                </div>
+                </div> -->
                 <inertia-link href="/products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm  rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
                  <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
                 </inertia-link>
@@ -102,13 +102,13 @@
                         <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
                           Status
                         </th>
-                        <th scope="col" class="relative px-6 py-3">
+                        <!-- <th scope="col" class="relative px-6 py-3">
                           <span class="sr-only">Edit</span>
-                        </th>
+                        </th> -->
                       </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                      <tr v-for="product in products.data" :key="product.id" class="bg-white">
+                      <tr v-for="product in products.data" :key="product.id" class="bg-white hover:bg-indigo-50">
                         <td class="w-2/5 max-w-0 px-6 py-4 items-center text-gray-900">
                           <div class="flex items-center">
                             <div class="flex h-5 mr-5">
@@ -144,9 +144,9 @@
                         <td class="w-1/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                           <time :datetime="product.datetime">{{ product.date }}</time>
                         </td>
-                        <td>
+                        <!-- <td>
                           <pencil-icon class="w-5 h-5 text-indigo-700"/>
-                        </td>
+                        </td> -->
                       </tr>
                     </tbody>
                   </table>

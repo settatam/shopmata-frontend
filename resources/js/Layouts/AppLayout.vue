@@ -222,7 +222,7 @@ const navigation = [
   { name: 'Analytics', href: '/analytics', icon: ChartBarIcon, current: false },
   { name: 'Discounts', href: '/discounts', icon: CashIcon, current: false },
   { name: 'Online Store', 
-          href: '#', 
+          href: '/online-store', 
           icon: OfficeBuildingIcon, 
           current: false,
           children: [

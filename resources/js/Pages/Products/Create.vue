@@ -39,42 +39,47 @@
             </div>
           <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
            
-              <div class="bg-white mb-10 pt-7">
+              <div class="bg-white mb-10 pt-7 rounded">
                 <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
                   <span><angle-up-icon></angle-up-icon></span>
                 </div> -->
-                <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
+                <div class="bg-white px-8 pb-6 mb-6">
                   <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
-                  <p class="text-gray-700 font-bold text-lg mb-4">Product Information</p>
-                  <div class="mb-10">
-                    <label class="block text-sm text-gray-500" for="title">
-                      Product Name
-                    </label>
-                    <div class="mt-1">
-                        <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="product.title">
-                    </div>
+                  <div class="flex justify-between cursor-pointer" @click="product_open=!product_open">
+                    <p class="text-gray-700 font-bold text-lg mb-4">Product Information</p>
+                     <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="product_open" />     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else />     
                   </div>
-
-                  <div class="mb-6">
-                    <label
-                      class="block text-gray-500  mb-2 bg-transparent"
-                      for="description"
-                    >
-                      Product Description
-                    </label>
-                    <div class="quill">
-                      <quill-editor
-                        class="editor text-black"
-                        ref="description"
-                        theme="snow"
-                        style="min-height: 102px"
-                        :value="product.description"
-                        :options="editorOption"
-                        @change="onEditorChange"
-                        @blur="onEditorBlur($event)"
-                        @focus="onEditorFocus($event)"
-                        @ready="onEditorReady($event)"
-                      />
+                  <div v-if="product_open">
+                    <div class="mb-10">
+                      <label class="block text-sm text-gray-500" for="title">
+                        Product Name
+                      </label>
+                      <div class="mt-1">
+                          <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="product.title">
+                      </div>
+                    </div>
+                    <div class="mb-6">
+                      <label
+                        class="block text-gray-500  mb-2 bg-transparent"
+                        for="description"
+                      >
+                        Product Description
+                      </label>
+                      <div class="quill">
+                        <quill-editor
+                          class="editor text-black"
+                          ref="description"
+                          theme="snow"
+                          style="min-height: 102px"
+                          :value="product.description"
+                          :options="editorOption"
+                          @change="onEditorChange"
+                          @blur="onEditorBlur($event)"
+                          @focus="onEditorFocus($event)"
+                          @ready="onEditorReady($event)"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -82,14 +87,17 @@
 
                <!-- Princing Start here -->
 
-            <div class="bg-white pt-7 pb-1 mb-10">
-                <div class="flex justify-between px-8 cursor-pointer" @click="expandForm">
+            <div class="bg-white pt-7 pb-1 mb-10 rounded">
+                <div class="flex justify-between px-8 cursor-pointer" @click="price_open=!price_open">
                     <p class="text-black font-semibold text-lg mb-6">Pricing</p>
-                    <span><angle-up-icon></angle-up-icon></span>
+                    <div>
+                       <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="price_open" />     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else />     
+                    </div>
                 </div>
-                <div class="px-8">
-                    <div class="mb-5 md:mb-10">
-                        <div class="flex flex-wrap mb-4">
+                <div class="px-8" v-if="price_open">
+                    <div class="mb-5 md:mb-1">
+                        <div class="flex flex-wrap">
                             <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
                                 <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -113,15 +121,15 @@
                                   <input type="number" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.compare_at_price"/>
                                 </div>
                             </div>   
-                            <span class="flex items-center text-gray-400 mt-1">
+                            <span class="flex items-center text-gray-400 mt-4">
                               <information-circle-icon class="h-5 w-5 "/> Customers will not see this
                             </span>            
                         </div>
                     </div>
                     
-                    <div class="mt-2 mb-6">
+                    <div class="mt-4 mb-6">
                         <div class="flex items-center">
-                            <input type="checkbox" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-indigo-500 transition duration-150 ease-in-out border border-border focus:outline-none" id="charge_tax">
+                            <input type="checkbox" class="form-checkbox cursor-pointer rounded-sm h-4 w-4 text-indigo-500 transition duration-150 ease-in-out border border-border focus:outline-none" id="charge_tax">
                             <label for="charge_tax" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
                                 Charge tax on this product
                             </label>
@@ -130,7 +138,7 @@
                   </div>
               </div>
 
-              <div class="bg-white mb-10 py-6">
+              <div class="bg-white mb-10 py-6 rounded">
                 <div class="px-8">
                   <div class="bg-white flex justify-between">
                     <p class="text-black font-semibold text-lg mb-6">Media</p>
@@ -164,37 +172,59 @@
               ></variants-form>
 
               <!-- Link Starts Here -->
-              <div class="bg-white p-8 mb-10">
-                <div>
+              <div class="bg-white p-8 mb-10 rounded">
+                <div class="flex justify-between cursor-pointer" @click="link_open=!link_open">
                   <p class="text-black font-semibold text-lg mb-6">Link</p>
+                   <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="link_open"/>     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else/>     
                 </div>
-                <div class="flex flex-col mt-4 text-gray-600">
-                  <label for="manufacturer">Manufacturer</label>
-                  <input type="text" name="manufacturer" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
-                </div>
-                <div class="flex flex-col mt-4 text-gray-600">
-                  <label for="Collections">Collections</label>
-                  <input type="text" name="Collections" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
-                </div>
-                <div class="flex flex-col mt-4 text-gray-600">
-                  <label for="filters">Filters</label>
-                  <input type="text" name="filters" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
-                </div>
-                <div class="flex flex-col mt-4 text-gray-600">
-                  <label for="related">Related Products</label>
-                  <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                <div v-if="link_open">
+                  <div class="flex flex-col mt-4 text-gray-600">
+                    <label for="manufacturer">Manufacturer</label>
+                    <input type="text" name="manufacturer" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                  </div>
+                  <div class="flex flex-col mt-4 text-gray-600">
+                    <label for="Collections">Collections</label>
+                    <input type="text" name="Collections" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                  </div>
+                  <div class="flex flex-col mt-4 text-gray-600">
+                    <label for="filters">Filters</label>
+                    <input type="text" name="filters" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                  </div>
+                  <div class="flex flex-col mt-4 text-gray-600">
+                    <label for="related">Related Products</label>
+                    <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                  </div>
                 </div>
               </div>
               <!-- Inventory Starts here -->
 
-              <div class="bg-white pt-7 pb-1 mb-10">
+              <div class="bg-white pt-7 pb-1 mb-10 rounded " @click="inventory_open=!inventory_open">
                   <div class="flex justify-between px-8 cursor-pointer">
                       <p class="text-black font-semibold text-lg mb-6">Inventory</p>
+                      <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="inventory_open"/>     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else/>     
                   </div>
-                  <div v-if="expand" class="px-8">
+                  <div v-if="inventory_open==true" class="px-8">
                       <div class="mb-8">
                           <div class="flex flex-wrap mb-6">
                               <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                  <label class="block text-gray-600  mb-2 bg-transparent" for="avail_qty">
+                                      Quantity Available
+                                  </label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <input type="text" name="avail_qty" id="avail_qty" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="availabnle qty" v-model="product.avail_qty"/>
+                                  </div>
+                              </div>
+                              <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
+                                  <label class="block text-gray-600  mb-2 bg-transparent" for="min_qty">
+                                      Minimum Quantity
+                                  </label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <input type="text" name="min_qty" id="min_qty" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="min qty" v-model="product.min_qty"/>
+                                  </div>
+                              </div>
+                              <!-- <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
                                   <label class="block text-black font-semibold mb-2 bg-transparent" for="page-title">
                                       SKU(Stock Keeping Unit)
                                   </label>
@@ -209,16 +239,16 @@
                                   <div class="mt-1 relative rounded-md shadow-sm">
                                       <input type="text" name="barcode" id="barcode" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="product barcode" v-model="product.barcode"/>
                                   </div>
-                              </div>
+                              </div> -->
                               <div class="mt-8 mb-6">
                                   <div class="flex items-center">
-                                      <input v-model="product.track_quantity" type="checkbox" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none" id="track_quantity">
+                                      <input v-model="product.track_quantity" type="checkbox" class="form-checkbox cursor-pointer rounded-sm h-4 w-4 text-indigo-600 transition duration-150 ease-in-out border border-border focus:outline-none" id="track_quantity">
                                       <label for="track_quantity" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
                                           Track Quantity
                                       </label>
                                   </div>
                                   <div class="flex items-center mt-4">
-                                      <input v-model="product.out_of_stock" type="checkbox" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none" id="out_of_stock">
+                                      <input v-model="product.out_of_stock" type="checkbox" class="form-checkbox cursor-pointer rounded-sm h-4 w-4 text-indigo-600 transition duration-150 ease-in-out border border-border focus:outline-none" id="out_of_stock">
                                       <label for="out_of_stock" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
                                           Continue selling when out of stock
                                       </label>
@@ -281,39 +311,43 @@
               
 
               <!-- Search Engine Starts Here -->
-              <div class="bg-white pt-7 pb-1 mb-10 px-8">
+              <div class="bg-white pt-7 pb-1 mb-10 px-8 rounded">
                   <div class="flex justify-between">
-                      <div class="cursor-pointer" @click="expandForm">
-                          <p class="text-black font-semibold text-lg mb-6">Search engine listing preview</p>
-                          <p class="text-black text-sm mb-6">Add a title and description to see how this product might appear in a search engine listing</p>
-                      </div>     
-                  </div>
-                  <div class="my-6">
-                      <label class="block text-black mb-2 bg-transparent" for="page-title">
-                          Page title
-                      </label>
-                      <input class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" type="text" placeholder="Short sleeve t-shirt" v-model="product.seo_page_title">
-                      <p class="text-gray-600">{{pageTitleLength}} of 70 characters used</p>
-                  </div>
-                  <div class="mb-6">
-                      <label class="block text-black mb-2 bg-transparent" for="search_engine_desc">
-                          Description
-                      </label>
-                      <textarea name="w3review" rows="6" cols="50" class="block w-full shadow-sm py-3 px-4 placeholder-gray-500 focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md" placeholder="" v-model="product.seo_description"/>
-                      <p class="text-gray-600">{{searchEngDescLength}} of 320 characters used</p>
-                  </div>
-                  <div class="mb-6">
-                      <label class="block text-black mb-2 bg-transparent" for="url_handle">
-                          URL and handle
-                      </label>
-                      <div class="mt-1 relative rounded-md shadow-sm">
-                          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                              <span class="text-gray-500 sm:text-sm" ref="domain_name">
-                                  {{ store.domains[0].name}}/
-                              </span>
-                          </div>
-                          <input type="text" :style="{paddingLeft: domainWidth}" name="handle" id="handle" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="price-currency" v-model="product.handle"/>
+                      <div class="cursor-pointer" @click="seo_open=!seo_open">
+                          <p class="text-black font-semibold text-lg mb-6">Search Engine Listing Preview</p>
+                          <p class="text-gray-600 text-sm mb-6">Add a title and description to see how this product might appear in a search engine listing</p>
                       </div>
+                      <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="seo_open"/>     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else/>     
+                  </div>
+                  <div v-if="seo_open==true">
+                    <div class="my-6">
+                        <label class="block text-gray-600 mb-2 bg-transparent" for="page-title">
+                            Page title
+                        </label>
+                        <input :class="[product.seo_page_title.length > 70 ?'focus:ring-red-500 focus:border-red-500':'focus:ring-indigo-500 focus:border-indigo-500' ,'shadow-sm block w-full sm:text-sm border-gray-300 rounded-md']" type="text" placeholder="Short sleeve t-shirt" v-model="product.seo_page_title">
+                        <p class="text-gray-500">{{product.seo_page_title.length}} of 70 characters used</p>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 mb-2 bg-transparent" for="search_engine_desc">
+                            Description
+                        </label>
+                        <textarea name="w3review" rows="6" cols="50" :class="[product.seo_description.length > 320 ? 'focus:ring-red-500 focus:border-red-500':'focus:ring-indigo-500 focus:border-indigo-500','block w-full shadow-sm py-3 px-4 placeholder-gray-500  border border-gray-300 rounded-md']" placeholder="" v-model="product.seo_description"/>
+                        <p class="text-gray-500">{{product.seo_description.length}} of 320 characters used</p>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 mb-2 bg-transparent" for="url_handle">
+                            URL and handle
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm" ref="domain_name">
+                                    {{ store.domains[0].name}}/
+                                </span>
+                            </div>
+                            <input type="text" :style="{paddingLeft: domainWidth}" name="handle" id="handle" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="price-currency" v-model="product.handle"/>
+                        </div>
+                    </div>
                   </div>
               </div>
               <!-- Search Engine Ends here -->
@@ -347,7 +381,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ChevronLeftIcon,ChevronRightIcon,HomeIcon } from "@heroicons/vue/solid";
+import { ChevronLeftIcon,ChevronRightIcon,HomeIcon,ChevronDownIcon,ChevronUpIcon } from "@heroicons/vue/solid";
 import { ChartPieIcon,InformationCircleIcon } from "@heroicons/vue/outline";
 import hljs from "highlight.js";
 import InventoryForm from "./Components/InventoryForm";
@@ -359,6 +393,7 @@ import ImagesList from "./Components/ImagesList";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
+
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
 const statusStyles = {
@@ -401,6 +436,8 @@ export default {
     pages,
     ChevronRightIcon,
     ChevronLeftIcon,
+    ChevronUpIcon,
+    ChevronDownIcon,
     HomeIcon,
     ChartPieIcon
   },
@@ -412,6 +449,11 @@ export default {
       expand: true,
       expandMedia: true,
       content: "",
+      seo_open: true,
+      inventory_open: true,
+      link_open: true,
+      price_open: true,
+      product_open: true,
       pageTitleLength: 0,
       searchEngDescLength: 0,
       domainWidth: '0',
@@ -446,13 +488,17 @@ export default {
         track_quantity: false,
         out_of_stock: false,
         has_variants: false,
+        avail_qty:"",
+        min_qty:"",
+        seo_description:'',
+        seo_page_title:''
       },
       shipping: {
         weight: "",
         physical_product: false,
       },
       variants: {
-        has_variants: false,
+        has_variants: true,
         is_active: 0,
         options: [
           {
