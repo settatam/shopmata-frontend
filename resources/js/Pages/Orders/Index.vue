@@ -538,7 +538,7 @@
                                             text-left text-base
                                             font-medium
                                             text-gray-500
-                                            uppercase
+                                            capitalize
                                             tracking-wider
                                         "
                                     >
