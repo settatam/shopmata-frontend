@@ -22,21 +22,29 @@
                 </li>
               </ol>
             </nav>
-        <div class="flex-1 flex xl:overflow-hidden mt-5">
+        <div class="flex-1 flex xl:overflow-hidden mt-5 flex-col lg:flex-row px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="Plans"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
                 <div class="w-auto  lg:ml-7 lg:mr-2">
                     <div class="mb-6">
-                        <div class="p-8 mb-6 bg-white">
+                        <div class="p-4 lg:p-8 mb-6 bg-white">
                             <h2 class="text-xl font-semibold mb-4">Plan and Permissions</h2>
                             <h3 class="text-lg font-semibold">Plan details</h3>
-                            <p class="text-sm text-gray-400">View our <span class="text-indigo-700 cursor-pointer">terms of service</span>  and <span class="text-indigo-700 cursor-pointer">privacy policy.</span></p>
+                            <p class="text-sm text-gray-400">View our
+                                <inertia-link href="/settings/terms-of-service">
+                                 <span class="text-indigo-700 cursor-pointer" >terms of service</span>  
+                                </inertia-link>
+                                 and
+                                <inertia-link href="/settings/privacy-policy">
+                                    <span class="text-indigo-700 cursor-pointer" >privacy policy.</span>
+                                </inertia-link> 
+                            </p>
 
                             <div class="px-2  border border-gray-300 mt-5 py-2.5 rounded">
                                 <div class="flex flex-col">
-                                    <div class="-my-2 overflow-x-hidden">
+                                    <div class="-my-2 overflow-x-scroll">
                                     <div class="py-2 align-middle inline-block min-w-full">
                                         <div class=" overflow-hidden  sm:rounded-lg">
                                         <table class="min-w-full ">
@@ -79,39 +87,39 @@
                                 </div>
                             </div>
                             <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
-                            <div class="flex justify-between ">
+                            <div class="flex justify-between items-center">
                                 <div>
                                     <h2 class="text-xl font-semibold">Plan and Permissions</h2>
                                     <p class="text-sm text-gray-400">Manage what staff can see or do in your store.</p>
                                 </div>
-                                <PlusCircleIcon class="w-11 h-11 text-indigo-700 cursor-pointer" @click="inviteStaff"/>
+                                <PlusCircleIcon class="w-11 h-11  text-indigo-700 cursor-pointer" @click="inviteStaff"/>
                             <permission-modal v-if="popModal" @close="this.popModal=false" :groups="groups" :login="login" :title="title" :buttonMsg="buttonMsg" :user_id="user_id" :user_email="user_email"/>
                             </div>
                              <div class="px-5  border border-gray-300 mt-5 py-4 rounded">
-                                <h3 class="text-lg font-bold mb-6">Store Owner</h3>
-                                    <div class="flex items-center">
+                                <h3 class="text-lg font-bold mb-6 text-center md:text-left">Store Owner</h3>
+                                    <div class="flex flex-col md:flex-row  md:justify-start items-center">
                                         <p class="h-10 w-10 rounded-full capitalize bg-blue-400 text-white text-center text-sm py-2.5 font-semibold mr-4">{{user.first_name.charAt(0)}}{{user.last_name.charAt(0)}}</p>
                                         <div>
-                                            <p class="text-sm text-indigo-700 font-semibold">{{user.first_name + ' ' + user.last_name}}</p>
-                                            <p>Last login was {{formatDate(user.last_login.created_at)}} </p>
+                                            <p class="text-sm text-indigo-700 font-semibold text-center md:text-left">{{user.first_name + ' ' + user.last_name}}</p>
+                                            <p class="text-center md:text-left">Last login was {{formatDate(user.last_login.created_at)}} </p>
                                         </div>
                                     </div>
                              </div>
-                             <div class="px-2 border border-gray-300 py-2.5 mt-6 rounded">
+                             <div class="px-2 border border-gray-300 py-2.5 mt-6 rounded overflow-x-scroll">
                                  <div class="flex justify-between items-center px-5">
                                   <h3 class="text-lg font-bold py-5">Staff Accounts</h3>
                                     <TrashIcon class="w-8 h-8 text-indigo-700 border border-indigo-600 p-1.5 rounded-sm cursor-pointer" v-if="selected.length>0"/>
                                  </div>
-                                  <table class="w-full divide-y divide-gray-200 table-fixed">
+                                  <table class="w-full  divide-y divide-gray-200 table-auto">
                                     <thead class="bg-gray-50">
                                     <tr> 
-                                        <th scope="col" class="w-4/10  px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                                        <th scope="col" class="w-4/10  px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
                                             Names
                                         </th>
-                                        <th scope="col" class=" w-3/10 px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                                        <th scope="col" class=" w-3/10 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
                                             Last Login
                                         </th>
-                                        <th scope="col" class="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-500 tracking-wider">
+                                        <th scope="col" class="w-1/5 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
                                             Permissions
                                         </th>
                                         <th scope="col" class="relative px-6 py-3">

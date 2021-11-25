@@ -11,6 +11,7 @@ class Customer extends Model
     use HasFactory;
 
     protected $table = 'customers';
+    protected $appends = ['activation_status'];
 
     protected $fillable = [
         'user_id',
@@ -34,6 +35,11 @@ class Customer extends Model
         return "{$this->first_name} {$this->last_name}";
     }
 
+    public function getActivationStatusAttribute()
+    {
+        return 'Email Sent';
+    }
+
     public function stores()
     {
         return $this->hasMany(Store::class);
@@ -52,5 +58,11 @@ class Customer extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function scopeWithTotalOrders($query, $customer_id){
+        return $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_orders')
+                ->where('customer_id', $customer_id)
+        ]);
     }
 }

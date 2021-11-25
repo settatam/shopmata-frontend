@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountsController;
 use App\Http\Controllers\StoreTemplatesController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderCustomerNoteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Settings\ShippingProfileController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\GiftCardsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\Settings\StoreLocationController;
+use App\Http\Controllers\Settings\ShippingRatesController;
 use App\Http\Controllers\StorePreferencesController;
 use App\Http\Controllers\StoreDomainsController;
 use App\Http\Controllers\OnlineStoreController;
@@ -122,9 +124,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('orders/create', [OrdersController::class, 'create'])->name('orders.create');
 	Route::post('orders/create', [OrdersController::class, 'store']);
 	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+	Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
 
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
+
+	#Settings -> External Links
+	Route::get('settings/contact',[SettingsController::class, 'support']);
+	Route::get('settings/delivery-method',[SettingsController::class, 'deliveryMethod']);
+	Route::get('settings/international-payment',[SettingsController::class, 'internationalPayment']);
+	Route::get('settings/privacy-policy',[SettingsController::class, 'privacyPolicy']);
+	Route::get('settings/shipping-rate',[SettingsController::class, 'aboutShippingRate']);
+	Route::get('settings/terms-of-service',[SettingsController::class, 'termsOfService']);
+
 
 	#Settings -> General
 	Route::get('settings/general', [GeneralController::class, 'index'])->name('settings.general');
@@ -135,6 +147,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.inviteStaff');
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
+	#Settings -> Remittance
+	Route::get('settings/remittance',[SettingsController::class,'remittance']);
+	
 	#Settings -> Shipping and Delivery
 	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
 	Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
@@ -204,6 +219,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('online-store/locations', LocationController::class);
     Route::resource('online-store/store-users', StoreUserController::class);
+
+    Route::resource('order-customer-note', OrderCustomerNoteController::class);
+    Route::resource('settings/shipping-rates', ShippingRatesController::class);
+    /* Route::put('settings/shipping-rates/{id}', ShippingRatesController::class,update); */
 
     // Navigation
 

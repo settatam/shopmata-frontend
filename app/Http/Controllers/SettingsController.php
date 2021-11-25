@@ -97,6 +97,36 @@ class SettingsController extends Controller
         return Inertia::render('Settings/Shipping/Components/GeneralShippingRate');
     }
 
+    public function support(){
+        return Inertia::render('Settings/Links/ContactSupport');
+    }
+
+    public function termsOfService()
+    {
+        return Inertia::render('Settings/Links/TermsOfService');
+    }
+
+    public function privacyPolicy()
+    {
+        return Inertia::render('Settings/Links/PrivacyPolicy');
+    }
+
+    public function internationalPayment(){
+        return Inertia::render('Settings/Links/InternationalPayment');
+    }
+
+    public function deliveryMethod(){
+        return Inertia::render('Settings/Links/DeliveryMethod');
+    }
+
+    public function aboutShippingRate(){
+        return Inertia::render('Settings/Links/ShippingRate');
+    }
+
+    public function remittance(){
+        return Inertia::render('Settings/Remittance/Index');
+    }
+
     public function shippingProfile()
     {
         $condition_options = ShippingRateCondition::$condition_options;
