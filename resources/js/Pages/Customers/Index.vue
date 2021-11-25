@@ -79,7 +79,7 @@
                         <input
                             id="search"
                             type="search"
-                            placeholder="Search by order id, status...."
+                            placeholder="Search by name, email...."
                             class="
                                 block
                                 pl-12
@@ -228,16 +228,47 @@
                                     table-fixed
                                 "
                             >
-                                <thead class="bg-gray-50">
+                                <thead class="bg-white">
                                     <tr>
+                                        <th
+                                            scope="col"
+                                            class="
+                                                pl-6
+                                                pr-2
+                                                text-left text-base
+                                                font-medium
+                                                text-gray-400
+                                                uppercase
+                                                tracking-wider
+                                            "
+                                        >
+                                            <input
+                                                id="comments"
+                                                aria-describedby="comments-description"
+                                                name="comments"
+                                                type="checkbox"
+                                                v-model="selectAll"
+                                                class="
+                                                    h-4
+                                                    w-4
+                                                    text-indigo-600
+                                                    border-gray-300
+                                                    rounded
+                                                "
+                                                @click="checkAll"
+                                                :disabled="
+                                                    customers.data.length === 0
+                                                "
+                                            />
+                                        </th>
                                         <th
                                             scope="col"
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
+                                                text-gray-400
                                                 uppercase
                                                 tracking-wider
                                             "
@@ -249,9 +280,9 @@
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
+                                                text-gray-400
                                                 uppercase
                                                 tracking-wider
                                             "
@@ -263,9 +294,9 @@
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
+                                                text-gray-400
                                                 uppercase
                                                 tracking-wider
                                             "
@@ -277,23 +308,9 @@
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Order
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-xs
-                                                font-medium
-                                                text-gray-500
+                                                text-gray-400
                                                 uppercase
                                                 tracking-wider
                                             "
@@ -305,29 +322,27 @@
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
+                                                text-gray-400
                                                 uppercase
                                                 tracking-wider
                                             "
                                         >
-                                            Created
+                                            Date Joined
                                         </th>
                                         <th
                                             scope="col"
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
+                                                text-gray-400
                                                 uppercase
                                                 tracking-wider
                                             "
-                                        >
-                                            Created
-                                        </th>
+                                        ></th>
 
                                         <!-- <th scope="col" class="px-6 py-3">
                       <span class="sr-only">Edit</span>
@@ -343,27 +358,60 @@
                                         class="bg-white"
                                     >
                                         <td
+                                            scope="col"
                                             class="
-                                                px-6
-                                                py-3
-                                                text-left text-xs
+                                                pl-6
+                                                pr-2
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
-                                                uppercase
+                                                text-gray-700
                                                 tracking-wider
                                             "
                                         >
-                                            {{ customer.first_name }}
-                                            {{ customer.last_name }}
+                                            <input
+                                                id="comments"
+                                                aria-describedby="comments-description"
+                                                name="comments"
+                                                type="checkbox"
+                                                :value="customer"
+                                                v-model="selected"
+                                                @click="
+                                                    uncheckParentBox(customer)
+                                                "
+                                                class="
+                                                    focus:ring-indigo-500
+                                                    text-indigo-600
+                                                    border-gray-300
+                                                    rounded
+                                                "
+                                            />
                                         </td>
                                         <td
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
-                                                uppercase
+                                                text-gray-700
+                                                tracking-wider
+                                            "
+                                        >
+                                            <inertia-link
+                                                :href="
+                                                    '/customers/' + customer.id
+                                                "
+                                            >
+                                                {{ customer.first_name }}
+                                                {{ customer.last_name }}
+                                            </inertia-link>
+                                        </td>
+                                        <td
+                                            class="
+                                                px-6
+                                                py-3
+                                                text-left text-base
+                                                font-medium
+                                                text-gray-700
                                                 tracking-wider
                                             "
                                         >
@@ -373,10 +421,9 @@
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
-                                                uppercase
+                                                text-gray-700
                                                 tracking-wider
                                             "
                                         >
@@ -387,23 +434,9 @@
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{ customer.order }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-xs
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
+                                                text-gray-700
                                                 tracking-wider
                                             "
                                         >
@@ -413,10 +446,9 @@
                                             class="
                                                 px-6
                                                 py-3
-                                                text-left text-xs
+                                                text-left text-base
                                                 font-medium
-                                                text-gray-500
-                                                uppercase
+                                                text-gray-700
                                                 tracking-wider
                                             "
                                         >
@@ -426,89 +458,127 @@
                                                 ).format("YYYY-MM-DD")
                                             }}
                                         </td>
+                                        <td
+                                            class="
+                                                px-6
+                                                py-3
+                                                text-left text-base
+                                                font-medium
+                                                text-gray-700
+                                                tracking-wider
+                                            "
+                                        >
+                                            <div class="flex">
+                                                <!-- <EyeIcon
+                                                    class="
+                                                        cursor-pointer
+                                                        w-5
+                                                        h-5
+                                                        mr-4
+                                                    "
+                                                /> -->
+                                                <!-- <PencilIcon
+                                                    class="
+                                                        w-5
+                                                        h-5
+                                                        text-indigo-600
+                                                        cursor-pointer
+                                                        mr-4
+                                                    "
+                                                /> -->
+                                                <TrashIcon
+                                                    class="
+                                                        w-5
+                                                        h-5
+                                                        text-red-500
+                                                        cursor-pointer
+                                                    "
+                                                />
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- Pagination -->
-                            <nav
+                        </div>
+                        <!-- Pagination -->
+                        <nav
+                            class="
+                                bg-white
+                                px-4
+                                py-3
+                                flex
+                                items-center
+                                justify-between
+                                border-t border-gray-200
+                                sm:px-6
+                            "
+                            aria-label="Pagination"
+                        >
+                            <div class="hidden sm:block">
+                                <p class="text-sm text-gray-700">
+                                    Showing
+                                    {{ " " }}
+                                    <span class="font-medium">1</span>
+                                    {{ " " }}
+                                    to
+                                    {{ " " }}
+                                    <span class="font-medium">10</span>
+                                    {{ " " }}
+                                    of
+                                    {{ " " }}
+                                    <span class="font-medium">20</span>
+                                    {{ " " }}
+                                    results
+                                </p>
+                            </div>
+                            <div
                                 class="
-                                    bg-white
-                                    px-4
-                                    py-3
-                                    flex
-                                    items-center
+                                    flex-1 flex
                                     justify-between
-                                    border-t border-gray-200
-                                    sm:px-6
+                                    sm:justify-end
                                 "
-                                aria-label="Pagination"
                             >
-                                <div class="hidden sm:block">
-                                    <p class="text-sm text-gray-700">
-                                        Showing
-                                        {{ " " }}
-                                        <span class="font-medium">1</span>
-                                        {{ " " }}
-                                        to
-                                        {{ " " }}
-                                        <span class="font-medium">10</span>
-                                        {{ " " }}
-                                        of
-                                        {{ " " }}
-                                        <span class="font-medium">20</span>
-                                        {{ " " }}
-                                        results
-                                    </p>
-                                </div>
-                                <div
+                                <a
+                                    href="#"
                                     class="
-                                        flex-1 flex
-                                        justify-between
-                                        sm:justify-end
+                                        relative
+                                        inline-flex
+                                        items-center
+                                        px-4
+                                        py-2
+                                        border border-gray-300
+                                        text-sm
+                                        font-medium
+                                        rounded-md
+                                        text-gray-700
+                                        bg-white
+                                        hover:bg-gray-50
                                     "
                                 >
-                                    <a
-                                        href="#"
-                                        class="
-                                            relative
-                                            inline-flex
-                                            items-center
-                                            px-4
-                                            py-2
-                                            border border-gray-300
-                                            text-sm
-                                            font-medium
-                                            rounded-md
-                                            text-gray-700
-                                            bg-white
-                                            hover:bg-gray-50
-                                        "
-                                    >
-                                        Previous
-                                    </a>
-                                    <a
-                                        href="#"
-                                        class="
-                                            ml-3
-                                            relative
-                                            inline-flex
-                                            items-center
-                                            px-4
-                                            py-2
-                                            border border-gray-300
-                                            text-sm
-                                            font-medium
-                                            rounded-md
-                                            text-gray-700
-                                            bg-white
-                                            hover:bg-gray-50
-                                        "
-                                    >
-                                        Next
-                                    </a>
-                                </div>
-                            </nav>
-                        </div>
+                                    Previous
+                                </a>
+                                <a
+                                    href="#"
+                                    class="
+                                        ml-3
+                                        relative
+                                        inline-flex
+                                        items-center
+                                        px-4
+                                        py-2
+                                        border border-gray-300
+                                        text-sm
+                                        font-medium
+                                        rounded-md
+                                        text-gray-700
+                                        bg-white
+                                        hover:bg-gray-50
+                                    "
+                                >
+                                    Next
+                                </a>
+                            </div>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -519,7 +589,7 @@
 <script>
 import { ref } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import { PlusIcon } from "@heroicons/vue/solid";
+import { PlusIcon, EyeIcon, PencilIcon, TrashIcon } from "@heroicons/vue/solid";
 import { SearchIcon } from "@heroicons/vue/outline";
 // import Search from '../Search.vue'
 // import axios from "axios"
@@ -637,8 +707,8 @@ export default {
         edit(customer) {
             this.$inertia.visit(`/customers/${customer.id}/edit`, customer.id);
         },
-        view(customer) {
-            this.$inertia.visit(`/customers/${customer.id}/view`, customer.id);
+        show(customer) {
+            this.$inertia.visit(`/customers/${customer.id}/show`, customer.id);
         },
         sortByLastname() {
             this.form.orderBy = "last_name";
@@ -652,6 +722,9 @@ export default {
         AppLayout,
         PlusIcon,
         SearchIcon,
+        EyeIcon,
+        PencilIcon,
+        TrashIcon,
         // SideNav,
         // ExportIcon,
         // ImportIcon,
