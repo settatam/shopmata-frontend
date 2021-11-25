@@ -4,8 +4,8 @@
       v-model="newTag"
       type="text"
       :list="id"
+      placeholder="separate options with a tab"
       autocomplete="off"
-      @keydown.,="addTag(newTag)"
       @keydown.prevent.tab="addTag(newTag)"
       @keydown.delete="newTag.length || removeTag(tags.length - 1)"
       :style="{ 'padding-left': `${paddingLeft}px` }"
@@ -43,7 +43,16 @@ export default {
     options: { type: [Array, Boolean], default: false },
     allowCustom: { type: Boolean, default: true },
     showCount: { type: Boolean, default: false },
+    comment: Function,
+    dataIndex:Number,
   },
+  emits:['comment'],
+  /* methods:{
+    comment(e){
+      e.preventDefaults()
+      this.$emit('comment')
+    }
+  }, */
   setup(props, { emit }) {
     // Tags
     const tags = ref(props.modelValue);
@@ -59,6 +68,7 @@ export default {
         handleDuplicate(tag);
         return;
       }
+      emit("comment",[newTag.value , props.dataIndex])
       tags.value.push(tag);
       newTag.value = ""; // reset newTag
     };
@@ -105,6 +115,7 @@ export default {
       availableOptions,
       id,
       duplicate,
+      //comment
     };
   },
 };
@@ -129,8 +140,8 @@ ul {
 }
 .tag {
   background: #e0e7ff;
-  padding: 5px;
-  border-radius: 10px;
+  padding: 2px 8px;
+  border-radius: 12px;
   color: #3730a3;
   white-space: nowrap;
   transition: 0.1s ease background;

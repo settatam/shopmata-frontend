@@ -51,7 +51,7 @@
                                 </li>
                             </ul>
                         </div> -->
-                        <TagInput v-model="tags" @blur="addVariantValue" />
+                        <TagInput :tags="tags" :addVariantValue='addVariantValue' :dataIndex="index" @comment = "addVariantValue"  />
                         </div>
                        <!--  <div class="tag-input">
                             <div v-for="(tag, index) in tags" :key="index" class="tag-input__tag">
@@ -67,32 +67,40 @@
                 
                  <!-- list variants -->
                 <div class="py-6">
-                    <div class="grid grid-cols-4 md:px-8 lg:px-8 xl:px-8 min-w-full py-2">
-                        <div class="col-span-1 font-semibold ">
+                    <div class="grid grid-cols-5 md:px-8 lg:px-8 xl:px-8 min-w-full py-2">
+                         <div class="col-span-1 text-xs text-gray-600 ">
+                            Image
+                        </div>
+                        <div class="col-span-1 text-xs text-gray-600 ">
                             Variant
                         </div>
-                        <div class="col-span-1 font-semibold ">
+                        <div class="col-span-1 text-xs text-gray-600">
                             Price
                         </div>
-                        <div class="col-span-1 font-semibold ">
+                        <div class="col-span-1 text-xs text-gray-600 ">
                             Quantity
                         </div>
-                        <div class="col-span-1 font-semibold ">
-                            Sku
-                        </div>
+                        <div class="col-span-1 text-xs text-gray-600">
+                            SKU
+                        </div> 
                     </div> 
-                    <div class="grid grid-cols-4 md:px-8 lg:px-8 xl:px-8 min-w-full py-2" v-for="(el, index) in variantList" :key="index">
-                        <div class="col-span-1 font-semibold mr-2">
+                    <div class="grid grid-cols-5 md:px-8 lg:px-8 xl:px-8 min-w-full py-2" v-for="(el, index) in variantList" :key="index">
+                        <div class="col-span-1 bg-white">
+                            <div class="p-2 border border-gray-300 w-10 h-10 rounded">
+                                <camera-icon class="h-5 w-5 text-gray-600 "/>
+                            </div>
+                        </div>
+                        <div class="col-span-1 mr-2 text-gray-600">
                         {{ el.name }}
                         </div>
-                        <div class="col-span-1 font-semibold mr-2">
-                            <input class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " placeholder="$ 0.00" type="text" v-model="variantList[index].price">
+                        <div class="col-span-1  mr-2">
+                            <input class="border-gray-300 rounded-md bg-transparent text-xs w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none " placeholder="$ 0.00" type="text" v-model="variantList[index].price">
                         </div>
-                        <div class="col-span-1 font-semibold mr-2">
-                            <input class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " placeholder="0" type="Number" v-model="variantList[index].quantity">
+                        <div class="col-span-1  mr-2">
+                            <input class="border-gray-300 rounded-md bg-transparent text-xs w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none " placeholder="0" type="Number" v-model="variantList[index].quantity">
                         </div>
-                        <div class="col-span-1 font-semibold ">
-                            <input class="border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none " type="text" v-model="variantList[index].sku">
+                        <div class="col-span-1  ">
+                            <input class="border-gray-300 rounded-md bg-transparent w-full text-xs  py-2 px-3 text-gray-600 leading-tight focus:outline-none " type="text" v-model="variantList[index].sku">
                         </div>
                     </div>
                 
@@ -106,6 +114,7 @@
 <script>
 import AngleUpIcon from '../../../../assets/AngleUpIcon'
 import {ChevronUpIcon,ChevronDownIcon} from '@heroicons/vue/solid'
+import {CameraIcon} from '@heroicons/vue/outline'
 import TagInput from './TagInput.vue'
 import {ref} from 'vue'
 export default {
@@ -115,15 +124,16 @@ export default {
         AngleUpIcon,
         TagInput,
         ChevronUpIcon,
-        ChevronDownIcon
+        ChevronDownIcon,
+        CameraIcon
     },
     emits: ['added', 'added-variant-name', 'added-variant-value'],
     data() {
         return {
             variant_open: true,
             newVariant: "",
-             variantList: []
-            //tags: []
+            //variantList: [],
+            tags: []
         }
     },
     methods: {
@@ -132,9 +142,11 @@ export default {
             this.$emit('added');
         },
         setVariant(e){
+            console.log(e)
             this.$emit('added-variant-name', e);
         },
         addVariantValue(e){
+            //console.log(e)
             this.$emit('added-variant-value', e);
             this.valueContent = ''
         },
@@ -155,6 +167,7 @@ export default {
             //     this.doVariantList()
             // }
         },
+        
         doVariantList(){
             let maxLength = 0;
             let variantList = []

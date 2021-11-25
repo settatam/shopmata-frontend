@@ -308,8 +308,6 @@
 
               <!-- Shipping ends here -->
             
-              
-
               <!-- Search Engine Starts Here -->
               <div class="bg-white pt-7 pb-1 mb-10 px-8 rounded">
                   <div class="flex justify-between">
@@ -359,8 +357,6 @@
                     Save
                   </p>
               </div>
-              
-          
           </div>
         </div>
       </div>
@@ -550,11 +546,13 @@ export default {
     addVariantName(e) {
       let index = e.target.getAttribute('data-index');
       this.variants.options[index].name = e.target.value;
+      //console.log(e)
     },
     addVariantValue(e) {
-      if(!e.target.value) return false;
-      let index = e.target.getAttribute('data-index');
-      this.variants.options[index].values.push(e.target.value);
+      if(!e) return false;
+      let index = e[1];
+      let name = e[0]
+      this.variants.options[index].values.push(name);
       this.displayVariants();
     },
     addCategory() {
