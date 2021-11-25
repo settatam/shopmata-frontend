@@ -26,6 +26,7 @@ use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\GiftCardsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\Settings\StoreLocationController;
+use App\Http\Controllers\Settings\ShippingRatesController;
 use App\Http\Controllers\StorePreferencesController;
 use App\Http\Controllers\StoreDomainsController;
 use App\Http\Controllers\OnlineStoreController;
@@ -127,6 +128,15 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
 
+	#Settings -> External Links
+	Route::get('settings/contact',[SettingsController::class, 'support']);
+	Route::get('settings/delivery-method',[SettingsController::class, 'deliveryMethod']);
+	Route::get('settings/international-payment',[SettingsController::class, 'internationalPayment']);
+	Route::get('settings/privacy-policy',[SettingsController::class, 'privacyPolicy']);
+	Route::get('settings/shipping-rate',[SettingsController::class, 'aboutShippingRate']);
+	Route::get('settings/terms-of-service',[SettingsController::class, 'termsOfService']);
+
+
 	#Settings -> General
 	Route::get('settings/general', [GeneralController::class, 'index'])->name('settings.general');
 	Route::put('settings/general', [SettingsController::class, 'updateStore'])->name('settings.updateStore');
@@ -136,6 +146,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.inviteStaff');
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
+	#Settings -> Remittance
+	Route::get('settings/remittance',[SettingsController::class,'remittance']);
+	
 	#Settings -> Shipping and Delivery
 	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
 	Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
@@ -206,7 +219,12 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('online-store/locations', LocationController::class);
     Route::resource('online-store/store-users', StoreUserController::class);
 
+<<<<<<< HEAD
     Route::resource('order-customer-note', OrderCustomerNoteController::class);
+=======
+    Route::resource('settings/shipping-rates', ShippingRatesController::class);
+    /* Route::put('settings/shipping-rates/{id}', ShippingRatesController::class,update); */
+>>>>>>> toye-settings
 
     // Navigation
 

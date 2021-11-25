@@ -63,6 +63,7 @@
         "vue3-datepicker": "^0.2.5",
         "vue3-dropzone": "0.0.7",
         "vue3-file-selector": "^1.0.1",
+        "vue3-youtube": "^0.1.8",
         "vuejs-ace-editor": "^1.0.1",
         "vuelidate": "^0.7.6",
         "vuesax": "^3.12.2",
