@@ -141,6 +141,18 @@ class OrdersController extends Controller
         $statuses = Order::statuses();
         $order = Order::with('items')->with('tags')->with('customer')->with('activities')->with('shipping_addresses')->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
 
+        if(count($order->items)) {
+
+            for($i=0; $i<count($order->items); $i++) {  
+                if(null !== $order->items[$i]->variant->product) {
+                    $order->items[$i]->title = $order->items[$i]->variant->product->title;
+                }else{
+                   $order->items[$i]->title = 'This is a test title';
+                }
+
+            }
+        }
+
         return Inertia::render('Orders/Show', compact('notification', 'order', 'statuses'));
     }
 
