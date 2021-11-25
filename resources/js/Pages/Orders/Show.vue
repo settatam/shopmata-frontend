@@ -94,9 +94,9 @@
                                     <p class="text-base text-gray-500">
                                         {{ item.item_name }}
                                     </p>
-                                    <p class="text-base text-gray-500">
+                                    <!-- <p class="text-base text-gray-500">
                                         Qty: {{ item.quantity }}
-                                    </p>
+                                    </p> -->
                                     <p
                                         class="
                                             text-base text-gray-500
@@ -116,19 +116,19 @@
                             <div class="w-2/12">
                                 <p class="text-base mb-1">Product Price</p>
                                 <p class="font-semibold text-lg">
-                                    ${{ item.price }}
+                                    {{ store.currency.code }}{{ item.price }}
                                 </p>
                             </div>
                             <div class="w-2/12">
-                                <p class="text-base mb-1">Shipping</p>
+                                <p class="text-base mb-1">Quantity</p>
                                 <p class="font-semibold text-lg">
-                                    {{ order.shipping_cost }}
+                                    {{ item.quantity }}
                                 </p>
                             </div>
                             <div class="w-2/12">
-                                <p class="text-base mb-1">Total Amount</p>
+                                <p class="text-base mb-1">Sub Amount</p>
                                 <p class="font-semibold text-lg">
-                                    {{ item.total }}
+                                    {{ item.sub_total }}
                                 </p>
                             </div>
                         </div>
@@ -286,52 +286,11 @@
                                     text-white
                                     rounded-md
                                 "
-                                @click="browseProduct"
                             >
                                 Add
                             </button>
                         </div>
-                        <empty-product-modal
-                            v-if="openModal && products.length == 0"
-                        />
-                        <product-modal
-                            v-if="openModal && products.length > 0"
-                            :products="products"
-                            :production="production"
-                            :variantSelected="variantSelected"
-                            @emitClose="emitClose"
-                        />
-                        <discount-modal
-                            v-if="openDiscount"
-                            @emitClose="emitClose"
-                        />
-                        <shipping-modal
-                            v-if="openShipping"
-                            :selected="selected"
-                            @emitClose="emitClose"
-                        />
-                        <taxes-modal v-if="openTaxes" @emitClose="emitClose" />
-                        <new-customer-modal
-                            v-if="openCustomer"
-                            @emitClose="emitClose"
-                        />
-                        <billing-modal
-                            v-if="openBilling"
-                            @emitClose="emitClose"
-                        />
-                        <address-modal
-                            v-if="openAddress"
-                            @emitClose="emitClose"
-                        />
-                        <tag-modal v-if="openTag" @emitClose="emitClose" />
-                        <mark-as-paid-modal
-                            v-if="openMarkAsPaid"
-                            @emitClose="emitClose"
-                        />
-                        <reserve-items-modal
-                            v-if="openReserve"
-                            @emitClose="emitClose"
-                        />
+
                         <div>
                             <div
                                 class="
@@ -391,7 +350,14 @@
                                 <div>
                                     <h4 class="mb-3">Average order value</h4>
                                     <h4 class="mb-3 font-semibold text-lg">
-                                        {{ order.average_orders }}
+                                        {{ store.currency.code }}
+                                        {{
+                                            Number(
+                                                Number(
+                                                    order.average_orders
+                                                ).toFixed(2)
+                                            ).toLocaleString()
+                                        }}
                                     </h4>
                                     <h4></h4>
                                 </div>
@@ -504,7 +470,7 @@
                                             font-medium
                                         "
                                     >
-                                        {{ order.store_id }}
+                                        {{ store.business_name }}
                                     </h2>
                                 </div>
                             </div>
@@ -823,10 +789,8 @@ const statusStyles = {
 };
 export default {
     props: {
-        //products: Object,
-        // filters: Object,
         order: Object,
-        // orders: Array,
+        store: Object,
     },
 
     components: {
