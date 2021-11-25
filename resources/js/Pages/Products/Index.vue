@@ -3,25 +3,21 @@
         <!-- Page header -->
         <div class="">
           <div class="px-4 sm:px-6 lg:mx-auto lg:px-8">
-            <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
+            <div class="py-6 flex items-center md:justify-between lg:border-t lg:border-gray-200">
               <div class="flex-1 min-w-0">
                 <!-- Profile -->
-                <div class="flex items-center">
-                  <div>
                     <div class="flex items-center">
-                      <h1 class="ml-3 text-2xl font-semibold leading-7 text-gray-900 sm:leading-9 sm:truncate">
+                      <h1 class="ml-3 text-lg md:text-2xl font-semibold leading-7 text-gray-900 sm:leading-9 sm:truncate">
                         All Products
                       </h1>
                     </div>
-                  </div>
-                </div>
               </div>
-              <div class="mt-6 flex  md:mt-0 md:ml-1">
+              <div class=" flex  md:mt-0 md:ml-1">
                 <!-- <div class="border p-3 cursor-pointer rounded border-red-500 mr-1">
                   <trash-icon class="w-4 h-4  text-red-500"/>
                 </div> -->
                 <inertia-link href="/products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm  rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                 <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
+                  <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
                 </inertia-link>
               </div>
             </div>
@@ -31,7 +27,7 @@
         <div class="mt-8">
           
           <!-- Activity table (small breakpoint and up) -->
-          <div class="hidden sm:block">
+          <div class=" sm:block">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="mt-3 sm:mt-4">
                   <!-- <div class="sm:hidden">
@@ -48,37 +44,37 @@
                     </nav>
                     <div class="border-b-2 div-mb border-gray-200 w-full"></div>
                   </div> -->
-                  <div class="flex mb-5 justify-between">
+                  <div class="grid grid-cols-2 gap-2 md:grid-cols-4 bg-white rounded md:bg-transparent p-2.5">
                     <div class="">
-                      <label for="search-field" class="">Search</label>
+                      <label for="search-field" class="text-xm md:text-base">Search</label>
                       <div class="relative w-full text-gray-400 focus-within:text-gray-600">
                         <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none" aria-hidden="true">
                           <SearchIcon class="h-5 w-5 ml-5" aria-hidden="true" />
                         </div>
-                        <input id="search-field" name="search-field" class="rounded text-gray-500 search-field pl-12 pr-2 bg-transparent border border-gray-200 placeholder-gray-500" placeholder="Search by name, email....." type="search" />
+                        <input id="search-field" name="search-field" class="rounded text-xm md:text-base text-gray-500 w-full md:search-field md:w-full pl-12 pr-2 bg-transparent border border-gray-200 placeholder-gray-500 placehol" placeholder="Search by name, email....." type="search" />
                       </div>
                     </div>
                     <div class="flex flex-col">
-                      <label for="brand">Brand</label>
-                      <select name="brand" id="" class="rounded text-gray-500 w-48 bg-transparent border border-gray-200 ">
+                      <label for="brand" class="text-xm md:text-base">Brand</label>
+                      <select name="brand" id="" class="rounded text-gray-500 w-full text-xm md:text-base bg-transparent border border-gray-200 ">
                         <option value="1">All</option>
                       </select>
                     </div>
                     <div class="flex flex-col">
-                      <label for="Status">Category</label>
-                      <select name="Status" id="" class="rounded text-gray-500 w-48 bg-transparent border border-gray-200">
+                      <label for="Status" class="text-xm md:text-base">Category</label>
+                      <select name="Status" id="" class="rounded text-gray-500 text-xm md:text-base w-full bg-transparent border border-gray-200">
                         <option value="1">All</option>
                       </select>
                     </div>
                     <div class="flex flex-col">
-                      <label for="Tag">Status</label>
-                      <select name="Tag" id="" class="rounded text-gray-500 w-48 bg-transparent border border-gray-200">
+                      <label for="Tag" class="text-xm md:text-base">Status</label>
+                      <select name="Tag" id="" class="rounded text-xm md:text-base text-gray-500 w-full bg-transparent border border-gray-200">
                         <option value="1">All</option>
                       </select>
                     </div>
                   </div>
                 </div>
-              <div class="flex flex-col mt-2">
+              <div class="hidden md:flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead class="bg-gray-50">
@@ -151,6 +147,38 @@
                     </tbody>
                   </table>
                   <!-- Pagination -->
+                </div>
+              </div>
+              <div class="flex flex-col md:hidden mt-3 p-4 bg-white rounded">
+                <div class="flex flex-col" v-for="product in products.data" :key="product.id">
+                  <div class="flex justify-between">
+                    <div class="flex w-4/5 mr-1">
+                      <div class="h-10 w-10 mr-3">
+                        <img class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
+                      </div>
+                      <div class="flex flex-col w-full overflow-x-hidden">
+                        <div>
+                          <inertia-link href="#" class="group inline-flex space-x-2 truncate">
+                            <p class="text-gray-800 truncate group-hover:text-gray-900 text-xm break-normal">
+                              {{ product.title }}
+                            </p>
+                          </inertia-link>
+                          </div>
+                        <div>
+                          <span class='  text-green-700 bg-green-100 py-0.5 px-2.5 text-xxs font-normal'>
+                              Active
+                            </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-900 font-normal text-xm">1 in Stock</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <span class="text-gray-900 font-normal text-xm"> $ 100.00 </span>
+                    </div>
+                  </div>
+                  <div class="border-t border-gray-100 -mx-4 my-2"></div>
                 </div>
               </div>
                  <div class="py-3 flex items-center justify-between border-t border-gray-200">

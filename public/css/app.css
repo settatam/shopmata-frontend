@@ -1324,6 +1324,10 @@ select {
 	margin-top: 0.625rem;
 	margin-bottom: 0.625rem;
 }
+.-mx-4 {
+	margin-left: -1rem;
+	margin-right: -1rem;
+}
 .ml-3 {
 	margin-left: 0.75rem;
 }
@@ -2225,6 +2229,9 @@ select {
 }
 .overflow-y-auto {
 	overflow-y: auto;
+}
+.overflow-x-hidden {
+	overflow-x: hidden;
 }
 .overflow-y-hidden {
 	overflow-y: hidden;
@@ -3171,6 +3178,10 @@ select {
 .text-cyan-800 {
 	--tw-text-opacity: 1;
 	color: rgba(55, 48, 163, var(--tw-text-opacity));
+}
+.text-green-700 {
+	--tw-text-opacity: 1;
+	color: rgba(4, 120, 87, var(--tw-text-opacity));
 }
 .text-opacity-40 {
 	--tw-text-opacity: 0.4;
@@ -4347,6 +4358,10 @@ input[type='checkbox']:focus {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
 
+	.md\:grid-cols-4 {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
 	.md\:flex-row {
 		flex-direction: row;
 	}
@@ -4385,6 +4400,10 @@ input[type='checkbox']:focus {
 
 	.md\:border-l {
 		border-left-width: 1px;
+	}
+
+	.md\:bg-transparent {
+		background-color: transparent;
 	}
 
 	.md\:p-8 {
@@ -4467,6 +4486,10 @@ input[type='checkbox']:focus {
 
 	.md\:text-2xl {
 		font-size: 1.5rem;
+	}
+
+	.md\:text-base {
+		font-size: 1rem;
 	}
 }
 @media (min-width: 1024px) {
