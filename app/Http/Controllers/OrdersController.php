@@ -20,8 +20,8 @@ class OrdersController extends Controller
      */
     public function index(Request $request)
     {
-        // \Log::info("Get order request Received".print_r($request->all(), true));
-        //
+
+        $statuses = Order::statuses();
         $filters = $request->all('search', 'from', 'to', 'user');
         // $orders = Order::whereHas('user')->with('user')->with('items')->orderBy('id', 'asc')->paginate(50);
 
@@ -37,7 +37,7 @@ class OrdersController extends Controller
         $shipping_addresses = ShippingAddress::where('user_id', Auth::id())->orderBy('is_default')->get();
 
         // dd($orders);
-        return Inertia::render('Orders/Index', compact('orders', 'filters', 'shipping_addresses'));
+        return Inertia::render('Orders/Index', compact('orders', 'filters', 'shipping_addresses', 'statuses'));
     }
 
     /**
@@ -138,9 +138,10 @@ class OrdersController extends Controller
     public function show($id, $notification = null )
     {
         $o = Order::find($id);
-        $order = Order::with('items')->with('tags')->with('user')->with('activities')->with('shipping_addresses')->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
+        $statuses = Order::statuses();
+        $order = Order::with('items')->with('tags')->with('customer')->with('activities')->with('shipping_addresses')->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
 
-        return Inertia::render('Orders/Show', compact('notification', 'order'));
+        return Inertia::render('Orders/Show', compact('notification', 'order', 'statuses'));
     }
 
     /**

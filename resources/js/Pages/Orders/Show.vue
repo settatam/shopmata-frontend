@@ -67,7 +67,7 @@
                         </div>
                         <div class="flex justify-between">
                             <h2 class="font-semibold text-xl text-indigo-700">
-                                Order #{{ order.id }}
+                                Order #{{ order.order_id }}
                             </h2>
                             <p class="text-gray-400">
                                 {{ order.created_at }}
@@ -569,7 +569,7 @@
                         <div class="border-b border-gray-200 -mx-5 mb-6.5">
                             <div class="px-5 flex justify-between mb-4">
                                 <h2 class="font-semibold text-xl">
-                                    Customer overview
+                                    Customer Overview
                                 </h2>
                                 <a
                                     href="/order/edit"
@@ -578,18 +578,20 @@
                                 >
                             </div>
                             <div class="px-5 mb-6">
+                                <inertia-link :href="'/customers/'+getCustomer.id">{{ getCustomer.first_name}} {{ getCustomer.last_name}}</inertia-link>
+                               
                                 <h2 class="font-semibold text-indigo-700 mb-3">
                                     {{ getCustomer.email }}
                                 </h2>
                                 <h2 class="text-gray-400">
-                                    Account invite sent
+                                    {{ getCustomer.activation_status }}
                                 </h2>
                             </div>
                         </div>
                         <div class="border-b border-gray-200 -mx-5 mb-6.5">
                             <div class="px-5 flex justify-between mb-4">
                                 <h2 class="font-semibold text-xl">
-                                    Default Address
+                                    Shipping Address
                                 </h2>
                                 <a
                                     href="/order/manage"
@@ -1118,7 +1120,7 @@ export default {
     },
     computed: {
         getCustomer() {
-            return this.order.user;
+            return this.order.customer;
         },
         calculateMargin() {
             this.formFields.margin = 0;

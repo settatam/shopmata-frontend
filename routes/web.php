@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountsController;
 use App\Http\Controllers\StoreTemplatesController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderCustomerNoteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Settings\ShippingProfileController;
@@ -204,6 +205,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('online-store/locations', LocationController::class);
     Route::resource('online-store/store-users', StoreUserController::class);
+
+    Route::resource('order-customer-note', OrderCustomerNoteController::class);
 
     // Navigation
 
