@@ -23,6 +23,14 @@ class StoreUserFactory extends Factory
     {
         return [
             //
+            'order_id'=>$faker->unique()->numberBetween(113, 162),
+            'address'=>$faker->streetAddress,
+            'address2'=>$faker->secondaryAddress,
+            'city'=>$faker->city,
+            'state_id'=>$faker->numberBetween(54,89),
+            'country_id'=>158,
+            'zip'=>$faker->postal_code,
+            'phone'=>$faker->mobileNumber,
         ];
     }
 }

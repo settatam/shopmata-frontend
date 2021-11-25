@@ -50,6 +50,10 @@ class Order extends Model
         return $this->hasMany(OrderActivity::class);
     }
 
+    public function shipping_address() {
+        return $this->hasOne(OrderShippingAddress::class);
+    }
+
     public function shipping_addresses() {
         return $this->hasMany(ShippingAddress::class, 'user_id', 'user_id');
     }

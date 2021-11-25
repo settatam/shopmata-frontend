@@ -138,7 +138,7 @@ class OrdersController extends Controller
     public function show($id, $notification = null )
     {
         $o = Order::find($id);
-        $order = Order::with('items')->with('tags')->with('user')->with('activities')->with('shipping_addresses')->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
+        $order = Order::with('items')->with('tags')->with('user')->with('activities')->with('shipping_address')->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
 
         return Inertia::render('Orders/Show', compact('notification', 'order'));
     }
