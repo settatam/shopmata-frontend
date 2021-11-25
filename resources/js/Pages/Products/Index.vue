@@ -16,7 +16,7 @@
                 <!-- <div class="border p-3 cursor-pointer rounded border-red-500 mr-1">
                   <trash-icon class="w-4 h-4  text-red-500"/>
                 </div> -->
-                <inertia-link href="/products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm  rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                <inertia-link href="/products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
                   <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
                 </inertia-link>
               </div>
@@ -44,7 +44,7 @@
                     </nav>
                     <div class="border-b-2 div-mb border-gray-200 w-full"></div>
                   </div> -->
-                  <div class="grid grid-cols-2 gap-2 md:grid-cols-4 bg-white rounded md:bg-transparent p-2.5">
+                  <div class="grid grid-cols-2 gap-2 md:px-0 md:grid-cols-4 bg-white rounded md:bg-transparent p-2.5">
                     <div class="">
                       <label for="search-field" class="text-xm md:text-base">Search</label>
                       <div class="relative w-full text-gray-400 focus-within:text-gray-600">
@@ -113,7 +113,7 @@
                             <div class="flex-shrink-0 h-12 w-12 mr-5">
                               <img class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
                             </div>
-                            <inertia-link href="#" class="group inline-flex space-x-2 truncate">
+                            <inertia-link :href="'products/'+product.id+'/'" class="group inline-flex space-x-2 truncate">
                               <p class="text-gray-800 truncate group-hover:text-gray-900 break-normal">
                                 {{ product.title }}
                               </p>
@@ -158,7 +158,7 @@
                       </div>
                       <div class="flex flex-col w-full overflow-x-hidden">
                         <div>
-                          <inertia-link href="#" class="group inline-flex space-x-2 truncate">
+                          <inertia-link :href="'products/'+product.id+'/'" class="group inline-flex space-x-2 truncate">
                             <p class="text-gray-800 truncate group-hover:text-gray-900 text-xm break-normal">
                               {{ product.title }}
                             </p>

@@ -11,7 +11,7 @@
                 <li>
                   <div>
                     <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
-                      <ChartPieIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
                   </div>
@@ -349,11 +349,12 @@
                   </div>
               </div>
               <!-- Search Engine Ends here -->
+              <!-- Cancels and Save Button here -->
               <div class="flex justify-between">
                 <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
                     Cancel
                   </button>
-                  <p  class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+                  <p  class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer focus:ring-indigo-500 sm:text-sm" @click="submit">
                     Save
                   </p>
               </div>
@@ -377,8 +378,8 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ChevronLeftIcon,ChevronRightIcon,HomeIcon,ChevronDownIcon,ChevronUpIcon } from "@heroicons/vue/solid";
-import { ChartPieIcon,InformationCircleIcon } from "@heroicons/vue/outline";
+import { ChevronLeftIcon,ChevronRightIcon,ChevronDownIcon,ChevronUpIcon } from "@heroicons/vue/solid";
+import { ChartPieIcon,InformationCircleIcon,HomeIcon} from "@heroicons/vue/outline";
 import hljs from "highlight.js";
 import InventoryForm from "./Components/InventoryForm";
 import ShippingForm from "./Components/ShippingForm";

@@ -2079,6 +2079,9 @@ select {
 .flex-wrap {
 	flex-wrap: wrap;
 }
+.place-content-center {
+	place-content: center;
+}
 .items-start {
 	align-items: flex-start;
 }
@@ -2760,6 +2763,10 @@ select {
 .py-7 {
 	padding-top: 1.75rem;
 	padding-bottom: 1.75rem;
+}
+.px-0 {
+	padding-left: 0px;
+	padding-right: 0px;
 }
 .pt-6 {
 	padding-top: 1.5rem;
@@ -4392,6 +4399,11 @@ input[type='checkbox']:focus {
 
 	.md\:gap-4 {
 		gap: 1rem;
+	}
+
+	.md\:gap-x-0 {
+		-moz-column-gap: 0px;
+		     column-gap: 0px;
 	}
 
 	.md\:border-t-0 {

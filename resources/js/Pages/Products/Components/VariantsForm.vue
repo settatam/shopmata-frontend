@@ -90,7 +90,7 @@
                                 <camera-icon class="h-5 w-5 text-gray-600 "/>
                             </div>
                         </div>
-                        <div class="col-span-1 mr-2 text-gray-600">
+                        <div class="col-span-1 mr-2 text-gray-600 my-auto">
                         {{ el.name }}
                         </div>
                         <div class="col-span-1  mr-2">
