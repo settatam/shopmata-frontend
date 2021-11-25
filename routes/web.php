@@ -126,6 +126,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
 	Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
 
+	//Bank Details
+
+	// Route::resource('');
+
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
 

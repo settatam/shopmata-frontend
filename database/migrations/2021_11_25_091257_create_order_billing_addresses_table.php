@@ -15,6 +15,15 @@ class CreateOrderBillingAddressesTable extends Migration
     {
         Schema::create('order_billing_addresses', function (Blueprint $table) {
             $table->id();
+            $table->integer('store_id');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('street')->nullable();
+            $table->string('street2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zip')->nullable();
+            $table->string('country')->nullable();
             $table->timestamps();
         });
     }
