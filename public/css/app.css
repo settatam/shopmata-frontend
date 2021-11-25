@@ -1909,11 +1909,14 @@ select {
 .w-1\/6 {
 	width: 16.666667%;
 }
+<<<<<<< HEAD
 .w-max {
 	width: -webkit-max-content;
 	width: -moz-max-content;
 	width: max-content;
 }
+=======
+>>>>>>> 33a660943c73cbea1705d454489880cb2ad96216
 .min-w-0 {
 	min-width: 0px;
 }
