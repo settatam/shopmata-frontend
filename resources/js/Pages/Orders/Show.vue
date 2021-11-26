@@ -74,25 +74,25 @@
                             </p>
                         </div>
                         <p class="mt-2.5 text-base">
-                            ${{ order.total }} from Online Store
+                            ${{ order.total_orders }} from Online Store
                         </p>
                         <div
                             v-for="item in order.items"
                             v-bind:key="item.id"
-                            class="mt-10 flex justify-between mr-10"
+                            class="mt-10 flex justify-between"
                         >
-                            <div class="flex w-4/12">
+                            <div class="flex w-5/12">
                                 <img
                                     src="../../../assets/placeholder_theme.jpg"
                                     alt="category_image"
                                     class="w-10 h-10"
                                 />
                                 <div class="ml-3">
-                                    <h2 class="text-cyan-700 text-base mb-1">
-                                        {{ item.description }}
+                                    <h2 class="text-cyan-700 text-base">
+                                        {{ item.title }}
                                     </h2>
                                     <p class="text-base text-gray-500">
-                                        {{ item.item_name }}
+                                        {{ item.description }}
                                     </p>
                                     <!-- <p class="text-base text-gray-500">
                                         Qty: {{ item.quantity }}
@@ -107,28 +107,68 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="w-2/12">
+                            <div class="w-1/4">
                                 <p class="text-base mb-1">Promotion</p>
                                 <p class="font-semibold text-lg">
                                     {{ item.promotion }}
                                 </p>
                             </div>
-                            <div class="w-2/12">
+                            <div class="w-1/4">
                                 <p class="text-base mb-1">Product Price</p>
                                 <p class="font-semibold text-lg">
                                     {{ store.currency.code }}{{ item.price }}
                                 </p>
                             </div>
-                            <div class="w-2/12">
+                            <div class="w-1/4">
                                 <p class="text-base mb-1">Quantity</p>
                                 <p class="font-semibold text-lg">
                                     {{ item.quantity }}
                                 </p>
                             </div>
-                            <div class="w-2/12">
-                                <p class="text-base mb-1">Sub Amount</p>
+                            <div class="w-1/4">
+                                <p class="text-base mb-1">SubTotal</p>
                                 <p class="font-semibold text-lg">
                                     {{ item.sub_total }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white py-6 px-8 mt-4">
+                        <div class="flex justify-between mb-3.5">
+                            <h2 class="font-semibold text-xl">
+                                Payment Summary
+                            </h2>
+                        </div>
+                        <div>
+                            <div class="flex justify-between">
+                                <h2 class="font-semibold text-lg">
+                                    Subtotal({{ item.quantity }})
+                                </h2>
+                                <p class="text-gray-400"></p>
+                            </div>
+                            <div class="flex justify-between">
+                                <h2 class="font-semibold text-lg">
+                                    Order #{{ order.order_id }}
+                                </h2>
+                                <p class="text-gray-400">
+                                    {{ order.created_at }}
+                                </p>
+                            </div>
+                            <div class="flex justify-between">
+                                <h2 class="font-semibold text-lg">
+                                    Order #{{ order.order_id }}
+                                </h2>
+                                <p class="text-gray-400">
+                                    {{ order.created_at }}
+                                </p>
+                            </div>
+                            <div class="flex justify-between">
+                                <h2 class="font-semibold text-lg">
+                                    Order #{{ order.order_id }}
+                                </h2>
+                                <p class="text-gray-400">
+                                    {{ order.created_at }}
                                 </p>
                             </div>
                         </div>
@@ -540,18 +580,82 @@
                                 <a
                                     href="/order/edit"
                                     class="text-indigo-700 font-semibold"
-                                    >Edit</a
+                                    >View Details</a
                                 >
                             </div>
-                            <div class="px-5 mb-6">
-                                <inertia-link :href="'/customers/'+getCustomer.id">{{ getCustomer.first_name}} {{ getCustomer.last_name}}</inertia-link>
-                               
-                                <h2 class="font-semibold text-indigo-700 mb-3">
-                                    {{ getCustomer.email }}
+                            <div class="px-5 mb-6 flex">
+                                <div class="flex mr-2 mt-1">
+                                    <p
+                                        class="
+                                            h-14
+                                            w-14
+                                            rounded-full
+                                            capitalize
+                                            bg-gray-100
+                                            text-black text-lg
+                                            flex
+                                            items-center
+                                            justify-center
+                                            font-semibold
+                                        "
+                                    >
+                                        {{ getCustomer?.first_name.charAt(0)
+                                        }}{{ getCustomer?.last_name.charAt(0) }}
+                                    </p>
+                                </div>
+                                <div class="flex flex-col">
+                                    <inertia-link
+                                        :href="'/customers/' + getCustomer.id"
+                                        >{{ getCustomer.first_name }}
+                                        {{
+                                            getCustomer.last_name
+                                        }}</inertia-link
+                                    >
+
+                                    <h2
+                                        class="
+                                            font-semibold
+                                            text-indigo-700
+                                            mb-1
+                                        "
+                                    >
+                                        {{ getCustomer.email }}
+                                    </h2>
+                                    <!-- <h2 class="text-gray-400">
+                                        {{ getCustomer.activation_status }}
+                                    </h2> -->
+                                    <!-- <h2 class="text-gray-400">
+                                        {{ getCustomer.phone_number }}
+                                    </h2> -->
+                                    <h2 class="text-black">
+                                        {{ store.phone }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                            <div class="px-5 flex justify-between mb-4">
+                                <h2 class="font-semibold text-xl">
+                                    Billing Address
                                 </h2>
-                                <h2 class="text-gray-400">
-                                    {{ getCustomer.activation_status }}
+                            </div>
+                            <div class="px-5 text-gray-500 mb-6">
+                                <h2 class="font-normal mb-1">
+                                    {{ getCustomer.first_name }}
+                                    {{ getCustomer.last_name }}
                                 </h2>
+                                <h2 class="mb-1">{{ store.address }}</h2>
+                                <!-- <h2 class="mb-1">Apt 402</h2> -->
+                                <h2 class="mb-1">
+                                    {{ getCustomer.city }}
+                                    {{ getCustomer.state }}
+                                </h2>
+                                <h2 class="mb-6">{{ getCustomer.country }}</h2>
+                                <a
+                                    href="/order/address"
+                                    class="font-semibold text-indigo-700"
+                                    >Add new address</a
+                                >
                             </div>
                         </div>
                         <div class="border-b border-gray-200 -mx-5 mb-6.5">
@@ -559,11 +663,6 @@
                                 <h2 class="font-semibold text-xl">
                                     Shipping Address
                                 </h2>
-                                <a
-                                    href="/order/manage"
-                                    class="text-indigo-700 font-semibold"
-                                    >Manage</a
-                                >
                             </div>
                             <div class="px-5 text-gray-500 mb-6">
                                 <h2 class="font-normal mb-1">
