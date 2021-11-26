@@ -142,9 +142,9 @@ class ShippingRatesController extends Controller
                 if($rate->delete()) {
                     Log::info(Auth::id() . ' deleted a shipping rate ' . $id);
                 }
-                return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
+                return response()->json('Resource Deleted');
             }else{
-                return \Redirect::route('settings.shipping')->withErrors('This shipping rate does not exist');
+                return response()->json('Resource could not be deleted', 400);
             }
             
         }else{

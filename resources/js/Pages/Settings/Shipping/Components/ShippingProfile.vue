@@ -110,7 +110,7 @@
                                         <label class="block font-semibold mb-2 bg-transparent">
                                             Description
                                         </label>
-                                        <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
+                                        <textarea   :class="[rates.description.length>50?'focus:border-red-500 focus:ring-red-500':'focus:border-indigo-500','shadow-sm h-20 block w-full sm:text-sm border-gray-300 rounded-md']" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
                                         <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/50</span>
                                         </div>
                                     </div>
