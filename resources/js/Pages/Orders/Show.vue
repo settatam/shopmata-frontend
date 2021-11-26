@@ -141,34 +141,24 @@
                             </h2>
                         </div>
                         <div>
-                            <div class="flex justify-between">
+                            <div class="flex justify-between mb-3.5">
                                 <h2 class="font-semibold text-lg">
-                                    Subtotal({{ item.quantity }})
+                                    Subtotal {{ " " }} ({{ order.quantity }})
                                 </h2>
-                                <p class="text-gray-400"></p>
+                                <p class="text-black font-bold">
+                                    {{ order.sub_total }}
+                                </p>
                             </div>
-                            <div class="flex justify-between">
-                                <h2 class="font-semibold text-lg">
-                                    Order #{{ order.order_id }}
-                                </h2>
-                                <p class="text-gray-400">
-                                    {{ order.created_at }}
+                            <div class="flex justify-between mb-4">
+                                <h2 class="font-semibold text-lg">Delivery</h2>
+                                <p class="text-black font-bold">
+                                    {{ order.delivery }}
                                 </p>
                             </div>
                             <div class="flex justify-between">
-                                <h2 class="font-semibold text-lg">
-                                    Order #{{ order.order_id }}
-                                </h2>
-                                <p class="text-gray-400">
-                                    {{ order.created_at }}
-                                </p>
-                            </div>
-                            <div class="flex justify-between">
-                                <h2 class="font-semibold text-lg">
-                                    Order #{{ order.order_id }}
-                                </h2>
-                                <p class="text-gray-400">
-                                    {{ order.created_at }}
+                                <h2 class="font-semibold text-lg">Tax</h2>
+                                <p class="text-black font-bold">
+                                    {{ order.sales_tax }}
                                 </p>
                             </div>
                         </div>
@@ -341,37 +331,6 @@
                                     border-gray-100
                                 "
                             ></div>
-                            <div
-                                v-for="(variant, index) in variantSelected"
-                                :key="index"
-                                class="flex justify-between"
-                            >
-                                <img
-                                    :src="variant.image"
-                                    alt=""
-                                    class="w-10 h-10"
-                                />
-                                <div class="mr-3">
-                                    <p class="text-cyan-700">
-                                        3.1 Dolce & Gabanna
-                                    </p>
-                                    <p>{{ variant.color }}</p>
-                                    <div>{{ variant.sku }}</div>
-                                </div>
-                                <div class="flex my-auto">
-                                    <p class="my-auto">${{ variant.price }}</p>
-                                    <XIcon class="w-4 h-4 mx-5 my-auto" />
-                                    <input
-                                        type="text"
-                                        class="w-9 h-9 mr-7 my-auto"
-                                        v-model="qty"
-                                    />
-                                    <p class="my-auto">
-                                        ${{ variant.price * qty }}
-                                    </p>
-                                </div>
-                                <XIcon class="w-3 h-3 my-auto" />
-                            </div>
                             <div class="mb-8 lg:w-7/10 flex justify-between">
                                 <div class="">
                                     <h4 class="mb-3">Last Order</h4>
@@ -510,7 +469,8 @@
                                             font-medium
                                         "
                                     >
-                                        {{ store.business_name }}
+                                        Online Store
+                                        <!-- {{ store.business_name }} -->
                                     </h2>
                                 </div>
                             </div>
@@ -736,7 +696,7 @@
                         <div class="flex justify-between mb-4.5">
                             <h2 class="font-semibold text-xl">Tags</h2>
                             <h2 class="text-cyan-700 font-semibold">
-                                View all tags
+                                Add tags
                             </h2>
                         </div>
                         <label for="search" class="sr-only">Search</label>
