@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountsController;
 use App\Http\Controllers\StoreTemplatesController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderCustomerNoteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Settings\ShippingProfileController;
@@ -123,6 +124,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('orders/create', [OrdersController::class, 'create'])->name('orders.create');
 	Route::post('orders/create', [OrdersController::class, 'store']);
 	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+	Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
+
+	//Bank Details
+
+	// Route::resource('');
 
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
@@ -196,7 +202,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('customers', [CustomersController::class, 'store']);
 	Route::get('customers/{id}/edit', [CustomersController::class, 'edit'])->name('customers.edit');
 	Route::put('customers/{id}', [CustomersController::class, 'update']);
-	Route::get('customers/{id}/view', [CustomersController::class, 'show'])->name('customers.view');
+	Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
 	Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
 	Route::post('product-images', [ImagesController::class, 'store']);
 	Route::get('product-images', [ImagesController::class, 'index']);
@@ -218,6 +224,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('online-store/locations', LocationController::class);
     Route::resource('online-store/store-users', StoreUserController::class);
 
+    Route::resource('order-customer-note', OrderCustomerNoteController::class);
     Route::resource('settings/shipping-rates', ShippingRatesController::class);
     /* Route::put('settings/shipping-rates/{id}', ShippingRatesController::class,update); */
 

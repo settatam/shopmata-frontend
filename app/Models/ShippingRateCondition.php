@@ -27,7 +27,7 @@ class ShippingRateCondition extends Model
 
     public static $rate_options = [
     	['title'=>'State', 'type'=>'string'],
-    	['title'=>'Price', 'type'=>'string'],
+    	['title'=>'Amount', 'type'=>'string'],
     	['title'=>'Weight', 'type'=>'int'],
         ['title'=>'Number of Items', 'type'=>'int'],
     ];
