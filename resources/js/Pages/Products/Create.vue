@@ -25,10 +25,10 @@
               </ol>
             </nav>
             <div class="flex justify-between mt-4 px-6">
-              <h1 class="text-2xl font-bold text-gray-900">
+              <h1 class="text-lg md:text-2xl font-bold text-gray-900">
                 Add New Product
               </h1>
-              <div>
+              <div class="hidden md:flex">
                 <button type="button" class=" rounded-md border border-indigo-600 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
                     Preview
                   </button>
@@ -37,13 +37,13 @@
                   </button>
               </div>
             </div>
-          <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+          <div class="max-w-3xl mx-auto py-5 md:py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
            
-              <div class="bg-white mb-10 pt-7 rounded">
+              <div class="bg-white mb-10 pt-4 md:pt-7 rounded">
                 <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
                   <span><angle-up-icon></angle-up-icon></span>
                 </div> -->
-                <div class="bg-white px-8 pb-6 mb-6">
+                <div class="bg-white px-4 md:px-8 pb-6 mb-6">
                   <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
                   <div class="flex justify-between cursor-pointer" @click="product_open=!product_open">
                     <p class="text-gray-700 font-bold text-lg mb-4">Product Information</p>
@@ -87,15 +87,15 @@
 
                <!-- Princing Start here -->
 
-            <div class="bg-white pt-7 pb-1 mb-10 rounded">
-                <div class="flex justify-between px-8 cursor-pointer" @click="price_open=!price_open">
+            <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 rounded">
+                <div class="flex justify-between px-4 md:px-8 cursor-pointer" @click="price_open=!price_open">
                     <p class="text-black font-semibold text-lg mb-6">Pricing</p>
                     <div>
                        <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="price_open" />     
                       <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else />     
                     </div>
                 </div>
-                <div class="px-8" v-if="price_open">
+                <div class="px-4 md:px-8" v-if="price_open">
                     <div class="mb-5 md:mb-1">
                         <div class="flex flex-wrap">
                             <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
@@ -138,8 +138,8 @@
                   </div>
               </div>
 
-              <div class="bg-white mb-10 py-6 rounded">
-                <div class="px-8">
+              <div class="bg-white mb-10 py-6 rounded hidden md:block">
+                <div class="px-4 md:px-8">
                   <div class="bg-white flex justify-between">
                     <p class="text-black font-semibold text-lg mb-6">Media</p>
                   </div>
@@ -172,7 +172,7 @@
               ></variants-form>
 
               <!-- Link Starts Here -->
-              <div class="bg-white p-8 mb-10 rounded">
+              <div class="bg-white p-4 md:p-8 mb-10 rounded">
                 <div class="flex justify-between cursor-pointer" @click="link_open=!link_open">
                   <p class="text-black font-semibold text-lg mb-6">Link</p>
                    <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="link_open"/>     
@@ -199,13 +199,13 @@
               </div>
               <!-- Inventory Starts here -->
 
-              <div class="bg-white pt-7 pb-1 mb-10 rounded " @click="inventory_open=!inventory_open">
-                  <div class="flex justify-between px-8 cursor-pointer">
+              <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 rounded " @click="inventory_open=!inventory_open">
+                  <div class="flex justify-between md:px-8 px-4 cursor-pointer">
                       <p class="text-black font-semibold text-lg mb-6">Inventory</p>
                       <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="inventory_open"/>     
                       <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else/>     
                   </div>
-                  <div v-if="inventory_open==true" class="px-8">
+                  <div v-if="inventory_open==true" class="md:px-8 px-4">
                       <div class="mb-8">
                           <div class="flex flex-wrap mb-6">
                               <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
@@ -309,7 +309,7 @@
               <!-- Shipping ends here -->
             
               <!-- Search Engine Starts Here -->
-              <div class="bg-white pt-7 pb-1 mb-10 px-8 rounded">
+              <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 px-4 md:px-8 rounded">
                   <div class="flex justify-between">
                       <div class="cursor-pointer" @click="seo_open=!seo_open">
                           <p class="text-black font-semibold text-lg mb-6">Search Engine Listing Preview</p>

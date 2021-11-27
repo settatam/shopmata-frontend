@@ -16,8 +16,8 @@
                 <!-- <div class="border p-3 cursor-pointer rounded border-red-500 mr-1">
                   <trash-icon class="w-4 h-4  text-red-500"/>
                 </div> -->
-                <inertia-link href="/products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
-                  <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
+                <inertia-link href="/products/create" type="button" class="inline-flex items-center px-2 py-1 text-xs md:text-base md:px-4 md:py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                  <plus-icon class="md:w-5 md:h-5 w-4 h-4 text-white mr-2"/> Create New Product
                 </inertia-link>
               </div>
             </div>
@@ -44,7 +44,7 @@
                     </nav>
                     <div class="border-b-2 div-mb border-gray-200 w-full"></div>
                   </div> -->
-                  <div class="grid grid-cols-2 gap-2 md:px-0 md:grid-cols-4 bg-white rounded md:bg-transparent p-2.5">
+                  <div class="grid grid-cols-2 gap-2 md:px-0 md:grid-cols-4 rounded bg-transparent">
                     <div class="">
                       <label for="search-field" class="text-xm md:text-base">Search</label>
                       <div class="relative w-full text-gray-400 focus-within:text-gray-600">
@@ -72,12 +72,22 @@
                       <select name="Tag" id="" class="rounded text-xm md:text-base text-gray-500 w-full bg-transparent border border-gray-200">
                         <option value="1">All</option>
                       </select>
-                      <div class="border p-3 cursor-pointer rounded border-red-500 ml-1" v-if="selected.length">
+                      <div class="border hidden md:block p-3 cursor-pointer rounded border-red-500 ml-1" v-if="selected.length">
                         <trash-icon class="w-4 h-4  text-red-500"/>
                       </div>
                       </div>
                     </div>
                   </div>
+
+                  <div class="flex items-center justify-between my-4 md:hidden">
+                    <div class="border border-gray-200 px-4 py-2 text-center rounded text-xm">
+                      <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5 cursor-pointer" v-model="selectedAll" @click.stop="select" :disabled="products.data.length===0" /> Select all
+                    </div>
+                    <div class="border p-2 cursor-pointer rounded border-red-500 ml-1 " v-if="selected.length">
+                        <trash-icon class="w-4 h-4  text-red-500"/>
+                    </div>
+                  </div>
+
                 </div>
               <div class="hidden md:flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
@@ -85,7 +95,7 @@
                     <thead class="bg-gray-50">
                       <tr>
                         <th scope="col" class="w-2/5 max-w-0 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
-                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5 cursor-pointer" v-model="selectedAll" @click.stop="checkAll" :disabled="products.data.length===0" />
+                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5 cursor-pointer" v-model="selectedAll" @click.stop="select" :disabled="products.data.length===0" />
                           PRODUCTS
                         </th>
                         <th scope="col" class="w-2/10 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
@@ -113,7 +123,7 @@
                         <td class="w-2/5 max-w-0 px-6 py-4 items-center text-gray-900">
                           <div class="flex items-center">
                             <div class="flex h-5 mr-5">
-                                <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded cursor-pointer" v-bind:value="product" v-model="selected"  @click.prevent.stop="uncheckParentBox(product)" />
+                                <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded cursor-pointer" :value="product.id" v-model="selected" @click="uncheckBox(product.id)"/>
                             </div>
                             <div class="flex-shrink-0 h-12 w-12 mr-5">
                               <img class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
@@ -158,7 +168,6 @@
                       <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
                     </inertia-link>
                   </div>
-                  <!-- Pagination -->
                 </div>
               </div>
               <div class="md:hidden flex flex-col items-center pb-20 mt-3 rounded bg-white" v-if="products.data.length==0">
@@ -171,7 +180,8 @@
               <div class="flex flex-col md:hidden mt-3 p-4 bg-white rounded" v-else>
                 <div class="flex flex-col" v-for="product in products.data" :key="product.id">
                   <div class="flex justify-between">
-                    <div class="flex w-4/5 mr-1">
+                    <div class="flex items-center w-4/5 mr-1">
+                      <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded cursor-pointer mr-1" :value="product.id" v-model="selected" @click="uncheckBox(product.id)"/>
                       <div class="h-10 w-10 mr-3">
                         <img class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
                       </div>
@@ -317,24 +327,23 @@ export default {
     }
   },
   methods:{
-     checkAll(){
-      this.selectedAll = !this.selectedAll
-      this.selected = this.selectedAll ? [...this.products.data]:[]
-      console.log(this.selectedAll)
-    },
-    uncheckParentBox(product) {
-      //event.stopPropagation();
-      //this.selectAll = false;
-      //console.log(order)
-      let rows = this.selected.filter(p => p.id == product.id);
-        if(rows.length > 0) { // unselect
-            this.selected = this.selected.filter(p => p.id != product.id);
-        }   else { // select
-            this.selected.push(product);
+     select(){
+       this.selected =[]
+       if (!this.selectedAll){
+         for (let i in this.products.data){
+           this.selected.push(this.products.data[i].id)
+         }
+       }
+     },
+     uncheckBox(id){
+       let row = this.selected.filter(p=>p==id);
+        if (row.length>0) {
+          this.selected = this.selected.filter(p=>p !=id)
+        }else{
+          this.selected.push(id)
         }
-        this.products.data.length == this.selected.length ? this.selectAll = true : this.selectAll = false;
-
-    },
+        this.products.data.length == this.selected.length ? this.selectedAll = true : this.selectedAll=false
+     }
   },
   setup() {
     const open = ref(false)

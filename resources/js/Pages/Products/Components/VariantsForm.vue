@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-white pt-7 pb-1 mb-10">
-        <div class="flex justify-between px-8 cursor-pointer" @click="variant_open=!variant_open">
+    <div class="bg-white pt-4 md:pt-7 pb-2 md:pb-4 mb-10">
+        <div class="flex justify-between px-4 md:px-8 cursor-pointer" @click="variant_open=!variant_open">
             <p class="text-black font-semibold text-lg mb-6">Variants</p>
             <div>
                 <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="variant_open" />     
@@ -9,7 +9,7 @@
         </div>
         <div v-if="variant_open">
             <div class="flex flex-wrap mb-6">
-            <div class="px-8">
+            <div class="px-4 md:px-8">
                 <div class="flex flex-wrap -mx-3">
                     <div class="-mx-3 px-8">
                         <div class="flex items-center">
@@ -23,14 +23,14 @@
             </div>
             </div>
             <template v-if="variants.has_variants">
-                <p class="text-black font-semibold text-lg px-8">Options</p>
-                <div v-for="(option, index) of variants.options" :key="index" class="mx-8 mb-6" :data-index="index">
+                <p class="text-black font-semibold text-lg px-4 md:px-8">Options</p>
+                <div v-for="(option, index) of variants.options" :key="index" class="mx-4 md:mx-8 mb-6" :data-index="index">
                     <p class="text-gray-600 pt-4 pb-1">Option {{index+1}}</p>
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
                             <input class="shadow-sm focus:ring-transparent focus:border-gray-300 block w-full sm:text-sm border-gray-300 rounded-md" v-model="option.type" type="text" :data-index="index" @blur="setVariant">
                         </div>
-                        <div class="w-1/2">
+                        <div class="w-full md:w-1/2">
                             <!-- <span class="inline-flex items-center p-px rounded-l-md border-r-transparent border focus:border-r-0 focus:outline-none  border-gray-300 text-gray-500 sm:text-xm overflow-x-scroll">
                                 <span class="inline-flex rounded-full items-center m-2  py-0.5 pl-2.5 pr-1 text-sm font-medium bg-indigo-100  text-indigo-700" v-for="(item, i) in option.values" :key="i"> {{item}}
                                     <button type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500" @click="removeItem(index, i)">
@@ -63,12 +63,12 @@
 
                     </div>
                 </div>
-                <t-button v-if="variants.options.length<3" class="text-white  rounded bg-indigo-600 active:bg-indigo-600 text-sm font-medium cursor-pointer border border-transparent float-right mr-8 px-4 py-3 mb-6" v-model="newVariant" @click="added">Add another option</t-button>
+                <t-button v-if="variants.options.length<3" class="text-white  rounded bg-indigo-600 active:bg-indigo-600 text-xs md:text-sm font-medium cursor-pointer border border-transparent float-right mr-4 md:mr-8 px-4 md:px-4 py-2 md:py-3 mb-6" v-model="newVariant" @click="added">Add another option</t-button>
                 
                  <!-- list variants -->
                 <div class="py-6">
-                    <div class="grid grid-cols-5 md:px-8 lg:px-8 xl:px-8 min-w-full py-2">
-                         <div class="col-span-1 text-xs text-gray-600 ">
+                    <div class="grid grid-cols-5 md:px-8 lg:px-8 xl:px-8 min-w-full py-2" v-if="variantList.length > 0">
+                        <div class="col-span-1 text-xs text-gray-600 ">
                             Image
                         </div>
                         <div class="col-span-1 text-xs text-gray-600 ">
@@ -116,6 +116,7 @@ import AngleUpIcon from '../../../../assets/AngleUpIcon'
 import {ChevronUpIcon,ChevronDownIcon} from '@heroicons/vue/solid'
 import {CameraIcon} from '@heroicons/vue/outline'
 import TagInput from './TagInput.vue'
+
 import {ref} from 'vue'
 export default {
     name: 'variants-form',

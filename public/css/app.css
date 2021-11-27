@@ -4171,6 +4171,10 @@ input[type='checkbox']:focus {
 		grid-column: span 3 / span 3;
 	}
 
+	.md\:float-right {
+		float: right;
+	}
+
 	.md\:mx-8 {
 		margin-left: 2rem;
 		margin-right: 2rem;
@@ -4284,6 +4288,10 @@ input[type='checkbox']:focus {
 		display: none;
 	}
 
+	.md\:h-5 {
+		height: 1.25rem;
+	}
+
 	.md\:w-62\/100 {
 		width: 62%;
 	}
@@ -4346,6 +4354,10 @@ input[type='checkbox']:focus {
 
 	.md\:w-1\/10 {
 		width: 10%;
+	}
+
+	.md\:w-5 {
+		width: 1.25rem;
 	}
 
 	.md\:grid-cols-3 {
@@ -4466,6 +4478,21 @@ input[type='checkbox']:focus {
 		padding-right: 1.25rem;
 	}
 
+	.md\:py-2 {
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+	}
+
+	.md\:py-10 {
+		padding-top: 2.5rem;
+		padding-bottom: 2.5rem;
+	}
+
+	.md\:py-3 {
+		padding-top: 0.75rem;
+		padding-bottom: 0.75rem;
+	}
+
 	.md\:pr-11 {
 		padding-right: 2.75rem;
 	}
@@ -4482,6 +4509,14 @@ input[type='checkbox']:focus {
 		padding-left: 0.75rem;
 	}
 
+	.md\:pt-7 {
+		padding-top: 1.75rem;
+	}
+
+	.md\:pb-4 {
+		padding-bottom: 1rem;
+	}
+
 	.md\:text-left {
 		text-align: left;
 	}
@@ -4496,6 +4531,10 @@ input[type='checkbox']:focus {
 
 	.md\:text-base {
 		font-size: 1rem;
+	}
+
+	.md\:text-sm {
+		font-size: 0.985rem;
 	}
 }
 @media (min-width: 1024px) {
