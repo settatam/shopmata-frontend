@@ -72,7 +72,7 @@
                       <select name="Tag" id="" class="rounded text-xm md:text-base text-gray-500 w-full bg-transparent border border-gray-200">
                         <option value="1">All</option>
                       </select>
-                      <div class="border hidden md:block p-3 cursor-pointer rounded border-red-500 ml-1" v-if="selected.length">
+                      <div class="border hidden md:block p-3 cursor-pointer rounded border-red-500 ml-1" v-if="selected.length" @click="delete_selected = true">
                         <trash-icon class="w-4 h-4  text-red-500"/>
                       </div>
                       </div>
@@ -83,7 +83,7 @@
                     <div class="border border-gray-200 px-4 py-2 text-center rounded text-xm">
                       <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5 cursor-pointer" v-model="selectedAll" @click.stop="select" :disabled="products.data.length===0" /> Select all
                     </div>
-                    <div class="border p-2 cursor-pointer rounded border-red-500 ml-1 " v-if="selected.length">
+                    <div class="border p-2 cursor-pointer rounded border-red-500 ml-1 " v-if="selected.length" @click="delete_selected=true">
                         <trash-icon class="w-4 h-4  text-red-500"/>
                     </div>
                   </div>
@@ -210,6 +210,7 @@
                   <div class="border-t border-gray-100 -mx-4 my-2"></div>
                 </div>
               </div>
+                <delete-alert @close="close" @delete="delete_action" v-if="delete_selected" :open="open_delete"/>
                  <div class="py-3 flex items-center justify-between border-t border-gray-200">
                     <div class="flex-1 flex justify-between sm:hidden">
                       <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
@@ -284,7 +285,7 @@ import { ChevronLeftIcon, ChevronRightIcon, PencilIcon, SearchIcon } from '@hero
 import {
   ScaleIcon,PlusIcon, TrashIcon
 } from '@heroicons/vue/outline'
-
+import DeleteAlert from './Components/DeleteAlert.vue'
 
 const transactions = [
   {
@@ -318,12 +319,13 @@ export default {
             brands: Array,
             categories: Array
         },
-  components: {AppLayout, ScaleIcon, SearchIcon, PlusIcon, TrashIcon,ChevronLeftIcon,ChevronRightIcon,PencilIcon},
+  components: {AppLayout, ScaleIcon, SearchIcon, PlusIcon, TrashIcon,ChevronLeftIcon,ChevronRightIcon,PencilIcon,DeleteAlert},
 
   data(){
     return{
       selected:[],
       selectedAll:false,
+      delete_selected:false,
     }
   },
   methods:{
@@ -343,12 +345,22 @@ export default {
           this.selected.push(id)
         }
         this.products.data.length == this.selected.length ? this.selectedAll = true : this.selectedAll=false
-     }
+     },
+     close(){
+       this.delete_selected = false
+     },
+     delete_action(){
+       for (const id in this.selected) {
+          console.log(id)
+          this.selected =[]
+        }
+      }
   },
   setup() {
     const open = ref(false)
     const suggestions = ref([]);
     const selection = ref('');
+    const open_delete = ref(false)
     /* const tabs = ref([
       { name: 'All', href: '#', current: true, id:1 },
       { name: 'Active', href: '#', current: false, id:2 },
@@ -421,6 +433,7 @@ export default {
       //getAutoCompleteData,
       suggestions,
       selection,
+      open_delete,
       //updateCurrentList,
       //checkAll,
       //uncheckParentBox,
