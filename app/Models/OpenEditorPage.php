@@ -16,6 +16,10 @@ class OpenEditorPage extends Model
     }
 
     protected $fillable = [
-    	'store_id', 'user_id', 'theme_file_id'
+    	'store_id', 'user_id', 'theme_file_id', 'is_open'
     ];
+
+    public function theme_file() {
+    	return $this->belongsTo(ThemeFile::class, 'theme_file_id', 'id');
+    }
 }

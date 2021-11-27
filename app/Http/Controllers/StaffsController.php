@@ -75,7 +75,7 @@ class StaffsController extends Controller
 
     public function inviteStaff(Request $request)
     {
-        try {
+        // try {
             $data = $request->all();
 
             $validator = Validator::make($data, [
@@ -90,7 +90,7 @@ class StaffsController extends Controller
                     "message" => "Request Failed Validation",
                     "validationErrors" => $validator->errors(),
                 ];
-                return response()->json(['notification' => $notification], 400);
+                // return response()->json(['notification' => $notification], 400);
             }
 
             //check if store users already exists
@@ -98,14 +98,14 @@ class StaffsController extends Controller
 
             if ($isUser !== null) {
                 $isStoreUser = StoreUser::where('user_id', $isUser->id)->where('store_id', session('store_id'))->first();
-                if ($isStoreUser !== null) {
-                    $notification = [
-                        "title" => "Store User already Exists",
-                        "type" => "failed",
-                        "message" => "User with $data[email] already Exists in this Store",
-                    ];
-                    return response()->json(['notification' => $notification], 422);
-                }
+                // if ($isStoreUser !== null) {
+                //     $notification = [
+                //         "title" => "Store User already Exists",
+                //         "type" => "failed",
+                //         "message" => "User with $data[email] already Exists in this Store",
+                //     ];
+                //     return response()->json(['notification' => $notification], 422);
+                // }
 
                 //create store user and send a mail
                 StoreUser::create([
@@ -117,13 +117,15 @@ class StaffsController extends Controller
                 $store = Store::find(session('store_id'));
 
                 Mail::to($data['email'])->send(new NewStoreUser($store->name));
+
+                \Route::redirect('settings.inviteStaff');
     
-                $notification = [
-                    "title" => "User Created",
-                    "type" => "success",
-                    "message" => "Staff Store Account Has been Created",
-                ];
-                return response()->json(['notification' => $notification]);
+                // $notification = [
+                //     "title" => "User Created",
+                //     "type" => "success",
+                //     "message" => "Staff Store Account Has been Created",
+                // ];
+                // return response()->json(['notification' => $notification]);
             }
 
             $token = Str::random(30);
@@ -148,24 +150,24 @@ class StaffsController extends Controller
             ];
             return response()->json(['notification' => $notification]);
 
-        } catch (\Exception $e) {
-            $exceptionDetails = [
-                "message" => $e->getMessage(),
-                'file' => basename($e->getFile()),
-                'line' => $e->getLine(),
-                'type' => class_basename($e),
-            ];
+        // } catch (\Exception $e) {
+        //     $exceptionDetails = [
+        //         "message" => $e->getMessage(),
+        //         'file' => basename($e->getFile()),
+        //         'line' => $e->getLine(),
+        //         'type' => class_basename($e),
+        //     ];
 
-            \Log::info("Invite Staff Exception" . print_r($exceptionDetails, true));
+        //     \Log::info("Invite Staff Exception" . print_r($exceptionDetails, true));
 
-            $notification = [
-                "title" => "An Exception Occurred",
-                "type" => "failed",
-                "message" => "Internal Server Error",
-            ];
+        //     $notification = [
+        //         "title" => "An Exception Occurred",
+        //         "type" => "failed",
+        //         "message" => "Internal Server Error",
+        //     ];
 
-            return response()->json(['notification' => $notification], 500);
-        }
+        //     return response()->json(['notification' => $notification], 500);
+        // }
     }
 
     public function registration()

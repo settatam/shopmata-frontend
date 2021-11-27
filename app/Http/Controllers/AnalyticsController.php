@@ -7,6 +7,7 @@ use App\Models\Store;
 use App\Models\Theme;
 use App\Models\ThemeFile;
 use Twig;
+use Inertia\Inertia;
 
 
 class AnalyticsController extends Controller
@@ -24,7 +25,8 @@ class AnalyticsController extends Controller
         $layout = $store->theme->layout[count($store->theme->layout)-1]->content;
         $content = "This is coming from {{ name }}";
         $name = 'Seth Atam';
-        return view('test/index', compact('layout', 'content', 'name'));
+        return Inertia::render('Analytics/Index',  compact('layout', 'content', 'name'));
+        //return view('test/index', compact('layout', 'content', 'name'));
     }
 
     /**

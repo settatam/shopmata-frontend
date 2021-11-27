@@ -1,180 +1,365 @@
 <template>
   <app-layout>
-    <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
-      <!-- Breadcrumb -->
-      <nav
-        aria-label="Breadcrumb"
-        class="bg-white border-b border-blue-gray-200 xl:hidden"
-      >
-        <div
-          class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8"
-        >
-          <inertia-link
-            href="#"
-            class="
-              -ml-1
-              inline-flex
-              items-center
-              space-x-3
-              text-sm
-              font-medium
-              text-blue-gray-900
-            "
-          >
-            <ChevronLeftIcon
-              class="h-5 w-5 text-blue-gray-400"
-              aria-hidden="true"
-            />
-            <span>Add a new Product</span>
-          </inertia-link>
-        </div>
-      </nav>
+    <div class="flex-1 flex flex-col overflow-y-auto  xl:overflow-hidden">
 
-      <div class="flex-1 flex xl:overflow-hidden">
-        <!-- Secondary sidebar -->
-
+      <div class="flex-1 flex xl:overflow-auto">
         <!-- Main content -->
-        <div class="flex-1 max-h-screen xl:overflow-y-auto">
-          <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-            <h1 class="text-2xl font-extrabold text-blue-gray-900">
-              Add New Product
-            </h1>
-            <form @submit.prevent="submit">
-              <div class="bg-white mb-10 pt-7">
-                <div
-                  class="bg-white flex justify-between px-8 cursor-pointer"
-                  @click="expandForm"
-                >
-                  <p class="text-black text-2xl font-semilbold mb-6">
-                    Add Product
-                  </p>
+        <div class="flex-1 h-full max-h-screen">
+          <!-- breadcrumbs -->
+          <nav class="flex px-6 mt-6" aria-label="Breadcrumb">
+              <ol role="list" class="flex items-center space-x-4">
+                <li>
+                  <div>
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                      <span class="sr-only">Settings</span>
+                    </a>
+                  </div>
+                </li>
+                <li v-for="page in pages" :key="page.name">
+                  <div class="flex items-center">
+                    <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+                  </div>
+                </li>
+              </ol>
+            </nav>
+            <div class="flex justify-between mt-4 px-6">
+              <h1 class="text-lg md:text-2xl font-bold text-gray-900">
+                Add New Product
+              </h1>
+              <div class="hidden md:flex">
+                <button type="button" class=" rounded-md border border-indigo-600 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+                    Preview
+                  </button>
+                  <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+                    Save
+                  </button>
+              </div>
+            </div>
+          <div class="max-w-3xl mx-auto py-5 md:py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+           
+              <div class="bg-white mb-10 pt-4 md:pt-7 rounded">
+                <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
                   <span><angle-up-icon></angle-up-icon></span>
-                </div>
-                <div class="bg-white px-8 pb-6 mb-6" v-if="expand">
+                </div> -->
+                <div class="bg-white px-4 md:px-8 pb-6 mb-6">
                   <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
-                  <div class="mb-10">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="title"
-                    >
-                      Title
-                    </label>
-                    <input
-                      class="
-                        appearance-none
-                        border border-border
-                        bg-transparent
-                        w-full
-                        py-2
-                        px-3
-                        text-black
-                        leading-tight
-                        focus:outline-none
-                      "
-                      type="text"
-                      placeholder="Cargo Pants"
-                      v-model="formFields.title"
-                    />
+                  <div class="flex justify-between cursor-pointer" @click="product_open=!product_open">
+                    <p class="text-gray-700 font-bold text-lg mb-4">Product Information</p>
+                     <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="product_open" />     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else />     
                   </div>
-                  <div class="mb-6">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="description"
-                    >
-                      Description
-                    </label>
-                    <div class="quill">
-                      <quill-editor
-                        class="editor text-black"
-                        ref="description"
-                        theme="snow"
-                        style="min-height: 300px"
-                        :value="formFields.description"
-                        :options="editorOption"
-                        @change="onEditorChange"
-                        @blur="onEditorBlur($event)"
-                        @focus="onEditorFocus($event)"
-                        @ready="onEditorReady($event)"
-                      />
+                  <div v-if="product_open">
+                    <div class="mb-10">
+                      <label class="block text-sm text-gray-500" for="title">
+                        Product Name
+                      </label>
+                      <div class="mt-1">
+                          <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="product.title">
+                      </div>
                     </div>
-                  </div>
-                  <div class="mt-20">
-                    <label
-                      class="block text-black font-semibold mb-2 bg-transparent"
-                      for="brand"
-                    >
-                      Brand
-                    </label>
-                    <multiselect
-                      v-model="formFields.brand"
-                      placeholder="Pick a brand"
-                      label="name"
-                      trackBy="name"
-                      valueProp="id"
-                      :options="brands"
-                      searchable="true"
-                      class="text-xs text-black font-semibold"
-                    ></multiselect>
+                    <div class="mb-6">
+                      <label
+                        class="block text-gray-500  mb-2 bg-transparent"
+                        for="description"
+                      >
+                        Product Description
+                      </label>
+                      <div class="quill">
+                        <quill-editor
+                          class="editor text-black"
+                          ref="description"
+                          theme="snow"
+                          style="min-height: 102px"
+                          :value="product.description"
+                          :options="editorOption"
+                          @change="onEditorChange"
+                          @blur="onEditorBlur($event)"
+                          @focus="onEditorFocus($event)"
+                          @ready="onEditorReady($event)"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <!-- <div class="bg-white mb-10 py-6">
-                <div class="px-8">
-                  <div
-                    class="bg-white flex justify-between cursor-pointer"
-                    @click="expandMediaForm"
-                  >
-                    <p class="text-black font-semibold text-lg mb-6">Media</p>
-                    <div class="flex">
-                      <media-url-modal :media="media"></media-url-modal
-                      ><span><angle-up-icon></angle-up-icon></span>
+
+               <!-- Princing Start here -->
+
+            <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 rounded">
+                <div class="flex justify-between px-4 md:px-8 cursor-pointer" @click="price_open=!price_open">
+                    <p class="text-black font-semibold text-lg mb-6">Pricing</p>
+                    <div>
+                       <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="price_open" />     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else />     
+                    </div>
+                </div>
+                <div class="px-4 md:px-8" v-if="price_open">
+                    <div class="mb-5 md:mb-1">
+                        <div class="flex flex-wrap">
+                            <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">
+                                      {{ store.currency.symbol_left }}
+                                    </span>
+                                  </div>
+                                  <input type="number" name="price" id="price" class=" block w-full pl-7 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.price"/>
+                                </div>
+                            </div> 
+
+                            <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                <label for="price" class="block text-sm font-medium text-gray-700">Compare at price</label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">
+                                      {{ store.currency.symbol_left }}
+                                    </span>
+                                  </div>
+                                  <input type="number" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.compare_at_price"/>
+                                </div>
+                            </div>   
+                            <span class="flex items-center text-gray-400 mt-4">
+                              <information-circle-icon class="h-5 w-5 "/> Customers will not see this
+                            </span>            
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 mb-6">
+                        <div class="flex items-center">
+                            <input type="checkbox" class="form-checkbox cursor-pointer rounded-sm h-4 w-4 text-indigo-500 transition duration-150 ease-in-out border border-border focus:outline-none" id="charge_tax">
+                            <label for="charge_tax" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
+                                Charge tax on this product
+                            </label>
+                        </div>
                     </div>
                   </div>
-                  <div v-if="expandMedia">
-                    <vue-dropzone
-                      ref="mediaFiles"
-                      id="dropzone"
-                      :options="dropzoneOptions"
-                      @vdropzone-complete="afterComplete"
-                    ></vue-dropzone>
+              </div>
+
+              <div class="bg-white mb-10 py-6 rounded hidden md:block">
+                <div class="px-4 md:px-8">
+                  <div class="bg-white flex justify-between">
+                    <p class="text-black font-semibold text-lg mb-6">Media</p>
                   </div>
+                  <div class="border-b  border-gray-300">
+                    <li class="flex text-gray-700  justify-between">
+                      <p class="w-3/10">Image</p>
+                      <p class="w-5/10 border-r border-l border-gray-300 px-6">Description</p>
+                      <p class="w-2/10 px-2">Thumbnail</p>
+                    </li>
+                  </div>
+                  <div class="mt-7">
+                    <images-list :images="product.images" v-if="product.images.length"/>
+                    <!-- <Dropzone
+                      @add-image="onAddImage"
+                    /> -->
+                  </div>
+                  
                 </div>
-              </div> -->
-              <pricing-form :pricing="pricing"></pricing-form>
-              <inventory-form
-                :inventory="inventory"
-                :categories="categories"
-              ></inventory-form>
-              <shipping-form :shipping="shipping"></shipping-form>
-              <variants-form
+              </div>
+
+             <!-- Variant Here -->
+             <variants-form
                 :variants="variants"
                 :types="variant_types"
                 :valueContent="valueContent"
+                :variantList="variantList"
                 @added="addOption"
                 @add-variant-name="addVariantName"
                 @added-variant-value="addVariantValue"
               ></variants-form>
-              <search-engine-form :search="search"></search-engine-form>
-              <div class="text-center bg-white pt-6 pb-6 mb-6">
-                <t-button
-                  class="
-                    text-white
-                    bg-purple-darker
-                    active:bg-purple-darker
-                    font-medium
-                    border border-transparent
-                    px-11
-                    py-3.5
-                    cursor-pointer
-                  "
-                  @click="submit"
-                  >Add Product</t-button
-                >
+
+              <!-- Link Starts Here -->
+              <div class="bg-white p-4 md:p-8 mb-10 rounded">
+                <div class="flex justify-between cursor-pointer" @click="link_open=!link_open">
+                  <p class="text-black font-semibold text-lg mb-6">Link</p>
+                   <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="link_open"/>     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else/>     
+                </div>
+                <div v-if="link_open">
+                  <div class="flex flex-col mt-4 text-gray-600">
+                    <label for="manufacturer">Manufacturer</label>
+                    <input type="text" name="manufacturer" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                  </div>
+                  <div class="flex flex-col mt-4 text-gray-600">
+                    <label for="Collections">Collections</label>
+                    <input type="text" name="Collections" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                  </div>
+                  <div class="flex flex-col mt-4 text-gray-600">
+                    <label for="filters">Filters</label>
+                    <input type="text" name="filters" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                  </div>
+                  <div class="flex flex-col mt-4 text-gray-600">
+                    <label for="related">Related Products</label>
+                    <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                  </div>
+                </div>
               </div>
-            </form>
+              <!-- Inventory Starts here -->
+
+              <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 rounded " @click="inventory_open=!inventory_open">
+                  <div class="flex justify-between md:px-8 px-4 cursor-pointer">
+                      <p class="text-black font-semibold text-lg mb-6">Inventory</p>
+                      <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="inventory_open"/>     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else/>     
+                  </div>
+                  <div v-if="inventory_open==true" class="md:px-8 px-4">
+                      <div class="mb-8">
+                          <div class="flex flex-wrap mb-6">
+                              <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                  <label class="block text-gray-600  mb-2 bg-transparent" for="avail_qty">
+                                      Quantity Available
+                                  </label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <input type="text" name="avail_qty" id="avail_qty" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="availabnle qty" v-model="product.avail_qty"/>
+                                  </div>
+                              </div>
+                              <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
+                                  <label class="block text-gray-600  mb-2 bg-transparent" for="min_qty">
+                                      Minimum Quantity
+                                  </label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <input type="text" name="min_qty" id="min_qty" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="min qty" v-model="product.min_qty"/>
+                                  </div>
+                              </div>
+                              <!-- <div class="w-full md:w-1/2 mb-6 md:pr-3 md:mb-0">
+                                  <label class="block text-black font-semibold mb-2 bg-transparent" for="page-title">
+                                      SKU(Stock Keeping Unit)
+                                  </label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <input type="text" name="sku" id="sku" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="product sku" v-model="product.sku"/>
+                                  </div>
+                              </div>
+                              <div class="w-full md:w-1/2 mb-6 md:mb-0 md:pl-3">
+                                  <label class="block text-black font-semibold mb-2 bg-transparent" for="page-title">
+                                      Barcode (ISBN, UPC, GTIN, etc)
+                                  </label>
+                                  <div class="mt-1 relative rounded-md shadow-sm">
+                                      <input type="text" name="barcode" id="barcode" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" aria-describedby="product barcode" v-model="product.barcode"/>
+                                  </div>
+                              </div> -->
+                              <div class="mt-8 mb-6">
+                                  <div class="flex items-center">
+                                      <input v-model="product.track_quantity" type="checkbox" class="form-checkbox cursor-pointer rounded-sm h-4 w-4 text-indigo-600 transition duration-150 ease-in-out border border-border focus:outline-none" id="track_quantity">
+                                      <label for="track_quantity" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
+                                          Track Quantity
+                                      </label>
+                                  </div>
+                                  <div class="flex items-center mt-4">
+                                      <input v-model="product.out_of_stock" type="checkbox" class="form-checkbox cursor-pointer rounded-sm h-4 w-4 text-indigo-600 transition duration-150 ease-in-out border border-border focus:outline-none" id="out_of_stock">
+                                      <label for="out_of_stock" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
+                                          Continue selling when out of stock
+                                      </label>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <!-- <p class="text-gray-700 font-semibold text-lg mb-6">Quantity</p>
+                      <div class="flex flex-wrap -mx-3 mb-6">
+                          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                              <label class="block text-gray-700 font-semibold mb-2 bg-transparent" for="page-title">
+                                  Available
+                              </label>
+                              <input class="appearance-none border border-border bg-transparent w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none" type="number" placeholder="0" v-model="product.quantity">
+                          </div>
+                      </div> -->
+                  </div>
+              </div>
+
+              <!-- Inventory Ends here -->
+
+              <!-- Shipping starts here -->
+              
+             <!--  <div class="bg-white pt-7 pb-1 mb-10 px-8">
+                  <div class="flex justify-between cursor-pointer">
+                      <p class="text-black font-semibold text-lg mb-6">Shipping</p>
+                      <span><angle-up-icon></angle-up-icon></span>
+                  </div>
+                  <div class="flex flex-wrap mb-6">
+                      <div class="mb-6">
+                          <div class="flex items-center">
+                              <input v-model="product.physical_product" type="checkbox" id="physical_product" class="form-checkbox cursor-pointer rounded-none h-4 w-4 text-purple-darker transition duration-150 ease-in-out border border-border focus:outline-none">
+                              <label for="physical_product" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
+                                  This is a physical product
+                              </label>
+                          </div>
+                      </div>
+                  </div>
+                  <p class="text-black font-semibold text-lg mb-3">Weight</p>
+                  <p class="text-gray-600 pb-4">Used to calculate shipping rates at checkout and label prices during fulfillment.</p>
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-4/5 px-3 mb-6 md:mb-0">
+                          <label class="block text-black font-semibold mb-2 bg-transparent" for="weight">
+                              Weight
+                          </label>
+                          <div class="mt-1 relative rounded-md shadow-sm">
+                              <input type="text" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.weight"/>
+                                  <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm" id="price-currency">
+                                      {{ store.weight !== null ? store.weight.unit : '' }}
+                                    </span>
+                                  </div>
+                              </div>
+                      </div>
+                  </div>
+              </div> -->
+
+              <!-- Shipping ends here -->
+            
+              <!-- Search Engine Starts Here -->
+              <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 px-4 md:px-8 rounded">
+                  <div class="flex justify-between">
+                      <div class="cursor-pointer" @click="seo_open=!seo_open">
+                          <p class="text-black font-semibold text-lg mb-6">Search Engine Listing Preview</p>
+                          <p class="text-gray-600 text-sm mb-6">Add a title and description to see how this product might appear in a search engine listing</p>
+                      </div>
+                      <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="seo_open"/>     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else/>     
+                  </div>
+                  <div v-if="seo_open==true">
+                    <div class="my-6">
+                        <label class="block text-gray-600 mb-2 bg-transparent" for="page-title">
+                            Page title
+                        </label>
+                        <input :class="[product.seo_page_title.length > 70 ?'focus:ring-red-500 focus:border-red-500':'focus:ring-indigo-500 focus:border-indigo-500' ,'shadow-sm block w-full sm:text-sm border-gray-300 rounded-md']" type="text" placeholder="Short sleeve t-shirt" v-model="product.seo_page_title">
+                        <p class="text-gray-500">{{product.seo_page_title.length}} of 70 characters used</p>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 mb-2 bg-transparent" for="search_engine_desc">
+                            Description
+                        </label>
+                        <textarea name="w3review" rows="6" cols="50" :class="[product.seo_description.length > 320 ? 'focus:ring-red-500 focus:border-red-500':'focus:ring-indigo-500 focus:border-indigo-500','block w-full shadow-sm py-3 px-4 placeholder-gray-500  border border-gray-300 rounded-md']" placeholder="" v-model="product.seo_description"/>
+                        <p class="text-gray-500">{{product.seo_description.length}} of 320 characters used</p>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 mb-2 bg-transparent" for="url_handle">
+                            URL and handle
+                        </label>
+                        <div class="mt-1 relative rounded-md shadow-sm">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm" ref="domain_name">
+                                    {{ store.domains[0].name}}/
+                                </span>
+                            </div>
+                            <input type="text" :style="{paddingLeft: domainWidth}" name="handle" id="handle" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" aria-describedby="price-currency" v-model="product.handle"/>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              <!-- Search Engine Ends here -->
+              <!-- Cancels and Save Button here -->
+              <div class="flex justify-between">
+                <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
+                    Cancel
+                  </button>
+                  <p  class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer focus:ring-indigo-500 sm:text-sm" @click="submit">
+                    Save
+                  </p>
+              </div>
           </div>
         </div>
-        <Nav page="General"></Nav>
       </div>
     </div>
   </app-layout>
@@ -183,8 +368,8 @@
 <script>
 import { ref } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import Search from "../Search.vue";
-import Nav from "../../Layouts/Nav";
+// import Search from "../Search.vue";
+import Nav from "./Components/Nav";
 import axios from "axios";
 
 import {
@@ -193,17 +378,19 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ChevronLeftIcon } from "@heroicons/vue/solid";
+import { ChevronLeftIcon,ChevronRightIcon,ChevronDownIcon,ChevronUpIcon } from "@heroicons/vue/solid";
+import { ChartPieIcon,InformationCircleIcon,HomeIcon} from "@heroicons/vue/outline";
 import hljs from "highlight.js";
 import InventoryForm from "./Components/InventoryForm";
 import ShippingForm from "./Components/ShippingForm";
 import VariantsForm from "./Components/VariantsForm";
-import SearchEngineForm from "./Components/SearchEngineForm";
 import MediaUrlModal from "./Components/MediaUrlModal";
-import PricingForm from "./Components/PricingForm";
+import Dropzone from "./Components/Dropzone";
+import ImagesList from "./Components/ImagesList";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
+
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
 const statusStyles = {
@@ -211,12 +398,19 @@ const statusStyles = {
   processing: "bg-yellow-100 text-yellow-800",
   failed: "bg-gray-100 text-gray-800",
 };
+
+const pages = [
+  { name: 'All Product', href: '/products', current: false },
+  { name: 'Create New Product', href: '/products/create', current: true },
+]
+
 export default {
   props: {
     products: Object,
     filters: Object,
     brands: Array,
     categories: Array,
+    store: Object
   },
 
   components: {
@@ -227,32 +421,39 @@ export default {
     TransitionChild,
     TransitionRoot,
     Multiselect,
+    InformationCircleIcon,
     // InventoryForm,
     ShippingForm,
     VariantsForm,
-    SearchEngineForm,
-    PricingForm,
     UploadIcon,
     AngleUpIcon,
     MediaUrlModal,
+    Dropzone,
+    ImagesList,
+    pages,
+    ChevronRightIcon,
+    ChevronLeftIcon,
+    ChevronUpIcon,
+    ChevronDownIcon,
+    HomeIcon,
+    ChartPieIcon
   },
 
   data() {
     return {
       valueContent: '',
-      dropzoneOptions: {
-        url: "/product-images",
-        thumbnailWidth: 150,
-        maxFilesize: 0.5,
-        addRemoveLinks: true,
-        headers: { "My-Awesome-Header": "header value" },
-        dictDefaultMessage: `<span><svg class="inline mb-3" xmlns="http://www.w3.org/2000/svg" width="72" height="58" viewBox="0 0 72 58" fill="none">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M19.827 6.039C24.3247 2.16061 30.0611 0.0186233 36 0C48.105 0 58.1535 9 59.247 20.6055C66.411 21.618 72 27.6165 72 34.9785C72 43.0605 65.259 49.5 57.0915 49.5H45C44.4033 49.5 43.831 49.2629 43.409 48.841C42.9871 48.419 42.75 47.8467 42.75 47.25C42.75 46.6533 42.9871 46.081 43.409 45.659C43.831 45.2371 44.4033 45 45 45H57.096C62.9055 45 67.5 40.446 67.5 34.9785C67.5 29.5065 62.91 24.9525 57.0915 24.9525H54.8415V22.7025C54.846 12.7125 46.476 4.5 36 4.5C31.1394 4.51942 26.4458 6.27495 22.7655 9.45C19.359 12.384 17.577 15.921 17.577 18.6975V20.7135L15.5745 20.934C9.288 21.6225 4.5 26.784 4.5 32.931C4.5 39.5325 10.035 45 17.0145 45H27C27.5967 45 28.169 45.2371 28.591 45.659C29.0129 46.081 29.25 46.6533 29.25 47.25C29.25 47.8467 29.0129 48.419 28.591 48.841C28.169 49.2629 27.5967 49.5 27 49.5H17.0145C7.686 49.5 0 42.147 0 32.931C0 24.9975 5.697 18.4275 13.239 16.7625C13.8825 12.879 16.38 9.009 19.827 6.039Z" fill="#CCCCCC"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M35.438 28.3899C35.5626 28.265 35.7105 28.166 35.8734 28.0984C36.0363 28.0308 36.2109 27.996 36.3873 27.996C36.5637 27.996 36.7383 28.0308 36.9012 28.0984C37.0641 28.166 37.212 28.265 37.3366 28.3899L45.3814 36.4347C45.6331 36.6865 45.7746 37.0279 45.7746 37.384C45.7746 37.7401 45.6331 38.0815 45.3814 38.3333C45.1296 38.5851 44.7881 38.7265 44.4321 38.7265C44.076 38.7265 43.7346 38.5851 43.4828 38.3333L37.7281 32.5759V56.1552C37.7281 56.5108 37.5868 56.8518 37.3354 57.1033C37.0839 57.3547 36.7429 57.496 36.3873 57.496C36.0317 57.496 35.6907 57.3547 35.4392 57.1033C35.1878 56.8518 35.0465 56.5108 35.0465 56.1552V32.5759L29.2918 38.3333C29.04 38.5851 28.6985 38.7265 28.3425 38.7265C27.9864 38.7265 27.645 38.5851 27.3932 38.3333C27.1414 38.0815 27 37.7401 27 37.384C27 37.0279 27.1414 36.6865 27.3932 36.4347L35.438 28.3899Z" fill="#632A6D"/></span><br/><p class="m-4">Drag and drop your image here or </p><br/> <t-button class="text-white bg-purple-darker active:bg-purple-darker font-medium border border-transparent px-4 py-3.5" type="submit">Choose File</t-button>`,
-      },
+      variantList: [],
       expand: true,
       expandMedia: true,
       content: "",
+      seo_open: true,
+      inventory_open: true,
+      link_open: true,
+      price_open: true,
+      product_open: true,
+      pageTitleLength: 0,
+      searchEngDescLength: 0,
+      domainWidth: '0',
       editorOption: {
         modules: {
           toolbar: [
@@ -267,38 +468,34 @@ export default {
           },
         },
       },
-      formFields: {
+      product: {
         title: "",
         description: "",
         brand: "",
-      },
-      pricing: {
-        price: "",
-        compare_at_price: "",
-        cost_per_item: "",
+        images: [],
+        price: '',
+        compare_at_price: '',
         margin: null,
         profit: null,
-      },
-      search: {
-        page_title: "",
-        search_engine_desc: "",
-        url_handle: "",
-      },
-      inventory: {
+        cost_per_item: '',
+        handle:'',
         sku: "",
         barcode: "",
         quantity: "",
         track_quantity: false,
         out_of_stock: false,
-        category: [],
+        has_variants: false,
+        avail_qty:"",
+        min_qty:"",
+        seo_description:'',
+        seo_page_title:''
       },
       shipping: {
         weight: "",
         physical_product: false,
       },
-      variant_types: ["size", "weight", "color"],
       variants: {
-        has_variants: false,
+        has_variants: true,
         is_active: 0,
         options: [
           {
@@ -315,23 +512,8 @@ export default {
     };
   },
   computed: {
-    calculateMargin() {
-      this.formFields.margin = 0;
-      return `$ ${0}`;
-    },
-    calculateProfit() {
-      return `$ ${0}`;
-    },
-    formData() {
-      return {
-        ...this.formFields,
-        description: this.$refs.description.$refs.editor.innerHTML,
-        ...this.inventory,
-        ...this.search,
-        ...this.pricing,
-        ...this.variants,
-        ...this.shipping,
-      };
+    activeDomain() {
+
     },
     editor() {
       return this.$refs.description?.quill;
@@ -346,6 +528,9 @@ export default {
       };
     },
   },
+  mounted() {
+    this.domainWidth = this.$refs.domain_name.clientWidth+8+'px'
+  },
   methods: {
     showFormFields() {
       console.log(this.formData);
@@ -354,21 +539,33 @@ export default {
       this.variants.options.push({
         type: "",
         values: [],
+        price: '',
+        quantity: '',
+        sku:''
       });
     },
     addVariantName(e) {
       let index = e.target.getAttribute('data-index');
       this.variants.options[index].name = e.target.value;
+      //console.log(e)
     },
     addVariantValue(e) {
-      let index = e.target.getAttribute('data-index');
-      this.variants.options[index].values.push(e.target.value);
+      if(!e) return false;
+      let index = e[1];
+      let name = e[0]
+      this.variants.options[index].values.push(name);
+      this.displayVariants();
     },
     addCategory() {
       this.inventory.category.push({
         type: "",
         value: "",
       });
+    },
+    onAddImage(response) {
+      for(let i=0; i<response.data.length; i++) {
+        this.product.images.push(response.data[i]);
+      }
     },
     handleFileDrop(e) {
       let droppedFiles = e.dataTransfer.files;
@@ -409,8 +606,13 @@ export default {
     },
     submit() {
       // this.sending = true
+      this.product.description = this.$refs.description.$refs.editor.innerHTML;
+      this.product.variants = this.variantList;
+      this.product.variant_options = this.variants.options
+      console.log(this.product);
+      axios.post('/products', this.product);
 
-      this.$inertia.post("/products", this.formData);
+      // this.$inertia.post("/products", this.formData);
     },
     afterComplete(file) {
       // console.log(file);
@@ -423,11 +625,18 @@ export default {
     },
     displayVariants() {
             
-            let attributes = this.variants
+            let attributes = this.variants.options
             let total_count = 1;
 
+
+            // return false
+
             // a loop can do this 
-            if (attributes.indexOf(1) && attributes.indexOf(2)) {
+            if (attributes.length == 1) {
+                total_count = attributes[0].values.length
+            }else if(attributes.length == 2){
+                total_count = attributes[0].values.length * attributes[1].values.length
+            }else if(attributes.length == 3){
               total_count = attributes[0].values.length * attributes[1].values.length * attributes[2].values.length
             }
 
@@ -435,12 +644,6 @@ export default {
             let a = 0;
             
             let base_attribute = attributes[0];
-
-            const gVal = (data, g) => {
-              let c = g.length;
-              if (data.values.indexOf(c)) return data.values[c]
-              return '';
-            }
 
             let z = [];
 
@@ -453,7 +656,7 @@ export default {
             let q = 0;
 
             //first phase
-            let first_attribute = total_count / attributes[0].values.length
+            let first_attribute = attributes.length == 1 ? 1 : total_count / attributes[0].values.length
 
             for (let i = 0; i < base_attribute.values.length; i++) {
               for (let k = 0; k < first_attribute; k++) {
@@ -462,33 +665,49 @@ export default {
               }
             }
 
-            let second_attributes = total_count / attributes[1].values.length
-            q = 0;
+            if(attributes.length > 1) {
+              let second_attributes = total_count / attributes[1].values.length
+                q = 0;
+                for (let k = 0; k < second_attributes; k++) {
+                  for (let i = 0; i < attributes[1].values.length; i++) {
+                    z[q].push(attributes[1].values[i])
+                    q++;
+                  }
+                }
+            }
 
-            for (let k = 0; k < second_attributes; k++) {
-              for (let i = 0; i < attributes[1].values.length; i++) {
-                z[q].push(attributes[1].values[i])
-                q++;
+            
+            if(attributes.length == 3) {
+              let third_attributes = total_count / attributes[2].values.length
+              q = 0
+              for (let k = 0; k < third_attributes; k++) {
+                for (let i = 0; i < attributes[2].values.length; i++) {
+                  z[q].push(attributes[2].values[i])
+                  q++;
+                }
               }
             }
 
-            let third_attributes = total_count / attributes[2].values.length
+            let variantList = [];
 
-            q = 0
-            for (let k = 0; k < third_attributes; k++) {
-              for (let i = 0; i < attributes[2].values.length; i++) {
-                z[q].push(attributes[2].values[i])
-                q++;
-              }
+            for(let l=0; l<z.length; l++) {
+                variantList.push({
+                    name: z[l].join(', '),
+                    price: '',
+                    quantity: 1,
+                    sku: ''
+                })
             }
 
-            console.log(z)
+           this.variantList = variantList;
         },
   },
+  
   setup() {
     const open = ref(false);
     return {
       statusStyles,
+      pages
     };
   },
 };
