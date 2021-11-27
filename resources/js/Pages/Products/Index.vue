@@ -68,9 +68,14 @@
                     </div>
                     <div class="flex flex-col">
                       <label for="Tag" class="text-xm md:text-base">Status</label>
+                      <div class="flex">
                       <select name="Tag" id="" class="rounded text-xm md:text-base text-gray-500 w-full bg-transparent border border-gray-200">
                         <option value="1">All</option>
                       </select>
+                      <div class="border p-3 cursor-pointer rounded border-red-500 ml-1" v-if="selected.length">
+                        <trash-icon class="w-4 h-4  text-red-500"/>
+                      </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -80,7 +85,7 @@
                     <thead class="bg-gray-50">
                       <tr>
                         <th scope="col" class="w-2/5 max-w-0 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
-                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5" />
+                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-5 cursor-pointer" v-model="selectedAll" @click.stop="checkAll" :disabled="products.data.length===0" />
                           PRODUCTS
                         </th>
                         <th scope="col" class="w-2/10 px-6 py-3 text-left text-xs font-normal text-gray-500 uppercase tracking-wider">
@@ -103,12 +108,12 @@
                         </th> -->
                       </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                      <tr v-for="product in products.data" :key="product.id" class="bg-white hover:bg-indigo-50">
+                     <tbody class="bg-white divide-y divide-gray-200" v-if="products.data.length>0">
+                     <tr v-for="product in products.data" :key="product.id" class="bg-white hover:bg-indigo-50">
                         <td class="w-2/5 max-w-0 px-6 py-4 items-center text-gray-900">
                           <div class="flex items-center">
                             <div class="flex h-5 mr-5">
-                                <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
+                                <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded cursor-pointer" v-bind:value="product" v-model="selected"  @click.prevent.stop="uncheckParentBox(product)" />
                             </div>
                             <div class="flex-shrink-0 h-12 w-12 mr-5">
                               <img class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
@@ -143,13 +148,27 @@
                         <!-- <td>
                           <pencil-icon class="w-5 h-5 text-indigo-700"/>
                         </td> -->
-                      </tr>
+                      </tr> 
                     </tbody>
                   </table>
+                  <div class="flex flex-col items-center pb-20 bg-white" v-if="products.data.length==0">
+                    <img src="../../../assets/EmptyTable.svg" alt="empty_table" srcset="">
+                    <p class="mb-4 text-lg">No product has been created</p>
+                    <inertia-link href="/products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                      <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
+                    </inertia-link>
+                  </div>
                   <!-- Pagination -->
                 </div>
               </div>
-              <div class="flex flex-col md:hidden mt-3 p-4 bg-white rounded">
+              <div class="md:hidden flex flex-col items-center pb-20 mt-3 rounded bg-white" v-if="products.data.length==0">
+                <img src="../../../assets/EmptyTable.svg" alt="empty_table" srcset="">
+                <p class="mb-4 text-lg">No product has been created</p>
+                <inertia-link href="/products/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                  <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Product
+                </inertia-link>
+              </div>
+              <div class="flex flex-col md:hidden mt-3 p-4 bg-white rounded" v-else>
                 <div class="flex flex-col" v-for="product in products.data" :key="product.id">
                   <div class="flex justify-between">
                     <div class="flex w-4/5 mr-1">
@@ -256,6 +275,7 @@ import {
   ScaleIcon,PlusIcon, TrashIcon
 } from '@heroicons/vue/outline'
 
+
 const transactions = [
   {
     id: 1,
@@ -289,9 +309,34 @@ export default {
             categories: Array
         },
   components: {AppLayout, ScaleIcon, SearchIcon, PlusIcon, TrashIcon,ChevronLeftIcon,ChevronRightIcon,PencilIcon},
-  
+
+  data(){
+    return{
+      selected:[],
+      selectedAll:false,
+    }
+  },
+  methods:{
+     checkAll(){
+      this.selectedAll = !this.selectedAll
+      this.selected = this.selectedAll ? [...this.products.data]:[]
+      console.log(this.selectedAll)
+    },
+    uncheckParentBox(product) {
+      //event.stopPropagation();
+      //this.selectAll = false;
+      //console.log(order)
+      let rows = this.selected.filter(p => p.id == product.id);
+        if(rows.length > 0) { // unselect
+            this.selected = this.selected.filter(p => p.id != product.id);
+        }   else { // select
+            this.selected.push(product);
+        }
+        this.products.data.length == this.selected.length ? this.selectAll = true : this.selectAll = false;
+
+    },
+  },
   setup() {
-    
     const open = ref(false)
     const suggestions = ref([]);
     const selection = ref('');
@@ -301,8 +346,37 @@ export default {
       { name: 'Draft', href: '#', current: false, id:3 },
       { name: 'Archived', href: '#', current: false, id:4 }
     ]) */
-    
-    function getAutoCompleteData(term){
+   /*  function checkAll(){
+      selectedAll.value = !selectedAll.value
+      selected.value = selectedAll.value ? [...products.data.id]:[]
+      console.log(selectedAll.value)
+    } */
+    /* const uncheckParentBox=(product)=>{
+      if (selected.value.includes(product.id)){
+        const select = selected.value.filter((s)=>s != product.id)
+        selected.value.push(select)
+      }
+      else{
+        selected.value = selected.value.push(product.id)
+        console.log(selected.value)
+      } */
+      //console.log("selected:",selected.value)
+      /* let rows = selected.value.filter((s) => s.id == product.id);
+      console.log("rows:",rows) */
+      /* if (rows.length > 0) {
+        selected.value = selected.value.filter((s) => s.id != product.id);
+      } else {
+        selected.value.push(selected.value);
+      }
+
+      products.data.length == selected.value.length ? (selectedAll.value = true) : (selectedAll.value = false);  */
+      
+    //}
+    /* function deleteSelected(){
+      let selectedRows = selected.value.map((s) => s.id).join(",");
+      this.$inertia.delete(`/products/${selectedRows}`, selectedRows);
+    } */
+    /* function getAutoCompleteData(term){
       selection.value = term
       if(term.length > 2) {
           axios.get(`/products/get-data?term=${term}`)
@@ -310,15 +384,15 @@ export default {
                 suggestions.value = res.data
             }) 
           }
-    }
-
+    } */
+/* 
     function updateCurrentList(index){
       const suggestion = suggestions.value.filter(list => list.id == index)
       selection.value = suggestion[0].title;
       suggestions.value= [];
       Inertia.visit(`products/${suggestion[0].id}`)
     }
-
+ */
     /* function currentTab(id){
         for (const tab of tabs.value) {
          if (tab.id == id) {
@@ -335,10 +409,15 @@ export default {
       transactions,
       statusStyles,
       cards,
-      getAutoCompleteData,
+      //getAutoCompleteData,
       suggestions,
       selection,
-      updateCurrentList,
+      //updateCurrentList,
+      //checkAll,
+      //uncheckParentBox,
+      //deleteSelected,
+      //selected,
+      //selectedAll
     }
   },
   async mounted() {
