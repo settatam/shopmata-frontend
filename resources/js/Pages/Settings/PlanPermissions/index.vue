@@ -107,7 +107,7 @@
                              </div>
                              <div class="px-2 border border-gray-300 py-2.5 mt-6 rounded overflow-x-scroll">
                                  <div class="flex justify-between items-center px-5">
-                                  <h3 class="text-lg font-bold  py-5 ">Staff Accounts</h3>
+                                  <h3 class="text-lg font-bold py-5">Staff Accounts</h3>
                                     <TrashIcon class="w-8 h-8 text-indigo-700 border border-indigo-600 p-1.5 rounded-sm cursor-pointer" v-if="selected.length>0"/>
                                  </div>
                                   <table class="w-full  divide-y divide-gray-200 table-auto">
