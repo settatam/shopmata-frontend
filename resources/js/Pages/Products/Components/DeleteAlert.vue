@@ -20,7 +20,7 @@
                 </DialogTitle>
                 <div class="mt-2">
                   <p class="text-sm text-gray-500">
-                    Are you sure you want to delete the selected product? The data will be permanently removed from those options. This action cannot be undone.
+                    Are you sure you want to delete the <span class="text-black bold">{{selected.length}} selected product(s)?</span> The data will be permanently removed from those options. This action cannot be undone.
                   </p>
                 </div>
               </div>
@@ -47,8 +47,8 @@ import { ExclamationIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
 
 export default {
-    emits:['close'],
-    props:['open'],
+    emits:['close','delete'],
+    props:['open','selected'],
   components: {
     Dialog,
     DialogOverlay,
