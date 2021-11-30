@@ -86,20 +86,16 @@
                             class="mt-5 flex-shrink-0 h-full overflow-y-auto"
                             aria-label="Sidebar"
                         >
-                            <div class="px-2 space-y-1">
+                            <template v-for="item in navigation" :key="item.name">
+                            <div v-if="!item.children">
                                 <inertia-link
-                                    v-for="item in navigation"
-                                    :key="item.name"
                                     :href="item.href"
                                     :class="[
                                         isRoute(item.name)
                                             ? 'bg-cyan-800 text-white'
                                             : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
-                                        'group flex items-center px-2 py-2 text-base font-medium rounded-md',
+                                        'group w-full flex items-center pl-2 py-2 text-sm font-medium rounded-md',
                                     ]"
-                                    :aria-current="
-                                        item.current ? 'page' : undefined
-                                    "
                                 >
                                     <component
                                         :is="item.icon"
@@ -115,6 +111,78 @@
                                     {{ item.name }}
                                 </inertia-link>
                             </div>
+                            <Disclosure
+                                as="div"
+                                v-else
+                                class="space-y-1"
+                                v-slot="{ open }"
+                            >
+                                <DisclosureButton
+                                    :class="[
+                                        item.current
+                                            ? 'bg-cyan-800 text-white'
+                                            : 'text-cyan-100 hover:text-white hover:bg-cyan-600',
+                                        'group w-full flex items-center pl-2 pr-1 py-2 text-left text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500',
+                                    ]"
+                                >
+                                    <component
+                                        :is="item.icon"
+                                        class="
+                                            mr-4
+                                            flex-shrink-0
+                                            h-6
+                                            w-6
+                                            text-cyan-200
+                                        "
+                                        aria-hidden="true"
+                                    />
+                                    <span class="flex-1">
+                                        {{ item.name }}
+                                    </span>
+                                    <svg
+                                        :class="[
+                                            open
+                                                ? 'text-cyan-400 rotate-90'
+                                                : 'text-cyan-300',
+                                            'ml-3 flex-shrink-0 h-5 w-5 transform group-hover:text-cyan-400 transition-colors ease-in-out duration-150',
+                                        ]"
+                                        viewBox="0 0 20 20"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M6 6L14 10L6 14V6Z"
+                                            fill="currentColor"
+                                        />
+                                    </svg>
+                                </DisclosureButton>
+                                <DisclosurePanel class="space-y-1">
+                                    <inertia-link
+                                        v-for="subItem in item.children"
+                                        :key="subItem.name"
+                                        :href="subItem.href"
+                                        class="
+                                            group
+                                            w-full
+                                            flex
+                                            items-center
+                                            pl-11
+                                            pr-2
+                                            py-2
+                                            text-sm
+                                            font-medium
+                                            text-white
+                                            rounded-md
+                                            hover:text-gray-900 hover:bg-gray-50
+                                        "
+                                    >
+                                        {{ subItem.name }}
+                                    </inertia-link>
+                                    <!-- <a v-for="subItem in item.children" :key="subItem.name" :href="subItem.href" class="group w-full flex items-center pl-11 pr-2 py-2 text-sm font-medium text-white rounded-md hover:text-gray-900 hover:bg-gray-50">
+                  {{ subItem.name }}
+                </a> -->
+                                </DisclosurePanel>
+                            </Disclosure>
+                        </template>
                             <div>
                                 <div class="px-2 space-y-1">
                                     <inertia-link
@@ -125,7 +193,7 @@
                                             group
                                             flex
                                             items-center
-                                            px-2
+                                            px-
                                             py-2
                                             text-base
                                             font-medium
@@ -218,7 +286,7 @@
                                     <component
                                         :is="item.icon"
                                         class="
-                                            mr-3
+                                            mr-4
                                             flex-shrink-0
                                             h-6
                                             w-6
@@ -283,7 +351,7 @@
                                         group
                                         flex
                                         items-center
-                                        px-2
+                                        px-
                                         py-2
                                         text-sm
                                         leading-6
@@ -594,7 +662,7 @@ const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
     {
         name: "Products",
-        href: "",
+        href: "/products",
         icon: ChartPieIcon,
         current: false,
         children: [
