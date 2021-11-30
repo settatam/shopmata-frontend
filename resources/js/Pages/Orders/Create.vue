@@ -14,6 +14,13 @@
         </div>
       </nav>
 
+      <order-modal
+        @close="toggleModal"
+        @addOrder="addOrders"
+        v-if="showModal"
+        :filter="filterProduct"
+      />
+
       <div class="flex-1 flex xl:overflow-hidden">
         <!-- Secondary sidebar -->
 
@@ -195,7 +202,6 @@
 <script>
 import { ref } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import Search from "../Search.vue";
 import Nav from "../../Layouts/Nav";
 import axios from "axios";
 import EmptyProductModal from "../Orders/Components/EmptyProductModal.vue" 
@@ -219,12 +225,6 @@ import {
 } from "@headlessui/vue";
 import { ChevronLeftIcon,XIcon,PlusIcon } from "@heroicons/vue/solid";
 import hljs from "highlight.js";
-// import InventoryForm from "./Components/InventoryForm";
-// import ShippingForm from "./Components/ShippingForm";
-// import VariantsForm from "./Components/VariantsForm";
-// import SearchEngineForm from "./Components/SearchEngineForm";
-// import MediaUrlModal from "./Components/MediaUrlModal";
-// import PricingForm from "./Components/PricingForm";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
@@ -251,11 +251,6 @@ export default {
     TransitionChild,
     TransitionRoot,
     Multiselect,
-    // InventoryForm,
-    // ShippingForm,
-    // VariantsForm,
-    // SearchEngineForm,
-    // PricingForm,
     UploadIcon,
     AngleUpIcon,
     Button,
@@ -535,112 +530,54 @@ export default {
                 paid: false
     };
   },
-  computed: {
-    calculateMargin() {
-      this.formFields.margin = 0;
-      return `$ ${0}`;
-    },
-    calculateProfit() {
-      return `$ ${0}`;
-    },
-    formData() {
-      return {
-        ...this.formFields,
-        description: this.$refs.description.$refs.editor.innerHTML,
-        ...this.inventory,
-        ...this.search,
-        ...this.pricing,
-        ...this.variants,
-        ...this.shipping,
-      };
-    },
-    editor() {
-      return this.$refs.description?.quill;
-    },
-    editorContent() {
-      return this.$refs.description.$refs.editor.innerHTML;
-    },
-    variantDetails() {
-      return {
-        ...this.variants,
-        is_active: this.variants.has_variants ? 1 : 0,
-      };
-    },
-  },
   methods: {
-    showFormFields() {
-      console.log(this.formData);
+    async getProducts() {
+      this.toggleModal();
     },
-    addOption(e) {
-      this.variants.options.push({
-        type: "",
-        values: [],
-      });
+    toggleModal() {
+      this.showModal = !this.showModal;
     },
-    addVariantName(e) {
-      let index = e.target.getAttribute('data-index');
-      this.variants.options[index].name = e.target.value;
+    addOrders(orders) {
+      this.orders = [...this.orders, ...orders];
+      this.toggleModal();
+      this.runCalculations();
     },
-    addVariantValue(e) {
-      let index = e.target.getAttribute('data-index');
-      this.variants.options[index].values.push(e.target.value);
+    reducer(init, val) {
+      return (
+        (init + Number(val.compare_at_price)) * Number(val.quantityOrdered)
+      );
     },
-    addCategory() {
-      this.inventory.category.push({
-        type: "",
-        value: "",
-      });
+    changeQty(id) {
+      const qty = this.$refs.editable[0].innerText;
+      const regex = "^\\s+$";
+      if (qty.match(regex) === null) {
+        let orders = this.orders;
+        const fIndex = orders.findIndex((x) => x.id == id);
+        orders[fIndex] = { ...orders[fIndex], quantityOrdered: qty };
+        this.orders = orders;
+        this.runCalculations();
+      }
     },
-    handleFileDrop(e) {
-      let droppedFiles = e.dataTransfer.files;
-      if (!droppedFiles) return;
-      [...droppedFiles].forEach((f) => {
-        this.files.push(f);
-      });
+    runCalculations() {
+      const total = this.orders.reduce(this.reducer, 0);
+      this.total = total;
+      this.subTotal = total;
     },
-    handleFileInput(e) {
-      let files = e.target.files;
-      files = e.target.files;
-      if (!files) return;
-      [...files].forEach((f) => {
-        this.files.push(f);
-      });
-    },
-    removeFile(fileKey) {
-      this.files.splice(fileKey, 1);
-    },
-    onEditorChange(editor) {
-      console.log(editor.editor);
-      // console.log(this.$refs.description.$refs.editor.innerHTML);
-    },
-    onEditorBlur(editor) {
-      // console.log("editor blur!", editor);
-    },
-    onEditorFocus(editor) {
-      // console.log("editor focus!", editor);
-    },
-    onEditorReady(editor) {
-      // console.log("editor ready!", editor);
-    },
-    showContent() {
-      // console.log(this.editorContent);
-    },
-    upload() {
-      // console.log(this.formData);
+    addAttr(el) {
+      this[el] = !this[el];
     },
     submit() {
-      // this.sending = true
-
-      this.$inertia.post("/products", this.formData);
-    },
-    afterComplete(file) {
-      // console.log(file);
-    },
-    expandMediaForm() {
-      this.expandMedia = !this.expandMedia;
-    },
-    expandForm() {
-      this.expand = !this.expand;
+      const data = {
+        orders: this.orders,
+        note: this.note,
+        subTotal: this.subTotal,
+        taxes: this.taxes,
+        total: this.total,
+        email: this.email,
+        pending: this.pending,
+        paid: this.paid,
+      };
+      this.$inertia.post("/orders/create", data);
     },
     displayVariants() {
             
@@ -740,6 +677,9 @@ export default {
 </script>
 <style scoped>
 @import "style.css";
+.purple-color {
+  color: #923ea1;
+}
 .quill {
   display: flex;
   flex-direction: column;
