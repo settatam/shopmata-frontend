@@ -1167,14 +1167,14 @@ select {
 .-left-40 {
 	left: -10rem;
 }
+.bottom-1 {
+	bottom: 0.25rem;
+}
 .bottom-12 {
 	bottom: 3rem;
 }
 .right-4 {
 	right: 1rem;
-}
-.bottom-1 {
-	bottom: 0.25rem;
 }
 .z-0 {
 	z-index: 0;
@@ -1532,14 +1532,14 @@ select {
 .mb-3\.5 {
 	margin-bottom: 0.875rem;
 }
-.mr-10 {
-	margin-right: 2.5rem;
-}
 .mb-2\.5 {
 	margin-bottom: 0.625rem;
 }
 .mt-3\.5 {
 	margin-top: 0.875rem;
+}
+.mr-10 {
+	margin-right: 2.5rem;
 }
 .mt-4\.5 {
 	margin-top: 1.125rem;
@@ -1601,11 +1601,11 @@ select {
 .-mr-5 {
 	margin-right: -1.25rem;
 }
-.-ml-5 {
-	margin-left: -1.25rem;
-}
 .ml-10 {
 	margin-left: 2.5rem;
+}
+.-ml-5 {
+	margin-left: -1.25rem;
 }
 .block {
 	display: block;
@@ -1679,6 +1679,9 @@ select {
 .h-40 {
 	height: 10rem;
 }
+.h-14 {
+	height: 3.5rem;
+}
 .h-10\.5 {
 	height: 2.625rem;
 }
@@ -1701,9 +1704,6 @@ select {
 }
 .h-7 {
 	height: 1.75rem;
-}
-.h-14 {
-	height: 3.5rem;
 }
 .h-36 {
 	height: 9rem;
@@ -1831,17 +1831,14 @@ select {
 .w-36 {
 	width: 9rem;
 }
-.w-4\/12 {
-	width: 33.333333%;
+.w-5\/12 {
+	width: 41.666667%;
 }
-.w-2\/12 {
-	width: 16.666667%;
+.w-1\/4 {
+	width: 25%;
 }
 .w-1\/5 {
 	width: 20%;
-}
-.w-6\/10 {
-	width: 60%;
 }
 .w-4\/5 {
 	width: 80%;
@@ -1873,8 +1870,8 @@ select {
 .w-40 {
 	width: 10rem;
 }
-.w-1\/4 {
-	width: 25%;
+.w-6\/10 {
+	width: 60%;
 }
 .w-52 {
 	width: 13rem;
@@ -1888,14 +1885,16 @@ select {
 .w-3\.5\/10 {
 	width: 35%;
 }
-.w-9\.5\/10 {
-	width: 95%;
-}
 .w-24 {
 	width: 6rem;
 }
 .w-4\/10 {
 	width: 40%;
+}
+.w-max {
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: max-content;
 }
 .w-7 {
 	width: 1.75rem;
@@ -1903,20 +1902,15 @@ select {
 .w-28 {
 	width: 7rem;
 }
+.w-9\.5\/10 {
+	width: 95%;
+}
 .w-3\/6 {
 	width: 50%;
 }
 .w-1\/6 {
 	width: 16.666667%;
 }
-<<<<<<< HEAD
-.w-max {
-	width: -webkit-max-content;
-	width: -moz-max-content;
-	width: max-content;
-}
-=======
->>>>>>> 33a660943c73cbea1705d454489880cb2ad96216
 .min-w-0 {
 	min-width: 0px;
 }
@@ -2218,9 +2212,6 @@ select {
 }
 .overflow-y-auto {
 	overflow-y: auto;
-}
-.overflow-x-hidden {
-	overflow-x: hidden;
 }
 .overflow-y-hidden {
 	overflow-y: hidden;
@@ -2853,6 +2844,9 @@ select {
 .pr-7 {
 	padding-right: 1.75rem;
 }
+.pt-2\.5 {
+	padding-top: 0.625rem;
+}
 .pl-16 {
 	padding-left: 4rem;
 }
@@ -2870,9 +2864,6 @@ select {
 }
 .pb-20 {
 	padding-bottom: 5rem;
-}
-.pt-2\.5 {
-	padding-top: 0.625rem;
 }
 .pl-1 {
 	padding-left: 0.25rem;
@@ -3639,9 +3630,6 @@ input[type='checkbox']:focus {
 .focus\:ring-offset-2:focus {
 	--tw-ring-offset-width: 2px;
 }
-.focus\:ring-offset-gray-800:focus {
-	--tw-ring-offset-color: #1f2937;
-}
 .active\:bg-gray-100:active {
 	--tw-bg-opacity: 1;
 	background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
@@ -4208,6 +4196,14 @@ input[type='checkbox']:focus {
 		margin-left: 2rem;
 	}
 
+	.md\:ml-9 {
+		margin-left: 2.25rem;
+	}
+
+	.md\:ml-2 {
+		margin-left: 0.5rem;
+	}
+
 	.md\:mt-5 {
 		margin-top: 1.25rem;
 	}
@@ -4218,14 +4214,6 @@ input[type='checkbox']:focus {
 
 	.md\:mb-4 {
 		margin-bottom: 1rem;
-	}
-
-	.md\:ml-9 {
-		margin-left: 2.25rem;
-	}
-
-	.md\:ml-2 {
-		margin-left: 0.5rem;
 	}
 
 	.md\:block {
@@ -4288,12 +4276,12 @@ input[type='checkbox']:focus {
 		width: 60%;
 	}
 
-	.md\:w-7\/10 {
-		width: 70%;
-	}
-
 	.md\:w-3\/10 {
 		width: 30%;
+	}
+
+	.md\:w-7\/10 {
+		width: 70%;
 	}
 
 	.md\:w-full {
@@ -4642,16 +4630,16 @@ input[type='checkbox']:focus {
 		width: 18rem;
 	}
 
+	.lg\:w-80 {
+		width: 20rem;
+	}
+
 	.lg\:w-7\.5\/10 {
 		width: 75%;
 	}
 
 	.lg\:w-7 {
 		width: 1.75rem;
-	}
-
-	.lg\:w-80 {
-		width: 20rem;
 	}
 
 	.lg\:w-3\/10 {
@@ -4792,6 +4780,11 @@ input[type='checkbox']:focus {
 		padding-right: 2.25rem;
 	}
 
+	.lg\:px-0 {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+
 	.lg\:px-6 {
 		padding-left: 1.5rem;
 		padding-right: 1.5rem;
@@ -4800,11 +4793,6 @@ input[type='checkbox']:focus {
 	.lg\:px-10 {
 		padding-left: 2.5rem;
 		padding-right: 2.5rem;
-	}
-
-	.lg\:px-0 {
-		padding-left: 0px;
-		padding-right: 0px;
 	}
 
 	.lg\:pl-8 {
@@ -4871,12 +4859,12 @@ input[type='checkbox']:focus {
 		width: 60%;
 	}
 
-	.xl\:w-full {
-		width: 100%;
-	}
-
 	.xl\:w-96 {
 		width: 24rem;
+	}
+
+	.xl\:w-full {
+		width: 100%;
 	}
 
 	.xl\:w-9\.5\/10 {
@@ -4929,12 +4917,6 @@ input[type='checkbox']:focus {
 
 	.xl\:pr-0 {
 		padding-right: 0px;
-	}
-}
-@media (min-width: 1536px) {
-
-	.\32xl\:mr-52 {
-		margin-right: 13rem;
 	}
 }
 

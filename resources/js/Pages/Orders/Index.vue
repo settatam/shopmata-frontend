@@ -398,8 +398,6 @@
                                         class="
                                             pl-6
                                             pr-2
-                                            text-left text-base
-                                            font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
@@ -428,7 +426,7 @@
                                         <td
                                             class="
                                                 px-3
-                                                pt-3
+                                                pt-2.5
                                                 text-left text-base
                                                 font-medium
                                                 text-gray-500
@@ -453,7 +451,7 @@
                                     <td
                                         class="
                                             px-3
-                                            text-left text-xs
+                                            text-left text-base
                                             font-medium
                                             text-gray-500
                                             uppercase
@@ -515,6 +513,7 @@
                                                 text-left
                                                 leading-4
                                                 font-semibold
+                                                text-base
                                                 tracking-wide
                                             "
                                         >
@@ -524,7 +523,7 @@
                                                         statusStyles[
                                                             order.status
                                                         ],
-                                                        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize',
+                                                        'inline-flex items-center px-2.5 py-1 text-base font-medium capitalize',
                                                     ]"
                                                 >
                                                     {{ order.status }}
@@ -536,10 +535,10 @@
                                         v-if="order.tags.length > 0"
                                         class="
                                             px-3
-                                            text-left text-xs
+                                            text-left text-base
                                             font-medium
                                             text-gray-500
-                                            uppercase
+                                            capitalize
                                             tracking-wider
                                         "
                                     >

@@ -74,29 +74,29 @@
                             </p>
                         </div>
                         <p class="mt-2.5 text-base">
-                            ${{ order.total }} from Online Store
+                            ${{ order.total_orders }} from Online Store
                         </p>
                         <div
                             v-for="item in order.items"
                             v-bind:key="item.id"
-                            class="mt-10 flex justify-between mr-10"
+                            class="mt-10 flex justify-between"
                         >
-                            <div class="flex w-4/12">
+                            <div class="flex w-5/12">
                                 <img
                                     src="../../../assets/placeholder_theme.jpg"
                                     alt="category_image"
                                     class="w-10 h-10"
                                 />
                                 <div class="ml-3">
-                                    <h2 class="text-cyan-700 text-base mb-1">
-                                        {{ item.description }}
+                                    <h2 class="text-cyan-700 text-base">
+                                        {{ item.title }}
                                     </h2>
                                     <p class="text-base text-gray-500">
-                                        {{ item.item_name }}
+                                        {{ item.description }}
                                     </p>
-                                    <p class="text-base text-gray-500">
+                                    <!-- <p class="text-base text-gray-500">
                                         Qty: {{ item.quantity }}
-                                    </p>
+                                    </p> -->
                                     <p
                                         class="
                                             text-base text-gray-500
@@ -107,28 +107,58 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="w-2/12">
+                            <div class="w-1/4">
                                 <p class="text-base mb-1">Promotion</p>
                                 <p class="font-semibold text-lg">
                                     {{ item.promotion }}
                                 </p>
                             </div>
-                            <div class="w-2/12">
+                            <div class="w-1/4">
                                 <p class="text-base mb-1">Product Price</p>
                                 <p class="font-semibold text-lg">
-                                    ${{ item.price }}
+                                    {{ store.currency.code }}{{ item.price }}
                                 </p>
                             </div>
-                            <div class="w-2/12">
-                                <p class="text-base mb-1">Shipping</p>
+                            <div class="w-1/4">
+                                <p class="text-base mb-1">Quantity</p>
                                 <p class="font-semibold text-lg">
-                                    {{ order.shipping_cost }}
+                                    {{ item.quantity }}
                                 </p>
                             </div>
-                            <div class="w-2/12">
-                                <p class="text-base mb-1">Total Amount</p>
+                            <div class="w-1/4">
+                                <p class="text-base mb-1">SubTotal</p>
                                 <p class="font-semibold text-lg">
-                                    {{ item.total }}
+                                    {{ item.sub_total }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white py-6 px-8 mt-4">
+                        <div class="flex justify-between mb-3.5">
+                            <h2 class="font-semibold text-xl">
+                                Payment Summary
+                            </h2>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-3.5">
+                                <h2 class="font-semibold text-lg">
+                                    Subtotal {{ " " }} ({{ order.quantity }})
+                                </h2>
+                                <p class="text-black font-bold">
+                                    {{ order.sub_total }}
+                                </p>
+                            </div>
+                            <div class="flex justify-between mb-4">
+                                <h2 class="font-semibold text-lg">Delivery</h2>
+                                <p class="text-black font-bold">
+                                    {{ order.delivery }}
+                                </p>
+                            </div>
+                            <div class="flex justify-between">
+                                <h2 class="font-semibold text-lg">Tax</h2>
+                                <p class="text-black font-bold">
+                                    {{ order.sales_tax }}
                                 </p>
                             </div>
                         </div>
@@ -286,52 +316,11 @@
                                     text-white
                                     rounded-md
                                 "
-                                @click="browseProduct"
                             >
                                 Add
                             </button>
                         </div>
-                        <empty-product-modal
-                            v-if="openModal && products.length == 0"
-                        />
-                        <product-modal
-                            v-if="openModal && products.length > 0"
-                            :products="products"
-                            :production="production"
-                            :variantSelected="variantSelected"
-                            @emitClose="emitClose"
-                        />
-                        <discount-modal
-                            v-if="openDiscount"
-                            @emitClose="emitClose"
-                        />
-                        <shipping-modal
-                            v-if="openShipping"
-                            :selected="selected"
-                            @emitClose="emitClose"
-                        />
-                        <taxes-modal v-if="openTaxes" @emitClose="emitClose" />
-                        <new-customer-modal
-                            v-if="openCustomer"
-                            @emitClose="emitClose"
-                        />
-                        <billing-modal
-                            v-if="openBilling"
-                            @emitClose="emitClose"
-                        />
-                        <address-modal
-                            v-if="openAddress"
-                            @emitClose="emitClose"
-                        />
-                        <tag-modal v-if="openTag" @emitClose="emitClose" />
-                        <mark-as-paid-modal
-                            v-if="openMarkAsPaid"
-                            @emitClose="emitClose"
-                        />
-                        <reserve-items-modal
-                            v-if="openReserve"
-                            @emitClose="emitClose"
-                        />
+
                         <div>
                             <div
                                 class="
@@ -342,37 +331,6 @@
                                     border-gray-100
                                 "
                             ></div>
-                            <div
-                                v-for="(variant, index) in variantSelected"
-                                :key="index"
-                                class="flex justify-between"
-                            >
-                                <img
-                                    :src="variant.image"
-                                    alt=""
-                                    class="w-10 h-10"
-                                />
-                                <div class="mr-3">
-                                    <p class="text-cyan-700">
-                                        3.1 Dolce & Gabanna
-                                    </p>
-                                    <p>{{ variant.color }}</p>
-                                    <div>{{ variant.sku }}</div>
-                                </div>
-                                <div class="flex my-auto">
-                                    <p class="my-auto">${{ variant.price }}</p>
-                                    <XIcon class="w-4 h-4 mx-5 my-auto" />
-                                    <input
-                                        type="text"
-                                        class="w-9 h-9 mr-7 my-auto"
-                                        v-model="qty"
-                                    />
-                                    <p class="my-auto">
-                                        ${{ variant.price * qty }}
-                                    </p>
-                                </div>
-                                <XIcon class="w-3 h-3 my-auto" />
-                            </div>
                             <div class="mb-8 lg:w-7/10 flex justify-between">
                                 <div class="">
                                     <h4 class="mb-3">Last Order</h4>
@@ -391,7 +349,14 @@
                                 <div>
                                     <h4 class="mb-3">Average order value</h4>
                                     <h4 class="mb-3 font-semibold text-lg">
-                                        {{ order.average_orders }}
+                                        {{ store.currency.code }}
+                                        {{
+                                            Number(
+                                                Number(
+                                                    order.average_orders
+                                                ).toFixed(2)
+                                            ).toLocaleString()
+                                        }}
                                     </h4>
                                     <h4></h4>
                                 </div>
@@ -504,7 +469,8 @@
                                             font-medium
                                         "
                                     >
-                                        {{ order.store_id }}
+                                        Online Store
+                                        <!-- {{ store.business_name }} -->
                                     </h2>
                                 </div>
                             </div>
@@ -574,18 +540,82 @@
                                 <a
                                     href="/order/edit"
                                     class="text-indigo-700 font-semibold"
-                                    >Edit</a
+                                    >View Details</a
                                 >
                             </div>
-                            <div class="px-5 mb-6">
-                                <inertia-link :href="'/customers/'+getCustomer.id">{{ getCustomer.first_name}} {{ getCustomer.last_name}}</inertia-link>
-                               
-                                <h2 class="font-semibold text-indigo-700 mb-3">
-                                    {{ getCustomer.email }}
+                            <div class="px-5 mb-6 flex">
+                                <div class="flex mr-2 mt-1">
+                                    <p
+                                        class="
+                                            h-14
+                                            w-14
+                                            rounded-full
+                                            capitalize
+                                            bg-gray-100
+                                            text-black text-lg
+                                            flex
+                                            items-center
+                                            justify-center
+                                            font-semibold
+                                        "
+                                    >
+                                        {{ getCustomer?.first_name.charAt(0)
+                                        }}{{ getCustomer?.last_name.charAt(0) }}
+                                    </p>
+                                </div>
+                                <div class="flex flex-col">
+                                    <inertia-link
+                                        :href="'/customers/' + getCustomer.id"
+                                        >{{ getCustomer.first_name }}
+                                        {{
+                                            getCustomer.last_name
+                                        }}</inertia-link
+                                    >
+
+                                    <h2
+                                        class="
+                                            font-semibold
+                                            text-indigo-700
+                                            mb-1
+                                        "
+                                    >
+                                        {{ getCustomer.email }}
+                                    </h2>
+                                    <!-- <h2 class="text-gray-400">
+                                        {{ getCustomer.activation_status }}
+                                    </h2> -->
+                                    <!-- <h2 class="text-gray-400">
+                                        {{ getCustomer.phone_number }}
+                                    </h2> -->
+                                    <h2 class="text-black">
+                                        {{ store.phone }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                            <div class="px-5 flex justify-between mb-4">
+                                <h2 class="font-semibold text-xl">
+                                    Billing Address
                                 </h2>
-                                <h2 class="text-gray-400">
-                                    {{ getCustomer.activation_status }}
+                            </div>
+                            <div class="px-5 text-gray-500 mb-6">
+                                <h2 class="font-normal mb-1">
+                                    {{ getCustomer.first_name }}
+                                    {{ getCustomer.last_name }}
                                 </h2>
+                                <h2 class="mb-1">{{ store.address }}</h2>
+                                <!-- <h2 class="mb-1">Apt 402</h2> -->
+                                <h2 class="mb-1">
+                                    {{ getCustomer.city }}
+                                    {{ getCustomer.state }}
+                                </h2>
+                                <h2 class="mb-6">{{ getCustomer.country }}</h2>
+                                <a
+                                    href="/order/address"
+                                    class="font-semibold text-indigo-700"
+                                    >Add new address</a
+                                >
                             </div>
                         </div>
                         <div class="border-b border-gray-200 -mx-5 mb-6.5">
@@ -593,11 +623,6 @@
                                 <h2 class="font-semibold text-xl">
                                     Shipping Address
                                 </h2>
-                                <a
-                                    href="/order/manage"
-                                    class="text-indigo-700 font-semibold"
-                                    >Manage</a
-                                >
                             </div>
                             <div class="px-5 text-gray-500 mb-6">
                                 <h2 class="font-normal mb-1">
@@ -671,7 +696,7 @@
                         <div class="flex justify-between mb-4.5">
                             <h2 class="font-semibold text-xl">Tags</h2>
                             <h2 class="text-cyan-700 font-semibold">
-                                View all tags
+                                Add tags
                             </h2>
                         </div>
                         <label for="search" class="sr-only">Search</label>
@@ -825,10 +850,8 @@ const statusStyles = {
 };
 export default {
     props: {
-        //products: Object,
-        // filters: Object,
         order: Object,
-        // orders: Array,
+        store: Object,
     },
 
     components: {
