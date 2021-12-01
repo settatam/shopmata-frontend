@@ -12,7 +12,6 @@ class ProductImage extends Model
     protected $fillable = [
     	'image_url',
     	'rank',
-    	'thumb',
-    	'store_id'
+    	'thumb'
     ];
 }

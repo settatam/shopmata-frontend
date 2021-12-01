@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Scopes\StoreScope;
-use Illuminate\Support\Str;
 
 class Store extends Model
 {
@@ -18,14 +17,13 @@ class Store extends Model
     						'name', 
     						'account_email',
     						'customer_email',
-    						'business_name',
+    						'business_email',
     						'address',
     						'address2',
     						'city',
     						'state',
     						'country_id',
-                            'state_id',
-    						'timezone_id',
+    						'timezone',
     						'unit_id',
     						'default_weight_unit_id',
     						'currency_id',
@@ -38,12 +36,7 @@ class Store extends Model
     						'store_domain',
     						'industry_id',
     						'order_id_suffix',
-    						'order_id_prefix',
-                            'allow_guest_checkout',
-                            'login_wall',
-                            'enable_store_pickup',
-                            'enable_pay_on_delivery',
-                            'step'
+    						'order_id_prefix'
     					];
 
     // protected static function booted()
@@ -69,92 +62,4 @@ class Store extends Model
     public function theme() {
         return $this->belongsTo(Theme::class, 'theme_id', 'id');
     }
-
-    public function currency() {
-        return $this->belongsTo(Currency::class, 'currency_id', 'id');
-    }
-
-    public function weight() {
-        return $this->belongsTo(Unit::class, 'default_weight_unit_id', 'id');
-    }
-
-    public function has_product() {
-        return $this->hasOne(Product::class, 'store_id', 'id');
-    }
-
-    public function unfulfilled_orders() {
-        return $this->hasMany(Order::class, 'store_id', 'id');
-    }
-
-    public function makeNew() {
-        //timezone_id,
-        //currency_id
-        //default_unit
-        //store_plan_id,
-        //payment_gateway_id
-
-    }
-
-
-    public function createNotifications() {
-
-    }
-
-    public function createTheme() {
-
-    }
-
-    public function generateSlug() {
-
-        $slug = Str::slug($this->name);
-        $slug_count  = $this->where('name', $this->name)->count();
-
-        if ($slug_count >= 1) {
-            $slug .= '-';
-            $slug .= $slug_count;
-        }
-        return $slug;
-    }
-
-    public function getDashBoardNotifications() {
-        $dashboard_notifications = [];
-            if(!count($this->domains)) {
-                $dashboard_notifications[] = [
-                    'icon'=>'ShoppingBagIcon',
-                    'title'=>'Domain',
-                    'message'=>'Customize Your Store with your domain name',
-                    'link'=>'store/domains'
-                ];
-            }
-
-            if(!$this->has_product) {
-                $dashboard_notifications[] = [
-                    'icon'=>'ShoppingBagIcon',
-                    'title'=>'Add your first Product',
-                    'message'=>"You haven't add a product yet. Click here to add your first product",
-                    'link'=>'products/create'
-                ];
-            }
-
-            if(count($this->unfulfilled_orders)) {
-                $dashboard_notifications[] = [
-                    'icon'=>'ShoppingBagIcon',
-                    'title'=>'Pending Orders',
-                    'message'=>'You have unfulfilled orders',
-                    'link'=>'/orders?pending=true'
-                ];
-            }
-
-            if(!$this->theme || $this->theme->id == 1) {
-                $dashboard_notifications[] = [
-                    'icon'=>'ShoppingBagIcon',
-                    'title'=>'Customize your store with a theme',
-                    'message'=>'Choose one of our themes to customize your website',
-                    'link'=>'online-store/themes'
-                ];
-            }
-
-        return $dashboard_notifications;
-    }
-    
 }

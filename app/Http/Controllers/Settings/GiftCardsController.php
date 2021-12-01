@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Store;
-use Inertia\Inertia;
+
 
 class GiftCardsController extends Controller
 {
@@ -16,9 +15,8 @@ class GiftCardsController extends Controller
      */
     public function index()
     {
-        // $giftCardsSettings = GiftCard::all();
-        $store = Store::find(session('store_id'));
-        return Inertia::render('Settings/GiftCards/Index', compact('store'));
+        //
+
     }
 
     /**

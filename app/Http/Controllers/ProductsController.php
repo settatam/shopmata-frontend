@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Http\Resources\Product as ProductResource;
 
 class ProductsController extends Controller
 {
@@ -65,28 +64,6 @@ class ProductsController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getData(Request $request)
-    {
-        $products = Product::where('title', 'LIKE', '%'.$request->term.'%')->take(20)->get();
-        return response()->json($products);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getSingle($id)
-    {
-        $product = Product::find($id);
-        return new ProductResource($product);
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -107,54 +84,31 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         \Log::info("Request Logged" . print_r($request->all(), true));
-        
-        $store_id = $request->session()->get('store_id');
-        $handle = '';
+        $store = Store::store();
+        $store_id = $store[0]->id;
 
-        if($request->has('handle')) {
-            $slug_count = Product::where('handle', $request->handle)->count();
-            if($slug_count >= 1) {
-                $handle = $request->handle.'-'.$slug_count;
-            }
-        }else{
-            $slug_count  = Product::where('title', $request->title)->count();
+        $slug = Str::slug($request->title);
 
-            if ($slug_count >= 1) {
-                $handle = Str::slug($request->title);
-                $handle .= '-';
-                $handle .= $slug_count;
-            }
+        $slug_count  = Product::where('title', $request->title)->count();
+
+        if ($slug_count >= 1) {
+            $slug .= '_';
+            $slug .= $slug_count + 1;
         }
 
-    
-        $not_availables = [
-            'date_available',
-            'minimum_order'
-        ];
-
-        $input = [
-            'store_id' => $request->session()->get('store_id'),
-            'handle' => $slug,
+        $product = Product::create([
+            'store_id' => 2,
+            'slug' => $slug,
             'title' => $request->title,
             'description' => $request->description,
+            // 'sku' => $request->sku,
             'weight' => $request->weight,
             'compare_at_price' => $request->compare_at_price,
-            'handle'=>$handle,
             // 'has_variants' => $request->has_variants,
             'brand_id' => $request->brand,
-            // 'minimum_order' => 2,
-            // 'date_available' => date('Y-m-d H:i:s')
-        ];
-
-        $product = Product::create($input);
-
-        if(count($request->variants)) {
-            //Create Variants
-        }else{
-            //Create default variant
-            //..db should know system has no variants
-
-        }
+            'minimum_order' => 2,
+            'date_available' => date('Y-m-d H:i:s')
+        ]);
 
         ProductVariant::create([
             'sku' => $request->sku,
@@ -178,13 +132,11 @@ class ProductsController extends Controller
         if (is_array($request->images) && count($request->images)) {
             foreach ($request->images as $image) {
                 $product_image = ProductImage::find($image);
-                if(null !== $image) {
-                    $product_image->product_id = $image;
-                    $product_image->save();
-                }
-                
+                $product_image->product_id = $image;
+                $product_image->save();
             }
         }
+
 
         return Redirect::route('products')->with('success', 'Product created.');
     }
@@ -229,7 +181,7 @@ class ProductsController extends Controller
                 }
             }
         }
-        return Inertia::render('Products/Create', compact('product', 'categories', 'brands'));
+        return Inertia::render('Products/Update', compact('product', 'categories', 'brands'));
     }
 
     /**

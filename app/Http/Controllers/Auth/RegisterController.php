@@ -12,171 +12,110 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Torann\GeoIP\Facades\GeoIP;
-use App\Models\StoreIndustry;
-use App\Models\SalesMethod;
-use Illuminate\Validation\Rules\Password;
-use Illuminate\Support\Facades\Log;
-use Auth as UserAuth;
-use App\Models\Country;
-use App\Models\State;
-use App\Models\Timezone;
-
 
 class RegisterController extends Controller
 {
-    
-    public function getRegister() {
-        return \Inertia\Inertia::render('Register');
-    }
-
-    public function registerStep2($step=null) {
-            $store_id = session()->get('store_id');
-            $store = Store::find($store_id);
-            if(null !== $store) {
-                if($store->step == 2) {
-                    $industries = StoreIndustry::orderBy('name', 'asc')->get();
-                    $methods = SalesMethod::orderBy('name', 'asc')->get();
-                    $countries = Country::where('status', 1)->get();
-                    return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries'));
-                }else if($store->step == 3) {
-                    return \Redirect::route('register-step-3');
-                }else if($store->step == 4) {
-                    return \Redirect::route('dashboard');
-                }
-            }
-        return \Redirect::route('register');
-    }
-
-    public function registerStep3() {
-        $store_id = session()->get('store_id');
-        $store = Store::find($store_id);
-        if(null !== $store && $store->step == 3) {
-            $countries = Country::where('status', 1)->get();
-            $states = State::where('country_id', $store->country_id)->get();
-            return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
-        }
-        return \Redirect::route('register');
-    }
-    
     public function RegisterUser(Request $request)
     {
-        $data = $request->input();
-        // dd($data);
-        
-        // try {
-            // $geoip = geoip($ip=null);
+        try {
+            $data = $request->all();
 
-            // $data['email'] = session('email');
-            // $data['store_domain'] = session('store_domain');
+            $data['email'] = session('email');
+            $data['store'] = session('store');
+            $data['store_domain'] = session('store_domain');
 
-
-            $request->validate([
-                'email' => ['required', 'string', 'email', 'max:255'],
-                'password' => ['required', 'string', 'confirmed', Password::min(8)],
-                'name' => ['required', 'string'],
+            $validator = Validator::make($data, [
+                'first_name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8'],
+                'store' => ['required', 'string'],
+                'store_domain' => ['required', 'string'],
             ]);
 
-            $user_details = [
+            if ($validator->fails()) {
+                $notification = [
+                    "title" => "Validation Errors",
+                    "type" => "failed",
+                    "message" => "Request Failed Validation",
+                    "validationErrors" => $validator->errors(),
+                ];
+                return response()->json(['notification' => $notification], 400);
+            }
+
+            $registered = User::create([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
                 'email' => $data['email'],
-                'password' => Hash::make($data['password'])
-            ];
-          
+                'password' => Hash::make($data['password']),
+            ]);
 
-            if($user = User::create($user_details)) {
-                Log::info('A new user has been created', $user_details);
-            }else{
-                Log::error('A new could not be created', $user_details);
-            }
+            $store = Store::create([
+                'user_id' => $registered->id,
+                'slug' => $this->generateSlug($data['store']),
+                'name' => $data['store'],
+                'email' => $data['email'],
+            ]);
 
-            $store = new Store;
-            $store->name = $data['name'];
-            $slug = $store->generateSlug();
+            $registered->store_id = $store->id;
+            $registered->save();
 
-            //Time to create Store
+            $storeOwnerDetails = StoreGroup::where('name', 'Owner')->first();
 
-            $store_data = [
-                'is_active'=>0,
-                'name'=>$data['name'],
-                'slug'=>$slug,
-                'store_plan_id'=>1,
-                'step'=>2,
-                'account_email'=>$data['email'],
-                'user_id'=>$user->id,
-                'theme_id'=>1,
-            ];
-
-            //Log new store
-            
-            //Create Store
-            //Create Default TimeZone
-            //Create Default Theme
-            //Create Default Currency
-            //Create Domains
-            //Create Default Weight Unit
-            //Create Store Users -- Current user will be super user
-            //Create Store Plan
-
-
-            //Log new user
-
-            if($store = Store::create($store_data)) {
-                Log::info('Created a new store for user_id: ' . $user->id, $store_data);
-            }else{
-                Log::error('Could not create store for user_id: ' . $user->id, $store_data);
-            }
-
-            $user->store_id = $store->id;
-            $user->save();
-
-            $storeOwnerDetails = StoreGroup::where('name', 'Owner')->first(); //Cache this
-
-            $store_user = [
+            StoreUser::create([
                 'store_id' => $store->id,
-                'user_id' => $user->id,
+                'user_id' => $registered->id,
                 'store_group_id' => $storeOwnerDetails->id ?? 1,
-            ];
-
-            if(StoreUser::create($store_user)) {
-                Log::info('created a new store user', $store_user);
-            }
+            ]);
 
             session()->flush();
 
             $credentials = ['email' => $data['email'], 'password' => $data['password']];
 
             if (!Auth::attempt($credentials)) {
-                return \Redirect::route('register');
+                $notification = [
+                    "title" => "Login Failed",
+                    "type" => "failed",
+                    "message" => "User Login Failed, Please Login and Create Store",
+                ];
+
+                return response()->json(['notification' => $notification], 422);
             }
 
             Login::create(
-                ['user_id'=> $user->id, 'store_id' => $store->id]
+                ['user_id'=> $registered->id, 'store_id' => $store->id]
             );
 
             //Log the user ..
             session(['store_id' => $store->id]);
 
-            return \Redirect::route('register-step-2');
+            $notification = [
+                "title" => "User Created Successfully",
+                "type" => "success",
+                "message" => "$data[email] has been Created",
+                // 'user' => $registered
+            ];
 
-        // } catch (\Exception $e) {
-        //     $exceptionDetails = [
-        //         "message" => $e->getMessage(),
-        //         'file' => basename($e->getFile()),
-        //         'line' => $e->getLine(),
-        //         'type' => class_basename($e),
-        //     ];
+            return response()->json(['notification' => $notification], 200);
 
-        //     \Log::info("create user exception" . print_r($exceptionDetails, true));
+        } catch (\Exception $e) {
+            $exceptionDetails = [
+                "message" => $e->getMessage(),
+                'file' => basename($e->getFile()),
+                'line' => $e->getLine(),
+                'type' => class_basename($e),
+            ];
 
-        //     $notification = [
-        //         "title" => "An Exception Occurred",
-        //         "type" => "failed",
-        //         "message" => $exceptionDetails['message'],
-        //     ];
+            \Log::info("create user exception" . print_r($exceptionDetails, true));
 
-        //     return response()->json(['notification' => $notification], 500);
-        // }
+            $notification = [
+                "title" => "An Exception Occurred",
+                "type" => "failed",
+                "message" => $exceptionDetails['message'],
+            ];
+
+            return response()->json(['notification' => $notification], 500);
+        }
     }
 
     private function generateSlug($str)

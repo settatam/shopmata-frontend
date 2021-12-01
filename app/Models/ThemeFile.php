@@ -8,7 +8,6 @@ use App\Scopes\StoreScope;
 use View;
 use Illuminate\Filesystem\Filesystem;
 use App\Traits\FileUploader;
-use Auth;
 
 
 class ThemeFile extends Model
@@ -36,31 +35,6 @@ class ThemeFile extends Model
         $data = array();
         $fs->put(public_path()."/exercise.html", View::make('home.index', compact('layout','content')));
         dd('yes');
-    }
-
-    public static function getForStore(){
-        $files = self::distinct('title')->get(['title', 'type_id', 'type', 'content', 'id']);
-        
-        $theme_files = [];
-
-        $layout_files = [];
-        $template_files = [];
-        $asset_files = [];
-        $layout = '';
-
-        foreach ($files as $file) {
-            $theme_files[$file->type_id][] = 
-                ['title' => $file['title'], 
-                 'content' => $file['content'],
-                 'type' => $file['type'], 
-                 'id' => $file->id
-             ];
-        }
-
-        count($theme_files) === 0 ? $theme_files = (object)[] : "";
-
-        return $theme_files;
-
     }
 
 }

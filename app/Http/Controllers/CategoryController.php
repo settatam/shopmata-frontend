@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Models\CollectionCondition;
-use App\Models\Collection;
-use Auth;
-use App\Models\StoreActivity;
 
 class CategoryController extends Controller
 {
@@ -27,7 +23,7 @@ class CategoryController extends Controller
     {
         $categories = Category::orderBy('id', 'asc')->paginate(50);
         $filters = $request->all('search', 'level');
-        return Inertia::render('Products/Categories/Index', compact('categories', 'filters'));
+        return Inertia::render('Categories/Index', compact('categories', 'filters'));
     }
 
     public function search(Request $request)
@@ -42,7 +38,7 @@ class CategoryController extends Controller
             ->paginate(50);
         $categories->appends(['search' => $query]);
         // return $categories;
-        return Inertia::render('Products/Categories/Index', compact('categories', 'query'));
+        return Inertia::render('Categories/Index', compact('categories', 'query'));
     }
 
     /**
@@ -53,9 +49,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
-        $condition_options = CollectionCondition::$condition_options;
-        $product_options = CollectionCondition::$product_options;
-        return Inertia::render('Products/Categories/Create', compact('condition_options', 'product_options'));
+        return Inertia::render('Categories/Create');
     }
 
     /**
@@ -66,45 +60,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // $store = Store::store();
-        // $store_id = $store[0]->id;
-        // $slug = Str::slug($request->name);
+        $store = Store::store();
+        $store_id = $store[0]->id;
+        $slug = Str::slug($request->name);
 
-        $request->validate([
-            'name'=>['required'],
-        ]);
-
-        $data = [
-            'store_id'      => $request->session()->get('store_id'),
-            'title'         => $request->name,
-            'handle'        => $request->handle,
-            'page_title'    => $request->page_title,
-            'description'   => $request->description,
-            'user_id'       => Auth::id()
-        ];
-
-        if ($collection = Collection::create($data)) {
-            Log::info($data['user_id'] . ' added a new collection', $data);
-
-            StoreActivity::create([
-                'user_id'       =>Auth::id(),
-                'activity'      =>'created a new collection',
-                'activity_id'   =>$collection->id,
-                'model'         =>'Collection'
-            ]);
-
-            foreach($request->conditions as $condition) {
-                $cond = CollectionCondition::firstOrNew([
-                    'collection_id'  =>$collection->id,
-                    'product_tag'           => $condition['tag'],
-                    'condition'     => $condition['value']
-                    // ''
-                ]);
-
-                $cond->value = $condition['condition'];
-            }
+        if ($category = Category::create([
+            'store_id' => 2,
+            'name' => $request->name,
+            'level' => $request->level,
+            'mechant_id' => 1,
+            'merchant_id' => 1,
+            'slug' => $slug
+        ])) {
+            Log::info('dddd');
         } else {
-            Log::error($data['user_id'] . ' could not add a new collection', $data);
+            Log::error('asdfasdf');
         }
 
         return Redirect::route('categories')->with('success', 'Category created.');
