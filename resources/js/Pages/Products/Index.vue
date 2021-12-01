@@ -140,17 +140,18 @@
                           {{ product.currency }}
                         </td>
                         <td class="w-1/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          <span class="text-gray-900 font-normal">{{ product.amount }} </span>
                           {{ product.currency }}
-                        </td>
-                        <td class=" w-1/10px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                           <span class="text-gray-900 font-normal">{{ product.amount }} </span>
-                          {{ product.currency }}
                         </td>
+                        
                         <td class="w-1/10 px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
                           <span :class="[statusStyles[product.status], 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal capitalize']">
                             {{product.status}}
                           </span>
+                        </td>
+                        <td class=" w-1/10px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
+                          <span class="text-gray-900 font-normal">{{product.compare_at_price }} </span>
+                          {{ product.currency_code }}
                         </td>
                         <td class="w-1/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                           <time :datetime="product.datetime">{{ product.date }}</time>

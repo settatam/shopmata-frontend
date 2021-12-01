@@ -1219,6 +1219,12 @@ select {
 .col-span-2 {
 	grid-column: span 2 / span 2;
 }
+.col-span-4 {
+	grid-column: span 4 / span 4;
+}
+.col-span-10 {
+	grid-column: span 10 / span 10;
+}
 .col-start-1 {
 	grid-column-start: 1;
 }
@@ -1309,6 +1315,10 @@ select {
 	margin-left: -1.5rem;
 	margin-right: -1.5rem;
 }
+.my-2 {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
 .-mx-3 {
 	margin-left: -0.75rem;
 	margin-right: -0.75rem;
@@ -1316,10 +1326,6 @@ select {
 .-mx-4 {
 	margin-left: -1rem;
 	margin-right: -1rem;
-}
-.my-2 {
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
 }
 .mx-2 {
 	margin-left: 0.5rem;
@@ -1333,13 +1339,13 @@ select {
 	margin-left: 0.75rem;
 	margin-right: 0.75rem;
 }
-.mx-1 {
-	margin-left: 0.25rem;
-	margin-right: 0.25rem;
-}
 .mx-4 {
 	margin-left: 1rem;
 	margin-right: 1rem;
+}
+.mx-1 {
+	margin-left: 0.25rem;
+	margin-right: 0.25rem;
 }
 .my-2\.5 {
 	margin-top: 0.625rem;
@@ -1573,11 +1579,11 @@ select {
 .mb-4\.5 {
 	margin-bottom: 1.125rem;
 }
-.-mb-px {
-	margin-bottom: -1px;
-}
 .mt-32 {
 	margin-top: 8rem;
+}
+.-mb-px {
+	margin-bottom: -1px;
 }
 .mr-0 {
 	margin-right: 0px;
@@ -2084,11 +2090,17 @@ select {
 .grid-cols-2 {
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-.grid-cols-4 {
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-}
 .grid-cols-5 {
 	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.grid-cols-12 {
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.grid-cols-8 {
+	grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+.grid-cols-4 {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .flex-row {
 	flex-direction: row;
@@ -2371,6 +2383,9 @@ select {
 .border-b-4 {
 	border-bottom-width: 4px;
 }
+.border-t-8 {
+	border-top-width: 8px;
+}
 .border-l {
 	border-left-width: 1px;
 }
@@ -2571,6 +2586,14 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(224, 231, 255, var(--tw-bg-opacity));
 }
+.bg-gray-300 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
+}
+.bg-red-500 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+}
 .bg-red-darker {
 	--tw-bg-opacity: 1;
 	background-color: rgba(255, 0, 0, var(--tw-bg-opacity));
@@ -2582,10 +2605,6 @@ select {
 .bg-yellow-400 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(251, 191, 36, var(--tw-bg-opacity));
-}
-.bg-gray-300 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
 }
 .bg-cyan-500 {
 	--tw-bg-opacity: 1;
@@ -3200,6 +3219,10 @@ select {
 .text-red-400 {
 	--tw-text-opacity: 1;
 	color: rgba(248, 113, 113, var(--tw-text-opacity));
+}
+.text-green-darker {
+	--tw-text-opacity: 1;
+	color: rgba(0, 150, 15, var(--tw-text-opacity));
 }
 .text-cyan-600 {
 	--tw-text-opacity: 1;
@@ -4215,9 +4238,35 @@ input[type='checkbox']:focus {
 		grid-column: span 3 / span 3;
 	}
 
+	.md\:col-span-6 {
+		grid-column: span 6 / span 6;
+	}
+
+	.md\:col-span-5 {
+		grid-column: span 5 / span 5;
+	}
+
+	.md\:col-span-4 {
+		grid-column: span 4 / span 4;
+	}
+
+	.md\:m-auto {
+		margin: auto;
+	}
+
 	.md\:mx-8 {
 		margin-left: 2rem;
 		margin-right: 2rem;
+	}
+
+	.md\:my-6 {
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.md\:my-0 {
+		margin-top: 0px;
+		margin-bottom: 0px;
 	}
 
 	.md\:mt-0 {
@@ -4268,6 +4317,10 @@ input[type='checkbox']:focus {
 		margin-top: 2.5rem;
 	}
 
+	.md\:ml-20 {
+		margin-left: 5rem;
+	}
+
 	.md\:mb-1 {
 		margin-bottom: 0.25rem;
 	}
@@ -4306,6 +4359,10 @@ input[type='checkbox']:focus {
 
 	.md\:mb-4 {
 		margin-bottom: 1rem;
+	}
+
+	.md\:mb-6 {
+		margin-bottom: 1.5rem;
 	}
 
 	.md\:block {
@@ -4368,20 +4425,20 @@ input[type='checkbox']:focus {
 		width: 20%;
 	}
 
-	.md\:w-4\/5 {
-		width: 80%;
-	}
-
-	.md\:w-5 {
-		width: 1.25rem;
+	.md\:w-3\/5 {
+		width: 60%;
 	}
 
 	.md\:w-full {
 		width: 100%;
 	}
 
-	.md\:w-3\/5 {
-		width: 60%;
+	.md\:w-4\/5 {
+		width: 80%;
+	}
+
+	.md\:w-5 {
+		width: 1.25rem;
 	}
 
 	.md\:w-3\/10 {
@@ -4402,6 +4459,10 @@ input[type='checkbox']:focus {
 
 	.md\:w-1\/10 {
 		width: 10%;
+	}
+
+	.md\:flex-none {
+		flex: none;
 	}
 
 	.md\:grid-cols-3 {
@@ -5019,6 +5080,10 @@ input[type='checkbox']:focus {
 		width: 2.25rem;
 	}
 
+	.xl\:flex-none {
+		flex: none;
+	}
+
 	.xl\:grid-cols-10 {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
@@ -5067,3 +5132,4 @@ input[type='checkbox']:focus {
 		padding-right: 0px;
 	}
 }
+
