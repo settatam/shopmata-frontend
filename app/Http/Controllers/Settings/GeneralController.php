@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Models\Country;
+use App\Models\State;
 use App\Models\Currency;
 use App\Models\GiftCard;
 use App\Models\Login;
@@ -39,12 +40,17 @@ class GeneralController extends Controller
     {
         //
         $store = Store::find(session('store_id'));
-        $countries = Country::all();
-        $currencies = Currency::all();
-        $units = Unit::all();
-        $industries = StoreIndustry::all();
-        $timezones = Timezone::all();
-        return Inertia::render('Settings/Index', compact('store', 'countries', 'currencies', 'units', 'industries', 'timezones'));
+        $countries = Country::where('status', 1)->get(); //Should be cached
+        if($store->country_id) {
+            $states = State::where('country_id', $store->country_id)->get();
+        }else{
+            $states = [];
+        }
+        $currencies = Currency::all(); //should by cached
+        $units = Unit::all(); //should be cached
+        $industries = StoreIndustry::all(); //Should be cached
+        $timezones = Timezone::all(); //should be cached
+        return Inertia::render('Settings/Index', compact('store', 'countries', 'currencies', 'units', 'industries', 'timezones', 'states'));
     }
 
     /**

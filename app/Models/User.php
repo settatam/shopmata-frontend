@@ -90,7 +90,7 @@ class User extends Authenticatable
     }
 
     public function store_users() {
-        return $this->hasMany(StoreUser::class);
+        return $this->hasMany(StoreUser::class, 'user_id', 'id');
     }
 
     public function shipping_addresses() {
@@ -103,5 +103,23 @@ class User extends Authenticatable
 
     public function login() {
         return $this->hasOne(Login::class)->latest();
+    }
+
+    public function canDo($permission) {
+        return true;
+    }
+
+    public function lastLogin()
+    {
+        return $this->belongsTo(Login::class);
+    }
+
+    public function scopeWithLastLogin($query)
+    {
+        $query->addSelect(['last_login_id' => Login::select('id')
+            ->whereColumn('user_id', 'users.id')
+            ->latest()
+            ->take(1),
+        ])->with('lastLogin');
     }
 }

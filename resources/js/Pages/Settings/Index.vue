@@ -2,138 +2,180 @@
     <app-layout>
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
-          <nav aria-label="Breadcrumb" class="bg-white border-b border-blue-gray-200 xl:hidden">
-            <div class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8">
-              <inertia-link href="#" class="-ml-1 inline-flex items-center space-x-3 text-sm font-medium text-blue-gray-900">
-                <ChevronLeftIcon class="h-5 w-5 text-blue-gray-400" aria-hidden="true" />
-                <span>Settings</span>
-              </inertia-link>
+          <div class="flex-shrink-0 mb-3 px-6 flex items-center">
+              <p class="text-2xl font-semibold text-gray-900">Settings</p>
             </div>
-          </nav>
+            <nav class="flex px-6" aria-label="Breadcrumb">
+              <ol role="list" class="flex items-center space-x-4">
+                <li>
+                  <div>
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                      <span class="sr-only">Settings</span>
+                    </a>
+                  </div>
+                </li>
+                <li v-for="page in pages" :key="page.name">
+                  <div class="flex items-center">
+                    <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+                  </div>
+                </li>
+              </ol>
+            </nav>
 
-          <div class="flex-1 flex xl:overflow-hidden">
+          <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="General"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-                <h1 class="text-3xl font-extrabold text-blue-gray-900">General</h1>
-                <form class="mt-6 space-y-8 divide-y divide-y-blue-gray-200">
-                  <div class="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
-                    <div class="sm:col-span-6">
-                      <h2 class="text-xl font-medium text-blue-gray-900">Profile</h2>
-                      <p class="mt-1 text-sm text-blue-gray-500">This information will be displayed publicly so be careful what you share.</p>
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="first-name" class="block text-sm font-medium text-blue-gray-900">
-                        First name
+              <div class="w-auto  lg:ml-7 lg:mr-2">
+                <div class="p-8 bg-white">
+                  <h1 class="text-2xl mb-2 font-semibold">General information</h1>
+                  <h2 class="text-lg font-semibold mb-9">Store Details</h2>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Store Name
+                    </label>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.name" required/>
+                  </div>
+                  <div class="flex required  mb-4">
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Email Address
                       </label>
-                      <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
+                      <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.account_email" required/>
                     </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="last-name" class="block text-sm font-medium text-blue-gray-900">
-                        Last name
+                    <div class="ml-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Sender Email
                       </label>
-                      <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
+                      <input type="email"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.customer_email" required/>
                     </div>
-
-                    <div class="sm:col-span-6">
-                      <label for="username" class="block text-sm font-medium text-blue-gray-900">
-                        Username
+                    
+                  </div>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent" for="industry">
+                      Store Industry
+                    </label>
+                    <select   id="industry" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.industry_id" required>
+                      <option value="">Choose Industry</option>
+                      <option v-for="(industry,index) in industries" :key="index" :value="industry.id">{{industry.name}}</option>
+                    </select>
+                  </div>
+                  <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
+                  <h2 class="text-lg font-semibold mb-2">Store Address</h2>
+                    <p class="w-full text-gray-400 mb-4">This address will appear on your invoices. You can edit the address used to calculate shipping rates in your 
+                      <inertia-link href="/settings/shipping-and-delivery">
+                        <span class="text-indigo-700 cursor-pointer" >shipping settings</span>
+                      </inertia-link>
+                    </p>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Legal Name of Business
+                    </label>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.business_name" required/>
+                  </div>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Phone Number
+                    </label>
+                    <input type="tel"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.phone"  required/>
+                  </div>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Country
+                    </label>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="store_details.country_id" required>
+                      <option v-for="(country,index) in this.countries" :key="index" :value="country.id">{{country.name}}</option>
+                    </select>
+                  </div>
+                  <div class="flex required  mb-4">
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        City
                       </label>
-                      <div class="mt-1 flex rounded-md shadow-sm">
-                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-blue-gray-300 bg-blue-gray-50 text-blue-gray-500 sm:text-sm">
-                          workcation.com/
-                        </span>
-                        <input type="text" name="username" id="username" autocomplete="username" value="lisamarie" class="flex-1 block w-full min-w-0 border-blue-gray-300 rounded-none rounded-r-md text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                      </div>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="store_details.city" required />
                     </div>
-
-                    <div class="sm:col-span-6">
-                      <label for="photo" class="block text-sm font-medium text-blue-gray-900">
-                        Photo
+                    <div class="mx-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        State
                       </label>
-                      <div class="mt-1 flex items-center">
-                        <img class="inline-block h-12 w-12 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80" alt="" />
-                        <div class="ml-4 flex">
-                          <div class="relative bg-white py-2 px-3 border border-blue-gray-300 rounded-md shadow-sm flex items-center cursor-pointer hover:bg-blue-gray-50 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-blue-gray-50 focus-within:ring-blue-500">
-                            <label for="user-photo" class="relative text-sm font-medium text-blue-gray-900 pointer-events-none">
-                              <span>Change</span>
-                              <span class="sr-only"> user photo</span>
-                            </label>
-                            <input id="user-photo" name="user-photo" type="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer border-gray-300 rounded-md" />
-                          </div>
-                          <button type="button" class="ml-3 bg-transparent py-2 px-3 border border-transparent rounded-md text-sm font-medium text-blue-gray-900 hover:text-blue-gray-700 focus:outline-none focus:border-blue-gray-300 focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-gray-50 focus:ring-blue-500">
-                            Remove
-                          </button>
-                        </div>
-                      </div>
+                      <select   class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.state_id"  required>
+                        <option value="">Choose a State</option>
+                        <option v-for="(state,index) in country_state" :key="index" :value="state.id">{{state.name}}</option>
+                      </select>
                     </div>
-
-                    <div class="sm:col-span-6">
-                      <label for="description" class="block text-sm font-medium text-blue-gray-900">
-                        Description
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        ZIP / Postal Code
                       </label>
-                      <div class="mt-1">
-                        <textarea id="description" name="description" rows="4" class="block w-full border border-blue-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                      </div>
-                      <p class="mt-3 text-sm text-blue-gray-500">Brief description for your profile. URLs are hyperlinked.</p>
-                    </div>
-
-                    <div class="sm:col-span-6">
-                      <label for="url" class="block text-sm font-medium text-blue-gray-900">
-                        URL
-                      </label>
-                      <input type="text" name="url" id="url" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.zip"  required/>
                     </div>
                   </div>
-
-                  <div class="pt-8 grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
-                    <div class="sm:col-span-6">
-                      <h2 class="text-xl font-medium text-blue-gray-900">Personal Information</h2>
-                      <p class="mt-1 text-sm text-blue-gray-500">This information will be displayed publicly so be careful what you share.</p>
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="email-address" class="block text-sm font-medium text-blue-gray-900">
-                        Email address
-                      </label>
-                      <input type="text" name="email-address" id="email-address" autocomplete="email" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="phone-number" class="block text-sm font-medium text-blue-gray-900">
-                        Phone number
-                      </label>
-                      <input type="text" name="phone-number" id="phone-number" autocomplete="tel" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="country" class="block text-sm font-medium text-blue-gray-900">
-                        Country
-                      </label>
-                      <input type="text" name="country" id="country" autocomplete="country" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label for="language" class="block text-sm font-medium text-blue-gray-900">
-                        Language
-                      </label>
-                      <input type="text" name="language" id="language" class="mt-1 block w-full border-blue-gray-300 rounded-md shadow-sm text-blue-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500" />
-                    </div>
-
-                    <p class="text-sm text-blue-gray-500 sm:col-span-6">This account was created on <time datetime="2017-01-05T20:35:40">January 5, 2017, 8:35:40 PM</time>.</p>
+                  
+                  <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
+                  <h2 class="text-lg font-semibold mb-2">Standards and Formats</h2>
+                  <p class="w-full text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Time Zone
+                    </label>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.timezone_id" required>
+                      <option value="0">Select Timezone</option>
+                      <option v-for="(timezone,index) in timezones" :key="index" :value="timezone.id">{{timezone.text}}</option>
+                    </select>
                   </div>
-
-                  <div class="pt-8 flex justify-end">
-                    <button type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-blue-gray-900 hover:bg-blue-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                      Cancel
-                    </button>
-                    <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Save</button>
+                  <div class="flex required  mb-4">
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Unit System
+                      </label>
+                      <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.unit_id"  required>
+                        <option v-for="(unit,index) in units" :key="index" :value="unit.id">{{unit.unit}}</option>
+                      </select>
+                    </div>
+                    <div class="ml-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Default Weight Unit
+                      </label>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.default_weight_unit" required/>
+                    </div>
                   </div>
-                </form>
+                  <h2 class="text-lg font-semibold mb-2">Edit Order ID Format (Optional)</h2>
+                  <p class="w-full text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <div class="flex required  mb-4">
+                    <div class="mr-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Prefix
+                      </label>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.order_id_prefix" required/>
+                    </div>
+                    <div class="ml-2 w-full">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Suffix
+                      </label>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.order_id_suffix"  required/>
+                    </div>
+                  </div>
+                  <div class="border-t border-gray-300 mt-6 mb-5 -mx-8"></div>
+                  <h2 class="text-lg font-semibold mb-2">Store Currency</h2>
+                  <p class="w-full text-gray-400 mb-4">Standards  and formats are used to calculate product prices, shipping weights, and order times.</p>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Store Currency
+                    </label>
+                    <select  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="store_details.currency_id" required>
+                      <option v-for="(currency,index) in currencies" :key="index" :value="currency.id">{{currency.symbol_left + ' '}}  {{ currency.title }} ({{ currency.code }})</option>
+                    </select>
+                    <!-- <p class="w-full text-gray-400 mb-4">You have made your first sale, so you need to 
+                      <inertia-link href="/settings/contact">
+                        <span class="text-indigo-700 cursor-pointer" >contact support</span> 
+                      </inertia-link>
+                    if you want to change your currency</p> -->
+                  </div>
+                </div>
+                <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Changes</button>
               </div>
             </div>
           </div>
@@ -142,47 +184,80 @@
 </template>
 
 <script>
-
-import { ref } from 'vue'
+import { ref, reactive, watch} from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import Nav from './Nav';
 import axios from "axios"
-
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronLeftIcon } from '@heroicons/vue/solid'
+import { ChevronLeftIcon, ChevronRightIcon  } from '@heroicons/vue/solid';
+import {HomeIcon} from '@heroicons/vue/outline'
+import { Inertia } from '@inertiajs/inertia'
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
   processing: 'bg-yellow-100 text-yellow-800',
   failed: 'bg-gray-100 text-gray-800',
 }
+const pages = [
+  { name: 'Settings', href: '/settings', current: false },
+  { name: 'General Information', href: '/settings/general', current: true },
+]
+
 export default {
-  props: {
-            products: Object,
-            filters: Object,
-            brands: Array,
-            categories: Array
-        },
+   props: {
+          store: Object, 
+          countries: Array, 
+          currencies: Array, 
+          units: Array,
+          industries: Array,
+          timezones: Array,
+          errors: Object,
+          states: Array,
+  },
   
   components: {
     Nav,
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot
+    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,HomeIcon 
   },
   
   data() {
     return {
-
+      states: this.states,
+      notification:null,
+      country_state :{},
+      store_details:this.store
     }
   },
-  setup() {
+  methods: {
+    submit() {
+      Inertia.put('/store', this.store_details);
+    }
+  }, 
+  mounted(){
+    this.country_state = this.states
+  },
+  watch:{
+    'store_details.country_id'(newVal,oldVal) {
+    //console.log(oldVal)
+      axios.get(`/api/states?country_id=${newVal}`).then(res=>{
+         this.country_state = res.data.data
+         console.log(this.country_state)
+    }) 
+    }
+  },
+
+  setup(props) {
     const open = ref(false)
+    
     return {
       statusStyles,
+      //store_details,
+      //states,
+      pages,
+      //updateStates
     }
   },
-
 }
 </script>
-

@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -44,8 +44,10 @@ class LoginController extends Controller
                 return response()->json(['notification' => $notification], 400);
             }
 
-            $user = User::with('store_users')->whereHas('store_users')
+            $user = User::with('store_users')
                 ->where('email', $request->email)->first();
+
+               // return response()->json($user, 422);
 
             if ($user === null) {
                 $notification = [
@@ -58,7 +60,10 @@ class LoginController extends Controller
                 if (count($user->store_users) == 1) {
                     if (Auth::attempt($credentials)) {
                         Login::create(
-                            ['user_id' => Auth::id(), 'store_id' => $user->store_users[0]->store_id]
+                            ['user_id' => Auth::id(), 
+                            'store_id' => $user->store_users[0]->store_id,
+                            'ip_address' => $request->ip()
+                        ]
                         );
 
                         //Log the user ..
@@ -110,7 +115,10 @@ class LoginController extends Controller
 
                         if (Auth::attempt($credentials)) {
                             Login::create(
-                                ['user_id' => Auth::id(), 'store_id' => $selectedStore->store->id ]
+                                ['user_id' => Auth::id(), 
+                                 'store_id' => $selectedStore->store->id,
+                                 'ip_address'=>$request->ip()
+                                ]
                             );
                             //Log the user ..
                             session(['store_id' => $selectedStore->store->id ]);

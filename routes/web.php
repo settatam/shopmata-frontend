@@ -16,6 +16,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountsController;
 use App\Http\Controllers\StoreTemplatesController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderCustomerNoteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Settings\ShippingProfileController;
@@ -23,6 +24,9 @@ use App\Http\Controllers\Settings\GeneralController;
 use App\Http\Controllers\Settings\PaymentsController;
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\GiftCardsController;
+use App\Http\Controllers\Settings\PlansAndPermissionsController;
+use App\Http\Controllers\Settings\StoreLocationController;
+use App\Http\Controllers\Settings\ShippingRatesController;
 use App\Http\Controllers\StorePreferencesController;
 use App\Http\Controllers\StoreDomainsController;
 use App\Http\Controllers\OnlineStoreController;
@@ -33,6 +37,10 @@ use App\Http\Controllers\Settings\NotificationsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\OnlineStore\CodeEditorController;
 use App\Http\Controllers\OnlineStore\ThemeController;
+use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
+use App\Http\Controllers\OnlineStore\NavigationController;
+use App\Http\Controllers\OnlineStore\LocationController;
+use App\Http\Controllers\OnlineStore\StoreUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,13 +57,20 @@ Route::get('/', function () {
 	return Inertia\Inertia::render('Landing');
 })->name('landing');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-	return Inertia\Inertia::render('Dashboard');
-})->name('dashboard');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+// 	return Inertia\Inertia::render('Dashboard');
+// })->name('dashboard');
 
 Route::get('login', [LoginController::class, 'getLogin'])->name('login');
+Route::get('register/step-2', [RegisterController::class, 'registerStep2'])->name('register-step-2');
+Route::get('register/step-3', [RegisterController::class, 'registerStep3'])->name('register-step-3');
+Route::get('register', [RegisterController::class, 'getRegister'])->name('register');
 Route::post('login', [LoginController::class, 'authenticate']);
 Route::post('register', [RegisterController::class, 'RegisterUser']);
+
+//Create Store here
+
+Route::post('store', ['StoreController', 'store'])->name('create-new-store');
 
 
 Route::group(['prefix' => 'auth'], function () {
@@ -73,15 +88,19 @@ Route::get('staff/registration/new', [StaffsController::class, 'registration']);
 Route::post('staff/registration/new', [StaffsController::class, 'createStaff']);
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-	Route::get('dashboard/data', [DashboardController::class, 'index']);
+	Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+	Route::get('dashboard/data', [DashboardController::class, 'getData']);
 
 	Route::get('/get/user/store/products', [StoreController::class, 'getStoreProducts']);
 
+
 	#Products
 	Route::get('products', [ProductsController::class, 'index'])->name('products');
+	Route::get('products/get-data', [ProductsController::class, 'getData'])->name('products.data');
+	Route::get('products/get-single/{id}', [ProductsController::class, 'getSingle'])->name('products.single');
 	Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
 	Route::post('products', [ProductsController::class, 'store']);
-	Route::get('products/{id}/edit', [ProductsController::class, 'edit'])->name('products.edit');
+	Route::get('products/{id}', [ProductsController::class, 'edit'])->name('products.edit');
 	Route::put('products/{id}', [ProductsController::class, 'update']);
 	Route::post('products/get-order-products', [ProductsController::class, 'getOrderProducts']);
 
@@ -104,10 +123,24 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('orders', [OrdersController::class, 'index'])->name('orders');
 	Route::get('orders/create', [OrdersController::class, 'create'])->name('orders.create');
 	Route::post('orders/create', [OrdersController::class, 'store']);
-	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.view');
+	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+	Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
+
+	//Bank Details
+
+	// Route::resource('');
 
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
+
+	#Settings -> External Links
+	Route::get('settings/contact',[SettingsController::class, 'support']);
+	Route::get('settings/delivery-method',[SettingsController::class, 'deliveryMethod']);
+	Route::get('settings/international-payment',[SettingsController::class, 'internationalPayment']);
+	Route::get('settings/privacy-policy',[SettingsController::class, 'privacyPolicy']);
+	Route::get('settings/shipping-rate',[SettingsController::class, 'aboutShippingRate']);
+	Route::get('settings/terms-of-service',[SettingsController::class, 'termsOfService']);
+
 
 	#Settings -> General
 	Route::get('settings/general', [GeneralController::class, 'index'])->name('settings.general');
@@ -115,16 +148,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Settings -> Plan and Permissions
 	Route::get('settings/plan-and-permissions', [SettingsController::class, 'permissions'])->name('settings.permissions');
-	Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.iviteStaff');
+	Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.inviteStaff');
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
+	#Settings -> Remittance
+	Route::get('settings/remittance',[SettingsController::class,'remittance']);
+	
 	#Settings -> Shipping and Delivery
 	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
 	Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
 	Route::get('settings/shipping-and-delivery/local-pickup/manage', [SettingsController::class, 'manageLocalPickup'])->name('settings.shipping.manageLocalPickup');
 	Route::get('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'generalShippingRate'])->name('settings.shipping.generalShippingRate');
 	Route::post('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'createGeneralShippingRate']);
-	Route::get('settings/shipping-and-delivery/shipping-profile', [SettingsController::class, 'shippingProfile'])->name('settings.shipping.shippingProfile');
+	Route::get('settings/shipping-and-delivery/shipping-profile', [ShippingProfileController::class, 'index'])->name('settings.shipping.shippingProfile');
 
 	#Settings -> Payments
 	Route::get('settings/payments', [PaymentsController::class, 'index'])->name('settings.payments');
@@ -139,6 +175,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Settings -> Notifications
 	Route::get('settings/notifications', [NotificationsController::class, 'index']);
+	Route::get('settings/notifications/order-confirmation', [NotificationsController::class, 'order']);
 
 	#Settings -> User
 	Route::get('settings/user', [SettingsController::class, 'user'])->name('settings.user');
@@ -155,6 +192,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('discounts', [DiscountsController::class, 'index'])->name('discounts');
 	Route::post('discounts', [DiscountsController::class, 'store']);
 	Route::put('discounts', [DiscountsController::class, 'update']);
+	Route::get('discounts/create', [DiscountsController::class, 'create'])->name('discounts.create');
 
 	Route::post('/generate/user/discount/code', [DiscountsController::class, 'createDiscountCode']);
 
@@ -164,7 +202,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('customers', [CustomersController::class, 'store']);
 	Route::get('customers/{id}/edit', [CustomersController::class, 'edit'])->name('customers.edit');
 	Route::put('customers/{id}', [CustomersController::class, 'update']);
-	Route::get('customers/{id}/view', [CustomersController::class, 'show'])->name('customers.view');
+	Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
 	Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
 	Route::post('product-images', [ImagesController::class, 'store']);
 	Route::get('product-images', [ImagesController::class, 'index']);
@@ -181,9 +219,34 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('online-store/code-editor', [CodeEditorController::class, 'store']);
 	Route::put('online-store/code-editor/{id}', [CodeEditorController::class, 'update']);
 	Route::get('online-store/code-editor/{id}', [CodeEditorController::class, 'show']);
-	Route::get('online-store/editor', [CodeEditorController::class, 'index']);
+    Route::get('online-store/editor', [CodeEditorController::class, 'index']);
+
+    Route::resource('online-store/locations', LocationController::class);
+    Route::resource('online-store/store-users', StoreUserController::class);
+
+    Route::resource('order-customer-note', OrderCustomerNoteController::class);
+    Route::resource('settings/shipping-rates', ShippingRatesController::class);
+    /* Route::put('settings/shipping-rates/{id}', ShippingRatesController::class,update); */
+
+    // Navigation
+
+    Route::get('online-store/navigation', [NavigationController::class, 'index'])->name('navigation.list');
+    Route::get('online-store/navigation/create', [NavigationController::class, 'create']);
+    Route::get('online-store/navigation/{id}', [NavigationController::class, 'show'])->name('navigation.show');
+    Route::put('online-store/navigation/{id}', [NavigationController::class, 'update']);
+    Route::post('online-store/navigation/{id}', [NavigationController::class, 'storeList']);
+    Route::post('online-store/navigation', [NavigationController::class, 'store']);
+    Route::delete('online-store/navigation/{id}', [NavigationController::class, 'delete']);
+
+
+    //Open editor pages
+
+    Route::get('editor-pages/{id}', [OpenEditorPagesController::class, 'show']);
+    Route::delete('online-store/editor-pages/{id}', [OpenEditorPagesController::class, 'destroy']);
 
 	Route::get('online-store/themes', [ThemeController::class, 'index']);
+
+	Route::put('store', [StoreController::class, 'update']);
 
 	Route::get('store/pages/generate-slug/{title}', [PagesController::class, 'generateSlug']);
 	Route::get('store/pages/editor/{id?}', [PagesController::class, 'editor']);
@@ -194,4 +257,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	Route::resource('store/domains', StoreDomainsController::class);
 	// Route::resource('store/themes', StoreThemesController::class);
+
+	Route::resource('settings/store-users', PlansAndPermissionsController::class);
+	Route::resource('settings/store-locations', StoreLocationController::class);
 });

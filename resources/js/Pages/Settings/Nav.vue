@@ -1,14 +1,26 @@
 <template>
-  <nav aria-label="Sections" class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 xl:flex xl:flex-col">
-      <div class="flex-shrink-0 h-16 px-6 border-b border-blue-gray-200 flex items-center">
-          <p class="text-lg font-medium text-blue-gray-900">Settings</p>
-      </div>
+        <button class="mb-4 border-r border-gray-200 text-gray-400 lg:hidden" @click="sidebarOpen = !sidebarOpen">
+          <span class="sr-only">Open sidebar</span>
+          <MenuAlt1Icon class="h-6 w-6" aria-hidden="true" />
+        </button>
+  <nav aria-label="Sections" v-if="sidebarOpen" class=" flex-shrink-0 w-full bg-white border-r mb-4 border-blue-gray-200">
       <div class="flex-1 min-h-0 overflow-y-auto">
-          <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-50 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
-            <component :is="item.icon" class="flex-shrink-0 -mt-0.5 h-6 w-6 text-blue-gray-400" aria-hidden="true" />
+          <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-100 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
+            <component :is="item.icon" class="flex-shrink-0  h-6 w-6 text-indigo-700 my-auto" aria-hidden="true" />
               <div class="ml-3 text-sm">
-                <p class="font-medium text-blue-gray-900">{{ item.name }}</p>
-                <p class="mt-1 text-blue-gray-500">{{ item.description }}</p>
+                <p class="font-semibold text-gray-900 text-lg">{{ item.name }}</p>
+                <p class="mt-1 text-gray-500">{{ item.description }}</p>
+              </div>
+            </inertia-link>
+        </div>
+    </nav>
+    <nav aria-label="Sections" class="hidden flex-shrink-0 w-96 bg-white border-r border-blue-gray-200 lg:w-80 xl:w-96 lg:flex lg:flex-col">
+      <div class="flex-1 min-h-0 overflow-y-auto">
+          <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-100 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
+            <component :is="item.icon" class="flex-shrink-0  h-6 w-6 text-indigo-700 my-auto" aria-hidden="true" />
+              <div class="ml-3 text-sm">
+                <p class="font-semibold text-gray-900 text-lg">{{ item.name }}</p>
+                <p class="mt-1 text-gray-500">{{ item.description }}</p>
               </div>
             </inertia-link>
         </div>
@@ -37,10 +49,11 @@ import {
   UserIcon,
   ViewGridAddIcon,
   XIcon,
+  MenuAlt1Icon
 } from '@heroicons/vue/outline'
 
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { ChevronLeftIcon } from '@heroicons/vue/solid'
+import { ChevronLeftIcon,InboxInIcon } from '@heroicons/vue/solid'
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -49,8 +62,8 @@ const statusStyles = {
 }
 export default {
   props: {
-            page: String
-        },
+    page: String
+  },
   
   components: {
     AppLayout,
@@ -68,7 +81,9 @@ export default {
     UserIcon,
     ViewGridAddIcon,
     XIcon,
+    InboxInIcon,
     ChevronLeftIcon,
+    MenuAlt1Icon,
     Dialog, DialogOverlay, TransitionChild, TransitionRoot
   },
   
@@ -83,41 +98,58 @@ export default {
           current: this.page == 'General' ? true : false,
         },
         {
-          name: 'Notifications',
-          description: 'Manage notifications sent to you.',
-          href: '/settings/notifications',
-          icon: BellIcon,
-          current: this.page == 'Notifications' ? true : false,
+          name: 'Plans and Permissions',
+          description: 'View plan information and manage what staff can see or do in your store.',
+          href: '/settings/plan-and-permissions',
+          icon: CashIcon,
+          current: this.page == 'Plans' ? true : false,
         },
         {
           name: 'Payments',
-          description: 'Manage store payment options.',
+          description: 'Enable and manage your store’s payment providers.',
           href: '/settings/payments',
           icon: KeyIcon,
           current: this.page == 'Payments' ? true : false,
         },
         {
+          name: 'Remittance',
+          description: 'To receive your remittance via transfer.',
+          href: '/settings/remittance',
+          icon: InboxInIcon,
+          current: this.page == 'Remittance' ? true : false,
+        },
+        {
           name: 'Shipping and Delivery',
-          description: 'Manage how you ship to customers.',
+          description: 'Manage how you ship orders to customers.',
           href: '/settings/shipping-and-delivery',
           icon: PhotographIcon,
           current: this.page == 'Shipping' ? true : false,
         },
         {
+          name: 'Notifications',
+          description: 'Manage Notifications sent to you.',
+          href: '/settings/notifications',
+          icon: BellIcon,
+          current: this.page == 'Notifications' ? true : false,
+        },
+        {
           name: 'Gift Cards',
-          description: 'Manage gift card settings.',
+          description: 'Enable Apple Wallet passes and set gift card expiry dates.',
           href: '/settings/gift-cards',
           icon: CashIcon,
           current: this.page == 'GiftCards' ? true : false,
         },
+
 
       ]
     }
   },
   setup() {
     const open = ref(false)
+    const sidebarOpen = ref(false)
     return {
       statusStyles,
+      sidebarOpen
     }
   },
 
