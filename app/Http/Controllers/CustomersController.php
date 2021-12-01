@@ -34,7 +34,7 @@ class CustomersController extends Controller
 
         $filters = $request->all('search', 'orderBy', 'sortOrder');
 
-        $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request) {
+        $customers = Customer::where(function (Builder $query) use ($request) {
             if ($request->search)
                 $query->where('first_name', 'like', '%' . $request->search . '%')
                     ->orWhere('last_name', 'like', '%' . $request->search . '%');
@@ -46,7 +46,7 @@ class CustomersController extends Controller
         foreach ($customers as $customer) {
             $categories = [];
             $customer_user = User::with('orders')->with('shipping_addresses')->find($customer->user_id);
-            // $customer->total_order = $customer_user->orders->sum();
+            $customer->total_order = $customer_user->orders->sum();
         }
 
         return Inertia::render('Customers/Index', compact('customers', 'filters'));
@@ -116,23 +116,7 @@ class CustomersController extends Controller
     public function show($id)
     {
         //
-        // dd(Order::getByRange($id));
-        $month = time();
-        $months[date("F", $month)] = 0;
-        for ($i = 1; $i <= 11; $i++) {
-          $month = strtotime('last month', $month);
-          $months[date("F", $month)] = 0;
-        }
-
-        $stats = Order::getByRange($id);
-        foreach($stats as $stat) {
-            $months[$stat->month] = $stat->total_sale;
-        }
-
-        // foreach($stats as )
-
-        $customer = Customer::with('orders.items')->with('shipping_addresses')->withTotalOrders($id)->find($id);
-
+        $customer = Customer::with('orders')->with('shipping_addresses')->find($id);
         $user = User::find($customer->user_id);
 
         if (null === $customer) {
@@ -142,18 +126,18 @@ class CustomersController extends Controller
         $customer->number_of_orders = count($customer->orders);
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
 
-        // $customer->total_order = 0;
+        $customer->total_order = 0;
 
-        // foreach ($customer->orders as $order) {
-        //     $customer->total_order += $order->total;
-        // }
+        foreach ($customer->orders as $order) {
+            $customer->total_order += $order->total;
+        }
 
-        // if ($customer->number_of_orders) {
-        //     $customer->last_order_placed = $customer->orders[$customer->number_of_orders - 1]->created_at;
-        //     $customer->average_order = round($customer->total_order / $customer->number_of_orders, 2);
-        // }
+        if ($customer->number_of_orders) {
+            $customer->last_order_placed = $customer->orders[$customer->number_of_orders - 1]->created_at;
+            $customer->average_order = round($customer->total_order / $customer->number_of_orders, 2);
+        }
 
-        return Inertia::render('Customers/Show', compact('customer', 'user', 'months'));
+        return Inertia::render('Customers/View', compact('customer', 'user'));
     }
 
     /**
@@ -187,14 +171,15 @@ class CustomersController extends Controller
     public function update(Request $request, $id)
     {
         //
+        dd($request->last_name);
         $customer = Customer::find($id);
-
-        if($customer->update($request->input())) {
-            return response()->json($customer);
-        }else{ 
-            return response()->json('could not update', 400);
-        }
-
+        $user = User::find($customer->user_id);
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
+        $customer->phone = $request->phone;
         // $categories = [];
     }
 

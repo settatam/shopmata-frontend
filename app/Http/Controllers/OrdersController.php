@@ -9,7 +9,6 @@ use App\Models\CartDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\ShippingAddress;
 
 class OrdersController extends Controller
 {
@@ -20,24 +19,16 @@ class OrdersController extends Controller
      */
     public function index(Request $request)
     {
-
-        $statuses = Order::statuses();
+        // \Log::info("Get order request Received".print_r($request->all(), true));
+        //
         $filters = $request->all('search', 'from', 'to', 'user');
         // $orders = Order::whereHas('user')->with('user')->with('items')->orderBy('id', 'asc')->paginate(50);
 
-       $orders = Order::whereHas('user', function($query){
-            // $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_sum')
-            //                 ->whereColumn('store_id', 'orders.store_id'),
-            // ]);
-       })->with('user')
-            ->with('items')
-            ->with('tags')
-            ->orderBy('id', 'asc')->paginate(50);
+       $orders = Order::whereHas('user', function (Builder $query) use($request) {
+            if($request->from && $request->to) $query->whereBetween('created_at', [$request->from ." 00:00:00", $request->to ." 23:59:59"]);
+        })->with('user')->with('items')->orderBy('id', 'asc')->paginate(50);
 
-        $shipping_addresses = ShippingAddress::where('user_id', Auth::id())->orderBy('is_default')->get();
-
-        // dd($orders);
-        return Inertia::render('Orders/Index', compact('orders', 'filters', 'shipping_addresses', 'statuses'));
+        return Inertia::render('Orders/Index', compact('orders', 'filters'));
     }
 
     /**
@@ -137,23 +128,10 @@ class OrdersController extends Controller
      */
     public function show($id, $notification = null )
     {
-        $o = Order::find($id);
-        $statuses = Order::statuses();
-        $order = Order::with('items')->with('tags')->with('customer')->with('activities')->with('shipping_addresses')->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
+        $order = Order::with('items')->where('id', $id)->first();
+        \Log::info("get order with id $id".print_r($order, true));
 
-        if(count($order->items)) {
-
-            for($i=0; $i<count($order->items); $i++) {  
-                if(null !== $order->items[$i]->variant->product) {
-                    $order->items[$i]->title = $order->items[$i]->variant->product->title;
-                }else{
-                   $order->items[$i]->title = 'This is a test title';
-                }
-
-            }
-        }
-
-        return Inertia::render('Orders/Show', compact('notification', 'order', 'statuses'));
+        return Inertia::render('Orders/ViewOrder', compact('notification', 'order'));
     }
 
     /**

@@ -1,749 +1,199 @@
 <template>
-    <app-layout>
-        <!-- Page header -->
-        <div class="">
-            <div class="px-4 sm:px-6 lg:mx-auto lg:px-8">
-                <div
-                    class="
-                        py-6
-                        md:flex md:items-center md:justify-between
-                        lg:border-t lg:border-gray-200
-                    "
+  <app-layout>
+    <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
+      <!-- Breadcrumb -->
+      <nav
+        aria-label="Breadcrumb"
+        class="bg-white border-b border-blue-gray-200 xl:hidden"
+      >
+        <div
+          class="max-w-3xl mx-auto py-3 px-4 flex items-start sm:px-6 lg:px-8"
+        >
+          <inertia-link
+            href="#"
+            class="
+              -ml-1
+              inline-flex
+              items-center
+              space-x-3
+              text-sm
+              font-medium
+              text-blue-gray-900
+            "
+          >
+            <ChevronLeftIcon
+              class="h-5 w-5 text-blue-gray-400"
+              aria-hidden="true"
+            />
+            <span>Add a new Customer</span>
+          </inertia-link>
+        </div>
+      </nav>
+
+      <div class="flex-1 flex xl:overflow-hidden">
+        <!-- Secondary sidebar -->
+
+        <!-- Main content -->
+        <div class="flex-1 max-h-screen xl:overflow-y-auto">
+          <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+            <h1 class="text-2xl font-extrabold text-blue-gray-900">
+              Add New Customer
+            </h1>
+            <div class="bg-white mb-10 pt-7 mt-4">
+              <personal-info-form :info="info"></personal-info-form>
+              <div class="border-b border-gray-200"></div>
+              <address-form
+                :address="address"
+                :countries="countries"
+                @added="addTag"
+              ></address-form>
+              <div class="text-center bg-white pt-6 pb-6 mb-6">
+                <t-button
+                  class="
+                    text-white
+                    bg-purple-darker
+                    active:bg-purple-darker
+                    font-medium
+                    border border-transparent
+                    px-11
+                    py-3.5
+                    cursor-pointer
+                  "
+                  @click="submit"
+                  >Add Customer</t-button
                 >
-                    <div class="flex-1 min-w-0">
-                        <!-- Profile -->
-                        <div class="flex items-center">
-                            <div>
-                                <div class="flex items-center">
-                                    <h1
-                                        class="
-                                            text-2xl
-                                            font-bold
-                                            leading-7
-                                            text-gray-900
-                                            sm:leading-9 sm:truncate
-                                        "
-                                    >
-                                        All Customers
-                                    </h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-                        <inertia-link
-                            href="customers/create"
-                            type="button"
-                            class="
-                                inline-flex
-                                px-4
-                                py-2
-                                border border-transparent
-                                shadow-sm
-                                text-sm
-                                font-medium
-                                rounded-md
-                                text-white
-                                bg-cyan-600
-                                hover:bg-cyan-700
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-offset-2
-                                focus:ring-cyan-500
-                            "
-                        >
-                            <span class="pr-3"
-                                ><PlusIcon class="w-5 h-5" /></span
-                            >Add Customer
-                        </inertia-link>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
-
-        <div class="mt-6">
-            <div class="flex items-center justify-between py-2 px-8 rounded">
-                <div class="w-full md:w-2/5">
-                    <label
-                        for="search"
-                        class="
-                            block
-                            text-gray-600
-                            font-semibold
-                            mb-2
-                            bg-transparent
-                        "
-                        >Search</label
-                    >
-                    <div class="relative">
-                        <input
-                            id="search"
-                            type="search"
-                            placeholder="Search by name, email...."
-                            class="
-                                block
-                                pl-12
-                                py-2
-                                rounded-md
-                                border border-gray-300
-                                text-gray-900
-                                placeholder-gray-300
-                                focus:outline-none
-                                w-full
-                            "
-                        />
-                        <div
-                            class="
-                                absolute
-                                inset-y-0
-                                left-0
-                                pl-3
-                                flex
-                                items-center
-                                pointer-events-none
-                            "
-                        >
-                            <SearchIcon
-                                class="flex-shrink-0 h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full md:w-1/5 px-3">
-                    <label
-                        for="payment_type"
-                        class="
-                            block
-                            text-gray-600
-                            font-semibold
-                            mb-2
-                            bg-transparent
-                        "
-                        >Payment Type</label
-                    >
-                    <select
-                        id="payment_type"
-                        type="payment_type"
-                        defaultValue="all"
-                        class="
-                            block
-                            py-2
-                            rounded-md
-                            border border-gray-300
-                            text-gray-900
-                            placeholder-gray-300
-                            focus:outline-none
-                            w-full
-                        "
-                    >
-                        <option value="all">All</option>
-                    </select>
-                </div>
-                <div class="w-full md:w-1/5 px-3">
-                    <label
-                        for="delivery_type"
-                        class="
-                            block
-                            text-gray-600
-                            font-semibold
-                            mb-2
-                            bg-transparent
-                        "
-                        >Delivery Type</label
-                    >
-                    <select
-                        id="delivery_type"
-                        type="delivery_type"
-                        defaultValue="all"
-                        class="
-                            block
-                            py-2
-                            rounded-md
-                            border border-gray-300
-                            text-gray-900
-                            placeholder-gray-300
-                            focus:outline-none
-                            w-full
-                        "
-                    >
-                        <option value="all">All</option>
-                    </select>
-                </div>
-                <div class="w-full md:w-1/5 md:px-3">
-                    <label
-                        for="fulfillment_type"
-                        class="
-                            block
-                            text-gray-600
-                            font-semibold
-                            mb-2
-                            bg-transparent
-                        "
-                        >Fulfillment Type</label
-                    >
-                    <select
-                        id="fulfillment_type"
-                        type="fulfillment_type"
-                        defaultValue="all"
-                        class="
-                            block
-                            py-2
-                            rounded-md
-                            border border-gray-300
-                            text-gray-900
-                            placeholder-gray-300
-                            focus:outline-none
-                            w-full
-                        "
-                    >
-                        <option value="all">All</option>
-                    </select>
-                </div>
-            </div>
-            <!-- <div class="mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-xl leading-6 font-medium text-gray-900">
-                    All Customers
-                </h2>
-            </div> -->
-            <!-- Activity table (small breakpoint and up) -->
-            <div class="hidden sm:block">
-                <div class="mx-auto px-4 sm:px-6 lg:px-8">
-                    <Search v-bind:suggestions="suggestions"></Search>
-                    <div class="flex flex-col mt-4">
-                        <div
-                            class="
-                                align-middle
-                                min-w-full
-                                overflow-x-auto
-                                shadow
-                                overflow-hidden
-                                sm:rounded-lg
-                            "
-                        >
-                            <table
-                                class="
-                                    min-w-full
-                                    divide-y divide-gray-200
-                                    table-fixed
-                                "
-                            >
-                                <thead class="bg-white">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                pl-6
-                                                pr-2
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-400
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            <input
-                                                id="comments"
-                                                aria-describedby="comments-description"
-                                                name="comments"
-                                                type="checkbox"
-                                                v-model="selectAll"
-                                                class="
-                                                    h-4
-                                                    w-4
-                                                    text-indigo-600
-                                                    border-gray-300
-                                                    rounded
-                                                "
-                                                @click="checkAll"
-                                                :disabled="
-                                                    customers.data.length === 0
-                                                "
-                                            />
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-400
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Name
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-400
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Email
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-400
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Location
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-400
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Total Order
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-400
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Date Joined
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-400
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        ></th>
-
-                                        <!-- <th scope="col" class="px-6 py-3">
-                      <span class="sr-only">Edit</span>
-                    </th> -->
-                                    </tr>
-                                </thead>
-                                <tbody
-                                    class="bg-white divide-y divide-gray-200"
-                                >
-                                    <tr
-                                        v-for="customer in customers.data"
-                                        :key="customer.id"
-                                        class="bg-white"
-                                    >
-                                        <td
-                                            scope="col"
-                                            class="
-                                                pl-6
-                                                pr-2
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-700
-                                                tracking-wider
-                                            "
-                                        >
-                                            <input
-                                                id="comments"
-                                                aria-describedby="comments-description"
-                                                name="comments"
-                                                type="checkbox"
-                                                :value="customer"
-                                                v-model="selected"
-                                                @click="
-                                                    uncheckParentBox(customer)
-                                                "
-                                                class="
-                                                    focus:ring-indigo-500
-                                                    text-indigo-600
-                                                    border-gray-300
-                                                    rounded
-                                                "
-                                            />
-                                        </td>
-                                        <td
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-700
-                                                tracking-wider
-                                            "
-                                        >
-                                            <inertia-link
-                                                :href="
-                                                    '/customers/' + customer.id
-                                                "
-                                            >
-                                                {{ customer.first_name }}
-                                                {{ customer.last_name }}
-                                            </inertia-link>
-                                        </td>
-                                        <td
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-700
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{ customer.email }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-700
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{ customer.state }}
-                                            {{ customer.country }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-700
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{ customer.total_orders }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-700
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{
-                                                moment(
-                                                    customer.created_at
-                                                ).format("YYYY-MM-DD")
-                                            }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-700
-                                                tracking-wider
-                                            "
-                                        >
-                                            <div class="flex">
-                                                <!-- <EyeIcon
-                                                    class="
-                                                        cursor-pointer
-                                                        w-5
-                                                        h-5
-                                                        mr-4
-                                                    "
-                                                /> -->
-                                                <!-- <PencilIcon
-                                                    class="
-                                                        w-5
-                                                        h-5
-                                                        text-indigo-600
-                                                        cursor-pointer
-                                                        mr-4
-                                                    "
-                                                /> -->
-                                                <TrashIcon
-                                                    class="
-                                                        w-5
-                                                        h-5
-                                                        text-red-500
-                                                        cursor-pointer
-                                                    "
-                                                />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- Pagination -->
-                        <nav
-                            class="
-                                bg-white
-                                px-4
-                                py-3
-                                flex
-                                items-center
-                                justify-between
-                                border-t border-gray-200
-                                sm:px-6
-                            "
-                            aria-label="Pagination"
-                        >
-                            <div class="hidden sm:block">
-                                <p class="text-sm text-gray-700">
-                                    Showing
-                                    {{ " " }}
-                                    <span class="font-medium">1</span>
-                                    {{ " " }}
-                                    to
-                                    {{ " " }}
-                                    <span class="font-medium">10</span>
-                                    {{ " " }}
-                                    of
-                                    {{ " " }}
-                                    <span class="font-medium">20</span>
-                                    {{ " " }}
-                                    results
-                                </p>
-                            </div>
-                            <div
-                                class="
-                                    flex-1 flex
-                                    justify-between
-                                    sm:justify-end
-                                "
-                            >
-                                <a
-                                    href="#"
-                                    class="
-                                        relative
-                                        inline-flex
-                                        items-center
-                                        px-4
-                                        py-2
-                                        border border-gray-300
-                                        text-sm
-                                        font-medium
-                                        rounded-md
-                                        text-gray-700
-                                        bg-white
-                                        hover:bg-gray-50
-                                    "
-                                >
-                                    Previous
-                                </a>
-                                <a
-                                    href="#"
-                                    class="
-                                        ml-3
-                                        relative
-                                        inline-flex
-                                        items-center
-                                        px-4
-                                        py-2
-                                        border border-gray-300
-                                        text-sm
-                                        font-medium
-                                        rounded-md
-                                        text-gray-700
-                                        bg-white
-                                        hover:bg-gray-50
-                                    "
-                                >
-                                    Next
-                                </a>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </app-layout>
+        <Nav page="General"></Nav>
+      </div>
+    </div>
+  </app-layout>
 </template>
 
 <script>
 import { ref } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import { PlusIcon, EyeIcon, PencilIcon, TrashIcon } from "@heroicons/vue/solid";
-import { SearchIcon } from "@heroicons/vue/outline";
-// import Search from '../Search.vue'
-// import axios from "axios"
-import moment from "moment";
+// import Search from "../Search.vue";
+import Nav from "../../Layouts/Nav";
+// import axios from "axios";
 
+import {
+  Dialog,
+  DialogOverlay,
+  TransitionChild,
+  TransitionRoot,
+} from "@headlessui/vue";
+
+import UploadIcon from "../../../assets/UploadIcon";
+import AngleUpIcon from "../../../assets/AngleUpIcon";
+import Multiselect from "@vueform/multiselect";
+// import "vue-multiselect/dist/vue-multiselect.min.css";
+
+// import CustomModal from '../../Components/CustomModal.vue'
+import PersonalInfoForm from "./Components/PersonalInfoForm";
+import AddressForm from "./Components/AddressForm";
+// import SideNav from './../../Layouts/SideNav'
+
+const statusStyles = {
+  success: "bg-green-100 text-green-800",
+  processing: "bg-yellow-100 text-yellow-800",
+  failed: "bg-gray-100 text-gray-800",
+};
 export default {
-    props: {
-        customers: Object,
-        filters: Object,
-        data: Object,
-    },
-    data() {
-        return {
-            tab: "tab-0",
-            search_value: "",
-            selected: [],
-            selectAll: false,
-            itemsPerPage: 50,
-            isMouted: false,
-            itemsLength: 100,
-            currentPage: 0,
-            rightPages: [],
-            leftpages: [],
-            nextPageUrl: "",
-            previouPageUrl: "",
-            options: [],
-            form: {
-                search: this.filters.search,
-                orderBy: this.filters.orderBy,
-                sortOrder: this.filters.sortOrder,
-            },
-            message: "",
-            moment,
-        };
-    },
-    computed: {
-        myProps() {
-            return { data: this.customers.data, links: this.customers.links };
-        },
-        rows() {
-            return this.itemsPerPage * this.currentPage;
-        },
-        firstRowOnPage() {
-            let rows = this.itemsPerPage * this.currentPage;
-            return rows - this.itemsPerPage + 1;
-        },
-        numberOfPages() {
-            return this.itemsLength / this.itemsPerPage;
-        },
-        showEllipsis() {
-            return this.itemsLength / this.itemsPerPage > 7;
-        },
-        disableNextButton() {
-            let lastPage = this.itemsPerPage * this.currentPage;
-            return lastPage >= this.itemsLength;
-        },
-        disablePreviousButton() {
-            return this.currentPage === 1;
-        },
-    },
-    methods: {
-        resetForm() {
-            this.form = {
-                search: null,
-            };
-        },
-        next() {
-            axios.get(this.nextPageUrl);
-        },
-        previous() {
-            axios.get(this.previouPageUrl);
-        },
-        checkAll() {
-            this.selected = !this.selectAll ? [...this.customers.data] : [];
-            console.log(this.selectAll, this.customers);
-        },
-        uncheckParentBox(customer) {
-            event.stopPropagation();
-            let rows = this.selected.filter((s) => s.id == customer.id);
-            if (rows.length > 0) {
-                this.selected = this.selected.filter(
-                    (s) => s.id != customer.id
-                );
-            } else {
-                this.selected.push(customer);
-            }
-            this.customers.data.length == this.selected.length
-                ? (this.selectAll = true)
-                : (this.selectAll = false);
-        },
-        deleteRow(customer) {
-            event.stopPropagation();
-            this.$inertia.delete(`/customers/${customer.id}`, customer.id);
-        },
-        deleteSelected() {
-            let selectedRows = this.selected.map((s) => s.id).join(",");
-            this.$inertia.delete(`/customers/${selectedRows}`, selectedRows);
-        },
-        showCheckedCustomers() {
-            console.log(this.customers);
-            console.log(this.selected);
-        },
-        getAllCustomers() {
-            this.tab = "tab-0";
-        },
-        getMarketingCustomers() {
-            this.tab = "tab-1";
-        },
-        getRepeatCustomers() {
-            this.tab = "tab-2";
-        },
-        getProspects() {
-            this.tab = "tab-3";
-        },
-        edit(customer) {
-            this.$inertia.visit(`/customers/${customer.id}/edit`, customer.id);
-        },
-        show(customer) {
-            this.$inertia.visit(`/customers/${customer.id}/show`, customer.id);
-        },
-        sortByLastname() {
-            this.form.orderBy = "last_name";
-            this.form.sortOrder = this.form.sortOrder == "asc" ? "desc" : "asc";
-        },
-        format(dateString) {
-            return formatDate(dateString);
-        },
-    },
-    components: {
-        AppLayout,
-        PlusIcon,
-        SearchIcon,
-        EyeIcon,
-        PencilIcon,
-        TrashIcon,
-        // SideNav,
-        // ExportIcon,
-        // ImportIcon,
-        // SaveIcon,
-        // SortIcon,
-        // DeleteIcon,
-        // DeleteSolidIcon,
-        // EditIcon,
-        // AngleUpIcon,
-        // ArrowRight,
-        // Pagination,
-        // ArrowDownFilled,
-        // Multiselect,
-        // OrderRow,
-        // Badge
-    },
+  props: {
+    countries: Array,
+  },
 
-    setup() {
-        const open = ref(false);
+  components: {
+    Nav,
+    AppLayout,
+    Dialog,
+    DialogOverlay,
+    TransitionChild,
+    TransitionRoot,
+    Multiselect,
+    UploadIcon,
+    AngleUpIcon,
+    PersonalInfoForm,
+    AddressForm,
+  },
+
+  data() {
+    return {
+      formFields: {
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+      },
+      address: {
+        first_name: "",
+        last_name: "",
+        state: null,
+        city: null,
+        postal_code: "",
+        address: "",
+        apartment: "",
+        country: null,
+      },
+      info: {
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+      },
+      formFields_errors: {
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+      },
+      address_errors: {
+        first_name: "",
+        last_name: "",
+        state: null,
+        city: null,
+        postal_code: "",
+        address: "",
+        apartment: "",
+        country: null,
+      },
+      info_errors: {
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_number: "",
+      },
+    };
+  },
+  computed: {
+    calculateMargin() {
+      this.formFields.margin = 0;
+      return `$ ${0}`;
     },
+  },
+  methods: {
+    submit() {
+      // console.log({...this.address, ...this.info});
+      this.$inertia.post("/customers", {...this.address, ...this.info});
+    },
+  },
+  setup() {
+    const open = ref(false);
+    return {
+      statusStyles,
+    };
+  },
 };
 </script>
+<style scoped>
+@import "style.css";
+.quill {
+  display: flex;
+  flex-direction: column;
+}
+</style>
+<style src="@vueform/multiselect/themes/default.css"></style>
+

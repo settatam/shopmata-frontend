@@ -23,24 +23,31 @@ class CodeEditorController extends Controller
     public function index()
     {
         //
-        // $store = Store::with('theme')->find(session()->get('store_id'));
-    
+        //$store = Store::with('theme')->find(session()->get('store_id'));
+        $files = Themefile::distinct('title')->get(['title', 'type_id', 'type', 'content', 'id']);
+        $theme_files = [];
 
-        $theme_files =ThemeFile::getForStore();
-        
-        $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();
+        $layout_files = [];
+        $template_files = [];
+        $asset_files = [];
+        $layout = '';
 
-        for($i=0; $i<sizeof($open_files); $i++) {
-            $open_files[$i]->content = $open_files[$i]->theme_file->content;
-            $open_files[$i]->name = $open_files[$i]->theme_file->title;
-            $open_files[$i]->edited_content = $open_files[$i]->theme_file->content;
+        foreach ($files as $file) {
+            $theme_files[$file->type_id][] = 
+                ['title' => $file['title'], 
+                 'content' => $file['content'],
+                 'type' => $file['type'], 
+                 'id' => $file->id
+             ];
         }
 
-        count($theme_files) === 0 ? $theme_files = (object)[] : "";
-        // count($open_files) === 0 ? $open_files = (object)[] : "";
+        $open_files = OpenEditorPage::orderBy('id', 'asc')->get();
+
+        // count($theme_files) === 0 ? $theme_files = (object)[] : "";
+        // count($theme_files) === 0 ? $open_files = (object)[] : "";
         // $layout = $store->theme->layout[count($store->theme->layout)-1]->content;
 
-        return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files'));
+        return Inertia::render('OnlineStore/CodeEditor', compact('layout', 'theme_files', 'open_files'));
     }
 
     /**
@@ -61,7 +68,7 @@ class CodeEditorController extends Controller
      */
     public function store(Request $request)
     {
-        // try {
+        try {
             $data = $request->all();
 
             $validator = Validator::make($data, [
@@ -86,38 +93,16 @@ class CodeEditorController extends Controller
             $data['store_id'] = session('store_id');
             $data['user_id'] = Auth::id();
 
-            if ($theme = ThemeFile::create($data)) {
+            if (ThemeFile::create($data)) {
                 \Log::info(Auth::id() . 'Created a theme File ' . session('store_id'), $data);
 
-                //TODO -- Make this dry
-
-                OpenEditorPage::where('store_id', session('store_id'))->where('user_id', Auth::id())->update(['is_open'=>0]);
-                
-                $data = [
-                    'store_id'=>session()->get('store_id'),
-                    'user_id'=>Auth::id(),
-                    'theme_file_id'=>$theme->id,
-                    'is_open'=>1
+                $notification = [
+                    "title" => "Success",
+                    "type" => "success",
+                    "message" => "Theme Created",
                 ];
 
-                $open_file = OpenEditorPage::firstOrNew($data);
-                $theme_files = ThemeFile::getForStore();
-
-                if($open_file->save($data)) {
-                    $open_file->load('theme_file');
-                    $open_file->content = $open_file->theme_file->content;
-                    $open_file->name = $open_file->theme_file->title;
-                    $open_file->edited_content = $open_file->theme_file->content;
-                    Log::info(Auth::id() . ' opened a new page', $data);
-                    return response()->json([
-                                                'open_files'=>$open_file,
-                                                'theme_files'=>$theme_files
-                                            ]);
-                }else{
-                    Log::error(Auth::id() . ' could not open a new page', $data);
-                    return response()->json('Could not process request', 422);
-                }
-
+                return response()->json(['notification' => $notification]);
             } else {
                 $notification = [
                     "title" => "Unable to Update Theme",
@@ -128,24 +113,24 @@ class CodeEditorController extends Controller
                 return response()->json(['notification' => $notification], 400);
             }
 
-        // } catch (\Exception $e) {
-        //     $exceptionDetails = [
-        //         "message" => $e->getMessage(),
-        //         'file' => basename($e->getFile()),
-        //         'line' => $e->getLine(),
-        //         'type' => class_basename($e),
-        //     ];
+        } catch (\Exception $e) {
+            $exceptionDetails = [
+                "message" => $e->getMessage(),
+                'file' => basename($e->getFile()),
+                'line' => $e->getLine(),
+                'type' => class_basename($e),
+            ];
 
-        //     \Log::info("Create Theme Exception" . print_r($exceptionDetails, true));
+            \Log::info("Create Theme Exception" . print_r($exceptionDetails, true));
 
-        //     $notification = [
-        //         "title" => "An Exception Occurred",
-        //         "type" => "failed",
-        //         "message" => "Please try Again",
-        //     ];
+            $notification = [
+                "title" => "An Exception Occurred",
+                "type" => "failed",
+                "message" => "Please try Again",
+            ];
 
-        //     return response()->json(['notification' => $notification], 500);
-        // }
+            return response()->json(['notification' => $notification], 500);
+        }
     }
 
     /**
@@ -163,26 +148,18 @@ class CodeEditorController extends Controller
             $data = [
                 'store_id'=>session()->get('store_id'),
                 'user_id'=>Auth::id(),
-                'theme_file_id'=>$id,
-                'is_open'=>1
+                'theme_file_id'=>$id
             ];
-
-            OpenEditorPage::where('store_id', session('store_id'))->where('user_id', Auth::id())->update(['is_open'=>0]);
 
             $open_file = OpenEditorPage::firstOrNew($data);
 
             if($open_file->save($data)) {
-                $open_file->load('theme_file');
-                $open_file->content = $open_file->theme_file->content;
-                $open_file->name = $open_file->theme_file->title;
-                $open_file->edited_content = $open_file->theme_file->content;
                 Log::info(Auth::id() . ' opened a new page', $data);
-                return response()->json($open_file);
+                return response()->json($theme_file);
             }else{
                 Log::error(Auth::id() . ' could not open a new page', $data);
                 return response()->json('Could not process request', 422);
             }
-
         }else{
             Log::error(Auth::id() . ' tried to open a non existent file' . $id);
             return response()->json('Could not process request', 422);

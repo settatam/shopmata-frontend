@@ -178,7 +178,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
-        Torann\GeoIP\GeoIPServiceProvider::class,
 
     ],
 
@@ -235,7 +234,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Twig' => TwigBridge\Facade\Twig::class,
-        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class
 
     ],
 

@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\StoreLocation;
-use Illuminate\Support\Facades\Log;
 
 class ShippingController extends Controller
 {
@@ -18,8 +16,7 @@ class ShippingController extends Controller
     public function index()
     {
         //
-        $locations = StoreLocation::orderBy('id', 'desc')->get();
-        return Inertia::render('Settings/Shipping/Index', compact('locations'));
+        return Inertia::render('Settings/Shipping/Index');
     }
 
     /**
@@ -41,7 +38,6 @@ class ShippingController extends Controller
     public function store(Request $request)
     {
         //
-
     }
 
     /**

@@ -27,8 +27,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Models\ShippingRate;
-use App\Models\ShippingRateCondition;
 
 class SettingsController extends Controller
 {
@@ -84,7 +82,7 @@ class SettingsController extends Controller
 
     public function manageLocalDelivery()
     {
-        return Inertia::render('Settings/Shipping/Components/ManageLocalDelivery');
+        return Inertia::render('Settings/Components/ManageLocalDelivery');
     }
 
     public function manageLocalPickup()
@@ -94,45 +92,12 @@ class SettingsController extends Controller
 
     public function generalShippingRate()
     {
-        return Inertia::render('Settings/Shipping/Components/GeneralShippingRate');
-    }
-
-    public function support(){
-        return Inertia::render('Settings/Links/ContactSupport');
-    }
-
-    public function termsOfService()
-    {
-        return Inertia::render('Settings/Links/TermsOfService');
-    }
-
-    public function privacyPolicy()
-    {
-        return Inertia::render('Settings/Links/PrivacyPolicy');
-    }
-
-    public function internationalPayment(){
-        return Inertia::render('Settings/Links/InternationalPayment');
-    }
-
-    public function deliveryMethod(){
-        return Inertia::render('Settings/Links/DeliveryMethod');
-    }
-
-    public function aboutShippingRate(){
-        return Inertia::render('Settings/Links/ShippingRate');
-    }
-
-    public function remittance(){
-        return Inertia::render('Settings/Remittance/Index');
+        return Inertia::render('Settings/Components/GeneralShippingRate');
     }
 
     public function shippingProfile()
     {
-        $condition_options = ShippingRateCondition::$condition_options;
-        $rate_options = ShippingRateCondition::$rate_options;
-        $rates = ShippingRate::with('conditions')->orderBy('id', 'desc')->get();
-        return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rates', 'condition_options', 'rate_options'));
+        return Inertia::render('Settings/Components/ShippingProfile');
     }
 
     public function payments()

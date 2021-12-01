@@ -3,8 +3,3 @@
     background-color: #632a6d;
     background-color: rgba(99, 42, 109, var(--bg-opacity));
 }
-
-[type='checkbox']:focus,
-[type='radio']:focus {
-    box-shadow: none;
-}

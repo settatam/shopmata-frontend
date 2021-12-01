@@ -27,9 +27,6 @@
                     <input class="data-focus-visible-added appearance-none border border-border bg-transparent w-full py-2 px-10 text-black leading-tight focus:outline-none " type="number" step=".01" placeholder="0.0" v-model="shipping.weight">
                     <span class="absolute top-2 right-3 text-gray-400">lb</span>
                 </div>
-                    <span v-if="v$.shipping.weight.$error" class="text-red-400">
-                            {{v$.shipping.weight.$errors[0].$message}}
-                        </span>
             </div>
         </div>
     </div>
@@ -38,9 +35,6 @@
 
 <script>
 import AngleUpIcon from '../../../../assets/AngleUpIcon'
-import useVuelidate from '@vuelidate/core'
-import { required,helpers } from '@vuelidate/validators'
-
 export default {
     name: 'shipping-form',
     props: ['shipping'],
@@ -49,7 +43,6 @@ export default {
     },
     data() {
         return {
-            v$: useVuelidate(),
             expand: true
         }
     },
@@ -57,16 +50,10 @@ export default {
         expandForm() {
             this.expand = !this.expand;
         }
-    },
-    validations(){
-        return{
-            shipping: {
-                weight: {required:helpers.withMessage('This field cannot be empty', required)},
-            }
-        }
     }
 }
 </script>
 
 <style scoped>
+
 </style>
