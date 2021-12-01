@@ -1,12 +1,9 @@
 <template>
     <app-layout>
         <div class="flex-1 flex flex-col mt-4 min-h-screen">
-            <div class="flex-shrink-0 px-8 py-4 flex items-center">
-                <p class="text-2xl font-semibold text-blue-gray-900">Orders</p>
-            </div>
             <nav class="flex px-8 mb-4" aria-label="Breadcrumb">
                 <ol role="list" class="flex items-center space-x-4">
-                    <li>
+                    <!-- <li>
                         <div>
                             <a
                                 href="/dashboard"
@@ -16,20 +13,16 @@
                                     class="flex-shrink-0 h-5 w-5"
                                     aria-hidden="true"
                                 />
-                                <span class="sr-only">Orders</span>
+                                <span class="sr-only">Order</span>
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                     <li v-for="page in pages" :key="page.name">
                         <div class="flex items-center">
-                            <ChevronRightIcon
-                                class="flex-shrink-0 h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                            />
                             <a
                                 :href="page.href"
                                 class="
-                                    ml-4
+                                    mr-2
                                     text-base
                                     font-medium
                                     text-gray-500
@@ -40,10 +33,24 @@
                                 "
                                 >{{ page.name }}</a
                             >
+                            <ChevronRightIcon
+                                class="flex-shrink-0 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                            />
+                            <p class="text-base ml-2">{{ order.order_id }}</p>
                         </div>
                     </li>
                 </ol>
             </nav>
+            <div class="flex-shrink-0 px-6 py-4 flex items-center">
+                <ChevronLeftIcon
+                    class="flex-shrink-0 h-6 w-6 text-gray-900 mr-2"
+                    aria-hidden="true"
+                />
+                <p class="text-2xl font-semibold text-gray-900">
+                    Order Id {{ order.order_id }}
+                </p>
+            </div>
 
             <div class="px-6 flex w-full">
                 <div class="flex flex-col w-2/3 mr-5">
@@ -58,7 +65,7 @@
                                     bg-gray-100
                                     border
                                     text-black
-                                    rounded-md
+                                    rounded
                                 "
                                 @click="browseProduct"
                             >
@@ -66,7 +73,7 @@
                             </button>
                         </div>
                         <div class="flex justify-between">
-                            <h2 class="font-semibold text-xl text-indigo-700">
+                            <h2 class="font-medium text-xl text-indigo-700">
                                 Order #{{ order.order_id }}
                             </h2>
                             <p class="text-gray-400">
@@ -74,14 +81,20 @@
                             </p>
                         </div>
                         <p class="mt-2.5 text-base">
-                            ${{ order.total_orders }} from Online Store
+                            {{ store.currency.code }}
+                            {{
+                                Number(
+                                    Number(order.total_orders).toFixed(2)
+                                ).toLocaleString()
+                            }}
+                            from Online Store
                         </p>
                         <div
                             v-for="item in order.items"
                             v-bind:key="item.id"
                             class="mt-10 flex justify-between"
                         >
-                            <div class="flex w-5/12">
+                            <div class="flex w-5/12 mr-4">
                                 <img
                                     src="../../../assets/placeholder_theme.jpg"
                                     alt="category_image"
@@ -142,21 +155,28 @@
                         </div>
                         <div>
                             <div class="flex justify-between mb-3.5">
-                                <h2 class="font-semibold text-lg">
-                                    Subtotal {{ " " }} ({{ order.quantity }})
+                                <h2 class="font-semibold text-gray-500 text-lg">
+                                    Subtotal {{ " " }}
+                                    <span class="font-medium"
+                                        >({{ order.items.length }} items)</span
+                                    >
                                 </h2>
                                 <p class="text-black font-bold">
                                     {{ order.sub_total }}
                                 </p>
                             </div>
                             <div class="flex justify-between mb-4">
-                                <h2 class="font-semibold text-lg">Delivery</h2>
+                                <h2 class="font-semibold text-lg text-gray-500">
+                                    Delivery
+                                </h2>
                                 <p class="text-black font-bold">
                                     {{ order.delivery }}
                                 </p>
                             </div>
                             <div class="flex justify-between">
-                                <h2 class="font-semibold text-lg">Tax</h2>
+                                <h2 class="font-semibold text-lg text-gray-500">
+                                    Tax
+                                </h2>
                                 <p class="text-black font-bold">
                                     {{ order.sales_tax }}
                                 </p>
