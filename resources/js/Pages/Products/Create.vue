@@ -39,7 +39,7 @@
             </div>
           <div class="max-w-3xl mx-auto py-5 md:py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
            
-              <div class="bg-white mb-3 md:mb-10 pt-4 md:pt-7 rounded">
+              <div class="bg-white mb-3 md:mb-5 pt-4 md:pt-7 rounded">
                 <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
                   <span><angle-up-icon></angle-up-icon></span>
                 </div> -->
@@ -87,7 +87,7 @@
 
                <!-- Princing Start here -->
 
-            <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-10 rounded">
+            <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-5 rounded">
                 <div class="flex justify-between px-4 md:px-8 cursor-pointer" @click="price_open=!price_open">
                     <p class="text-black font-semibold text-lg mb-6">Pricing</p>
                     <div>
@@ -138,7 +138,7 @@
                   </div>
               </div>
 
-              <div class="bg-white mb-3 md:mb-10 py-6 rounded">
+              <div class="bg-white mb-3 md:mb-5 py-6 rounded">
                 <div class="px-4 md:px-8">
                   <div class="bg-white flex justify-between" @click="media_open=!media_open">
                     <p class="text-black font-semibold text-lg mb-6">Media</p>
@@ -204,7 +204,7 @@
               </div>
               <!-- Inventory Starts here -->
 
-              <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-10 rounded " @click="inventory_open=!inventory_open">
+              <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-5 rounded " @click="inventory_open=!inventory_open">
                   <div class="flex justify-between md:px-8 px-4 cursor-pointer">
                       <p class="text-black font-semibold text-lg mb-6">Inventory</p>
                       <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="inventory_open"/>     
@@ -314,7 +314,7 @@
               <!-- Shipping ends here -->
             
               <!-- Search Engine Starts Here -->
-              <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-10 px-4 md:px-8 rounded">
+              <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-5 px-4 md:px-8 rounded">
                   <div class="flex justify-between">
                       <div class="cursor-pointer" @click="seo_open=!seo_open">
                           <p class="text-black font-semibold text-lg mb-6">Search Engine Listing Preview</p>

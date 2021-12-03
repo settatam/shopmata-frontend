@@ -89,7 +89,7 @@
                   </div>
 
                 </div>
-              <div class="hidden md:flex flex-col mt-2">
+              <div class="hidden md:flex flex-col mt-2 md:mt-6">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead class="bg-gray-50">

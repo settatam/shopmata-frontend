@@ -229,7 +229,7 @@ class ProductsController extends Controller
                 }
             }
         }
-        return Inertia::render('Products/Create', compact('product', 'categories', 'brands'));
+        return Inertia::render('Products/Edit', compact('product', 'categories', 'brands'));
     }
 
     /**

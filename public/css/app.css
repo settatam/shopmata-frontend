@@ -4321,6 +4321,10 @@ input[type='checkbox']:focus {
 		margin-left: 5rem;
 	}
 
+	.md\:mb-6 {
+		margin-bottom: 1.5rem;
+	}
+
 	.md\:mb-1 {
 		margin-bottom: 0.25rem;
 	}
@@ -4361,8 +4365,16 @@ input[type='checkbox']:focus {
 		margin-bottom: 1rem;
 	}
 
-	.md\:mb-6 {
-		margin-bottom: 1.5rem;
+	.md\:mt-7 {
+		margin-top: 1.75rem;
+	}
+
+	.md\:mt-6 {
+		margin-top: 1.5rem;
+	}
+
+	.md\:mb-5 {
+		margin-bottom: 1.25rem;
 	}
 
 	.md\:block {
@@ -4569,6 +4581,11 @@ input[type='checkbox']:focus {
 		padding-right: 1rem;
 	}
 
+	.md\:px-10 {
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+	}
+
 	.md\:py-10 {
 		padding-top: 2.5rem;
 		padding-bottom: 2.5rem;
@@ -4577,11 +4594,6 @@ input[type='checkbox']:focus {
 	.md\:py-2 {
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
-	}
-
-	.md\:px-10 {
-		padding-left: 2.5rem;
-		padding-right: 2.5rem;
 	}
 
 	.md\:py-3 {
