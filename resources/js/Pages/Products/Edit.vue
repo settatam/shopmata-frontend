@@ -177,7 +177,7 @@
               ></variants-form>
 
               <!-- Link Starts Here -->
-              <div class="bg-white p-4 md:p-8 mb-3 md:mb-10 rounded">
+              <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">
                 <div class="flex justify-between cursor-pointer" @click="link_open=!link_open">
                   <p class="text-black font-semibold text-lg mb-6">Link</p>
                    <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="link_open"/>     
@@ -404,14 +404,12 @@ const statusStyles = {
   failed: "bg-gray-100 text-gray-800",
 };
 
-const pages = [
-  { name: 'All Product', href: '/products', current: false },
-  { name: 'Create New Product', href: '/products/create', current: true },
-]
+
 
 export default {
   props: {
-    products: Object,
+    //products: Object,
+    product: Object,
     filters: Object,
     brands: Array,
     categories: Array,
@@ -435,7 +433,7 @@ export default {
     MediaUrlModal,
     Dropzone,
     ImagesList,
-    pages,
+    //pages,
     ChevronRightIcon,
     ChevronLeftIcon,
     ChevronUpIcon,
@@ -475,26 +473,26 @@ export default {
         },
       },
       product: {
-        title: "",
-        description: "",
-        brand: "",
-        images: [],
-        price: '',
-        compare_at_price: '',
-        margin: null,
-        profit: null,
-        cost_per_item: '',
-        handle:'',
-        sku: "",
-        barcode: "",
-        quantity: "",
-        track_quantity: false,
-        out_of_stock: false,
-        has_variants: false,
-        avail_qty:"",
-        min_qty:"",
-        seo_description:'',
-        seo_page_title:''
+        title: this.product.title,
+        description:this.product.description,
+        brand: this.product.brand,
+        images: this.product.images,
+        price: this.product.price,
+        compare_at_price: this.product.compare_at_price,
+        margin: this.product.margin,
+        profit: this.product.profit,
+        cost_per_item:this.product.cost_per_item,
+        handle:this.product.handle,
+        sku:this.product.sku,
+        barcode:this.product.barcode,
+        quantity: this.product.quantity,
+        track_quantity:this.product.track_quantity,
+        out_of_stock:this.product.out_of_stock,
+        has_variants:this.product.has_variants,
+        avail_qty:this.product.avail_qty,
+        min_qty:this.product.min_qty,
+        seo_description:this.product.seo_description||"",
+        seo_page_title:this.product.seo_page_title||"",
       },
       shipping: {
         weight: "",
@@ -716,11 +714,15 @@ export default {
         },
   },
   
-  setup() {
+  setup({product}) {
     const open = ref(false);
+    const pages = [
+      { name: 'All Product', href: '/products', current: false },
+      { name: product.title, href: "#", current: true },
+    ]
     return {
       statusStyles,
-      pages
+      pages,
     };
   },
 };
