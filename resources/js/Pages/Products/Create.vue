@@ -177,7 +177,7 @@
               ></variants-form>
 
               <!-- Link Starts Here -->
-              <div class="bg-white p-4 md:p-8 mb-3 md:mb-10 rounded">
+              <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">
                 <div class="flex justify-between cursor-pointer" @click="link_open=!link_open">
                   <p class="text-black font-semibold text-lg mb-6">Link</p>
                    <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="link_open"/>     
@@ -186,19 +186,19 @@
                 <div v-if="link_open">
                   <div class="flex flex-col mt-4 text-gray-600">
                     <label for="manufacturer">Manufacturer</label>
-                    <input type="text" name="manufacturer" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="manufacturer" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.manufacturer">
                   </div>
                   <div class="flex flex-col mt-4 text-gray-600">
                     <label for="Collections">Collections</label>
-                    <input type="text" name="Collections" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="Collections" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.collections">
                   </div>
                   <div class="flex flex-col mt-4 text-gray-600">
                     <label for="filters">Filters</label>
-                    <input type="text" name="filters" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="filters" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.filters">
                   </div>
                   <div class="flex flex-col mt-4 text-gray-600">
                     <label for="related">Related Products</label>
-                    <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.related_products">
                   </div>
                 </div>
               </div>
@@ -499,6 +499,12 @@ export default {
       shipping: {
         weight: "",
         physical_product: false,
+      },
+      link:{
+        filters:"",
+        related_products:"",
+        manufacture:"",
+        collection:""
       },
       variants: {
         has_variants: true,
