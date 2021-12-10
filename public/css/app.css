@@ -4338,6 +4338,18 @@ input[type='checkbox']:focus {
 		margin-bottom: 1rem;
 	}
 
+	.md\:mb-5 {
+		margin-bottom: 1.25rem;
+	}
+
+	.md\:mb-6 {
+		margin-bottom: 1.5rem;
+	}
+
+	.md\:mt-6 {
+		margin-top: 1.5rem;
+	}
+
 	.md\:block {
 		display: block;
 	}

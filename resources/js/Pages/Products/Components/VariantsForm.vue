@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white pt-4 md:pt-7 pb-2 md:pb-4 mb-10">
+    <div class="bg-white pt-4 md:pt-7 pb-2 md:pb-4 mb-3 md:mb-5">
         <div class="flex justify-between px-4 md:px-8 cursor-pointer" @click="variant_open=!variant_open">
             <p class="text-black font-semibold text-lg mb-6">Variants</p>
             <div>

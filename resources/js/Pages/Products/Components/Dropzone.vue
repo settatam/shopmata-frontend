@@ -1,7 +1,7 @@
 <template>  
   <div class="mt-1 sm:mt-0 sm:col-span-2" v-bind="getRootProps()">
       <input v-bind="getInputProps()" />
-      <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+      <div class="flex justify-center mt-2 px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
           <div class="space-y-1 text-center" v-if="isDragActive"> Drop files here</div>
           <div class="space-y-1 text-center" v-else>
              <!--  <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
@@ -18,7 +18,9 @@
                   </label> -->
                   <p class="pl-1 text-gray-600">Drag and drop your image here or</p>
                   <button class="text-white bg-indigo-600 active:bg-indigo-600 border border-transparent text-center px-6  py-3 rounded">
-                    <input id="file-upload" name="file-upload" type="file" class="sr-only invisible" /><span>Choose File</span> 
+                    <!-- <input id="file-upload" name="file-upload" type="file" class="sr-only invisible" />
+                     -->
+                    <span>Choose File</span> 
                   </button>
                   <!-- <button class=""><input id="file-upload" name="file-upload" type="file" class="sr-only" /></button> -->
               
