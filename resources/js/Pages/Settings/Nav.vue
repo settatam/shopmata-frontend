@@ -8,7 +8,7 @@
           <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-100 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
             <component :is="item.icon" class="flex-shrink-0  h-6 w-6 text-indigo-700 my-auto" aria-hidden="true" />
               <div class="ml-3 text-sm">
-                <p class="font-semibold text-blue-gray-900 text-lg">{{ item.name }}</p>
+                <p class="font-semibold text-gray-900 text-lg">{{ item.name }}</p>
                 <p class="mt-1 text-gray-500">{{ item.description }}</p>
               </div>
             </inertia-link>
@@ -19,7 +19,7 @@
           <inertia-link v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-blue-50 bg-opacity-50' : 'hover:bg-blue-100 hover:bg-opacity-50', 'flex p-6 border-b border-blue-gray-200']" :aria-current="item.current ? 'page' : undefined">
             <component :is="item.icon" class="flex-shrink-0  h-6 w-6 text-indigo-700 my-auto" aria-hidden="true" />
               <div class="ml-3 text-sm">
-                <p class="font-semibold text-blue-gray-900 text-lg">{{ item.name }}</p>
+                <p class="font-semibold text-gray-900 text-lg">{{ item.name }}</p>
                 <p class="mt-1 text-gray-500">{{ item.description }}</p>
               </div>
             </inertia-link>

@@ -15,7 +15,14 @@ class CreateWithdrawalRequestsTable extends Migration
     {
         Schema::create('withdrawal_requests', function (Blueprint $table) {
             $table->id();
+            $table->decimal('amount', 10,2);
+            $table->integer('store_id');
+            $table->integer('user_id');
+            $table->string('status')->nullable();
+            $table->integer('approved_by')->nullable();
+            $table->dateTime('approval_date')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

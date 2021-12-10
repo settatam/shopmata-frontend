@@ -37,7 +37,7 @@
               items-center
             "
           >
-            <p class="text-lg font-medium text-blue-gray-900">Code Editor</p>
+            <p class="text-lg font-medium text-gray-900">Code Editor</p>
           </div>
           <!-- Template  -->
           <div>

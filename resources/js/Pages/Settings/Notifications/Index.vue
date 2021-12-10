@@ -3,7 +3,7 @@
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
            <div class="flex-shrink-0 mb-3 px-6 flex items-center">
-              <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
+              <p class="text-2xl font-semibold text-gray-900">Settings</p>
             </div>
             <nav class="flex px-6" aria-label="Breadcrumb">
               <ol role="list" class="flex items-center space-x-4">
@@ -59,7 +59,7 @@
                         <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{delivery.title}}</a>
                         <div class="flex">
                           <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 my-auto" />
-                          <p class="text-gray-500 w-full md:w-7/10">{{delivery.description}}</p>
+                          <p class="text-gray-500 w-full">{{delivery.description}}</p>
                         </div>
                       </div>
                     </div>
@@ -266,44 +266,44 @@ export default {
       openNotification:true,
       orders:{
         0:{
-          title:"Order confirmation",
-          description:"Sent automatically to the customer after they place their order."
+          title:"Confirm order",
+          description:"Shopmata automatically sends an order confirmation message to your customer."
         },
         1:{
-          title: "Order edited",
-          description:"Sent to the customer after their order is edited (if you select this option)."
+          title: "Edited Order",
+          description:"Shopmata automatically sends a message to the customer when their invoice is edited."
         },
         2:{
-          title:"Order edited invoice",
-          description:"Sent automatically to the customer if their order is canceled (if you select this option)."
+          title:"Draft order invoice",
+          description:"Shopmata sends this message to you when there is an incomplete invoice that is in draft mode."
         },
         3:{
-          title:"Order Invoice",
-          description:"Sent to the customer when the order has an outstanding balance."
+          title:"Canceled order",
+          description:"Shopmata sends a message to you when an order has been canceled."
         },
         4:{
           title:"Order refund",
           description:"Sent automatically to the customer if their order is refunded (if you select this option)."
         },
         5:{
-          title:"Draft order invoice",
-          description:"Sent to the customer when a draft order invoice is created. You can edit this email invoice before you send it."
+          title:"Order invoice",
+          description:"Shopmata sends an invoice to your customer when there is an outstanding balance."
         },
         6:{
-          title:"Email cart from POS",
-          description:"Sent to the customer when you email their cart from POS. Includes a link to buy online."
+          title:"Order refund",
+          description:"Shopmata sends this message automatically to your customer when there is a refund."
         },
         7:{
           title:"Abandoned checkout",
-          description:"Sent to the customer if they leave checkout before they buy the items in their cart. Configure options in checkout settings."
+          description:"Shopmata sends this message to your customer if they left the checkout page before completion of purchase. Enable this in your Checkout settings."
         },
         8:{
-          title:"POS exchange receipt",
-          description:"Sent to the customer after they complete an exchange in person and want to be emailed a receipt."
+          title:"Email cart from POS",
+          description:"Sent to the customer when you email their cart from POS. Includes a link to buy online."
         },
         9:{
           title:"Gift card created",
-          description:"Sent automatically to the customer when you issue or fulfill a gift card."
+          description:"Shopmata sends this message to your customer when they buy a gift card or when they use one."
         },
         10:{
           title: "Payment error",

@@ -3,13 +3,7 @@
         <!-- Page header -->
         <div class="">
             <div class="px- sm:px-6 lg:mx-auto lg:px-">
-                <div
-                    class="
-                        py-6
-                        md:flex md:items-center md:justify-between
-                        lg:border-t lg:border-gray-200
-                    "
-                >
+                <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
                     <div class="flex-1 min-w-0">
                         <!-- Profile -->
                         <div class="flex items-center">

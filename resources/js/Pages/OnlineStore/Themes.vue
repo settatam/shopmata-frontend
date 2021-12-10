@@ -26,7 +26,7 @@
               space-x-3
               text-sm
               font-medium
-              text-blue-gray-900
+              text-gray-900
             "
           >
             <ChevronLeftIcon
