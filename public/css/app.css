@@ -1,4 +1,4 @@
-/*! tailwindcss v2.2.4 | MIT License | https://tailwindcss.com *//*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+/*! tailwindcss v2.2.19 | MIT License | https://tailwindcss.com *//*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
 /*
 Document
@@ -449,6 +449,18 @@ button,
   cursor: pointer;
 }
 
+/**
+ * Override legacy focus reset from Normalize with modern Firefox focus styles.
+ *
+ * This is actually an improvement over the new defaults in Firefox in our testing,
+ * as it triggers the better focus styles even for links, which still use a dotted
+ * outline in Firefox by default.
+ */
+ 
+:-moz-focusring {
+	outline: auto;
+}
+
 table {
   border-collapse: collapse;
 }
@@ -547,6 +559,14 @@ video {
   height: auto;
 }
 
+/**
+ * Ensure the default browser behavior of the `hidden` attribute.
+ */
+
+[hidden] {
+  display: none;
+}
+
 *, ::before, ::after {
 	--tw-translate-x: 0;
 	--tw-translate-y: 0;
@@ -558,6 +578,8 @@ video {
 	--tw-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 	--tw-border-opacity: 1;
 	border-color: rgba(229, 231, 235, var(--tw-border-opacity));
+	--tw-ring-offset-shadow: 0 0 #0000;
+	--tw-ring-shadow: 0 0 #0000;
 	--tw-shadow: 0 0 #0000;
 	--tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
 	--tw-ring-offset-width: 0px;
@@ -565,6 +587,7 @@ video {
 	--tw-ring-color: rgba(59, 130, 246, 0.5);
 	--tw-ring-offset-shadow: 0 0 #0000;
 	--tw-ring-shadow: 0 0 #0000;
+	--tw-shadow: 0 0 #0000;
 	--tw-blur: var(--tw-empty,/*!*/ /*!*/);
 	--tw-brightness: var(--tw-empty,/*!*/ /*!*/);
 	--tw-contrast: var(--tw-empty,/*!*/ /*!*/);
@@ -575,16 +598,6 @@ video {
 	--tw-sepia: var(--tw-empty,/*!*/ /*!*/);
 	--tw-drop-shadow: var(--tw-empty,/*!*/ /*!*/);
 	--tw-filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-	--tw-backdrop-blur: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-brightness: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-contrast: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-grayscale: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-hue-rotate: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-invert: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-opacity: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-saturate: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-sepia: var(--tw-empty,/*!*/ /*!*/);
-	--tw-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
 
@@ -1125,6 +1138,9 @@ select {
 .right-1\/2 {
 	right: 50%;
 }
+.right-4 {
+	right: 1rem;
+}
 .top-3\.5 {
 	top: 0.875rem;
 }
@@ -1172,9 +1188,6 @@ select {
 }
 .bottom-12 {
 	bottom: 3rem;
-}
-.right-4 {
-	right: 1rem;
 }
 .z-0 {
 	z-index: 0;
@@ -1543,6 +1556,9 @@ select {
 }
 .mt-4\.5 {
 	margin-top: 1.125rem;
+}
+.mb-11 {
+	margin-bottom: 2.75rem;
 }
 .mb-6\.5 {
 	margin-bottom: 1.625rem;
@@ -2195,9 +2211,6 @@ select {
 .self-center {
 	align-self: center;
 }
-.justify-self-end {
-	justify-self: end;
-}
 .overflow-auto {
 	overflow: auto;
 }
@@ -2518,6 +2531,10 @@ select {
 .bg-indigo-100 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(224, 231, 255, var(--tw-bg-opacity));
+}
+.bg-indigo-400 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(129, 140, 248, var(--tw-bg-opacity));
 }
 .bg-red-darker {
 	--tw-bg-opacity: 1;
@@ -2847,9 +2864,6 @@ select {
 .pt-2\.5 {
 	padding-top: 0.625rem;
 }
-.pl-16 {
-	padding-left: 4rem;
-}
 .pl-7 {
 	padding-left: 1.75rem;
 }
@@ -2858,6 +2872,9 @@ select {
 }
 .pb-5 {
 	padding-bottom: 1.25rem;
+}
+.pl-16 {
+	padding-left: 4rem;
 }
 .pr-20 {
 	padding-right: 5rem;
@@ -2905,10 +2922,10 @@ select {
 	font-size: 0.985rem;
 }
 .text-xs {
-	font-size: 0.725rem;
+	font-size: 0.875rem;
 }
 .text-lg {
-	font-size: 1.075rem;
+	font-size: 1.125rem;
 }
 .text-base {
 	font-size: 1rem;
@@ -3115,13 +3132,13 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(99, 102, 241, var(--tw-text-opacity));
 }
-.text-blue-800 {
+.text-green-700 {
 	--tw-text-opacity: 1;
-	color: rgba(30, 64, 175, var(--tw-text-opacity));
+	color: rgba(4, 120, 87, var(--tw-text-opacity));
 }
-.text-blue-900 {
+.text-red-700 {
 	--tw-text-opacity: 1;
-	color: rgba(30, 58, 138, var(--tw-text-opacity));
+	color: rgba(185, 28, 28, var(--tw-text-opacity));
 }
 .text-yellow-600 {
 	--tw-text-opacity: 1;
@@ -3620,6 +3637,9 @@ input[type='checkbox']:focus {
 	--tw-ring-opacity: 1;
 	--tw-ring-color: rgba(99, 102, 241, var(--tw-ring-opacity));
 }
+.focus\:ring-transparent:focus {
+	--tw-ring-color: transparent;
+}
 .focus\:ring-red-500:focus {
 	--tw-ring-opacity: 1;
 	--tw-ring-color: rgba(239, 68, 68, var(--tw-ring-opacity));
@@ -3813,10 +3833,6 @@ input[type='checkbox']:focus {
 		display: flex;
 	}
 
-	.sm\:grid {
-		display: grid;
-	}
-
 	.sm\:hidden {
 		display: none;
 	}
@@ -3906,10 +3922,6 @@ input[type='checkbox']:focus {
 		transform: var(--tw-transform);
 	}
 
-	.sm\:grid-flow-row-dense {
-		grid-auto-flow: row dense;
-	}
-
 	.sm\:grid-cols-2 {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -3944,10 +3956,6 @@ input[type='checkbox']:focus {
 
 	.sm\:justify-between {
 		justify-content: space-between;
-	}
-
-	.sm\:gap-3 {
-		gap: 0.75rem;
 	}
 
 	.sm\:gap-x-4 {
@@ -4099,10 +4107,6 @@ input[type='checkbox']:focus {
 
 	.sm\:text-sm {
 		font-size: 0.985rem;
-	}
-
-	.sm\:text-base {
-		font-size: 1rem;
 	}
 
 	.sm\:leading-9 {
@@ -4418,12 +4422,12 @@ input[type='checkbox']:focus {
 		padding-right: 1rem;
 	}
 
-	.md\:pr-3 {
-		padding-right: 0.75rem;
-	}
-
 	.md\:pl-3 {
 		padding-left: 0.75rem;
+	}
+
+	.md\:pr-3 {
+		padding-right: 0.75rem;
 	}
 
 	.md\:pr-8 {
@@ -4816,7 +4820,7 @@ input[type='checkbox']:focus {
 	}
 
 	.lg\:text-lg {
-		font-size: 1.075rem;
+		font-size: 1.125rem;
 	}
 
 	.lg\:hover\:bg-gray-50:hover {

@@ -17,8 +17,8 @@
                                 <div class="flex items-center">
                                     <h1
                                         class="
-                                            text-2xl
-                                            font-semibold
+                                            text-3xl
+                                            font-bold
                                             leading-7
                                             text-blue-gray-900
                                             sm:leading-9 sm:truncate
@@ -65,9 +65,6 @@
                         flex
                         items-center
                         justify-between
-                        py-2
-                        px-8
-                        bg-white
                         rounded
                     "
                 >
@@ -91,11 +88,12 @@
                                 class="
                                     block
                                     pl-12
+                                    bg-transparent
                                     py-2
                                     rounded-md
                                     border border-gray-300
                                     text-gray-900
-                                    placeholder-gray-300
+                                    placeholder-gray-400
                                     focus:outline-none
                                     w-full
                                 "
@@ -112,7 +110,7 @@
                                 "
                             >
                                 <SearchIcon
-                                    class="flex-shrink-0 h-5 w-5 text-gray-400"
+                                    class="flex-shrink-0 h-5 w-5 text-gray-500"
                                     aria-hidden="true"
                                 />
                             </div>
@@ -139,7 +137,7 @@
                                 py-2
                                 rounded-md
                                 border border-gray-300
-                                text-gray-900
+                                text-gray-600
                                 placeholder-gray-300
                                 focus:outline-none
                                 w-full
@@ -169,7 +167,7 @@
                                 py-2
                                 rounded-md
                                 border border-gray-300
-                                text-gray-900
+                                text-gray-600
                                 placeholder-gray-300
                                 focus:outline-none
                                 w-full
@@ -178,7 +176,7 @@
                             <option value="all">All</option>
                         </select>
                     </div>
-                    <div class="w-full md:w-1/5 md:px-3">
+                    <div class="w-full md:w-1/5 md:pl-3">
                         <label
                             for="fulfillment_type"
                             class="
@@ -199,7 +197,7 @@
                                 py-2
                                 rounded-md
                                 border border-gray-300
-                                text-gray-900
+                                text-gray-600
                                 placeholder-gray-300
                                 focus:outline-none
                                 w-full
@@ -261,6 +259,7 @@
                                             type="checkbox"
                                             v-model="selectAll"
                                             class="
+                                                mr-2
                                                 h-4
                                                 w-4
                                                 text-indigo-600
@@ -270,8 +269,9 @@
                                             @click="checkAll"
                                             :disabled="orders.data.length === 0"
                                         />
+                                        Order ID
                                     </th>
-                                    <th
+                                    <!-- <th
                                         scope="col"
                                         class="
                                             whitespace-nowrap
@@ -285,7 +285,7 @@
                                         "
                                     >
                                         Order ID
-                                    </th>
+                                    </th> -->
                                     <th
                                         scope="col"
                                         class="
@@ -322,14 +322,14 @@
                                             whitespace-nowrap
                                             px-3
                                             py-3
-                                            text-left text-sm
+                                            text-center text-sm
                                             font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
                                         "
                                     >
-                                        Number of Items
+                                        QTY
                                     </th>
                                     <th
                                         scope="col"
@@ -393,6 +393,10 @@
                                     :key="order.id"
                                     class=""
                                 >
+                                <inertia-link
+                                        :href="'/orders/' + order.id"
+                                        class=""
+                                    >
                                     <td
                                         scope="col"
                                         class="
@@ -419,18 +423,14 @@
                                             "
                                         />
                                     </td>
-                                    <inertia-link
-                                        :href="'/orders/' + order.id"
-                                        class=""
-                                    >
+                                    
                                         <td
                                             class="
                                                 px-3
                                                 pt-2.5
                                                 text-left text-base
                                                 font-medium
-                                                text-gray-500
-                                                uppercase
+                                                text-indigo-600
                                                 tracking-wider
                                             "
                                         >
@@ -441,20 +441,15 @@
                                         class="
                                             px-3
                                             text-left text-base
-                                            font-medium
-                                            text-gray-500
                                             tracking-wider
                                         "
                                     >
-                                        {{ order.created_at }}
+                                        {{moment(order.updated_at).format("ll")}}
                                     </td>
                                     <td
                                         class="
                                             px-3
                                             text-left text-base
-                                            font-medium
-                                            text-gray-500
-                                            uppercase
                                             tracking-wider
                                         "
                                     >
@@ -469,12 +464,9 @@
                                     </td>
                                     <td
                                         class="
-                                            px-3
-                                            pl-16
-                                            text-left text-base
-                                            font-medium
-                                            text-gray-500
-                                            uppercase
+                                            
+                                            
+                                            text-center text-base
                                             tracking-wider
                                         "
                                     >
@@ -488,9 +480,6 @@
                                         class="
                                             px-3
                                             text-base
-                                            font-medium
-                                            text-gray-500
-                                            uppercase
                                             tracking-wider
                                         "
                                     >
@@ -500,8 +489,6 @@
                                         class="
                                             px-3
                                             text-left text-base
-                                            font-medium
-                                            text-gray-500
                                             tracking-wider
                                         "
                                     >
@@ -512,7 +499,6 @@
                                                 py-3
                                                 text-left
                                                 leading-4
-                                                font-semibold
                                                 text-base
                                                 tracking-wide
                                             "
@@ -523,7 +509,7 @@
                                                         statusStyles[
                                                             order.status
                                                         ],
-                                                        'inline-flex items-center px-2.5 py-1 text-base font-medium capitalize',
+                                                        'inline-flex items-center px-2.5 py-1 rounded capitalize',
                                                     ]"
                                                 >
                                                     {{ order.status }}
@@ -536,9 +522,6 @@
                                         class="
                                             px-3
                                             text-left text-base
-                                            font-medium
-                                            text-gray-500
-                                            capitalize
                                             tracking-wider
                                         "
                                     >
@@ -560,9 +543,6 @@
                                         class="
                                             px-3
                                             text-left text-base
-                                            font-medium
-                                            text-gray-500
-                                            uppercase
                                             tracking-wider
                                         "
                                     >
@@ -651,6 +631,7 @@ import Input from "../../Jetstream/Input.vue";
 import ArrowRight from "../../../assets/ArrowRight.vue";
 // import Datepicker from 'vue3-datepicker'
 import Search from "../Search.vue";
+import moment from 'moment';
 // import axios from "axios"
 
 const tabs = [
@@ -830,6 +811,7 @@ export default {
         SearchIcon,
         FilterIcon,
         Search,
+        //moment
     },
 
     setup() {
@@ -862,6 +844,7 @@ export default {
             getAutoCompleteData,
             suggestions,
             statusStyles,
+            moment
         };
     },
 };
@@ -869,18 +852,21 @@ export default {
 <style scoped>
 select,
 .date-filter {
-    -moz-appearance: none; /* Firefox */
-    -webkit-appearance: none; /* Safari and Chrome */
-    appearance: none;
-    background: url("../../../assets/ArrowDownFilled.svg") no-repeat right
-        0.3rem center/14px 4px;
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+  background: url("../../../assets/ArrowDownFilled.svg") no-repeat right 0.3rem
+    center/14px 4px;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-    background: none;
+  background: none;
 }
 .v3dp__datepicker {
-    --elem-hover-bg-color: var(--vdp-hover-bg-color, #4f46e5);
-    --elem-selected-bg-color: var(--vdp-selected-bg-color, #4f46e5);
+  --elem-hover-bg-color: var(--vdp-hover-bg-color, #4f46e5);
+  --elem-selected-bg-color: var(--vdp-selected-bg-color, #4f46e5);
+}
+tbody tr:hover {
+  background: transparent;
 }
 </style>
