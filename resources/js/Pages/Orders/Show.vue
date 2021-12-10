@@ -247,7 +247,7 @@
                                             capitalize text-gray-700
                                             border-gray-300
                                             rounded-md
-                                            p-3
+                                            p-2
                                             w-1/2
                                             mr-2
                                         "
@@ -258,23 +258,11 @@
                                         <option value="">
                                             Select status
                                         </option>
-                                        <option value="fulfilled">
-                                            Fulfilled
-                                        </option>
-                                        <option value="unpaid">
-                                            Unpaid
-                                        </option>
-                                        <option value="pending">
-                                            Pending
-                                        </option>
-                                        <option value="unfulfilled">
-                                            Unfulfilled
-                                        </option>
-                                        <option value="delivered">
-                                            Delivered
+                                        <option v-for="status in statuses" :key="status.id" :value="status">
+                                            {{status}}
                                         </option>
                                     </select>
-                                    <button :class="[order_status==''?'bg-indigo-400':'bg-indigo-700','p-3 border text-white rounded-md']" :disabled="order_status==''">Update Status</button>
+                                    <button :class="[order_status==''?'bg-indigo-400':'bg-indigo-700','p-2 border text-white rounded-md']" :disabled="order_status==''">Update Status</button>
                                 </div>
                             </div>
                             <div class="mb-5 flex">
@@ -891,6 +879,7 @@ export default {
     props: {
         order: Object,
         store: Object,
+        statuses:Array
     },
 
     components: {
