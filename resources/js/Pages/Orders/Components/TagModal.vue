@@ -1,77 +1,205 @@
 <template>
-  <TransitionRoot as="template" :show="open">
-    <Dialog as="div" auto-reopen="true" class="fixed z-10 inset-0 overflow-y-auto" @close="emitClose()">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-          <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </TransitionChild>
+  <div class="tag-input" :class="{ 'with-count': showCount }">
+    <input
+      v-model="newTag"
+      type="text"
+      :list="id"
+      placeholder="separate options with a comma"
+      autocomplete="off"
+      @keydown.prevent.,="addTag(newTag)"
+      @keydown.delete="newTag.length || removeTag(tags.length - 1)"
+      @blur="$emit('comment',tags)"
+      class="shadow-sm focus:ring-transparent focus:border-gray-300 block w-full sm:text-sm border-gray-300 rounded-md"
+    />
 
-        <!-- This element is to trick the browser into centering the modal contents. -->
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-          <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xlg sm:w-full sm:p-6">
-           <div>
-                <div class="flex justify-between">
-                    <h2 class="text-xl">Tags</h2>
-                    <XIcon class="w-5 h-5"/>
-                </div>
-               <div class=" mt-3 -mx-6 border-t border-gray-300"></div>
-              <div class="flex justify-between mt-3">
-                <p class=" my-auto font-semibold">All Tags</p>
-                <div>
-                  <select class="border-gray-300 rounded">
-                    <option>Sort Alphabetically</option>
-                  </select>
-                </div>
-              </div>
-              <div class="mt-4"><p class="text-gray-400">Select previously used tags from the list below to add them to this order.</p></div>
-            </div>
-            <div class="tags">
+    <datalist v-if="options" :id="id">
+      <option v-for="option in availableOptions" :key="option" :value="option">
+        {{ option }}
+      </option>
+    </datalist>
 
-            </div>
-               <div class=" mt-3 -mx-6 border-t border-gray-300"></div>
-            <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-              <button type="button" class="w-1/2 h-10 justify-self-end justify-center rounded-md border border-transparent shadow-sm py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm" @click="open = false">
-                Apply Changes
-              </button>
-              <button type="button" class="w-1/3 mt-3 h-10 justify-center rounded-md border border-gray-300 shadow-sm  py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm" @click="emitClose()" ref="cancelButtonRef">
-                Close
-              </button>
-            </div>
-          </div>
-        </TransitionChild>
-      </div>
-    </Dialog>
-  </TransitionRoot>
+    <ul class="tags" ref="tagsUl">
+      <li
+        v-for="(tag, index) in tags"
+        :key="tag"
+        class="tag"
+        :class="{ duplicate: tag === duplicate }"
+      >
+        {{ tag }}
+        <XIcon class="h-3 w-3 font-bold cursor-pointer" @click="removeTag(index)"/>
+        <!-- <button class="delete font-bold" @click="removeTag(index)">x</button> -->
+      </li>
+    </ul>
+    <div v-if="showCount" class="count">
+      <span>{{ tags.length }}</span> tags
+    </div>
+  </div>
 </template>
-
 <script>
-import { ref } from 'vue'
-import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { XIcon } from '@heroicons/vue/outline'
-
+import { ref, watch, nextTick, onMounted, computed } from "vue";
+import {XIcon} from "@heroicons/vue/solid"
 export default {
-  emits: ['emitClose'],
-  components: {
-    Dialog,
-    DialogOverlay,
-    DialogTitle,
-    TransitionChild,
-    TransitionRoot,
-    XIcon,
+  props: {
+    name: { type: String, default: "" },
+    modelValue: { type: Array, default: () => [] },
+    options: { type: [Array, Boolean], default: false },
+    allowCustom: { type: Boolean, default: true },
+    showCount: { type: Boolean, default: false },
+    comment: Function,
+    //dataIndex:Number,
   },
-  methods:{
-    emitClose(){
-      this.open = false
-      this.$emit('emitClose')
+  components:{XIcon},
+  emits:['comment'],
+  /* methods:{
+    comment(e){
+      e.preventDefaults()
+      this.$emit('comment')
     }
-  },
-  setup() {
-    const open = ref(true)
+  }, */
+  setup(props, {emit}) {
+    // Tags
+    const tags = ref(props.modelValue);
+    const newTag = ref("");
+    const id = Math.random().toString(36).substring(7);
+    const addTag = (tag) => {
+      if (!tag) return; // prevent empty tag
+      // only allow predefined tags when allowCustom is false
+      if (!props.allowCustom && !props.options.includes(tag)) return;
+      // return early if duplicate
+      if (tags.value.includes(tag)) {
+        handleDuplicate(tag);
+        return;
+      }
+      tags.value.push(tag);
+      newTag.value = ""; // reset newTag
+    };
+    const removeTag = (index) => {
+      tags.value.splice(index, 1);
+      emit('comment',tags.value)
+    };
 
+    // handling duplicates
+    const duplicate = ref(null);
+    const handleDuplicate = (tag) => {
+      duplicate.value = tag;
+      setTimeout(() => (duplicate.value = null), 1000);
+      newTag.value = "";
+    };
+    // positioning and handling tag change
+    const paddingLeft = ref(10);
+    const tagsUl = ref(null);
+    const onTagsChange = () => {
+      // position cursor
+      const extraCushion = 15;
+      paddingLeft.value = tagsUl.value.clientWidth + extraCushion;
+      // scroll to end of tags
+      tagsUl.value.scrollTo(tagsUl.value.scrollWidth, 0);
+      // emit value on tags change
+      //emit("update:modelValue", tags.value);
+    };
+    watch(tags, () => nextTick(onTagsChange), { deep: true });
+    onMounted(onTagsChange);
+    // options
+    const availableOptions = computed(() => {
+      if (!props.options) return false;
+      return props.options.filter((option) => !tags.value.includes(option));
+    });
     return {
-      open,
-    }
+      tags,
+      newTag,
+      addTag,
+      removeTag,
+      paddingLeft,
+      tagsUl,
+      availableOptions,
+      id,
+      duplicate,
+      //comment
+    };
   },
-}
+};
 </script>
+<style scoped>
+.tag-input {
+  position: relative;
+}
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 17px;
+  padding: 0;
+  /* position: absolute; 
+  top: 0;
+  bottom: 0;
+  left: 10px;
+  */
+  max-width: 100%;
+  overflow-x: auto;
+}
+.tag {
+  background: #e0e7ff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  color: #3730a3;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: 0.1s ease background;
+}
+input {
+  width: 100%;
+  padding: 8px;
+}
+.delete {
+  color: #818cf8;
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+@keyframes shake {
+  10%,
+  90% {
+    transform: scale(0.9) translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: scale(0.9) translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: scale(0.9) translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: scale(0.9) translate3d(4px, 0, 0);
+  }
+}
+.tag.duplicate {
+  background: rgb(235, 27, 27);
+  animation: shake 1s;
+}
+.count {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  display: block;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.count span {
+  background: #eee;
+  padding: 2px;
+  border-radius: 2px;
+}
+.with-count input {
+  padding-right: 60px;
+}
+.with-count ul {
+  max-width: 60%;
+}
+</style>
