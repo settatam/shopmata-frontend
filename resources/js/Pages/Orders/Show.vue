@@ -247,7 +247,7 @@
                                             capitalize text-gray-700
                                             border-gray-300
                                             rounded-md
-                                            p-3
+                                            p-2
                                             w-1/2
                                             mr-2
                                         "
@@ -258,23 +258,11 @@
                                         <option value="">
                                             Select status
                                         </option>
-                                        <option value="fulfilled">
-                                            Fulfilled
-                                        </option>
-                                        <option value="unpaid">
-                                            Unpaid
-                                        </option>
-                                        <option value="pending">
-                                            Pending
-                                        </option>
-                                        <option value="unfulfilled">
-                                            Unfulfilled
-                                        </option>
-                                        <option value="delivered">
-                                            Delivered
+                                        <option v-for="status in statuses" :key="status.id" :value="status">
+                                            {{status}}
                                         </option>
                                     </select>
-                                    <button :class="[order_status==''?'bg-indigo-400':'bg-indigo-700','p-3 border text-white rounded-md']" :disabled="order_status==''">Update Status</button>
+                                    <button :class="[order_status==''?'bg-indigo-400':'bg-indigo-700','p-2 border text-white rounded-md']" :disabled="order_status==''">Update Status</button>
                                 </div>
                             </div>
                             <div class="mb-5 flex">
@@ -295,7 +283,7 @@
                             </div>
                         </div>
                         <div class="flex mb-2">
-                            <h2 class="font-normal text-base">Customer Note</h2>
+                            <h2 class="font-normal text-xs">Customer Note</h2>
                         </div>
                         <div class="flex w-full mb-6 relative">
                             <div class="w-full mr-2 ">
@@ -331,6 +319,7 @@
                                     rounded-md
                                     absolute
                                 "
+                                @click=" addCustomerNote"
                             >
                                 Add
                             </button>
@@ -467,12 +456,12 @@
                                 </div>
 
                             </div >
-                                <div>
+                                <div v-if="show_timeline">
                                     <p class=" h-10 w-10 rounded-full capitalize ml-4 bg-indigo-700 text-white text-lg flex items-center justify-center font-semibold">
                                         {{ getCustomer?.first_name.charAt(0)}}{{ getCustomer?.last_name.charAt(0) }}
                                     </p>
                                 </div>
-                                <div class="timeline_container" >
+                                <div class="timeline_container" v-if="show_timeline">
                                     <div class="para_1 relative event text-xs mb-11" v-for="timeline in timelines" :key="timeline.id">
                                         <div class="date text-gray-500 ">{{moment(timeline.date).format('ll')}}</div>
                                         <div class="flex justify-between">
@@ -485,9 +474,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button class="py-2 px-8 bg-indigo-700 rounded text-white float-right mb-2" @click="confirm_open=true">Save order</button>
                         </div>
                 </div>
-
+                
                 <div class="flex flex-col w-1/3">
                     <div class="bg-white pl-5 mb-3 pr-7 pb-6 pt-6 rounded">
                         <div class="flex justify-between mb-3">
@@ -726,13 +716,20 @@
                             </h2>
                         </div>
                     </div>
-
-                    <div class="bg-white pl-5 pr-7 pb-9 pt-6 rounded">
-                        <div class="flex justify-between mb-4.5">
+                    <div class="bg-white pl-5 pr-7 pb-9 pt-6 rounded relative">
+                        <div class="flex justify-between mb-4.5 ">
                             <h2 class="font-bold text-lg">Tags</h2>
-                            <h2 class="text-indigo-700 text-xs font-semibold cursor-pointer">
+                            <h2 class="text-indigo-700 text-xs font-semibold cursor-pointer" @click="tag_open=true">
                                 Add tags
                             </h2>
+                        </div>
+                        <input type="text" name="tag" class="border-gray-300 px-6 pl-9 w-full py-2 text-xs placeholder-gray-300 rounded-lg relative" placeholder="Search for tags">
+                        <search-icon class="h-5 w-5 font-bold text-gray-500 absolute left-8 top-20"/>
+                        <div class="flex text-xm mt-4 w-full overflow-x-scroll items-center">
+                            <div class="py-0.5 px-2 rounded-xl mr-2 bg-indigo-100 items-center flex" v-for="(tag,index) in tags" :key="index">
+                                <p class="text-indigo-700 font-medium capitalize">{{tag}}</p>
+                                <x-icon class="h-3 w-3 ml-1 text-blue-400 font-bold cursor-pointer" @click="removeTag(index)"/>
+                            </div>
                         </div>
                         <!-- 
                         <label for="search" class="sr-only">Search</label>
@@ -810,20 +807,50 @@
                                 </button>
                             </span>
                         </div> -->
-                         <TagModal :tags="tags" :addTagValue="addTagValue" @comment="addTagValue"/>
+                            <div class="absolute top-12 rounded p-6 bg-white w-full -mx-5" v-if="tag_open">
+                                <div class="flex items-center mb-6">
+                                    <ChevronLeftIcon class="h-6 w-6 mr-4"/>
+                                    <p class="text-lg font-semibold">Add Tags</p>
+                                </div>
+                                <div class="mb-10 flex flex-col">
+                                    <label for="tag" class="mb-2">
+                                        Tag name
+                                    </label>
+                                    <input type="text" name="tag" class="border-gray-300 px-3 py-2 text-xs placeholder-gray-300 rounded-lg" placeholder="Seperate tags with a comma" v-model="tag_name">
+                                </div>
+                                <div class="flex justify-between">
+                                    <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-7 py-3 bg-indigo-700 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm" @click="addTag">
+                                        Create
+                                    </button>
+                                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-7 py-3 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm" @click="cancel_tag" ref="cancelButtonRef">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
                     </div>
+                    <confirmation-modal v-if="confirm_open" @close="confirm_open=false" @confirm="submit"/>
 
                     <div class="bg-white pl-5 mt-3 mb-3 pr-7 pb-9 pt-6 rounded">
                         <div class="flex justify-between mb-4.5">
                             <h2 class="font-bold text-lg">Notes</h2>
                             <p class="font-semibold text-indigo-700 cursor-pointer text-xs">Edit</p>
                         </div>
-                        <h2
-                            v-if="order.note"
-                            class="text-indigo-700 font-semibold"
-                        >
-                            {{ order.note }}
-                        </h2>
+                        <div v-if="customer_notes">
+                            <div v-for="note in customer_notes" :key="note.id" class="border border-gray-200 rounded p-3.5 mb-2">
+                                <div class="flex justify-between text-xs ">
+                                    <div>
+                                        <p><span class="font-bold ">You</span> added a note</p>
+                                        <p class="text-xm">{{note.date}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <pencil-icon class="text-indigo-700 w-5 h-5 cursor-pointer"/>
+                                        <trash-icon class="w-5 h-5 text-gray-500 cursor-pointer"/>
+                                    </div>
+                                </div>
+                                <div class="border-b border-gray-200 my-2 w-full h-px"></div>
+                                  <p class="text-gray-800">{{note.note}}</p>  
+                            </div>
+                        </div>
                         <p v-else class="text-xs text-gray-400">
                             No notes from customer
                         </p>
@@ -851,6 +878,7 @@ import AddressModal from "./Components/AddressModal.vue";
 import TagModal from "./Components/TagModal.vue";
 import MarkAsPaidModal from "./Components/MarkAsPaidModal.vue";
 import ReserveItemsModal from "./Components/ReserveItemsModal.vue";
+import ConfirmationModal from "./Components/ConfirmationModal.vue"
 
 import {
     Dialog,
@@ -864,6 +892,9 @@ import {
     PlusIcon,
     ChevronRightIcon,
     ArrowLeftIcon,
+    TrashIcon,
+    PencilIcon,
+    SearchIcon
 } from "@heroicons/vue/solid";
 import { HomeIcon } from "@heroicons/vue/outline";
 import hljs from "highlight.js";
@@ -891,6 +922,7 @@ export default {
     props: {
         order: Object,
         store: Object,
+        statuses:Array
     },
 
     components: {
@@ -909,11 +941,13 @@ export default {
         UploadIcon,
         AngleUpIcon,
         Button,
+        ConfirmationModal,
         // MediaUrlModal,
         EmptyProductModal,
         ProductModal,
         ChevronLeftIcon,
         XIcon,
+        SearchIcon,
         PlusIcon,
         DiscountModal,
         ShippingModal,
@@ -927,6 +961,9 @@ export default {
         ChevronRightIcon,
         ArrowLeftIcon,
         HomeIcon,
+        TrashIcon,
+        PencilIcon,
+        XIcon
     },
 
     data() {
@@ -941,10 +978,13 @@ export default {
             openBilling: false,
             openAddress: false,
             openTag: false,
+            tag_name:"",
             openMarkAsPaid: false,
             openReserve: false,
+            confirm_open:false,
             order_status:"",
             customer_note:"",
+            tag_open:false,
             tags:[],
             dropzoneOptions: {
                 url: "/product-images",
@@ -1024,158 +1064,7 @@ export default {
             media: {
                 url: "",
             },
-            products: [
-                {
-                    id: 1,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 1,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 910,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 2,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 930,
-                        },
-                    ],
-                },
-                {
-                    id: 2,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 3,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 78,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 4,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 99,
-                        },
-                    ],
-                },
-                {
-                    id: 3,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 5,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 22,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 6,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 26,
-                        },
-                    ],
-                },
-                {
-                    id: 4,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 7,
-                            color: "Orange",
-                            price: 100,
-                            quantity: 20,
-                            sku: 33,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 8,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 35,
-                        },
-                    ],
-                },
-                {
-                    id: 5,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 9,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 90,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 10,
-                            color: "Pink",
-                            price: 100,
-                            quantity: 20,
-                            sku: 98,
-                        },
-                    ],
-                },
-                {
-                    id: 6,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: {},
-                },
-                {
-                    id: 7,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: {},
-                },
-                {
-                    id: 8,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            id: 11,
-                            color: "Black",
-                            price: 100,
-                            quantity: 20,
-                            sku: 78,
-                            image: "https://picsum.photos/200",
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 12,
-                            color: "Baige",
-                            price: 100,
-                            quantity: 20,
-                            sku: 899,
-                        },
-                    ],
-                },
-            ],
+            customer_notes:[],
             production: [],
             subTotal: 0,
             taxes: 0,
@@ -1267,10 +1156,19 @@ export default {
                 values: [],
             });
         },
-        /* addTagvalue(e){
-            //console.log(e)
-            //console.log("object")
-        }, */
+        addTag(){
+           const tag = this.tag_name.split(",")
+           for (let index = 0; index < tag.length; index++) {
+               const char = tag[index];
+               this.tags.push(char)
+           }
+           this.tag_name = ""
+           this.tag_open = false
+        },
+        removeTag(id){
+            this.tags.splice(id, 1)
+        
+        },
         addVariantName(e) {
             let index = e.target.getAttribute("data-index");
             this.variants.options[index].name = e.target.value;
@@ -1425,6 +1323,23 @@ export default {
             this.openModal = true;
             this.getProducts();
         },
+        addCustomerNote(){
+            let today = new Date();
+            let date = (today.getMonth()+1)+' '+today.getDate();
+            //let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            //let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = moment(date).format('ll');
+            let customer_note_info={
+                date: dateTime,
+                note:this.customer_note
+            }
+            this.customer_notes.push(customer_note_info)
+            this.customer_note=""
+        },
+        cancel_tag(){
+            this.tag_open=false
+            this.tag_name=''
+        }
     },
     setup() {
         const open = ref(false);

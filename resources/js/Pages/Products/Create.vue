@@ -24,26 +24,26 @@
                 </li>
               </ol>
             </nav>
-            <div class="flex justify-between mt-4 px-6">
+            <div class="flex justify-between items-center mt-4 px-6">
               <h1 class="text-lg md:text-2xl font-bold text-gray-900">
                 Add New Product
               </h1>
-              <div class="hidden md:flex">
-                <button type="button" class=" rounded-md border border-indigo-600 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
+              <div class="flex">
+                <button type="button" class=" rounded-md border border-indigo-600 mr-4 shadow-sm px-8 md:px-10 py-3 bg-transparent text-base font-medium text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
                     Preview
                   </button>
-                  <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+                  <button type="button" class="hidden md:block rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
                     Save
                   </button>
               </div>
             </div>
           <div class="max-w-3xl mx-auto py-5 md:py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
            
-              <div class="bg-white mb-10 pt-4 md:pt-7 rounded">
+              <div class="bg-white mb-3 md:mb-5 pt-4 md:pt-7 rounded">
                 <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
                   <span><angle-up-icon></angle-up-icon></span>
                 </div> -->
-                <div class="bg-white px-4 md:px-8 pb-6 mb-6">
+                <div class="bg-white px-4 md:px-8 pb-6 mb-3 md:mb-6">
                   <!-- <p class="text-black text-2xl font-semilbold mb-6">Update Product</p> -->
                   <div class="flex justify-between cursor-pointer" @click="product_open=!product_open">
                     <p class="text-gray-700 font-bold text-lg mb-4">Product Information</p>
@@ -87,7 +87,7 @@
 
                <!-- Princing Start here -->
 
-            <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 rounded">
+            <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-5 rounded">
                 <div class="flex justify-between px-4 md:px-8 cursor-pointer" @click="price_open=!price_open">
                     <p class="text-black font-semibold text-lg mb-6">Pricing</p>
                     <div>
@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     
-                    <div class="mt-4 mb-6">
+                    <div class="mt-4 mb-3 md:mb-6">
                         <div class="flex items-center">
                             <input type="checkbox" class="form-checkbox cursor-pointer rounded-sm h-4 w-4 text-indigo-500 transition duration-150 ease-in-out border border-border focus:outline-none" id="charge_tax">
                             <label for="charge_tax" class="ml-2 block text-sm leading-5 text-black cursor-pointer">
@@ -138,23 +138,28 @@
                   </div>
               </div>
 
-              <div class="bg-white mb-10 py-6 rounded hidden md:block">
+              <div class="bg-white mb-3 md:mb-5 py-6 rounded">
                 <div class="px-4 md:px-8">
-                  <div class="bg-white flex justify-between">
+                  <div class="bg-white flex justify-between" @click="media_open=!media_open">
                     <p class="text-black font-semibold text-lg mb-6">Media</p>
+                    <div>
+                       <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="media_open" />     
+                      <chevron-down-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-else />     
+                    </div>
                   </div>
-                  <div class="border-b  border-gray-300">
+                  <div class="border-b  border-gray-300" v-if="product.images.length && media_open">
                     <li class="flex text-gray-700  justify-between">
                       <p class="w-3/10">Image</p>
                       <p class="w-5/10 border-r border-l border-gray-300 px-6">Description</p>
                       <p class="w-2/10 px-2">Thumbnail</p>
                     </li>
                   </div>
-                  <div class="mt-7">
-                    <images-list :images="product.images" v-if="product.images.length"/>
-                    <!-- <Dropzone
+                  <div class="" v-if="media_open">
+                    <images-list :images="product.images" v-if="product.images.length" @delete_img="delete_img"/>
+                    <Dropzone
                       @add-image="onAddImage"
-                    /> -->
+                      class=""
+                    />
                   </div>
                   
                 </div>
@@ -172,7 +177,7 @@
               ></variants-form>
 
               <!-- Link Starts Here -->
-              <div class="bg-white p-4 md:p-8 mb-10 rounded">
+              <div class="bg-white p-4 md:p-8 mb-3 md:mb-10 rounded">
                 <div class="flex justify-between cursor-pointer" @click="link_open=!link_open">
                   <p class="text-black font-semibold text-lg mb-6">Link</p>
                    <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="link_open"/>     
@@ -199,7 +204,7 @@
               </div>
               <!-- Inventory Starts here -->
 
-              <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 rounded " @click="inventory_open=!inventory_open">
+              <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-5 rounded " @click="inventory_open=!inventory_open">
                   <div class="flex justify-between md:px-8 px-4 cursor-pointer">
                       <p class="text-black font-semibold text-lg mb-6">Inventory</p>
                       <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="inventory_open"/>     
@@ -309,7 +314,7 @@
               <!-- Shipping ends here -->
             
               <!-- Search Engine Starts Here -->
-              <div class="bg-white pt-4 md:pt-7 pb-1 mb-10 px-4 md:px-8 rounded">
+              <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-5 px-4 md:px-8 rounded">
                   <div class="flex justify-between">
                       <div class="cursor-pointer" @click="seo_open=!seo_open">
                           <p class="text-black font-semibold text-lg mb-6">Search Engine Listing Preview</p>
@@ -450,6 +455,7 @@ export default {
       inventory_open: true,
       link_open: true,
       price_open: true,
+      media_open: true,
       product_open: true,
       pageTitleLength: 0,
       searchEngDescLength: 0,
@@ -529,7 +535,7 @@ export default {
     },
   },
   mounted() {
-    this.domainWidth = this.$refs.domain_name.clientWidth+8+'px'
+    this.domainWidth = this.$refs.domain_name.clientWidth+10+'px'
   },
   methods: {
     showFormFields() {
@@ -604,13 +610,20 @@ export default {
     upload() {
       // console.log(this.formData);
     },
+    delete_img(image){
+      this.product.images = image
+    },
     submit() {
       // this.sending = true
       this.product.description = this.$refs.description.$refs.editor.innerHTML;
       this.product.variants = this.variantList;
       this.product.variant_options = this.variants.options
       console.log(this.product);
-      axios.post('/products', this.product);
+      if (this.product.description==''||this.product.variants=='') {
+        alert('Imcomplete Form. Kindly fill')
+      } else {
+        axios.post('/products', this.product);
+      }
 
       // this.$inertia.post("/products", this.formData);
     },

@@ -89,7 +89,7 @@
                   </div>
 
                 </div>
-              <div class="hidden md:flex flex-col mt-2">
+              <div class="hidden md:flex flex-col mt-2 md:mt-6">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
                     <thead class="bg-gray-50">
@@ -140,17 +140,18 @@
                           {{ product.currency }}
                         </td>
                         <td class="w-1/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
-                          <span class="text-gray-900 font-normal">{{ product.amount }} </span>
                           {{ product.currency }}
-                        </td>
-                        <td class=" w-1/10px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                           <span class="text-gray-900 font-normal">{{ product.amount }} </span>
-                          {{ product.currency }}
                         </td>
+                        
                         <td class="w-1/10 px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
                           <span :class="[statusStyles[product.status], 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal capitalize']">
                             {{product.status}}
                           </span>
+                        </td>
+                        <td class=" w-1/10px-6 py-4 text-center whitespace-nowrap text-sm text-gray-500">
+                          <span class="text-gray-900 font-normal">{{product.compare_at_price }} </span>
+                          {{ product.currency_code }}
                         </td>
                         <td class="w-1/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                           <time :datetime="product.datetime">{{ product.date }}</time>
@@ -210,7 +211,7 @@
                   <div class="border-t border-gray-100 -mx-4 my-2"></div>
                 </div>
               </div>
-                <delete-alert @close="close" @delete="delete_action" v-if="delete_selected" :open="open_delete"/>
+                <delete-alert @close="close" @delete="delete_action" v-if="delete_selected" :selected="selected" :open="open_delete"/>
                  <div class="py-3 flex items-center justify-between border-t border-gray-200">
                     <div class="flex-1 flex justify-between sm:hidden">
                       <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
@@ -348,11 +349,14 @@ export default {
      },
      close(){
        this.delete_selected = false
+        this.selected =[]
+        this.selectedAll=false
      },
      delete_action(){
-       for (const id in this.selected) {
+       for (const id of this.selected) {
           console.log(id)
           this.selected =[]
+          this.selectedAll=false
         }
       }
   },

@@ -45,6 +45,7 @@ import { ref } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
+import { Inertia } from '@inertiajs/inertia'
 
 export default {
     emits:['close'],
@@ -66,7 +67,7 @@ export default {
           this.open = false
            this.$emit('close')
            //console.log(`${this.delete_url}/${id}`)
-           axios.delete(`${this.delete_url}/${id}`)
+           Inertia.delete(`${this.delete_url}/${id}`)
       }
   },
   setup() {
