@@ -164,7 +164,6 @@ class OrdersController extends Controller
     public function edit($id)
     {
         //
-        git push -u origin jacob_dev
     }
 
     /**
