@@ -139,22 +139,21 @@ class OrdersController extends Controller
     {
         $o = Order::find($id);
         $statuses = Order::statuses();
-        $order = Order::with('items')->with('tags')->with('customer')->with('activities')->with('shipping_addresses')->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
+        $order = Order::with(['activities','billing_address','customer','items','tags','shipping_addresses'])->withTotalOrders($o->customer_id)->withAverageOrders($o->customer_id)->where('id', $id)->first();
 
         if(count($order->items)) {
-
             for($i=0; $i<count($order->items); $i++) {  
                 if(null !== $order->items[$i]->variant->product) {
                     $order->items[$i]->title = $order->items[$i]->variant->product->title;
                 }else{
                    $order->items[$i]->title = 'This is a test title';
                 }
-
             }
         }
 
         return Inertia::render('Orders/Show', compact('notification', 'order', 'statuses'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -165,6 +164,7 @@ class OrdersController extends Controller
     public function edit($id)
     {
         //
+        git push -u origin jacob_dev
     }
 
     /**
