@@ -661,20 +661,6 @@ import {
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
     {
-        name: "Products",
-        href: "/products",
-        icon: ChartPieIcon,
-        current: false,
-        children: [
-            { name: "All Products", href: "/products" },
-            { name: "Add Product", href: "/products/create" },
-            { name: "All Brands", href: "/brands" },
-            { name: "Add Brand", href: "/brands/create" },
-            { name: "All Collections", href: "/categories" },
-            { name: "New Collection", href: "/categories/create" },
-        ],
-    },
-    {
         name: "Orders",
         href: "/orders",
         icon: ShoppingBagIcon,
@@ -683,6 +669,20 @@ const navigation = [
             { name: "Orders", href: "/orders" },
             { name: "Gift Vouchers", href: "#" },
             { name: "Vector Themes", href: "#" },
+        ],
+    },
+    {
+        name: "Products",
+        href: "/products",
+        icon: ChartPieIcon,
+        current: false,
+        children: [
+            { name: "All Products", href: "/products" },
+            { name: "Add Product", href: "/products/create" },
+            /* { name: "All Brands", href: "/brands" },
+            { name: "Add Brand", href: "/brands/create" }, */
+            { name: "All Collections", href: "/categories" },
+            { name: "New Collection", href: "/categories/create" },
         ],
     },
     {

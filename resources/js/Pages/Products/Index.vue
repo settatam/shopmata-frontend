@@ -318,7 +318,8 @@ export default {
             products: Object,
             filters: Object,
             brands: Array,
-            categories: Array
+            categories: Array,
+            store: Object
         },
   components: {AppLayout, ScaleIcon, SearchIcon, PlusIcon, TrashIcon,ChevronLeftIcon,ChevronRightIcon,PencilIcon,DeleteAlert},
 
