@@ -262,7 +262,7 @@
                                             {{status}}
                                         </option>
                                     </select>
-                                    <button :class="[order_status==''?'bg-indigo-400':'bg-indigo-700','p-2 border text-white rounded-md']" :disabled="order_status==''">Update Status</button>
+                                    <button :class="[order_status==''?'bg-indigo-400':'bg-indigo-700','p-2 border text-white rounded-md']" :disabled="order_status==''" @click="updateStatus">Update Status</button>
                                 </div>
                             </div>
                             <div class="mb-5 flex">
@@ -278,7 +278,7 @@
                                             border-gray-300
                                             mr-2
                                         "
-                                        v-model="notify_customer"
+                                        v-model="order.customer.notify"
                                     />
                                 </div>
                             </div>
@@ -1301,6 +1301,9 @@ export default {
             }
 
             console.log(z);
+        },
+        updateStatus(){
+            this.order.status = this.order_status
         },
         emitClose() {
             //console.log("object")
