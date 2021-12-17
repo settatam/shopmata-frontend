@@ -55,7 +55,7 @@
                                     rounded-md
                                     text-xs
                                 "
-                                @click="browseProduct"
+                                @click="send_invoice=true"
                             >
                                 Send Invoice
                             </button>
@@ -69,7 +69,7 @@
                             </p>
                         </div>
                         <p class="mt-2.5 text-base">
-                            {{ store.currency.code }}{{ order.total_orders }} from Online Store
+                            {{ store.currency.symbol_left }} {{ parseFloat(order.total_orders).toFixed(2) }} from Online Store
                         </p>
                         <div
                             v-for="item in order.items"
@@ -111,7 +111,7 @@
                             <div class="w-1/4">
                                 <p class="text-base mb-1">Product Price</p>
                                 <p class="font-semibold text-lg">
-                                    {{ store.currency.code }}{{ item.price }}
+                                    {{ store.currency.symbol_left }} {{  parseFloat(item.price).toFixed(2) }}
                                 </p>
                             </div>
                             <div class="w-1/4">
@@ -123,7 +123,7 @@
                             <div class="w-1/4">
                                 <p class="text-base mb-1">SubTotal</p>
                                 <p class="font-semibold text-lg">
-                                    {{ store.currency.code }}{{ item.price * (item.quantity || 1 )}}.00
+                                    {{ store.currency.symbol_left }} {{parseFloat( item.price * (item.quantity || 1)).toFixed(2)}}
                                 </p>
                             </div>
                         </div>
@@ -144,26 +144,26 @@
                                     Subtotal {{ " " }} ({{ order.items.length}} item)
                                 </h2>
                                 <p class="text-black font-bold">
-                                    {{ store.currency.code }} {{ total_subtotal || 0  }}.00
+                                    {{ store.currency.symbol_left}} {{parseFloat(total_subtotal).toFixed(2) || 0.00  }}
                                 </p>
                             </div>
                             <div class="flex justify-between mb-4">
                                 <h2 class="font-semibold text-gray-700">Delivery</h2>
                                 <p class="text-black font-bold">
-                                    {{ store.currency.code }} {{ order.delivery||"0 .00"}}
+                                    {{ store.currency.symbol_left }} {{ parseFloat(order.delivery).toFixed(2) || "0.00"}}
                                 </p>
                             </div>
                             <div class="flex justify-between">
                                 <h2 class="font-semibold text-gray-700">Tax</h2>
                                 <p class="text-black font-bold">
-                                   {{ store.currency.code }} {{ order.sales_tax || "0 .00" }}
+                                   {{ store.currency.symbol_left }} {{ parseFloat(order.sales_tax).toFixed(2) || "0.00" }}
                                 </p>
                             </div>
                         </div>
                         <div class="flex justify-between border-t-2 border-gray-100 mt-5 pt-5">
                             <h2 class="font-semibold text-gray-500">Total Amount</h2>
                                 <p class="text-black font-bold">
-                                   {{ store.currency.code }} {{total_payment()}}
+                                   {{ store.currency.symbol_left }} {{(total_payment())}}
                                 </p>
                         </div>
                     </div>
@@ -278,6 +278,7 @@
                                             border-gray-300
                                             mr-2
                                         "
+                                        v-model="notify_customer"
                                     />
                                 </div>
                             </div>
@@ -500,8 +501,8 @@
                                         text-gray-800
                                         "
                                     >
-                                        Online Store
-                                        <!-- {{ store.business_name }} -->
+                                        
+                                        {{ store.business_name }}
                                     </h2>
                                 </div>
                             </div>
@@ -517,7 +518,7 @@
                             </div>
                             <div class="mb-2 flex justify-between">
                                 <h2 class="text-gray-700">
-                                    Payment
+                                    Payment Method
                                 </h2>
                                 <div>
                                     <h2
@@ -643,13 +644,13 @@
                                 > -->
                             </div>
                         </div>
-                        <div class="border-b border-gray-200 -mx-5 mb-6.5 text-xs">
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5 ">
                             <div class="px-5 flex justify-between mb-4">
                                 <h2 class="font-bold">
                                     Shipping Address
                                 </h2>
                             </div>
-                            <div class="px-5 text-gray-500 mb-6">
+                            <div class="px-5 text-gray-500 mb-6 text-xs">
                                 <h2 class="font-normal mb-1">
                                     {{ getCustomer.first_name }}
                                     {{ getCustomer.last_name }}
@@ -807,7 +808,7 @@
                                 </button>
                             </span>
                         </div> -->
-                            <div class="absolute top-12 rounded p-6 bg-white w-full -mx-5" v-if="tag_open">
+                            <div class="absolute top-12 rounded p-6 bg-white w-full -mx-5 border border-gray-200" v-if="tag_open">
                                 <div class="flex items-center mb-6">
                                     <ChevronLeftIcon class="h-6 w-6 mr-4"/>
                                     <p class="text-lg font-semibold">Add Tags</p>
@@ -972,6 +973,7 @@ export default {
             valueContent: "",
             openShipping: false,
             selected: "",
+            send_invoice:false,
             openDiscount: false,
             openTaxes: false,
             openCustomer: false,
@@ -979,10 +981,11 @@ export default {
             openAddress: false,
             openTag: false,
             tag_name:"",
+            notify_customer:true,
             openMarkAsPaid: false,
             openReserve: false,
             confirm_open:false,
-            order_status:"",
+            order_status:this.order.status,
             customer_note:"",
             tag_open:false,
             tags:[],
@@ -1148,7 +1151,7 @@ export default {
             console.log(this.formData);
         },
         total_payment(){
-            return this.total_subtotal
+            return parseFloat(this.total_subtotal).toFixed(2)
         },
         addOption(e) {
             this.variants.options.push({
