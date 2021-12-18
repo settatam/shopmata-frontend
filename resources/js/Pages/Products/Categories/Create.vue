@@ -1,82 +1,63 @@
 <template>
     <app-layout>
         <div class="">
-            <div class="px-4 sm:px-6 lg:mx-auto lg:px-8">
+            <div class=" md:px-8 px-4 lg:mx-auto">
+                <nav class="flex mt-6" aria-label="Breadcrumb">
+                    <ol role="list" class="flex items-center space-x-4">
+                        <li>
+                        <div>
+                            <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                            <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                            <span class="sr-only">Settings</span>
+                            </a>
+                        </div>
+                        </li>
+                        <li v-for="page in pages" :key="page.name">
+                        <div class="flex items-center">
+                            <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <a :href="page.href" class="ml-4 text-xm md:text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+                        </div>
+                        </li>
+                    </ol>
+                </nav>
                 <div
                     class="
                         py-6
                         md:flex md:items-center md:justify-between
-                        lg:border-t lg:border-gray-200
+                        lg:border-gray-200
                     "
                 >
                     <div class="flex-1 min-w-0">
                         <!-- Profile -->
                         <div class="flex items-center">
                             <div>
-                                <div class="flex items-center">
+                                <div class="flex items-center px-0 lg:px-0">
                                     <h1
                                         class="
-                                            ml-3
-                                            text-2xl
+                                            text-lg
+                                            md:text-2xl
                                             font-bold
                                             leading-7
                                             text-gray-900
                                             sm:leading-9 sm:truncate
                                         "
                                     >
-                                        Collections Page
+                                        New Collections
                                     </h1>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div
-                        class="
-                            mt-6
-                            flex
-                            space-x-3
-                            md:mt-0 md:ml-4
-                            justify-between
-                        "
-                    >
+                    <div class=" mt-6 md:flex  space-x-3 md:mt-0 md:ml-4 justify-between hidden">
                         <inertia-link href="/categories">
                             <button
-                                class="
-                                    inline-flex
-                                    items-center
-                                    px-6
-                                    py-3
-                                    border border-cyan-600
-                                    shadow-sm
-                                    rounded-md
-                                    text-cyan-600
-                                    hover:bg-white
-                                    focus:outline-none
-                                    focus:ring-2
-                                    focus:ring-offset-2
-                                    focus:ring-cyan-500
-                                "
+                                class="inline-flex items-center px-6 py-3 border border-cyan-600 shadow-sm rounded-md text-cyan-600 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                             >
                                 Cancel
                             </button>
                         </inertia-link>
                         <button
-                            class="
-                                inline-flex
-                                items-center
-                                px-8
-                                py-3
-                                border border-transparent
-                                shadow-sm
-                                rounded-md
-                                text-white
-                                bg-cyan-600
-                                hover:bg-cyan-700
-                                focus:outline-none
-                                focus:ring-2
-                                focus:ring-offset-2
-                                focus:ring-cyan-500
-                            "
+                            class=" inline-flex items-center px-8 py-3 border border-transparent shadow-sm rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                             @click="submitForm()"
                         >
                             Save
@@ -85,13 +66,13 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col lg:grid lg:grid-cols-5 lg:gap-x-5 mx-5">
+        <div class="mx-auto pb-5 md:by-10 px-4 sm:px-6 lg:px-8 flex md:flex-row flex-col md:justify-between">
             <!-- Main -->
-            <div class="col-start-1 col-span-3">
-                <div class="bg-white flex flex-col p-8">
-                    <p class="font-semibold">Collection Details</p>
+            <div class="w-full">
+                <div class="bg-white flex flex-col px-4 py-8 md:p-8">
+                    <p class="font-semibold text-lg">Collection Details</p>
                     <div class="mt-4">
-                        <label for="name" class="block text-sm text-gray-700"
+                        <label for="name" class="block text-xs text-gray-700"
                             >Category Name</label
                         >
                         <div class="mt-1 relative rounded-md shadow-sm">
@@ -119,7 +100,7 @@
                     <div class="mt-5">
                         <label
                             for="description"
-                            class="block text-sm text-gray-700"
+                            class="block text-xs text-gray-700"
                             >Description</label
                         >
                         <textarea
@@ -142,11 +123,12 @@
                     >
                         {{ v$.category.description.$errors[0].$message }}
                     </span>
-                    <div class="mt-9">
-                        <p class="font-semibold text-lg mb-4">Condition</p>
+                    <div class="mt-9 hidden md:block">
+                        <p class="font-semibold text-lg mb-4">Conditions</p>
                         <div
-                            class="flex flex-col lg:flex-row lg:justify-between"
+                            class="flex justify-between"
                         >
+                     
                             <div class="flex flex-col w-3/10">
                                 <label for="tag" class="text-gray-700 lg:mb-4"
                                     >Products must match:</label
@@ -155,10 +137,11 @@
                             <div class="flex flex-col w-3/10">
                                 <label
                                     for="condition"
-                                    class="text-gray-700 mt-5 lg:mb-4 lg:mt-0"
+                                    class="text-gray-700 mt-0 md:mt-5 lg:mb-4 lg:mt-0"
                                     >all conditions</label
                                 >
                             </div>
+                        
                             <div class="flex flex-col w-3.5/10">
                                 <label
                                     for="condition"
@@ -263,10 +246,10 @@
 
                         <button
                             class="
-                                text-gray-700
+                                text-indigo-700
                                 sm:text-sm
                                 rounded-md
-                                border border-gray-300
+                                border border-indigo-700
                                 text-xs
                                 mb-5
                                 pl-3
@@ -279,8 +262,53 @@
                             Add another condition
                         </button>
                     </div>
+                    <div class="mt-4 md:hidden">
+                        <p>Conditions</p>
+                        <template v-for="(condition, index) in conditions" :key="index">
+                            <div class="flex text-xm justify-between w-full gap-x-5 my-2">
+                                <div class="flex flex-col w-full">
+                                    <label for="product_condition" class="text-gray-700">Products must match:</label>
+                                    <select name="product_condition" v-model="condition.tag" class="rounded-md  border border-gray-300 shadow-sm px-3 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
+                                        <option v-for="(option, index) in product_options" :key="index" v-bind:value="option.title">{{ option.title }}</option>
+                                    </select>
+                                </div>
+                                <div class="flex flex-col w-full">
+                                    <label for="all_condition" class="text-gray-700 ">all conditions</label>
+                                    <select name="all_conditions" v-model="condition.tag" class=" rounded-md border border-gray-300 shadow-sm px-3 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm" >
+                                        <option v-for="( option, index) in product_options" :key="index" v-bind:value="option.title">{{ option.title }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex flex-col text-xm">
+                                <label for="any_condition" class="text-gray-700 ">any conditions</label>
+                                <input type="text" class=" w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-model="condition.condition"/>
+                            </div>
+                        </template>
+                        <button class=" text-indigo-700 sm:text-sm rounded-md border border-indigo-700 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4" @click="add">
+                            Add another condition
+                        </button>
+                    </div>
                 </div>
-                <div class="bg-white flex flex-col mt-4 p-8">
+                    <div class="flex flex-col md:hidden md:ml-4 mt-4.5 md:mt-0 md:max-w-sm  gap-y-4 w-full">
+                        <div class="bg-white px-5 pt-4 pb-3 rounded-sm">
+                            <p class="font-semibold">Collection image</p>
+                            <drop-zone class="mt-3"></drop-zone>
+                        </div>
+                        <div class="bg-white px-5 py-4 md:my-4 rounded-sm">
+                            <p class="font-semibold mt-2">Collection theme</p>
+                            <p class="text-xs mt-1">Theme template</p>
+                            <cat-drop-down
+                                :label="theme_template"
+                                :options="template_opt"
+                                class="w-full"
+                            />
+                            <p class="text-xm text-gray-500 mt-2">
+                                Assign a template from your current theme to define how
+                                the collection is displayed.
+                            </p>
+                        </div>
+                    </div>
+                <!-- <div class="bg-white flex flex-col mt-4 p-8">
                     <div class="flex justify-between" @click="toggle = !toggle">
                         <p class="font-semibold text-lg">
                             Search Engine Listing Preview
@@ -341,7 +369,7 @@
                                 {{ page.page_title.length }} of 70 characters
                                 used
                             </p>
-                            <!-- <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.title.length > 70)">Your title must be less than 70 characters.</p> -->
+                            <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.title.length > 70)">Your title must be less than 70 characters.</p>
                             <span
                                 v-if="v$.page.page_title.$error"
                                 class="text-red-400"
@@ -397,7 +425,7 @@
                                 {{ page.description.length }} of 70 characters
                                 used
                             </p>
-                            <!-- <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.description.length > 70)">Your description must be less than 70 characters.</p> -->
+                            <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.description.length > 70)">Your description must be less than 70 characters.</p>
                             <span
                                 v-if="v$.page.description.$error"
                                 class="text-red-400"
@@ -437,15 +465,16 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <div class="mt-6 flex space-x-3 justify-between">
+                </div> -->
+                <div class="mt-6 sticky bottom-0 md:static  flex space-x-3 justify-between bg-gray-100 p-2">
                     <inertia-link href="/categories">
                         <button
                             class="
                                 inline-flex
                                 items-center
-                                px-6
-                                py-3
+                                md:px-6
+                                md:py-3
+                                px-4 py-2
                                 border border-cyan-600
                                 shadow-sm
                                 rounded-md
@@ -464,8 +493,9 @@
                         class="
                             inline-flex
                             items-center
-                            px-8
-                            py-3
+                                md:px-8
+                                md:py-3
+                                px-4 py-2
                             border border-transparent
                             shadow-sm
                             rounded-md
@@ -484,19 +514,20 @@
                 </div>
             </div>
             <!-- Sidebar -->
-            <div class="lg:col-start-4 lg:col-span-1">
-                <div class="bg-white px-5 pt-4 pb-3">
+            <div class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm  gap-y-4 w-full">
+                <div class="bg-white px-5 pt-4 pb-3 rounded-sm">
                     <p class="font-semibold">Collection image</p>
                     <drop-zone class="mt-3"></drop-zone>
                 </div>
-                <div class="bg-white px-5 py-4 my-4">
-                    <p class="font-semibold mt-2">Collection image</p>
+                <div class="bg-white px-5 py-4 md:my-4 rounded-sm">
+                    <p class="font-semibold mt-2">Collection theme</p>
                     <p class="text-xs mt-1">Theme template</p>
                     <cat-drop-down
                         :label="theme_template"
                         :options="template_opt"
+                        class="w-full"
                     />
-                    <p class="text-xxs text-gray-500 mt-2">
+                    <p class="text-xm text-gray-500 mt-2">
                         Assign a template from your current theme to define how
                         the collection is displayed.
                     </p>
@@ -517,10 +548,16 @@ import {
     ChevronDownIcon,
     ExclamationCircleIcon,
     SelectorIcon,
+    ChevronRightIcon
 } from "@heroicons/vue/solid";
 import useVuelidate from "@vuelidate/core";
+import {HomeIcon} from '@heroicons/vue/outline'
 import { required, maxLength, url, helpers } from "@vuelidate/validators";
 
+const pages = [
+  { name: 'All Collections', href: '/categories', current: false },
+  { name: 'Create Collection', href: '/categories/create', current: true },
+]
 export default {
     props: {
         product_options: Array,
@@ -596,6 +633,8 @@ export default {
         ExclamationCircleIcon,
         SelectorIcon,
         Condition,
+        HomeIcon,
+        ChevronRightIcon
     },
     computed: {
         formData() {
@@ -670,11 +709,15 @@ export default {
         };
     },
 
-    setup() {},
+    setup() {
+        return{
+            pages
+        }
+    },
 };
 </script>
 <style scoped>
 tbody tr:hover {
-    background: transparent;
+  background: transparent;
 }
 </style>

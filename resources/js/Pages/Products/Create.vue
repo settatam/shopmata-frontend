@@ -406,6 +406,10 @@
               <p class="text-gray-700 mt-5 mb-2.5" >Brand name</p>
               <input type="text"  class="py-2 text-xm px-4 rounded border text-gray-400 border-gray-200 w-full" name="brand_tyoe" id="">
               <p class="text-xm text-gray-400 mt-2 mb-4">Choose the brand name of your product, create a custom brand if you cannot find your brand name.</p>
+              <div class="flex text-indigo-700 my-4 float-right">
+                <plus-icon class="w-5 h-5 mr-1 "/>
+                <p>Create Custom Brand</p>
+              </div>
             </div>
           </div>
           </div>

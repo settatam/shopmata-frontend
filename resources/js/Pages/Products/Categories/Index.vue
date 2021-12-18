@@ -32,21 +32,21 @@
                             <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                         </th> 
                         <th scope="col" class="w-3/10  px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          TITLE
+                          Collection name
                         </th>
                         <th scope="col" class=" w-3/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           PRODUCT CONDITION
                         </th>
                         <th scope="col" class="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          SORT ORDER
+                          No of Product
                         </th>
                         <th scope="col" class="relative px-6 py-3">
                           <span class="sr-only">Edit</span>
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200" v-for="category in  categories" :key=" category.id">
-                      <tr class="bg-white">
+                    <tbody class="bg-white divide-y divide-gray-200"   v-if="categories.length>0">
+                      <tr class="bg-white" v-for="category in  categories" :key=" category.id">
                         <td scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" />
                         </td> 
@@ -72,12 +72,19 @@
                         </td>
                         <td class="px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                           <inertia-link :href="'categories/'+category.id+'/edit'">
-                            <p class="truncate text-left break-normal text-cyan-800">Edit</p>
+                            <pencil-icon class="w-5 h-5 text-indigo-700 cursor-pointer"/>
                           </inertia-link>
                         </td>
                       </tr>
                     </tbody>
                   </table>
+                  <div class="flex flex-col items-center pb-20 bg-white" v-if="categories.length==0">
+                    <img src="../../../../assets/EmptyTable.svg" alt="empty_table" srcset="">
+                    <p class="mb-4 text-lg">No collection has been created</p>
+                    <inertia-link href="/categories/create" type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                      <plus-icon class="w-5 h-5 text-white mr-2"/> Create New Collection
+                    </inertia-link>
+                  </div>
                   <!-- Pagination -->
                   <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
                     <div class="hidden sm:block">
@@ -114,8 +121,9 @@
 
 import { ref } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
+import {PencilIcon} from '@heroicons/vue/solid'
 export default {
-      components: {AppLayout},
+      components: {AppLayout,PencilIcon},
       data(){
         return{
           categories:[

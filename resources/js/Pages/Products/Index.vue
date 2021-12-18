@@ -54,7 +54,7 @@
                         <input id="search-field" name="search-field" class="rounded text-xm md:text-base text-gray-500 w-full md:search-field md:w-full pl-12 pr-2 bg-transparent border border-gray-200 placeholder-gray-500 placehol" placeholder="Search by name, email....." type="search" />
                       </div>
                     </div>
-                    <div class="flex flex-col">
+                    <div class="">
                       <label for="brand" class="text-xm md:text-base">Brand</label>
                       <select name="brand" id="" class="rounded text-gray-500 w-full text-xm md:text-base bg-transparent border border-gray-200 ">
                         <option value="1">All</option>
