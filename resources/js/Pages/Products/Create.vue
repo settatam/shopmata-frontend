@@ -37,7 +37,9 @@
                   </button>
               </div>
             </div>
-          <div class="max-w-3xl mx-auto py-5 md:py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+          <div class="mx-auto py-5 md:py-10 px-4 sm:px-6 lg:py-12 lg:px-8 flex justify-between">
+           <div class="">
+
            
               <div class="bg-white mb-3 md:mb-5 pt-4 md:pt-7 rounded">
                 <!-- <div class="bg-white flex justify-between px-8 cursor-pointer" @click="expandForm">
@@ -177,7 +179,7 @@
               ></variants-form>
 
               <!-- Link Starts Here -->
-              <div class="bg-white p-4 md:p-8 mb-3 md:mb-10 rounded">
+              <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">
                 <div class="flex justify-between cursor-pointer" @click="link_open=!link_open">
                   <p class="text-black font-semibold text-lg mb-6">Link</p>
                    <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="link_open"/>     
@@ -186,19 +188,19 @@
                 <div v-if="link_open">
                   <div class="flex flex-col mt-4 text-gray-600">
                     <label for="manufacturer">Manufacturer</label>
-                    <input type="text" name="manufacturer" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="manufacturer" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.manufacturer">
                   </div>
                   <div class="flex flex-col mt-4 text-gray-600">
                     <label for="Collections">Collections</label>
-                    <input type="text" name="Collections" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="Collections" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.collections">
                   </div>
                   <div class="flex flex-col mt-4 text-gray-600">
                     <label for="filters">Filters</label>
-                    <input type="text" name="filters" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="filters" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.filters">
                   </div>
                   <div class="flex flex-col mt-4 text-gray-600">
                     <label for="related">Related Products</label>
-                    <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md">
+                    <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.related_products">
                   </div>
                 </div>
               </div>
@@ -364,6 +366,53 @@
                   </p>
               </div>
           </div>
+          <div class="flex flex-col ml-4 max-w-sm  gap-y-4 w-full">
+            <div class="product-type px-7 pt-6 pb-3 bg-white rounded-sm">
+              <div>
+                <div class="flex">
+                  <p class="font-semibold text-lg" >Product Type</p>
+                  <Tooltip :tooltipText='product_tooltip'>
+                            <question-mark-circle-icon class="w-5 h-5 ml-2 cursor-pointer" />
+                  </Tooltip>
+                </div>
+                <p class="text-gray-700 mt-5 mb-2.5">Choose product type</p>
+                <select name="product_type" class="py-2 text-xm px-4 rounded border text-gray-400 border-gray-200 w-full" id="">
+                  <option value="default" class="">Default collection</option>
+                </select>
+                <p class="text-xm text-gray-400 mt-2">Choose the product category that your product belongs to, create a custom product type if your product does not fit into the available product types.</p>
+              </div>
+            </div>
+            <div class="collection-type px-7 pt-6 pb-3 bg-white rounded-sm">
+              <div>
+                <div class="flex">
+                  <p class="font-semibold text-lg" >Collection Type</p>
+                  <Tooltip :tooltipText='collection_tooltip'>
+                            <question-mark-circle-icon class="w-5 h-5 ml-2 cursor-pointer" />
+                  </Tooltip>
+                </div>
+                <p class="text-gray-700 mt-5 mb-2.5">Choose Collection type</p>
+                <select name="collection_type" class="py-2 text-xm px-4 rounded border text-gray-400 border-gray-200 w-full" id="">
+                  <option value="default">Default collection</option>
+                </select>
+                <p class="text-xm text-gray-400 mt-2">Create a collection, then choose the collection to which your product belongs to.</p>
+                <div class="flex text-indigo-700 my-4 float-right">
+                  <plus-icon class="w-5 h-5 mr-1 "/>
+                  <p>Create Collection</p>
+                </div>
+              </div>
+            </div>
+            <div class="brand-type px-7 pt-6 pb-3 bg-white rounded-sm">
+              <p class="font-semibold text-lg">Brand Type</p>
+              <p class="text-gray-700 mt-5 mb-2.5" >Brand name</p>
+              <input type="text"  class="py-2 text-xm px-4 rounded border text-gray-400 border-gray-200 w-full" name="brand_tyoe" id="">
+              <p class="text-xm text-gray-400 mt-2 mb-4">Choose the brand name of your product, create a custom brand if you cannot find your brand name.</p>
+              <div class="flex text-indigo-700 my-4 float-right">
+                <plus-icon class="w-5 h-5 mr-1 "/>
+                <p>Create Custom Brand</p>
+              </div>
+            </div>
+          </div>
+          </div>
         </div>
       </div>
     </div>
@@ -383,8 +432,8 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import { ChevronLeftIcon,ChevronRightIcon,ChevronDownIcon,ChevronUpIcon } from "@heroicons/vue/solid";
-import { ChartPieIcon,InformationCircleIcon,HomeIcon} from "@heroicons/vue/outline";
+import { ChevronLeftIcon,ChevronRightIcon,ChevronDownIcon,ChevronUpIcon,PlusIcon } from "@heroicons/vue/solid";
+import { ChartPieIcon,InformationCircleIcon,HomeIcon,QuestionMarkCircleIcon} from "@heroicons/vue/outline";
 import hljs from "highlight.js";
 import InventoryForm from "./Components/InventoryForm";
 import ShippingForm from "./Components/ShippingForm";
@@ -395,6 +444,7 @@ import ImagesList from "./Components/ImagesList";
 import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
+import Tooltip from '../../Components/Tooltip/Components/Tooltip.vue'
 
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
@@ -441,7 +491,10 @@ export default {
     ChevronUpIcon,
     ChevronDownIcon,
     HomeIcon,
-    ChartPieIcon
+    ChartPieIcon,
+    Tooltip,
+    QuestionMarkCircleIcon,
+    PlusIcon
   },
 
   data() {
@@ -460,6 +513,8 @@ export default {
       pageTitleLength: 0,
       searchEngDescLength: 0,
       domainWidth: '0',
+      product_tooltip:"A product type is a categorization that identifies a product and helps users to organize the products in their store.",
+      collection_tooltip:"A product type is a categorization that identifies a product and helps users to organize the products in their store.",
       editorOption: {
         modules: {
           toolbar: [
@@ -499,6 +554,12 @@ export default {
       shipping: {
         weight: "",
         physical_product: false,
+      },
+      link:{
+        filters:"",
+        related_products:"",
+        manufacture:"",
+        collection:""
       },
       variants: {
         has_variants: true,

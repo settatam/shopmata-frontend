@@ -10,8 +10,8 @@
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M35.438 28.3899C35.5626 28.265 35.7105 28.166 35.8734 28.0984C36.0363 28.0308 36.2109 27.996 36.3873 27.996C36.5637 27.996 36.7383 28.0308 36.9012 28.0984C37.0641 28.166 37.212 28.265 37.3366 28.3899L45.3814 36.4347C45.6331 36.6865 45.7746 37.0279 45.7746 37.384C45.7746 37.7401 45.6331 38.0815 45.3814 38.3333C45.1296 38.5851 44.7881 38.7265 44.4321 38.7265C44.076 38.7265 43.7346 38.5851 43.4828 38.3333L37.7281 32.5759V56.1552C37.7281 56.5108 37.5868 56.8518 37.3354 57.1033C37.0839 57.3547 36.7429 57.496 36.3873 57.496C36.0317 57.496 35.6907 57.3547 35.4392 57.1033C35.1878 56.8518 35.0465 56.5108 35.0465 56.1552V32.5759L29.2918 38.3333C29.04 38.5851 28.6985 38.7265 28.3425 38.7265C27.9864 38.7265 27.645 38.5851 27.3932 38.3333C27.1414 38.0815 27 37.7401 27 37.384C27 37.0279 27.1414 36.6865 27.3932 36.4347L35.438 28.3899Z" fill="#4F46E5"/>
               </svg>
             </span>
-            <p class="mx-2 text-xxs mt-3">Drag and drop your image here or </p>
-            <button class="text-white bg-cyan-600 active:bg-cyan-600 font-medium border border-transparent px-5 py-2 h-8 w-28 rounded mx-auto mb-6 mt-4 text-xm" @click="open">Choose File</button>
+            <p class="mx-2 text-xxs mt-3 text-center">Drag and drop your image here or </p>
+            <button class="text-white bg-cyan-600 active:bg-cyan-600 font-medium border border-transparent px-5 py-2 h-8 w-28 rounded mx-auto mb-6 mt-4 text-xm" >Choose File</button>
       </div>
     </div>
   </div>
