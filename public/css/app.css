@@ -4391,6 +4391,22 @@ input[type='checkbox']:focus {
 		display: inline-flex;
 	}
 
+	.md\:table {
+		display: table;
+	}
+
+	.md\:table-cell {
+		display: table-cell;
+	}
+
+	.md\:table-header-group {
+		display: table-header-group;
+	}
+
+	.md\:table-row {
+		display: table-row;
+	}
+
 	.md\:grid {
 		display: grid;
 	}

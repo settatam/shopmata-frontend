@@ -46,7 +46,8 @@
          <div class="flex flex-col mt-2">
                 <div class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg">
                   <table class="min-w-full divide-y divide-gray-200 table-fixed">
-                    <thead class="bg-gray-50 hidden md:block">
+                                      
+                    <thead class="bg-gray-50 hidden md:table-header-group">
                       <tr>
                         <th scope="col" class="w-1/10 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" v-model="selectedAll" @click.stop="select" :disabled="categories.length===0" />
@@ -65,12 +66,13 @@
                         </th>
                       </tr>
                     </thead>
+                  
                     <tbody class="bg-white divide-y divide-gray-200"   v-if="categories.length>0">
                       <tr class="bg-white" v-for="category in  categories" :key=" category.id">
                         <td scope="col" class="w-1/10 pl-4.5 pr-2 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" :value="category.id" v-model="selected" @click="uncheckBox(category.id)" />
                         </td> 
-                       <td class="w-3/10 px-2 md:px-6 py-4 items-center whitespace-nowrap text-gray-900 hidden md:block">
+                       <td class="w-3/10 px-2 md:px-6 py-4 items-center whitespace-nowrap text-gray-900 hidden md:table-cell">
                           <div class="flex items-center">
                             <div class="flex-shrink-0 h-12 w-12 rounded-sm mr-3.5 lg:mr-5 border-2 border-r">
                               <img :src="category.image" alt="category_image">
@@ -82,10 +84,10 @@
                             </inertia-link>
                           </div>
                         </td>
-                        <td class="hidden md:block w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
+                        <td class="hidden md:table-cell w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500">
                           <p class="text-gray-800 truncate text-left break-normal">{{category.condition}}</p>  
                         </td>
-                        <td class="hidden md:block w-1/5 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="hidden md:table-cell w-1/5 px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           <p  class="text-gray-800 truncate text-center break-normal">
                            {{category.sort}}
                           </p>
