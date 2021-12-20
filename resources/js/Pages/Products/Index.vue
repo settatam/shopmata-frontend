@@ -354,11 +354,11 @@ export default {
         this.selectedAll=false
      },
      delete_action(){
-       for (const id of this.selected) {
-          console.log(id)
+       
+          //console.log(id)
           this.selected =[]
           this.selectedAll=false
-        }
+        
       }
   },
   setup() {
