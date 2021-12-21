@@ -1,7 +1,7 @@
 <template>
     <app-layout>
         <div class="flex-1 flex flex-col mt-4 min-h-screen">
-            <div class="flex-shrink-0 px-8 py-3 flex items-center">
+            <div class="flex-shrink-0 px-6 md:px-8 py-3 flex items-center">
                 <inertia-link href="/orders">
                     <p class="text-xs text-gray-400 cursor-pointer">Orders</p>
                 </inertia-link>
@@ -11,12 +11,12 @@
                             />
                 <p class="text-xs"># {{ order.id }}</p>
             </div>
-            <nav class="flex px-8 mb-4" aria-label="Breadcrumb">
+            <nav class="flex px-4 md:px-8 mb-4" aria-label="Breadcrumb">
                 <ol role="list" class="flex items-center space-x-4 font-bold text-2xl">
                     <li>
                         <div>
                             <a
-                                href="/dashboard"
+                                href="/orders"
                                 class=""
                             >
                                 <ChevronLeftIcon
@@ -39,9 +39,9 @@
                 </ol>
             </nav>
 
-            <div class="px-6 flex w-full">
-                <div class="flex flex-col w-2/3 mr-5">
-                    <div class="bg-white py-6 px-8 rounded">
+            <div class="px-5 md:px-6  w-full flex flex-col md:flex-row">
+                <div class="flex flex-col w-full md:w-2/3 mr-5 gap-4">
+                    <div class="bg-white py-4 md:py-6 px-5 md:px-8 rounded">
                         <div class="flex justify-between mb-3.5">
                             <h2 class="font-bold text-lg">Orders placed</h2>
                             <button
@@ -61,40 +61,41 @@
                             </button>
                         </div>
                         <div class="flex justify-between">
-                            <h2 class="font-semibold text-indigo-700">
+                            <h2 class="font-semibold text-xs md:text-base text-indigo-700">
                                 Order #{{ order.id }}
                             </h2>
-                            <p class="text-gray-400">
+                            <p class="text-gray-400 text-xm">
                                 {{ moment(order.updated_at).format("lll") }}
                             </p>
                         </div>
-                        <p class="mt-2.5 text-base">
+                        <p class="mt-2.5 text-xs md:text-base">
                             {{ store.currency.symbol_left }} {{ parseFloat(order.total_orders).toFixed(2) }} from Online Store
                         </p>
                         <div
                             v-for="item in order.items"
                             v-bind:key="item.id"
-                            class="mt-10 flex justify-between"
+                            class="mt-10 flex flex-col md:flex-row"
                         >
-                            <div class="flex w-5/12">
+                        <div class=" w-full flex md:w-4.5/10 justify-between">
+                            <div class="flex">
                                 <img
                                     src="../../../assets/placeholder_theme.jpg"
                                     alt="category_image"
                                     class="w-10 h-10"
                                 />
                                 <div class="ml-3">
-                                    <h2 class="text-indigo-700 text-base">
+                                    <h2 class="text-indigo-700 text-xs md:text-base">
                                         {{ item.title }}
                                     </h2>
-                                    <p class="text-base text-gray-500">
+                                    <p class=" text-xm md:text-base text-gray-500">
                                         Chanel / Pink
                                     </p>
                                     <!-- <p class="text-base text-gray-500">
                                         Qty: {{ item.quantity }}
                                     </p> -->
                                     <p
-                                        class="
-                                            text-base text-gray-500
+                                        class=" text-xm
+                                            md:text-base text-gray-500
                                             whitespace-nowrap
                                         "
                                     >
@@ -102,34 +103,37 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="w-1/4">
-                                <p class="text-base mb-1">Promotion</p>
-                                <p class="font-semibold text-lg">
+                            <div class="">
+                                <p class="text-xm md:text-base mb-1">Promotion</p>
+                                <p class="font-semibold text-xs md:text-lg">
                                     {{ item.promotion || "N/A" }}
                                 </p>
                             </div>
-                            <div class="w-1/4">
-                                <p class="text-base mb-1">Product Price</p>
-                                <p class="font-semibold text-lg">
+                        </div>
+                        <div class="w-full md:mx-auto md:w-5/10 flex justify-between">
+                            <div class="">
+                                <p class="text-xm md:text-base mb-1">Product Price</p>
+                                <p class="font-semibold text-xs md:text-lg">
                                     {{ store.currency.symbol_left }} {{  parseFloat(item.price).toFixed(2) }}
                                 </p>
                             </div>
-                            <div class="w-1/4">
-                                <p class="text-base mb-1 text-center">Quantity</p>
-                                <p class="font-semibold text-center text-lg">
+                            <div class="">
+                                <p class="text-xm md:text-base mb-1 text-center">Quantity</p>
+                                <p class="font-semibold text-center text-xs md:text-lg">
                                     {{ item.quantity || 1 }}
                                 </p>
                             </div>
-                            <div class="w-1/4">
-                                <p class="text-base mb-1">SubTotal</p>
-                                <p class="font-semibold text-lg">
+                            <div class="">
+                                <p class="text-xm md:text-base mb-1">SubTotal</p>
+                                <p class="font-semibold text-xs md:text-lg">
                                     {{ store.currency.symbol_left }} {{parseFloat( item.price * (item.quantity || 1)).toFixed(2)}}
                                 </p>
                             </div>
                         </div>
+                        </div>
                     </div>
 
-                    <div class="bg-white py-6 px-8 mt-4 rounded">
+                    <div class="bg-white py-4 md:py-6 px-5 md:px-8 rounded">
                         <div class="flex justify-between mb-3.5">
                             <h2 class="font-semibold text-lg">
                                 Payment Summary
@@ -137,43 +141,43 @@
                         </div>
                         <div>
                             <div class="flex justify-between mb-3.5">
-                                <h2 class="font-semibold text-gray-700" v-if="order.items.length>1">
+                                <h2 class="font-semibold text-gray-700 text-xs md:text-base" v-if="order.items.length>1">
                                     Subtotal {{ " " }} ({{ order.items.length}} items)
                                 </h2>
-                                <h2 class="font-semibold text-gray-500" v-else>
+                                <h2 class="font-semibold text-gray-700 text-xs md:text-base" v-else>
                                     Subtotal {{ " " }} ({{ order.items.length}} item)
                                 </h2>
-                                <p class="text-black font-bold">
+                                <p class="text-black font-semibold md:font-bold">
                                     {{ store.currency.symbol_left}} {{parseFloat(total_subtotal).toFixed(2) || 0.00  }}
                                 </p>
                             </div>
                             <div class="flex justify-between mb-4">
-                                <h2 class="font-semibold text-gray-700">Delivery</h2>
-                                <p class="text-black font-bold">
+                                <h2 class="font-semibold text-gray-700 text-xs md:text-base">Delivery</h2>
+                                <p class="text-black font-semibold md:font-bold">
                                     {{ store.currency.symbol_left }} {{ parseFloat(order.delivery).toFixed(2) || "0.00"}}
                                 </p>
                             </div>
                             <div class="flex justify-between">
                                 <h2 class="font-semibold text-gray-700">Tax</h2>
-                                <p class="text-black font-bold">
+                                <p class="text-black font-semibold md:font-bold">
                                    {{ store.currency.symbol_left }} {{ parseFloat(order.sales_tax).toFixed(2) || "0.00" }}
                                 </p>
                             </div>
                         </div>
                         <div class="flex justify-between border-t-2 border-gray-100 mt-5 pt-5">
                             <h2 class="font-semibold text-gray-500">Total Amount</h2>
-                                <p class="text-black font-bold">
+                                <p class="text-black font-semibold md:font-bold">
                                    {{ store.currency.symbol_left }} {{(total_payment())}}
                                 </p>
                         </div>
                     </div>
 
-                    <div class="bg-white pt-8 px-8 mt-4 rounded">
+                    <div class="bg-white py-4 md:py-6 px-5 md:px-8 rounded">
                         <div class="mb-4">
-                            <div class="flex justify-between">
+                            <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
                                 <div>
                                     <p class="text-xs mb-3 text-gray-700">Date Added</p>
-                                    <p class="font-semibold text-lg">
+                                    <p class="font-semibold text-base md:text-lg">
                                         {{ moment(order.updated_at).format("ll") }}
                                     </p>
                                 </div>
@@ -181,7 +185,7 @@
                                     <p class="text-xs mb-3 text-gray-700">Customer Note</p>
                                     <p
                                         v-if="order.customer_note"
-                                        class="font-semibold text-lg"
+                                        class="font-semibold text-base md:text-lg"
                                     >
                                         {{ order.created_at }}
                                     </p>
@@ -194,19 +198,17 @@
                                 </div>
                                 <div>
                                     <p class="text-xs mb-3 text-gray-700">Status</p>
-                                    <div
-                                        :class="[order.status=='received'?'bg-green-100 text-green-700 ':'bg-red-100 text-red-700','text-xs pl-5 pr-8 w-full py-1 rounded capitalize']
-                                        "
-                                    >
-                                        {{ order.status }}
-                                    </div>
+                                    
+                                        <span :class="[order.status=='received'?'bg-green-100 text-green-700 ':'bg-red-100 text-red-700','text-xs pl-5 pr-8  py-1 rounded capitalize']
+                                        ">{{ order.status }}</span>
+                                    
                                 </div>
 
                                 <div>
                                     <p class="text-xs mb-3 text-gray-700">
                                         Customer Notified
                                     </p>
-                                    <p class="font-semibold text-lg">
+                                    <p class="font-semibold text-base md:text-lg">
                                         {{ order.customer_notified || "Unavailable" }}
                                     </p>
                                 </div>
@@ -227,28 +229,30 @@
                         </div>
                         <div class="mt-3.5 border-t border-gray-100 -mx-6"></div>
                         <div class="mt-5">
-                            <h2 class="font-semibold text-xl mb-5">
+                            <h2 class="font-semibold text-lg md:text-xl mb-5">
                                 Order History
                             </h2>
-                            <div class="flex mb-8 justify-evenly">
-                                <div class="flex items-center w-1/5">
-                                    <h2 class="font-normal text-base">
+                            <div class="flex mb-8 justify-between md:justify-evenly">
+                                <div class="flex items-center w-2/5  md:w-1/5">
+                                    <h2 class="font-normal text-xm md:text-base">
                                         Order Status
                                     </h2>
                                 </div>
-                                <div class="w-full ml-5">
+                                <div class="w-full ml-5 flex">
                                     <select
                                         v-if="order.status.length > 0"
                                         class="
                                             shadow-sm
                                             focus:ring-indigo-500
                                             focus:border-indigo-500
-                                            text-xs
+                                            md:text-xs
+                                            text-xm
                                             capitalize text-gray-700
                                             border-gray-300
                                             rounded-md
-                                            p-2
-                                            w-1/2
+                                            md:p-2
+                                            px-2
+                                            md:w-1/2
                                             mr-2
                                         "
                                         placeholder=""
@@ -266,7 +270,7 @@
                                 </div>
                             </div>
                             <div class="mb-5 flex">
-                                <p class="mr-10 font-normal text-base">
+                                <p class="mr-10 font-normal md:text-base text-xs">
                                     Notify Customer
                                 </p>
                                 <div class="flex items-center">
@@ -284,7 +288,7 @@
                             </div>
                         </div>
                         <div class="flex mb-2">
-                            <h2 class="font-normal text-xs">Customer Note</h2>
+                            <h2 class="font-normal text-xm md:text-xs">Customer Note</h2>
                         </div>
                         <div class="flex w-full mb-6 relative">
                             <div class="w-full mr-2 ">
@@ -369,82 +373,310 @@
                         </div> -->
                     </div>
 
-                    <div class="flex flex-col">
-                        <!--  <div
+                    <div class="flex flex-col w-full md:hidden">
+                    <div class="bg-white pl-5 mb-3 pr-7 pb-6 pt-6 rounded">
+                        <div class="flex justify-between mb-3">
+                            <h2 class="font-bold text-lg">Order Details</h2>
+                        </div>
+                        <div>
+                            <div class="mb-2 flex justify-between">
+                                <div>
+                                    <h2
+                                        class="
+                                             text-gray-700
+                                             text-xs md:text-base
+                                        "
+                                    >
+                                        Channel:
+                                    </h2>
+                                </div>
+                                <div>
+                                    <h2
+                                        class="
+                                        text-gray-800 text-xs md:text-base
+                                        "
+                                    >
+                                        
+                                        {{ store.business_name }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="mb-2 flex justify-between">
+                                <h2 class=" text-gray-700 text-xs md:text-base">
+                                    Date:
+                                </h2>
+                                <div>
+                                    <h2 class=" text-gray-800 text-xs md:text-base">
+                                        {{ moment(order.updated_at).format('ll') }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="mb-2 flex justify-between">
+                                <h2 class="text-gray-700 text-xs md:text-base">
+                                    Payment Method
+                                </h2>
+                                <div>
+                                    <h2
+                                        class="
+                                            text-gray-800 text-xs md:text-base
+                                        "
+                                    >
+                                        {{ order.payment || "Cash on delivery" }}
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <h2 class="text-gray-700 text-xs md:text-base">
+                                    Delivery
+                                </h2>
+                                <div>
+                                    <h2
+                                        class="
+                                            text-gray-800 text-xs md:text-base
+                                        "
+                                    >
+                                        {{ order.delivery || "Flat shipping rate" }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <h2
+                            v-if="order.note"
+                            class="text-cyan-700 font-semibold"
+                        >
+                            {{ order.note }}
+                        </h2> -->
+                        <!-- <p v-else class="font-normal text-base text-gray-400">
+                            No notes from customer
+                        </p> -->
+                    </div>
+                    <!-- Customer causing the white section below -->
+                        <div class="bg-white pl-5 pr-7 pb-10 pt-6 mb-5 rounded">
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                            <div class="px-5 flex justify-between mb-4">
+                                <h2 class="font-bold text-lg">
+                                    Customer Overview
+                                </h2>
+                                <a
+                                    href="/order/edit"
+                                    class="text-indigo-700 font-semibold text-xs"
+                                    >View Details</a
+                                >
+                            </div>
+                    
+                            <div class="px-5 mb-6 flex">
+                                <div class="flex mr-2 mt-1">
+                                    <p
+                                        class="
+                                            h-14
+                                            w-14
+                                            rounded-full
+                                            capitalize
+                                            bg-gray-100
+                                            text-black text-lg
+                                            flex
+                                            items-center
+                                            justify-center
+                                            font-semibold
+                                        "
+                                    >
+                                        {{ getCustomer?.first_name.charAt(0)
+                                        }}{{ getCustomer?.last_name.charAt(0) }}
+                                    </p>
+                                </div>
+                                <div class="flex flex-col">
+                                    <inertia-link
+                                        :href="'/customers/' + getCustomer.id"
+                                        >{{ getCustomer.first_name }}
+                                        {{
+                                            getCustomer.last_name
+                                        }}</inertia-link
+                                    >
+
+                                    <h2
+                                        class="
+                                            font-semibold
+                                            text-indigo-700
+                                            mb-1 text-xs lg:text-base
+                                        "
+                                    >
+                                        {{ getCustomer.email }}
+                                    </h2>
+                                    <!-- <h2 class="text-gray-400">
+                                        {{ getCustomer.activation_status }}
+                                    </h2> -->
+                                    <!-- <h2 class="text-gray-400">
+                                        {{ getCustomer.phone_number }}
+                                    </h2> -->
+                                   <h2 class="text-black text-xs lg:text-base">
+                                        {{ store.phone }}
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                            <div class="px-5 flex justify-between mb-4">
+                                <h2 class="font-bold">
+                                    Billing Address
+                                </h2>
+                            </div>
+                            <div class="px-5 text-gray-500 mb-6 text-xs">
+                                <h2 class="font-normal mb-1">
+                                    {{ getCustomer.first_name }}
+                                    {{ getCustomer.last_name }}
+                                </h2>
+                                <h2 class="mb-1">{{ store.address }}</h2>
+                                 <h2 class="mb-1">Apt 402</h2>
+                                <h2 class="mb-1">
+                                    {{ getCustomer.city }}
+                                    {{ getCustomer.state }}
+                                </h2>
+                                <h2 class="mb-6">{{ getCustomer.country }}</h2>
+                                <!-- <a
+                                    href="/order/address"
+                                    class="font-semibold text-indigo-700"
+                                    >Add new address</a
+                                > -->
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5 ">
+                            <div class="px-5 flex justify-between mb-4">
+                                <h2 class="font-bold">
+                                    Shipping Address
+                                </h2>
+                            </div>
+                            <div class="px-5 text-gray-500 mb-6 text-xs">
+                                <h2 class="font-normal mb-1">
+                                    {{ getCustomer.first_name }}
+                                    {{ getCustomer.last_name }}
+                                </h2>
+                                <h2 class="mb-1">{{ store.address }}</h2>
+                                <h2 class="mb-1">Apt 402</h2>
+                                <h2 class="mb-1">
+                                    {{ getCustomer.city }}
+                                    {{ getCustomer.state }}
+                                </h2>
+                                <h2 class="mb-6">{{ getCustomer.country }}</h2>
+                                <!-- <a
+                                    href="/order/address"
+                                    class="font-semibold text-indigo-700"
+                                    >Add new address</a
+                                > -->
+                            </div>
+                        </div>
+                         <div class=" flex justify-between mb-4">
+                                <h2 class="font-bold ">
+                                    Tax Settings
+                                </h2>
+                                <a
+                                    href="/order/manage"
+                                    class="text-indigo-700 font-semibold text-xs"
+                                    >Manage</a
+                                >
+                            </div>
+                            <div class="text-xs text-gray-400">
+                                <h2>No exemptions</h2>
+                            </div>
+                    </div> 
+                    <!-- Hard coded values -->
+                    <div class="bg-white pl-5 pr-7 pt-6 pb-9 mb-3 rounded">
+                        <div class="flex justify-between">
+                            <h2 class="font-bold text-lg mb-6">
+                                Email marketing
+                            </h2>
+                            <h2 class="text-indigo-700 text-xs font-semibold">
+                                Unsubscribe
+                            </h2>
+                        </div>
+                        <div
                             class="
-                                flex
-                                justify-between
-                                mt-4.5
-                                pb-2
-                                border-b-2 border-gray-200
+                                mb-3.5
+                                
+                                inline-flex
+                                leading-5
+                                bg-green-100
+                                text-green-500
+                                text-xs
+                                px-2
+                                py-1
                             "
                         >
-                            <p class="font-semibold text-lg">Timeline</p>
-                            <div class="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    class="
-                                        focus:ring-indigo-500
-                                        text-indigo-600
-                                        border-gray-300
-                                        mr-2
-                                    "
-                                />
-                                <p class="">Show comments</p>
-                            </div>
+                            Subscribed
                         </div>
-                        <div class="mt-5 flex justify-evenly">
-                            <div class="flex items-center">
-                                <p
-                                    class="
-                                        h-10
-                                        w-10
-                                        rounded-full
-                                        capitalize
-                                        bg-blue-400
-                                        text-white text-center text-base
-                                        py-2.5
-                                        font-semibold
-                                        mr-4
-                                    "
-                                >
-                                    {{ getCustomer?.first_name.charAt(0)}}{{ getCustomer?.last_name.charAt(0) }}
-                                </p>
-                            </div>
-                           <div class="w-full mr-2">
-                                <input
-                                    id="text3"
-                                    type="text"
-                                    placeholder="Leave a comment"
-                                    class="
-                                        w-full
-                                        pl-4
-                                        py-2
-                                        rounded-md
-                                        border border-gray-300
-                                        text-gray-900
-                                        placeholder-gray-300
-                                        focus:outline-none
-                                    "
-                                />
-                            </div>
-                            <button
-                                class="
-                                    px-8
-                                    py-2
-                                    text-center
-                                    bg-indigo-700
-                                    border
-                                    text-white
-                                    rounded-md
-                                "
-                                @click="browseProduct"
-                            >
-                                Post
-                            </button> 
+                        <div class="">
+                            <h2 class="font-semibold text-indigo-700 mb-3.5 text-xs">
+                                {{ getCustomer.email }}
+                            </h2>
+                            <h2 class="text-gray-400 text-xs">
+                                Subscribed on December 30, 2018
+                            </h2>
                         </div>
-                        -->
                     </div>
+                    <div class="bg-white pl-5 pr-7 pb-9 pt-6 rounded relative">
+                        <div class="flex justify-between mb-4.5 ">
+                            <h2 class="font-bold text-lg">Tags</h2>
+                            <h2 class="text-indigo-700 text-xs font-semibold cursor-pointer" @click="tag_open=true">
+                                Add tags
+                            </h2>
+                        </div>
+                        <input type="text" name="tag" class="border-gray-300 px-6 pl-9 w-full py-2 text-xs placeholder-gray-300 rounded-lg relative" placeholder="Search for tags">
+                        <search-icon class="h-5 w-5 font-bold text-gray-500 absolute left-8 top-20"/>
+                        <div class="flex text-xm mt-4 w-full overflow-x-scroll items-center">
+                            <div class="py-0.5 px-2 rounded-xl mr-2 bg-indigo-100 items-center flex" v-for="(tag,index) in tags" :key="index">
+                                <p class="text-indigo-700 font-medium capitalize">{{tag}}</p>
+                                <x-icon class="h-3 w-3 ml-1 text-blue-400 font-bold cursor-pointer" @click="removeTag(index)"/>
+                            </div>
+                        </div>
+
+                            <div class="absolute top-12 rounded p-6 bg-white w-full -mx-5 border border-gray-200" v-if="tag_open">
+                                <div class="flex items-center mb-6">
+                                    <ChevronLeftIcon class="h-6 w-6 mr-4" @click="cancel_tag"/>
+                                    <p class="text-lg font-semibold">Add Tags</p>
+                                </div>
+                                <div class="mb-10 flex flex-col">
+                                    <label for="tag" class="mb-2">
+                                        Tag name
+                                    </label>
+                                    <input type="text" name="tag" class="border-gray-300 px-3 py-2 text-xs placeholder-gray-300 rounded-lg" placeholder="Seperate tags with a comma" v-model="tag_name">
+                                </div>
+                                <div class="flex justify-between">
+                                    <button type="button" class=" inline-flex justify-center rounded-md border border-transparent shadow-sm px-7 py-3 bg-indigo-700 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm" @click="addTag">
+                                        Create
+                                    </button>
+                                    <button type="button" class="md:mt-3  inline-flex justify-center rounded-md border border-gray-300 shadow-sm py-3 px-7 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm" @click="cancel_tag" ref="cancelButtonRef">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                    </div>
+                    <confirmation-modal v-if="confirm_open" @close="confirm_open=false" @confirm="submit"/>
+
+                    <div class="bg-white pl-5 mt-3 mb-3 pr-7 pb-9 pt-6 rounded">
+                        <div class="flex justify-between mb-4.5">
+                            <h2 class="font-bold text-lg">Notes</h2>
+                            <p class="font-semibold text-indigo-700 cursor-pointer text-xs">Edit</p>
+                        </div>
+                        <div v-if="customer_notes">
+                            <div v-for="note in customer_notes" :key="note.id" class="border border-gray-200 rounded p-3.5 mb-2">
+                                <div class="flex justify-between text-xs ">
+                                    <div>
+                                        <p><span class="font-bold ">You</span> added a note</p>
+                                        <p class="text-xm">{{note.date}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <pencil-icon class="text-indigo-700 w-5 h-5 cursor-pointer"/>
+                                        <trash-icon class="w-5 h-5 text-gray-500 cursor-pointer"/>
+                                    </div>
+                                </div>
+                                <div class="border-b border-gray-200 my-2 w-full h-px"></div>
+                                  <p class="text-gray-800">{{note.note}}</p>  
+                            </div>
+                        </div>
+                        <p v-else class="text-xs text-gray-400">
+                            No notes from customer
+                        </p>
+                    </div>
+                </div>
                     <!-- <p class="text-right text-gray-400 mt-1">
                         Only you and other staff can see comments
                     </p> -->
@@ -456,14 +688,14 @@
                                     <label for="timeline" class="text-xs">Show comments</label>
                                 </div>
 
-                            </div >
+                            </div>
                                 <div v-if="show_timeline">
-                                    <p class=" h-10 w-10 rounded-full capitalize ml-4 bg-indigo-700 text-white text-lg flex items-center justify-center font-semibold">
+                                    <p class=" h-10 w-10 rounded-full capitalize ml-0 md:ml-4 bg-indigo-700 text-white text-lg flex items-center justify-center font-semibold">
                                         {{ getCustomer?.first_name.charAt(0)}}{{ getCustomer?.last_name.charAt(0) }}
                                     </p>
                                 </div>
                                 <div class="timeline_container" v-if="show_timeline">
-                                    <div class="para_1 relative event text-xs mb-11" v-for="timeline in timelines" :key="timeline.id">
+                                    <div class="para_1 relative event text-xm md:text-xs mb-11" v-for="timeline in timelines" :key="timeline.id">
                                         <div class="date text-gray-500 ">{{moment(timeline.date).format('ll')}}</div>
                                         <div class="flex justify-between">
                                             <div>
@@ -475,11 +707,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="py-2 px-8 bg-indigo-700 rounded text-white float-right mb-2" @click="confirm_open=true">Save order</button>
+                                <button class="py-2 px-8 bg-indigo-700 rounded text-white float-right mb-2 sticky bottom-0 md:static" @click="confirm_open=true">Save order</button>
                         </div>
                 </div>
                 
-                <div class="flex flex-col w-1/3">
+                <div class="hidden md:flex flex-col w-full md:w-1/3">
                     <div class="bg-white pl-5 mb-3 pr-7 pb-6 pt-6 rounded">
                         <div class="flex justify-between mb-3">
                             <h2 class="font-bold text-lg">Order Details</h2>

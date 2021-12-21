@@ -3,7 +3,7 @@
         <!-- Page header -->
         <div class="">
             <div class="px- sm:px-6 lg:mx-auto lg:px-">
-                <div class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200">
+                <div class="p-6 flex items-center justify-between ">
                     <div class="flex-1 min-w-0">
                         <!-- Profile -->
                         <div class="flex items-center">
@@ -11,7 +11,8 @@
                                 <div class="flex items-center">
                                     <h1
                                         class="
-                                            text-3xl
+                                            md:text-3xl
+                                            text-lg
                                             font-bold
                                             leading-7
                                             text-blue-gray-900
@@ -24,7 +25,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
+                    <div class=" flex space-x-3 md:mt-0 md:ml-4">
                         <inertia-link
                             href="orders/create"
                             type="button"
@@ -56,13 +57,16 @@
                 </div>
                 <div
                     class="
-                        flex
-                        items-center
-                        justify-between
+                    px-6 md:px-0
+                        grid
+                        grid-cols-2
+                        md:grid-cols-4
+                        gap-2
                         rounded
+                        text-xm md:text-base
                     "
                 >
-                    <div class="w-full md:w-2/5">
+                    <div class="">
                         <label
                             for="search"
                             class="
@@ -71,8 +75,9 @@
                                 font-semibold
                                 mb-2
                                 bg-transparent
+                                
                             "
-                            >Search</label
+                            >What are you looking for?</label
                         >
                         <div class="relative">
                             <input
@@ -85,6 +90,7 @@
                                     bg-transparent
                                     py-2
                                     rounded-md
+                                    text-xm md:text-base
                                     border border-gray-300
                                     text-gray-900
                                     placeholder-gray-400
@@ -110,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="w-full md:w-1/5 px-3">
+                    <div class="">
                         <label
                             for="payment_type"
                             class="
@@ -129,6 +135,7 @@
                             class="
                                 block
                                 py-2
+                                text-xm md:text-base
                                 rounded-md
                                 border border-gray-300
                                 text-gray-600
@@ -140,7 +147,7 @@
                             <option value="all">All</option>
                         </select>
                     </div>
-                    <div class="w-full md:w-1/5 px-3">
+                    <div class="">
                         <label
                             for="delivery_type"
                             class="
@@ -160,6 +167,7 @@
                                 block
                                 py-2
                                 rounded-md
+                                text-xm md:text-base
                                 border border-gray-300
                                 text-gray-600
                                 placeholder-gray-300
@@ -170,7 +178,7 @@
                             <option value="all">All</option>
                         </select>
                     </div>
-                    <div class="w-full md:w-1/5 md:pl-3">
+                    <div class="">
                         <label
                             for="fulfillment_type"
                             class="
@@ -190,6 +198,7 @@
                                 block
                                 py-2
                                 rounded-md
+                                text-xm md:text-base
                                 border border-gray-300
                                 text-gray-600
                                 placeholder-gray-300
@@ -232,21 +241,21 @@
                 <div class="flex flex-col">
                     <div class="min-w-full overflow-x-auto shadow sm:rounded">
                         <table class="w-full divide-y bg-white divide-gray-200">
-                            <thead class="bg-white">
+                            <thead class="bg-white text-xm md:text-base">
                                 <tr>
                                     <th
                                         scope="col"
                                         class="
-                                            pl-6
-                                            pr-2
-                                            text-left text-sm
+                                            
+                                            px-2
+                                            text-left
                                             font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
                                         "
                                     >
-                                        <input
+                                        <!-- <input
                                             id="comments"
                                             aria-describedby="comments-description"
                                             name="comments"
@@ -262,8 +271,8 @@
                                             "
                                             @click="checkAll"
                                             :disabled="orders.data.length === 0"
-                                        />
-                                        Order ID
+                                        /> -->
+                                        Order No
                                     </th>
                                     <!-- <th
                                         scope="col"
@@ -286,11 +295,12 @@
                                             whitespace-nowrap
                                             px-3
                                             py-3
-                                            text-left text-sm
+                                            text-left 
                                             font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
+                                            hidden md:table-cell
                                         "
                                     >
                                         Date
@@ -301,7 +311,7 @@
                                             whitespace-nowrap
                                             px-3
                                             py-3
-                                            text-left text-sm
+                                            text-left 
                                             font-medium
                                             text-gray-500
                                             uppercase
@@ -316,11 +326,12 @@
                                             whitespace-nowrap
                                             px-3
                                             py-3
-                                            text-center text-sm
+                                            text-center
                                             font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
+                                            hidden md:table-cell
                                         "
                                     >
                                         QTY
@@ -331,11 +342,12 @@
                                             whitespace-nowrap
                                             px-3
                                             py-3
-                                            text-left text-sm
+                                            text-left
                                             font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
+                                            hidden md:table-cell
                                         "
                                     >
                                         Total
@@ -346,14 +358,14 @@
                                             whitespace-nowrap
                                             px-3
                                             py-3
-                                            text-left text-sm
+                                            text-left
                                             font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
                                         "
                                     >
-                                        Payment
+                                       Status
                                     </th>
                                     <!-- <th scope="col" class=" whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">
                       Fulfillment
@@ -364,11 +376,12 @@
                                             py-3
                                             whitespace-nowrap
                                             px-3
-                                            text-left text-sm
+                                            text-left
                                             font-medium
                                             text-gray-500
                                             uppercase
                                             tracking-wider
+                                            hidden md:table-cell
                                         "
                                     >
                                         Tag
@@ -385,13 +398,13 @@
                                 <tr
                                     v-for="order in orders.data"
                                     :key="order.id"
-                                    class=""
+                                    class="text-xs md:text-base"
                                 >
                                 <inertia-link
                                         :href="'/orders/' + order.id"
                                         class=""
                                     >
-                                    <td
+                                    <!-- <td
                                         scope="col"
                                         class="
                                             pl-6
@@ -416,13 +429,13 @@
                                                 rounded
                                             "
                                         />
-                                    </td>
+                                    </td> -->
                                     
                                         <td
                                             class="
                                                 px-3
                                                 pt-2.5
-                                                text-left text-base
+                                                text-left 
                                                 font-medium
                                                 text-indigo-600
                                                 tracking-wider
@@ -434,8 +447,9 @@
                                     <td
                                         class="
                                             px-3
-                                            text-left text-base
+                                            text-left 
                                             tracking-wider
+                                            hidden md:table-cell
                                         "
                                     >
                                         {{moment(order.updated_at).format("ll")}}
@@ -443,7 +457,7 @@
                                     <td
                                         class="
                                             px-3
-                                            text-left text-base
+                                            text-left
                                             tracking-wider
                                         "
                                     >
@@ -460,8 +474,9 @@
                                         class="
                                             
                                             
-                                            text-center text-base
+                                            text-center
                                             tracking-wider
+                                            hidden md:table-cell
                                         "
                                     >
                                         {{
@@ -473,8 +488,9 @@
                                     <td
                                         class="
                                             px-3
-                                            text-base
+                                            
                                             tracking-wider
+                                            hidden md:table-cell
                                         "
                                     >
                                         {{ order.total }}
@@ -482,7 +498,7 @@
                                     <td
                                         class="
                                             px-3
-                                            text-left text-base
+                                            text-left 
                                             tracking-wider
                                         "
                                     >
@@ -493,7 +509,7 @@
                                                 py-3
                                                 text-left
                                                 leading-4
-                                                text-base
+                                                
                                                 tracking-wide
                                             "
                                         >
@@ -515,8 +531,8 @@
                                         v-if="order.tags.length > 0"
                                         class="
                                             px-3
-                                            text-left text-base
-                                            tracking-wider
+                                            text-left 
+                                            tracking-wider hidden md:table-cell
                                         "
                                     >
                                         <span
@@ -536,8 +552,9 @@
                                         v-else
                                         class="
                                             px-3
-                                            text-left text-base
+                                            text-left
                                             tracking-wider
+                                            hidden md:table-cell
                                         "
                                     >
                                         -
