@@ -300,9 +300,7 @@
                                                 uppercase
                                                 tracking-wider
                                             "
-                                        >
-                                            Location
-                                        </th>
+                                        ></th>
                                         <th
                                             scope="col"
                                             class="

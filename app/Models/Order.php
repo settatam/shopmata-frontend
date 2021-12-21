@@ -20,6 +20,8 @@ class Order extends Model
     public static $REFUNDED = 'refunded';
     public static $SHIPPED = 'shipped';
     public static $DELIVERED = 'delivered';
+    public static $RECEIVED = 'received';
+
 
     protected static function booted()
     {
@@ -50,12 +52,17 @@ class Order extends Model
         return $this->hasMany(OrderActivity::class);
     }
 
+
+    public function billing_address() {
+        return $this->hasOne(OrderBillingAddress::class);
+    }
+
     public function shipping_address() {
         return $this->hasOne(OrderShippingAddress::class);
     }
 
     public function shipping_addresses() {
-        return $this->hasMany(ShippingAddress::class, 'user_id', 'user_id');
+        return $this->hasMany(ShippingAddress::class, 'user_id', 'customer_id');
     }
 
     public function customer_notes() {
@@ -72,6 +79,7 @@ class Order extends Model
             self::$REFUNDED,
             self::$SHIPPED,
             self::$DELIVERED,
+            self::$RECEIVED
         ];
     }
 
