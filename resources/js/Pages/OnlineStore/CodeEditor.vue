@@ -12,165 +12,19 @@
         <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
             <!-- Breadcrumb -->
 
-      <div class="flex-1 flex xl:overflow-hidden ml-5">
-        <!-- Secondary sidebar -->
-        <nav
-          aria-label="Sections"
-          class="
-            hidden
-            flex-shrink-0
-            w-96
-            bg-white
-            border-r border-blue-gray-200
-            xl:flex xl:flex-col
-            mt-12
-          "
-        >
-          <!-- Probably still gonna remove this -->
-          <div
-            class="
-              flex-shrink-0
-              h-16
-              px-6
-              border-b border-blue-gray-200
-              flex
-              items-center
-            "
-          >
-            <p class="text-lg font-medium text-gray-900">Code Editor</p>
-          </div>
-          <!-- Template  -->
-          <div>
-            <div
-              @click="toggleTemplate"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
-              <div class="flex">
-                <img
-                  src="../../../assets/icons/download_icon.svg"
-                  alt="download-icon"
-                />
-                <p class="ml-4.5 font-bold text-xl">Templates</p>
-              </div>
-              <span class="ml-3" v-if="displayTemplate"
-                ><i class="fas fa-chevron-up my-auto"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down my-auto"></i
-              ></span>
-            </div>
-            <ul class="px-6 mb-3" v-if="displayTemplate">
-              <div
-                class="flex justify-between cursor-pointer text-cyan-700"
-                @click="popTemplate"
-              >
-                <p class="font-semibold text-lg">Add a new Template</p>
-                <i class="far fa-plus-square mx-0 my-auto"></i>
-              </div>
-              <div v-for="file in all_files[1]" :key="file.id">
-                <li
-                  class="text-lg pt-4 cursor-pointer"
-                  @click="getContent(file)"
-                >
-                  { } {{ file.title }}
-                </li>
-              </div>
-            </ul>
-          </div>
-          <!-- Layout -->
-          <div>
-            <div
-              @click="toggleLayout"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
-              <div class="flex">
-                <img
-                  src="../../../assets/icons/download_icon.svg"
-                  alt="download-icon"
-                />
-                <h3 class="ml-4.5 font-bold text-xl">Layouts</h3>
-              </div>
-              <span class="ml-3" v-if="displayLayout"
-                ><i class="fas fa-chevron-up"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down"></i
-              ></span>
-            </div>
-            <ul class="px-6 mb-3" v-if="displayLayout">
-              <div
-                class="flex justify-between text-cyan-700 cursor-pointer"
-                @click="popLayout"
-              >
-                <p class="font-semibold text-lg">Add a new Layout</p>
-                <i class="far fa-plus-square mx-0 my-auto"></i>
-              </div>
-              <div v-for="file in all_files[2]" :key="file.id">
-                <li
-                  class="text-lg pt-4 cursor-pointer"
-                  @click="getContent(file)"
-                >
-                  { } {{ file.title }}
-                </li>
-              </div>
-            </ul>
-          </div>
-          <!-- Assets -->
-          <div>
-            <div
-              @click="toggleAsset"
-              class="
-                flex
-                min-h-0
-                overflow-y-auto
-                px-6
-                pt-9
-                justify-between
-                cursor-pointer
-              "
-            >
-              <div class="flex">
-                <img
-                  src="../../../assets/icons/download_icon.svg"
-                  alt="download-icon"
-                />
-                <h3 class="ml-4.5 font-bold text-xl">Assets</h3>
-              </div>
-              <span class="ml-3" v-if="displayAsset"
-                ><i class="fas fa-chevron-up"></i
-              ></span>
-              <span class="ml-3" v-else
-                ><i class="fas fa-chevron-down"></i
-              ></span>
-            </div>
-            <ul class="px-6 mb-3" v-if="displayAsset">
-              <div
-                class="flex justify-between pt-4 text-cyan-700 cursor-pointer"
-                @click="popAsset"
-              >
-                <p class="font-semibold text-lg">Add a new Asset</p>
-                <i class="far fa-plus-square mx-0 my-auto"></i>
-              </div>
-              <div v-for="file in all_files[3]" :key="file.id">
-                <li
-                  class="text-lg pt-4 cursor-pointer"
-                  @click="getContent(file)"
+            <div class="flex-1 flex xl:overflow-hidden ml-5">
+                <!-- Secondary sidebar -->
+                <nav
+                    aria-label="Sections"
+                    class="
+                        hidden
+                        flex-shrink-0
+                        w-96
+                        bg-white
+                        border-r border-blue-gray-200
+                        xl:flex xl:flex-col
+                        mt-12
+                    "
                 >
                     <!-- Probably still gonna remove this -->
                     <div
@@ -183,7 +37,7 @@
                             items-center
                         "
                     >
-                        <p class="text-lg font-medium text-blue-gray-900">
+                        <p class="text-lg font-medium text-gray-900">
                             Code Editor
                         </p>
                     </div>
@@ -210,12 +64,12 @@
                                     Templates
                                 </p>
                             </div>
-                            <span class="ml-3 my-auto" v-if="displayTemplate"
-                                ><ChevronUpIcon class="h-4 text-black"
-                            /></span>
-                            <span class="ml-3 my-auto" v-else
-                                ><ChevronDownIcon class="h-4 text-black"
-                            /></span>
+                            <span class="ml-3" v-if="displayTemplate"
+                                ><i class="fas fa-chevron-up my-auto"></i
+                            ></span>
+                            <span class="ml-3" v-else
+                                ><i class="fas fa-chevron-down my-auto"></i
+                            ></span>
                         </div>
                         <ul class="px-6 mb-3" v-if="displayTemplate">
                             <div
@@ -232,7 +86,7 @@
                                 </p>
                                 <i class="far fa-plus-square mx-0 my-auto"></i>
                             </div>
-                            <div v-for="file in theme_files[1]" :key="file.id">
+                            <div v-for="file in all_files[1]" :key="file.id">
                                 <li
                                     class="text-lg pt-4 cursor-pointer"
                                     @click="getContent(file)"
@@ -265,12 +119,12 @@
                                     Layouts
                                 </h3>
                             </div>
-                            <span class="ml-3 my-auto" v-if="displayLayout"
-                                ><ChevronUpIcon class="h-4 text-black"
-                            /></span>
-                            <span class="ml-3 my-auto" v-else
-                                ><ChevronDownIcon class="h-4 text-black"
-                            /></span>
+                            <span class="ml-3" v-if="displayLayout"
+                                ><i class="fas fa-chevron-up"></i
+                            ></span>
+                            <span class="ml-3" v-else
+                                ><i class="fas fa-chevron-down"></i
+                            ></span>
                         </div>
                         <ul class="px-6 mb-3" v-if="displayLayout">
                             <div
@@ -298,115 +152,321 @@
                         </ul>
                     </div>
                     <!-- Assets -->
-                    <div>
+                    <!-- <div> -->
+                    <div
+                        @click="toggleAsset"
+                        class="
+                            flex
+                            min-h-0
+                            overflow-y-auto
+                            px-6
+                            pt-9
+                            justify-between
+                            cursor-pointer
+                        "
+                    >
+                        <div class="flex">
+                            <img
+                                src="../../../assets/icons/download_icon.svg"
+                                alt="download-icon"
+                            />
+                            <h3 class="ml-4.5 font-bold text-xl">Assets</h3>
+                        </div>
+                        <span class="ml-3" v-if="displayAsset"
+                            ><i class="fas fa-chevron-up"></i
+                        ></span>
+                        <span class="ml-3" v-else
+                            ><i class="fas fa-chevron-down"></i
+                        ></span>
+                    </div>
+                    <ul class="px-6 mb-3" v-if="displayAsset">
                         <div
-                            @click="toggleAsset"
                             class="
                                 flex
-                                min-h-0
-                                overflow-y-auto
-                                px-6
-                                pt-9
                                 justify-between
+                                pt-4
+                                text-cyan-700
                                 cursor-pointer
                             "
+                            @click="popAsset"
                         >
-                            <div class="flex">
-                                <img
-                                    src="../../../assets/icons/download_icon.svg"
-                                    alt="download-icon"
-                                />
-                                <h3 class="ml-4.5 font-bold text-xl">Assets</h3>
-                            </div>
-                            <span class="ml-3 my-auto" v-if="displayAsset"
-                                ><ChevronUpIcon class="h-4 text-black"
-                            /></span>
-                            <span class="ml-3 my-auto" v-else
-                                ><ChevronDownIcon class="h-4 text-black"
-                            /></span>
+                            <p class="font-semibold text-lg">Add a new Asset</p>
+                            <i class="far fa-plus-square mx-0 my-auto"></i>
                         </div>
-                        <ul class="px-6 mb-3" v-if="displayAsset">
+                        <div v-for="file in all_files[3]" :key="file.id">
+                            <li
+                                class="text-lg pt-4 cursor-pointer"
+                                @click="getContent(file)"
+                            >
+                                <!-- Probably still gonna remove this -->
+                                <div
+                                    class="
+                                        flex-shrink-0
+                                        h-16
+                                        px-6
+                                        border-b border-blue-gray-200
+                                        flex
+                                        items-center
+                                    "
+                                >
+                                    <p
+                                        class="
+                                            text-lg
+                                            font-medium
+                                            text-blue-gray-900
+                                        "
+                                    >
+                                        Code Editor
+                                    </p>
+                                </div>
+                            </li>
+                        </div>
+
+                        <!-- Template  -->
+                        <div>
                             <div
+                                @click="toggleTemplate"
                                 class="
                                     flex
+                                    min-h-0
+                                    overflow-y-auto
+                                    px-6
+                                    pt-9
                                     justify-between
-                                    pt-4
-                                    text-cyan-700
                                     cursor-pointer
                                 "
-                                @click="popAsset"
                             >
-                                <p class="font-semibold text-lg">
-                                    Add a new Asset
-                                </p>
-                                <i class="far fa-plus-square mx-0 my-auto"></i>
+                                <div class="flex">
+                                    <img
+                                        src="../../../assets/icons/download_icon.svg"
+                                        alt="download-icon"
+                                    />
+                                    <p class="ml-4.5 font-bold text-xl">
+                                        Templates
+                                    </p>
+                                </div>
+                                <span
+                                    class="ml-3 my-auto"
+                                    v-if="displayTemplate"
+                                    ><ChevronUpIcon class="h-4 text-black"
+                                /></span>
+                                <span class="ml-3 my-auto" v-else
+                                    ><ChevronDownIcon class="h-4 text-black"
+                                /></span>
                             </div>
-                            <div v-for="file in all_files[3]" :key="file.id">
-                                <li
-                                    class="text-lg pt-4 cursor-pointer"
-                                    @click="getContent(file)"
+                            <ul class="px-6 mb-3" v-if="displayTemplate">
+                                <div
+                                    class="
+                                        flex
+                                        justify-between
+                                        cursor-pointer
+                                        text-cyan-700
+                                    "
+                                    @click="popTemplate"
                                 >
-                                    { } {{ file.title }}
-                                </li>
-                            </div>
-                        </ul>
-                    </div>
-                    <!-- Snippets -->
-                    <div>
-                        <div
-                            @click="toggleSnippet"
-                            class="
-                                flex
-                                min-h-0
-                                overflow-y-auto
-                                px-6
-                                pt-9
-                                justify-between
-                                cursor-pointer
-                            "
-                        >
-                            <div class="flex">
-                                <img
-                                    src="../../../assets/icons/download_icon.svg"
-                                    alt="download-icon"
-                                />
-                                <h3 class="ml-4.5 font-bold text-xl">
-                                    Snippets
-                                </h3>
-                            </div>
-                            <span class="ml-3 my-auto" v-if="displaySnippet"
-                                ><ChevronUpIcon class="h-4 text-black"
-                            /></span>
-                            <span class="ml-3 my-auto" v-else
-                                ><ChevronDownIcon class="h-4 text-black"
-                            /></span>
+                                    <p class="font-semibold text-lg">
+                                        Add a new Template
+                                    </p>
+                                    <i
+                                        class="far fa-plus-square mx-0 my-auto"
+                                    ></i>
+                                </div>
+                                <div
+                                    v-for="file in theme_files[1]"
+                                    :key="file.id"
+                                >
+                                    <li
+                                        class="text-lg pt-4 cursor-pointer"
+                                        @click="getContent(file)"
+                                    >
+                                        { } {{ file.title }}
+                                    </li>
+                                </div>
+                            </ul>
                         </div>
-                        <ul class="px-6 mb-3" v-if="displaySnippet">
-                            <span
+                        <!-- Layout -->
+                        <div>
+                            <div
+                                @click="toggleLayout"
                                 class="
                                     flex
+                                    min-h-0
+                                    overflow-y-auto
+                                    px-6
+                                    pt-9
                                     justify-between
-                                    pt-4
-                                    text-cyan-700
                                     cursor-pointer
                                 "
-                                @click="popSnippet"
                             >
-                                <p class="font-semibold text-lg">
-                                    Add a new Snippet
-                                </p>
-                                <i class="far fa-plus-square mx-0 my-auto"></i>
-                            </span>
-                            <div v-for="file in theme_files[4]" :key="file.id">
-                                <li
-                                    class="text-lg pt-4 cursor-pointer"
-                                    @click="setEd(file)"
-                                >
-                                    { } {{ file.title }}
-                                </li>
+                                <div class="flex">
+                                    <img
+                                        src="../../../assets/icons/download_icon.svg"
+                                        alt="download-icon"
+                                    />
+                                    <h3 class="ml-4.5 font-bold text-xl">
+                                        Layouts
+                                    </h3>
+                                </div>
+                                <span class="ml-3 my-auto" v-if="displayLayout"
+                                    ><ChevronUpIcon class="h-4 text-black"
+                                /></span>
+                                <span class="ml-3 my-auto" v-else
+                                    ><ChevronDownIcon class="h-4 text-black"
+                                /></span>
                             </div>
-                        </ul>
-                    </div>
+                            <ul class="px-6 mb-3" v-if="displayLayout">
+                                <div
+                                    class="
+                                        flex
+                                        justify-between
+                                        text-cyan-700
+                                        cursor-pointer
+                                    "
+                                    @click="popLayout"
+                                >
+                                    <p class="font-semibold text-lg">
+                                        Add a new Layout
+                                    </p>
+                                    <i
+                                        class="far fa-plus-square mx-0 my-auto"
+                                    ></i>
+                                </div>
+                                <div
+                                    v-for="file in all_files[2]"
+                                    :key="file.id"
+                                >
+                                    <li
+                                        class="text-lg pt-4 cursor-pointer"
+                                        @click="getContent(file)"
+                                    >
+                                        { } {{ file.title }}
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                        <!-- Assets -->
+                        <div>
+                            <div
+                                @click="toggleAsset"
+                                class="
+                                    flex
+                                    min-h-0
+                                    overflow-y-auto
+                                    px-6
+                                    pt-9
+                                    justify-between
+                                    cursor-pointer
+                                "
+                            >
+                                <div class="flex">
+                                    <img
+                                        src="../../../assets/icons/download_icon.svg"
+                                        alt="download-icon"
+                                    />
+                                    <h3 class="ml-4.5 font-bold text-xl">
+                                        Assets
+                                    </h3>
+                                </div>
+                                <span class="ml-3 my-auto" v-if="displayAsset"
+                                    ><ChevronUpIcon class="h-4 text-black"
+                                /></span>
+                                <span class="ml-3 my-auto" v-else
+                                    ><ChevronDownIcon class="h-4 text-black"
+                                /></span>
+                            </div>
+                            <ul class="px-6 mb-3" v-if="displayAsset">
+                                <div
+                                    class="
+                                        flex
+                                        justify-between
+                                        pt-4
+                                        text-cyan-700
+                                        cursor-pointer
+                                    "
+                                    @click="popAsset"
+                                >
+                                    <p class="font-semibold text-lg">
+                                        Add a new Asset
+                                    </p>
+                                    <i
+                                        class="far fa-plus-square mx-0 my-auto"
+                                    ></i>
+                                </div>
+                                <div
+                                    v-for="file in all_files[3]"
+                                    :key="file.id"
+                                >
+                                    <li
+                                        class="text-lg pt-4 cursor-pointer"
+                                        @click="getContent(file)"
+                                    >
+                                        { } {{ file.title }}
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                        <!-- Snippets -->
+                        <div>
+                            <div
+                                @click="toggleSnippet"
+                                class="
+                                    flex
+                                    min-h-0
+                                    overflow-y-auto
+                                    px-6
+                                    pt-9
+                                    justify-between
+                                    cursor-pointer
+                                "
+                            >
+                                <div class="flex">
+                                    <img
+                                        src="../../../assets/icons/download_icon.svg"
+                                        alt="download-icon"
+                                    />
+                                    <h3 class="ml-4.5 font-bold text-xl">
+                                        Snippets
+                                    </h3>
+                                </div>
+                                <span class="ml-3 my-auto" v-if="displaySnippet"
+                                    ><ChevronUpIcon class="h-4 text-black"
+                                /></span>
+                                <span class="ml-3 my-auto" v-else
+                                    ><ChevronDownIcon class="h-4 text-black"
+                                /></span>
+                            </div>
+                            <ul class="px-6 mb-3" v-if="displaySnippet">
+                                <span
+                                    class="
+                                        flex
+                                        justify-between
+                                        pt-4
+                                        text-cyan-700
+                                        cursor-pointer
+                                    "
+                                    @click="popSnippet"
+                                >
+                                    <p class="font-semibold text-lg">
+                                        Add a new Snippet
+                                    </p>
+                                    <i
+                                        class="far fa-plus-square mx-0 my-auto"
+                                    ></i>
+                                </span>
+                                <div
+                                    v-for="file in theme_files[4]"
+                                    :key="file.id"
+                                >
+                                    <li
+                                        class="text-lg pt-4 cursor-pointer"
+                                        @click="setEd(file)"
+                                    >
+                                        { } {{ file.title }}
+                                    </li>
+                                </div>
+                            </ul>
+                        </div>
+                    </ul>
                 </nav>
 
                 <!-- Main content -->
