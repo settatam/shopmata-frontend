@@ -38,7 +38,7 @@
               </div>
             </div>
           <div class="mx-auto py-5 md:py-10 px-4 sm:px-6 lg:py-12 lg:px-8 flex justify-between">
-           <div class="">
+           <div class="w-full">
 
            
               <div class="bg-white mb-3 md:mb-5 pt-4 md:pt-7 rounded">
