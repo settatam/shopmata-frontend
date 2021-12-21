@@ -12,12 +12,15 @@ module.exports = {
 
     theme: {
         fontSize: {
-            xs: "0.75rem",
+            xxs: "0.625rem",
+            xs: "0.875rem",
+            xm: "0.75rem",
             base: "1rem",
-            lg: "1.075rem",
+            lg: "1.125rem",
             xl: "1.25rem",
             "2xl": "1.5rem",
             "3xl": "1.875rem",
+            sm: "0.985rem",
         },
         extend: {
             fontFamily: {

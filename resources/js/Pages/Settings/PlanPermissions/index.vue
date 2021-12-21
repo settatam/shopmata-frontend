@@ -2,7 +2,7 @@
   <app-layout>
     <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden" >
          <div class="flex-shrink-0 mb-3 px-6 flex items-center">
-              <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
+              <p class="text-2xl font-semibold text-gray-900">Settings</p>
             </div>
             <nav class="flex px-6" aria-label="Breadcrumb">
               <ol role="list" class="flex items-center space-x-4">
@@ -119,8 +119,12 @@
                                         <th scope="col" class=" w-3/10 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
                                             Last Login
                                         </th>
-                                        <th scope="col" class="w-1/5 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
-                                            Permissions
+                                        <th scope="col" class="w-1/5 px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider ">
+                                            <span class="flex items-center"> Roles
+                                                <Tooltip :tooltipText="'Create roles for members of your staff e.g Administrator, Store Manager, Member'">
+                                                   <question-mark-circle-icon class="w-5 h-5 ml-1 cursor-pointer" />
+                                                </Tooltip>
+                                            </span>
                                         </th>
                                         <th scope="col" class="relative px-6 py-3">
                                             <span class="sr-only"></span>
@@ -153,7 +157,7 @@
                                                      <p class="text-red-600">Delete User</p>
                                                 </div>
                                             </div> -->
-                                             <Menu as="div" class="relative inline-block text-left">
+                                             <!-- <Menu as="div" class="relative inline-block text-left">
                                                 <div>
                                                 <MenuButton class=" flex items-center">
                                                     <span class="sr-only">Open options</span>
@@ -168,12 +172,16 @@
                                                         <a href="#" :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"  @click="editRow(user)">Change Roles</a>
                                                     </MenuItem>
                                                     <MenuItem v-slot="{ active }">
-                                                        <a href="#" :class="[active ? 'bg-gray-100 text-red-600' : 'text-red-400', 'block px-4 py-2 text-sm']" @click="deleteRow(user.id)">Delete User</a>
+                                                        <span href="#" :class="[active ? 'bg-gray-100 text-red-600' : 'text-red-400',]" @click="deleteRow(user.id)"><TrashIcon class="w-5 h-5 text-red-500 my-auto cursor-pointer" @click="deleteRow(user.id)"/></span>
                                                     </MenuItem>
                                                     </div>
                                                 </MenuItems>
                                                 </transition>
-                                            </Menu>
+                                            </Menu> -->
+                                            <div class="flex"> 
+                                                    <pencil-icon class="h-8 w-8 p-2 mr-6 text-indigo-600 cursor-pointer" @click="editRow(user)" />
+                                                    <trash-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer" @click="deleteRow(user.id)"/> 
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -195,13 +203,15 @@ import Search from '../../Search.vue'
 import Nav from '../Nav';
 import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,PencilAltIcon,} from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import {TrashIcon,HomeIcon} from '@heroicons/vue/outline'
+import {TrashIcon,HomeIcon,QuestionMarkCircleIcon,PencilIcon} from '@heroicons/vue/outline'
 import moment from "moment";
 import PermissionModal from './Components/PermissionModal.vue';
 import { ref } from '@vue/reactivity';
 import Inertia from '@inertiajs/inertia-vue3'
 import ConfirmationModal from './Components/ConfirmationModal.vue';
 //import moment from 'moment'
+import Tooltip from "../../../Components/Tooltip/Components/Tooltip.vue";
+
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -215,19 +225,25 @@ const plans = [
 ]
 export default {
   props: ['user', 'storeUsers', 'groups','login'],
-  components: { AppLayout,
-  Nav,
-  PlusCircleIcon,
-  DotsVerticalIcon,
-  PermissionModal,
-  ChevronRightIcon,
-  HomeIcon,
-  PencilAltIcon,
-  TrashIcon,
-   ConfirmationModal, Menu,
+  components: { 
+    AppLayout,
+    Nav,
+    PlusCircleIcon,
+    DotsVerticalIcon,
+    PermissionModal,
+    ChevronRightIcon,
+    HomeIcon,
+    QuestionMarkCircleIcon,
+    PencilAltIcon,
+    TrashIcon,
+    ConfirmationModal,
+    Menu,
+    PencilIcon,
     MenuButton,
     MenuItem,
-    MenuItems,},
+    MenuItems,
+    Tooltip
+},
    emits:['close'],
   data(){
       return{

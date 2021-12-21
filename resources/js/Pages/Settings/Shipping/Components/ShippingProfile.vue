@@ -3,7 +3,7 @@
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
            <div class="flex-shrink-0 mb-3 px-6 flex items-center">
-              <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
+              <p class="text-2xl font-semibold text-gray-900">Settings</p>
             </div>
             <nav class="flex px-6" aria-label="Breadcrumb">
               <ol role="list" class="flex items-center space-x-4">
@@ -55,24 +55,24 @@
                                     </p>
                                     <div class=" items-center">
                                         <input type="radio" value="0"  class="mr-2" v-model="rates.is_domestic" name="domestic">
-                                        <label for="domestic"> Domestic</label>
+                                        <label for="domestic" @click="rates.is_domestic ='0'" class="cursor-pointer"> Domestic</label>
                                     </div>
                                     
                                     <div class=" items-center mt-2">
                                         <input type="radio" class="mr-2" value="1" v-model="rates.is_domestic" name="international">
-                                        <label for="international"> International</label>
+                                        <label for="international" @click="rates.is_domestic='1'" class="cursor-pointer"> International</label>
                                     </div>
                                 </div>
                                     <p class="font-semibold mt-6 text-lg">Orders must match</p>
                                     <div class="flex mt-4">
                                         <div class=" items-center">
-                                            <input type="radio" value="0"  class="mr-2" v-model="rates.match_all_condition">
-                                            <label for=""> All Conditions</label>
+                                            <input type="radio" value="0"  class="mr-2" v-model="rates.match_all_condition" name="all_condition">
+                                            <label for="all_condition" @click="rates.match_all_condition ='0'" class="cursor-pointer"> All Conditions</label>
                                         </div>
                                     
                                         <div class=" items-center ml-10">
-                                            <input type="radio" class="mr-2" value="1" v-model="rates.match_all_condition">
-                                            <label for=""> Any Condition</label>
+                                            <input type="radio" class="mr-2" value="1" v-model="rates.match_all_condition" name="any_condition">
+                                            <label for="any_condition" @click="rates.match_all_condition='1'" class="cursor-pointer"> Any Condition</label>
                                         </div>
                                     </div>
 
@@ -100,7 +100,8 @@
                                                     </select>
                                                     <input type="number" class="w-full text-xs py-2 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.value">
                                                 </div>
-                                                <x-icon class="text-red-500 w-5 h-5 my-auto cursor-pointer" @click="removeCondition(index)"/>
+                                                <TrashIcon v-if="data.length>1 && index !=0" class="w-5 h-5 text-red-500 my-auto cursor-pointer" @click="removeCondition(index)"/>
+                                                <TrashIcon v-else class="w-5 h-5 invisible"/>
                                             </div>
                                         </template>
                                             <button class="text-indigo-700 sm:text-sm text-xs font-semibold mt-4 " @click="add()">Add New Condition</button>
@@ -109,7 +110,7 @@
                                         <label class="block font-semibold mb-2 bg-transparent">
                                             Description
                                         </label>
-                                        <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
+                                        <textarea   :class="[rates.description.length>50?'focus:border-red-500 focus:ring-red-500':'focus:border-indigo-500','shadow-sm h-20 block w-full sm:text-sm border-gray-300 rounded-md']" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
                                         <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/50</span>
                                         </div>
                                     </div>
@@ -132,7 +133,7 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav';
-import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon,XIcon} from '@heroicons/vue/outline'
+import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon,XIcon,TrashIcon} from '@heroicons/vue/outline'
 import {onBeforeMount, reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import { Inertia } from '@inertiajs/inertia';
@@ -154,7 +155,8 @@ export default {
           DotsHorizontalIcon, 
           ErrorIcon,
           XIcon,
-          DemoVideoModal
+          DemoVideoModal,
+          TrashIcon
     }, 
     data(){
         return{

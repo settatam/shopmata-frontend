@@ -3,7 +3,7 @@
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
            <div class="flex-shrink-0 mb-3 px-6 flex items-center">
-              <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
+              <p class="text-2xl font-semibold text-gray-900">Settings</p>
             </div>
             <nav class="flex px-6" aria-label="Breadcrumb">
               <ol role="list" class="flex items-center space-x-4">
@@ -35,7 +35,7 @@
                   <div class="px-4 lg:px-8 py-6 mb-6 bg-white">
                       <h2 class="text-xl font-semibold">Delivery method at checkout</h2>
                        <p class="text-gray-500">Manage how customers receive their orders. </p>
-                      <div class="pl-5 pr-2  border border-gray-300 mt-5 pt-8 pb-12 rounded-sm">
+                      <div class="px-2 md:px-5  border border-gray-300 mt-5 pt-8 pb-12 rounded-sm">
                         <p class="text-xl font-semibold">Shipping</p>
                         <p class="text-gray-500">Choose where you ship  and how much  you charge  for shipping at checkout. Learn more <a class="text-indigo-700 underline cursor-pointer" href="/settings/shipping-rate">about shipping rates</a> </p>
                         <div class="flex justify-between items-center mt-6">
@@ -47,7 +47,11 @@
                             <button class="text-indigo-700 mr-5 cursor-pointer">Create Shipping Rate</button>
                           </inertia-link>
                         </div>
-                          <p class="mt-2 mb-10 text-gray-500"> Create a shipping a shipping profile to add custom rate </p>
+                          <span class="mt-2 mb-10 text-gray-500"> Create a shipping profile to add custom rates or destination restrictions for groups of products. 
+                            <Tooltip :tooltipText="'A shipping profile enables you to decide how much you will charge your customer for shipping and also decide where you can ship to'">
+                              <QuestionMarkCircleIcon class="h-5 w-5"/>
+                            </Tooltip> 
+                          </span>
                             <div class="mt-6 flex-col">
                                 <div>
                                     <div class="flex-col mt-2">
@@ -65,9 +69,12 @@
                                               <div class="min-w-max md:w-3/10">{{shipping.name}}</div>
                                               <div class="min-w-max md:w-1/10 text-center">{{shipping.price}}</div>
                                               <div class="min-w-max md:w-4/10 text-center hidden md:block">{{shipping.conditions.length}} condition(s)</div>
-                                              <div class="min-w-max md:w-2/10 cursor-pointer justify-between flex">
-                                                <a class="text-indigo-700 underline" :href="`/settings/shipping-rates/${shipping.id}`" >Edit</a>
-                                                <span class="text-red-600 underline mr-0 " @click="deleteShipping_rate(shipping.id)">Delete</span>
+                                              <div class="min-w-max md:w-2/10 cursor-pointer justify-end flex">
+                                              <inertia-link :href="`/settings/shipping-rates/${shipping.id}`">
+                                                <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer mr-4"/>
+                                              </inertia-link>
+                                                <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="deleteShipping_rate()"/>    
+                                                <delete-alert v-if="is_delete_shipping_rate" :delete_msg="this.delete_msg_shipping_rate" :open="open_delete" @close="emitClose" :id="shipping.id" :delete_url="delete_url_shipping_rate" />
                                               </div>
                                           </div>
                                         </div>
@@ -75,7 +82,6 @@
                                 </div>
                             </div>
                       </div>
-                    
                 </div>
                   <pick-up-modal @close="this.popUp=false" v-if="this.popUp"/>
                       <div class="pl-5 pr-2  mt-5 py-7 bg-white">
@@ -88,7 +94,11 @@
                             </div>
                           </div>
                           <div class="flex flex-col items-start mb-6 ml-6">
-                            <p class="text-gray-500">Allow local customers to pick up their orders. Learn more about local pickup.</p>
+                            <span class="text-gray-500">Allow local customers to pick up their orders. Learn more about local pickup.
+                              <Tooltip :tooltipText="'Customers can pick up their purchase from your physical store when you choose this option'">
+                                <QuestionMarkCircleIcon class="h-5 w-5"/>
+                              </Tooltip> 
+                            </span>
                           </div>
                         </div>
                         <div class="flex flex-col items-center" v-if="this.local_pickup.length==0">
@@ -101,6 +111,7 @@
                               <p class="font-bold mt-3 mb-2">Address {{index+1}}</p>
                               <div class="flex justify-between">
                                 <div class="flex">
+                                <delete-alert v-if="is_delete_location" :delete_msg="this.delete_msg_location" :open="open_delete" @close="emitClose" :id="location.id" :delete_url="delete_url_location"/>
                                   <location-marker-icon class="w-7 h-7 mr-1 pt-2"/>
                                   <div class=" flex flex-col">
                                     <p class="font-bold">{{location.city}} Branch</p>
@@ -112,7 +123,7 @@
                              </div>
                               <div class="flex flex-col justify-between py-5">
                                 <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer" @click="edit_location(location.id)"/>
-                                <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="delete_location(location.id)"/>
+                                <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="delete_location"/>
                               </div>
                            </div>
                          </div>
@@ -136,10 +147,11 @@ import PickUpModal from "./Components/PickUpModal.vue"
 import PickUpModalEdit from "./Components/PickUpModalEdit.vue"
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
-import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon } from '@heroicons/vue/outline'
+import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon,QuestionMarkCircleIcon } from '@heroicons/vue/outline'
 import { Inertia } from '@inertiajs/inertia';
-import DeliveryModal from './Components/DeliveryModal.vue'
-
+import DeliveryModal from './Components/DeliveryModal.vue';
+import Tooltip from "../../../Components/Tooltip/Components/Tooltip.vue";
+import DeleteAlert from '../../../Components/DeleteAlert.vue'
 
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
@@ -167,7 +179,9 @@ export default {
     PickUpModalEdit,
     TrashIcon,PencilIcon,
     DeliveryModal,
-    
+    QuestionMarkCircleIcon,
+    Tooltip,
+    DeleteAlert
   },
 
   
@@ -175,11 +189,14 @@ export default {
     return {
       popUp :false,
       popUpEdit :false,
-      
+      delete_msg_location:"Are you sure you want to delete the selected location? The data will be removed and this action cannot be undone.",
+      delete_url_location :'/settings/store-locations',
+      delete_msg_shipping_rate:"Are you sure you want to delete the selected shipping rate? The data will be removed and this action cannot be undone.",
+      delete_url_shipping_rate :'/settings/shipping-rates',
     }
   },
   methods:{
-     edit_location(){
+    edit_location(){
       this.popUpEdit = true
     }
   },
@@ -188,13 +205,26 @@ export default {
     const open = ref(false)
     const local_delivery = ref(false)
     const Modal = ref(false)
+    const is_delete_location = ref(false)
+    const open_delete = ref(false)
+    const is_delete_shipping_rate = ref(false)
     const shipping_rate = ref([])
     const popModal = () => {
-            Modal.value = true
+      Modal.value = true
       }
-    const delete_location = (id)=>{
-      Inertia.delete(`/settings/store-locations/${id}`)
-      location.reload()  
+    /* const delete_location = ()=>{
+      open_delete.value = true
+      is_delete_location.value = true
+      //Inertia.delete(`/settings/store-locations/${id}`)
+      //location.reload()  
+    } */
+    const delete_location =()=>{
+      is_delete_location.value = true
+      open_delete.value = true
+    }
+    const  emitClose=()=>{
+        is_delete_location.value = false
+        is_delete_shipping_rate.value = false
     }
     const local_pickup=props.locations
     onBeforeMount(()=>{
@@ -202,8 +232,9 @@ export default {
               shipping_rate.value=res.data.data
           })
         })
-    const deleteShipping_rate = (id) =>{
-      Inertia.delete(`/settings/shipping-rates/${id}`)
+    const deleteShipping_rate = () =>{
+      is_delete_shipping_rate.value = true
+      open_delete.value = true
     }
   
     return {
@@ -215,7 +246,11 @@ export default {
       Modal,
       popModal,
       shipping_rate,
-      deleteShipping_rate
+      deleteShipping_rate,
+      is_delete_location,
+      is_delete_shipping_rate,
+      emitClose,
+      open_delete,
     }
   },
 

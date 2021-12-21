@@ -67,9 +67,9 @@
                                     {{ account.email }}
                                     </td>
                                     <td class="px-2 py-1">
-                                        <div class="flex">
-                                            <pencil-icon class="h-8 w-8 p-2 mr-6 rounded-sm border border-gray-300 cursor-pointer"/>
-                                            <trash-icon class="h-8 w-8 p-2 rounded-sm border border-gray-300 cursor-pointer"/>
+                                        <div class="flex"> 
+                                            <pencil-icon class="h-8 w-8 p-2 mr-6 text-indigo-600 cursor-pointer"/>
+                                            <trash-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer"/>
                                         </div>
                                     </td>
                                 </tr>

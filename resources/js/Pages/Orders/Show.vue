@@ -1,37 +1,38 @@
 <template>
     <app-layout>
         <div class="flex-1 flex flex-col mt-4 min-h-screen">
+            <div class="flex-shrink-0 px-8 py-3 flex items-center">
+                <inertia-link href="/orders">
+                    <p class="text-xs text-gray-400 cursor-pointer">Orders</p>
+                </inertia-link>
+                <ChevronRightIcon
+                                class="flex-shrink-0 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                            />
+                <p class="text-xs"># {{ order.id }}</p>
+            </div>
             <nav class="flex px-8 mb-4" aria-label="Breadcrumb">
-                <ol role="list" class="flex items-center space-x-4">
-                    <!-- <li>
+                <ol role="list" class="flex items-center space-x-4 font-bold text-2xl">
+                    <li>
                         <div>
                             <a
                                 href="/dashboard"
-                                class="text-gray-400 hover:text-gray-500"
+                                class=""
                             >
-                                <HomeIcon
+                                <ChevronLeftIcon
                                     class="flex-shrink-0 h-5 w-5"
                                     aria-hidden="true"
                                 />
                                 <span class="sr-only">Order</span>
                             </a>
                         </div>
-                    </li> -->
-                    <li v-for="page in pages" :key="page.name">
+                    </li>
+                    <li>
                         <div class="flex items-center">
                             <a
-                                :href="page.href"
-                                class="
-                                    mr-2
-                                    text-base
-                                    font-medium
-                                    text-gray-500
-                                    hover:text-gray-700
-                                "
-                                :aria-current="
-                                    page.current ? 'page' : undefined
-                                "
-                                >{{ page.name }}</a
+                                href="#"
+                                class=""
+                                >Order Id #{{order.id}}</a
                             >
                             <ChevronRightIcon
                                 class="flex-shrink-0 h-5 w-5 text-gray-400"
@@ -54,18 +55,19 @@
 
             <div class="px-6 flex w-full">
                 <div class="flex flex-col w-2/3 mr-5">
-                    <div class="bg-white py-6 px-8">
+                    <div class="bg-white py-6 px-8 rounded">
                         <div class="flex justify-between mb-3.5">
-                            <h2 class="font-semibold text-xl">Orders placed</h2>
+                            <h2 class="font-bold text-lg">Orders placed</h2>
                             <button
                                 class="
-                                    px-6
+                                    px-5
                                     py-1
                                     text-center
                                     bg-gray-100
                                     border
                                     text-black
-                                    rounded
+                                    rounded-md
+                                    text-xs
                                 "
                                 @click="browseProduct"
                             >
@@ -73,21 +75,15 @@
                             </button>
                         </div>
                         <div class="flex justify-between">
-                            <h2 class="font-medium text-xl text-indigo-700">
-                                Order #{{ order.order_id }}
+                            <h2 class="font-semibold text-indigo-700">
+                                Order #{{ order.id }}
                             </h2>
                             <p class="text-gray-400">
-                                {{ order.created_at }}
+                                {{ moment(order.updated_at).format("lll") }}
                             </p>
                         </div>
                         <p class="mt-2.5 text-base">
-                            {{ store.currency.code }}
-                            {{
-                                Number(
-                                    Number(order.total_orders).toFixed(2)
-                                ).toLocaleString()
-                            }}
-                            from Online Store
+                            {{ store.currency.code }}{{ order.total_orders }} from Online Store
                         </p>
                         <div
                             v-for="item in order.items"
@@ -101,11 +97,11 @@
                                     class="w-10 h-10"
                                 />
                                 <div class="ml-3">
-                                    <h2 class="text-cyan-700 text-base">
+                                    <h2 class="text-indigo-700 text-base">
                                         {{ item.title }}
                                     </h2>
                                     <p class="text-base text-gray-500">
-                                        {{ item.description }}
+                                        Chanel / Pink
                                     </p>
                                     <!-- <p class="text-base text-gray-500">
                                         Qty: {{ item.quantity }}
@@ -123,7 +119,7 @@
                             <div class="w-1/4">
                                 <p class="text-base mb-1">Promotion</p>
                                 <p class="font-semibold text-lg">
-                                    {{ item.promotion }}
+                                    {{ item.promotion || "N/A" }}
                                 </p>
                             </div>
                             <div class="w-1/4">
@@ -133,68 +129,70 @@
                                 </p>
                             </div>
                             <div class="w-1/4">
-                                <p class="text-base mb-1">Quantity</p>
-                                <p class="font-semibold text-lg">
-                                    {{ item.quantity }}
+                                <p class="text-base mb-1 text-center">Quantity</p>
+                                <p class="font-semibold text-center text-lg">
+                                    {{ item.quantity || 1 }}
                                 </p>
                             </div>
                             <div class="w-1/4">
                                 <p class="text-base mb-1">SubTotal</p>
                                 <p class="font-semibold text-lg">
-                                    {{ item.sub_total }}
+                                    {{ store.currency.code }}{{ item.price * (item.quantity || 1 )}}.00
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white py-6 px-8 mt-4">
+                    <div class="bg-white py-6 px-8 mt-4 rounded">
                         <div class="flex justify-between mb-3.5">
-                            <h2 class="font-semibold text-xl">
+                            <h2 class="font-semibold text-lg">
                                 Payment Summary
                             </h2>
                         </div>
                         <div>
                             <div class="flex justify-between mb-3.5">
-                                <h2 class="font-semibold text-gray-500 text-lg">
-                                    Subtotal {{ " " }}
-                                    <span class="font-medium"
-                                        >({{ order.items.length }} items)</span
-                                    >
+                                <h2 class="font-semibold text-gray-700" v-if="order.items.length>1">
+                                    Subtotal {{ " " }} ({{ order.items.length}} items)
+                                </h2>
+                                <h2 class="font-semibold text-gray-500" v-else>
+                                    Subtotal {{ " " }} ({{ order.items.length}} item)
                                 </h2>
                                 <p class="text-black font-bold">
-                                    {{ order.sub_total }}
+                                    {{ store.currency.code }} {{ total_subtotal || 0  }}.00
                                 </p>
                             </div>
                             <div class="flex justify-between mb-4">
-                                <h2 class="font-semibold text-lg text-gray-500">
-                                    Delivery
-                                </h2>
+                                <h2 class="font-semibold text-gray-700">Delivery</h2>
                                 <p class="text-black font-bold">
-                                    {{ order.delivery }}
+                                    {{ store.currency.code }} {{ order.delivery||"0 .00"}}
                                 </p>
                             </div>
                             <div class="flex justify-between">
-                                <h2 class="font-semibold text-lg text-gray-500">
-                                    Tax
-                                </h2>
+                                <h2 class="font-semibold text-gray-700">Tax</h2>
                                 <p class="text-black font-bold">
-                                    {{ order.sales_tax }}
+                                   {{ store.currency.code }} {{ order.sales_tax || "0 .00" }}
                                 </p>
                             </div>
                         </div>
+                        <div class="flex justify-between border-t-2 border-gray-100 mt-5 pt-5">
+                            <h2 class="font-semibold text-gray-500">Total Amount</h2>
+                                <p class="text-black font-bold">
+                                   {{ store.currency.code }} {{total_payment()}}
+                                </p>
+                        </div>
                     </div>
 
-                    <div class="bg-white pt-8 px-8 mt-6">
+                    <div class="bg-white pt-8 px-8 mt-4 rounded">
                         <div class="mb-4">
                             <div class="flex justify-between">
                                 <div>
-                                    <p class="text-base mb-3">Data Added</p>
+                                    <p class="text-xs mb-3 text-gray-700">Date Added</p>
                                     <p class="font-semibold text-lg">
-                                        {{ order.created_at }}
+                                        {{ moment(order.updated_at).format("ll") }}
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="text-base mb-3">Customer Note</p>
+                                    <p class="text-xs mb-3 text-gray-700">Customer Note</p>
                                     <p
                                         v-if="order.customer_note"
                                         class="font-semibold text-lg"
@@ -209,16 +207,9 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="text-base mb-3">Status</p>
+                                    <p class="text-xs mb-3 text-gray-700">Status</p>
                                     <div
-                                        class="
-                                            text-base
-                                            bg-green-100
-                                            text-green-500
-                                            w-full
-                                            pl-8
-                                            pr-8
-                                            py-1.5
+                                        :class="[order.status=='received'?'bg-green-100 text-green-700 ':'bg-red-100 text-red-700','text-xs pl-5 pr-8 w-full py-1 rounded capitalize']
                                         "
                                     >
                                         {{ order.status }}
@@ -226,11 +217,11 @@
                                 </div>
 
                                 <div>
-                                    <p class="text-base mb-3">
+                                    <p class="text-xs mb-3 text-gray-700">
                                         Customer Notified
                                     </p>
                                     <p class="font-semibold text-lg">
-                                        {{ order.customer_notified }}
+                                        {{ order.customer_notified || "Unavailable" }}
                                     </p>
                                 </div>
                             </div>
@@ -248,9 +239,7 @@
                                 <!-- <h2>Customer for about 4 years</h2> -->
                             </div>
                         </div>
-                        <div
-                            class="mt-3.5 border-t border-gray-200 -mx-6"
-                        ></div>
+                        <div class="mt-3.5 border-t border-gray-100 -mx-6"></div>
                         <div class="mt-5">
                             <h2 class="font-semibold text-xl mb-5">
                                 Order History
@@ -268,24 +257,26 @@
                                             shadow-sm
                                             focus:ring-indigo-500
                                             focus:border-indigo-500
-                                            w-full
-                                            sm:text-base
+                                            text-xs
+                                            capitalize text-gray-700
                                             border-gray-300
                                             rounded-md
+                                            p-2
+                                            w-1/2
+                                            mr-2
                                         "
                                         placeholder=""
                                         required
+                                        v-model="order_status"
                                     >
-                                        <option
-                                            v-for="status in order.status"
-                                            :key="status.id"
-                                        >
-                                            {{ order.status }}
+                                        <option value="">
+                                            Select status
                                         </option>
-                                        <!-- <option value="unfulfilled" selected>
-                                            Unfulfilled
-                                        </option> -->
+                                        <option v-for="status in statuses" :key="status.id" :value="status">
+                                            {{status}}
+                                        </option>
                                     </select>
+                                    <button :class="[order_status==''?'bg-indigo-400':'bg-indigo-700','p-2 border text-white rounded-md']" :disabled="order_status==''">Update Status</button>
                                 </div>
                             </div>
                             <div class="mb-5 flex">
@@ -306,10 +297,10 @@
                             </div>
                         </div>
                         <div class="flex mb-2">
-                            <h2 class="font-normal text-base">Customer Note</h2>
+                            <h2 class="font-normal text-xs">Customer Note</h2>
                         </div>
-                        <div class="flex w-full mb-6">
-                            <div class="w-full mr-2">
+                        <div class="flex w-full mb-6 relative">
+                            <div class="w-full mr-2 ">
                                 <input
                                     id="text3"
                                     type="text"
@@ -324,24 +315,31 @@
                                         placeholder-gray-300
                                         focus:outline-none
                                     "
+                                    v-model="customer_note"
                                 />
                             </div>
                             <button
                                 class="
-                                    px-8
-                                    py-2
+                                    px-6 
+                                    margin
+                                    py-1.5
                                     text-center
                                     bg-indigo-700
                                     border
+                                    top-0
+                                    right-4
                                     text-white
+                                    text-xs
                                     rounded-md
+                                    absolute
                                 "
+                                @click=" addCustomerNote"
                             >
                                 Add
                             </button>
                         </div>
-
-                        <div>
+                        
+                        <!-- <div>
                             <div
                                 class="
                                     -mr-6
@@ -364,7 +362,7 @@
                                     <h4 class="mb-3 font-semibold text-lg">
                                         {{ order.total }}
                                     </h4>
-                                    <!-- <h4 class="">1 Order</h4> -->
+                                    <h4 class="">1 Order</h4>
                                 </div>
                                 <div>
                                     <h4 class="mb-3">Average order value</h4>
@@ -381,11 +379,11 @@
                                     <h4></h4>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="flex flex-col">
-                        <div
+                        <!--  <div
                             class="
                                 flex
                                 justify-between
@@ -423,11 +421,10 @@
                                         mr-4
                                     "
                                 >
-                                    <!-- {{user.first_name.charAt(0)}}{{user.last_name.charAt(0)}} -->
-                                    SA
+                                    {{ getCustomer?.first_name.charAt(0)}}{{ getCustomer?.last_name.charAt(0) }}
                                 </p>
                             </div>
-                            <div class="w-full mr-2">
+                           <div class="w-full mr-2">
                                 <input
                                     id="text3"
                                     type="text"
@@ -457,36 +454,64 @@
                                 @click="browseProduct"
                             >
                                 Post
-                            </button>
+                            </button> 
                         </div>
+                        -->
                     </div>
-                    <p class="text-right text-gray-400 mt-1">
+                    <!-- <p class="text-right text-gray-400 mt-1">
                         Only you and other staff can see comments
-                    </p>
-                </div>
+                    </p> -->
+                        <div class="pt-8  mt-4 rounded">
+                            <div class="flex justify-between border-gray-300 border-b mb-6">
+                                <h2 class="text-lg font-bold mb-2">Timeline</h2>
+                                <div>
+                                    <input type="checkbox" name="timeline" id="" class="mr-2" v-model="show_timeline">
+                                    <label for="timeline" class="text-xs">Show comments</label>
+                                </div>
 
+                            </div >
+                                <div v-if="show_timeline">
+                                    <p class=" h-10 w-10 rounded-full capitalize ml-4 bg-indigo-700 text-white text-lg flex items-center justify-center font-semibold">
+                                        {{ getCustomer?.first_name.charAt(0)}}{{ getCustomer?.last_name.charAt(0) }}
+                                    </p>
+                                </div>
+                                <div class="timeline_container" v-if="show_timeline">
+                                    <div class="para_1 relative event text-xs mb-11" v-for="timeline in timelines" :key="timeline.id">
+                                        <div class="date text-gray-500 ">{{moment(timeline.date).format('ll')}}</div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <p class="font-semibold">{{timeline.note}}</p>
+                                                <p class="font-semibold">{{timeline.email}}</p>
+
+                                            </div>
+                                            <div class="date text-gray-500">{{moment(timeline.date).format('LT')}} </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="py-2 px-8 bg-indigo-700 rounded text-white float-right mb-2" @click="confirm_open=true">Save order</button>
+                        </div>
+                </div>
+                
                 <div class="flex flex-col w-1/3">
-                    <div class="bg-white pl-5 mb-3 pr-7 pb-6 pt-6">
+                    <div class="bg-white pl-5 mb-3 pr-7 pb-6 pt-6 rounded">
                         <div class="flex justify-between mb-3">
-                            <h2 class="font-semibold text-xl">Order Details</h2>
+                            <h2 class="font-bold text-lg">Order Details</h2>
                         </div>
                         <div>
                             <div class="mb-2 flex justify-between">
                                 <div>
                                     <h2
                                         class="
-                                            text-lg text-gray-900
-                                            font-medium
+                                             text-gray-700
                                         "
                                     >
-                                        Store:
+                                        Channel:
                                     </h2>
                                 </div>
                                 <div>
                                     <h2
                                         class="
-                                            text-lg text-blue-800
-                                            font-medium
+                                        text-gray-800
                                         "
                                     >
                                         Online Store
@@ -495,47 +520,40 @@
                                 </div>
                             </div>
                             <div class="mb-2 flex justify-between">
-                                <h2 class="text-lg text-gray-900 font-medium">
+                                <h2 class=" text-gray-700">
                                     Date:
                                 </h2>
                                 <div>
-                                    <h2
-                                        class="
-                                            text-lg text-blue-900
-                                            font-medium
-                                        "
-                                    >
-                                        {{ order.created_at }}
+                                    <h2 class=" text-gray-800">
+                                        {{ moment(order.updated_at).format('ll') }}
                                     </h2>
                                 </div>
                             </div>
                             <div class="mb-2 flex justify-between">
-                                <h2 class="text-lg text-gray-900 font-medium">
+                                <h2 class="text-gray-700">
                                     Payment
                                 </h2>
                                 <div>
                                     <h2
                                         class="
-                                            text-lg text-blue-900
-                                            font-medium
+                                            text-gray-800
                                         "
                                     >
-                                        {{ order.payment }}
+                                        {{ order.payment || "Cash on delivery" }}
                                     </h2>
                                 </div>
                             </div>
                             <div class="flex justify-between">
-                                <h2 class="text-lg text-gray-900 font-medium">
+                                <h2 class="text-gray-700">
                                     Delivery
                                 </h2>
                                 <div>
                                     <h2
                                         class="
-                                            text-lg text-blue-900
-                                            font-medium
+                                            text-gray-800
                                         "
                                     >
-                                        {{ order.delivery }}
+                                        {{ order.delivery || "Flat shipping rate" }}
                                     </h2>
                                 </div>
                             </div>
@@ -550,19 +568,20 @@
                             No notes from customer
                         </p> -->
                     </div>
-
-                    <div class="bg-white pl-5 pr-7 pb-10 pt-6 mb-5">
+                    <!-- Customer causing the white section below -->
+                        <div class="bg-white pl-5 pr-7 pb-10 pt-6 mb-5 rounded">
                         <div class="border-b border-gray-200 -mx-5 mb-6.5">
                             <div class="px-5 flex justify-between mb-4">
-                                <h2 class="font-semibold text-xl">
+                                <h2 class="font-bold text-lg">
                                     Customer Overview
                                 </h2>
                                 <a
                                     href="/order/edit"
-                                    class="text-indigo-700 font-semibold"
+                                    class="text-indigo-700 font-semibold text-xs"
                                     >View Details</a
                                 >
                             </div>
+                    
                             <div class="px-5 mb-6 flex">
                                 <div class="flex mr-2 mt-1">
                                     <p
@@ -607,7 +626,7 @@
                                     <!-- <h2 class="text-gray-400">
                                         {{ getCustomer.phone_number }}
                                     </h2> -->
-                                    <h2 class="text-black">
+                                   <h2 class="text-black">
                                         {{ store.phone }}
                                     </h2>
                                 </div>
@@ -615,32 +634,32 @@
                         </div>
                         <div class="border-b border-gray-200 -mx-5 mb-6.5">
                             <div class="px-5 flex justify-between mb-4">
-                                <h2 class="font-semibold text-xl">
+                                <h2 class="font-bold">
                                     Billing Address
                                 </h2>
                             </div>
-                            <div class="px-5 text-gray-500 mb-6">
+                            <div class="px-5 text-gray-500 mb-6 text-xs">
                                 <h2 class="font-normal mb-1">
                                     {{ getCustomer.first_name }}
                                     {{ getCustomer.last_name }}
                                 </h2>
                                 <h2 class="mb-1">{{ store.address }}</h2>
-                                <!-- <h2 class="mb-1">Apt 402</h2> -->
+                                 <h2 class="mb-1">Apt 402</h2>
                                 <h2 class="mb-1">
                                     {{ getCustomer.city }}
                                     {{ getCustomer.state }}
                                 </h2>
                                 <h2 class="mb-6">{{ getCustomer.country }}</h2>
-                                <a
+                                <!-- <a
                                     href="/order/address"
                                     class="font-semibold text-indigo-700"
                                     >Add new address</a
-                                >
+                                > -->
                             </div>
                         </div>
-                        <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                        <div class="border-b border-gray-200 -mx-5 mb-6.5 text-xs">
                             <div class="px-5 flex justify-between mb-4">
-                                <h2 class="font-semibold text-xl">
+                                <h2 class="font-bold">
                                     Shipping Address
                                 </h2>
                             </div>
@@ -649,53 +668,53 @@
                                     {{ getCustomer.first_name }}
                                     {{ getCustomer.last_name }}
                                 </h2>
-                                <h2 class="mb-1">{{ getCustomer.address }}</h2>
-                                <!-- <h2 class="mb-1">Apt 402</h2> -->
+                                <h2 class="mb-1">{{ store.address }}</h2>
+                                <h2 class="mb-1">Apt 402</h2>
                                 <h2 class="mb-1">
                                     {{ getCustomer.city }}
                                     {{ getCustomer.state }}
                                 </h2>
                                 <h2 class="mb-6">{{ getCustomer.country }}</h2>
-                                <a
+                                <!-- <a
                                     href="/order/address"
                                     class="font-semibold text-indigo-700"
                                     >Add new address</a
-                                >
+                                > -->
                             </div>
                         </div>
-                        <div class="-mx-5">
-                            <div class="px-5 flex justify-between mb-4">
-                                <h2 class="font-semibold text-xl">
+                         <div class=" flex justify-between mb-4">
+                                <h2 class="font-bold ">
                                     Tax Settings
                                 </h2>
                                 <a
                                     href="/order/manage"
-                                    class="text-indigo-700 font-semibold"
+                                    class="text-indigo-700 font-semibold text-xs"
                                     >Manage</a
                                 >
                             </div>
-                            <div class="px-5 text-gray-400">
+                            <div class="text-xs text-gray-400">
                                 <h2>No exemptions</h2>
                             </div>
-                        </div>
-                    </div>
-                    <div class="bg-white pl-5 pr-7 pt-6 pb-9 mb-3">
+                    </div> 
+                    <!-- Hard coded values -->
+                    <div class="bg-white pl-5 pr-7 pt-6 pb-9 mb-3 rounded">
                         <div class="flex justify-between">
-                            <h2 class="font-semibold text-lg mb-6">
+                            <h2 class="font-bold text-lg mb-6">
                                 Email marketing
                             </h2>
-                            <h2 class="text-cyan-700 font-semibold">
+                            <h2 class="text-indigo-700 text-xs font-semibold">
                                 Unsubscribe
                             </h2>
                         </div>
                         <div
                             class="
                                 mb-3.5
-                                text-base
+                                
                                 inline-flex
                                 leading-5
                                 bg-green-100
                                 text-green-500
+                                text-xs
                                 px-2
                                 py-1
                             "
@@ -703,24 +722,32 @@
                             Subscribed
                         </div>
                         <div class="">
-                            <h2 class="font-semibold text-indigo-700 mb-3.5">
+                            <h2 class="font-semibold text-indigo-700 mb-3.5 text-xs">
                                 {{ getCustomer.email }}
                             </h2>
-                            <h2 class="text-gray-400">
+                            <h2 class="text-gray-400 text-xs">
                                 Subscribed on December 30, 2018
                             </h2>
                         </div>
                     </div>
-
-                    <div class="bg-white pl-5 pr-7 pb-9 pt-6">
-                        <div class="flex justify-between mb-4.5">
-                            <h2 class="font-semibold text-xl">Tags</h2>
-                            <h2 class="text-cyan-700 font-semibold">
+                    <div class="bg-white pl-5 pr-7 pb-9 pt-6 rounded relative">
+                        <div class="flex justify-between mb-4.5 ">
+                            <h2 class="font-bold text-lg">Tags</h2>
+                            <h2 class="text-indigo-700 text-xs font-semibold cursor-pointer" @click="tag_open=true">
                                 Add tags
                             </h2>
                         </div>
+                        <input type="text" name="tag" class="border-gray-300 px-6 pl-9 w-full py-2 text-xs placeholder-gray-300 rounded-lg relative" placeholder="Search for tags">
+                        <search-icon class="h-5 w-5 font-bold text-gray-500 absolute left-8 top-20"/>
+                        <div class="flex text-xm mt-4 w-full overflow-x-scroll items-center">
+                            <div class="py-0.5 px-2 rounded-xl mr-2 bg-indigo-100 items-center flex" v-for="(tag,index) in tags" :key="index">
+                                <p class="text-indigo-700 font-medium capitalize">{{tag}}</p>
+                                <x-icon class="h-3 w-3 ml-1 text-blue-400 font-bold cursor-pointer" @click="removeTag(index)"/>
+                            </div>
+                        </div>
+                        <!-- 
                         <label for="search" class="sr-only">Search</label>
-                        <input
+                            <input
                             id="text"
                             type="text"
                             placeholder="VIP, sale, shopper, etc"
@@ -793,20 +820,52 @@
                                     </svg>
                                 </button>
                             </span>
-                        </div>
+                        </div> -->
+                            <div class="absolute top-12 rounded p-6 bg-white w-full -mx-5" v-if="tag_open">
+                                <div class="flex items-center mb-6">
+                                    <ChevronLeftIcon class="h-6 w-6 mr-4"/>
+                                    <p class="text-lg font-semibold">Add Tags</p>
+                                </div>
+                                <div class="mb-10 flex flex-col">
+                                    <label for="tag" class="mb-2">
+                                        Tag name
+                                    </label>
+                                    <input type="text" name="tag" class="border-gray-300 px-3 py-2 text-xs placeholder-gray-300 rounded-lg" placeholder="Seperate tags with a comma" v-model="tag_name">
+                                </div>
+                                <div class="flex justify-between">
+                                    <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-7 py-3 bg-indigo-700 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm" @click="addTag">
+                                        Create
+                                    </button>
+                                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-7 py-3 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm" @click="cancel_tag" ref="cancelButtonRef">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
                     </div>
+                    <confirmation-modal v-if="confirm_open" @close="confirm_open=false" @confirm="submit"/>
 
-                    <div class="bg-white pl-5 mt-3 mb-3 pr-7 pb-9 pt-6">
+                    <div class="bg-white pl-5 mt-3 mb-3 pr-7 pb-9 pt-6 rounded">
                         <div class="flex justify-between mb-4.5">
-                            <h2 class="font-semibold text-xl">Notes</h2>
+                            <h2 class="font-bold text-lg">Notes</h2>
+                            <p class="font-semibold text-indigo-700 cursor-pointer text-xs">Edit</p>
                         </div>
-                        <h2
-                            v-if="order.note"
-                            class="text-cyan-700 font-semibold"
-                        >
-                            {{ order.note }}
-                        </h2>
-                        <p v-else class="font-normal text-base text-gray-400">
+                        <div v-if="customer_notes">
+                            <div v-for="note in customer_notes" :key="note.id" class="border border-gray-200 rounded p-3.5 mb-2">
+                                <div class="flex justify-between text-xs ">
+                                    <div>
+                                        <p><span class="font-bold ">You</span> added a note</p>
+                                        <p class="text-xm">{{note.date}}</p>
+                                    </div>
+                                    <div class="flex">
+                                        <pencil-icon class="text-indigo-700 w-5 h-5 cursor-pointer"/>
+                                        <trash-icon class="w-5 h-5 text-gray-500 cursor-pointer"/>
+                                    </div>
+                                </div>
+                                <div class="border-b border-gray-200 my-2 w-full h-px"></div>
+                                  <p class="text-gray-800">{{note.note}}</p>  
+                            </div>
+                        </div>
+                        <p v-else class="text-xs text-gray-400">
                             No notes from customer
                         </p>
                     </div>
@@ -833,6 +892,7 @@ import AddressModal from "./Components/AddressModal.vue";
 import TagModal from "./Components/TagModal.vue";
 import MarkAsPaidModal from "./Components/MarkAsPaidModal.vue";
 import ReserveItemsModal from "./Components/ReserveItemsModal.vue";
+import ConfirmationModal from "./Components/ConfirmationModal.vue"
 
 import {
     Dialog,
@@ -846,6 +906,9 @@ import {
     PlusIcon,
     ChevronRightIcon,
     ArrowLeftIcon,
+    TrashIcon,
+    PencilIcon,
+    SearchIcon
 } from "@heroicons/vue/solid";
 import { HomeIcon } from "@heroicons/vue/outline";
 import hljs from "highlight.js";
@@ -860,6 +923,7 @@ import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
 import Button from "../../Jetstream/Button.vue";
 // import "vue-multiselect/dist/vue-multiselect.min.css";
+import moment from "moment"
 
 const pages = [{ name: "Orders", href: "/orders", current: false }];
 
@@ -872,6 +936,7 @@ export default {
     props: {
         order: Object,
         store: Object,
+        statuses:Array
     },
 
     components: {
@@ -890,11 +955,13 @@ export default {
         UploadIcon,
         AngleUpIcon,
         Button,
+        ConfirmationModal,
         // MediaUrlModal,
         EmptyProductModal,
         ProductModal,
         ChevronLeftIcon,
         XIcon,
+        SearchIcon,
         PlusIcon,
         DiscountModal,
         ShippingModal,
@@ -908,6 +975,9 @@ export default {
         ChevronRightIcon,
         ArrowLeftIcon,
         HomeIcon,
+        TrashIcon,
+        PencilIcon,
+        XIcon
     },
 
     data() {
@@ -922,8 +992,14 @@ export default {
             openBilling: false,
             openAddress: false,
             openTag: false,
+            tag_name:"",
             openMarkAsPaid: false,
             openReserve: false,
+            confirm_open:false,
+            order_status:"",
+            customer_note:"",
+            tag_open:false,
+            tags:[],
             dropzoneOptions: {
                 url: "/product-images",
                 thumbnailWidth: 150,
@@ -934,6 +1010,7 @@ export default {
 <path fill-rule="evenodd" clip-rule="evenodd" d="M19.827 6.039C24.3247 2.16061 30.0611 0.0186233 36 0C48.105 0 58.1535 9 59.247 20.6055C66.411 21.618 72 27.6165 72 34.9785C72 43.0605 65.259 49.5 57.0915 49.5H45C44.4033 49.5 43.831 49.2629 43.409 48.841C42.9871 48.419 42.75 47.8467 42.75 47.25C42.75 46.6533 42.9871 46.081 43.409 45.659C43.831 45.2371 44.4033 45 45 45H57.096C62.9055 45 67.5 40.446 67.5 34.9785C67.5 29.5065 62.91 24.9525 57.0915 24.9525H54.8415V22.7025C54.846 12.7125 46.476 4.5 36 4.5C31.1394 4.51942 26.4458 6.27495 22.7655 9.45C19.359 12.384 17.577 15.921 17.577 18.6975V20.7135L15.5745 20.934C9.288 21.6225 4.5 26.784 4.5 32.931C4.5 39.5325 10.035 45 17.0145 45H27C27.5967 45 28.169 45.2371 28.591 45.659C29.0129 46.081 29.25 46.6533 29.25 47.25C29.25 47.8467 29.0129 48.419 28.591 48.841C28.169 49.2629 27.5967 49.5 27 49.5H17.0145C7.686 49.5 0 42.147 0 32.931C0 24.9975 5.697 18.4275 13.239 16.7625C13.8825 12.879 16.38 9.009 19.827 6.039Z" fill="#CCCCCC"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M35.438 28.3899C35.5626 28.265 35.7105 28.166 35.8734 28.0984C36.0363 28.0308 36.2109 27.996 36.3873 27.996C36.5637 27.996 36.7383 28.0308 36.9012 28.0984C37.0641 28.166 37.212 28.265 37.3366 28.3899L45.3814 36.4347C45.6331 36.6865 45.7746 37.0279 45.7746 37.384C45.7746 37.7401 45.6331 38.0815 45.3814 38.3333C45.1296 38.5851 44.7881 38.7265 44.4321 38.7265C44.076 38.7265 43.7346 38.5851 43.4828 38.3333L37.7281 32.5759V56.1552C37.7281 56.5108 37.5868 56.8518 37.3354 57.1033C37.0839 57.3547 36.7429 57.496 36.3873 57.496C36.0317 57.496 35.6907 57.3547 35.4392 57.1033C35.1878 56.8518 35.0465 56.5108 35.0465 56.1552V32.5759L29.2918 38.3333C29.04 38.5851 28.6985 38.7265 28.3425 38.7265C27.9864 38.7265 27.645 38.5851 27.3932 38.3333C27.1414 38.0815 27 37.7401 27 37.384C27 37.0279 27.1414 36.6865 27.3932 36.4347L35.438 28.3899Z" fill="#632A6D"/></span><br/><p class="m-4">Drag and drop your image here or </p><br/> <t-button class="text-white bg-purple-darker active:bg-purple-darker font-medium border border-transparent px-4 py-3.5" type="submit">Choose File</t-button>`,
             },
+            show_timeline:true,
             expand: true,
             expandMedia: true,
             content: "",
@@ -995,163 +1072,13 @@ export default {
                     },
                 ],
             },
+            total_subtotal:0,
             files: [],
             showUrlModal: false,
             media: {
                 url: "",
             },
-            products: [
-                {
-                    id: 1,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 1,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 910,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 2,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 930,
-                        },
-                    ],
-                },
-                {
-                    id: 2,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 3,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 78,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 4,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 99,
-                        },
-                    ],
-                },
-                {
-                    id: 3,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 5,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 22,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 6,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 26,
-                        },
-                    ],
-                },
-                {
-                    id: 4,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 7,
-                            color: "Orange",
-                            price: 100,
-                            quantity: 20,
-                            sku: 33,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 8,
-                            color: "Green",
-                            price: 100,
-                            quantity: 20,
-                            sku: 35,
-                        },
-                    ],
-                },
-                {
-                    id: 5,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 9,
-                            color: "Blue",
-                            price: 100,
-                            quantity: 20,
-                            sku: 90,
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 10,
-                            color: "Pink",
-                            price: 100,
-                            quantity: 20,
-                            sku: 98,
-                        },
-                    ],
-                },
-                {
-                    id: 6,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: {},
-                },
-                {
-                    id: 7,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: {},
-                },
-                {
-                    id: 8,
-                    image: "https://picsum.photos/200",
-                    description: "3.1 Dolce & Gabanna",
-                    variants: [
-                        {
-                            id: 11,
-                            color: "Black",
-                            price: 100,
-                            quantity: 20,
-                            sku: 78,
-                            image: "https://picsum.photos/200",
-                        },
-                        {
-                            image: "https://picsum.photos/200",
-                            id: 12,
-                            color: "Baige",
-                            price: 100,
-                            quantity: 20,
-                            sku: 899,
-                        },
-                    ],
-                },
-            ],
+            customer_notes:[],
             production: [],
             subTotal: 0,
             taxes: 0,
@@ -1159,6 +1086,32 @@ export default {
             email: false,
             pending: false,
             paid: false,
+            timelines:[
+                {
+                    id:1,
+                    note:"Order Confirmation email for order #3296 sent to this customer",
+                    email:"(jerry.gyang@gmail.com)",
+                    date: "2021-10-29T08:24:58.000000Z"
+                },
+                {
+                    id:2,
+                    note:"Order Confirmation email for order #3296 sent to this customer",
+                    email:"(jerry.gyang@gmail.com)",
+                    date: "2021-09-20T08:24:58.000000Z"
+                },
+                {
+                    id:3,
+                    note:"Order Confirmation email for order #3296 sent to this customer",
+                    email:"(jerry.gyang@gmail.com)",
+                    date: "2020-03-09T08:24:58.000000Z"
+                },
+                {
+                    id:4,
+                    note:"Order Confirmation email for order #3296 sent to this customer",
+                    email:"(jerry.gyang@gmail.com)",
+                    date: "2020-10-29T08:24:58.000000Z"
+                }
+            ]
         };
     },
     computed: {
@@ -1196,15 +1149,39 @@ export default {
             };
         },
     },
+    mounted(){
+        for (let index = 0; index < this.order.items.length; index++) {
+            let unit_subtotal = this.order.items[index].price * (this.order.items[index].quantity?this.order.items[index].quantity:1)
+                this.total_subtotal += unit_subtotal  
+                //console.log(this.total_subtotal)
+            };
+        
+    },
     methods: {
         showFormFields() {
             console.log(this.formData);
+        },
+        total_payment(){
+            return this.total_subtotal
         },
         addOption(e) {
             this.variants.options.push({
                 type: "",
                 values: [],
             });
+        },
+        addTag(){
+           const tag = this.tag_name.split(",")
+           for (let index = 0; index < tag.length; index++) {
+               const char = tag[index];
+               this.tags.push(char)
+           }
+           this.tag_name = ""
+           this.tag_open = false
+        },
+        removeTag(id){
+            this.tags.splice(id, 1)
+        
         },
         addVariantName(e) {
             let index = e.target.getAttribute("data-index");
@@ -1360,6 +1337,23 @@ export default {
             this.openModal = true;
             this.getProducts();
         },
+        addCustomerNote(){
+            let today = new Date();
+            let date = (today.getMonth()+1)+' '+today.getDate();
+            //let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            //let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = moment(date).format('ll');
+            let customer_note_info={
+                date: dateTime,
+                note:this.customer_note
+            }
+            this.customer_notes.push(customer_note_info)
+            this.customer_note=""
+        },
+        cancel_tag(){
+            this.tag_open=false
+            this.tag_name=''
+        }
     },
     setup() {
         const open = ref(false);
@@ -1370,6 +1364,7 @@ export default {
         return {
             statusStyles,
             pages,
+            moment
         };
     },
 };
@@ -1377,8 +1372,42 @@ export default {
 <style scoped>
 @import "style.css";
 .quill {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+.margin {
+  margin-top: 3.5px;
+  margin-bottom: 3.5px;
+}
+.timeline_container {
+  max-width: 90%;
+  margin: 0 auto;
+  border-left: 4px solid rgba(180, 183, 196, 1);
+  padding-left: 47px;
+}
+.timeline_container .event::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  border-radius: 50%;
+  left: -53px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #b4b7c4;
+  z-index: 20;
+}
+.timeline_container .event::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 1px solid #b4b7c4;
+  position: absolute;
+  border-radius: 50%;
+  left: -57px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #f7f5f7;
 }
 </style>
 <style src="@vueform/multiselect/themes/default.css"></style>
