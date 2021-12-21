@@ -54,7 +54,7 @@
                         <input id="search-field" name="search-field" class="rounded text-xm md:text-base text-gray-500 w-full md:search-field md:w-full pl-12 pr-2 bg-transparent border border-gray-200 placeholder-gray-500 placehol" placeholder="Search by name, email....." type="search" />
                       </div>
                     </div>
-                    <div class="flex flex-col">
+                    <div class="">
                       <label for="brand" class="text-xm md:text-base">Brand</label>
                       <select name="brand" id="" class="rounded text-gray-500 w-full text-xm md:text-base bg-transparent border border-gray-200 ">
                         <option value="1">All</option>
@@ -318,7 +318,8 @@ export default {
             products: Object,
             filters: Object,
             brands: Array,
-            categories: Array
+            categories: Array,
+            store: Object
         },
   components: {AppLayout, ScaleIcon, SearchIcon, PlusIcon, TrashIcon,ChevronLeftIcon,ChevronRightIcon,PencilIcon,DeleteAlert},
 
@@ -353,11 +354,11 @@ export default {
         this.selectedAll=false
      },
      delete_action(){
-       for (const id of this.selected) {
-          console.log(id)
+       
+          //console.log(id)
           this.selected =[]
           this.selectedAll=false
-        }
+        
       }
   },
   setup() {
