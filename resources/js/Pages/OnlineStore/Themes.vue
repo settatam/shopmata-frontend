@@ -91,20 +91,22 @@
               Developed and supported by ShopMata
             </p>
             <div class="flex">
-              <button
-                class="
-                  bg-cyan-700
-                  text-white
-                  py-4
-                  px-11
-                  font-semibold
-                  text-sm
-                  mr-4
-                  focus:outline-none
-                "
-              >
-                <span class="font-semibold">Customize</span>
-              </button>
+              <inertia-link href="/online-store/code-editor">
+                <button
+                  class="
+                    bg-cyan-700
+                    text-white
+                    py-4
+                    px-11
+                    font-semibold
+                    text-sm
+                    mr-4
+                    focus:outline-none
+                  "
+                >
+                  <span class="font-semibold">Customize</span>
+                </button>
+              </inertia-link>
               <!-- <button class="border border-purple-darker py-4 px-5  text-sm align-bottom focus:outline-none text-purple-darker" @click="toggleOpen()"> <span class="mr-5 font-semibold">Actions</span> <i class="fas fa-chevron-down"></i></button> -->
               <Menu as="div" class="relative inline-block text-left">
                 <div>
@@ -162,7 +164,7 @@
                             active
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm',
                           ]"
                           >Preview</a
                         >
@@ -174,7 +176,7 @@
                             active
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm',
                           ]"
                           >Rename</a
                         >
@@ -186,7 +188,7 @@
                             active
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm',
                           ]"
                           >Themes Details</a
                         >
@@ -198,7 +200,7 @@
                             active
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm',
                           ]"
                           >Download Themes</a
                         >
@@ -235,7 +237,7 @@
                     v-model="enabled"
                     :class="[
                       enabled ? 'bg-cyan-700' : 'bg-gray-200',
-                      'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none'
+                      'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none',
                     ]"
                   >
                     <span class="sr-only">Use setting</span>
@@ -243,7 +245,7 @@
                       aria-hidden="true"
                       :class="[
                         enabled ? 'translate-x-5' : 'translate-x-0',
-                        'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
+                        'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
                       ]"
                     />
                   </Switch>
@@ -267,7 +269,7 @@
                     v-model="enabled1"
                     :class="[
                       enabled1 ? 'bg-cyan-700' : 'bg-gray-200',
-                      'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none'
+                      'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none',
                     ]"
                   >
                     <span class="sr-only">Use setting</span>
@@ -275,7 +277,7 @@
                       aria-hidden="true"
                       :class="[
                         enabled1 ? 'translate-x-5' : 'translate-x-0',
-                        'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
+                        'pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200',
                       ]"
                     />
                   </Switch>
@@ -289,9 +291,9 @@
   </app-layout>
 </template>
 <script>
-import { ref } from 'vue';
-import axios from 'axios';
-import AppLayout from '../../Layouts/AppLayout.vue';
+import { ref } from "vue";
+import axios from "axios";
+import AppLayout from "../../Layouts/AppLayout.vue";
 import {
   Dialog,
   DialogOverlay,
@@ -300,11 +302,11 @@ import {
   Menu,
   MenuButton,
   MenuItem,
-  MenuItems
-} from '@headlessui/vue';
-import { ChevronLeftIcon, ChevronDownIcon } from '@heroicons/vue/solid';
-import Alert from '../../Components/Alert.vue';
-import { Switch } from '@headlessui/vue';
+  MenuItems,
+} from "@headlessui/vue";
+import { ChevronLeftIcon, ChevronDownIcon } from "@heroicons/vue/solid";
+import Alert from "../../Components/Alert.vue";
+import { Switch } from "@headlessui/vue";
 
 export default {
   components: {
@@ -320,7 +322,7 @@ export default {
     MenuButton,
     MenuItem,
     MenuItems,
-    ChevronDownIcon
+    ChevronDownIcon,
   },
   setup() {
     const enabled = ref(false);
@@ -328,8 +330,8 @@ export default {
 
     return {
       enabled,
-      enabled1
+      enabled1,
     };
-  }
+  },
 };
 </script>
