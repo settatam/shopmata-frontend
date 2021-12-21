@@ -68,7 +68,7 @@
                     </thead>
                   
                     <tbody class="bg-white divide-y divide-gray-200"   v-if="categories.length>0">
-                      <tr class="bg-white" v-for="category in  categories" :key=" category.id">
+                      <tr class="bg-white hover:bg-indigo-50" v-for="category in  categories" :key=" category.id">
                         <td scope="col" class="w-1/10 pl-4.5 pr-2 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" :value="category.id" v-model="selected" @click="uncheckBox(category.id)" />
                         </td> 
