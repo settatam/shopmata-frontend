@@ -3,7 +3,7 @@
         <!-- Page header -->
         <div class="">
             <div class="px- sm:px-6 lg:mx-auto lg:px-">
-                <div class="p-6 flex items-center justify-between ">
+                <div class="p-6 md:py-6 md:px-0  flex items-center justify-between ">
                     <div class="flex-1 min-w-0">
                         <!-- Profile -->
                         <div class="flex items-center">

@@ -4745,6 +4745,14 @@ input[type='checkbox']:focus {
 		padding-bottom: 1rem;
 	}
 
+	.md\:pr-6 {
+		padding-right: 1.5rem;
+	}
+
+	.md\:pl-0 {
+		padding-left: 0px;
+	}
+
 	.md\:text-left {
 		text-align: left;
 	}
