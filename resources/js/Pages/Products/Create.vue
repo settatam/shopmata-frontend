@@ -10,7 +10,7 @@
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
-                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                    <a href="/dashboard" class="text-gray-600 hover:text-gray-700">
                       <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                       <span class="sr-only">Settings</span>
                     </a>
@@ -18,7 +18,7 @@
                 </li>
                 <li v-for="page in pages" :key="page.name">
                   <div class="flex items-center">
-                    <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-600" aria-hidden="true" />
                     <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
                   </div>
                 </li>
@@ -123,7 +123,7 @@
                                   <input type="number" name="compare_at_price" id="compare_at_price" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="price-currency" v-model="product.compare_at_price"/>
                                 </div>
                             </div>   
-                            <span class="flex items-center text-gray-400 mt-4">
+                            <span class="flex items-center text-gray-600 mt-4">
                               <information-circle-icon class="h-5 w-5 "/> Customers will not see this
                             </span>            
                         </div>
@@ -179,7 +179,7 @@
               ></variants-form>
 
               <!-- Link Starts Here -->
-              <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">
+              <!-- <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">
                 <div class="flex justify-between cursor-pointer" @click="link_open=!link_open">
                   <p class="text-black font-semibold text-lg mb-6">Link</p>
                    <chevron-up-icon class="h-5 w-5 text-indigo-700 cursor-pointer" v-if="link_open"/>     
@@ -203,7 +203,7 @@
                     <input type="text" name="related" id="" class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md" v-model="link.related_products">
                   </div>
                 </div>
-              </div>
+              </div> -->
               <!-- Inventory Starts here -->
 
               <div class="bg-white pt-4 md:pt-7 pb-1 mb-3 md:mb-5 rounded " @click="inventory_open=!inventory_open">
@@ -376,10 +376,10 @@
                   </Tooltip>
                 </div>
                 <p class="text-gray-700 mt-5 mb-2.5">Choose product type</p>
-                <select name="product_type" class="py-2 text-xm px-4 rounded border text-gray-400 border-gray-200 w-full" id="">
+                <select name="product_type" class="py-2 text-xm md:text-xs px-4 rounded border text-gray-600 border-gray-200 w-full" id="">
                   <option value="default" class="">Default collection</option>
                 </select>
-                <p class="text-xm text-gray-400 mt-2">Choose the product category that your product belongs to, create a custom product type if your product does not fit into the available product types.</p>
+                <p class="text-xm md:text-xs text-gray-600 mt-2">Choose the product category that your product belongs to, create a custom product type if your product does not fit into the available product types.</p>
               </div>
             </div>
             <div class="collection-type px-7 pt-6 pb-3 bg-white rounded-sm">
@@ -391,10 +391,10 @@
                   </Tooltip>
                 </div>
                 <p class="text-gray-700 mt-5 mb-2.5">Choose Collection type</p>
-                <select name="collection_type" class="py-2 text-xm px-4 rounded border text-gray-400 border-gray-200 w-full" id="">
+                <select name="collection_type" class="py-2 text-xm md:text-xs px-4 rounded border text-gray-600 border-gray-200 w-full" id="">
                   <option value="default">Default collection</option>
                 </select>
-                <p class="text-xm text-gray-400 mt-2">Create a collection, then choose the collection to which your product belongs to.</p>
+                <p class="text-xm md:text-xs text-gray-600 mt-2">Create a collection, then choose the collection to which your product belongs to.</p>
                 <div class="flex text-indigo-700 my-4 float-right">
                   <plus-icon class="w-5 h-5 mr-1 "/>
                   <p>Create Collection</p>
@@ -404,8 +404,8 @@
             <div class="brand-type px-7 pt-6 pb-3 bg-white rounded-sm">
               <p class="font-semibold text-lg">Brand Type</p>
               <p class="text-gray-700 mt-5 mb-2.5" >Brand name</p>
-              <input type="text"  class="py-2 text-xm px-4 rounded border text-gray-400 border-gray-200 w-full" name="brand_tyoe" id="">
-              <p class="text-xm text-gray-400 mt-2 mb-4">Choose the brand name of your product, create a custom brand if you cannot find your brand name.</p>
+              <input type="text"  class="py-2 text-xm  md:text-xs px-4 rounded border text-gray-600 border-gray-200 w-full" name="brand_tyoe" id="">
+              <p class="text-xm md:text-xs text-gray-600 mt-2 mb-4">Choose the brand name of your product, create a custom brand if you cannot find your brand name.</p>
               <div class="flex text-indigo-700 my-4 float-right">
                 <plus-icon class="w-5 h-5 mr-1 "/>
                 <p>Create Custom Brand</p>
