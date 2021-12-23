@@ -29,7 +29,7 @@
                                     ml-4
                                     text-base
                                     font-medium
-                                    text-gray-500
+                                    text-gray-400
                                     hover:text-gray-700
                                     mt-1
                                 "
@@ -64,7 +64,7 @@
                 </ol>
             </nav>
 
-            <div class="mx-8 mt-4 mb-7">
+            <!-- <div class="mx-8 mt-4 mb-7">
                 <a href="/customers" class="hover:text-gray-700">
                     <div class="flex items-center">
                         <ArrowLeftIcon
@@ -77,32 +77,187 @@
                         </h1>
                     </div>
                 </a>
-            </div>
+            </div> -->
 
-            <div class="mx-6 flex">
-                <div class="w-2/3 mr-3">
+            <div class="mx-6 flex mt-3">
+                <!-- Customer causing the white section below -->
+                <div
+                    class="
+                        bg-white
+                        pl-5
+                        pr-7
+                        pb-10
+                        pt-6
+                        mb-5
+                        rounded
+                        w-1/3
+                        mr-4
+                    "
+                >
+                    <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                        <div class="px-5 flex justify-between mb-4">
+                            <h2 class="font-bold text-lg">Customer Overview</h2>
+                            <a
+                                href="/customers/edit"
+                                class="text-indigo-700 font-semibold text-xs"
+                                >Edit Details</a
+                            >
+                        </div>
+
+                        <div class="px-5 mb-6 flex">
+                            <div class="flex mr-2 mt-1">
+                                <p
+                                    class="
+                                        h-14
+                                        w-14
+                                        rounded-full
+                                        capitalize
+                                        bg-gray-100
+                                        text-black text-lg
+                                        flex
+                                        items-center
+                                        justify-center
+                                        font-semibold
+                                    "
+                                >
+                                    {{ customer?.first_name.charAt(0)
+                                    }}{{ customer?.last_name.charAt(0) }}
+                                </p>
+                            </div>
+                            <div class="flex flex-col">
+                                <inertia-link
+                                    :href="'/customers/' + customer.id"
+                                    >{{ customer.first_name }}
+                                    {{ customer.last_name }}</inertia-link
+                                >
+
+                                <h2
+                                    class="
+                                        font-semibold
+                                        text-indigo-700
+                                        mb-1
+                                        text-xs
+                                        lg:text-base
+                                    "
+                                >
+                                    {{ customer.email }}
+                                </h2>
+                                <!-- <h2 class="text-gray-400">
+                                        {{ getCustomer.activation_status }}
+                                    </h2> -->
+                                <!-- <h2 class="text-gray-400">
+                                        {{ getCustomer.phone_number }}
+                                    </h2> -->
+                                <h2 class="text-black text-xs lg:text-base">
+                                    {{ store.phone }}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                        <div class="px-5 flex justify-between mb-4">
+                            <h2 class="font-bold">Billing Address</h2>
+                        </div>
+                        <div class="px-5 text-gray-500 mb-6 text-xs">
+                            <h2 class="font-normal mb-1">
+                                {{ customer?.first_name }}
+                                {{ customer?.last_name }}
+                            </h2>
+                            <h2 class="mb-1">{{ store.address }}</h2>
+                            <h2 class="mb-1">Apt 402</h2>
+                            <h2 class="mb-1">
+                                {{ customer?.city }}
+                                {{ customer?.state }}
+                            </h2>
+                            <h2 class="mb-6">
+                                {{ customer?.country }}
+                            </h2>
+                            <!-- <a
+                                    href="/order/address"
+                                    class="font-semibold text-indigo-700"
+                                    >Add new address</a
+                                > -->
+                        </div>
+                    </div>
+                    <div class="border-b border-gray-200 -mx-5 mb-6.5">
+                        <div class="px-5 flex justify-between mb-4">
+                            <h2 class="font-bold">Shipping Address 1</h2>
+                        </div>
+                        <div class="px-5 text-gray-500 mb-6 text-xs">
+                            <h2 class="font-normal mb-1">
+                                {{ customer.first_name }}
+                                {{ customer.last_name }}
+                            </h2>
+                            <h2 class="mb-1">{{ store.address }}</h2>
+                            <h2 class="mb-1">Apt 402</h2>
+                            <h2 class="mb-1">
+                                {{ customer?.city }}
+                                {{ customer?.state }}
+                            </h2>
+                            <h2 class="mb-6">
+                                {{ customer?.country }}
+                            </h2>
+                            <!-- <a
+                                    href="/order/address"
+                                    class="font-semibold text-indigo-700"
+                                    >Add new address</a
+                                > -->
+                        </div>
+                    </div>
+                    <div class="-mx-5 mb-6.5">
+                        <div class="px-5 flex justify-between mb-4">
+                            <h2 class="font-bold">Shipping Address 2</h2>
+                        </div>
+                        <div class="px-5 text-gray-500 mb-6 text-xs">
+                            <h2 class="font-normal mb-1">
+                                {{ customer.first_name }}
+                                {{ customer.last_name }}
+                            </h2>
+                            <h2 class="mb-1">{{ store.address }}</h2>
+                            <h2 class="mb-1">Apt 402</h2>
+                            <h2 class="mb-1">
+                                {{ customer?.city }}
+                                {{ customer?.state }}
+                            </h2>
+                            <h2 class="mb-6">
+                                {{ customer?.country }}
+                            </h2>
+                            <!-- <a
+                                    href="/order/address"
+                                    class="font-semibold text-indigo-700"
+                                    >Add new address</a
+                                > -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-2/3">
                     <div class="grid grid-cols-3 gap-3">
                         <div class="bg-white py-6 mb-4 px-4 rounded-sm">
                             <div class="flex flex-col">
-                                <green-total-revenue />
+                                <total-revenue />
                                 <h2 class="font-bold text-lg mb-1 mt-2.5">
-                                    NGN{{ customer.total_order }}
+                                    <!-- {{ store.currency.symbol_left }} -->
+                                    {{
+                                        store.currency.code +
+                                        customer.total_orders
+                                    }}
                                 </h2>
-                                <p class="text-gray-400">Total Revenue</p>
+                                <p class="text-gray-400">Total Amount</p>
                             </div>
                         </div>
                         <div class="bg-white py-6 px-4 mb-4 rounded-sm">
                             <div class="flex flex-col">
-                                <purple-orders-placed />
+                                <orders-placed />
                                 <h2 class="font-bold text-lg mb-1 mt-2.5">
                                     {{ customer.number_of_orders }}
                                 </h2>
-                                <p class="text-gray-400">Order Placed</p>
+                                <p class="text-gray-400">Orders Placed</p>
                             </div>
                         </div>
                         <div class="bg-white py-6 px-4 mb-4 rounded-sm">
                             <div class="flex flex-col">
-                                <yellow-pending-orders />
+                                <pending-orders />
                                 <h2 class="font-bold text-lg mb-1 mt-2.5">
                                     {{ customer.pending_order }}
                                 </h2>
@@ -153,9 +308,281 @@
                         </div>
                         <canvas class="p-10" id="chartBar"></canvas>
                     </div>
+
+                    <div class="flex flex-col mt-6 mb-4">
+                        <div class="">
+                            <div class="flex flex-col">
+                                <div
+                                    class="
+                                        min-w-full
+                                        overflow-x-auto
+                                        shadow
+                                        sm:rounded
+                                    "
+                                >
+                                    <table
+                                        class="
+                                            w-full
+                                            divide-y
+                                            bg-white
+                                            divide-gray-200
+                                        "
+                                    >
+                                        <thead class="bg-white">
+                                            <tr>
+                                                <th
+                                                    scope="col"
+                                                    class="
+                                                        whitespace-nowrap
+                                                        px-3
+                                                        py-3
+                                                        text-left text-sm
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    Order ID
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="
+                                                        whitespace-nowrap
+                                                        px-3
+                                                        py-3
+                                                        text-left text-sm
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    Date
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="
+                                                        whitespace-nowrap
+                                                        px-3
+                                                        py-3
+                                                        text-left text-sm
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    Products
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="
+                                                        whitespace-nowrap
+                                                        px-3
+                                                        py-3
+                                                        text-left text-sm
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    Qty
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="
+                                                        whitespace-nowrap
+                                                        px-3
+                                                        py-3
+                                                        text-left text-sm
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    Total
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    class="
+                                                        whitespace-nowrap
+                                                        px-3
+                                                        py-3
+                                                        text-left text-sm
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    Payment
+                                                </th>
+                                                <!-- <th
+                                                    scope="col"
+                                                    class="
+                                                        py-3
+                                                        whitespace-nowrap
+                                                        px-3
+                                                        text-left text-sm
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    Actions
+                                                </th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200">
+                                            <tr
+                                                class=""
+                                                v-for="order in customer.orders"
+                                                :key="order.id"
+                                            >
+                                                <inertia-link
+                                                    :href="
+                                                        '/orders/' + order.id
+                                                    "
+                                                    class=""
+                                                >
+                                                    <td
+                                                        class="
+                                                            px-3
+                                                            pt-3
+                                                            text-left text-base
+                                                            font-medium
+                                                            text-gray-500
+                                                            uppercase
+                                                            tracking-wider
+                                                        "
+                                                    >
+                                                        {{ order.order_id }}
+                                                    </td>
+                                                </inertia-link>
+                                                <td
+                                                    class="
+                                                        px-3
+                                                        text-left text-base
+                                                        font-medium
+                                                        text-gray-500
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    {{ order.created_at }}
+                                                </td>
+                                                <td
+                                                    class="
+                                                        px-3
+                                                        text-left text-xs
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    {{ order.items.id }}
+                                                </td>
+                                                <td
+                                                    class="
+                                                        px-3
+                                                        text-base
+                                                        pl-6
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    {{ order.items.length }}
+                                                </td>
+                                                <td
+                                                    class="
+                                                        px-3
+                                                        text-base
+                                                        font-medium
+                                                        text-gray-500
+                                                        uppercase
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    {{
+                                                        store.currency
+                                                            .symbol_left +
+                                                        order.total
+                                                    }}
+                                                </td>
+                                                <td
+                                                    class="
+                                                        px-3
+                                                        text-left text-base
+                                                        font-medium
+                                                        text-gray-500
+                                                        tracking-wider
+                                                    "
+                                                >
+                                                    <div
+                                                        class="
+                                                            sm:pr-2
+                                                            md:pr-4
+                                                            py-3
+                                                            text-left
+                                                            leading-4
+                                                            font-semibold
+                                                            tracking-wide
+                                                        "
+                                                    >
+                                                        <div>
+                                                            <span
+                                                                :class="[
+                                                                    statusStyles[
+                                                                        order
+                                                                            .status
+                                                                    ],
+                                                                    'inline-flex items-center px-2.5 py-1 text-xs font-medium capitalize',
+                                                                ]"
+                                                            >
+                                                                {{
+                                                                    order.status
+                                                                }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <!-- <td>
+                                                    <div class="pl-5">
+                                                        <PencilIcon
+                                                            class="
+                                                                w-5
+                                                                h-5
+                                                                text-indigo-600
+                                                                cursor-pointer
+                                                                mr-4
+                                                            "
+                                                        />
+                                                        <TrashIcon
+                                                            class="
+                                                                w-5
+                                                                h-5
+                                                                text-red-500
+                                                                cursor-pointer
+                                                            "
+                                                        />
+                                                    </div>
+                                                </td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex flex-col w-1/3">
+                <!-- <div class="flex flex-col w-1/3">
                     <div class="bg-white py-6 mb-4 px-4">
                         <div class="flex items-center justify-center mt-8">
                             <p
@@ -252,7 +679,7 @@
                                                 "YYYY-MM-DD"
                                             )
                                         }}
-                                        <!-- {{ customer.created_at }} -->
+                                        
                                     </p>
                                 </div>
                             </div>
@@ -269,260 +696,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="flex flex-col mt-6 mb-4">
-                <div class="px-4 sm:px-6 lg:px-">
-                    <div class="flex flex-col">
-                        <div
-                            class="min-w-full overflow-x-auto shadow sm:rounded"
-                        >
-                            <table
-                                class="w-full divide-y bg-white divide-gray-200"
-                            >
-                                <thead class="bg-white">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                whitespace-nowrap
-                                                px-3
-                                                py-3
-                                                text-left text-sm
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Order ID
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                whitespace-nowrap
-                                                px-3
-                                                py-3
-                                                text-left text-sm
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Date
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                whitespace-nowrap
-                                                px-3
-                                                py-3
-                                                text-left text-sm
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Products
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                whitespace-nowrap
-                                                px-3
-                                                py-3
-                                                text-left text-sm
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Qty
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                whitespace-nowrap
-                                                px-3
-                                                py-3
-                                                text-left text-sm
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Total
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                whitespace-nowrap
-                                                px-3
-                                                py-3
-                                                text-left text-sm
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Payment
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                py-3
-                                                whitespace-nowrap
-                                                px-3
-                                                text-left text-sm
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200">
-                                    <tr
-                                        class=""
-                                        v-for="order in customer.orders"
-                                        :key="order.id"
-                                    >
-                                        <inertia-link
-                                            :href="'/orders/' + order.id"
-                                            class=""
-                                        >
-                                            <td
-                                                class="
-                                                    px-3
-                                                    pt-3
-                                                    text-left text-base
-                                                    font-medium
-                                                    text-gray-500
-                                                    uppercase
-                                                    tracking-wider
-                                                "
-                                            >
-                                                {{ order.order_id }}
-                                            </td>
-                                        </inertia-link>
-                                        <td
-                                            class="
-                                                px-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-500
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{ order.created_at }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-3
-                                                text-left text-xs
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{ order.items.id }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-3
-                                                text-base
-                                                pl-6
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{ order.items.length }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-3
-                                                text-base
-                                                font-medium
-                                                text-gray-500
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        >
-                                            {{ order.total }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-500
-                                                tracking-wider
-                                            "
-                                        >
-                                            <div
-                                                class="
-                                                    sm:pr-2
-                                                    md:pr-4
-                                                    py-3
-                                                    text-left
-                                                    leading-4
-                                                    font-semibold
-                                                    tracking-wide
-                                                "
-                                            >
-                                                <div>
-                                                    <span
-                                                        :class="[
-                                                            statusStyles[
-                                                                order.status
-                                                            ],
-                                                            'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize',
-                                                        ]"
-                                                    >
-                                                        {{ order.status }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="pl-5">
-                                                <PencilIcon
-                                                    class="
-                                                        w-5
-                                                        h-5
-                                                        text-indigo-600
-                                                        cursor-pointer
-                                                        mr-4
-                                                    "
-                                                />
-                                                <TrashIcon
-                                                    class="
-                                                        w-5
-                                                        h-5
-                                                        text-red-500
-                                                        cursor-pointer
-                                                    "
-                                                />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </app-layout>
@@ -560,9 +734,9 @@ import UploadIcon from "../../../assets/UploadIcon";
 import AngleUpIcon from "../../../assets/AngleUpIcon";
 import Multiselect from "@vueform/multiselect";
 import Button from "../../Jetstream/Button.vue";
-import YellowPendingOrders from "../../../assets/YellowPendingOrders.vue";
-import GreenTotalRevenue from "../../../assets/GreenTotalRevenue.vue";
-import PurpleOrdersPlaced from "../../../assets/PurpleOrdersPlaced.vue";
+import PendingOrders from "../../../assets/PendingOrders.vue";
+import TotalRevenue from "../../../assets/TotalRevenue.vue";
+import OrdersPlaced from "../../../assets/OrdersPlaced.vue";
 import moment from "moment";
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
@@ -586,6 +760,7 @@ export default {
     props: {
         customer: Object,
         orders: Object,
+        store: Object,
     },
 
     components: {
@@ -605,10 +780,10 @@ export default {
         ChevronRightIcon,
         ArrowLeftIcon,
         HomeIcon,
-        GreenTotalRevenue,
-        YellowPendingOrders,
-        PurpleOrdersPlaced,
-        GreenTotalRevenue,
+        TotalRevenue,
+        PendingOrders,
+        OrdersPlaced,
+        TotalRevenue,
         LocationMarkerIcon,
         PencilIcon,
         CalendarIcon,
@@ -756,6 +931,9 @@ export default {
     methods: {
         showFormFields() {
             console.log(this.formData);
+        },
+        total_orders() {
+            return parseFloat(this.total_orders).toFixed(2);
         },
         addOption(e) {
             this.variants.options.push({
