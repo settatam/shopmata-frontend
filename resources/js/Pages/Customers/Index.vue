@@ -120,7 +120,7 @@
                             mb-2
                             bg-transparent
                         "
-                        >Payment Type</label
+                        >Location</label
                     >
                     <select
                         id="payment_type"
@@ -150,7 +150,7 @@
                             mb-2
                             bg-transparent
                         "
-                        >Delivery Type</label
+                        >Date Created</label
                     >
                     <select
                         id="delivery_type"
@@ -180,7 +180,7 @@
                             mb-2
                             bg-transparent
                         "
-                        >Fulfillment Type</label
+                        >Total Orders</label
                     >
                     <select
                         id="fulfillment_type"
@@ -300,7 +300,9 @@
                                                 uppercase
                                                 tracking-wider
                                             "
-                                        ></th>
+                                        >
+                                            Location
+                                        </th>
                                         <th
                                             scope="col"
                                             class="
@@ -329,19 +331,6 @@
                                         >
                                             Date Joined
                                         </th>
-                                        <th
-                                            scope="col"
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-400
-                                                uppercase
-                                                tracking-wider
-                                            "
-                                        ></th>
-
                                         <!-- <th scope="col" class="px-6 py-3">
                       <span class="sr-only">Edit</span>
                     </th> -->
@@ -438,7 +427,7 @@
                                                 tracking-wider
                                             "
                                         >
-                                            {{ customer.total_orders }}
+                                            <!-- {{ customer.data.orders }} -->
                                         </td>
                                         <td
                                             class="
@@ -455,44 +444,6 @@
                                                     customer.created_at
                                                 ).format("YYYY-MM-DD")
                                             }}
-                                        </td>
-                                        <td
-                                            class="
-                                                px-6
-                                                py-3
-                                                text-left text-base
-                                                font-medium
-                                                text-gray-700
-                                                tracking-wider
-                                            "
-                                        >
-                                            <div class="flex">
-                                                <!-- <EyeIcon
-                                                    class="
-                                                        cursor-pointer
-                                                        w-5
-                                                        h-5
-                                                        mr-4
-                                                    "
-                                                /> -->
-                                                <!-- <PencilIcon
-                                                    class="
-                                                        w-5
-                                                        h-5
-                                                        text-indigo-600
-                                                        cursor-pointer
-                                                        mr-4
-                                                    "
-                                                /> -->
-                                                <TrashIcon
-                                                    class="
-                                                        w-5
-                                                        h-5
-                                                        text-red-500
-                                                        cursor-pointer
-                                                    "
-                                                />
-                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
