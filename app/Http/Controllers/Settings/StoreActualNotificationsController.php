@@ -23,6 +23,7 @@ class StoreActualNotificationsController extends Controller
         $request->validate([
             'subject'=>['required'],
             'message'=>['required'],
+            'store_notification_id'=>['required']
         ]);
 
         $user = $request->user();
@@ -34,7 +35,7 @@ class StoreActualNotificationsController extends Controller
         $store_actual_notifications->user_id  =  $user->id;
         if ( $store_actual_notifications->save() ) {
             //Log events
-            
+
             return response()->json(['message' => "Notification saved successfully."],200);
         } 
         return response()->json(['message'=>'Notification could not be saved'], 422);
