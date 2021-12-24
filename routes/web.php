@@ -27,6 +27,7 @@ use App\Http\Controllers\Settings\GiftCardsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\Settings\StoreLocationController;
 use App\Http\Controllers\Settings\ShippingRatesController;
+use App\Http\Controllers\Settings\StoreActualNotificationsController;
 use App\Http\Controllers\StorePreferencesController;
 use App\Http\Controllers\StoreDomainsController;
 use App\Http\Controllers\OnlineStoreController;
@@ -257,7 +258,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	Route::resource('store/domains', StoreDomainsController::class);
 	// Route::resource('store/themes', StoreThemesController::class);
-
+	Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
 	Route::resource('settings/store-users', PlansAndPermissionsController::class);
 	Route::resource('settings/store-locations', StoreLocationController::class);
 });
