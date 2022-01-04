@@ -41,7 +41,7 @@
                         <div class="flex text-indigo-700 mr-7" >
                             <EyeIcon class="w-5 h-5 font-semibold mr-2.5"/> <p> Preview </p>
                         </div>
-                        <button type="button" class=" rounded-md border border-transparent shadow-sm px-7 py-3  text-base font-medium text-white sm:text-sm" :class="order.subject.length>1 && order.body.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
+                        <button type="button" class=" rounded-md border border-transparent shadow-sm px-7 py-3  text-base font-medium text-white sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
                         Save
                         </button>
                     </div>
@@ -59,15 +59,15 @@
                             <label class="block mt-4 mb-2 bg-transparent">
                                 Email body (HTML)
                             </label>
-                            <textarea  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  border-gray-300 h-96 rounded-md"  v-model.trim="order.body" required></textarea>
-                            <error-icon class="absolute top-1 left-40" v-show="bodyError && !order.body.length "/>
+                            <textarea  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  border-gray-300 h-96 rounded-md"  v-model.trim="order.message" required></textarea>
+                            <error-icon class="absolute top-1 left-40" v-show="bodyError && !order.message.length "/>
                         </div>
                   </div>
                   <div class=" flex justify-between">
                     <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-5 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none  sm:text-sm" >
                         Back to default 
                     </button>
-                    <button type="button" class=" rounded-md border border-transparent shadow-sm px-7 py-3  text-base font-medium text-white focus:outline-none sm:text-sm" :class="order.subject.length>1 && order.body.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
+                    <button type="button" class=" rounded-md border border-transparent shadow-sm px-7 py-3  text-base font-medium text-white focus:outline-none sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
                         Save
                     </button>
                 </div>
@@ -104,15 +104,15 @@ export default {
         ErrorIcon
     },
     setup({store_notification}) {
-        const order = reactive({subject:store_notification.name, body:'',id:store_notification.id});
+        const order = reactive({subject:store_notification.name, message:'',store_notification_id:store_notification.id});
         const bodyError =ref(false)
         const subjectError =ref(false)
         const submit =()=>{
-            if (!order.subject.length && order.body.length) {
+            if (!order.subject.length && order.message.length) {
                 subjectError.value = true
-            } else if  (!order.body.length && order.subject.length) {
+            } else if  (!order.message.length && order.subject.length) {
                 bodyError.value = true
-            }else if  (!order.body.length && !order.subject.length) {
+            }else if  (!order.message.length && !order.subject.length) {
                 bodyError.value = true
                 subjectError.value = true
             } else {
