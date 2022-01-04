@@ -116,7 +116,13 @@ export default {
                 bodyError.value = true
                 subjectError.value = true
             } else {
-                axios.post('store',order)
+              axios.post('store',order).then((res)=>{
+                  if(res.status==200){
+                    order.message=""
+                    window.location.href = '/settings/notifications/'
+                  }
+                })
+
                 //alert("Order confirmation saved")
                 
             }
