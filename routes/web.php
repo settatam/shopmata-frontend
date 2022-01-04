@@ -176,7 +176,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Settings -> Notifications
 	Route::get('settings/notifications', [NotificationsController::class, 'index']);
-	Route::get('settings/notifications/order-confirmation', [NotificationsController::class, 'order']);
+	Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
+	Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
+
 
 	#Settings -> User
 	Route::get('settings/user', [SettingsController::class, 'user'])->name('settings.user');
@@ -258,7 +260,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	Route::resource('store/domains', StoreDomainsController::class);
 	// Route::resource('store/themes', StoreThemesController::class);
-	Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
 	Route::resource('settings/store-users', PlansAndPermissionsController::class);
 	Route::resource('settings/store-locations', StoreLocationController::class);
 });
