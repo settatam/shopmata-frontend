@@ -616,12 +616,12 @@ export default {
       this.product.description = this.$refs.description.$refs.editor.innerHTML;
       this.product.variants = this.variantList;
       this.product.variant_options = this.variants.options
-      console.log(this.product);
+      /* console.log(this.product);
       if (this.product.description==''||this.product.variants=='') {
         alert('Imcomplete Form. Kindly fill')
-      } else {
-        axios.post('/products', this.product);
-      }
+      } else { */
+        axios.put(`/products/${this.product.id}`, this.product);
+      //}
 
       // this.$inertia.post("/products", this.formData);
     },

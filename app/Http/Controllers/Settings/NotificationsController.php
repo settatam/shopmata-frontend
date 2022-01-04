@@ -105,7 +105,7 @@ class NotificationsController extends Controller
     public function show($id)
     {   
         $store_notification = StoreNotification::find($id);
-        return Inertia::render('Settings/Notifications/Edit',compact('store_notification'));
+        return Inertia::render('Settings/Notifications/Show',compact('store_notification'));
     }
 
     /**

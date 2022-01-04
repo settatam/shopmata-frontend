@@ -34,11 +34,12 @@ class StoreActualNotificationsController extends Controller
         $store_actual_notifications->store_id =  $user->store_id;
         $store_actual_notifications->user_id  =  $user->id;
         if ( $store_actual_notifications->save() ) {
-            //Log events
+            //Log event
 
             return response()->json(['message' => "Notification saved successfully."],200);
         } 
         return response()->json(['message'=>'Notification could not be saved'], 422);
+
     }
 
 }
