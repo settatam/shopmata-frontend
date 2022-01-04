@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
 use App\Models\StoreActualNotification;
+use App\Http\Controllers\Controller;
+
 
 class StoreActualNotificationsController extends Controller
 {
