@@ -40,9 +40,9 @@
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else @click="openOrder=true"/>
                     </div>
                     <div v-if="openOrder">
-                      <div v-for="(order,index) in orders" :key="index" class="flex mb-5 flex-col md:flex-row" >
+                      <div v-for="order in notifications.orders" :key="order.id" class="flex mb-5 flex-col md:flex-row" >
                         <inertia-link href="/settings/notifications/order-confirmation" class="w-full md:w-3/10 ">
-                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{order.title}}</p>
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{order.name}}</p>
                         </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{order.description}}</p>
                       </div>
@@ -55,8 +55,8 @@
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else @click="openLocal=false"/>
                     </div>
                     <div v-if="openLocal">
-                      <div v-for="(delivery,index) in localDeliveries" :key="index" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{delivery.title}}</a>
+                      <div v-for="delivery in notifications.deliveries" :key="delivery.id" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{delivery.name}}</a>
                         <div class="flex">
                           <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 my-auto" />
                           <p class="text-gray-500 w-full">{{delivery.description}}</p>
@@ -71,8 +71,8 @@
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else  @click="openShipping=true"/>
                     </div>
                     <div v-if="openShipping">
-                      <div v-for="(shipping,index) in shippings" :key="index" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{shipping.title}}</a>
+                      <div v-for="shipping in notifications.shippings" :key="shipping.id" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{shipping.name}}</a>
                         <p class="text-gray-500 w-full md:w-7/10">{{shipping.description}}</p>
                       </div>
                     </div>
@@ -84,8 +84,8 @@
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-if="openPickup==false"  @click="openPickup=true"/>
                     </div>
                     <div v-if="openPickup">
-                      <div v-for="(pickup,index) in localPickups" :key="index" class="flex flex-col md:flex-row mb-5">
-                        <p class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="" @click="open">{{pickup.title}}</p>
+                      <div v-for="pickup in notifications.pickups" :key="pickup.id" class="flex flex-col md:flex-row mb-5">
+                        <p class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="" @click="open">{{pickup.name}}</p>
                         <p class="text-gray-500 w-full md:w-7/10">{{pickup.description}}</p>
                       </div>
                     </div>
@@ -97,8 +97,8 @@
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" v-else @click="openCustomer=true"/>
                     </div>
                     <div v-if="openCustomer">
-                      <div v-for="(customer,index) in customers" :key="index" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{customer.title}}</a>
+                      <div v-for="customer in notifications.customers" :key="customer.id" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{customer.name}}</a>
                         <p class="text-gray-500 w-full md:w-7/10">{{customer.description}}</p>
                       </div>
                     </div>
@@ -110,8 +110,8 @@
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openMarketing=true" v-else/>
                     </div>
                     <div v-if="openMarketing">
-                      <div v-for="(email,index) in emailMarketings" :key="index" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{email.title}}</a>
+                      <div v-for="email in notifications.marketings" :key="email.id" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{email.name}}</a>
                         <p class="text-gray-500 w-full md:w-7/10">{{email.description}}</p>
                       </div>
                     </div>
@@ -123,8 +123,8 @@
                       <chevron-down-icon class="w-6 h-6 text-indigo-700 cursor-pointer" @click="openReturn=true" v-else />
                     </div>
                     <div v-if="openReturn">
-                      <div v-for="(ret,index) in returns" :key="index" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{ret.title}}</a>
+                      <div v-for="(ret,index) in notifications.returns" :key="index" class="flex flex-col md:flex-row mb-5">
+                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{ret.name}}</a>
                         <p class="text-gray-500 w-full md:w-7/10">{{ret.description}}</p>
                       </div>
                     </div>
@@ -232,10 +232,8 @@ const statusStyles = {
 }
 export default {
   props: {
-            products: Object,
-            filters: Object,
-            brands: Array,
-            categories: Array
+            notifications:Object
+
         },
    emits:['close'],
   components: {

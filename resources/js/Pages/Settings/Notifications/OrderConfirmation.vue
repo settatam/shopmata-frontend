@@ -104,7 +104,7 @@ export default {
         ErrorIcon
     },
     setup() {
-        const order = reactive({subject:'', body:''});
+        const order = reactive({subject:'', body:'',id:'1'});
         const bodyError =ref(false)
         const subjectError =ref(false)
         const submit =()=>{
@@ -116,6 +116,7 @@ export default {
                 bodyError.value = true
                 subjectError.value = true
             } else {
+                axios.post('store',order)
                 alert("Order confirmation saved")
                 
             }
