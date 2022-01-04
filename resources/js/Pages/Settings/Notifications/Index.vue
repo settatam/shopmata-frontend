@@ -41,7 +41,7 @@
                     </div>
                     <div v-if="openOrder">
                       <div v-for="order in notifications.orders" :key="order.id" class="flex mb-5 flex-col md:flex-row" >
-                        <inertia-link href="/settings/notifications/order-confirmation" class="w-full md:w-3/10 ">
+                        <inertia-link :href="`/settings/notifications/${order.id}`" class="w-full md:w-3/10 ">
                           <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{order.name}}</p>
                         </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{order.description}}</p>
@@ -262,132 +262,6 @@ export default {
       openTemplate:true,
       openRecipient:true,
       openNotification:true,
-      orders:{
-        0:{
-          title:"Confirm order",
-          description:"Shopmata automatically sends an order confirmation message to your customer."
-        },
-        1:{
-          title: "Edited Order",
-          description:"Shopmata automatically sends a message to the customer when their invoice is edited."
-        },
-        2:{
-          title:"Draft order invoice",
-          description:"Shopmata sends this message to you when there is an incomplete invoice that is in draft mode."
-        },
-        3:{
-          title:"Canceled order",
-          description:"Shopmata sends a message to you when an order has been canceled."
-        },
-        4:{
-          title:"Order refund",
-          description:"Sent automatically to the customer if their order is refunded (if you select this option)."
-        },
-        5:{
-          title:"Order invoice",
-          description:"Shopmata sends an invoice to your customer when there is an outstanding balance."
-        },
-        6:{
-          title:"Order refund",
-          description:"Shopmata sends this message automatically to your customer when there is a refund."
-        },
-        7:{
-          title:"Abandoned checkout",
-          description:"Shopmata sends this message to your customer if they left the checkout page before completion of purchase. Enable this in your Checkout settings."
-        },
-        8:{
-          title:"Email cart from POS",
-          description:"Sent to the customer when you email their cart from POS. Includes a link to buy online."
-        },
-        9:{
-          title:"Gift card created",
-          description:"Shopmata sends this message to your customer when they buy a gift card or when they use one."
-        },
-        10:{
-          title: "Payment error",
-          description:"Sent automatically to the customer if their payment can’t be processed."
-        }
-      },
-      localDeliveries:{
-        0:{
-          title: "Out of Delivery",
-          description:"Sent to the customer when their local order is out for delivery."
-        },
-        1:{
-          title: "Delivered",
-          description:"Sent to the customer when their local order is delivered."
-        },
-        2:{
-          title: "Missed Delivery",
-          description:"Sent to the customer when they miss a local delivery."
-        },
-      },
-      shippings:{
-        0:{
-          title:"Fulfilment request",
-          description:"Sent automatically to a third-party fulfillment service provider when order items are fulfilled."
-        },
-        1:{
-          title:"Shipping Confirmation",
-          description:"Sent automatically to the customer when their order is fulfilled (if you select this option)."
-        },
-        2:{
-          title:"Shipping update",
-          description:"Sent automatically to the customer if their fulfilled order’s tracking number is updated (if you select this option)."
-        },
-        3:{
-          title:"Out of Delivery",
-          description:"Sent to the customer automatically after orders with tracking information are out for delivery."
-        },
-        4:{
-          title:"Delivered",
-          description:"Sent to the customer automatically after orders with tracking information are delivered."
-        },
-      },
-      localPickups:{
-        0:{
-          title:"Ready for pickup",
-          description:"Sent to the customer manually through Point of Sale or admin. Lets the customer know their order is ready to be picked up."
-        },
-        1:{
-          title:"Picked up",
-          description:"Sent to the customer when the order is marked as picked up."
-        },
-      },
-      customers:{
-        0:{
-          title:"Customer account invite",
-          description:"Sent to the customer with account activation instructions. You can edit this email before you send it."
-        },
-        1:{
-          title:"Customer account welcome",
-          description:"Sent automatically to the customer when they complete their account activation."
-        },
-        2:{
-          title:"Customer account reset password",
-          description:"Sent automatically to the customer when they ask to reset their accounts password."
-        },
-        3:{
-          title:"Contact customer",
-          description:"Sent to the customer when you contact them from the orders or customers page. You can edit this email before you send it."
-        }
-      },
-      emailMarketings:{
-        0:{
-          title:"Confirmation email",
-          description:"Sent to the customer automatically when they sign up for email marketing (if email double opt-in is enabled)."
-        }
-      },
-      returns:{
-         0:{
-          title:"Return instruction",
-          description:"Sent automatically to the customer when you create a return. Includes instructions as well as a return label, if applicable."
-        },
-        1:{
-          title:"Return label instruction",
-          description:"Sent to the customer after creating a return label."
-        },
-      },
       emailTracking:{
         0:{
           title:"Optimize open tracking (recommended)",

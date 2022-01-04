@@ -35,7 +35,7 @@
                         <inertia-link href="/settings/notifications">
                                 <arrow-left-icon class="w-5 h-5 mr-5"/>
                         </inertia-link>
-                        <p class="text-2xl">Order Confirmation</p>
+                        <p class="text-2xl">{{store_notification.name}}</p>
                     </div>
                     <div class="flex items-center mb-5">
                         <div class="flex text-indigo-700 mr-7" >
@@ -52,7 +52,7 @@
                             <label class="block mt-4 mb-2 bg-transparent">
                                 Email subject
                             </label>
-                            <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Order Confirmation" v-model.trim="order.subject" required/>
+                            <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" :placeholder="store_notification.name" v-model.trim="order.subject" required/>
                             <error-icon class="absolute top-11 right-2.5" v-show="subjectError &!order.subject.length"/>
                         </div>
                         <div class="w-auto relative">
@@ -89,11 +89,11 @@ import  {HomeIcon} from '@heroicons/vue/outline'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
-  { name: 'Notifications', href: '/settings/notifications', current: false },
-  { name: 'Order Confirmation', href: '/settings/notifications/order-confirmation', current: true },
+  { name: 'Notifications', href: '/settings/notifications', current: false }
 ]
 
 export default {
+    props:{store_notification:Object},
     components:{
         AppLayout,
         ChevronRightIcon,
@@ -103,8 +103,8 @@ export default {
         EyeIcon,
         ErrorIcon
     },
-    setup() {
-        const order = reactive({subject:'', body:'',id:'1'});
+    setup({store_notification}) {
+        const order = reactive({subject:store_notification.name, body:'',id:store_notification.id});
         const bodyError =ref(false)
         const subjectError =ref(false)
         const submit =()=>{
@@ -117,7 +117,7 @@ export default {
                 subjectError.value = true
             } else {
                 axios.post('store',order)
-                alert("Order confirmation saved")
+                //alert("Order confirmation saved")
                 
             }
         }
