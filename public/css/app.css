@@ -1144,6 +1144,15 @@ select {
 .right-4 {
 	right: 1rem;
 }
+.left-8 {
+	left: 2rem;
+}
+.top-20 {
+	top: 5rem;
+}
+.top-12 {
+	top: 3rem;
+}
 .top-3\.5 {
 	top: 0.875rem;
 }
@@ -1155,9 +1164,6 @@ select {
 }
 .top-2 {
 	top: 0.5rem;
-}
-.top-12 {
-	top: 3rem;
 }
 .-right-8 {
 	right: -2rem;
@@ -1197,21 +1203,6 @@ select {
 }
 .bottom-12 {
 	bottom: 3rem;
-}
-.left-8 {
-	left: 2rem;
-}
-.top-20 {
-	top: 5rem;
-}
-.-top-10 {
-	top: -2.5rem;
-}
-.top-40 {
-	top: 10rem;
-}
-.bottom-40 {
-	bottom: 10rem;
 }
 .z-0 {
 	z-index: 0;
@@ -1588,17 +1579,14 @@ select {
 .mr-10 {
 	margin-right: 2.5rem;
 }
-.mt-4\.5 {
-	margin-top: 1.125rem;
-}
-.mb-11 {
-	margin-bottom: 2.75rem;
-}
 .mb-6\.5 {
 	margin-bottom: 1.625rem;
 }
 .mb-4\.5 {
 	margin-bottom: 1.125rem;
+}
+.mb-11 {
+	margin-bottom: 2.75rem;
 }
 .mt-32 {
 	margin-top: 8rem;
@@ -1635,6 +1623,9 @@ select {
 }
 .ml-9 {
 	margin-left: 2.25rem;
+}
+.mt-4\.5 {
+	margin-top: 1.125rem;
 }
 .mr-3\.5 {
 	margin-right: 0.875rem;
@@ -1738,6 +1729,9 @@ select {
 .h-14 {
 	height: 3.5rem;
 }
+.h-px {
+	height: 1px;
+}
 .h-10\.5 {
 	height: 2.625rem;
 }
@@ -1763,9 +1757,6 @@ select {
 }
 .h-36 {
 	height: 9rem;
-}
-.h-px {
-	height: 1px;
 }
 .max-h-screen {
 	max-height: 100vh;
@@ -1890,20 +1881,11 @@ select {
 .w-36 {
 	width: 9rem;
 }
-.w-5\/12 {
-	width: 41.666667%;
-}
-.w-1\/4 {
-	width: 25%;
-}
-.w-1\/5 {
-	width: 20%;
+.w-2\/5 {
+	width: 40%;
 }
 .w-5\/10 {
 	width: 50%;
-}
-.w-2\/5 {
-	width: 40%;
 }
 .w-4\/5 {
 	width: 80%;
@@ -1932,6 +1914,9 @@ select {
 .w-40 {
 	width: 10rem;
 }
+.w-1\/4 {
+	width: 25%;
+}
 .w-6\/10 {
 	width: 60%;
 }
@@ -1946,6 +1931,9 @@ select {
 }
 .w-3\.5\/10 {
 	width: 35%;
+}
+.w-1\/5 {
+	width: 20%;
 }
 .w-24 {
 	width: 6rem;
@@ -2165,9 +2153,6 @@ select {
 .justify-around {
 	justify-content: space-around;
 }
-.justify-evenly {
-	justify-content: space-evenly;
-}
 .gap-6 {
 	gap: 1.5rem;
 }
@@ -2341,11 +2326,11 @@ select {
 .rounded-none {
 	border-radius: 0px;
 }
-.rounded-3xl {
-	border-radius: 1.5rem;
-}
 .rounded-xl {
 	border-radius: 0.75rem;
+}
+.rounded-3xl {
+	border-radius: 1.5rem;
 }
 .rounded-l-md {
 	border-top-left-radius: 0.375rem;
@@ -2705,6 +2690,9 @@ select {
 .p-10 {
 	padding: 2.5rem;
 }
+.p-3\.5 {
+	padding: 0.875rem;
+}
 .p-0\.5 {
 	padding: 0.125rem;
 }
@@ -2719,9 +2707,6 @@ select {
 }
 .p-1\.5 {
 	padding: 0.375rem;
-}
-.p-3\.5 {
-	padding: 0.875rem;
 }
 .px-4 {
 	padding-left: 1rem;
@@ -2973,6 +2958,9 @@ select {
 .pb-6 {
 	padding-bottom: 1.5rem;
 }
+.pl-9 {
+	padding-left: 2.25rem;
+}
 .pl-7 {
 	padding-left: 1.75rem;
 }
@@ -3002,9 +2990,6 @@ select {
 }
 .pt-0\.5 {
 	padding-top: 0.125rem;
-}
-.pl-9 {
-	padding-left: 2.25rem;
 }
 .text-left {
 	text-align: left;
@@ -3252,6 +3237,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(185, 28, 28, var(--tw-text-opacity));
 }
+.text-blue-400 {
+	--tw-text-opacity: 1;
+	color: rgba(96, 165, 250, var(--tw-text-opacity));
+}
 .text-yellow-600 {
 	--tw-text-opacity: 1;
 	color: rgba(217, 119, 6, var(--tw-text-opacity));
@@ -3275,14 +3264,6 @@ select {
 .text-red-900 {
 	--tw-text-opacity: 1;
 	color: rgba(127, 29, 29, var(--tw-text-opacity));
-}
-.text-blue-400 {
-	--tw-text-opacity: 1;
-	color: rgba(96, 165, 250, var(--tw-text-opacity));
-}
-.text-cyan-800 {
-	--tw-text-opacity: 1;
-	color: rgba(55, 48, 163, var(--tw-text-opacity));
 }
 .text-opacity-40 {
 	--tw-text-opacity: 0.4;
@@ -4295,6 +4276,11 @@ input[type='checkbox']:focus {
 		margin-right: 2rem;
 	}
 
+	.md\:mx-auto {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 	.md\:my-6 {
 		margin-top: 1.5rem;
 		margin-bottom: 1.5rem;
@@ -4310,10 +4296,6 @@ input[type='checkbox']:focus {
 		margin-bottom: 1rem;
 	}
 
-	.md\:mx-auto {
-		margin-left: auto;
-		margin-right: auto;
-	}
 	.md\:mt-0 {
 		margin-top: 0px;
 	}
@@ -4360,6 +4342,10 @@ input[type='checkbox']:focus {
 
 	.md\:mt-10 {
 		margin-top: 2.5rem;
+	}
+
+	.md\:mt-3 {
+		margin-top: 0.75rem;
 	}
 
 	.md\:ml-20 {
@@ -4418,10 +4404,6 @@ input[type='checkbox']:focus {
 		margin-bottom: 1rem;
 	}
 
-	.md\:mt-3 {
-		margin-top: 0.75rem;
-	}
-
 	.md\:block {
 		display: block;
 	}
@@ -4434,20 +4416,12 @@ input[type='checkbox']:focus {
 		display: inline-flex;
 	}
 
-	.md\:table {
-		display: table;
-	}
-
 	.md\:table-cell {
 		display: table-cell;
 	}
 
 	.md\:table-header-group {
 		display: table-header-group;
-	}
-
-	.md\:table-row {
-		display: table-row;
 	}
 
 	.md\:grid {
@@ -4498,6 +4472,22 @@ input[type='checkbox']:focus {
 		width: 20%;
 	}
 
+	.md\:w-2\/3 {
+		width: 66.666667%;
+	}
+
+	.md\:w-4\.5\/10 {
+		width: 45%;
+	}
+
+	.md\:w-4 {
+		width: 1rem;
+	}
+
+	.md\:w-5\/10 {
+		width: 50%;
+	}
+
 	.md\:w-3\/5 {
 		width: 60%;
 	}
@@ -4534,22 +4524,6 @@ input[type='checkbox']:focus {
 		width: 10%;
 	}
 
-	.md\:w-2\/3 {
-		width: 66.666667%;
-	}
-
-	.md\:w-4\.5\/10 {
-		width: 45%;
-	}
-
-	.md\:w-4 {
-		width: 1rem;
-	}
-
-	.md\:w-5\/10 {
-		width: 50%;
-	}
-
 	.md\:max-w-sm {
 		max-width: 24rem;
 	}
@@ -4580,10 +4554,6 @@ input[type='checkbox']:focus {
 
 	.md\:flex-row {
 		flex-direction: row;
-	}
-
-	.md\:flex-col {
-		flex-direction: column;
 	}
 
 	.md\:flex-wrap {
@@ -4626,12 +4596,12 @@ input[type='checkbox']:focus {
 		border-left-width: 1px;
 	}
 
-	.md\:p-8 {
-		padding: 2rem;
-	}
-
 	.md\:p-2 {
 		padding: 0.5rem;
+	}
+
+	.md\:p-8 {
+		padding: 2rem;
 	}
 
 	.md\:px-8 {
@@ -4712,16 +4682,16 @@ input[type='checkbox']:focus {
 		padding-right: 1rem;
 	}
 
-	.md\:pl-3 {
-		padding-left: 0.75rem;
-	}
-
 	.md\:pt-7 {
 		padding-top: 1.75rem;
 	}
 
 	.md\:pr-3 {
 		padding-right: 0.75rem;
+	}
+
+	.md\:pl-3 {
+		padding-left: 0.75rem;
 	}
 
 	.md\:pr-8 {
@@ -4744,14 +4714,6 @@ input[type='checkbox']:focus {
 		padding-bottom: 1rem;
 	}
 
-	.md\:pr-6 {
-		padding-right: 1.5rem;
-	}
-
-	.md\:pl-0 {
-		padding-left: 0px;
-	}
-
 	.md\:text-left {
 		text-align: left;
 	}
@@ -4760,32 +4722,32 @@ input[type='checkbox']:focus {
 		text-align: right;
 	}
 
-	.md\:text-2xl {
-		font-size: 1.5rem;
+	.md\:text-3xl {
+		font-size: 1.875rem;
 	}
 
 	.md\:text-base {
 		font-size: 1rem;
 	}
 
-	.md\:text-sm {
-		font-size: 0.985rem;
-	}
-
 	.md\:text-lg {
 		font-size: 1.125rem;
-	}
-
-	.md\:text-xs {
-		font-size: 0.875rem;
 	}
 
 	.md\:text-xl {
 		font-size: 1.25rem;
 	}
 
-	.md\:text-3xl {
-		font-size: 1.875rem;
+	.md\:text-xs {
+		font-size: 0.875rem;
+	}
+
+	.md\:text-2xl {
+		font-size: 1.5rem;
+	}
+
+	.md\:text-sm {
+		font-size: 0.985rem;
 	}
 
 	.md\:font-bold {
@@ -5161,12 +5123,12 @@ input[type='checkbox']:focus {
 		text-align: left;
 	}
 
-	.lg\:text-lg {
-		font-size: 1.125rem;
-	}
-
 	.lg\:text-base {
 		font-size: 1rem;
+	}
+
+	.lg\:text-lg {
+		font-size: 1.125rem;
 	}
 
 	.lg\:hover\:bg-gray-50:hover {
