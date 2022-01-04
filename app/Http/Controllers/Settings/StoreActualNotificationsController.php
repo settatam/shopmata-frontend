@@ -31,7 +31,7 @@ class StoreActualNotificationsController extends Controller
         $user = $request->user();
         $store_actual_notifications = new StoreActualNotification;
         $store_actual_notifications->subject = $request->subject;
-        $store_actual_notifications->notification = $request->message;
+        $store_actual_notifications->notifications = $request->message;
         $store_actual_notifications->store_notification_id = $request->store_notification_id;
         $store_actual_notifications->store_id =  $user->store_id;
         $store_actual_notifications->user_id  =  $user->id;
