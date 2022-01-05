@@ -25,14 +25,7 @@
                             />
                             <a
                                 :href="page.href"
-                                class="
-                                    ml-4
-                                    text-base
-                                    font-medium
-                                    text-gray-400
-                                    hover:text-gray-700
-                                    mt-1
-                                "
+                                class="ml-4 text-base font-medium text-gray-400 hover:text-gray-700 mt-1"
                                 :aria-current="
                                     page.current ? 'page' : undefined
                                 "
@@ -48,14 +41,7 @@
                             />
                             <a
                                 href="/customers"
-                                class="
-                                    ml-4
-                                    text-base
-                                    font-medium
-                                    text-gray-500
-                                    hover:text-gray-700
-                                    mt-1
-                                "
+                                class="ml-4 text-base font-medium text-gray-500 hover:text-gray-700 mt-1"
                                 >{{ customer?.first_name }}
                                 {{ customer?.last_name }}
                             </a>
@@ -82,17 +68,7 @@
             <div class="mx-6 flex mt-3">
                 <!-- Customer causing the white section below -->
                 <div
-                    class="
-                        bg-white
-                        pl-5
-                        pr-7
-                        pb-10
-                        pt-6
-                        mb-5
-                        rounded
-                        w-1/3
-                        mr-4
-                    "
+                    class="bg-white pl-5 pr-7 pb-10 pt-6 mb-5 rounded w-1/3 mr-4"
                 >
                     <div class="border-b border-gray-200 -mx-5 mb-6.5">
                         <div class="px-5 flex justify-between mb-4">
@@ -107,18 +83,7 @@
                         <div class="px-5 mb-6 flex">
                             <div class="flex mr-2 mt-1">
                                 <p
-                                    class="
-                                        h-14
-                                        w-14
-                                        rounded-full
-                                        capitalize
-                                        bg-gray-100
-                                        text-black text-lg
-                                        flex
-                                        items-center
-                                        justify-center
-                                        font-semibold
-                                    "
+                                    class="h-14 w-14 rounded-full capitalize bg-gray-100 text-black text-lg flex items-center justify-center font-semibold"
                                 >
                                     {{ customer?.first_name.charAt(0)
                                     }}{{ customer?.last_name.charAt(0) }}
@@ -132,13 +97,7 @@
                                 >
 
                                 <h2
-                                    class="
-                                        font-semibold
-                                        text-indigo-700
-                                        mb-1
-                                        text-xs
-                                        lg:text-base
-                                    "
+                                    class="font-semibold text-indigo-700 mb-1 text-xs lg:text-base"
                                 >
                                     {{ customer.email }}
                                 </h2>
@@ -267,13 +226,7 @@
                     </div>
 
                     <div
-                        class="
-                            shadow-sm
-                            rounded-lg
-                            overflow-hidden
-                            mt-4
-                            bg-white
-                        "
+                        class="shadow-sm rounded-lg overflow-hidden mt-4 bg-white"
                     >
                         <div
                             class="py-3 px-5 flex justify-between items-center"
@@ -313,110 +266,46 @@
                         <div class="">
                             <div class="flex flex-col">
                                 <div
-                                    class="
-                                        min-w-full
-                                        overflow-x-auto
-                                        shadow
-                                        sm:rounded
-                                    "
+                                    class="min-w-full overflow-x-auto shadow sm:rounded"
                                 >
                                     <table
-                                        class="
-                                            w-full
-                                            divide-y
-                                            bg-white
-                                            divide-gray-200
-                                        "
+                                        class="w-full divide-y bg-white divide-gray-200"
                                     >
                                         <thead class="bg-white">
                                             <tr>
                                                 <th
                                                     scope="col"
-                                                    class="
-                                                        whitespace-nowrap
-                                                        px-3
-                                                        py-3
-                                                        text-left text-sm
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     Order ID
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    class="
-                                                        whitespace-nowrap
-                                                        px-3
-                                                        py-3
-                                                        text-left text-sm
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     Date
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    class="
-                                                        whitespace-nowrap
-                                                        px-3
-                                                        py-3
-                                                        text-left text-sm
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     Products
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    class="
-                                                        whitespace-nowrap
-                                                        px-3
-                                                        py-3
-                                                        text-left text-sm
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     Qty
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    class="
-                                                        whitespace-nowrap
-                                                        px-3
-                                                        py-3
-                                                        text-left text-sm
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     Total
                                                 </th>
                                                 <th
                                                     scope="col"
-                                                    class="
-                                                        whitespace-nowrap
-                                                        px-3
-                                                        py-3
-                                                        text-left text-sm
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="whitespace-nowrap px-3 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     Payment
                                                 </th>
@@ -450,64 +339,28 @@
                                                     class=""
                                                 >
                                                     <td
-                                                        class="
-                                                            px-3
-                                                            pt-3
-                                                            text-left text-base
-                                                            font-medium
-                                                            text-gray-500
-                                                            uppercase
-                                                            tracking-wider
-                                                        "
+                                                        class="px-3 pt-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider"
                                                     >
                                                         {{ order.order_id }}
                                                     </td>
                                                 </inertia-link>
                                                 <td
-                                                    class="
-                                                        px-3
-                                                        text-left text-base
-                                                        font-medium
-                                                        text-gray-500
-                                                        tracking-wider
-                                                    "
+                                                    class="px-3 text-left text-base font-medium text-gray-500 tracking-wider"
                                                 >
                                                     {{ order.created_at }}
                                                 </td>
                                                 <td
-                                                    class="
-                                                        px-3
-                                                        text-left text-xs
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="px-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     {{ order.items.id }}
                                                 </td>
                                                 <td
-                                                    class="
-                                                        px-3
-                                                        text-base
-                                                        pl-6
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="px-3 text-base pl-6 font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     {{ order.items.length }}
                                                 </td>
                                                 <td
-                                                    class="
-                                                        px-3
-                                                        text-base
-                                                        font-medium
-                                                        text-gray-500
-                                                        uppercase
-                                                        tracking-wider
-                                                    "
+                                                    class="px-3 text-base font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     {{
                                                         store.currency
@@ -516,24 +369,10 @@
                                                     }}
                                                 </td>
                                                 <td
-                                                    class="
-                                                        px-3
-                                                        text-left text-base
-                                                        font-medium
-                                                        text-gray-500
-                                                        tracking-wider
-                                                    "
+                                                    class="px-3 text-left text-base font-medium text-gray-500 tracking-wider"
                                                 >
                                                     <div
-                                                        class="
-                                                            sm:pr-2
-                                                            md:pr-4
-                                                            py-3
-                                                            text-left
-                                                            leading-4
-                                                            font-semibold
-                                                            tracking-wide
-                                                        "
+                                                        class="sm:pr-2 md:pr-4 py-3 text-left leading-4 font-semibold tracking-wide"
                                                     >
                                                         <div>
                                                             <span
@@ -761,6 +600,7 @@ export default {
         customer: Object,
         orders: Object,
         store: Object,
+        data: Object,
     },
 
     components: {
