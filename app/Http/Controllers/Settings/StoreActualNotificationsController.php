@@ -29,7 +29,7 @@ class StoreActualNotificationsController extends Controller
         ]);
 
         $user = $request->user();
-    
+
         $store = StoreActualNotification::updateOrCreate(
             ['store_notification_id' => $request->store_notification_id],
             [
