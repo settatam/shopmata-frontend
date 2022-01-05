@@ -29,17 +29,23 @@ class StoreActualNotificationsController extends Controller
         ]);
 
         $user = $request->user();
-        $store_actual_notifications = new StoreActualNotification;
-        $store_actual_notifications->subject = $request->subject;
-        $store_actual_notifications->notifications = $request->message;
-        $store_actual_notifications->store_notification_id = $request->store_notification_id;
-        $store_actual_notifications->store_id =  $user->store_id;
-        $store_actual_notifications->user_id  =  $user->id;
-        if ( $store_actual_notifications->save() ) {
-            //Log event
+    
+        $store = StoreActualNotification::updateOrCreate(
+            ['store_notification_id' => $request->store_notification_id],
+            [
+                'subject' => $request->subject,
+                'notifications' => $request->message,
+                'store_notification_id' => $request->store_notification_id,
+                'store_id' =>  $user->store_id,
+                'user_id'  =>  $user->id
+            ]
+        );
 
+        if ( $store ) {
+            //Log event
             return response()->json(['message' => "Notification saved successfully."],200);
         } 
+        
         return response()->json(['message'=>'Notification could not be saved'], 422);
 
     }

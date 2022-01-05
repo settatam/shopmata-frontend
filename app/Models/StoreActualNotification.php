@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class StoreActualNotification extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'subject',
+        'notifications',
+        'store_notification_id',
+        'store_id',
+        'user_id',
+        'store_notification_id'
+    ];
 }
