@@ -15,7 +15,10 @@ use App\Models\Store;
 use App\Models\StoreGroup;
 use App\Models\StoreIndustry;
 use App\Models\StoreNotification;
+use App\Models\StoreActualNotification;
+
 use App\Models\StorePaymentGateway;
+
 use App\Models\StoreUser;
 use App\Models\Timezone;
 use App\Models\Unit;
@@ -27,6 +30,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+
 
 
 class NotificationsController extends Controller
@@ -104,7 +108,7 @@ class NotificationsController extends Controller
      */
     public function show($id)
     {   
-        $store_notification = StoreNotification::find($id);
+        $store_notification = StoreActualNotification::where('store_notification_id',$id)->first();
         return Inertia::render('Settings/Notifications/Show',compact('store_notification'));
     }
 
