@@ -11,7 +11,7 @@ class StoreActualNotification extends Model
 
     protected $fillable = [
         'subject',
-        'notifications',
+        'message',
         'store_notification_id',
         'store_id',
         'user_id',
