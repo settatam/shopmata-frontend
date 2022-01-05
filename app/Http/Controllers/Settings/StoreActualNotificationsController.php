@@ -34,7 +34,7 @@ class StoreActualNotificationsController extends Controller
             ['store_notification_id' => $request->store_notification_id],
             [
                 'subject' => $request->subject,
-                'notifications' => $request->message,
+                'message' => $request->message,
                 'store_notification_id' => $request->store_notification_id,
                 'store_id' =>  $user->store_id,
                 'user_id'  =>  $user->id
