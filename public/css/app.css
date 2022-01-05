@@ -1628,15 +1628,12 @@ select {
 .ml-9 {
 	margin-left: 2.25rem;
 }
-<<<<<<< HEAD
 .mt-4\.5 {
 	margin-top: 1.125rem;
 }
 .mr-3\.5 {
 	margin-right: 0.875rem;
 }
-=======
->>>>>>> 4fabc266b4c3e81b6c7ce43a05bb70c1b0fc7714
 .mr-12 {
 	margin-right: 3rem;
 }
@@ -3001,12 +2998,9 @@ select {
 .pt-0\.5 {
 	padding-top: 0.125rem;
 }
-<<<<<<< HEAD
-=======
 .pl-4\.5 {
 	padding-left: 1.125rem;
 }
->>>>>>> 4fabc266b4c3e81b6c7ce43a05bb70c1b0fc7714
 .text-left {
 	text-align: left;
 }
@@ -3277,11 +3271,7 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(127, 29, 29, var(--tw-text-opacity));
 }
-<<<<<<< HEAD
-.text-indigo-400 {
-=======
 .text-cyan-800 {
->>>>>>> 4fabc266b4c3e81b6c7ce43a05bb70c1b0fc7714
 	--tw-text-opacity: 1;
 	color: rgba(129, 140, 248, var(--tw-text-opacity));
 }
@@ -4751,18 +4741,6 @@ input[type='checkbox']:focus {
 		font-size: 1rem;
 	}
 
-<<<<<<< HEAD
-	.md\:text-lg {
-		font-size: 1.125rem;
-	}
-
-	.md\:text-xl {
-		font-size: 1.25rem;
-	}
-
-	.md\:text-xs {
-		font-size: 0.875rem;
-=======
 	.md\:text-sm {
 		font-size: 0.985rem;
 	}
@@ -4773,20 +4751,14 @@ input[type='checkbox']:focus {
 
 	.md\:text-lg {
 		font-size: 1.125rem;
->>>>>>> 4fabc266b4c3e81b6c7ce43a05bb70c1b0fc7714
 	}
 
 	.md\:text-2xl {
 		font-size: 1.5rem;
 	}
 
-<<<<<<< HEAD
-	.md\:text-sm {
-		font-size: 0.985rem;
-=======
 	.md\:text-xs {
 		font-size: 0.875rem;
->>>>>>> 4fabc266b4c3e81b6c7ce43a05bb70c1b0fc7714
 	}
 
 	.md\:font-bold {
