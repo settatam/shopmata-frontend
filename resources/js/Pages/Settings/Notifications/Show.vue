@@ -86,6 +86,7 @@ import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon,ArrowLe
 import { reactive, ref } from '@vue/reactivity'
 import ErrorIcon from '../../../../assets/ErrorIcon.vue'
 import  {HomeIcon} from '@heroicons/vue/outline'
+import axios from 'axios'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
