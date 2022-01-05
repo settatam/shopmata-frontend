@@ -103,8 +103,9 @@ class NotificationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $store_notification = StoreNotification::find($id);
+        return Inertia::render('Settings/Notifications/Show',compact('store_notification'));
     }
 
     /**
@@ -115,7 +116,6 @@ class NotificationsController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -127,7 +127,7 @@ class NotificationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -141,8 +141,5 @@ class NotificationsController extends Controller
         //
     }
 
-    public function order()
-    {
-        return Inertia::render('Settings/Notifications/OrderConfirmation');
-    }
+    
 }
