@@ -7,7 +7,7 @@
       </div>
       <div class="ml-3">
         <p class="text-sm font-medium text-green-800">
-          Successfully uploaded
+          {{message}}
         </p>
       </div>
       <div class="ml-auto pl-3">
@@ -24,11 +24,19 @@
 
 <script>
 import { CheckCircleIcon, XIcon } from '@heroicons/vue/solid'
+import { ref } from '@vue/reactivity'
 
 export default {
+  props:{msg:String},
   components: {
     CheckCircleIcon,
     XIcon,
   },
+  setup({msg}){
+      const message = ref((msg))
+    return {
+        message
+    }
+  }
 }
 </script>
