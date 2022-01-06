@@ -147,10 +147,10 @@ export default {
                 subjectError.value = true
             } else {
               axios.post('store',order).then((res)=>{
+                  setTimeout(saving, 2000)
                   if(res.status==200){
                     loading.value = true
                     save.value = "Saving"
-                    setTimeout(saving, 2000)
                     setTimeout(loadingFn,3000)
                   }
                 })                
