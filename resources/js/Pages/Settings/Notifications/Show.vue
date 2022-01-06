@@ -127,20 +127,6 @@ export default {
           store_notification==null ? order.subject=notification.name: order.subject=store_notification.subject;
           store_notification==null ? order.message=notification.content : order.message=store_notification.message;
         }) 
-        /* const orderSubject=()=>{
-          if(store_notification.subject==null){
-            order.subject=''
-          }else{
-             order.subject=store_notification.subject
-          }
-        }
-        const orderMessage=()=>{
-          if(store_notification.message==null){
-            order.message=''
-          }else{
-            order.message=store_notification.message
-          }
-        } */
         const loadingFn =()=>{
           loading.value = false
           success.value= false
@@ -162,16 +148,12 @@ export default {
             } else {
               axios.post('store',order).then((res)=>{
                   if(res.status==200){
-                    //alert("Message Successfull Saved")
-                    
                     loading.value = true
                     save.value = "Saving"
                     setTimeout(saving, 2000)
                     setTimeout(loadingFn,3000)
                   }
-                })
-                //alert("Order confirmation saved")
-                
+                })                
             }
         }
         return {
