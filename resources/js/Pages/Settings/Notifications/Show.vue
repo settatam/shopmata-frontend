@@ -43,7 +43,7 @@
                         <inertia-link href="/settings/notifications">
                                 <arrow-left-icon class="w-5 h-5 mr-5"/>
                         </inertia-link>
-                        <p class="text-2xl">{{order.suject}}</p>
+                        <p class="text-2xl">{{notification.name}}</p>
                     </div>
                     <div class="flex items-center mb-5">
                         <div class="flex text-indigo-700 mr-7" >
@@ -105,7 +105,7 @@ const pages = [
 ]
 
 export default {
-    props:{store_notification:Object,id:String},
+    props:{store_notification:Object,notification:Object},
     components:{
         AppLayout,
         ChevronRightIcon,
@@ -116,16 +116,16 @@ export default {
         ErrorIcon,
         Success
     },
-    setup({store_notification,id}) {
-        const order = reactive({subject:'', message:'',store_notification_id:id});
+    setup({store_notification,notification}) {
+        const order = reactive({subject:'', message:'',store_notification_id:notification.id});
         const bodyError =ref(false)
         const subjectError =ref(false)
         const loading=ref(false)
         const success=ref(false)
         const save =ref(('Save'))
         onBeforeMount(()=>{
-          store_notification.subject==null ? order.subject='': order.subject=store_notification.subject;
-          store_notification.message==null ? order.message='' : order.message=store_notification.message;
+          store_notification==null ? order.subject=notification.name: order.subject=store_notification.subject;
+          store_notification==null ? order.message=notification.content : order.message=store_notification.message;
         }) 
         /* const orderSubject=()=>{
           if(store_notification.subject==null){
