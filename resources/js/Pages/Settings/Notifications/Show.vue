@@ -1,4 +1,12 @@
 <template>
+  <!-- FONT AWESOME LINK -->
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+    crossorigin="anonymous"
+  />
+  <!-- FONT AWESOME LINK -->
   <app-layout>
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
@@ -29,38 +37,39 @@
             <Nav page="Notifications"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-auto  lg:ml-7 lg:mr-2">
-                  <div class="flex justify-between items-center">
+              <div class="w-auto  lg:ml-7 lg:mr-2 relative">
+                  <div class="flex justify-between items-center ">
                     <div class="flex font-semibold items-center">
                         <inertia-link href="/settings/notifications">
                                 <arrow-left-icon class="w-5 h-5 mr-5"/>
                         </inertia-link>
-                        <p class="text-2xl">{{store_notification.name}}</p>
+                        <p class="text-2xl">{{order.suject}}</p>
                     </div>
                     <div class="flex items-center mb-5">
                         <div class="flex text-indigo-700 mr-7" >
                             <EyeIcon class="w-5 h-5 font-semibold mr-2.5"/> <p> Preview </p>
                         </div>
                         <button type="button" class=" rounded-md border border-transparent shadow-sm px-7 py-3  text-base font-medium text-white sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
-                        Save
+                        <i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>{{save}}
                         </button>
                     </div>
                   </div>
+                  <success v-if="success" class="absolute top-2 w-full"/>
                   <div class="px-8 pb-8 pt-6  mb-6 bg-white">
                     <h1 class="text-xl font-bold">Email</h1>
                         <div class="w-auto relative">
                             <label class="block mt-4 mb-2 bg-transparent">
                                 Email subject
                             </label>
-                            <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" :placeholder="store_notification.name" v-model.trim="order.subject" required/>
-                            <error-icon class="absolute top-11 right-2.5" v-show="subjectError &!order.subject.length"/>
+                            <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" :placeholder="order.subject" v-model.trim="order.subject" required/>
+                            <error-icon class="absolute top-11 right-2.5" v-show="subjectError"/>
                         </div>
                         <div class="w-auto relative">
                             <label class="block mt-4 mb-2 bg-transparent">
                                 Email body (HTML)
                             </label>
                             <textarea  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  border-gray-300 h-96 rounded-md"  v-model.trim="order.message" required></textarea>
-                            <error-icon class="absolute top-1 left-40" v-show="bodyError && !order.message.length "/>
+                            <error-icon class="absolute top-1 left-40" v-show="bodyError "/>
                         </div>
                   </div>
                   <div class=" flex justify-between">
@@ -68,7 +77,7 @@
                         Back to default 
                     </button>
                     <button type="button" class=" rounded-md border border-transparent shadow-sm px-7 py-3  text-base font-medium text-white focus:outline-none sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
-                        Save
+                        <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{save}}
                     </button>
                 </div>
               </div>
@@ -87,6 +96,8 @@ import { reactive, ref } from '@vue/reactivity'
 import ErrorIcon from '../../../../assets/ErrorIcon.vue'
 import  {HomeIcon} from '@heroicons/vue/outline'
 import axios from 'axios'
+import { onBeforeMount } from '@vue/runtime-core'
+import Success from '../../../Components/Success.vue';
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -94,7 +105,7 @@ const pages = [
 ]
 
 export default {
-    props:{store_notification:Object},
+    props:{store_notification:Object,id:String},
     components:{
         AppLayout,
         ChevronRightIcon,
@@ -102,12 +113,44 @@ export default {
         Nav,
         ArrowLeftIcon,
         EyeIcon,
-        ErrorIcon
+        ErrorIcon,
+        Success
     },
-    setup({store_notification}) {
-        const order = reactive({subject:store_notification.name, message:'',store_notification_id:store_notification.id});
+    setup({store_notification,id}) {
+        const order = reactive({subject:'', message:'',store_notification_id:id});
         const bodyError =ref(false)
         const subjectError =ref(false)
+        const loading=ref(false)
+        const success=ref(false)
+        const save =ref(('Save'))
+        onBeforeMount(()=>{
+          store_notification.subject==null ? order.subject='': order.subject=store_notification.subject;
+          store_notification.message==null ? order.message='' : order.message=store_notification.message;
+        }) 
+        /* const orderSubject=()=>{
+          if(store_notification.subject==null){
+            order.subject=''
+          }else{
+             order.subject=store_notification.subject
+          }
+        }
+        const orderMessage=()=>{
+          if(store_notification.message==null){
+            order.message=''
+          }else{
+            order.message=store_notification.message
+          }
+        } */
+        const loadingFn =()=>{
+          loading.value = false
+          success.value= false
+          save.value = "Save"
+          order.message=""
+          window.location.href = '/settings/notifications/'
+        }
+        const saving=()=>{
+          success.value = true
+        }
         const submit =()=>{
             if (!order.subject.length && order.message.length) {
                 subjectError.value = true
@@ -119,11 +162,14 @@ export default {
             } else {
               axios.post('store',order).then((res)=>{
                   if(res.status==200){
-                    order.message=""
-                    window.location.href = '/settings/notifications/'
+                    //alert("Message Successfull Saved")
+                    
+                    loading.value = true
+                    save.value = "Saving"
+                    setTimeout(saving, 2000)
+                    setTimeout(loadingFn,3000)
                   }
                 })
-
                 //alert("Order confirmation saved")
                 
             }
@@ -133,7 +179,10 @@ export default {
             order,
             bodyError,
             subjectError,
-            submit
+            submit,
+            loading,
+            save,
+            success
         }
   },
 }

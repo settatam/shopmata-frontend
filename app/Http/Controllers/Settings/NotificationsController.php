@@ -109,7 +109,7 @@ class NotificationsController extends Controller
     public function show($id)
     {   
         $store_notification = StoreActualNotification::where('store_notification_id',$id)->first();
-        return Inertia::render('Settings/Notifications/Show',compact('store_notification'));
+        return Inertia::render('Settings/Notifications/Show',compact('store_notification','id'));
     }
 
     /**
