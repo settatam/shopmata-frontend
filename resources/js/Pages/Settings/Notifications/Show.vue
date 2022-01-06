@@ -124,8 +124,8 @@ export default {
         const success=ref(false)
         const save =ref(('Save'))
         onBeforeMount(()=>{
-          store_notification.subject==null ? order.subject='': order.subject=store_notification.subject;
-          store_notification.message==null ? order.message='' : order.message=store_notification.message;
+          store_notification==null ? order.subject='': order.subject=store_notification.subject;
+          store_notification==null ? order.message='' : order.message=store_notification.message;
         }) 
         /* const orderSubject=()=>{
           if(store_notification.subject==null){
