@@ -54,7 +54,8 @@
                         </button>
                     </div>
                   </div>
-                  <success v-if="success" class="absolute top-2 w-full"/>
+                  <error v-if="error" :msg="successMessage" class="absolute top-2 w-full" />
+                  <success v-if="success" :msg="successMessage" class="absolute top-2 w-full"/>
                   <div class="px-8 pb-8 pt-6  mb-6 bg-white">
                     <h1 class="text-xl font-bold">Email</h1>
                         <div class="w-auto relative">
@@ -98,6 +99,7 @@ import  {HomeIcon} from '@heroicons/vue/outline'
 import axios from 'axios'
 import { onBeforeMount } from '@vue/runtime-core'
 import Success from '../../../Components/Success.vue';
+import Error from '../../../Components/Error.vue';
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -114,7 +116,8 @@ export default {
         ArrowLeftIcon,
         EyeIcon,
         ErrorIcon,
-        Success
+        Success,
+        Error
     },
     setup({store_notification,notification}) {
         const order = reactive({subject:'', message:'',store_notification_id:notification.id});
@@ -123,6 +126,8 @@ export default {
         const loading=ref(false)
         const success=ref(false)
         const save =ref(('Save'))
+        const error =ref((false))
+        const successMessage = ref((''))
         onBeforeMount(()=>{
           store_notification==null ? order.subject=notification.name: order.subject=store_notification.subject;
           store_notification==null ? order.message=notification.content : order.message=store_notification.message;
@@ -133,6 +138,11 @@ export default {
           save.value = "Save"
           order.message=""
           window.location.href = '/settings/notifications/'
+        }
+        const errorFn =()=>{
+          loading.value = false
+          error.value= false
+          save.value = "Save"
         }
         const saving=()=>{
           success.value = true
@@ -147,11 +157,20 @@ export default {
                 subjectError.value = true
             } else {
               axios.post('store',order).then((res)=>{
+                loading.value = true
                   if(res.status==200){
-                    loading.value = true
-                    save.value = "Saving"
+                    successMessage.value=res.data.message
                     setTimeout(saving, 2000)
+                    save.value = "Saving"
                     setTimeout(loadingFn,3000)
+                  }else if(res.status==422){
+                    successMessage.value=res.data.message
+                    setTimeout(error.value= true,2000)
+                    setTimeout(errorFn,3000)
+                  }else{
+                    successMessage.value="Database Error"
+                    setTimeout(error.value = true,2000)
+                    setTimeout(errorFn,3000)
                   }
                 })                
             }
@@ -164,7 +183,9 @@ export default {
             submit,
             loading,
             save,
-            success
+            success,
+            successMessage,
+            error
         }
   },
 }
