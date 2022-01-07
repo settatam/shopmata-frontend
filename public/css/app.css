@@ -1216,6 +1216,9 @@ select {
 .z-10 {
 	z-index: 10;
 }
+.z-30 {
+	z-index: 30;
+}
 .col-span-6 {
 	grid-column: span 6 / span 6;
 }
@@ -1672,6 +1675,12 @@ select {
 }
 .-ml-5 {
 	margin-left: -1.25rem;
+}
+.mr-3\.5 {
+	margin-right: 0.875rem;
+}
+.mb-0 {
+	margin-bottom: 0px;
 }
 .block {
 	display: block;
@@ -4916,6 +4925,10 @@ input[type='checkbox']:focus {
 		margin-right: 1.25rem;
 	}
 
+	.lg\:mb-5 {
+		margin-bottom: 1.25rem;
+	}
+
 	.lg\:block {
 		display: block;
 	}
@@ -5141,6 +5154,21 @@ input[type='checkbox']:focus {
 		padding-right: 2.5rem;
 	}
 
+	.lg\:px-5 {
+		padding-left: 1.25rem;
+		padding-right: 1.25rem;
+	}
+
+	.lg\:px-7 {
+		padding-left: 1.75rem;
+		padding-right: 1.75rem;
+	}
+
+	.lg\:py-3 {
+		padding-top: 0.75rem;
+		padding-bottom: 0.75rem;
+	}
+
 	.lg\:pl-8 {
 		padding-left: 2rem;
 	}
@@ -5165,8 +5193,8 @@ input[type='checkbox']:focus {
 		font-size: 1rem;
 	}
 
-	.lg\:text-lg {
-		font-size: 1.125rem;
+	.lg\:text-2xl {
+		font-size: 1.5rem;
 	}
 
 	.lg\:hover\:bg-gray-50:hover {
