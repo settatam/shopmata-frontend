@@ -56,11 +56,10 @@
                     </div>
                     <div v-if="openLocal">
                       <div v-for="delivery in notifications.deliveries" :key="delivery.id" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{delivery.name}}</a>
-                        <div class="flex">
-                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 my-auto" />
+                        <inertia-link :href="`/settings/notifications/${delivery.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline">{{delivery.name}}</p>   
+                        </inertia-link>
                           <p class="text-gray-500 w-full">{{delivery.description}}</p>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -72,7 +71,9 @@
                     </div>
                     <div v-if="openShipping">
                       <div v-for="shipping in notifications.shippings" :key="shipping.id" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{shipping.name}}</a>
+                        <inertia-link :href="`/settings/notifications/${shipping.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{shipping.name}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{shipping.description}}</p>
                       </div>
                     </div>
@@ -85,7 +86,9 @@
                     </div>
                     <div v-if="openPickup">
                       <div v-for="pickup in notifications.pickups" :key="pickup.id" class="flex flex-col md:flex-row mb-5">
-                        <p class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="" @click="open">{{pickup.name}}</p>
+                        <inertia-link :href="`/settings/notifications/${pickup.id}`" class="w-full md:w-3/10">
+                          <p class="font-bold text-indigo-700 no-underline" @click="open">{{pickup.name}}</p>  
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{pickup.description}}</p>
                       </div>
                     </div>
@@ -98,7 +101,9 @@
                     </div>
                     <div v-if="openCustomer">
                       <div v-for="customer in notifications.customers" :key="customer.id" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{customer.name}}</a>
+                        <inertia-link :href="`/settings/notifications/${customer.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline" >{{customer.name}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{customer.description}}</p>
                       </div>
                     </div>
@@ -111,7 +116,9 @@
                     </div>
                     <div v-if="openMarketing">
                       <div v-for="email in notifications.marketings" :key="email.id" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{email.name}}</a>
+                        <inertia-link :href="`/settings/notifications/${email.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{email.name}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{email.description}}</p>
                       </div>
                     </div>
@@ -124,7 +131,9 @@
                     </div>
                     <div v-if="openReturn">
                       <div v-for="(ret,index) in notifications.returns" :key="index" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{ret.name}}</a>
+                        <inertia-link :href="`/settings/notifications/${ret.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{ret.name}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{ret.description}}</p>
                       </div>
                     </div>
