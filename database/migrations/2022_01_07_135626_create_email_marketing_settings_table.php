@@ -17,6 +17,7 @@ class CreateEmailMarketingSettingsTable extends Migration
             $table->id();
             $table->boolean('double_opt_in')->default(false);
             $table->string('open_tracking')->nullable();
+            $table->integer('store_id');
             $table->timestamps();
         });
     }

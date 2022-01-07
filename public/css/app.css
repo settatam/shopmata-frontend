@@ -1661,6 +1661,9 @@ select {
 .ml-2\.5 {
 	margin-left: 0.625rem;
 }
+.mb-0 {
+	margin-bottom: 0px;
+}
 .-ml-6 {
 	margin-left: -1.5rem;
 }
@@ -1675,12 +1678,6 @@ select {
 }
 .-ml-5 {
 	margin-left: -1.25rem;
-}
-.mr-3\.5 {
-	margin-right: 0.875rem;
-}
-.mb-0 {
-	margin-bottom: 0px;
 }
 .block {
 	display: block;
@@ -2472,6 +2469,10 @@ select {
 	--tw-border-opacity: 1;
 	border-color: rgba(52, 211, 153, var(--tw-border-opacity));
 }
+.border-red-400 {
+	--tw-border-opacity: 1;
+	border-color: rgba(248, 113, 113, var(--tw-border-opacity));
+}
 .border-purple-darker {
 	--tw-border-opacity: 1;
 	border-color: rgba(99, 42, 109, var(--tw-border-opacity));
@@ -2519,10 +2520,6 @@ select {
 .border-red-300 {
 	--tw-border-opacity: 1;
 	border-color: rgba(252, 165, 165, var(--tw-border-opacity));
-}
-.border-red-400 {
-	--tw-border-opacity: 1;
-	border-color: rgba(248, 113, 113, var(--tw-border-opacity));
 }
 .border-r-transparent {
 	border-right-color: transparent;
@@ -2582,6 +2579,10 @@ select {
 .bg-black {
 	--tw-bg-opacity: 1;
 	background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+.bg-red-50 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(254, 242, 242, var(--tw-bg-opacity));
 }
 .bg-green-50 {
 	--tw-bg-opacity: 1;
@@ -2669,10 +2670,6 @@ select {
 .bg-cyan-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
-}
-.bg-red-50 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(254, 242, 242, var(--tw-bg-opacity));
 }
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
@@ -3201,6 +3198,14 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(6, 78, 59, var(--tw-text-opacity));
 }
+.text-red-400 {
+	--tw-text-opacity: 1;
+	color: rgba(248, 113, 113, var(--tw-text-opacity));
+}
+.text-red-700 {
+	--tw-text-opacity: 1;
+	color: rgba(185, 28, 28, var(--tw-text-opacity));
+}
 .text-green-800 {
 	--tw-text-opacity: 1;
 	color: rgba(6, 95, 70, var(--tw-text-opacity));
@@ -3269,10 +3274,6 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(4, 120, 87, var(--tw-text-opacity));
 }
-.text-red-700 {
-	--tw-text-opacity: 1;
-	color: rgba(185, 28, 28, var(--tw-text-opacity));
-}
 .text-blue-400 {
 	--tw-text-opacity: 1;
 	color: rgba(96, 165, 250, var(--tw-text-opacity));
@@ -3284,10 +3285,6 @@ select {
 .text-red-darker {
 	--tw-text-opacity: 1;
 	color: rgba(255, 0, 0, var(--tw-text-opacity));
-}
-.text-red-400 {
-	--tw-text-opacity: 1;
-	color: rgba(248, 113, 113, var(--tw-text-opacity));
 }
 .text-green-darker {
 	--tw-text-opacity: 1;
@@ -5154,14 +5151,14 @@ input[type='checkbox']:focus {
 		padding-right: 2.5rem;
 	}
 
-	.lg\:px-5 {
-		padding-left: 1.25rem;
-		padding-right: 1.25rem;
-	}
-
 	.lg\:px-7 {
 		padding-left: 1.75rem;
 		padding-right: 1.75rem;
+	}
+
+	.lg\:px-5 {
+		padding-left: 1.25rem;
+		padding-right: 1.25rem;
 	}
 
 	.lg\:py-3 {
@@ -5191,6 +5188,10 @@ input[type='checkbox']:focus {
 
 	.lg\:text-base {
 		font-size: 1rem;
+	}
+
+	.lg\:text-lg {
+		font-size: 1.125rem;
 	}
 
 	.lg\:text-2xl {

@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class EmailMarketingSetting extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['double_opt_in','open_tracking','store_id'];
 }
