@@ -10,10 +10,10 @@
   <app-layout>
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
-           <div class="flex-shrink-0 mb-3 px-6 flex items-center">
+           <div class="flex-shrink-0 mb-3 px:3 md:px-6 flex items-center">
               <p class="text-2xl font-semibold text-gray-900">Settings</p>
             </div>
-            <nav class="flex px-6" aria-label="Breadcrumb">
+            <nav class="flex px-3 md:px-6" aria-label="Breadcrumb">
               <ol role="list" class="flex items-center space-x-4">
                 <li>
                   <div>
@@ -32,31 +32,31 @@
               </ol>
             </nav>
 
-            <div class="flex-1 flex xl:overflow-hidden mt-5">
+            <div class="flex-1 flex flex-col px-3 md:px-6 lg:px-0 lg:flex-row xl:overflow-hidden mt-5">
             <!-- Secondary sidebar -->
             <Nav page="Notifications"></Nav>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
-              <div class="w-auto  lg:ml-7 lg:mr-2 relative">
-                  <div class="flex justify-between items-center ">
+              <div class="w-auto  lg:ml-7 lg:mr-2">
+                  <div class="flex justify-between items-center mb-2 lg:mb-0 ">
                     <div class="flex font-semibold items-center">
                         <inertia-link href="/settings/notifications">
-                                <arrow-left-icon class="w-5 h-5 mr-5"/>
+                          <arrow-left-icon class="w-5 h-5 mr-5"/>
                         </inertia-link>
-                        <p class="text-2xl">{{notification.name}}</p>
+                        <p class="text-base lg:text-2xl">{{notification.name}}</p>
                     </div>
-                    <div class="flex items-center mb-5">
-                        <div class="flex text-indigo-700 mr-7" >
+                    <div class="flex items-center mb-0 lg:mb-5">
+                        <div class="text-indigo-700 mr-7 hidden lg:flex" >
                             <EyeIcon class="w-5 h-5 font-semibold mr-2.5"/> <p> Preview </p>
                         </div>
-                        <button type="button" class=" rounded-md border border-transparent shadow-sm px-7 py-3  text-base font-medium text-white sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
+                        <button type="button" class=" rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs  lg:text-base font-medium text-white sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
                         <i class="fas fa-spinner fa-pulse text-white m-2" v-if="loading"></i>{{save}}
                         </button>
                     </div>
                   </div>
-                  <error v-if="error" :msg="successMessage" class="absolute top-2 w-full" />
-                  <success v-if="success" :msg="successMessage" class="absolute top-2 w-full"/>
-                  <div class="px-8 pb-8 pt-6  mb-6 bg-white">
+                  <error v-if="error" :msg="successMessage" class="sticky top-20 w-full z-30" />
+                  <success v-if="success" :msg="successMessage" class="sticky top-20 w-full z-30"/>
+                  <div class="px-4 md:px-8 pb-8 pt-6  mb-6 bg-white">
                     <h1 class="text-xl font-bold">Email</h1>
                         <div class="w-auto relative">
                             <label class="block mt-4 mb-2 bg-transparent">
@@ -74,10 +74,10 @@
                         </div>
                   </div>
                   <div class=" flex justify-between">
-                    <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-5 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none  sm:text-sm" >
+                    <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-3 lg:px-5 py-1.5 lg:py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none  sm:text-sm" >
                         Back to default 
                     </button>
-                    <button type="button" class=" rounded-md border border-transparent shadow-sm px-7 py-3  text-base font-medium text-white focus:outline-none sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
+                    <button type="button" class=" rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs  lg:text-base font-medium text-white focus:outline-none sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
                         <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{save}}
                     </button>
                 </div>
@@ -125,9 +125,9 @@ export default {
         const subjectError =ref(false)
         const loading=ref(false)
         const success=ref(false)
-        const save =ref(('Save'))
-        const error =ref((false))
-        const successMessage = ref((''))
+        const save =ref('Save')
+        const error =ref(false)
+        const successMessage = ref('')
         onBeforeMount(()=>{
           store_notification==null ? order.subject=notification.name: order.subject=store_notification.subject;
           store_notification==null ? order.message=notification.content : order.message=store_notification.message;

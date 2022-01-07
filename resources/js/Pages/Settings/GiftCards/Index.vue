@@ -1,4 +1,12 @@
 <template>
+    <!-- FONT AWESOME LINK -->
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+    crossorigin="anonymous"
+  />
+  <!-- FONT AWESOME LINK -->
     <app-layout>
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
@@ -34,6 +42,8 @@
                   <h1 class="text-2xl mb-2 font-semibold">Gift Cards</h1>
                     <h2 class="text-lg font-semibold">Auto-expiration</h2>
                     <p class="text-gray-400 text-sm mt-2 mb-5">Set your gift cards to expire a certain amount of time after they,ve been purchased.</p>
+                      <error v-if="error" :msg="successMessage" class="sticky top-20 w-full z-30" />
+                  <success v-if="success" :msg="successMessage" class="sticky top-20 w-full z-30"/>
                     <div class="border border-gray-300 px-3 md:px-7 pt-7 pb-6">
                       <div class="flex flex-col ">
                         <p class="ml-4 md:ml-9 mb-2 my-auto cursor-pointer" @click="gift.expire=0 "> <input  type="radio" name=""  value=0 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards expires</p>
@@ -50,7 +60,9 @@
                         <p class="text-gray-400">Countries have different laws for gift card expiry dates. Check the laws for your country before changing this date.</p>
                     </div>
                 </div>
-                    <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit" >Save Changes</button>
+                    <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit" >
+                      <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{save}}
+                    </button>
               </div>
             </div>
           </div>
@@ -60,7 +72,7 @@
 
 <script>
 
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
@@ -69,54 +81,73 @@ const pages = [
   { name: 'Settings', href: '/settings', current: false },
   { name: 'Gift Cards', href: '/settings/gift-cards', current: true },
 ]
-
+import Success from '../../../Components/Success.vue';
+import Error from '../../../Components/Error.vue';
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,ChevronRightIcon} from '@heroicons/vue/solid'
 import{HomeIcon} from '@heroicons/vue/outline'
-
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
   processing: 'bg-yellow-100 text-yellow-800',
   failed: 'bg-gray-100 text-gray-800',
 }
 export default {
-  props: {
-            products: Object,
-            filters: Object,
-            brands: Array,
-            categories: Array
-        },
-  
   components: {
     Nav,
     AppLayout,
-    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,HomeIcon
+    Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,HomeIcon,Success,Error
   },
   
   data() {
-    return {
-      gift:{
-        duration:'days',
-        period:"",
-        expire:1
-      }
-    }
   },
-  methods:{
-    submit(){
-      
+  setup() {
+    const open = ref(false)
+    const gift = reactive({duration:'days',period:'',expire:1})
+    const loading=ref(false)
+    const save =ref('Save')
+    const success=ref(false)
+    const error = ref(false)
+    const successMessage = ref('Sucessfully Saved')
+    const loadingFn =()=>{
+          loading.value = false
+          success.value= false
+          save.value = "Save"
+        }
+      const errorFn =()=>{
+          loading.value = false
+          error.value= false
+          save.value = "Save"
+        }
+    const submit=()=>{
       try {
-        axios.post('gift-cards',this.gift)
+        axios.post('gift-cards',gift).then((res)=>{
+          loading.value = true
+          if(res.status==200){
+            setTimeout(success.value = true, 2000)
+            save.value = "Saving"
+            setTimeout(loadingFn,3000)
+          }else{
+            successMessage.value="Database Error"
+                    setTimeout(error.value = true,2000)
+                    setTimeout(errorFn,3000)
+          }
+        })
+
       } catch (error) {
         console.log(error)
       }
     }
-  },
-  setup() {
-    const open = ref(false)
     return {
       statusStyles,
-      pages
+      pages, 
+      submit,
+      gift,
+      open,
+      loading,
+      save,
+      success,
+      error,
+      successMessage
     }
   },
 
