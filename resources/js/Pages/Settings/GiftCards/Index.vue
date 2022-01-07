@@ -128,8 +128,8 @@ export default {
             setTimeout(loadingFn,3000)
           }else{
             successMessage.value="Database Error"
-                    setTimeout(error.value = true,2000)
-                    setTimeout(errorFn,3000)
+            setTimeout(error.value = true,2000)
+            setTimeout(errorFn,3000)
           }
         })
 
