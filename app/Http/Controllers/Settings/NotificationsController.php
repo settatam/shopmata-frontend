@@ -46,6 +46,8 @@ class NotificationsController extends Controller
         $notifications_data = StoreNotification::with('category')->get();
         // \Log::info("Notification Data". print_r($notifications, true));
 
+        $user = $request->user();
+        $email_marketing_settings = EmailMarketingSetting::where('store_id', $user->store_id)->get();
         $notifications = [
             'orders' => array_filter($notifications_data->all(), function ($el) {
                 return $el['store_notification_category_id'] === 1;
@@ -76,7 +78,7 @@ class NotificationsController extends Controller
             }),
         ];
 
-        return Inertia::render('Settings/Notifications/Index', compact('notifications'));
+        return Inertia::render('Settings/Notifications/Index', compact('notifications','email_marketing_settings'));
     }
 
     /**
