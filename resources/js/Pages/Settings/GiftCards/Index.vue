@@ -46,12 +46,13 @@
                   <success v-if="success" :msg="successMessage" class="sticky top-20 w-full z-30"/>
                     <div class="border border-gray-300 px-3 md:px-7 pt-7 pb-6">
                       <div class="flex flex-col ">
-                        <p class="ml-4 md:ml-9 mb-2 my-auto cursor-pointer" @click="gift.expire=0 "> <input  type="radio" name=""  value=0 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards expires</p>
-                        <p class="ml-4 md:ml-9 mb-6 my-auto cursor-pointer" @click="gift.expire=1" > <input  type="radio" name=""   value=1 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards never expires</p>
+                        <p class="ml-4 md:ml-9 mb-2 my-auto cursor-pointer" @click="gift.expire=2 "> <input  type="radio" name=""  value=2 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards expires</p>
+                        <p class="ml-4 md:ml-9 mb-6 my-auto cursor-pointer" @click="reset_gift" > <input  type="radio" name=""   value=1 v-model="gift.expire" id="" class="cursor-pointer custom-form-radio mr-5">Gift cards never expires</p>
                       </div>
-                      <div class="flex mb-6">
-                        <input type="text" name="" v-model="gift.period" placeholder="5" class="w-20 mr-2.5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md">
+                      <div class="flex mb-6" v-if="gift.expire==2">
+                        <input type="text" name="" v-model="gift.period" placeholder="5" class="w-20 mr-2.5 shadow-sm focus:ring-indigo-500 placeholder-gray-200 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md">
                         <select name="" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="gift.duration" >
+                          <option value='' disabled>Select Duration</option>
                           <option value="years" >Years after purchase</option>
                           <option value="months">Months after purchase</option>
                           <option value="days">Days after purchase</option>
@@ -102,12 +103,17 @@ export default {
   },
   setup() {
     const open = ref(false)
-    const gift = reactive({duration:'days',period:'',expire:1})
+    const gift = reactive({duration:'',period:'',expire:2})
     const loading=ref(false)
     const save =ref('Save')
     const success=ref(false)
     const error = ref(false)
     const successMessage = ref('Sucessfully Saved')
+    const reset_gift=()=>{
+      gift.duration = ''
+      gift.period= ''
+      gift.expire =1
+    }
     const loadingFn =()=>{
           loading.value = false
           success.value= false
@@ -123,9 +129,15 @@ export default {
         axios.post('gift-cards',gift).then((res)=>{
           loading.value = true
           if(res.status==200){
+            successMessage.value=res.data.notification.message
             setTimeout(success.value = true, 2000)
             save.value = "Saving"
             setTimeout(loadingFn,3000)
+          }
+          else if(res.status==400){
+            successMessage.value=res.data.notification.message
+            setTimeout(error.value = true,2000)
+            setTimeout(errorFn,3000)
           }else{
             successMessage.value="Database Error"
             setTimeout(error.value = true,2000)
@@ -147,7 +159,8 @@ export default {
       save,
       success,
       error,
-      successMessage
+      successMessage,
+      reset_gift
     }
   },
 
