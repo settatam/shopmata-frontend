@@ -178,6 +178,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('settings/notifications', [NotificationsController::class, 'index']);
 	Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
 	Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
+	Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
+
 
 
 	#Settings -> User

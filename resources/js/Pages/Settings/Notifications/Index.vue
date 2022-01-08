@@ -145,7 +145,7 @@
                       <div>
                         <h2 class="font-bold text-xl">Double opt-in</h2>
                         <p class="text-gray-500 mt-3 mb-7">Get explicit consent from customers to send them email marketing. Learn more </p>
-                        <span class="text-indigo-700 font-bold"><input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5" /> Require customers to confirm their subscription</span>
+                        <span class="text-indigo-700 font-bold"><input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="email_marketing.double_opt_in" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5" /> Require customers to confirm their subscription</span>
                         <p class="text-gray-500 mt-4">Customers who sign up will receive a confirmation email to validate their subscription. Previous subscribers will not be affected.</p>
                       </div>
                       <!-- <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/> -->
@@ -161,7 +161,7 @@
                         <p class="text-gray-500 mt-3 mb-7">Open tracking allows you to see how many emails are opened.</p> 
                         <div v-for="(track,index) in emailTracking" :key="index" class="flex flex-col my-5">
                           <div class="flex">
-                             <input  type="radio" name="postalCodes" value="postalCodes"  class="cursor-pointer custom-form-radio mt-1 mr-2">
+                             <input  type="radio" name="postalCodes" :value="track.value" v-model="email_marketing.open_tracking" class="cursor-pointer custom-form-radio mt-1 mr-2">
                             <p class="text-indigo-700 font-bold">{{track.title}}</p>
                           </div>
                           <p class="text-gray-500 w-full">{{track.description}}</p>
@@ -219,7 +219,7 @@
 
 <script>
 
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
@@ -228,6 +228,7 @@ import axios from "axios"
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon } from '@heroicons/vue/solid'
 import {HomeIcon} from '@heroicons/vue/outline'
+import { onBeforeMount, watch, watchEffect } from '@vue/runtime-core'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -241,9 +242,9 @@ const statusStyles = {
 }
 export default {
   props: {
-            notifications:Object
-
-        },
+      notifications:Object,
+      email_marketing_settings:Array,
+  },
    emits:['close'],
   components: {
     Nav,
@@ -274,19 +275,23 @@ export default {
       emailTracking:{
         0:{
           title:"Optimize open tracking (recommended)",
-          description:"Track email open rates and maintain your sender reputation. Choose this option to balance customer privacy choices with data collection."
+          description:"Track email open rates and maintain your sender reputation. Choose this option to balance customer privacy choices with data collection.",
+          value:"optimize_open_tracking"
         },
         1:{
           title:"Do not track",
-          description:"Your email open rate will not be reported. You will still be able to see other metrics, such as the number of clicks from subscribers in your emails."
+          description:"Your email open rate will not be reported. You will still be able to see other metrics, such as the number of clicks from subscribers in your emails.",
+          value:"do_not_track"
         },
         2:{
-          title:"Ask for content",
-          description:"By default, email opens will not be tracked. Subscribers will be able to opt-in to tracking through the footer of your emails. Your open rate will be reported based on subscribers who opt-in, combined with overall engagement."
+          title:"Ask for consent",
+          description:"By default, email opens will not be tracked. Subscribers will be able to opt-in to tracking through the footer of your emails. Your open rate will be reported based on subscribers who opt-in, combined with overall engagement.",
+          value:"ask_for_consent"
         },
         3:{
           title:"Track all email opens",
-          description:"See how many subscribers open your emails. This will provide the most accurate reporting into open behavior."
+          description:"See how many subscribers open your emails. This will provide the most accurate reporting into open behavior.",
+          value:"track_all_email_opens"
         }
       }
     }
@@ -294,10 +299,27 @@ export default {
   methods:{
     
   },
-  setup() {
+  setup({email_marketing_settings}) {
+    const email_marketing=reactive({double_opt_in:true, open_tracking:"optimize_open_tracking"})
+    onBeforeMount(()=>{
+      if(email_marketing_settings.length==0){
+        email_marketing.open_tracking= "optimize_open_tracking"
+        email_marketing.double_opt_in=true
+      }else{
+        email_marketing.open_tracking=email_marketing_settings.open_tracking
+        email_marketing.double_opt_in=email_marketing_settings.double_opt_in
+      }
+    }) 
+    watch(email_marketing ,(curr,prev)=>{
+      axios.post('notifications/email-marketing',curr).then((res)=>{
+        console.log(res)
+      })
+    })
+    
     return {
       statusStyles,
       pages,
+      email_marketing,
     }
   },
 
