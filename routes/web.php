@@ -27,6 +27,8 @@ use App\Http\Controllers\Settings\PaymentsController;
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\GiftCardsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
+use App\Http\Controllers\Settings\PayoutSettingsController;
+
 use App\Http\Controllers\Settings\StoreLocationController;
 use App\Http\Controllers\Settings\ShippingRatesController;
 use App\Http\Controllers\Settings\StoreActualNotificationsController;
@@ -157,7 +159,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
 	#Settings -> Remittance
-	Route::get('settings/remittance',[SettingsController::class,'remittance']);
+	Route::get('settings/remittance',[PayoutSettingsController::class,'index']);
+	Route::post('settings/remittance',[PayoutSettingsController::class,'store']);
+
 	
 	#Settings -> Shipping and Delivery
 	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
