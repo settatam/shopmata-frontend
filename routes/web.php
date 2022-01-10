@@ -19,6 +19,8 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderCustomerNoteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+
+use App\Http\Controllers\Settings\EmailMarketingSettingsController;
 use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\GeneralController;
 use App\Http\Controllers\Settings\PaymentsController;
@@ -28,13 +30,15 @@ use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\Settings\StoreLocationController;
 use App\Http\Controllers\Settings\ShippingRatesController;
 use App\Http\Controllers\Settings\StoreActualNotificationsController;
+
+use App\Http\Controllers\Settings\NotificationsController;
 use App\Http\Controllers\StorePreferencesController;
 use App\Http\Controllers\StoreDomainsController;
 use App\Http\Controllers\OnlineStoreController;
 use App\Http\Controllers\StoreThemesController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\StoreBlogController;
-use App\Http\Controllers\Settings\NotificationsController;
+
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\OnlineStore\CodeEditorController;
 use App\Http\Controllers\OnlineStore\ThemeController;
