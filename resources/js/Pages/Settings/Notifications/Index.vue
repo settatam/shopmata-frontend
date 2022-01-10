@@ -145,12 +145,14 @@
                       <div>
                         <h2 class="font-bold text-xl">Double opt-in</h2>
                         <p class="text-gray-500 mt-3 mb-7">Get explicit consent from customers to send them email marketing. Learn more </p>
-                        <span class="text-indigo-700 font-bold"><input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" v-model="email_marketing.double_opt_in" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5" /> Require customers to confirm their subscription</span>
+                        <span class="text-indigo-700 font-bold"><input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" :false-value="0" :true-value="1" v-model="email_marketing.double_opt_in"  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5" /> Require customers to confirm their subscription</span>
                         <p class="text-gray-500 mt-4">Customers who sign up will receive a confirmation email to validate their subscription. Previous subscribers will not be affected.</p>
                       </div>
                       <!-- <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/> -->
                     </div>
                   </div>
+                  <error v-if="error" :msg="successMessage" class=" w-full z-30" />
+                  <success v-if="success" :msg="successMessage" class="w-full z-30"/>
                   <div class="p-4 md:p-8 my-6 bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl">Shopmata Email open tracking</h2>
@@ -219,7 +221,7 @@
 
 <script>
 
-import { reactive, ref } from 'vue'
+import { reactive, ref } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
@@ -229,6 +231,8 @@ import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headles
 import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon } from '@heroicons/vue/solid'
 import {HomeIcon} from '@heroicons/vue/outline'
 import { onBeforeMount, watch, watchEffect } from '@vue/runtime-core'
+import Success from '../../../Components/Success.vue'
+import Error from '../../../Components/Error.vue'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -256,7 +260,9 @@ export default {
     ChevronUpIcon,
     ChevronDownIcon,
     ChevronRightIcon,
-    HomeIcon 
+    HomeIcon,
+    Success,
+    Error
   },
   
   data() {
@@ -300,8 +306,11 @@ export default {
     
   },
   setup({email_marketing_settings}) {
-    const email_marketing=reactive({double_opt_in:true, open_tracking:"optimize_open_tracking"})
-    onBeforeMount(()=>{
+    const email_marketing=reactive({double_opt_in:email_marketing_settings[0].double_opt_in, open_tracking:email_marketing_settings[0].open_tracking})
+    const success = ref(false)
+    const error = ref(false)
+    const successMessage = ref('')
+    /* onBeforeMount(()=>{
       if(email_marketing_settings.length==0){
         email_marketing.open_tracking= "optimize_open_tracking"
         email_marketing.double_opt_in=true
@@ -310,9 +319,33 @@ export default {
         email_marketing.double_opt_in=email_marketing_settings.double_opt_in
       }
     }) 
+    */
+    const saving=()=>{
+          success.value = true
+        }
+    const eRR=()=>{
+      error.value=true
+    }
+    const close=()=>{
+      success.value = false
+      error.value=false
+    }
+   //console.log(success.value)
     watch(email_marketing ,(curr,prev)=>{
       axios.post('notifications/email-marketing',curr).then((res)=>{
-        console.log(res)
+        if(res.status==200){
+          setTimeout(saving, 500)
+          successMessage.value=res.data.message
+          setTimeout(close, 3000)
+        }else if(res.status == 422){
+            setTimeout(eRR, 500)
+            successMessage.value=res.data.message
+            setTimeout(close, 3000)
+        }else{
+          setTimeout(eRR, 500)
+          successMessage.value="Database Error"
+          setTimeout(close, 3000)
+        } 
       })
     })
     
@@ -320,6 +353,9 @@ export default {
       statusStyles,
       pages,
       email_marketing,
+      success,
+      error,
+      successMessage
     }
   },
 
