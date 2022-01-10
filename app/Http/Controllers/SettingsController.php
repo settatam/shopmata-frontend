@@ -123,9 +123,7 @@ class SettingsController extends Controller
         return Inertia::render('Settings/Links/ShippingRate');
     }
 
-    public function remittance(){
-        return Inertia::render('Settings/Remittance/Index');
-    }
+    
 
     public function shippingProfile()
     {
