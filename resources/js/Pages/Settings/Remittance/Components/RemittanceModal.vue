@@ -36,15 +36,37 @@
                         Account Number
                       </label>
                       <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="payment.account_number" required/>
+                  </div>
+                  <div class=" required w-full mb-4">
+                      <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Routing Number
+                      </label>
+                      <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" v-model="payment.routing_number" required/>
+                  </div>
+                  <div class="required w-1/3 mb-4">
+                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                        Payment Frequency
+                      </label>
+                    <div class="flex items-center justify-between">
+                        <div class=" items-center">
+                            <input type="radio" value="0"  class="mr-3" v-model="payment.frequency" name="daily">
+                            <label for="daily" @click="payment.frequency ='0'" class="cursor-pointer"> Daily</label>
+                        </div>
+                        
+                        <div class=" items-center">
+                            <input type="radio" class="mr-3" value="1" v-model="payment.frequency" name="weekly">
+                            <label for="weekly" @click="payment.frequency='1'" class="cursor-pointer"> Weekly</label>
+                        </div>
                     </div>
+                  </div>
                 </div>
               </div>
               <div class=" flex justify-between">
                 <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
                   Cancel
                 </button>
-                <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
-                  Save
+                <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+                  {{Save}}
                 </button>
               </div>
             </div>
@@ -77,28 +99,35 @@ export default {
     
   },
   methods:{
-      closeModal(){
-          this.open = false
-           this.$emit('close')
-      },
+      
       
   },
   mounted(){
    
   },
-  setup() {
+  setup(props,{emit}) {
     const open = ref(true)
-    
     const payment = reactive({
           account_name:"",
           bank_name:"",
           account_number:"",
+          routing_number:"",
+          frequency:"1",
       })
+    const submit=()=>{
+      //validation
+      
+    }
+    const closeModal=()=>{
+      open.value=false
+      emit('close')
+    }
 
     return {
       open,
       payment,
-      
+      closeModal,
+      submit
     }
   }
 }

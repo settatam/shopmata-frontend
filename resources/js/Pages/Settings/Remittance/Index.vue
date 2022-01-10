@@ -32,11 +32,11 @@
                     <div class="p-4 md:p-8 pb-20 bg-white rounded-md mb-6 w-max md:w-full">
                         <h2 class="font-bold">Bank Information</h2>
                         <p class="text-gray-600">Enter your bank account details to receive your remittance via transfer.</p>
-                        <div class="flex flex-col items-center" v-if="account_detail.length==0">
+                        <div class="flex flex-col items-center">
                             <p class="mt-8 mb-6 text-gray-600" >No bank details added yet  </p>
                             <button type="button" class=" h-12 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700  sm:text-sm" @click="this.popModal=true">Add Account Details</button>
                         </div>
-                        <div v-else class="mt-9">
+                        <!-- <div class="mt-9">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="">
                                 <tr>
@@ -75,7 +75,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -117,14 +117,12 @@ export default {
     },
     
     setup(){
-        const account_detail = [
-            { name: 'Access Bank', title: '01000434236', email: 'Opeyemi John' },
-        ]
+        
         //const account_detail = reactive({bank_name:'Access Bank', account_number:'01000434236',account_name:'Opeyemi John'})
         return{
             pages,
             //people,
-            account_detail
+            //account_detail
         }
     }
 }
