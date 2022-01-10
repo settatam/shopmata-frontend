@@ -36,7 +36,8 @@ class PayoutSettingsController extends Controller
             'payout_schedule'=>['required'],
             'account_number'=>['required']
         ]);
-        
+
+        $user = request()->user();
 
         try {
             $store = PayoutSetting::updateOrCreate(
