@@ -184,7 +184,7 @@
 </template>
 
 <script>
-import { ref, reactive, watch} from 'vue'
+import { ref, reactive, watch, onBeforeMount} from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import Nav from './Nav';
@@ -221,41 +221,36 @@ export default {
     AppLayout,
     Dialog, DialogOverlay, TransitionChild, TransitionRoot,ChevronRightIcon,HomeIcon 
   },
-  
-  data() {
-    return {
-      states: this.states,
-      notification:null,
-      country_state :{},
-      store_details:this.store
-    }
-  },
-  methods: {
-    submit() {
-      Inertia.put('/store', this.store_details);
-    }
-  }, 
-  mounted(){
-    this.country_state = this.states
-  },
-  watch:{
-    'store_details.country_id'(newVal,oldVal) {
-    //console.log(oldVal)
-      axios.get(`/api/states?country_id=${newVal}`).then(res=>{
-         this.country_state = res.data.data
-         console.log(this.country_state)
-    }) 
-    }
-  },
 
-  setup(props) {
+  setup({store,states}) {
     const open = ref(false)
-    
+    const state= ref(states)
+    const country_state=ref({})
+    const store_details=reactive(store)
+    const message = ref('')
+    const save =ref('Save Changes')
+    const loading=ref(false)
+    const success=ref(false)
+    onBeforeMount(()=>{
+      country_state.value = state.value
+    })
+    watch(store_details,(newVal)=> {
+       axios.get(`/api/states?country_id=${newVal.country_id}`).then(res=>{
+         country_state.value = res.data.data
+      }) 
+    })
+    const submit = ()=>{
+      Inertia.put('/store', store_details);
+    }
     return {
       statusStyles,
       //store_details,
       //states,
       pages,
+      state,
+      country_state,
+      store_details,
+      submit
       //updateStates
     }
   },
