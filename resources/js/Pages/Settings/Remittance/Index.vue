@@ -32,22 +32,28 @@
                     <div class="p-4 md:p-8 pb-20 bg-white rounded-md mb-6 w-max md:w-full">
                         <h2 class="font-bold">Bank Information</h2>
                         <p class="text-gray-600">Enter your bank account details to receive your remittance via transfer.</p>
-                        <div class="flex flex-col items-center">
+                        <div class="flex flex-col items-center" v-if="account_detail.length==0">
                             <p class="mt-8 mb-6 text-gray-600" >No bank details added yet  </p>
                             <button type="button" class=" h-12 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700  sm:text-sm" @click="this.popModal=true">Add Account Details</button>
                         </div>
-                        <!-- <div class="mt-9">
+                        <div v-else class="mt-9">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="">
                                 <tr>
-                                    <th scope="col" class="pr-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    <th scope="col" class="pr-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
                                     Bank Name
                                     </th>
-                                    <th scope="col" class="px-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    <th scope="col" class="px-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
                                     Account Number
                                     </th>
-                                    <th scope="col" class="px-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    <th scope="col" class="px-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
                                     Account Name
+                                    </th>
+                                    <th scope="col" class="px-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
+                                    Routing Number
+                                    </th>
+                                    <th scope="col" class="px-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
+                                    Frequency
                                     </th>
                                     
                                     <th scope="col" class="relative px-2 py-1">
@@ -56,15 +62,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(account) in account_detail" :key="account.email" class="bg-white">
+                                <tr class="bg-white">
                                     <td class="pr-2 py-1 w-1/4 font-semibold">
-                                    {{ account.name }}
+                                    {{ account_detail.bank_name}}
                                     </td>
                                     <td class="px-2 py-1 w-1/4 font-semibold ">
-                                    {{ account.title }}
+                                    {{ account_detail.account_number }}
                                     </td>
                                     <td class="px-2 py-1 w-1/4 font-semibold ">
-                                    {{ account.email }}
+                                    {{ account_detail.account_name }}
+                                    </td>
+                                    <td class="px-2 py-1 w-1/4 font-semibold ">
+                                    {{ account_detail.routing_number }}
+                                    </td>
+                                    <td class="px-2 py-1 w-1/4 font-semibold ">
+                                    {{ account_detail.frequency }}
                                     </td>
                                     <td class="px-2 py-1">
                                         <div class="flex"> 
@@ -75,7 +87,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,7 +110,7 @@ const pages = [
   { name: 'Remittance', href: '/settings/remittance', current: true },
 ]
 export default {
-    props:{store:Object},
+    props:{store:Object, remittance:Object},
     components:{
          Nav,
         AppLayout,
@@ -117,13 +129,13 @@ export default {
         }
     },
     
-    setup(){
+    setup({remittance}){
         
-        //const account_detail = reactive({bank_name:'Access Bank', account_number:'01000434236',account_name:'Opeyemi John'})
+        const account_detail = reactive({bank_name:remittance.bank_name, account_number:remittance.account_number,account_name:remittance.account_name, routing_number:remittance.routing_number, frequency:remittance.payout_schedule=='0'? "Daily":"Weekly"})
         return{
             pages,
             //people,
-            //account_detail
+            account_detail
         }
     }
 }
