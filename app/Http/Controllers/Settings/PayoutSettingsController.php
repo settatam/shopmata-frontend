@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PayoutSetting;
+use Inertia\Inertia;
+
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
