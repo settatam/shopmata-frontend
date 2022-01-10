@@ -49,13 +49,13 @@
                       </label>
                     <div class="flex items-center justify-between">
                         <div class=" items-center">
-                            <input type="radio" value="0"  class="mr-3" v-model="payment.frequency" name="daily">
-                            <label for="daily" @click="payment.frequency ='0'" class="cursor-pointer"> Daily</label>
+                            <input type="radio" value="0"  class="mr-3" v-model="payment.payout_schedule" name="daily">
+                            <label for="daily" @click="payment.payout_schedule ='0'" class="cursor-pointer"> Daily</label>
                         </div>
                         
                         <div class=" items-center">
-                            <input type="radio" class="mr-3" value="1" v-model="payment.frequency" name="weekly">
-                            <label for="weekly" @click="payment.frequency='1'" class="cursor-pointer"> Weekly</label>
+                            <input type="radio" class="mr-3" value="1" v-model="payment.payout_schedule" name="weekly">
+                            <label for="weekly" @click="payment.payout_schedule='1'" class="cursor-pointer"> Weekly</label>
                         </div>
                     </div>
                   </div>
@@ -66,7 +66,7 @@
                   Cancel
                 </button>
                 <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
-                  {{Save}}
+                  Save
                 </button>
               </div>
             </div>
@@ -86,7 +86,9 @@ import axios from 'axios'
 
 export default {
     emits:['close'],
-    
+    props:{
+      store:Object
+    },
   components: {
     Dialog,
     DialogOverlay,
@@ -105,18 +107,20 @@ export default {
   mounted(){
    
   },
-  setup(props,{emit}) {
+  setup({store},{emit}) {
     const open = ref(true)
     const payment = reactive({
           account_name:"",
           bank_name:"",
           account_number:"",
           routing_number:"",
-          frequency:"1",
+          payout_schedule:"1",
       })
     const submit=()=>{
       //validation
-      
+      axios.post('remittance',payment).then((res)=>{
+        console.log(res.data)
+      })
     }
     const closeModal=()=>{
       open.value=false

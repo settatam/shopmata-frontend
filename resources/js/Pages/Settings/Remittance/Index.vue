@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <remittance-modal @close="this.popModal = false"  v-if="this.popModal"/>
+            <remittance-modal @close="this.popModal = false" :store="store"  v-if="this.popModal"/>
             </div>
       </div>
   </app-layout>
@@ -98,6 +98,7 @@ const pages = [
   { name: 'Remittance', href: '/settings/remittance', current: true },
 ]
 export default {
+    props:{store:Object},
     components:{
          Nav,
         AppLayout,
