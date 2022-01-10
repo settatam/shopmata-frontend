@@ -162,7 +162,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('settings/remittance',[PayoutSettingsController::class,'index']);
 	Route::post('settings/remittance',[PayoutSettingsController::class,'store']);
 
-	
 	#Settings -> Shipping and Delivery
 	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
 	Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
