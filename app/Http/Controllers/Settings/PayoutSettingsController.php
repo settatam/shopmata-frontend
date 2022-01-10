@@ -15,7 +15,8 @@ class PayoutSettingsController extends Controller
     
     public function index(){
 
-        $remittance =PayoutSetting::where()->first(); 
+        $user = request()->user();
+        $remittance =PayoutSetting::where('store_id',$user->store_id)->first(); 
         return Inertia::render('Settings/Remittance/Index',compact('remittance'));
     }
     
@@ -34,8 +35,6 @@ class PayoutSettingsController extends Controller
             'account_number'=>['required']
         ]);
         
-
-        $user = $request->user();
 
         try {
             $store = PayoutSetting::updateOrCreate(
