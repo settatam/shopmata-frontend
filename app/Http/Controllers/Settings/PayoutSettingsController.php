@@ -49,14 +49,30 @@ class PayoutSettingsController extends Controller
 
         try {
             $payout_setting = new PayoutSetting;
-            $this->updateOrCreate($payout_setting);
+            $this->updateOrCreate($payout_setting, $request);
             \Log::info("Created Payout Settings".  collect($request->all()));
             return response()->json(['message' => "Settings saved successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to save payout settings"], 422);
+            return response()->json(['message'=> "Failed to save payout settings" .$th->getMessage() ], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
         }
     } 
+
+
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+       // $user = request()->user();
+        //$remittance =PayoutSetting::where('store_id',$user->store_id)->first(); 
+        //return Inertia::render('Settings/Remittance/Index',compact('remittance'));
+    }
 
 
 
@@ -79,18 +95,18 @@ class PayoutSettingsController extends Controller
 
         try {
             $payout_setting = PayoutSetting::find($id);
-            $this->updateOrCreate($payout_setting);
+            $this->updateOrCreate($payout_setting, $request);
             \Log::info("Updated Payout Settings".  collect($request->all()));
             return response()->json(['message' => "Settings saved successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to save payout settings"], 422);
+            return response()->json(['message'=> "Failed to save payout settings" .$th->getMessage() ], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
         }
     
     }
 
 
-    public function updateOrCreate($payout_setting){
+    public function updateOrCreate($payout_setting, $request){
         $user = request()->user();
         $payout_setting->store_id =   $user->store_id;
         $payout_setting->account_number  =$request->account_number;
