@@ -135,13 +135,11 @@ export default {
         const account_detail = reactive({bank_name:'', account_number:'',account_name:'', routing_number:'', frequency:''})
         onBeforeMount(()=>{
             if(remittance==null ){
-                account_detail = {
-                    bank_name:'',
-                    account_number:'',
-                    account_name:'', 
-                    routing_number:'', 
-                    frequency:''
-                }
+                account_detail.bank_name = ''
+                account_detail.account_number=''
+                account_detail.account_name=''
+                account_detail.routing_number=''
+                account_detail.frequency=''
             }else{
                 account_detail.bank_name=remittance.bank_name;
                 account_detail.account_number=remittance.account_number;
