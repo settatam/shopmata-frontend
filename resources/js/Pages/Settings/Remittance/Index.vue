@@ -132,7 +132,7 @@ export default {
     
     setup({remittance}){
         
-        const account_detail = reactive({bank_name:remittance.bank_name, account_number:remittance.account_number,account_name:remittance.account_name, routing_number:remittance.routing_number, frequency:remittance.payout_schedule=='0'? "Daily":"Weekly"})
+        const account_detail = reactive({bank_name:'', account_number:'',account_name:'', routing_number:'', frequency:''})
         onBeforeMount(()=>{
             if(remittance==null ){
                 account_detail={}
