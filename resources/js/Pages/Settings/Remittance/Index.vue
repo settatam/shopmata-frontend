@@ -133,20 +133,9 @@ export default {
     setup({remittance}){
         
         const account_detail = reactive({bank_name:remittance.bank_name, account_number:remittance.account_number,account_name:remittance.account_name, routing_number:remittance.routing_number, frequency:remittance.payout_schedule=='0'? "Daily":"Weekly"})
-        if(!remittance){
-            account_detail.bank_name= '';
-            account_detail.account_number='';
-            account_detail.account_name='';
-            account_detail.routing_number='';
-            account_detail.frequency='0';
-        }
         onBeforeMount(()=>{
             if(remittance==null ){
-                account_detail.bank_name= '';
-                account_detail.account_number='';
-                account_detail.account_name='';
-                account_detail.routing_number='';
-                account_detail.frequency='0';
+                account_detail={}
             }else{
                 account_detail.bank_name=remittance.bank_name;
                 account_detail.account_number=remittance.account_number;
