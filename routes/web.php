@@ -158,9 +158,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
 	#Settings -> Remittance
-	Route::get('settings/remittance',[PayoutSettingsController::class,'index']);
-	Route::post('settings/remittance',[PayoutSettingsController::class,'store']);
-	Route::patch('settings/remittance/{id}',[PayoutSettingsController::class,'update']);
+	Route::resource('settings/remittance', PayoutSettingsController::class);
 
 
 	#Settings -> Shipping and Delivery

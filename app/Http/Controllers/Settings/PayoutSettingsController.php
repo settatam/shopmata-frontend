@@ -101,6 +101,26 @@ class PayoutSettingsController extends Controller
         $payout_setting->save();
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+          
+        try {
+            $user = request()->user();
+            $payout_setting = PayoutSetting::find($id);
+            $payout_setting->delete();
+            \Log::info("Deleted Payout Settings");
+            $remittance =PayoutSetting::where('store_id',$user->store_id)->first(); 
+            return Inertia::render('Settings/Remittance/Index',compact('remittance'));
+        } catch (\Throwable $th) {
+            return response()->json(['message'=> "Failed to delete payout settings"], 422);
+            \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+        }
+    }
 
 }
