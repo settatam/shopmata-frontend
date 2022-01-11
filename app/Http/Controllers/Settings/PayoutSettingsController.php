@@ -69,14 +69,13 @@ class PayoutSettingsController extends Controller
      */
     public function edit($id)
     {
-       // $user = request()->user();
-        //$remittance =PayoutSetting::where('store_id',$user->store_id)->first(); 
-        //return Inertia::render('Settings/Remittance/Index',compact('remittance'));
+        $remittance =PayoutSetting::find($id); 
+        return Inertia::render('Settings/Remittance/Edit',compact('remittance'));
     }
 
 
 
-    /**
+    /** 
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -125,14 +124,12 @@ class PayoutSettingsController extends Controller
      */
     public function destroy($id)
     {
-          
         try {
             $user = request()->user();
             $payout_setting = PayoutSetting::find($id);
             $payout_setting->delete();
             \Log::info("Deleted Payout Settings");
-            $remittance =PayoutSetting::where('store_id',$user->store_id)->first(); 
-            return Inertia::render('Settings/Remittance/Index',compact('remittance'));
+            return response()->json(['message' => "Payout Settings deleted successfully."], 200);
         } catch (\Throwable $th) {
             return response()->json(['message'=> "Failed to delete payout settings"], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
