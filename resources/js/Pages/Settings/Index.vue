@@ -76,7 +76,10 @@
                                     v-model="store_details.name"
                                     required
                                 />
-                                <error-icon class="absolute top-11 right-2.5" v-show="storeNameError"/>
+                                <error-icon
+                                    class="absolute top-11 right-2.5"
+                                    v-show="storeNameError"
+                                />
                             </div>
                             <div class="flex required mb-4">
                                 <div class="mr-2 w-full">
@@ -90,9 +93,12 @@
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         placeholder=""
                                         v-model="store_details.account_email"
-                                       required
+                                        required
                                     />
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storeAccountEmailError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storeAccountEmailError"
+                                    />
                                 </div>
                                 <div class="ml-2 w-full">
                                     <label
@@ -107,7 +113,10 @@
                                         v-model="store_details.customer_email"
                                         required
                                     />
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storeCustomerEmailError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storeCustomerEmailError"
+                                    />
                                 </div>
                             </div>
                             <div class="required w-full mb-4">
@@ -133,7 +142,10 @@
                                         {{ industry.name }}
                                     </option>
                                 </select>
-                                <error-icon class="absolute top-11 right-2.5" v-show="storeIndustryIdError"/>
+                                <error-icon
+                                    class="absolute top-11 right-2.5"
+                                    v-show="storeIndustryIdError"
+                                />
                             </div>
                             <div
                                 class="border-t border-gray-300 mt-6 mb-5 -mx-8"
@@ -166,7 +178,10 @@
                                     v-model="store_details.business_name"
                                     required
                                 />
-                                <error-icon class="absolute top-11 right-2.5" v-show="storeBusinessNameError"/>
+                                <error-icon
+                                    class="absolute top-11 right-2.5"
+                                    v-show="storeBusinessNameError"
+                                />
                             </div>
                             <div class="required w-full mb-4">
                                 <label
@@ -181,7 +196,10 @@
                                     v-model="store_details.phone"
                                     required
                                 />
-                                <error-icon class="absolute top-11 right-2.5" v-show="storePhoneError"/>
+                                <error-icon
+                                    class="absolute top-11 right-2.5"
+                                    v-show="storePhoneError"
+                                />
                             </div>
                             <div class="required w-full mb-4">
                                 <label
@@ -204,7 +222,10 @@
                                         {{ country.name }}
                                     </option>
                                 </select>
-                                <error-icon class="absolute top-11 right-2.5" v-show="storeCountryIdError"/>
+                                <error-icon
+                                    class="absolute top-11 right-2.5"
+                                    v-show="storeCountryIdError"
+                                />
                             </div>
                             <div class="flex required mb-4">
                                 <div class="mr-2 w-full">
@@ -220,7 +241,10 @@
                                         v-model="store_details.city"
                                         required
                                     />
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storeCityError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storeCityError"
+                                    />
                                 </div>
                                 <div class="mx-2 w-full">
                                     <label
@@ -245,7 +269,10 @@
                                             {{ state.name }}
                                         </option>
                                     </select>
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storeStateError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storeStateError"
+                                    />
                                 </div>
                                 <div class="mr-2 w-full">
                                     <label
@@ -260,7 +287,10 @@
                                         v-model="store_details.zip"
                                         required
                                     />
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storeZipError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storeZipError"
+                                    />
                                 </div>
                             </div>
 
@@ -296,7 +326,10 @@
                                         {{ timezone.text }}
                                     </option>
                                 </select>
-                                <error-icon class="absolute top-11 right-2.5" v-show="storeTimeZoneError"/>
+                                <error-icon
+                                    class="absolute top-11 right-2.5"
+                                    v-show="storeTimeZoneError"
+                                />
                             </div>
                             <div class="flex required mb-4">
                                 <div class="mr-2 w-full">
@@ -319,7 +352,10 @@
                                             {{ unit.unit }}
                                         </option>
                                     </select>
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storeUnitError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storeUnitError"
+                                    />
                                 </div>
                                 <div class="ml-2 w-full">
                                     <label
@@ -334,10 +370,12 @@
                                         v-model="
                                             store_details.default_weight_unit
                                         "
-                                        
                                         required
                                     />
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storeWeightError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storeWeightError"
+                                    />
                                 </div>
                             </div>
                             <h2 class="text-lg font-semibold mb-2">
@@ -362,7 +400,10 @@
                                         v-model="store_details.order_id_prefix"
                                         required
                                     />
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storePrefixError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storePrefixError"
+                                    />
                                 </div>
                                 <div class="ml-2 w-full">
                                     <label
@@ -377,7 +418,10 @@
                                         v-model="store_details.order_id_suffix"
                                         required
                                     />
-                                    <error-icon class="absolute top-11 right-2.5" v-show="storeSuffixError"/>
+                                    <error-icon
+                                        class="absolute top-11 right-2.5"
+                                        v-show="storeSuffixError"
+                                    />
                                 </div>
                             </div>
                             <div
@@ -419,7 +463,10 @@
                         <span class="text-indigo-700 cursor-pointer" >contact support</span> 
                       </inertia-link>
                     if you want to change your currency</p> -->
-                    <error-icon class="absolute top-11 right-2.5" v-show="storeCurrencyError"/>
+                                <error-icon
+                                    class="absolute top-11 right-2.5"
+                                    v-show="storeCurrencyError"
+                                />
                             </div>
                         </div>
                         <!-- <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Changes</button> -->
@@ -460,7 +507,7 @@
 </template>
 
 <script>
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, onBeforeMount } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import Search from "../Search.vue";
 import Nav from "./Nav";
@@ -474,9 +521,6 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/solid";
 import { HomeIcon } from "@heroicons/vue/outline";
 import { Inertia } from "@inertiajs/inertia";
-import { onBeforeMount } from "@vue/runtime-core";
-import Success from "../../Components/Success.vue";
-import Error from "../../Components/Error.vue";
 
 const statusStyles = {
     success: "bg-green-100 text-green-800",
@@ -490,7 +534,6 @@ const pages = [
 
 export default {
     props: {
-        store_details: Object,
         store: Object,
         countries: Array,
         currencies: Array,
@@ -510,108 +553,40 @@ export default {
         TransitionRoot,
         ChevronRightIcon,
         HomeIcon,
-        Success,
-        Error,
     },
 
-    data() {
-        return {
-            states: this.states,
-            notification: null,
-            country_state: {},
-            store_details: this.store,
-        };
-    },
-    methods: {
-        submit() {
-            Inertia.put("/store", this.store_details);
-        },
-    },
-    mounted() {
-        this.country_state = this.states;
-    },
-    watch: {
-        "store_details.country_id"(newVal, oldVal) {
-            //console.log(oldVal)
-            axios.get(`/api/states?country_id=${newVal}`).then((res) => {
-                this.country_state = res.data.data;
-                console.log(this.country_state);
-            });
-        },
-    },
-
-    setup({ store_details, store }) {
+    setup({ store, states }) {
         const open = ref(false);
+        const state = ref(states);
+        const country_state = ref({});
+        const store_details = reactive(store);
+        const message = ref("");
+        const save = ref("Save Changes");
         const loading = ref(false);
         const success = ref(false);
-        const save = ref("Save");
-        const error = ref(false);
-        const successMessage = ref("");
         onBeforeMount(() => {
-            store_details == null
-                ? (store.subject = store.name)
-                : (store.subject = store_details.subject);
-            store_details == null
-                ? (store.message = store.content)
-                : (store.message = store_details.message);
+            country_state.value = state.value;
         });
-
-        const loadingFn = () => {
-            loading.value = false;
-            success.value = false;
-            save.value = "Save";
-            store.message = "";
-            window.location.href = "/settings/general";
-        };
-        const errorFn = () => {
-            loading.value = false;
-            error.value = false;
-            save.value = "Save";
-        };
-        const saving = () => {
-            success.value = true;
-        };
-        const submit = () => {
-            if (!store.subject.length && store.message.length) {
-                subjectError.value = true;
-            } else if (!store.message.length && store.subject.length) {
-                bodyError.value = true;
-            } else if (!store.message.length && !store.subject.length) {
-                bodyError.value = true;
-                subjectError.value = true;
-            } else {
-                axios.post("store", store).then((res) => {
-                    loading.value = true;
-                    if (res.status == 200) {
-                        successMessage.value = res.data.message;
-                        setTimeout(saving, 2000);
-                        save.value = "Saving";
-                        setTimeout(loadingFn, 3000);
-                    } else if (res.status == 422) {
-                        successMessage.value = res.data.message;
-                        setTimeout((error.value = true), 2000);
-                        setTimeout(errorFn, 3000);
-                    } else {
-                        successMessage.value = "Database Error";
-                        setTimeout((error.value = true), 2000);
-                        setTimeout(errorFn, 3000);
-                    }
+        watch(store_details, (newVal) => {
+            axios
+                .get(`/api/states?country_id=${newVal.country_id}`)
+                .then((res) => {
+                    country_state.value = res.data.data;
                 });
-            }
+        });
+        const submit = () => {
+            Inertia.put("/store", store_details);
         };
-
         return {
             statusStyles,
             //store_details,
             //states,
             pages,
-            //updateStates,
+            state,
+            country_state,
+            store_details,
             submit,
-            loading,
-            save,
-            success,
-            successMessage,
-            error,
+            //updateStates
         };
     },
 };

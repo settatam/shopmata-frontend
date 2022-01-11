@@ -40,14 +40,20 @@
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="">
                                 <tr>
-                                    <th scope="col" class="pr-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    <th scope="col" class="pr-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
                                     Bank Name
                                     </th>
-                                    <th scope="col" class="px-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    <th scope="col" class="px-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
                                     Account Number
                                     </th>
-                                    <th scope="col" class="px-2 py-1 w-1/4 text-left font-normal text-base  text-gray-500  tracking-wider">
+                                    <th scope="col" class="px-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
                                     Account Name
+                                    </th>
+                                    <th scope="col" class="px-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
+                                    Routing Number
+                                    </th>
+                                    <th scope="col" class="px-2 py-1 w-1/6 text-left font-normal text-xs  text-gray-500  tracking-wider">
+                                    Frequency
                                     </th>
                                     
                                     <th scope="col" class="relative px-2 py-1">
@@ -56,15 +62,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="(account) in account_detail" :key="account.email" class="bg-white">
+                                <tr class="bg-white">
                                     <td class="pr-2 py-1 w-1/4 font-semibold">
-                                    {{ account.name }}
+                                    {{ account_detail.bank_name}}
                                     </td>
                                     <td class="px-2 py-1 w-1/4 font-semibold ">
-                                    {{ account.title }}
+                                    {{ account_detail.account_number }}
                                     </td>
                                     <td class="px-2 py-1 w-1/4 font-semibold ">
-                                    {{ account.email }}
+                                    {{ account_detail.account_name }}
+                                    </td>
+                                    <td class="px-2 py-1 w-1/4 font-semibold ">
+                                    {{ account_detail.routing_number }}
+                                    </td>
+                                    <td class="px-2 py-1 w-1/4 font-semibold ">
+                                    {{ account_detail.frequency }}
                                     </td>
                                     <td class="px-2 py-1">
                                         <div class="flex"> 
@@ -79,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <remittance-modal @close="this.popModal = false"  v-if="this.popModal"/>
+            <remittance-modal @close="this.popModal = false" :store="store"  v-if="this.popModal"/>
             </div>
       </div>
   </app-layout>
@@ -92,12 +104,14 @@ import Nav from '../Nav';
 import { ChevronLeftIcon,ChevronRightIcon, } from '@heroicons/vue/solid'
 import {QuestionMarkCircleIcon,ChevronDownIcon,ChevronUpIcon,HomeIcon,PencilIcon,TrashIcon} from '@heroicons/vue/outline'
 import RemittanceModal from './Components/RemittanceModal.vue'
+import { onBeforeMount } from '@vue/runtime-core'
 import { reactive, ref } from '@vue/reactivity';
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
   { name: 'Remittance', href: '/settings/remittance', current: true },
 ]
 export default {
+    props:{store:Object, remittance:Object},
     components:{
          Nav,
         AppLayout,
@@ -116,11 +130,31 @@ export default {
         }
     },
     
-    setup(){
-        const account_detail = [
-            { name: 'Access Bank', title: '01000434236', email: 'Opeyemi John' },
-        ]
-        //const account_detail = reactive({bank_name:'Access Bank', account_number:'01000434236',account_name:'Opeyemi John'})
+    setup({remittance}){
+        
+        const account_detail = reactive({bank_name:remittance.bank_name, account_number:remittance.account_number,account_name:remittance.account_name, routing_number:remittance.routing_number, frequency:remittance.payout_schedule=='0'? "Daily":"Weekly"})
+        if(!remittance){
+            account_detail.bank_name= '';
+            account_detail.account_number='';
+            account_detail.account_name='';
+            account_detail.routing_number='';
+            account_detail.frequency='0';
+        }
+        onBeforeMount(()=>{
+            if(remittance==null ){
+                account_detail.bank_name= '';
+                account_detail.account_number='';
+                account_detail.account_name='';
+                account_detail.routing_number='';
+                account_detail.frequency='0';
+            }else{
+                account_detail.bank_name=remittance.bank_name;
+                account_detail.account_number=remittance.account_number;
+                account_detail.account_name=remittance.account_name;
+                account_detail.routing_number=remittance.routing_number;
+                account_detail.frequency=remittance.payout_schedule=='0'? "Daily":"Weekly"
+            }
+        }) 
         return{
             pages,
             //people,

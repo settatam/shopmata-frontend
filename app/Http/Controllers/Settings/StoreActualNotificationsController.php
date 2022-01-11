@@ -27,7 +27,6 @@ class StoreActualNotificationsController extends Controller
             'message'=>['required'],
             'store_notification_id'=>['required']
         ]);
-
         $user = $request->user();
 
         try {
@@ -41,16 +40,12 @@ class StoreActualNotificationsController extends Controller
                     'user_id'  =>  $user->id
                 ]
             );
-
             \Log::info("Updated store actual notifications with".  collect($request->all()));
             return response()->json(['message' => "Notification saved successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=>$th->getMessage()], 422);
-            \Log::info("Failed to Update store actual notifications with" . collect($request->all()));
+            return response()->json(['message'=>"Failed to save notification"], 422);
+            \Log::error("Failed to Update store actual notifications with" . collect($request->all())  ."Error: " .$th->getMessage() );
         }
-
-        
-
     }
 
 }

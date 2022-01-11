@@ -56,11 +56,10 @@
                     </div>
                     <div v-if="openLocal">
                       <div v-for="delivery in notifications.deliveries" :key="delivery.id" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{delivery.name}}</a>
-                        <div class="flex">
-                          <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5 my-auto" />
+                        <inertia-link :href="`/settings/notifications/${delivery.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline">{{delivery.name}}</p>   
+                        </inertia-link>
                           <p class="text-gray-500 w-full">{{delivery.description}}</p>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -72,7 +71,9 @@
                     </div>
                     <div v-if="openShipping">
                       <div v-for="shipping in notifications.shippings" :key="shipping.id" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{shipping.name}}</a>
+                        <inertia-link :href="`/settings/notifications/${shipping.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{shipping.name}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{shipping.description}}</p>
                       </div>
                     </div>
@@ -85,7 +86,9 @@
                     </div>
                     <div v-if="openPickup">
                       <div v-for="pickup in notifications.pickups" :key="pickup.id" class="flex flex-col md:flex-row mb-5">
-                        <p class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="" @click="open">{{pickup.name}}</p>
+                        <inertia-link :href="`/settings/notifications/${pickup.id}`" class="w-full md:w-3/10">
+                          <p class="font-bold text-indigo-700 no-underline" @click="open">{{pickup.name}}</p>  
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{pickup.description}}</p>
                       </div>
                     </div>
@@ -98,7 +101,9 @@
                     </div>
                     <div v-if="openCustomer">
                       <div v-for="customer in notifications.customers" :key="customer.id" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{customer.name}}</a>
+                        <inertia-link :href="`/settings/notifications/${customer.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline" >{{customer.name}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{customer.description}}</p>
                       </div>
                     </div>
@@ -111,7 +116,9 @@
                     </div>
                     <div v-if="openMarketing">
                       <div v-for="email in notifications.marketings" :key="email.id" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{email.name}}</a>
+                        <inertia-link :href="`/settings/notifications/${email.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{email.name}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{email.description}}</p>
                       </div>
                     </div>
@@ -124,7 +131,9 @@
                     </div>
                     <div v-if="openReturn">
                       <div v-for="(ret,index) in notifications.returns" :key="index" class="flex flex-col md:flex-row mb-5">
-                        <a class="font-bold text-indigo-700 no-underline w-full md:w-3/10" href="">{{ret.name}}</a>
+                        <inertia-link :href="`/settings/notifications/${ret.id}`" class="w-full md:w-3/10 ">
+                          <p class="font-bold text-indigo-700 no-underline cursor-pointer" >{{ret.name}}</p>
+                        </inertia-link>
                         <p class="text-gray-500 w-full md:w-7/10">{{ret.description}}</p>
                       </div>
                     </div>
@@ -136,12 +145,14 @@
                       <div>
                         <h2 class="font-bold text-xl">Double opt-in</h2>
                         <p class="text-gray-500 mt-3 mb-7">Get explicit consent from customers to send them email marketing. Learn more </p>
-                        <span class="text-indigo-700 font-bold"><input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5" /> Require customers to confirm their subscription</span>
+                        <span class="text-indigo-700 font-bold"><input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" :false-value="0" :true-value="1" v-model="email_marketing.double_opt_in"  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5" /> Require customers to confirm their subscription</span>
                         <p class="text-gray-500 mt-4">Customers who sign up will receive a confirmation email to validate their subscription. Previous subscribers will not be affected.</p>
                       </div>
                       <!-- <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/> -->
                     </div>
                   </div>
+                  <error v-if="error" :msg="successMessage" class=" w-full z-30" />
+                  <success v-if="success" :msg="successMessage" class="w-full z-30"/>
                   <div class="p-4 md:p-8 my-6 bg-white">
                     <div class="flex items-center justify-between mb-5">
                       <h2 class="font-bold text-xl">Shopmata Email open tracking</h2>
@@ -152,7 +163,7 @@
                         <p class="text-gray-500 mt-3 mb-7">Open tracking allows you to see how many emails are opened.</p> 
                         <div v-for="(track,index) in emailTracking" :key="index" class="flex flex-col my-5">
                           <div class="flex">
-                             <input  type="radio" name="postalCodes" value="postalCodes"  class="cursor-pointer custom-form-radio mt-1 mr-2">
+                             <input  type="radio" name="postalCodes" :value="track.value" v-model="email_marketing.open_tracking" class="cursor-pointer custom-form-radio mt-1 mr-2">
                             <p class="text-indigo-700 font-bold">{{track.title}}</p>
                           </div>
                           <p class="text-gray-500 w-full">{{track.description}}</p>
@@ -210,7 +221,7 @@
 
 <script>
 
-import { ref } from 'vue'
+import { reactive, ref } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
@@ -219,6 +230,9 @@ import axios from "axios"
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon, ChevronUpIcon,ChevronDownIcon,ChevronRightIcon } from '@heroicons/vue/solid'
 import {HomeIcon} from '@heroicons/vue/outline'
+import { onBeforeMount, watch, watchEffect } from '@vue/runtime-core'
+import Success from '../../../Components/Success.vue'
+import Error from '../../../Components/Error.vue'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -232,9 +246,9 @@ const statusStyles = {
 }
 export default {
   props: {
-            notifications:Object
-
-        },
+      notifications:Object,
+      email_marketing_settings:Array,
+  },
    emits:['close'],
   components: {
     Nav,
@@ -246,7 +260,9 @@ export default {
     ChevronUpIcon,
     ChevronDownIcon,
     ChevronRightIcon,
-    HomeIcon 
+    HomeIcon,
+    Success,
+    Error
   },
   
   data() {
@@ -265,19 +281,23 @@ export default {
       emailTracking:{
         0:{
           title:"Optimize open tracking (recommended)",
-          description:"Track email open rates and maintain your sender reputation. Choose this option to balance customer privacy choices with data collection."
+          description:"Track email open rates and maintain your sender reputation. Choose this option to balance customer privacy choices with data collection.",
+          value:"optimize_open_tracking"
         },
         1:{
           title:"Do not track",
-          description:"Your email open rate will not be reported. You will still be able to see other metrics, such as the number of clicks from subscribers in your emails."
+          description:"Your email open rate will not be reported. You will still be able to see other metrics, such as the number of clicks from subscribers in your emails.",
+          value:"do_not_track"
         },
         2:{
-          title:"Ask for content",
-          description:"By default, email opens will not be tracked. Subscribers will be able to opt-in to tracking through the footer of your emails. Your open rate will be reported based on subscribers who opt-in, combined with overall engagement."
+          title:"Ask for consent",
+          description:"By default, email opens will not be tracked. Subscribers will be able to opt-in to tracking through the footer of your emails. Your open rate will be reported based on subscribers who opt-in, combined with overall engagement.",
+          value:"ask_for_consent"
         },
         3:{
           title:"Track all email opens",
-          description:"See how many subscribers open your emails. This will provide the most accurate reporting into open behavior."
+          description:"See how many subscribers open your emails. This will provide the most accurate reporting into open behavior.",
+          value:"track_all_email_opens"
         }
       }
     }
@@ -285,10 +305,57 @@ export default {
   methods:{
     
   },
-  setup() {
+  setup({email_marketing_settings}) {
+    const email_marketing=reactive({double_opt_in:email_marketing_settings[0].double_opt_in, open_tracking:email_marketing_settings[0].open_tracking})
+    const success = ref(false)
+    const error = ref(false)
+    const successMessage = ref('')
+    /* onBeforeMount(()=>{
+      if(email_marketing_settings.length==0){
+        email_marketing.open_tracking= "optimize_open_tracking"
+        email_marketing.double_opt_in=true
+      }else{
+        email_marketing.open_tracking=email_marketing_settings.open_tracking
+        email_marketing.double_opt_in=email_marketing_settings.double_opt_in
+      }
+    }) 
+    */
+    const saving=()=>{
+          success.value = true
+        }
+    const eRR=()=>{
+      error.value=true
+    }
+    const close=()=>{
+      success.value = false
+      error.value=false
+    }
+   //console.log(success.value)
+    watch(email_marketing ,(curr,prev)=>{
+      axios.post('notifications/email-marketing',curr).then((res)=>{
+        if(res.status==200){
+          setTimeout(saving, 500)
+          successMessage.value=res.data.message
+          setTimeout(close, 3000)
+        }else if(res.status == 422){
+            setTimeout(eRR, 500)
+            successMessage.value=res.data.message
+            setTimeout(close, 3000)
+        }else{
+          setTimeout(eRR, 500)
+          successMessage.value="Database Error"
+          setTimeout(close, 3000)
+        } 
+      })
+    })
+    
     return {
       statusStyles,
       pages,
+      email_marketing,
+      success,
+      error,
+      successMessage
     }
   },
 
