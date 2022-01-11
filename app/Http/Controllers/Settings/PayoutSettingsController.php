@@ -49,18 +49,33 @@ class PayoutSettingsController extends Controller
 
         try {
             $payout_setting = new PayoutSetting;
-            $this->updateOrCreate($payout_setting);
+            $this->updateOrCreate($payout_setting, $request);
             \Log::info("Created Payout Settings".  collect($request->all()));
             return response()->json(['message' => "Settings saved successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to save payout settings"], 422);
+            return response()->json(['message'=> "Failed to save payout settings" .$th->getMessage() ], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
         }
     } 
 
 
 
+
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $remittance =PayoutSetting::find($id); 
+        return Inertia::render('Settings/Remittance/Edit',compact('remittance'));
+    }
+
+
+
+    /** 
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -79,18 +94,18 @@ class PayoutSettingsController extends Controller
 
         try {
             $payout_setting = PayoutSetting::find($id);
-            $this->updateOrCreate($payout_setting);
+            $this->updateOrCreate($payout_setting, $request);
             \Log::info("Updated Payout Settings".  collect($request->all()));
             return response()->json(['message' => "Settings saved successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to save payout settings"], 422);
+            return response()->json(['message'=> "Failed to save payout settings" .$th->getMessage() ], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
         }
     
     }
 
 
-    public function updateOrCreate($payout_setting){
+    public function updateOrCreate($payout_setting, $request){
         $user = request()->user();
         $payout_setting->store_id =   $user->store_id;
         $payout_setting->account_number  =$request->account_number;
@@ -109,14 +124,12 @@ class PayoutSettingsController extends Controller
      */
     public function destroy($id)
     {
-          
         try {
             $user = request()->user();
             $payout_setting = PayoutSetting::find($id);
             $payout_setting->delete();
             \Log::info("Deleted Payout Settings");
-            $remittance =PayoutSetting::where('store_id',$user->store_id)->first(); 
-            return Inertia::render('Settings/Remittance/Index',compact('remittance'));
+            return response()->json(['message' => "Payout Settings deleted successfully."], 200);
         } catch (\Throwable $th) {
             return response()->json(['message'=> "Failed to delete payout settings"], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
