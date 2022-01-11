@@ -32,7 +32,7 @@
                     <div class="p-4 md:p-8 pb-20 bg-white rounded-md mb-6 w-max md:w-full">
                         <h2 class="font-bold">Bank Information</h2>
                         <p class="text-gray-600">Enter your bank account details to receive your remittance via transfer.</p>
-                        <div class="flex flex-col items-center" v-if="account_detail.length==0">
+                        <div class="flex flex-col items-center" v-if="remittance==null">
                             <p class="mt-8 mb-6 text-gray-600" >No bank details added yet  </p>
                             <button type="button" class=" h-12 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700  sm:text-sm" @click="this.popModal=true">Add Account Details</button>
                         </div>
@@ -132,21 +132,14 @@ export default {
     
     setup({remittance}){
         
-        const account_detail = reactive({bank_name:remittance.bank_name, account_number:remittance.account_number,account_name:remittance.account_name, routing_number:remittance.routing_number, frequency:remittance.payout_schedule=='0'? "Daily":"Weekly"})
-        if(!remittance){
-            account_detail.bank_name= '';
-            account_detail.account_number='';
-            account_detail.account_name='';
-            account_detail.routing_number='';
-            account_detail.frequency='0';
-        }
+        const account_detail = reactive({bank_name:'', account_number:'',account_name:'', routing_number:'', frequency:''})
         onBeforeMount(()=>{
             if(remittance==null ){
-                account_detail.bank_name= '';
-                account_detail.account_number='';
-                account_detail.account_name='';
-                account_detail.routing_number='';
-                account_detail.frequency='0';
+                account_detail.bank_name = ''
+                account_detail.account_number=''
+                account_detail.account_name=''
+                account_detail.routing_number=''
+                account_detail.frequency=''
             }else{
                 account_detail.bank_name=remittance.bank_name;
                 account_detail.account_number=remittance.account_number;
@@ -155,6 +148,7 @@ export default {
                 account_detail.frequency=remittance.payout_schedule=='0'? "Daily":"Weekly"
             }
         }) 
+        
         return{
             pages,
             //people,
