@@ -259,7 +259,16 @@
                                 </select>
                             </div>
                         </div>
-                        <canvas class="p-10" id="chartBar"></canvas>
+                        <!-- <div id="chart-1" style="height: 300px"> -->
+                        <column-chart
+                            :data="[
+                                ['Sun', 32],
+                                ['Mon', 46],
+                                ['Tue', 28],
+                            ]"
+                        ></column-chart>
+                        <!-- </div> -->
+                        <!-- <canvas class="p-10" id="chartBar"></canvas> -->
                     </div>
 
                     <div class="flex flex-col mt-6 mb-4">
