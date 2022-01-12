@@ -259,15 +259,20 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- <div id="chart-1" style="height: 300px"> -->
-                        <column-chart
-                            :data="[
-                                ['Sun', 32],
-                                ['Mon', 46],
-                                ['Tue', 28],
-                            ]"
-                        ></column-chart>
-                        <!-- </div> -->
+                        <div id="chart-1" class="p-6" style="height: 500px">
+                            <column-chart
+                                :colors="['#4338CA']"
+                                prefix="$"
+                                :data="[
+                                    ['8 Feb', 900],
+                                    ['12 Feb', 450],
+                                    ['16 Feb', 480],
+                                    ['20 Feb', 850],
+                                    ['21 Feb', 950],
+                                    ['22 Feb', 350],
+                                ]"
+                            ></column-chart>
+                        </div>
                         <!-- <canvas class="p-10" id="chartBar"></canvas> -->
                     </div>
 
