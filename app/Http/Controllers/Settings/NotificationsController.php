@@ -15,11 +15,15 @@ use App\Models\Store;
 use App\Models\StoreGroup;
 use App\Models\StoreIndustry;
 use App\Models\StoreNotification;
+use App\Models\StoreActualNotification;
+
 use App\Models\StorePaymentGateway;
+
 use App\Models\StoreUser;
 use App\Models\Timezone;
 use App\Models\Unit;
 use App\Models\User;
+use App\Models\EmailMarketingSetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -27,6 +31,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+
 
 
 class NotificationsController extends Controller
@@ -40,8 +45,8 @@ class NotificationsController extends Controller
     {
         //
         $notifications_data = StoreNotification::with('category')->get();
-        // \Log::info("Notification Data". print_r($notifications, true));
-
+        $user = request()->user();
+        $email_marketing_settings = EmailMarketingSetting::where('store_id', $user->store_id)->get();
         $notifications = [
             'orders' => array_filter($notifications_data->all(), function ($el) {
                 return $el['store_notification_category_id'] === 1;
@@ -72,7 +77,7 @@ class NotificationsController extends Controller
             }),
         ];
 
-        return Inertia::render('Settings/Notifications/Index', compact('notifications'));
+        return Inertia::render('Settings/Notifications/Index', compact('notifications','email_marketing_settings'));
     }
 
     /**
@@ -103,8 +108,10 @@ class NotificationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $store_notification = StoreActualNotification::where('store_notification_id',$id)->first();
+        $notification = StoreNotification::find($id);
+        return Inertia::render('Settings/Notifications/Show',compact('store_notification','notification'));
     }
 
     /**
@@ -115,7 +122,6 @@ class NotificationsController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -127,7 +133,7 @@ class NotificationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -141,8 +147,5 @@ class NotificationsController extends Controller
         //
     }
 
-    public function order()
-    {
-        return Inertia::render('Settings/Notifications/OrderConfirmation');
-    }
+    
 }

@@ -6,6 +6,7 @@
       :list="id"
       placeholder="separate options with a comma"
       autocomplete="off"
+      @blur="addTag(newTag)"
       @keydown.prevent.,="addTag(newTag)"
       @keydown.delete="newTag.length || removeTag(tags.length - 1)"
       :style="{ 'padding-left': `${paddingLeft}px` }"

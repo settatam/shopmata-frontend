@@ -19,21 +19,28 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderCustomerNoteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+
+use App\Http\Controllers\Settings\EmailMarketingSettingsController;
 use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\GeneralController;
 use App\Http\Controllers\Settings\PaymentsController;
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\GiftCardsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
+use App\Http\Controllers\Settings\PayoutSettingsController;
+
 use App\Http\Controllers\Settings\StoreLocationController;
 use App\Http\Controllers\Settings\ShippingRatesController;
+use App\Http\Controllers\Settings\StoreActualNotificationsController;
+
+use App\Http\Controllers\Settings\NotificationsController;
 use App\Http\Controllers\StorePreferencesController;
 use App\Http\Controllers\StoreDomainsController;
 use App\Http\Controllers\OnlineStoreController;
 use App\Http\Controllers\StoreThemesController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\StoreBlogController;
-use App\Http\Controllers\Settings\NotificationsController;
+
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\OnlineStore\CodeEditorController;
 use App\Http\Controllers\OnlineStore\ThemeController;
@@ -128,7 +135,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	//Bank Details
 
-	// Route::resource('');
 
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
@@ -152,8 +158,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
 	#Settings -> Remittance
-	Route::get('settings/remittance',[SettingsController::class,'remittance']);
-	
+	Route::resource('settings/remittance', PayoutSettingsController::class);
+
+
 	#Settings -> Shipping and Delivery
 	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
 	Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
@@ -175,7 +182,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	#Settings -> Notifications
 	Route::get('settings/notifications', [NotificationsController::class, 'index']);
-	Route::get('settings/notifications/order-confirmation', [NotificationsController::class, 'order']);
+	Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
+	Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
+	Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
+
+
 
 	#Settings -> User
 	Route::get('settings/user', [SettingsController::class, 'user'])->name('settings.user');
@@ -257,7 +268,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	Route::resource('store/domains', StoreDomainsController::class);
 	// Route::resource('store/themes', StoreThemesController::class);
-
 	Route::resource('settings/store-users', PlansAndPermissionsController::class);
 	Route::resource('settings/store-locations', StoreLocationController::class);
 });
