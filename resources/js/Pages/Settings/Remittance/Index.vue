@@ -26,7 +26,7 @@
              <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="Remittance"></Nav>
-            <delete-alert @close="openConfirmation=false" v-if="openConfirmation" :id="remittance.id" :delete_msg="delete_msg" :delete_url="delete_url"></delete-alert>
+            <delete-alert @close="close" v-if="openConfirmation" :id="remittance.id" :delete_msg="delete_msg" :delete_url="delete_url"></delete-alert>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto overflow-x-scroll">
                 <div class="w-auto  lg:ml-7 lg:mr-2">
@@ -155,6 +155,10 @@ export default {
                 account_detail.frequency=remittance.payout_schedule=='0'? "Daily":"Weekly"
             }
         }) 
+        function close(){
+            openConfirmation.value = false
+            window.location.href = '/settings/remittance'
+        }
         
         return{
             pages,
@@ -162,6 +166,7 @@ export default {
             account_detail,
             delete_msg,
             delete_url,
+            close,
             openConfirmation
         }
     }
