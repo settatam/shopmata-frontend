@@ -7,6 +7,8 @@ import { InertiaProgress } from '@inertiajs/progress';
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import vueDebounce from 'vue-debounce'
+import Chartkick from 'vue-chartkick'
+import Chart from 'chart.js/auto'
 import "./index.css"
 import "../js/Components/Tooltip/Styles/main.css";
 import directives from "../js/Components/Tooltip/Directives/index";
@@ -26,6 +28,7 @@ createApp({
 })
 .mixin({ methods: { route } })
 .use(InertiaPlugin)
+.use(Chartkick.use(Chart))
 .component('QuillEditor', QuillEditor)
 .component('vueDebounce', vueDebounce)
 .mount(el);
