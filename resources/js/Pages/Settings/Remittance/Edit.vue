@@ -1,27 +1,39 @@
 <template>
-<!-- FONT AWESOME LINK -->
-  <link
-    rel="stylesheet"
-    href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-    crossorigin="anonymous"
-  />
-  <!-- FONT AWESOME LINK -->
-  <TransitionRoot as="template" :show="open">
-    <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto " @close="closeModal()">
-      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-          <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </TransitionChild>
-
-        <!-- This element is to trick the browser into centering the modal contents. -->
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-        <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-            <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-2 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
-              <div>
+  <app-layout>
+          <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
+          <!-- Breadcrumb -->
+          <div class="flex-shrink-0 mb-3 px-6 flex items-center">
+              <p class="text-2xl font-semibold text-blue-gray-900">Settings</p>
+            </div>
+            <nav class="flex px-6" aria-label="Breadcrumb">
+              <ol role="list" class="flex items-center space-x-4">
+                <li>
+                  <div>
+                    <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                      <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                      <span class="sr-only">Settings</span>
+                    </a>
+                  </div>
+                </li>
+                <li v-for="page in pages" :key="page.name">
+                  <div class="flex items-center">
+                    <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="page.current ? 'page' : undefined">{{ page.name }}</a>
+                  </div>
+                </li>
+              </ol>
+            </nav>
+             <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
+            <!-- Secondary sidebar -->
+            <Nav page="Remittance"></Nav>
+               <!-- Main content -->
+               <div class="flex-1 max-h-screen xl:overflow-y-auto overflow-x-scroll">
+                 <div class="w-auto  lg:ml-7 lg:mr-2">
+                    <div class="p-4 md:p-8 pb-20 bg-white rounded-md mb-6 w-max md:w-full">
+                      <div>
                 <div class="flex justify-between ">
                     <div>
-                        <p class="text-2xl font-bold">Add Account Details</p>
+                        <p class="text-2xl font-bold">Bank Information</p>
                         <p class="text-gray-400 text-sm mt-4">Enter your bank account details to receive payments via transfer</p>
                     </div>
                     <x-icon class="h-6 w-6 cursor-pointer" @click="closeModal"/>
@@ -75,56 +87,68 @@
                   </div>
                 </div>
               </div>
-              <div class=" flex justify-between">
-                <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
-                  Cancel
-                </button>
-                <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" :disabled='loading' @click="submit">
-                  <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{save}}
-                </button>
-              </div>
-            </div>
-        </TransitionChild>
-      </div>
-    </Dialog>
-  </TransitionRoot>
+                  <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" :disabled='loading' @click="submit">
+                    <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{edit}}
+                  </button>
+                    </div>
+                 </div>
+               </div>
+             </div>
+          </div>
+
+  </app-layout>
 </template>
 
 <script>
+import AppLayout from '../../../Layouts/AppLayout.vue'
+import Nav from '../Nav';
+import { ChevronLeftIcon,ChevronRightIcon, } from '@heroicons/vue/solid'
+import {QuestionMarkCircleIcon,ChevronDownIcon,ChevronUpIcon,HomeIcon,PencilIcon,TrashIcon} from '@heroicons/vue/outline'
 import { ref, reactive, onBeforeMount } from 'vue'
 import { Dialog, DialogOverlay, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import{XIcon} from '@heroicons/vue/solid'
 import axios from 'axios'
 //import { Inertia } from '@inertiajs/inertia'
-import Success from '../../../../Components/Success.vue'
-import Error from '../../../../Components/Error.vue'
-import ErrorIcon from '../../../../../assets/ErrorIcon.vue'
+import Success from '../../../Components/Success.vue'
+import Error from '../../../Components/Error.vue'
+import ErrorIcon from '../../../../assets/ErrorIcon.vue'
 import { hrefToUrl } from '@inertiajs/inertia'
-
+const pages = [
+  { name: 'Settings', href: '/settings', current: false },
+  { name: 'Remittance', href: '/settings/remittance', current: true },
+]
 export default {
-    emits:['close'],
+  emits:['close'],
     props:{
-      store:Object
+      store:Object,
+      remittance:Object
     },
   components: {
+    AppLayout,
     Dialog,
     DialogOverlay,
+           Nav,
+        HomeIcon,
+        ChevronLeftIcon, 
+        ChevronDownIcon,
+        ChevronUpIcon,
+        ChevronRightIcon,
     DialogTitle,
     TransitionChild,
     XIcon,
     TransitionRoot,
     Success,
     Error,
-    ErrorIcon
+    ErrorIcon,
   },
-  setup(props,{emit}) {
+  setup({store,remittance},{emit}) {
     const open = ref(true)
     const payment = reactive({
-          account_name:"",
-          bank_name:"",
-          account_number:"",
-          routing_number:"",
-          payout_schedule:"1",
+          account_name:remittance.account_name,
+          bank_name:remittance.bank_name,
+          account_number:remittance.account_number,
+          routing_number:remittance.routing_number,
+          payout_schedule:remittance.payout_schedule,
     })
     const success = ref(false)
     const error = ref(false)
@@ -133,57 +157,61 @@ export default {
     const account_number_error=ref(false)
     const routing_error=ref(false)
     const successMessage = ref('')
-    const save = ref('Save')
+    const edit = ref('Edit Changes')
     const loading=ref(false)
     const loadingFn =()=>{
       loading.value = false
       success.value= false
-      save.value = "Save"
+      edit.value = "Edit Changes"
       closeModal()
       window.location.href = '/settings/remittance'
     }
-    const errorFn =()=>{
-      loading.value = false
-      error.value= false
-      save.value = "Save"
+    function errorFn() {
+      console.log("errofn");
+      edit.value='Edit Changes';
+      loading.value=false;
+      error.value=false;
     }
     const saving=()=>{
       success.value = true
     }
     const submit=()=>{
       //validation
-      save.value = "Saving"
+      edit.value = 'Editing Changes'
       loading.value=true
       if(!payment.account_name.length){
         setTimeout(account_name_error.value=true,2500)
-        setTimeout(errorFn,3000)
+        setTimeout(errorFn(),3000)
       }
       if(!payment.bank_name.length){
         setTimeout(bank_name_error.value=true,2500)
-        setTimeout(errorFn,3000)
+        setTimeout(errorFn(),3000)
       }
       if (!payment.account_number) {
         setTimeout(account_number_error.value=true,2500)
-        setTimeout(errorFn,3000)
+        setTimeout(errorFn(),3000)
       }
       if (!payment.routing_number.length&&store.country_id==1){
         setTimeout(routing_error.value=true,2500)
-        setTimeout(errorFn,3000)
+        setTimeout(errorFn(),3000)
       }
       else{
-        axios.post('',payment).then((res)=>{
+        console.log("object")
+        axios.patch(`/settings/remittance/${remittance.id}`,payment).then((res)=>{
+          console.log(res.status)
           if(res.status==200){
             successMessage.value=res.data.message
             setTimeout(saving, 2000)
             setTimeout(loadingFn,3000)
-          }else if(res.status==422){
+          }else if(res.status == 422 ){
+            console.log('F off')
             successMessage.value=res.data.message
             setTimeout(error.value= true,2000)
-            setTimeout(errorFn,3000)
+            setTimeout(errorFn(),3000)
           }else{
             successMessage.value="Database Error"
             setTimeout(error.value = true,2000)
-            setTimeout(errorFn,3000)
+            setTimeout(errorFn(),3000)
           }
           
         })   
@@ -200,16 +228,20 @@ export default {
       closeModal,
       submit,
       loading,
-      save,
       success,
       successMessage,
       error,
       account_name_error,
       account_number_error,
       bank_name_error,
-      routing_error
+      routing_error,
+      pages,
+      edit
 
     }
   }
 }
 </script>
+
+<style>
+</style>
