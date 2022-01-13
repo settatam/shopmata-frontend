@@ -1,53 +1,52 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors')
+const defaultTheme = require("tailwindcss/defaultTheme");
+const colors = require("tailwindcss/colors");
 module.exports = {
-    mode: 'jit',
+    mode: "jit",
     purge: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './vendor/laravel/jetstream/**/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-        './resources/js/**/*.vue',
+        "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
+        "./vendor/laravel/jetstream/**/*.blade.php",
+        "./storage/framework/views/*.php",
+        "./resources/views/**/*.blade.php",
+        "./resources/js/**/*.vue",
     ],
 
     theme: {
         fontSize: {
-            'xxs':'0.625rem',
-            'xs':'0.875rem',
-            'xm' :'0.75rem',
-            'base': '1rem',
-            'lg': '1.125rem',
-            'xl': '1.25rem',
-            '2xl': '1.5rem',
-            '3xl': '1.875rem',
-            'sm' :'0.985rem',
+            xxs: "0.625rem",
+            xs: "0.875rem",
+            xm: "0.75rem",
+            base: "1rem",
+            lg: "1.125rem",
+            xl: "1.25rem",
+            "2xl": "1.5rem",
+            "3xl": "1.875rem",
+            sm: "0.985rem",
         },
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
-                "sans-serif": ["Raleway", ...defaultTheme.fontFamily.serif]
+                sans: ["Nunito", ...defaultTheme.fontFamily.sans],
+                "sans-serif": ["Raleway", ...defaultTheme.fontFamily.serif],
             },
             colors: {
                 cyan: colors.indigo,
                 indigo: colors.indigo,
                 purple: {
                     light: "#DE21FF",
-                    darker: "#632A6D"
+                    darker: "#632A6D",
                 },
-                green:{
-                    light:"#ECFEEE",
-                    darker:"#00960F"
+                green: {
+                    light: "#ECFEEE",
+                    darker: "#00960F",
                 },
-                red:{
-                    light:"#C9000033",
-                    darker:"#FF0000"
+                red: {
+                    light: "#C9000033",
+                    darker: "#FF0000",
                 },
-
             },
             opacity: {
-                "10": "0.1",
-                "20": "0.2",
-                "95": "0.95"
+                10: "0.1",
+                20: "0.2",
+                95: "0.95",
             },
             width: {
                 "1/10": "10%",
@@ -70,45 +69,48 @@ module.exports = {
                 "9.5/10": "95%",
                 "10/10": "100%",
                 "62/100": "62%",
-                "18": "4.5rem",
-                "84": "21rem",
-                "74":"18.5rem",
-                "78": "19.5rem",
-                "111":"444px",
-                "175":"690px",
+                18: "4.5rem",
+                84: "21rem",
+                74: "18.5rem",
+                78: "19.5rem",
+                111: "444px",
+                175: "690px",
             },
             margin: {
-                "100": "28rem",
-                "17": "4.2rem",
-                "4.5": "1.125rem",
-                "23":   "92px",
-                "6.5": "1.625rem",
-                "18.5": "4.625rem"
+                100: "28rem",
+                17: "4.2rem",
+                4.5: "1.125rem",
+                23: "92px",
+                6.5: "1.625rem",
+                18.5: "4.625rem",
             },
             height: {
-                "84": "21rem",
-                "30": "7.5rem",
-                "10.5":"2.625rem",
-                "content":"max-content"
+                84: "21rem",
+                30: "7.5rem",
+                10.5: "2.625rem",
+                content: "max-content",
             },
-            padding:{
-                "4.5":"1.125rem",
-                "1.5":"0.375rem"
+            padding: {
+                4.5: "1.125rem",
+                1.5: "0.375rem",
             },
-            inset:{
-                "42":"10.625rem"
+            inset: {
+                42: "10.625rem",
             },
             maxWidth: {
-                'xlg': '40rem',
+                xlg: "40rem",
             },
         },
     },
 
     variants: {
         extend: {
-            opacity: ['disabled'],
+            opacity: ["disabled"],
         },
     },
 
-    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+    plugins: [
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/typography"),
+    ],
 };

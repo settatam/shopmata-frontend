@@ -135,7 +135,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	//Bank Details
 
-	// Route::resource('');
 
 	#Settings
 	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
@@ -159,8 +158,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
 	#Settings -> Remittance
-	Route::get('settings/remittance',[PayoutSettingsController::class,'index']);
-	Route::post('settings/remittance',[PayoutSettingsController::class,'store']);
+	Route::resource('settings/remittance', PayoutSettingsController::class);
+
 
 	#Settings -> Shipping and Delivery
 	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
