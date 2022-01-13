@@ -310,7 +310,7 @@ export default {
     const success = ref(false)
     const error = ref(false)
     const successMessage = ref('')
-    /* onBeforeMount(()=>{
+    onBeforeMount(()=>{
       if(email_marketing_settings.length==0){
         email_marketing.open_tracking= "optimize_open_tracking"
         email_marketing.double_opt_in=true
@@ -319,7 +319,6 @@ export default {
         email_marketing.double_opt_in=email_marketing_settings.double_opt_in
       }
     }) 
-    */
     const saving=()=>{
           success.value = true
         }
