@@ -62,7 +62,7 @@
                 <h2 class="text-xl font-semibold">Personal Information</h2>
 
                 <div class="flex">
-                    <div class="required w-full ml-5 mt-4">
+                    <div class="required w-full mr-5 mt-4">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
