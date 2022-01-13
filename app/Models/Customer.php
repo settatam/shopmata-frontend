@@ -27,7 +27,8 @@ class Customer extends Model
         'address2',
         'accepts_marketing',
         'is_active',
-        'zip'
+        'zip',
+        'password'
     ];
 
     public function getFullNameAttribute()
