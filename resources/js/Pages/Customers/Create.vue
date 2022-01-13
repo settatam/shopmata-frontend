@@ -57,25 +57,44 @@
         </div>
 
         <!-- Main content -->
-        <div class="w-1/2 min-h-screen bg-white mt-7 mb-7 mx-auto rounded-sm">
+        <div class="w-2/3 min-h-screen bg-white mt-7 mb-7 mx-auto rounded-sm">
             <div class="p-8">
                 <h2 class="text-xl font-semibold">Personal Information</h2>
 
-                <div class="required w-full mr-5 mt-4">
-                    <label
-                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                    >
-                        Full Name
-                    </label>
-                    <input
-                        type="text"
-                        id="fullName"
-                        name="fullName"
-                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        placeholder=""
-                        required
-                        v-model="personal_info.full_name"
-                    />
+                <div class="flex">
+                    <div class="required w-full mr-5 mt-4">
+                        <label
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                        >
+                            First Name
+                        </label>
+                        <input
+                            type="text"
+                            id="firstName"
+                            name="firstName"
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder=""
+                            required
+                            v-model="personal_info.first_name"
+                        />
+                    </div>
+
+                    <div class="required w-full mt-4">
+                        <label
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                        >
+                            Last Name
+                        </label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder=""
+                            required
+                            v-model="personal_info.last_name"
+                        />
+                    </div>
                 </div>
 
                 <div class="required w-full mr-5 mt-5">
@@ -113,7 +132,7 @@
                 <div class="border-t-2 border-gray-300 mt-6 mb-7 -mx-8"></div>
                 <h2 class="text-xl font-semibold">Address</h2>
 
-                <div class="required w-full mr-5 mt-4">
+                <!-- <div class="required w-full mr-5 mt-4">
                     <label
                         class="block text-gray-600 font-semibold mb-1 bg-transparent"
                     >
@@ -128,7 +147,7 @@
                         required
                         v-model="address_info.full_name"
                     />
-                </div>
+                </div> -->
 
                 <div class="flex mt-4">
                     <div class="required w-full mr-5">
@@ -247,7 +266,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-between w-1/2 mx-auto mb-9">
+        <div class="flex justify-between w-2/3 mx-auto mb-9">
             <div class="">
                 <inertia-link href="/customers">
                     <button
