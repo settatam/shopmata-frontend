@@ -306,19 +306,10 @@ export default {
     
   },
   setup({email_marketing_settings}) {
-    const email_marketing=reactive({double_opt_in:email_marketing_settings[0].double_opt_in, open_tracking:email_marketing_settings[0].open_tracking})
+    const email_marketing=reactive({double_opt_in:email_marketing_settings.length==0?0:email_marketing_settings[0].double_opt_in, open_tracking:email_marketing_settings.length==0?"optimize_open_tracking":email_marketing_settings[0].open_tracking})
     const success = ref(false)
     const error = ref(false)
     const successMessage = ref('')
-    onBeforeMount(()=>{
-      if(email_marketing_settings.length==0){
-        email_marketing.open_tracking= "optimize_open_tracking"
-        email_marketing.double_opt_in=0
-      }else{
-        email_marketing.open_tracking=email_marketing_settings[0].open_tracking
-        email_marketing.double_opt_in=email_marketing_settings[0].double_opt_in
-      }
-    }) 
     const saving=()=>{
           success.value = true
         }
