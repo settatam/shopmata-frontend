@@ -36,7 +36,9 @@
                         <p class="text-2xl font-bold">Bank Information</p>
                         <p class="text-gray-400 text-sm mt-4">Enter your bank account details to receive payments via transfer</p>
                     </div>
-                    <x-icon class="h-6 w-6 cursor-pointer" @click="closeModal"/>
+                    <inertia-link href="remittance">
+                      <x-icon class="h-6 w-6 cursor-pointer"/>
+                    </inertia-link>
                 </div>
                 <error v-if="error" :msg="successMessage" class=" w-full z-30" />
                 <success v-if="success" :msg="successMessage" class="w-full z-30"/>

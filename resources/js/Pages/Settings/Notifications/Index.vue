@@ -313,10 +313,10 @@ export default {
     onBeforeMount(()=>{
       if(email_marketing_settings.length==0){
         email_marketing.open_tracking= "optimize_open_tracking"
-        email_marketing.double_opt_in=true
+        email_marketing.double_opt_in=0
       }else{
-        email_marketing.open_tracking=email_marketing_settings.open_tracking
-        email_marketing.double_opt_in=email_marketing_settings.double_opt_in
+        email_marketing.open_tracking=email_marketing_settings[0].open_tracking
+        email_marketing.double_opt_in=email_marketing_settings[0].double_opt_in
       }
     }) 
     const saving=()=>{
