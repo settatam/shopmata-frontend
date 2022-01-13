@@ -41,7 +41,7 @@ class CustomersController extends Controller
             // $query;
         })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->with('orders')->with('shipping_addresses')->paginate($pageSize);
 
-        // if ($request->name) dd($customers);
+        // if ($request->name) ddbjgj($customers);
 
         foreach ($customers as $customer) {
             $categories = [];
@@ -60,7 +60,6 @@ class CustomersController extends Controller
     public function create()
     {
         //
-
         $countries = Country::all();
         return Inertia::render('Customers/Create', compact('countries'));
     }
@@ -85,19 +84,19 @@ class CustomersController extends Controller
         $customer = Customer::create([
             'store_id' => session('store_id'),
             'user_id' => $userId,
-            'country' => $request->country,
-            'state' => $request->state,
-            'phone' => $request->phone_number,
+            'country_id' => $request->country,
+            'state_id' => $request->state,
+            'phone_number' => $request->phone_number,
             'city' => $request->city,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
             'is_active' => 1,
-            'country' => $request->country,
             'address' => $request->address,
-            'address2' => $request->address,
+            'address2' => $request->address2,
             'accepts_marketing' => 1,
-            'zip' => $request->postal_code
+            'zip' => $request->postal_code,
+            'password' => Hash::make(Str::random(10))
+
         ]);
+
         if ($customer && $user) {
             Log::info('New Customer Created!');
         } else {
