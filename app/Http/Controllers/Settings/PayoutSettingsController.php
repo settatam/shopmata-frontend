@@ -107,11 +107,11 @@ class PayoutSettingsController extends Controller
 
     public function updateOrCreate($payout_setting, $request){
         $user = request()->user();
-        $payout_setting->store_id =   $user->store_id;
-        $payout_setting->account_number  =$request->account_number;
-        $payout_setting->routing_number = $request->routing_number;
-        $payout_setting->account_name  = $request->account_name;
-        $payout_setting->bank_name = $request->bank_name;
+        $payout_setting->store_id        = $user->store_id;
+        $payout_setting->account_number  = $request->account_number;
+        $payout_setting->routing_number  = $request->routing_number;
+        $payout_setting->account_name    = $request->account_name;
+        $payout_setting->bank_name       = $request->bank_name;
         $payout_setting->payout_schedule = $request->payout_schedule;
         $payout_setting->save();
     }

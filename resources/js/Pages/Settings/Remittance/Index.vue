@@ -26,6 +26,7 @@
              <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="Remittance"></Nav>
+            <delete-alert @close="close" v-if="openConfirmation" :id="remittance.id" :delete_msg="delete_msg" :delete_url="delete_url"></delete-alert>
             <!-- Main content -->
             <div class="flex-1 max-h-screen xl:overflow-y-auto overflow-x-scroll">
                 <div class="w-auto  lg:ml-7 lg:mr-2">
@@ -80,8 +81,10 @@
                                     </td>
                                     <td class="px-2 py-1">
                                         <div class="flex"> 
-                                            <pencil-icon class="h-8 w-8 p-2 mr-6 text-indigo-600 cursor-pointer"/>
-                                            <trash-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer"/>
+                                            <inertia-link :href="`remittance/${remittance.id}/edit`">
+                                                <pencil-icon class="h-8 w-8 p-2 mr-6 text-indigo-600 cursor-pointer"/>
+                                            </inertia-link>
+                                            <trash-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer" @click="openConfirmation=true"/>
                                         </div>
                                     </td>
                                 </tr>
@@ -106,6 +109,7 @@ import {QuestionMarkCircleIcon,ChevronDownIcon,ChevronUpIcon,HomeIcon,PencilIcon
 import RemittanceModal from './Components/RemittanceModal.vue'
 import { onBeforeMount } from '@vue/runtime-core'
 import { reactive, ref } from '@vue/reactivity';
+import DeleteAlert from '../../../Components/DeleteAlert.vue'
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
   { name: 'Remittance', href: '/settings/remittance', current: true },
@@ -122,7 +126,8 @@ export default {
         ChevronRightIcon,
         RemittanceModal ,
         PencilIcon,
-        TrashIcon
+        TrashIcon,
+        DeleteAlert
     },
     data(){
         return{
@@ -131,7 +136,9 @@ export default {
     },
     
     setup({remittance}){
-        
+        const delete_msg = ref("Are you sure you want to delete the selected product? The data will be permanently removed from those options. This action cannot be undone.")
+        const delete_url = ref("remittance")
+        const openConfirmation=ref(false)
         const account_detail = reactive({bank_name:'', account_number:'',account_name:'', routing_number:'', frequency:''})
         onBeforeMount(()=>{
             if(remittance==null ){
@@ -148,11 +155,19 @@ export default {
                 account_detail.frequency=remittance.payout_schedule=='0'? "Daily":"Weekly"
             }
         }) 
+        function close(){
+            openConfirmation.value = false
+            window.location.href = '/settings/remittance'
+        }
         
         return{
             pages,
             //people,
-            account_detail
+            account_detail,
+            delete_msg,
+            delete_url,
+            close,
+            openConfirmation
         }
     }
 }
