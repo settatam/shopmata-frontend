@@ -1153,6 +1153,21 @@ select {
 .top-12 {
 	top: 3rem;
 }
+<<<<<<< HEAD
+=======
+.top-11 {
+	top: 2.75rem;
+}
+.right-2\.5 {
+	right: 0.625rem;
+}
+.right-2 {
+	right: 0.5rem;
+}
+.top-2 {
+	top: 0.5rem;
+}
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .top-3\.5 {
 	top: 0.875rem;
 }
@@ -1162,9 +1177,12 @@ select {
 .top-3 {
 	top: 0.75rem;
 }
+<<<<<<< HEAD
 .top-2 {
 	top: 0.5rem;
 }
+=======
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .-right-8 {
 	right: -2rem;
 }
@@ -1180,6 +1198,7 @@ select {
 .left-2 {
 	left: 0.5rem;
 }
+<<<<<<< HEAD
 .top-11 {
 	top: 2.75rem;
 }
@@ -1189,6 +1208,8 @@ select {
 .right-2 {
 	right: 0.5rem;
 }
+=======
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .top-1 {
 	top: 0.25rem;
 }
@@ -1331,6 +1352,13 @@ select {
 	margin-left: 0px;
 	margin-right: 0px;
 }
+<<<<<<< HEAD
+=======
+.my-1 {
+	margin-top: 0.25rem;
+	margin-bottom: 0.25rem;
+}
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .mx-5 {
 	margin-left: 1.25rem;
 	margin-right: 1.25rem;
@@ -1538,9 +1566,12 @@ select {
 .mr-5 {
 	margin-right: 1.25rem;
 }
+<<<<<<< HEAD
 .mb-2 {
 	margin-bottom: 0.5rem;
 }
+=======
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .mt-7 {
 	margin-top: 1.75rem;
 }
@@ -1550,6 +1581,15 @@ select {
 .mb-9 {
 	margin-bottom: 2.25rem;
 }
+<<<<<<< HEAD
+=======
+.mb-2 {
+	margin-bottom: 0.5rem;
+}
+.mb-6\.5 {
+	margin-bottom: 1.625rem;
+}
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .mt-2\.5 {
 	margin-top: 0.625rem;
 }
@@ -1601,12 +1641,27 @@ select {
 .mr-10 {
 	margin-right: 2.5rem;
 }
+<<<<<<< HEAD
 .mb-6\.5 {
 	margin-bottom: 1.625rem;
 }
 .mb-4\.5 {
 	margin-bottom: 1.125rem;
 }
+=======
+.mb-4\.5 {
+	margin-bottom: 1.125rem;
+}
+.ml-0 {
+	margin-left: 0px;
+}
+.ml-0\.5 {
+	margin-left: 0.125rem;
+}
+.mb-6\.5 {
+	margin-bottom: 1.625rem;
+}
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .mb-11 {
 	margin-bottom: 2.75rem;
 }
@@ -1742,15 +1797,27 @@ select {
 .h-11 {
 	height: 2.75rem;
 }
+<<<<<<< HEAD
+=======
+.h-14 {
+	height: 3.5rem;
+}
+.h-7 {
+	height: 1.75rem;
+}
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .h-3 {
 	height: 0.75rem;
 }
 .h-40 {
 	height: 10rem;
 }
+<<<<<<< HEAD
 .h-14 {
 	height: 3.5rem;
 }
+=======
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .h-px {
 	height: 1px;
 }
@@ -1774,9 +1841,12 @@ select {
 .h-32 {
 	height: 8rem;
 }
+<<<<<<< HEAD
 .h-7 {
 	height: 1.75rem;
 }
+=======
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .h-36 {
 	height: 9rem;
 }
@@ -3713,10 +3783,13 @@ input[type='checkbox']:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
 }
+<<<<<<< HEAD
 .focus\:bg-indigo-500:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
 }
+=======
+>>>>>>> dd15d0b5d774d1a4f059ff36393028403f2889c5
 .focus\:bg-yellow-800:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(146, 64, 14, var(--tw-bg-opacity));

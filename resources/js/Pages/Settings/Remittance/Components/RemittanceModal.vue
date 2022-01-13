@@ -79,7 +79,7 @@
                 <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
                   Cancel
                 </button>
-                <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
+                <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" :disabled='loading' @click="submit">
                   <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{save}}
                 </button>
               </div>
@@ -166,12 +166,12 @@ export default {
         setTimeout(account_number_error.value=true,2500)
         setTimeout(errorFn,3000)
       }
-      if (!payment.routing_number.length&&props.store.country_id==1){
+      if (!payment.routing_number.length&&store.country_id==1){
         setTimeout(routing_error.value=true,2500)
         setTimeout(errorFn,3000)
       }
       else{
-        axios.post('remittance',payment).then((res)=>{
+        axios.post('',payment).then((res)=>{
           if(res.status==200){
             successMessage.value=res.data.message
             setTimeout(saving, 2000)

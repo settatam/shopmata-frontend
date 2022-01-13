@@ -77,7 +77,7 @@
                     <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-3 lg:px-5 py-1.5 lg:py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none  sm:text-sm" >
                         Back to default 
                     </button>
-                    <button type="button" class=" rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs  lg:text-base font-medium text-white focus:outline-none sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " @click="submit" >
+                    <button type="button" class=" rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs  lg:text-base font-medium text-white focus:outline-none sm:text-sm" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " :disabled='loading' @click="submit" >
                         <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{save}}
                     </button>
                 </div>

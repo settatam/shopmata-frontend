@@ -65,9 +65,9 @@ export default {
       },
       deleteUser(id){
           this.open = false
-           this.$emit('close')
            //console.log(`${this.delete_url}/${id}`)
            Inertia.delete(`${this.delete_url}/${id}`)
+           this.$emit('close')
       }
   },
   setup() {
