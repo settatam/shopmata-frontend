@@ -26,6 +26,10 @@
                             type="button"
                             class="inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                         >
+                        <!-- <p
+                            @click="addCustomer"
+                            class="cursor-pointer inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                        > -->
                             <span class="pr-3"
                                 ><PlusIcon class="w-5 h-5" /></span
                             >Add Customer
@@ -281,6 +285,13 @@
                                 </a>
                             </div>
                         </nav>
+                        <add-customer-modal
+                            v-if="popModal"
+                            @close="this.popModal = false"
+                            :login="login"
+                            :title="title"
+                            :buttonMsg="buttonMsg"
+                        />
                     </div>
                 </div>
             </div>
@@ -296,6 +307,7 @@ import { SearchIcon } from "@heroicons/vue/outline";
 // import Search from '../Search.vue'
 // import axios from "axios"
 import moment from "moment";
+import AddCustomerModal from "./Components/AddCustomerModal.vue";
 
 export default {
     props: {
@@ -430,6 +442,7 @@ export default {
         EyeIcon,
         PencilIcon,
         TrashIcon,
+        AddCustomerModal,
         // SideNav,
         // ExportIcon,
         // ImportIcon,

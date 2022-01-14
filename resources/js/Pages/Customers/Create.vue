@@ -39,13 +39,7 @@
                     <div class="flex items-center">
                         <a
                             :href="page.href"
-                            class="
-                                mr-4
-                                text-sm
-                                font-medium
-                                text-gray-400
-                                hover:text-gray-500
-                            "
+                            class="mr-4 text-sm font-medium text-gray-400 hover:text-gray-500"
                             :aria-current="page.current ? 'page' : undefined"
                             >{{ page.name }}</a
                         >
@@ -63,19 +57,14 @@
         </div>
 
         <!-- Main content -->
-        <div class="w-1/2 min-h-screen bg-white mt-7 mb-7 mx-auto rounded-sm">
+        <div class="w-2/3 min-h-screen bg-white mt-7 mb-7 mx-auto rounded-sm">
             <div class="p-8">
                 <h2 class="text-xl font-semibold">Personal Information</h2>
-                <div class="flex mt-4">
-                    <div class="required w-full mr-5">
+
+                <div class="flex">
+                    <div class="required w-full mr-5 mt-4">
                         <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
                             First Name
                         </label>
@@ -83,29 +72,16 @@
                             type="text"
                             id="firstName"
                             name="firstName"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
                             v-model="personal_info.first_name"
                         />
                     </div>
-                    <div class="required w-full ml-5">
+
+                    <div class="required w-full mt-4">
                         <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
                             Last Name
                         </label>
@@ -113,30 +89,17 @@
                             type="text"
                             id="lastName"
                             name="lastName"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
                             v-model="personal_info.last_name"
                         />
                     </div>
                 </div>
+
                 <div class="required w-full mr-5 mt-5">
                     <label
-                        class="
-                            block
-                            text-gray-600
-                            font-semibold
-                            mb-1
-                            bg-transparent
-                        "
+                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
                     >
                         Email Address
                     </label>
@@ -144,15 +107,7 @@
                         type="email"
                         id="email"
                         name="email"
-                        class="
-                            shadow-sm
-                            focus:ring-indigo-500 focus:border-indigo-500
-                            block
-                            w-full
-                            sm:text-sm
-                            border-gray-300
-                            rounded-md
-                        "
+                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder=""
                         required
                         v-model="personal_info.email"
@@ -160,13 +115,7 @@
                 </div>
                 <div class="required w-full mr-5 mt-5">
                     <label
-                        class="
-                            block
-                            text-gray-600
-                            font-semibold
-                            mb-1
-                            bg-transparent
-                        "
+                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
                     >
                         Phone Number
                     </label>
@@ -174,15 +123,7 @@
                         type="tel"
                         id="tel"
                         name="tel"
-                        class="
-                            shadow-sm
-                            focus:ring-indigo-500 focus:border-indigo-500
-                            block
-                            w-full
-                            sm:text-sm
-                            border-gray-300
-                            rounded-md
-                        "
+                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder=""
                         required
                         v-model="personal_info.phone"
@@ -190,78 +131,28 @@
                 </div>
                 <div class="border-t-2 border-gray-300 mt-6 mb-7 -mx-8"></div>
                 <h2 class="text-xl font-semibold">Address</h2>
+
+                <!-- <div class="required w-full mr-5 mt-4">
+                    <label
+                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                    >
+                        Full Name
+                    </label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        placeholder=""
+                        required
+                        v-model="address_info.full_name"
+                    />
+                </div> -->
+
                 <div class="flex mt-4">
                     <div class="required w-full mr-5">
                         <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
-                        >
-                            First Name
-                        </label>
-                        <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
-                            placeholder=""
-                            required
-                            v-model="address_info.first_name"
-                        />
-                    </div>
-                    <div class="required w-full ml-5">
-                        <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
-                        >
-                            Last Name
-                        </label>
-                        <input
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
-                            placeholder=""
-                            required
-                            v-model="address_info.last_name"
-                        />
-                    </div>
-                </div>
-                <div class="flex mt-4">
-                    <div class="required w-full mr-5">
-                        <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
                             Address
                         </label>
@@ -269,15 +160,7 @@
                             type="text"
                             id="address"
                             name="address"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
                             v-model="address_info.address"
@@ -285,13 +168,7 @@
                     </div>
                     <div class="required w-full ml-5">
                         <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
                             Apartment/Suite
                         </label>
@@ -299,15 +176,7 @@
                             type="text"
                             id="apartment"
                             name="apartment"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
                             v-model="address_info.apartment"
@@ -316,13 +185,7 @@
                 </div>
                 <div class="required w-full mr-5 mt-5">
                     <label
-                        class="
-                            block
-                            text-gray-600
-                            font-semibold
-                            mb-1
-                            bg-transparent
-                        "
+                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
                     >
                         Country
                     </label>
@@ -330,15 +193,7 @@
                         type="select"
                         id="country"
                         name="country"
-                        class="
-                            shadow-sm
-                            focus:ring-indigo-500 focus:border-indigo-500
-                            block
-                            w-full
-                            sm:text-sm
-                            border-gray-300
-                            rounded-md
-                        "
+                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder=""
                         required
                         v-model="address_info.country_id"
@@ -355,41 +210,7 @@
                 <div class="flex mt-4">
                     <div class="required w-full">
                         <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
-                        >
-                            City
-                        </label>
-                        <input
-                            type="text"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
-                            placeholder=""
-                            required
-                            v-model="address_info.city"
-                        />
-                    </div>
-                    <div class="required w-full ml-5">
-                        <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
                             State
                         </label>
@@ -397,15 +218,7 @@
                             type="select"
                             id="state"
                             name="state"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
                             v-model="address_info.state_id"
@@ -420,29 +233,31 @@
                             </option>
                         </select>
                     </div>
+
                     <div class="required w-full ml-5">
                         <label
-                            class="
-                                block
-                                text-gray-600
-                                font-semibold
-                                mb-1
-                                bg-transparent
-                            "
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                        >
+                            City
+                        </label>
+                        <input
+                            type="text"
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder=""
+                            required
+                            v-model="address_info.city"
+                        />
+                    </div>
+
+                    <div class="required w-full ml-5">
+                        <label
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
                             Zip/Postal Code
                         </label>
                         <input
                             type="text"
-                            class="
-                                shadow-sm
-                                focus:ring-indigo-500 focus:border-indigo-500
-                                block
-                                w-full
-                                sm:text-sm
-                                border-gray-300
-                                rounded-md
-                            "
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
                             v-model="address_info.zip"
@@ -451,18 +266,11 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-between w-1/2 mx-auto mb-9">
+        <div class="flex justify-between w-2/3 mx-auto mb-9">
             <div class="">
                 <inertia-link href="/customers">
                     <button
-                        class="
-                            text-gray-400
-                            bg-gray-100
-                            border border-gray-400
-                            rounded-md
-                            px-6
-                            py-3
-                        "
+                        class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
                     >
                         Cancel
                     </button>

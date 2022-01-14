@@ -54,8 +54,6 @@
                         </button>
                     </div>
                   </div>
-                  <error v-if="error" :msg="successMessage" class="sticky top-20 w-full z-30" />
-                  <success v-if="success" :msg="successMessage" class="sticky top-20 w-full z-30"/>
                   <div class="px-4 md:px-8 pb-8 pt-6  mb-6 bg-white">
                     <h1 class="text-xl font-bold">Email</h1>
                         <div class="w-auto relative">
