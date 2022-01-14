@@ -2078,12 +2078,12 @@ select {
 	--tw-translate-x: 1.25rem;
 	transform: var(--tw-transform);
 }
-.translate-x-20 {
-	--tw-translate-x: 5rem;
-	transform: var(--tw-transform);
-}
 .translate-y-2 {
 	--tw-translate-y: 0.5rem;
+	transform: var(--tw-transform);
+}
+.translate-x-20 {
+	--tw-translate-x: 5rem;
 	transform: var(--tw-transform);
 }
 .rotate-90 {
@@ -3023,14 +3023,14 @@ select {
 .pl-1 {
 	padding-left: 0.25rem;
 }
-.pb-12 {
-	padding-bottom: 3rem;
+.pt-0\.5 {
+	padding-top: 0.125rem;
 }
 .pt-0 {
 	padding-top: 0px;
 }
-.pt-0\.5 {
-	padding-top: 0.125rem;
+.pb-12 {
+	padding-bottom: 3rem;
 }
 .text-left {
 	text-align: left;
