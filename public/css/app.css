@@ -1089,6 +1089,9 @@ select {
 .pointer-events-none {
 	pointer-events: none;
 }
+.pointer-events-auto {
+	pointer-events: auto;
+}
 .visible {
 	visibility: visible;
 }
@@ -1119,6 +1122,10 @@ select {
 .inset-y-0 {
 	top: 0px;
 	bottom: 0px;
+}
+.inset-x-0 {
+	left: 0px;
+	right: 0px;
 }
 .left-0 {
 	left: 0px;
@@ -2079,6 +2086,10 @@ select {
 	--tw-translate-x: 5rem;
 	transform: var(--tw-transform);
 }
+.translate-y-2 {
+	--tw-translate-y: 0.5rem;
+	transform: var(--tw-transform);
+}
 .rotate-90 {
 	--tw-rotate: 90deg;
 	transform: var(--tw-transform);
@@ -2671,6 +2682,10 @@ select {
 .bg-cyan-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
+}
+.bg-green-500 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
 }
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
@@ -3469,6 +3484,9 @@ select {
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	transition-duration: 150ms;
 }
+.delay-300 {
+	transition-delay: 300ms;
+}
 .duration-150 {
 	transition-duration: 150ms;
 }
@@ -3486,6 +3504,9 @@ select {
 }
 .duration-100 {
 	transition-duration: 100ms;
+}
+.duration-500 {
+	transition-duration: 500ms;
 }
 .ease-in-out {
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -3604,6 +3625,10 @@ input[type='checkbox']:focus {
 .hover\:bg-indigo-100:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(224, 231, 255, var(--tw-bg-opacity));
+}
+.hover\:bg-green-600:hover {
+	--tw-bg-opacity: 1;
+	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
 .hover\:bg-opacity-50:hover {
 	--tw-bg-opacity: 0.5;
@@ -3801,6 +3826,10 @@ input[type='checkbox']:focus {
 }
 .focus\:ring-transparent:focus {
 	--tw-ring-color: transparent;
+}
+.focus\:ring-gray-400:focus {
+	--tw-ring-opacity: 1;
+	--tw-ring-color: rgba(156, 163, 175, var(--tw-ring-opacity));
 }
 .focus\:ring-opacity-50:focus {
 	--tw-ring-opacity: 0.5;
@@ -4072,6 +4101,16 @@ input[type='checkbox']:focus {
 
 	.sm\:translate-y-0 {
 		--tw-translate-y: 0px;
+		transform: var(--tw-transform);
+	}
+
+	.sm\:translate-x-4 {
+		--tw-translate-x: 1rem;
+		transform: var(--tw-transform);
+	}
+
+	.sm\:translate-x-0 {
+		--tw-translate-x: 0px;
 		transform: var(--tw-transform);
 	}
 

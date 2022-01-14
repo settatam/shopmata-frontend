@@ -12,6 +12,7 @@ import Chart from 'chart.js/auto'
 import "./index.css"
 import "../js/Components/Tooltip/Styles/main.css";
 import directives from "../js/Components/Tooltip/Directives/index";
+import Notifications from 'notiwind'
 
 const el = document.getElementById("app");
 // register all directives
@@ -30,6 +31,7 @@ createApp({
 .mixin({ methods: { route } })
 .use(InertiaPlugin)
 .use(Chartkick.use(Chart))
+.use(Notifications)
 .component('QuillEditor', QuillEditor)
 .component('vueDebounce', vueDebounce)
 .mount(el);
