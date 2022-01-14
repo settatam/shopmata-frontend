@@ -110,10 +110,12 @@ import RemittanceModal from './Components/RemittanceModal.vue'
 import { onBeforeMount } from '@vue/runtime-core'
 import { reactive, ref } from '@vue/reactivity';
 import DeleteAlert from '../../../Components/DeleteAlert.vue'
+
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
   { name: 'Remittance', href: '/settings/remittance', current: true },
 ]
+
 export default {
     props:{store:Object, remittance:Object},
     components:{
@@ -140,6 +142,7 @@ export default {
         const delete_url = ref("remittance")
         const openConfirmation=ref(false)
         const account_detail = reactive({bank_name:'', account_number:'',account_name:'', routing_number:'', frequency:''})
+        
         onBeforeMount(()=>{
             if(remittance==null ){
                 account_detail.bank_name = ''
@@ -157,7 +160,7 @@ export default {
         }) 
         function close(){
             openConfirmation.value = false
-            window.location.href = '/settings/remittance'
+            window.location.href = 'remittance'
         }
         
         return{
@@ -167,7 +170,7 @@ export default {
             delete_msg,
             delete_url,
             close,
-            openConfirmation
+            openConfirmation,
         }
     }
 }
