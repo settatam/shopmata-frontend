@@ -1123,10 +1123,6 @@ select {
 	top: 0px;
 	bottom: 0px;
 }
-.inset-x-0 {
-	left: 0px;
-	right: 0px;
-}
 .left-0 {
 	left: 0px;
 }
@@ -2082,12 +2078,12 @@ select {
 	--tw-translate-x: 1.25rem;
 	transform: var(--tw-transform);
 }
-.translate-x-20 {
-	--tw-translate-x: 5rem;
-	transform: var(--tw-transform);
-}
 .translate-y-2 {
 	--tw-translate-y: 0.5rem;
+	transform: var(--tw-transform);
+}
+.translate-x-20 {
+	--tw-translate-x: 5rem;
 	transform: var(--tw-transform);
 }
 .rotate-90 {
@@ -2683,10 +2679,6 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
 }
-.bg-green-500 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
-}
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
 }
@@ -3031,14 +3023,14 @@ select {
 .pl-1 {
 	padding-left: 0.25rem;
 }
-.pb-12 {
-	padding-bottom: 3rem;
+.pt-0\.5 {
+	padding-top: 0.125rem;
 }
 .pt-0 {
 	padding-top: 0px;
 }
-.pt-0\.5 {
-	padding-top: 0.125rem;
+.pb-12 {
+	padding-bottom: 3rem;
 }
 .text-left {
 	text-align: left;
@@ -3625,10 +3617,6 @@ input[type='checkbox']:focus {
 .hover\:bg-indigo-100:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(224, 231, 255, var(--tw-bg-opacity));
-}
-.hover\:bg-green-600:hover {
-	--tw-bg-opacity: 1;
-	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
 .hover\:bg-opacity-50:hover {
 	--tw-bg-opacity: 0.5;

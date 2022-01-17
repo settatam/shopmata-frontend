@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\Store;
 use App\Models\Country;
 use App\Models\Customer;
+use App\Models\ShippingAddress;
+
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -71,39 +73,53 @@ class CustomersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $store = Store::store();
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make(Str::random(10))
-        ]);
-        $userId = $user->id;
-        $store_id = $user->store_id;
-        $customer = Customer::create([
-            'store_id' => session('store_id'),
-            'user_id' => $userId,
-            'country_id' => $request->country,
-            'state_id' => $request->state,
-            'phone_number' => $request->phone_number,
-            'city' => $request->city,
-            'is_active' => 1,
-            'address' => $request->address,
-            'address2' => $request->address2,
-            'accepts_marketing' => 1,
-            'zip' => $request->postal_code,
-            'password' => Hash::make(Str::random(10))
+    {   
+    
+        // $request->validate([
+        //     'first_name'   => ['required','string'],
+        //     'last_name'    => ['required','string'],
+        //     'email'        => ['required','email','max:75','unique:users'],
+        //     'phone_number' => ['required']
+        // ]);
 
-        ]);
+        try {
 
-        if ($customer && $user) {
-            Log::info('New Customer Created!');
-        } else {
-            Log::error('An Error occured while creating the customer!');
+            $user  = $request->user(); 
+
+            $customer = Customer::create([
+                'store_id'     => $user->store_id,
+                'first_name'   => $request->first_name,
+                'last_name'    => $request->last_name,
+                'email'    => $request->email,
+                'phone_number' => $request->phone_number,
+                'city'         => $request->city,
+                'is_active'    => 1,
+                'accepts_marketing' => 1,
+                'password' => Hash::make(Str::random(10))
+            ]);
+    
+            ShippingAddress::create([
+                'first_name'   => $request->first_name,
+                'last_name'    => $request->last_name,
+                'user_id' => $customer->id,
+                'country_id' => $request->country_id,
+                'state_id' => $request->state_id,
+                'city' => $request->city,
+                'is_default' => 1,
+                'address' => $request->address,
+                'address2' => $request->address2,
+                'zip' => $request->postal_code,
+                'country' => $request->country,
+                'state' => $request->state,
+            ]);
+
+            \Log::info("New customer added");
+            return response()->json(['message' => "Customer added successfully."], 200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to delete payout settings". $th->getMessage() ], 422);
         }
 
-        return Redirect::route('customers')->with('success', 'Customer created.');
     }
 
     /**
@@ -130,7 +146,7 @@ class CustomersController extends Controller
 
         // foreach($stats as )
 
-        $customer = Customer::with('orders.items')->with('shipping_addresses')->withTotalOrders($id)->find($id);
+        $customer = Customer::with(['orders.items','shipping_addresses'])->withTotalOrders($id)->find($id);
 
         $user = User::find($customer->user_id);
 

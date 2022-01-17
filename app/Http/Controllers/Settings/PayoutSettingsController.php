@@ -131,8 +131,8 @@ class PayoutSettingsController extends Controller
             \Log::info("Deleted Payout Settings");
             return response()->json(['message' => "Payout Settings deleted successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to delete payout settings"], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to delete payout settings"], 422);
         }
     }
 
