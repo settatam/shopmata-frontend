@@ -77,6 +77,10 @@
                             required
                             v-model="personal_info.first_name"
                         />
+                        <error-icon
+                            class="absolute top-11 right-2.5"
+                            v-show="firstNameError"
+                        />
                     </div>
 
                     <div class="required w-full mt-4">
@@ -93,6 +97,10 @@
                             placeholder=""
                             required
                             v-model="personal_info.last_name"
+                        />
+                        <error-icon
+                            class="absolute top-11 right-2.5"
+                            v-show="lastNameError"
                         />
                     </div>
                 </div>
@@ -112,6 +120,10 @@
                         required
                         v-model="personal_info.email"
                     />
+                    <error-icon
+                        class="absolute top-11 right-2.5"
+                        v-show="emailError"
+                    />
                 </div>
                 <div class="required w-full mr-5 mt-5">
                     <label
@@ -127,6 +139,10 @@
                         placeholder=""
                         required
                         v-model="personal_info.phone"
+                    />
+                    <error-icon
+                        class="absolute top-11 right-2.5"
+                        v-show="phoneError"
                     />
                 </div>
                 <div class="border-t-2 border-gray-300 mt-6 mb-7 -mx-8"></div>
@@ -165,6 +181,10 @@
                             required
                             v-model="address_info.address"
                         />
+                        <error-icon
+                            class="absolute top-11 right-2.5"
+                            v-show="addressError"
+                        />
                     </div>
                     <div class="required w-full ml-5">
                         <label
@@ -180,6 +200,10 @@
                             placeholder=""
                             required
                             v-model="address_info.apartment"
+                        />
+                        <error-icon
+                            class="absolute top-11 right-2.5"
+                            v-show="apartmentError"
                         />
                     </div>
                 </div>
@@ -206,6 +230,10 @@
                             {{ country.name }}
                         </option>
                     </select>
+                    <error-icon
+                        class="absolute top-11 right-2.5"
+                        v-show="countryError"
+                    />
                 </div>
                 <div class="flex mt-4">
                     <div class="required w-full">
@@ -232,6 +260,10 @@
                                 {{ state.name }}
                             </option>
                         </select>
+                        <error-icon
+                            class="absolute top-11 right-2.5"
+                            v-show="stateError"
+                        />
                     </div>
 
                     <div class="required w-full ml-5">
@@ -247,6 +279,10 @@
                             required
                             v-model="address_info.city"
                         />
+                        <error-icon
+                            class="absolute top-11 right-2.5"
+                            v-show="cityError"
+                        />
                     </div>
 
                     <div class="required w-full ml-5">
@@ -261,6 +297,10 @@
                             placeholder=""
                             required
                             v-model="address_info.zip"
+                        />
+                        <error-icon
+                            class="absolute top-11 right-2.5"
+                            v-show="zipError"
                         />
                     </div>
                 </div>
@@ -278,11 +318,170 @@
             </div>
             <div class="">
                 <button
-                    class="text-white bg-indigo-700 rounded-md px-8 py-3"
+                    type="button"
+                    class="disabled:bg-gray-400 text-white bg-indigo-700 rounded-md px-8 py-3"
+                    :class="
+                        personal_info.first_name.length > 1 &&
+                        personal_info.last_name.length > 1 &&
+                        personal_info.email.length > 1 &&
+                        personal_info.phone.length > 1 &&
+                        address_info.address.length > 1 &&
+                        address_info.apartment.length > 1 &&
+                        address_info.country_id.length > 1 &&
+                        address_info.state_id.length > 1 &&
+                        address_info.city.length > 1 &&
+                        address_info.zip.length
+                            ? 'bg-indigo-600'
+                            : 'bg-gray-400'
+                    "
+                    :disabled="loading"
                     @click="submit"
                 >
-                    Save
+                    <i
+                        class="fas fa-spinner fa-pulse text-white m-2"
+                        v-if="loading"
+                    ></i
+                    >{{ save }}
+                    <!-- Save -->
                 </button>
+                <NotificationGroup group="top" position="top">
+                    <div
+                        class="fixed inset-0 mt-8 flex items-start justify-end p-6 px-4 py-6 pointer-events-none"
+                    >
+                        <div class="w-full max-w-sm">
+                            <Notification
+                                v-slot="{ notifications, close }"
+                                enter="transform ease-out duration-300 transition"
+                                enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
+                                enter-to="translate-y-0 opacity-100 sm:translate-x-0"
+                                leave="transition ease-in duration-500"
+                                leave-from="opacity-100"
+                                leave-to="opacity-0"
+                                move="transition duration-500"
+                                move-delay="delay-300"
+                            >
+                                <div
+                                    class="w-full max-w-sm mt-4 overflow-hidden bg-white rounded-lg shadow-lg pointer-events-auto ring-1 ring-black ring-opacity-5"
+                                    v-for="notification in notifications"
+                                    :key="notification.id"
+                                >
+                                    <div class="p-4">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0">
+                                                <svg
+                                                    class="w-6 h-6 text-green-400"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <div class="ml-3 w-0 flex-1 pt-0.5">
+                                                <p
+                                                    class="font-semibold text-gray-800"
+                                                >
+                                                    {{ notification.title }}
+                                                </p>
+                                                <p
+                                                    class="text-sm font-semibold text-gray-500"
+                                                >
+                                                    {{ notification.text }}
+                                                </p>
+                                            </div>
+                                            <div
+                                                class="flex flex-shrink-0 ml-4"
+                                            >
+                                                <button
+                                                    @click="
+                                                        close(notification.id)
+                                                    "
+                                                    class="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+                                                >
+                                                    <span class="sr-only"
+                                                        >Close</span
+                                                    >
+                                                    <svg
+                                                        class="w-5 h-5"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                        aria-hidden="true"
+                                                    >
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Notification>
+                        </div>
+                    </div>
+                </NotificationGroup>
+
+                <NotificationGroup group="bottom" position="top">
+                    <div
+                        class="fixed inset-0 mt-8 flex items-start justify-end p-6 px-4 py-6 pointer-events-none"
+                    >
+                        <div class="w-full max-w-sm">
+                            <Notification
+                                v-slot="{ notifications }"
+                                enter="transform ease-out duration-300 transition"
+                                enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
+                                enter-to="translate-y-0 opacity-100 sm:translate-x-0"
+                                leave="transition ease-in duration-500"
+                                leave-from="opacity-100"
+                                leave-to="opacity-0"
+                                move="transition duration-500"
+                                move-delay="delay-300"
+                            >
+                                <div
+                                    class="flex w-full max-w-sm mx-auto mt-4 overflow-hidden bg-white rounded-lg shadow-md"
+                                    v-for="notification in notifications"
+                                    :key="notification.id"
+                                >
+                                    <div
+                                        class="flex items-center justify-center w-12 bg-red-500"
+                                    >
+                                        <svg
+                                            class="w-6 h-6 text-white fill-current"
+                                            viewBox="0 0 40 40"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+                                            ></path>
+                                        </svg>
+                                    </div>
+
+                                    <div class="px-4 py-2 -mx-3">
+                                        <div class="mx-3">
+                                            <span
+                                                class="font-semibold text-red-500"
+                                                >{{ notification.title }}</span
+                                            >
+                                            <p class="text-sm text-gray-600">
+                                                {{ notification.text }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Notification>
+                        </div>
+                    </div>
+                </NotificationGroup>
             </div>
         </div>
     </app-layout>
@@ -301,6 +500,8 @@ import {
 import { ChevronRightIcon, ArrowLeftIcon } from "@heroicons/vue/solid";
 import { HomeIcon } from "@heroicons/vue/outline";
 import { Inertia } from "@inertiajs/inertia";
+import { onBeforeMount } from "@vue/runtime-core";
+import ErrorIcon from "../../../assets/ErrorIcon.vue";
 
 const pages = [
     { name: "Add Customer", href: "/customers/create", current: false },
@@ -318,6 +519,8 @@ export default {
         errors: Object,
         states: Array,
         user: Object,
+        notification: Object,
+        customer_notification: Object,
     },
 
     components: {
@@ -329,53 +532,184 @@ export default {
         ArrowLeftIcon,
         ChevronRightIcon,
         HomeIcon,
+        ErrorIcon,
     },
 
-    data() {
-        return {
-            states: this.states,
-            notification: null,
-            country_state: {},
-            customer: {},
-            personal_info: {
-                first_name: "",
-                last_name: "",
-                email: "",
-                phone: "",
-            },
-            address_info: {
-                first_name: "",
-                last_name: "",
-                address: "",
-                apartment: "",
-                city: "",
-                state: "",
-            },
-            // last_name: this.last_name,
-        };
-    },
-    methods: {
-        submit() {
-            // this.customer.user = this.personal_info;
-            const customer = { ...this.personal_info, ...this.address_info };
-            Inertia.post("/customers", customer);
-        },
-    },
-    mounted() {
-        this.country_state = this.states;
-    },
-    watch: {
-        "address_info.country_id"(newVal, oldVal) {
-            //console.log(oldVal)
-            axios.get(`/api/states?country_id=${newVal}`).then((res) => {
-                this.country_state = res.data.data;
-                console.log(this.country_state);
-            });
-        },
-    },
-
-    setup(props) {
+    setup({ props, customer_notification, notification }) {
         const open = ref(false);
+        const customer = reactive();
+        const personal_info = reactive({
+            first_name: "",
+            last_name: "",
+            email: "",
+            phone: "",
+        });
+        const address_info = reactive({
+            address: "",
+            apartment: "",
+            country_id: "",
+            state_id: "",
+            city: "",
+            zip: "",
+        });
+        const firstNameError = ref(false);
+        const lastNameError = ref(false);
+        const emailError = ref(false);
+        const phoneError = ref(false);
+        const addressError = ref(false);
+        const apartmentError = ref(false);
+        const countryError = ref(false);
+        const stateError = ref(false);
+        const cityError = ref(false);
+        const zipError = ref(false);
+        const loading = ref(false);
+        const save = ref("Save");
+        const successMessage = ref("");
+
+        // onBeforeMount(() => {
+        //     customer_notification == null
+        //         ? (personal_info.first_name = notification.name)
+        //         : (personal_info.first_name = customer_notification.first_name);
+        // });
+        function onClickTop() {
+            notify(
+                {
+                    group: "top",
+                    title: "Success",
+                    text: successMessage.value,
+                },
+                4000
+            );
+        }
+        function onClickBot() {
+            notify(
+                {
+                    group: "bottom",
+                    title: "Error",
+                    text: successMessage.value,
+                },
+                4000
+            );
+        }
+        const loadingFn = () => {
+            loading.value = false;
+            save.value = "Save";
+            window.location.href = "/settings/notifications/";
+        };
+        const errorFn = () => {
+            loading.value = false;
+            save.value = "Save";
+        };
+
+        const submit = () => {
+            // If anyone has an error don't submit
+            if (
+                !personal_info.first_name.length ||
+                !personal_info.last_name.length ||
+                !personal_info.email.length ||
+                !personal_info.phone.length ||
+                !address_info.address.length ||
+                !address_info.apartment.length ||
+                !address_info.country_id.length ||
+                !address_info.state_id.length ||
+                !address_info.city.length ||
+                !address_info.zip.length
+            ) {
+                return;
+            } else {
+                axios.post("store", customer).then((res) => {
+                    loading.value = true;
+                    if (res.status == 200) {
+                        successMessage.value = res.data.message;
+                        onClickTop();
+                        save.value = "Saving";
+                        setTimeout(loadingFn, 3000);
+                    } else if (res.status == 422) {
+                        successMessage.value = res.data.message;
+                        onClickBot();
+                        setTimeout(errorFn, 3000);
+                    } else {
+                        successMessage.value = "Database Error";
+                        onClickBot();
+                        setTimeout(errorFn, 3000);
+                    }
+                });
+            }
+            // Check which has error and make the error ref true
+            if (!personal_info.first_name.length) {
+                firstNameError.value = true;
+            }
+            if (!personal_info.last_name.length) {
+                lastNameError.value = true;
+            }
+            if (!personal_info.email.length) {
+                emailError.value = true;
+            }
+            if (!personal_info.phone.length) {
+                phoneError.value = true;
+            }
+            if (!address_info.address.length) {
+                addressError.value = true;
+            }
+            if (!address_info.apartment.length) {
+                apartmentError.value = true;
+            }
+            if (!address_info.country_id.length) {
+                countryError.value = true;
+            }
+            if (!address_info.state_id.length) {
+                stateError.value = true;
+            }
+            if (!address_info.city.length) {
+                cityError.value = true;
+            }
+            if (!address_info.zip.length) {
+                zipError.value = true;
+            }
+        };
+
+        // data() {
+        //     return {
+        //         states: this.states,
+        //         notification: null,
+        //         country_state: {},
+        //         customer: {},
+        // personal_info: {
+        //     first_name: "",
+        //     last_name: "",
+        //     email: "",
+        //     phone: "",
+        // },
+        // address_info: {
+        //     first_name: "",
+        //     last_name: "",
+        //     address: "",
+        //     apartment: "",
+        //     city: "",
+        //     state: "",
+        // },
+        // last_name: this.last_name,
+        //     };
+        // },
+        // methods: {
+        // submit() {
+        // this.customer.user = this.personal_info;
+        //         const customer = { ...this.personal_info, ...this.address_info };
+        //         Inertia.post("/customers", customer);
+        //     },
+        // },
+        // mounted() {
+        //     this.country_state = this.states;
+        // },
+        // watch: {
+        // "address_info.country_id"(newVal, oldVal) {
+        //console.log(oldVal)
+        //         axios.get(`/api/states?country_id=${newVal}`).then((res) => {
+        //             this.country_state = res.data.data;
+        //             console.log(this.country_state);
+        //         });
+        //     },
+        // },
 
         // const customer = props.customer;
 
@@ -392,7 +726,21 @@ export default {
         return {
             pages,
             statusStyles,
-            // submit,
+            customer,
+            customer_notification,
+            personal_info,
+            address_info,
+            firstNameError,
+            lastNameError,
+            emailError,
+            phoneError,
+            addressError,
+            apartmentError,
+            countryError,
+            stateError,
+            cityError,
+            zipError,
+            submit,
             // list,
         };
     },
