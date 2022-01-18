@@ -247,16 +247,16 @@ export default {
     const account_number_error=ref(false)
     const routing_error=ref(false)
     const successMessage = ref('')
-    const edit = ref('Edit Changes')
+    const edit = ref('Save Changes')
     const loading=ref(false)
     const loadingFn =()=>{
       loading.value = false
-      edit.value = "Edit Changes"
+      edit.value = "Save Changes"
       closeModal()
       window.location.href = '/settings/remittance'
     }
     function errorFn() {
-      edit.value='Edit Changes';
+      edit.value='Save Changes';
       loading.value=false;
     }
 

@@ -41,14 +41,14 @@ class CustomersController extends Controller
                 $query->where('first_name', 'like', '%' . $request->search . '%')
                     ->orWhere('last_name', 'like', '%' . $request->search . '%');
             // $query;
-        })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->with('orders')->with('shipping_addresses')->paginate($pageSize);
+        })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->with(['orders','shipping_addresses'])->paginate($pageSize);
 
         // if ($request->name) ddbjgj($customers);
 
         foreach ($customers as $customer) {
             $categories = [];
-            $customer_user = User::with('orders')->with('shipping_addresses')->find($customer->user_id);
-            // $customer->total_order = $customer_user->orders->sum();
+            $customer_user = User::with(['orders','shipping_addresses'])->find($customer->user_id);
+            //$customer->total_order = $customer_user->orders->sum();
         }
 
         return Inertia::render('Customers/Index', compact('customers', 'filters'));
@@ -121,6 +121,9 @@ class CustomersController extends Controller
         }
 
     }
+
+
+
 
     /**
      * Display the specified resource.

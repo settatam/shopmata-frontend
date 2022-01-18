@@ -76,10 +76,7 @@
                                     v-model="store_details.name"
                                     required
                                 />
-                                <error-icon
-                                    class="absolute top-11 right-2.5"
-                                    v-show="storeNameError"
-                                />
+        
                             </div>
                             <div class="flex required mb-4">
                                 <div class="mr-2 w-full">
@@ -95,10 +92,7 @@
                                         v-model="store_details.account_email"
                                         required
                                     />
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storeAccountEmailError"
-                                    />
+                                    
                                 </div>
                                 <div class="ml-2 w-full">
                                     <label
@@ -113,10 +107,7 @@
                                         v-model="store_details.customer_email"
                                         required
                                     />
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storeCustomerEmailError"
-                                    />
+                                    
                                 </div>
                             </div>
                             <div class="required w-full mb-4">
@@ -142,10 +133,7 @@
                                         {{ industry.name }}
                                     </option>
                                 </select>
-                                <error-icon
-                                    class="absolute top-11 right-2.5"
-                                    v-show="storeIndustryIdError"
-                                />
+                                
                             </div>
                             <div
                                 class="border-t border-gray-300 mt-6 mb-5 -mx-8"
@@ -178,10 +166,7 @@
                                     v-model="store_details.business_name"
                                     required
                                 />
-                                <error-icon
-                                    class="absolute top-11 right-2.5"
-                                    v-show="storeBusinessNameError"
-                                />
+                                
                             </div>
                             <div class="required w-full mb-4">
                                 <label
@@ -196,10 +181,7 @@
                                     v-model="store_details.phone"
                                     required
                                 />
-                                <error-icon
-                                    class="absolute top-11 right-2.5"
-                                    v-show="storePhoneError"
-                                />
+                                
                             </div>
                             <div class="required w-full mb-4">
                                 <label
@@ -222,10 +204,7 @@
                                         {{ country.name }}
                                     </option>
                                 </select>
-                                <error-icon
-                                    class="absolute top-11 right-2.5"
-                                    v-show="storeCountryIdError"
-                                />
+                                
                             </div>
                             <div class="flex required mb-4">
                                 <div class="mr-2 w-full">
@@ -241,10 +220,7 @@
                                         v-model="store_details.city"
                                         required
                                     />
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storeCityError"
-                                    />
+                                    
                                 </div>
                                 <div class="mx-2 w-full">
                                     <label
@@ -269,10 +245,7 @@
                                             {{ state.name }}
                                         </option>
                                     </select>
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storeStateError"
-                                    />
+                                    
                                 </div>
                                 <div class="mr-2 w-full">
                                     <label
@@ -287,10 +260,7 @@
                                         v-model="store_details.zip"
                                         required
                                     />
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storeZipError"
-                                    />
+                                    
                                 </div>
                             </div>
 
@@ -326,10 +296,7 @@
                                         {{ timezone.text }}
                                     </option>
                                 </select>
-                                <error-icon
-                                    class="absolute top-11 right-2.5"
-                                    v-show="storeTimeZoneError"
-                                />
+                                
                             </div>
                             <div class="flex required mb-4">
                                 <div class="mr-2 w-full">
@@ -352,10 +319,7 @@
                                             {{ unit.unit }}
                                         </option>
                                     </select>
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storeUnitError"
-                                    />
+                                    
                                 </div>
                                 <div class="ml-2 w-full">
                                     <label
@@ -372,10 +336,7 @@
                                         "
                                         required
                                     />
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storeWeightError"
-                                    />
+                                    
                                 </div>
                             </div>
                             <h2 class="text-lg font-semibold mb-2">
@@ -400,10 +361,7 @@
                                         v-model="store_details.order_id_prefix"
                                         required
                                     />
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storePrefixError"
-                                    />
+                                    
                                 </div>
                                 <div class="ml-2 w-full">
                                     <label
@@ -418,10 +376,7 @@
                                         v-model="store_details.order_id_suffix"
                                         required
                                     />
-                                    <error-icon
-                                        class="absolute top-11 right-2.5"
-                                        v-show="storeSuffixError"
-                                    />
+                                    
                                 </div>
                             </div>
                             <div
@@ -463,42 +418,93 @@
                         <span class="text-indigo-700 cursor-pointer" >contact support</span> 
                       </inertia-link>
                     if you want to change your currency</p> -->
-                                <error-icon
-                                    class="absolute top-11 right-2.5"
-                                    v-show="storeCurrencyError"
-                                />
+                                
                             </div>
                         </div>
-                        <!-- <button class="text-white bg-indigo-700 rounded-md px-8 py-3 float-right my-5" @click="submit">Save Changes</button> -->
-                        <div class="flex items-center mb-5">
-                            <button
-                                type="button"
-                                class="rounded-md border border-transparent shadow-sm px-7 py-3 text-base font-medium text-white sm:text-sm"
-                                :class="
-                                    store_details.length > 1 &&
-                                    store_details.length > 1
-                                        ? 'bg-indigo-600'
-                                        : 'bg-gray-400'
-                                "
-                                @click="submit"
+                        <button class="text-white  rounded-md px-8 py-3 float-right my-5" :class="loading ? 'bg-gray-400':'bg-indigo-600' " @click="submit" :disabled='loading'> <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{save}}</button>
+                        <NotificationGroup group="top" position="top" >
+                        <div class="fixed inset-0 mt-8 flex items-start justify-end p-6 px-4 py-6 pointer-events-none">
+                            <div class="w-full max-w-sm">
+                            <Notification
+                                v-slot="{ notifications, close }"
+                                enter="transform ease-out duration-300 transition"
+                                enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
+                                enter-to="translate-y-0 opacity-100 sm:translate-x-0"
+                                leave="transition ease-in duration-500"
+                                leave-from="opacity-100"
+                                leave-to="opacity-0"
+                                move="transition duration-500"
+                                move-delay="delay-300"
                             >
-                                <i
-                                    class="fas fa-spinner fa-pulse text-white m-2"
-                                    v-if="loading"
-                                ></i
-                                >{{ save }}
-                            </button>
+                                <div
+                                class="w-full max-w-sm mt-4 overflow-hidden bg-white rounded-lg shadow-lg pointer-events-auto ring-1 ring-black ring-opacity-5"
+                                v-for="notification in notifications"
+                                :key="notification.id"
+                                >
+                                <div class="p-4">
+                                    <div class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <svg class="w-6 h-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3 w-0 flex-1 pt-0.5">
+                                        <p class="font-semibold text-gray-800">{{ notification.title }}</p>
+                                        <p class="text-sm font-semibold text-gray-500">{{ notification.text }}</p>
+                                    </div>
+                                    <div class="flex flex-shrink-0 ml-4">
+                                        <button @click="close(notification.id)" class="inline-flex text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                        <span class="sr-only">Close</span>
+                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                        </button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </Notification>
+                            </div>
                         </div>
-                        <error
-                            v-if="error"
-                            :msg="successMessage"
-                            class="absolute top-2 w-full"
-                        />
-                        <success
-                            v-if="success"
-                            :msg="successMessage"
-                            class="absolute top-2 w-full"
-                        />
+                        </NotificationGroup>
+
+                        <NotificationGroup group="bottom" position="top">
+                        <div class="fixed inset-0 mt-8 flex items-start justify-end p-6 px-4 py-6 pointer-events-none">
+                            <div class="w-full max-w-sm">
+                            <Notification
+                                v-slot="{ notifications }"
+                                enter="transform ease-out duration-300 transition"
+                                enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"
+                                enter-to="translate-y-0 opacity-100 sm:translate-x-0"
+                                leave="transition ease-in duration-500"
+                                leave-from="opacity-100"
+                                leave-to="opacity-0"
+                                move="transition duration-500"
+                                move-delay="delay-300"
+                            >
+                                <div
+                                class="flex w-full max-w-sm mx-auto mt-4 overflow-hidden bg-white rounded-lg shadow-md"
+                                v-for="notification in notifications"
+                                :key="notification.id"
+                                >
+                                <div class="flex items-center justify-center w-12 bg-red-500">
+                                    <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"
+                                    ></path>
+                                    </svg>
+                                </div>
+
+                                <div class="px-4 py-2 -mx-3">
+                                    <div class="mx-3">
+                                    <span class="font-semibold text-red-500">{{notification.title}}</span>
+                                    <p class="text-sm text-gray-600">{{notification.text}}</p>
+                                    </div>
+                                </div>
+                                </div>
+                            </Notification>
+                            </div>
+                        </div>
+                        </NotificationGroup>
                     </div>
                 </div>
             </div>
@@ -512,6 +518,8 @@ import AppLayout from "../../Layouts/AppLayout.vue";
 import Search from "../Search.vue";
 import Nav from "./Nav";
 import axios from "axios";
+//import ErrorIcon from '../../../assets/ErrorIcon.vue'
+import { notify } from "notiwind"
 import {
     Dialog,
     DialogOverlay,
@@ -553,6 +561,7 @@ export default {
         TransitionRoot,
         ChevronRightIcon,
         HomeIcon,
+        //ErrorIcon
     },
 
     setup({ store, states }) {
@@ -560,10 +569,32 @@ export default {
         const state = ref(states);
         const country_state = ref({});
         const store_details = reactive(store);
-        const message = ref("");
         const save = ref("Save Changes");
         const loading = ref(false);
-        const success = ref(false);
+        const successMessage = ref("")
+        function onClickTop() {
+                notify({
+                    group: "top",
+                    title: "Success",
+                    text: successMessage.value
+                }, 4000)
+            }
+        function onClickBot() {
+            notify({
+                group: "bottom",
+                title: "Error",
+                text: successMessage.value
+            }, 4000)
+        }
+        const loadingFn =()=>{
+          loading.value = false
+          save.value = "Save Changes"
+          //window.location.href = '/settings/notifications/'
+        }
+        const errorFn =()=>{
+          loading.value = false
+          save.value = "Save Changes"
+        }
         onBeforeMount(() => {
             country_state.value = state.value;
         });
@@ -575,7 +606,23 @@ export default {
                 });
         });
         const submit = () => {
-            Inertia.put("/store", store_details);
+            axios.put("/store", store_details).then((res)=>{
+                loading.value = true
+                if(res.status==200){
+                    successMessage.value=res.data.notification.message
+                    setTimeout(onClickTop,2000)
+                    save.value = "Saving"
+                    setTimeout(loadingFn,3000)
+                  }else if(res.status==422){
+                    successMessage.value=res.data.notification.message
+                    setTimeout(onClickBot,2000)
+                    setTimeout(errorFn,3000)
+                  }else{
+                    successMessage.value="Database Error"
+                    setTimeout(onClickBot,2000)
+                    setTimeout(errorFn,3000)
+                  }
+            });
         };
         return {
             statusStyles,
@@ -583,10 +630,15 @@ export default {
             //states,
             pages,
             state,
+            save,
+            successMessage,
             country_state,
             store_details,
             submit,
+            loading,
             //updateStates
+            onClickTop,
+            onClickBot
         };
     },
 };

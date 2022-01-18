@@ -211,7 +211,7 @@
                                 <h2 class="font-bold text-lg mb-1 mt-2.5">
                                     {{ customer.number_of_orders }}
                                 </h2>
-                                <p class="text-gray-400">Orders Placed</p>
+                                <p class="text-gray-400">Total Orders Placed</p>
                             </div>
                         </div>
                         <div class="bg-white py-6 px-4 mb-4 rounded-sm">

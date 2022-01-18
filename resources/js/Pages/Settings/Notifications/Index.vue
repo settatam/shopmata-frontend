@@ -447,7 +447,7 @@
                                         </p>
                                     </div>
                                 </div>
-                            </div>
+                            </div><!-- 
                             <h1 class="text-2xl font-semibold">
                                 Staff order notifications
                             </h1>
@@ -557,7 +557,7 @@
                                         Enable Desktop Notifications
                                     </button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

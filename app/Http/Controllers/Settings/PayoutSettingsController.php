@@ -31,21 +31,14 @@ class PayoutSettingsController extends Controller
      */
     public function store(Request $request)
     {   
-        $request->validate([
-            'account_name'=>['required'],
-            'payout_schedule'=>['required'],
-            'account_number'=>['required']
-        ]);
-
+        
         $user = request()->user();
-
         
         $request->validate([
             'account_name'=>['required'],
             'payout_schedule'=>['required'],
             'account_number'=>['required']
         ]);
-
 
         try {
             $payout_setting = new PayoutSetting;
