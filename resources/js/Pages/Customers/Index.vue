@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="w-full mx-10 md:w-2/5">
+                <div class="w-full ml-10 md:w-2/5">
                     <label
                         for="delivery_type"
                         class="block text-gray-600 font-semibold mb-2 bg-transparent"
@@ -88,7 +88,7 @@
                 </h2>
             </div> -->
             <!-- Activity table (small breakpoint and up) -->
-            <div class="hidden sm:block">
+            <div class="hidden sm:block mb-10">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
                     <Search v-bind:suggestions="suggestions"></Search>
                     <div class="flex flex-col mt-4">
@@ -133,13 +133,7 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
                                         >
-                                            Location
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
-                                        >
-                                            Total Order
+                                            Phone Number
                                         </th>
                                         <th
                                             scope="col"
@@ -197,13 +191,9 @@
                                         <td
                                             class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
                                         >
-                                            {{ customer.state }}
-                                            {{ customer.country }}
-                                        </td>
-                                        <td
-                                            class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
-                                        >
-                                            {{ customer.total_orders }}
+                                            {{ customer.phone_number }}
+                                            <!-- {{ customer.state }}
+                                            {{ customer.country }} -->
                                         </td>
                                         <td
                                             class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
@@ -219,7 +209,7 @@
                             </table>
                         </div>
                         <!-- Pagination -->
-                        <nav
+                        <!-- <nav
                             class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
                             aria-label="Pagination"
                         >
@@ -256,7 +246,9 @@
                                     Next
                                 </a>
                             </div>
-                        </nav>
+                        </nav> -->
+
+                        <!-- Customer modal -->
                         <add-customer-modal
                             v-if="popModal"
                             @close="this.popModal = false"
