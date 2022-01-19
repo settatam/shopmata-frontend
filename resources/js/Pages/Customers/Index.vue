@@ -439,13 +439,19 @@ export default {
         const open = ref(false);
         const date_filter= reactive({date_from:'',date_to:''})
 
-        watch(date_filter ,(curr,prev)=>{
+        /* watch(date_filter ,(curr,prev)=>{
             axios.get('customers',curr).then((res)=>{
                 console.log(res)
             })
-        })
+        }) */
+        function submit(){
+            axios.get('customers',date_filter).then((res)=>{
+                console.log(res.data)
+            })
+        }
         return{
-            date_filter
+            date_filter,
+            submit
         }
     },
 };
