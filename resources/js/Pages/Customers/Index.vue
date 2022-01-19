@@ -26,7 +26,7 @@
                             type="button"
                             class="inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                         >
-                        <!-- <p
+                            <!-- <p
                             @click="addCustomer"
                             class="cursor-pointer inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                         > -->
@@ -40,8 +40,10 @@
         </div>
 
         <div class="mt-6">
-            <div class="flex items-center justify-between py-2 px-8 rounded">
-                <div class="w-full md:w-2/5">
+            <div
+                class="flex items-center justify-between py-2 px-8 rounded md:w-4/5"
+            >
+                <div class="w-full md:w-4/5">
                     <label
                         for="search"
                         class="block text-gray-600 font-semibold mb-2 bg-transparent"
@@ -64,50 +66,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full md:w-1/5 px-3">
-                    <label
-                        for="payment_type"
-                        class="block text-gray-600 font-semibold mb-2 bg-transparent"
-                        >Location</label
-                    >
-                    <select
-                        id="payment_type"
-                        type="payment_type"
-                        defaultValue="all"
-                        class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
-                    >
-                        <option value="all">All</option>
-                    </select>
-                </div>
-                <div class="w-full md:w-1/5 px-3">
+
+                <div class="w-full ml-10 md:w-2/5">
                     <label
                         for="delivery_type"
                         class="block text-gray-600 font-semibold mb-2 bg-transparent"
                         >Date Created</label
                     >
-                    <select
+                    <input
                         id="delivery_type"
-                        type="delivery_type"
+                        type="date"
+                        name="date"
                         defaultValue="all"
                         class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
-                    >
-                        <option value="all">All</option>
-                    </select>
-                </div>
-                <div class="w-full md:w-1/5 md:px-3">
-                    <label
-                        for="fulfillment_type"
-                        class="block text-gray-600 font-semibold mb-2 bg-transparent"
-                        >Total Orders</label
-                    >
-                    <select
-                        id="fulfillment_type"
-                        type="fulfillment_type"
-                        defaultValue="all"
-                        class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
-                    >
-                        <option value="all">All</option>
-                    </select>
+                    />
                 </div>
             </div>
             <!-- <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,7 +88,7 @@
                 </h2>
             </div> -->
             <!-- Activity table (small breakpoint and up) -->
-            <div class="hidden sm:block">
+            <div class="hidden sm:block mb-10">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
                     <Search v-bind:suggestions="suggestions"></Search>
                     <div class="flex flex-col mt-4">
@@ -161,13 +133,7 @@
                                             scope="col"
                                             class="px-6 py-3 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
                                         >
-                                            Location
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            class="px-6 py-3 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
-                                        >
-                                            Total Order
+                                            Phone Number
                                         </th>
                                         <th
                                             scope="col"
@@ -225,13 +191,9 @@
                                         <td
                                             class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
                                         >
-                                            {{ customer.state }}
-                                            {{ customer.country }}
-                                        </td>
-                                        <td
-                                            class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
-                                        >
-                                            {{ customer.total_orders }}
+                                            {{ customer.phone_number }}
+                                            <!-- {{ customer.state }}
+                                            {{ customer.country }} -->
                                         </td>
                                         <td
                                             class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
@@ -247,7 +209,7 @@
                             </table>
                         </div>
                         <!-- Pagination -->
-                        <nav
+                        <!-- <nav
                             class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
                             aria-label="Pagination"
                         >
@@ -284,7 +246,9 @@
                                     Next
                                 </a>
                             </div>
-                        </nav>
+                        </nav> -->
+
+                        <!-- Customer modal -->
                         <add-customer-modal
                             v-if="popModal"
                             @close="this.popModal = false"
