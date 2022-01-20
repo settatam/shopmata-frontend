@@ -446,8 +446,12 @@ export default {
             })
         }) */
         function submit(){
-            axios.get('customers',filter).then((res)=>{
-                console.log(res.data)
+            axios.get('customers',{
+                params:{
+                    filter
+                }
+            }).then((res)=>{
+                console.log(res)
             })
         }
         return{
