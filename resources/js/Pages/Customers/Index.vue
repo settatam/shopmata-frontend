@@ -486,9 +486,12 @@ export default {
             })
         }) */
         function submit(){
-            axios.get('customers',{
+            axios.get('/customers',{
                 params:{
-                    filter
+                    from_date:filter.from_date,
+                    to_date: filter.to_date,
+                    q:filter.q,
+                    filter:true
                 }
             }).then((res)=>{
                 console.log(res)
