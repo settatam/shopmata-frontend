@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\Store;
 use App\Models\Country;
 use App\Models\Customer;
+use App\Http\Helpers\Helper;
+
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +19,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Carbon\Carbon;
+
+
 
 class CustomersController extends Controller
 {
@@ -27,28 +32,24 @@ class CustomersController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $pageSize = $request->has('pageSize') ? $request->pageSize : 50;
-        $data = [];
-        // $customers = Customer::all()->with('orders')->with('shipping_addresses')->paginate(50);
+        $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
+        $data      = [];
+        $from_date = Helper::formatDate($request->from_date);
+        $to_date   = Helper::formatDate($request->to_date);
+        $filters   = $request->all('q', 'orderBy', 'sortOrder');
+        $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request, $from_date, $to_date) {
+            if ($request->filter) {
+                $query->where('first_name', 'like', '%' . $request->q . '%')
+                    ->orWhere('last_name', 'like', '%' . $request->q . '%')
+                    ->orWhere('email', 'like', '%' . $request->q . '%')
+                    ->orWhere('phone_number', 'like', '%' . $request->q . '%');
+            }
+        })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
 
-        $filters = $request->all('search', 'orderBy', 'sortOrder');
-
-        $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request) {
-            if ($request->search)
-                $query->where('first_name', 'like', '%' . $request->search . '%')
-                    ->orWhere('last_name', 'like', '%' . $request->search . '%');
-            // $query;
-        })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->with('orders')->with('shipping_addresses')->paginate($pageSize);
-
-        // if ($request->name) ddbjgj($customers);
-
-        foreach ($customers as $customer) {
-            $categories = [];
-            $customer_user = User::with('orders')->with('shipping_addresses')->find($customer->user_id);
-            // $customer->total_order = $customer_user->orders->sum();
+        if ($request->filter && $from_date && $to_date) {
+            $customers->whereBetween('created_at', [$from_date, $to_date]);
         }
-
+        
         return Inertia::render('Customers/Index', compact('customers', 'filters'));
     }
 
@@ -71,40 +72,57 @@ class CustomersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $store = Store::store();
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make(Str::random(10))
-        ]);
-        $userId = $user->id;
-        $store_id = $user->store_id;
-        $customer = Customer::create([
-            'store_id' => session('store_id'),
-            'user_id' => $userId,
-            'country_id' => $request->country,
-            'state_id' => $request->state,
-            'phone_number' => $request->phone_number,
-            'city' => $request->city,
-            'is_active' => 1,
-            'address' => $request->address,
-            'address2' => $request->address2,
-            'accepts_marketing' => 1,
-            'zip' => $request->postal_code,
-            'password' => Hash::make(Str::random(10))
+    {   
+    
+        // $request->validate([
+        //     'first_name'   => ['required','string'],
+        //     'last_name'    => ['required','string'],
+        //     'email'        => ['required','email','max:75','unique:users'],
+        //     'phone_number' => ['required']
+        // ]);
 
-        ]);
+        try {
 
-        if ($customer && $user) {
-            Log::info('New Customer Created!');
-        } else {
-            Log::error('An Error occured while creating the customer!');
+            $user  = $request->user(); 
+
+            $customer = Customer::create([
+                'store_id'     => $user->store_id,
+                'first_name'   => $request->first_name,
+                'last_name'    => $request->last_name,
+                'email'    => $request->email,
+                'phone_number' => $request->phone_number,
+                'city'         => $request->city,
+                'is_active'    => 1,
+                'accepts_marketing' => 1,
+                'password' => Hash::make(Str::random(10))
+            ]);
+    
+            ShippingAddress::create([
+                'first_name'   => $request->first_name,
+                'last_name'    => $request->last_name,
+                'user_id' => $customer->id,
+                'country_id' => $request->country_id,
+                'state_id' => $request->state_id,
+                'city' => $request->city,
+                'is_default' => 1,
+                'address' => $request->address,
+                'address2' => $request->address2,
+                'zip' => $request->postal_code,
+                'country' => $request->country,
+                'state' => $request->state,
+            ]);
+
+            \Log::info("New customer added");
+            return response()->json(['message' => "Customer added successfully."], 200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to delete payout settings". $th->getMessage() ], 422);
         }
 
-        return Redirect::route('customers')->with('success', 'Customer created.');
     }
+
+
+
 
     /**
      * Display the specified resource.
@@ -130,7 +148,7 @@ class CustomersController extends Controller
 
         // foreach($stats as )
 
-        $customer = Customer::with('orders.items')->with('shipping_addresses')->withTotalOrders($id)->find($id);
+        $customer = Customer::with(['orders.items','shipping_addresses'])->withTotalOrders($id)->find($id);
 
         $user = User::find($customer->user_id);
 

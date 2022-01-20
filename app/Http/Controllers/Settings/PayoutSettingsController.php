@@ -31,21 +31,14 @@ class PayoutSettingsController extends Controller
      */
     public function store(Request $request)
     {   
-        $request->validate([
-            'account_name'=>['required'],
-            'payout_schedule'=>['required'],
-            'account_number'=>['required']
-        ]);
-
+        
         $user = request()->user();
-
         
         $request->validate([
             'account_name'=>['required'],
             'payout_schedule'=>['required'],
             'account_number'=>['required']
         ]);
-
 
         try {
             $payout_setting = new PayoutSetting;
@@ -131,8 +124,8 @@ class PayoutSettingsController extends Controller
             \Log::info("Deleted Payout Settings");
             return response()->json(['message' => "Payout Settings deleted successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to delete payout settings"], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to delete payout settings"], 422);
         }
     }
 
