@@ -46,8 +46,8 @@ class CustomersController extends Controller
                     ->orWhere('phone_number', 'like', '%' . $request->q . '%');
             }
         })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
-
-        if ($request->filter && $from_date && $to_date) {
+      
+        if ($request->ajax() && $from_date && $to_date) {
             $customers->whereBetween('created_at', [$from_date, $to_date]);
             return CustomerCollection::collection($customers);
         }
