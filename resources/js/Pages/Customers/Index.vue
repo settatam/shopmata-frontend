@@ -438,7 +438,7 @@ export default {
 
     setup() {
         const open = ref(false);
-        const filter= reactive({from_date:'',to_date:'',q:''})
+        const filter= reactive({from_date:'',to_date:'',q:'',filter:true})
 
         /* watch(date_filter ,(curr,prev)=>{
             axios.get('customers',curr).then((res)=>{
