@@ -35,7 +35,7 @@ class CustomersController extends Controller
     {
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
 
-        //return $request->all();
+        return $request->all();
         $data      = [];
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
