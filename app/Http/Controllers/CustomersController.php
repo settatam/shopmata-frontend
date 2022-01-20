@@ -8,7 +8,7 @@ use App\Models\Order;
 use App\Models\Store;
 use App\Models\Country;
 use App\Models\Customer;
-use App\Models\ShippingAddress;
+use App\Http\Helpers\Helper;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Carbon\Carbon;
+
 
 
 class CustomersController extends Controller
@@ -30,28 +32,23 @@ class CustomersController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $pageSize = $request->has('pageSize') ? $request->pageSize : 50;
-        $data = [];
-        // $customers = Customer::all()->with('orders')->with('shipping_addresses')->paginate(50);
-
-        $filters = $request->all('search', 'orderBy', 'sortOrder');
-
-        $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request) {
-            if ($request->search)
-                $query->where('first_name', 'like', '%' . $request->search . '%')
-                    ->orWhere('last_name', 'like', '%' . $request->search . '%');
-            // $query;
-        })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->with(['orders','shipping_addresses'])->paginate($pageSize);
-
-        // if ($request->name) ddbjgj($customers);
-
-        foreach ($customers as $customer) {
-            $categories = [];
-            $customer_user = User::with(['orders','shipping_addresses'])->find($customer->user_id);
-            //$customer->total_order = $customer_user->orders->sum();
+        $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
+        $data      = [];
+        $from_date = Helper::formatDate($request->from_date);
+        $to_date   = Helper::formatDate($request->to_date);
+        $filters   = $request->all('q', 'orderBy', 'sortOrder');
+        $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request, $from_date, $to_date) {
+            if ($request->filter) {
+                $query->where('first_name', 'like', '%' . $request->q . '%')
+                    ->orWhere('last_name', 'like', '%' . $request->q . '%')
+                    ->orWhere('email', 'like', '%' . $request->q . '%')
+                    ->orWhere('phone_number', 'like', '%' . $request->q . '%');
+            }
+        })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
+        if ($request->filter && $from_date && $to_date) {
+            $customers->whereBetween('created_at', [$from_date, $to_date]);
         }
-
+    
         return Inertia::render('Customers/Index', compact('customers', 'filters'));
     }
 
