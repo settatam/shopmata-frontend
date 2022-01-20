@@ -64,7 +64,7 @@
                                 id="date_from"
                                 type="date"
                                 name="date"
-                                v-model="filter.date_from"
+                                v-model="filter.from_date"
                                 defaultValue="all"
                                 class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
                             />
@@ -81,7 +81,7 @@
                                 id="date_to"
                                 type="date"
                                 name="date"
-                                v-model="filter.date_to"
+                                v-model="filter.to_date"
                                 defaultValue="all"
                                 class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
                             />
@@ -101,7 +101,7 @@
             <!-- Activity table (small breakpoint and up) -->
             <div class="hidden sm:block mb-10">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
-                    <Search v-bind:suggestions="suggestions"></Search>
+                   
                     <div class="flex flex-col mt-4">
                         <div
                             class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg"
@@ -260,13 +260,13 @@
                         </nav> -->
 
                         <!-- Customer modal -->
-                        <add-customer-modal
+                        <!-- <add-customer-modal
                             v-if="popModal"
                             @close="this.popModal = false"
                             :login="login"
                             :title="title"
                             :buttonMsg="buttonMsg"
-                        />
+                        /> -->
                     </div>
                 </div>
             </div>
