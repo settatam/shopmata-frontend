@@ -36,7 +36,6 @@ class CustomersController extends Controller
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
 
         $data      = [];
-        ///return $request->q;
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
         $filters   = $request->all('q', 'orderBy', 'sortOrder');
@@ -45,16 +44,19 @@ class CustomersController extends Controller
                 $query->where('first_name', 'like', '%' . $request->q . '%')
                     ->orWhere('last_name', 'like', '%' . $request->q . '%')
                     ->orWhere('email', 'like', '%' . $request->q . '%')
-                    ->orWhere('phone_number', 'like', '%' . $request->q . '%');
+                    ->orWhere('phone_number', 'like', '%' . $request->q . '%')
+                     ->whereBetween('created_at', [$from_date, $to_date]);
+            }
+
+            if ($request->filter && !$request->q && $from_date && $to_date) {
+                $query->whereBetween('created_at', [$from_date, $to_date]);
             }
         })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
       
-        if ($request->filter && $request->ajax() ) {
-            if ($from_date && $to_date) {
-               $customers->whereBetween('crdeated_at', [$from_date, $to_date]);
-            }
+        if ( $request->ajax() ) {
             return CustomerCollection::collection($customers);
         }
+
 
         return Inertia::render('Customers/Index', compact('customers', 'filters'));
     }
