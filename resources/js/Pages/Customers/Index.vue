@@ -485,10 +485,14 @@ export default {
                 console.log(res)
             })
         }) */
-        function submit() {
-            axios.get("customers", filter).then((res) => {
-                console.log(res.data);
-            });
+        function submit(){
+            axios.get('customers',{
+                params:{
+                    filter
+                }
+            }).then((res)=>{
+                console.log(res)
+            })
         }
         return {
             filter,
