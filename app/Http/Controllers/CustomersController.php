@@ -36,11 +36,12 @@ class CustomersController extends Controller
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
 
         $data      = [];
+        ///return $request->q;
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
         $filters   = $request->all('q', 'orderBy', 'sortOrder');
         $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request, $from_date, $to_date) {
-            if ($request->filter) {
+            if ($request->filter && $request->q) {
                 $query->where('first_name', 'like', '%' . $request->q . '%')
                     ->orWhere('last_name', 'like', '%' . $request->q . '%')
                     ->orWhere('email', 'like', '%' . $request->q . '%')
@@ -50,7 +51,7 @@ class CustomersController extends Controller
       
         if ($request->filter && $request->ajax() ) {
             if ($from_date && $to_date) {
-               $customers->whereBetween('created_at', [$from_date, $to_date]);
+               $customers->whereBetween('crdeated_at', [$from_date, $to_date]);
             }
             return CustomerCollection::collection($customers);
         }
