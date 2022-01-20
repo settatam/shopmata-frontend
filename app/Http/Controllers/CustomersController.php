@@ -34,6 +34,8 @@ class CustomersController extends Controller
     public function index(Request $request)
     {
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
+
+        //return $request->all();
         $data      = [];
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
@@ -47,10 +49,12 @@ class CustomersController extends Controller
             }
         })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
       
-        if ($request->ajax() ) {
+        if ($request->filter && $request->ajax() ) {
             if ($from_date && $to_date) {
                $customers->whereBetween('created_at', [$from_date, $to_date]);
             }
+
+            dd(true);
             return CustomerCollection::collection($customers);
         }
 
@@ -64,7 +68,6 @@ class CustomersController extends Controller
      */
     public function create()
     {
-        //
         $countries = Country::all();
         return Inertia::render('Customers/Create', compact('countries'));
     }

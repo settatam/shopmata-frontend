@@ -40,9 +40,15 @@
         </div>
 
         <div class="mt-6">
-            <div class="flex items-center justify-between py-2 px-8 rounded gap-8">
+            <div
+                class="flex items-center justify-between py-2 px-8 rounded gap-8"
+            >
                 <div class="w-full">
-                    <label for="search" class="block text-gray-600 font-semibold mb-2 bg-transparent">Search</label>
+                    <label
+                        for="search"
+                        class="block text-gray-600 font-semibold mb-2 bg-transparent"
+                        >Search</label
+                    >
                     <div class="relative">
                         <input
                             id="search"
@@ -51,15 +57,24 @@
                             placeholder="Search by name, email...."
                             class="block pl-12 py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
                         />
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <SearchIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true"/>
+                        <div
+                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                        >
+                            <SearchIcon
+                                class="flex-shrink-0 h-5 w-5 text-gray-400"
+                                aria-hidden="true"
+                            />
                         </div>
                     </div>
                 </div>
-                <div class="w-full flex gap-3 ">
+                <div class="w-full flex gap-3">
                     <div class="flex">
                         <div class="">
-                            <label for="date_from" class="block text-gray-600 font-semibold mb-2 bg-transparent">Date Created</label>
+                            <label
+                                for="date_from"
+                                class="block text-gray-600 font-semibold mb-2 bg-transparent"
+                                >Date Created</label
+                            >
                             <input
                                 id="date_from"
                                 type="date"
@@ -70,13 +85,23 @@
                             />
                         </div>
                         <div>
-                            <label for="" class="block text-gray-600 font-semibold mb-2 bg-transparent text-transparent">None</label>
-                            <div class="my-auto flex border border-gray-300 py-2 px-4">
-                                <arrow-right-icon class="w-5 h-6 "/>
+                            <label
+                                for=""
+                                class="block text-gray-600 font-semibold mb-2 bg-transparent text-transparent"
+                                >None</label
+                            >
+                            <div
+                                class="my-auto flex border border-gray-300 py-2 px-4"
+                            >
+                                <arrow-right-icon class="w-5 h-6" />
                             </div>
                         </div>
                         <div class="">
-                            <label for="date_to" class="block text-gray-600 font-semibold mb-2 bg-transparent text-transparent">None</label>
+                            <label
+                                for="date_to"
+                                class="block text-gray-600 font-semibold mb-2 bg-transparent text-transparent"
+                                >None</label
+                            >
                             <input
                                 id="date_to"
                                 type="date"
@@ -88,8 +113,18 @@
                         </div>
                     </div>
                     <div>
-                        <label for="delivery_type" class="block text-gray-600 font-semibold mb-2 bg-transparent text-transparent">None</label>
-                        <button type="button" class=" disabled:bg-gray-400 rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-2 text-center text-xs lg:text-base font-medium text-white sm:text-sm bg-indigo-600"  @click="submit" >Search</button>
+                        <label
+                            for="delivery_type"
+                            class="block text-gray-600 font-semibold mb-2 bg-transparent text-transparent"
+                            >None</label
+                        >
+                        <button
+                            type="button"
+                            class="disabled:bg-gray-400 rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-2 text-center text-xs lg:text-base font-medium text-white sm:text-sm bg-indigo-600"
+                            @click="submit"
+                        >
+                            Search
+                        </button>
                     </div>
                 </div>
             </div>
@@ -277,7 +312,7 @@
 <script>
 import { reactive, ref, watch } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import { PlusIcon, EyeIcon, PencilIcon, TrashIcon, } from "@heroicons/vue/solid";
+import { PlusIcon, EyeIcon, PencilIcon, TrashIcon } from "@heroicons/vue/solid";
 import { SearchIcon, ArrowRightIcon } from "@heroicons/vue/outline";
 // import Search from '../Search.vue'
 // import axios from "axios"
@@ -418,7 +453,7 @@ export default {
         PencilIcon,
         TrashIcon,
         AddCustomerModal,
-        ArrowRightIcon
+        ArrowRightIcon,
         // SideNav,
         // ExportIcon,
         // ImportIcon,
@@ -438,22 +473,27 @@ export default {
 
     setup() {
         const open = ref(false);
-        const filter= reactive({from_date:'',to_date:'',q:'',filter:true})
+        const filter = reactive({
+            from_date: "",
+            to_date: "",
+            q: "",
+            filter: true,
+        });
 
         /* watch(date_filter ,(curr,prev)=>{
             axios.get('customers',curr).then((res)=>{
                 console.log(res)
             })
         }) */
-        function submit(){
-            axios.get('customers',filter).then((res)=>{
-                console.log(res.data)
-            })
+        function submit() {
+            axios.get("customers", filter).then((res) => {
+                console.log(res.data);
+            });
         }
-        return{
+        return {
             filter,
-            submit
-        }
+            submit,
+        };
     },
 };
 </script>
