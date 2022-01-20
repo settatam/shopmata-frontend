@@ -35,7 +35,6 @@ class CustomersController extends Controller
     {
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
 
-        return $request->filter['q'];
         $data      = [];
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
@@ -53,8 +52,6 @@ class CustomersController extends Controller
             if ($from_date && $to_date) {
                $customers->whereBetween('created_at', [$from_date, $to_date]);
             }
-
-            dd(true);
             return CustomerCollection::collection($customers);
         }
 
