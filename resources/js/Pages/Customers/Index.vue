@@ -447,7 +447,7 @@ export default {
         }) */
         function submit(){
             axios.get('customers',filter).then((res)=>{
-                console.log(filter)
+                console.log(res.data)
             })
         }
         return{
