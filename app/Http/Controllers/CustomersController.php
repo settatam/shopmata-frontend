@@ -40,20 +40,23 @@ class CustomersController extends Controller
         $to_date   = Helper::formatDate($request->to_date);
         $filters   = $request->all('q', 'orderBy', 'sortOrder');
         $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request, $from_date, $to_date) {
-            if ($request->filter) {
+            if ($request->filter && $request->q) {
                 $query->where('first_name', 'like', '%' . $request->q . '%')
                     ->orWhere('last_name', 'like', '%' . $request->q . '%')
                     ->orWhere('email', 'like', '%' . $request->q . '%')
-                    ->orWhere('phone_number', 'like', '%' . $request->q . '%');
+                    ->orWhere('phone_number', 'like', '%' . $request->q . '%')
+                     ->whereBetween('created_at', [$from_date, $to_date]);
+            }
+
+            if ($request->filter && !$request->q && $from_date && $to_date) {
+                $query->whereBetween('created_at', [$from_date, $to_date]);
             }
         })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
       
-        if ($request->filter && $request->ajax() ) {
-            if ($from_date && $to_date) {
-               $customers->whereBetween('created_at', [$from_date, $to_date]);
-            }
+        if ( $request->ajax() ) {
             return CustomerCollection::collection($customers);
         }
+
 
         return Inertia::render('Customers/Index', compact('customers', 'filters'));
     }
