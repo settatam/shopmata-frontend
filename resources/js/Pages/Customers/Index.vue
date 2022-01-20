@@ -79,7 +79,8 @@
                                 id="date_from"
                                 type="date"
                                 name="date"
-                                v-model="filter.date_from"
+                                pattern="dd-mm-yyyy"
+                                v-model="filter.from_date"
                                 defaultValue="all"
                                 class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
                             />
@@ -106,7 +107,8 @@
                                 id="date_to"
                                 type="date"
                                 name="date"
-                                v-model="filter.date_to"
+                                v-model="filter.to_date"
+                                pattern="dd-mm-yyyy"
                                 defaultValue="all"
                                 class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
                             />
