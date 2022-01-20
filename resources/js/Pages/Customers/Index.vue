@@ -47,6 +47,7 @@
                         <input
                             id="search"
                             type="search"
+                            v-model="filter.q"
                             placeholder="Search by name, email...."
                             class="block pl-12 py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
                         />
@@ -63,7 +64,7 @@
                                 id="date_from"
                                 type="date"
                                 name="date"
-                                v-model="date_filter.date_from"
+                                v-model="filter.date_from"
                                 defaultValue="all"
                                 class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
                             />
@@ -80,7 +81,7 @@
                                 id="date_to"
                                 type="date"
                                 name="date"
-                                v-model="date_filter.date_to"
+                                v-model="filter.date_to"
                                 defaultValue="all"
                                 class="block py-2 rounded-md border border-gray-300 text-gray-900 placeholder-gray-300 focus:outline-none w-full"
                             />
@@ -437,7 +438,7 @@ export default {
 
     setup() {
         const open = ref(false);
-        const date_filter= reactive({date_from:'',date_to:''})
+        const filter= reactive({from_date:'',to_date:'',q:'',filter:true})
 
         /* watch(date_filter ,(curr,prev)=>{
             axios.get('customers',curr).then((res)=>{
@@ -445,12 +446,12 @@ export default {
             })
         }) */
         function submit(){
-            axios.get('customers',date_filter).then((res)=>{
+            axios.get('customers',filter).then((res)=>{
                 console.log(res.data)
             })
         }
         return{
-            date_filter,
+            filter,
             submit
         }
     },
