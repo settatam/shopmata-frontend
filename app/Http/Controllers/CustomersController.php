@@ -47,8 +47,10 @@ class CustomersController extends Controller
             }
         })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
       
-        if ($request->ajax() && $from_date && $to_date) {
-            $customers->whereBetween('created_at', [$from_date, $to_date]);
+        if ($request->ajax() ) {
+            if ($from_date && $to_date) {
+               $customers->whereBetween('created_at', [$from_date, $to_date]);
+            }
             return CustomerCollection::collection($customers);
         }
 
