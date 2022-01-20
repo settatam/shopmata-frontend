@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Carbon\Carbon;
+use App\Http\Resources\CustomerCollection;
 
 
 
@@ -48,8 +49,9 @@ class CustomersController extends Controller
 
         if ($request->filter && $from_date && $to_date) {
             $customers->whereBetween('created_at', [$from_date, $to_date]);
+            return CustomerCollection::collection($customers);
         }
-        
+
         return Inertia::render('Customers/Index', compact('customers', 'filters'));
     }
 
