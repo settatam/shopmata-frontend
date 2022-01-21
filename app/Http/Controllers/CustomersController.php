@@ -45,7 +45,7 @@ class CustomersController extends Controller
                     ->orWhere('last_name', 'like', '%' . $request->q . '%')
                     ->orWhere('email', 'like', '%' . $request->q . '%')
                     ->orWhere('phone_number', 'like', '%' . $request->q . '%')
-                     ->whereBetween('created_at', [$from_date, $to_date]);
+                    ->whereBetween('created_at', [$from_date, $to_date]);
             }
 
             if ($request->filter && !$request->q && $from_date && $to_date) {
@@ -53,7 +53,7 @@ class CustomersController extends Controller
             }
         })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
       
-        if ( $request->ajax() ) {
+        if ($request->filter && $request->ajax() ) {
             return CustomerCollection::collection($customers);
         }
 
