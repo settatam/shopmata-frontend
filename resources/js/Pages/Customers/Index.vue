@@ -21,10 +21,8 @@
                         </div>
                     </div>
                     <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-                        <inertia-link
-                            href="customers/create"
-                            type="button"
-                            class="inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                        <button @click="openCustomer=true"
+                            class="inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                         >
                             <!-- <p
                             @click="addCustomer"
@@ -33,7 +31,7 @@
                             <span class="pr-3"
                                 ><PlusIcon class="w-5 h-5" /></span
                             >Add Customer
-                        </inertia-link>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -137,7 +135,7 @@
             </div> -->
             <!-- Activity table (small breakpoint and up) -->
             <div class="hidden sm:block mb-10">
-                <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto px-4 sm:px-6 lg:px-8 ">
                     <div class="flex flex-col mt-4">
                         <div
                             class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg"
@@ -147,23 +145,7 @@
                             >
                                 <thead class="bg-white">
                                     <tr>
-                                        <th
-                                            scope="col"
-                                            class="pl-6 pr-2 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
-                                        >
-                                            <input
-                                                id="comments"
-                                                aria-describedby="comments-description"
-                                                name="comments"
-                                                type="checkbox"
-                                                v-model="selectAll"
-                                                class="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                                @click="checkAll"
-                                                :disabled="
-                                                    customers.data.length === 0
-                                                "
-                                            />
-                                        </th>
+                                        
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
@@ -193,7 +175,11 @@
                     </th> -->
                                     </tr>
                                 </thead>
-                                <tbody
+                                <div v-if="loading" class="absolute top-2/3 scale-150 left-1/2 flex flex-col justify-center items-center">
+                                    <spinner class=" "/>
+                                    <p class="text-lg font-bold">loading...</p>
+                                </div>
+                                <tbody v-else
                                     class="bg-white divide-y divide-gray-200"
                                 >
                                     <tr
@@ -201,23 +187,6 @@
                                         :key="customer.id"
                                         class="bg-white"
                                     >
-                                        <td
-                                            scope="col"
-                                            class="pl-6 pr-2 text-left text-base font-medium text-gray-700 tracking-wider"
-                                        >
-                                            <input
-                                                id="comments"
-                                                aria-describedby="comments-description"
-                                                name="comments"
-                                                type="checkbox"
-                                                :value="customer"
-                                                v-model="selected"
-                                                @click="
-                                                    uncheckParentBox(customer)
-                                                "
-                                                class="focus:ring-indigo-500 text-indigo-600 border-gray-300 rounded"
-                                            />
-                                        </td>
                                         <td
                                             class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
                                         >
@@ -257,6 +226,7 @@
                         </div>
                         <!-- Pagination -->
                          <pagination :meta="pagination"/>
+                         
                         <!-- <nav
                             class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
                             aria-label="Pagination"
@@ -297,9 +267,10 @@
                         </nav> -->
 
                         <!-- Customer modal -->
-                        
+                        <customer @close="openCustomer=false" v-if="openCustomer" :states="states" :countries="countries" />
                     </div>
                 </div>
+                
             </div>
         </div>
     </app-layout>
@@ -314,6 +285,8 @@ import Pagination from '../../Components/Pagination.vue'
 // import Search from '../Search.vue'
 // import axios from "axios"
 import moment from "moment";
+import Spinner from "../../../assets/Spinner.vue"
+import Customer from './Components/Customer.vue';
 
 
 export default {
@@ -321,6 +294,10 @@ export default {
         customers: Object,
         //filters: Object,
         //data: Object,
+        store: Object,
+        countries: Array,
+        store: Object,
+        countries: Array,
     },
     data() {
         return {
@@ -387,32 +364,7 @@ export default {
             this.selected = !this.selectAll ? [...this.customers.data] : [];
             console.log(this.selectAll, this.customers);
         },
-        uncheckParentBox(customer) {
-            event.stopPropagation();
-            let rows = this.selected.filter((s) => s.id == customer.id);
-            if (rows.length > 0) {
-                this.selected = this.selected.filter(
-                    (s) => s.id != customer.id
-                );
-            } else {
-                this.selected.push(customer);
-            }
-            this.customers.data.length == this.selected.length
-                ? (this.selectAll = true)
-                : (this.selectAll = false);
-        },
-        deleteRow(customer) {
-            event.stopPropagation();
-            this.$inertia.delete(`/customers/${customer.id}`, customer.id);
-        },
-        deleteSelected() {
-            let selectedRows = this.selected.map((s) => s.id).join(",");
-            this.$inertia.delete(`/customers/${selectedRows}`, selectedRows);
-        },
-        showCheckedCustomers() {
-            console.log(this.customers);
-            console.log(this.selected);
-        },
+        
         getAllCustomers() {
             this.tab = "tab-0";
         },
@@ -450,7 +402,9 @@ export default {
         PencilIcon,
         TrashIcon,
         ArrowRightIcon,
-        Pagination
+        Pagination,
+        Spinner,
+        Customer
         // SideNav,
         // ExportIcon,
         // ImportIcon,
@@ -471,6 +425,7 @@ export default {
     setup({customers}) {
         const open = ref(false);
         const filterLists = ref(customers.data);
+        const openCustomer = ref(false)
         const filter = reactive({
             from_date: "",
             to_date: "",
@@ -478,8 +433,20 @@ export default {
             filter: true,
         });
         const pagination = ref(customers)
+        const loading = ref(false)
 
+        function success(list,page){
+            filterLists.value = list
+            pagination.value = page
+            loading.value = false
+        }
+        function reset(){
+            filter.from_date =""
+            filter.to_date=""
+            filter.q=""
+        }
         function submit(){
+            loading.value = true 
             axios.get('/customers',{
                 params:{
                     from_date:filter.from_date,
@@ -488,15 +455,19 @@ export default {
                     filter:true
                 }
             }).then((res)=>{
-                filterLists.value = res.data.data
-                pagination.value = res.data.meta
+                const list = res.data.data
+                const page = res.data.meta
+                setTimeout(success(list,page),2000)
+                setTimeout(reset(),2100)
             })
         }
         return {
             filter,
             submit,
             filterLists,
-            pagination
+            pagination,
+            loading,
+            openCustomer
         };
     },
 };
