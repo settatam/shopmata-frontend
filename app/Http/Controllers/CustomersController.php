@@ -52,7 +52,7 @@ class CustomersController extends Controller
             }
         })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
       
-        if ($request->filter && $request->ajax() ) {
+        if ( $request->ajax() && $request->filter ) {
             return CustomerCollection::collection($customers);
         }
 
