@@ -33,6 +33,8 @@ class CustomersController extends Controller
     public function index(Request $request)
     {
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
+        $countries = Country::all();
+
 
         $data      = [];
         $from_date = Helper::formatDate($request->from_date);
@@ -57,7 +59,7 @@ class CustomersController extends Controller
         }
 
 
-        return Inertia::render('Customers/Index', compact('customers', 'filters'));
+        return Inertia::render('Customers/Index', compact('customers', 'filters', 'countries'));
     }
 
     /**
