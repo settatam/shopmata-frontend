@@ -138,7 +138,6 @@
             <!-- Activity table (small breakpoint and up) -->
             <div class="hidden sm:block mb-10">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8">
-                    <Search v-bind:suggestions="suggestions"></Search>
                     <div class="flex flex-col mt-4">
                         <div
                             class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg"
@@ -198,7 +197,7 @@
                                     class="bg-white divide-y divide-gray-200"
                                 >
                                     <tr
-                                        v-for="customer in customers.data"
+                                        v-for="customer in filterLists"
                                         :key="customer.id"
                                         class="bg-white"
                                     >
@@ -257,6 +256,7 @@
                             </table>
                         </div>
                         <!-- Pagination -->
+                         <pagination :meta="pagination"/>
                         <!-- <nav
                             class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
                             aria-label="Pagination"
@@ -297,13 +297,7 @@
                         </nav> -->
 
                         <!-- Customer modal -->
-                        <add-customer-modal
-                            v-if="popModal"
-                            @close="this.popModal = false"
-                            :login="login"
-                            :title="title"
-                            :buttonMsg="buttonMsg"
-                        />
+                        
                     </div>
                 </div>
             </div>
@@ -316,16 +310,17 @@ import { reactive, ref, watch } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import { PlusIcon, EyeIcon, PencilIcon, TrashIcon } from "@heroicons/vue/solid";
 import { SearchIcon, ArrowRightIcon } from "@heroicons/vue/outline";
+import Pagination from '../../Components/Pagination.vue'
 // import Search from '../Search.vue'
 // import axios from "axios"
 import moment from "moment";
-import AddCustomerModal from "./Components/AddCustomerModal.vue";
+
 
 export default {
     props: {
         customers: Object,
-        filters: Object,
-        data: Object,
+        //filters: Object,
+        //data: Object,
     },
     data() {
         return {
@@ -342,11 +337,11 @@ export default {
             nextPageUrl: "",
             previouPageUrl: "",
             options: [],
-            form: {
+            /* form: {
                 search: this.filters.search,
                 orderBy: this.filters.orderBy,
                 sortOrder: this.filters.sortOrder,
-            },
+            }, */
             message: "",
             moment,
         };
@@ -454,8 +449,8 @@ export default {
         EyeIcon,
         PencilIcon,
         TrashIcon,
-        AddCustomerModal,
         ArrowRightIcon,
+        Pagination
         // SideNav,
         // ExportIcon,
         // ImportIcon,
@@ -473,20 +468,17 @@ export default {
         // Badge
     },
 
-    setup() {
+    setup({customers}) {
         const open = ref(false);
+        const filterLists = ref(customers.data);
         const filter = reactive({
             from_date: "",
             to_date: "",
             q: "",
             filter: true,
         });
+        const pagination = ref(customers)
 
-        /* watch(date_filter ,(curr,prev)=>{
-            axios.get('customers',curr).then((res)=>{
-                console.log(res)
-            })
-        }) */
         function submit(){
             axios.get('/customers',{
                 params:{
@@ -496,12 +488,15 @@ export default {
                     filter:true
                 }
             }).then((res)=>{
-                console.log(res)
+                filterLists.value = res.data.data
+                pagination.value = res.data.meta
             })
         }
         return {
             filter,
             submit,
+            filterLists,
+            pagination
         };
     },
 };
