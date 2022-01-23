@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Carbon\Carbon;
 use App\Http\Resources\CustomerCollection;
 
 
@@ -34,6 +33,8 @@ class CustomersController extends Controller
     public function index(Request $request)
     {
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
+        $countries = Country::all();
+
 
         $data      = [];
         $from_date = Helper::formatDate($request->from_date);
@@ -45,7 +46,7 @@ class CustomersController extends Controller
                     ->orWhere('last_name', 'like', '%' . $request->q . '%')
                     ->orWhere('email', 'like', '%' . $request->q . '%')
                     ->orWhere('phone_number', 'like', '%' . $request->q . '%')
-                     ->whereBetween('created_at', [$from_date, $to_date]);
+                    ->whereBetween('created_at', [$from_date, $to_date]);
             }
 
             if ($request->filter && !$request->q && $from_date && $to_date) {
@@ -58,7 +59,7 @@ class CustomersController extends Controller
         }
 
 
-        return Inertia::render('Customers/Index', compact('customers', 'filters'));
+        return Inertia::render('Customers/Index', compact('customers', 'filters', 'countries'));
     }
 
     /**
