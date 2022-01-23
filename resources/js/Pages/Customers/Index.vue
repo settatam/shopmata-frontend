@@ -114,7 +114,7 @@
                     </div>
                     <div>
                         <label
-                            for="delivery_type"
+                            for="submit"
                             class="block text-gray-600 font-semibold mb-2 bg-transparent text-transparent"
                             >None</label
                         >
@@ -122,6 +122,7 @@
                             type="button"
                             class="disabled:bg-gray-400 rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-2 text-center text-xs lg:text-base font-medium text-white sm:text-sm bg-indigo-600"
                             @click="submit"
+                            :disabled="disableBtn"
                         >
                             Search
                         </button>
@@ -225,7 +226,7 @@
                             </table>
                         </div>
                         <!-- Pagination -->
-                         <pagination :meta="pagination"/>
+                         <pagination :meta="pagination" v-if="pagination.total > pagination.per_page"/>
                          
                         <!-- <nav
                             class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
@@ -277,7 +278,7 @@
 </template>
 
 <script>
-import { reactive, ref, watch } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import { PlusIcon, EyeIcon, PencilIcon, TrashIcon } from "@heroicons/vue/solid";
 import { SearchIcon, ArrowRightIcon } from "@heroicons/vue/outline";
@@ -435,6 +436,17 @@ export default {
         const pagination = ref(customers)
         const loading = ref(false)
 
+
+        const disableBtn=computed(()=>{
+            if ((filter.from_date==''||filter.to_date=='')&&filter.q=='') {
+                return true
+            } else if(filter.q!='' && (filter.from_date=='' || filter.to_date=='')) {
+                return false
+            }else{
+                return false
+            }
+        })
+
         function success(list,page){
             filterLists.value = list
             pagination.value = page
@@ -443,7 +455,6 @@ export default {
         function reset(){
             filter.from_date =""
             filter.to_date=""
-            filter.q=""
         }
         function submit(){
             loading.value = true 
@@ -467,7 +478,8 @@ export default {
             filterLists,
             pagination,
             loading,
-            openCustomer
+            openCustomer,
+            disableBtn
         };
     },
 };
