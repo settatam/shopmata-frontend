@@ -32,10 +32,8 @@ class CustomersController extends Controller
      */
     public function index(Request $request)
     {
-        $pageSize  = $request->has('pageSize') ? $request->pageSize : 50;
+        $pageSize  = $request->has('pageSize') ? $request->pageSize : 20;
         $countries = Country::all();
-
-
         $data      = [];
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
@@ -92,7 +90,6 @@ class CustomersController extends Controller
         try {
 
             $user  = $request->user(); 
-
             $customer = Customer::create([
                 'store_id'     => $user->store_id,
                 'first_name'   => $request->first_name,
@@ -167,16 +164,6 @@ class CustomersController extends Controller
         $customer->number_of_orders = count($customer->orders);
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
 
-        // $customer->total_order = 0;
-
-        // foreach ($customer->orders as $order) {
-        //     $customer->total_order += $order->total;
-        // }
-
-        // if ($customer->number_of_orders) {
-        //     $customer->last_order_placed = $customer->orders[$customer->number_of_orders - 1]->created_at;
-        //     $customer->average_order = round($customer->total_order / $customer->number_of_orders, 2);
-        // }
 
         return Inertia::render('Customers/Show', compact('customer', 'user', 'months'));
     }
@@ -191,11 +178,6 @@ class CustomersController extends Controller
     {
         //
         $customer = User::with('orders')->find($id);
-
-        //Average order
-        //Last order placed
-        //
-
         if (null === $customer) {
             throw new HttpException(404);
         }
