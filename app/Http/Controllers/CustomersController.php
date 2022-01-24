@@ -97,7 +97,6 @@ class CustomersController extends Controller
                 'last_name'    => $request->last_name,
                 'email'    => $request->email,
                 'phone_number' => $request->phone_number,
-                'city'         => $request->city,
                 'is_active'    => 1,
                 'accepts_marketing' => 1,
                 'password' => Hash::make(Str::random(10))
