@@ -292,7 +292,7 @@ export default {
                     ...address_info,
                 };
                 console.log(customer);
-                Inertia.post("customers/create", customer);
+                Inertia.post("customers/store", customer);
                 context.emit("close");
             } catch (error) {
                 console.log(error);
