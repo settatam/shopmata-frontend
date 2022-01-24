@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Store;
 use App\Models\Country;
 use App\Models\Customer;
+use App\Models\ShippingAddress;
 use App\Http\Helpers\Helper;
 
 use Illuminate\Support\Str;
@@ -121,7 +122,7 @@ class CustomersController extends Controller
             return response()->json(['message' => "Customer added successfully."], 200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response()->json(['message'=> "Failed to delete payout settings". $th->getMessage() ], 422);
+            return response()->json(['message'=> "Failed to add add settings" ], 422);
         }
 
     }
