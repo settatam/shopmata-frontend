@@ -130,7 +130,6 @@
                                     Country
                                 </label>
                                 <select
-                                    type="select"
                                     id="country"
                                     name="country"
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -138,6 +137,7 @@
                                     required
                                     v-model="address_info.country_id"
                                 >
+                                    <option value="">Choose a Country</option>
                                     <option
                                         v-for="(country, index) in countries"
                                         :key="index"
@@ -155,7 +155,6 @@
                                         State
                                     </label>
                                     <select
-                                        type="select"
                                         id="state"
                                         name="state"
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -208,11 +207,11 @@
                             </div>
             </div>
               </div>
-              <div class=" flex justify-between">
-                <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
+              <div class=" flex justify-between mt-4">
+                <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"  @click="closeModal" >
                   Cancel
                 </button>
-                <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="closeModal">
+                <button type="button" class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm" @click="submit">
                   Save
                 </button>
               </div>
@@ -238,7 +237,7 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     emits: ["close"],
-    props: {title:String, buttonMsg:String,store:Array,countries:Array,states:Array},
+    props: {title:String, buttonMsg:String,store:Array,countries:Array},
 
     components: {
         Dialog,
@@ -251,7 +250,6 @@ export default {
     },
     data() {
         return {
-            states: this.states,
             notification: null,
             
             customer: {},
@@ -265,31 +263,15 @@ export default {
             this.$emit("close");
         },
     },
-    mounted() {
-        this.country_state = this.states;
-    },
-    watch: {
-        "address_info.country_id"(newVal, oldVal) {
-            //console.log(oldVal)
-            axios.get(`/api/states?country_id=${newVal}`).then((res) => {
-                this.country_state = res.data.data;
-                console.log(this.country_state);
-            });
-        },
-    },
     setup({store,states}, context) {
         const open = ref(true);
-        // const menu = {
-        //     full: "",
-        //     handle: "",
-        // };
-        const state = ref(states);
         const country_state = ref({});
         const address_info = reactive({
                 address: "",
                 apartment: "",
                 city:"",
-                state: "",});
+                country_id:"",
+                state_id: "",});
         const personal_info=reactive ({
                 first_name: "",
                 last_name: "",
@@ -297,15 +279,9 @@ export default {
                 phone: "",
         })
 
-        onBeforeMount(() => {
-            country_state.value = state.value;
-        });
-
         watch(address_info, (newVal) => {
-            axios
-                .get(`/api/states?country_id=${newVal.country_id}`)
-                .then((res) => {
-                    country_state.value = res.data.data;
+            axios.get(`/api/states?country_id=${newVal.country_id}`).then((res) => {
+                    country_state.value = res.data.data
                 });
         });
 
@@ -315,7 +291,8 @@ export default {
                     ...personal_info,
                     ...address_info,
                 };
-                Inertia.post("/customers", customer);
+                console.log(customer);
+                Inertia.post("customers/create", customer);
                 context.emit("close");
             } catch (error) {
                 console.log(error);
