@@ -268,7 +268,7 @@
                         </nav> -->
 
                         <!-- Customer modal -->
-                        <customer @close="openCustomer=false" v-if="openCustomer" :states="states" :countries="countries" />
+                        <customer @close="openCustomer=false" v-if="openCustomer" :countries="countries" />
                     </div>
                 </div>
                 
