@@ -146,7 +146,7 @@
                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder=""
                         required
-                        v-model="personal_info.phone"
+                        v-model="personal_info.phone_number"
                     />
                     <error-icon
                         class="absolute top-10 right-2.5"
@@ -513,7 +513,7 @@ export default {
             first_name: "",
             last_name: "",
             email: "",
-            phone: "",
+            phone_number: "",
         });
         const address_info = reactive({
             address: "",
@@ -605,7 +605,7 @@ export default {
                 save.value = "Saving";
                 setTimeout(error_email,3000)
             }
-            if (!personal_info.phone.length) {
+            if (!personal_info.phone_number.length) {
                 save.value = "Saving";
                 setTimeout(error_phone,3000)
             }
