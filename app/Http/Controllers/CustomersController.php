@@ -93,10 +93,10 @@ class CustomersController extends Controller
         try {
             $this->createUpdate($request, $customer);
             \Log::info("New customer added");
-            return CustomerCollection::collection($customers);
+            return response()->json(['message'=> "Customer added  successfully"], 200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response()->json(['message'=> "Failed to save  customer"  .$th->getMessage()], 422);
+            return response()->json(['message'=> "Failed to save  customer"], 422);
         }
 
     }
@@ -108,11 +108,11 @@ class CustomersController extends Controller
         $customer->store_id     = $user->store_id;
         $customer->first_name   = $request->first_name;
         $customer->last_name    = $request->last_name;
-        $customer->email   = $request->email;
+        $customer->email        = $request->email;
         $customer->phone_number = $request->phone_number;
         $customer->is_active    = 1;
         $customer->accepts_marketing = 1;
-        $customer->password = Hash::make(Str::random(10));
+        $customer->password           = Hash::make(Str::random(10));
         $customer->save();
         
         ShippingAddress::updateOrCreate(
