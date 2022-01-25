@@ -1,4 +1,12 @@
 <template>
+    <!-- FONT AWESOME LINK -->
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+            integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+            crossorigin="anonymous"
+        />
+    <!-- FONT AWESOME LINK -->
     <app-layout>
         <!-- Breadcrumb -->
         <nav class="flex px-8 mt-8" aria-label="Breadcrumb">
@@ -297,15 +305,7 @@
             <div class="">
                 <button
                     type="button"
-                    class="disabled:bg-gray-400 text-white bg-indigo-700 rounded-md px-8 py-3"
-                    :class="
-                        personal_info.first_name.length > 1 &&
-                        personal_info.last_name.length > 1 &&
-                        personal_info.email.length > 1 &&
-                        personal_info.phone.length > 1
-                            ? 'bg-indigo-600'
-                            : 'bg-gray-400'
-                    "
+                    class="disabled:bg-gray-400  bg-indigo-600 text-white rounded-md px-8 py-3"
                     :disabled="loading"
                     @click="submit"
                 >
@@ -570,26 +570,49 @@ export default {
             loading.value = false;
             save.value = "Save";
         };
-
+        const error_f_name=()=>{
+            loading.value = false;
+            firstNameError.value = true;
+            save.value = "Save";
+        }
+        const error_email=()=>{
+            loading.value = false;
+            emailError.value = true;
+            save.value = "Save";
+        }
+        const error_l_name=()=>{
+            loading.value = false;
+            lastNameError.value = true;
+            save.value = "Save";
+        }
+        const error_phone=()=>{
+            loading.value = false;
+            phoneError.value = true;
+            save.value = "Save";
+        }
         const submit = () => {
+            loading.value = true;
             // Check which has error and make the error ref true
             if (!personal_info.first_name.length) {
-                firstNameError.value = true;
+                save.value = "Saving";
+                setTimeout(error_f_name,3000);
             }
             if (!personal_info.last_name.length) {
-                lastNameError.value = true;
+                save.value = "Saving";
+                setTimeout(error_l_name,3000);
             }
             if (!personal_info.email.length) {
-                emailError.value = true;
+                save.value = "Saving";
+                setTimeout(error_email,3000)
             }
             if (!personal_info.phone.length) {
-                phoneError.value = true;
+                save.value = "Saving";
+                setTimeout(error_phone,3000)
             }
             // If anyone has an error don't submit
             else {
                 const customer = { ...personal_info, ...address_info };
                 axios.post("store", customer).then((res) => {
-                    loading.value = true;
                     if (res.status == 200) {
                         successMessage.value = res.data.message;
                         onClickTop();
