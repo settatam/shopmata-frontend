@@ -93,7 +93,6 @@ class CustomersController extends Controller
         try {
             $this->createUpdate($request, $customer);
             \Log::info("New customer added");
-            $customers = Customer::whereHas('orders')->orderBy('created_at','desc')->paginate($pageSize);  
             return CustomerCollection::collection($customers);
         } catch (\Throwable $th) {
             \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
@@ -217,7 +216,6 @@ class CustomersController extends Controller
             \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response()->json(['message'=> "Failed to update settings"  .$th->getMessage()], 422);
         }
-
     }
 
     /**
