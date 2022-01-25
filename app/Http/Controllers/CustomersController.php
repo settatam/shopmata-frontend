@@ -218,7 +218,6 @@ class CustomersController extends Controller
             return response()->json(['message'=> "Failed to update settings"  .$th->getMessage()], 422);
         }
 
-        // $categories = [];
     }
 
     /**
@@ -247,25 +246,7 @@ class CustomersController extends Controller
             $data['message'] = "An error occured!";
             Log::error("Customer wasn't successfully deleted.");
         }
-        // }
-        // catch($e) {
-        //     Log("Error occured deleting");
-        // }
-        // $data = [];
-        // $customer = Customer::find($id);
-        // $user_deleted = User::find($customer->user_id)->delete();
-        // $customer_deleted = $customer->delete();
-        // if ($user_deleted && $customer_deleted) {
-        //     $data['status'] = 'success';
-        //     $data['message'] = "Customer deleted successfully!";
-        //     $customers = Customer::with('orders')->with('shipping_addresses')->paginate(50);
-        //     Log::info("Customer deleted!");
-        // } else {
-        //     $data['status'] = 'failed';
-        //     $data['message'] = "An error occured!";
-        //     Log::error("Customer wasn't successfully deleted.");
-        // }
-
+        
         return Inertia::render('Customers/Index', compact('customers', 'data'));
     }
 }
