@@ -18,21 +18,39 @@
                     <x-icon class="h-6 w-6 cursor-pointer" @click="closeModal"/>
                 </div>
                 <div class="mt-3 sm:mt-5">
-                            <div class="required w-full mr-5 mt-4">
-                                <label
-                                    class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                                >
-                                    Full Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="fullName"
-                                    name="fullName"
-                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                    placeholder=""
-                                    required
-                                    v-model="personal_info.full_name"
-                                />
+                            <div class="required w-full flex mt-4">
+                               <div class="required  w-full">
+                                    <label
+                                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                                    >
+                                        First Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="first_name"
+                                        name="first_name"
+                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        placeholder=""
+                                        required
+                                        v-model="personal_info.first_name"
+                                    />
+                                </div>
+                                <div class="required w-full ml-5">
+                                    <label
+                                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                                    >
+                                        Last Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="last_name"
+                                        name="last_name"
+                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        placeholder=""
+                                        required
+                                        v-model="personal_info.last_name"
+                                    />
+                                </div>
                             </div>
 
                             <div class="required w-full mr-5 mt-5">
