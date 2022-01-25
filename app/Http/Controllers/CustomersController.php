@@ -81,50 +81,59 @@ class CustomersController extends Controller
     public function store(Request $request)
     {   
     
-        // $request->validate([
-        //     'first_name'   => ['required','string'],
-        //     'last_name'    => ['required','string'],
-        //     'email'        => ['required','email','max:75','unique:users'],
-        //     'phone_number' => ['required']
-        // ]);
+        $request->validate([
+            'first_name'   => ['required','string'],
+            'last_name'    => ['required','string'],
+            'email'        => ['required','email','max:75','unique:users'],
+            'phone_number' => ['required']
+        ]);
+
+        $customer = new Customer;
 
         try {
-            $user  = $request->user(); 
-            
-            $customer = Customer::create([
-                'store_id'     => $user->store_id,
-                'first_name'   => $request->first_name,
-                'last_name'    => $request->last_name,
-                'email'    => $request->email,
-                'phone_number' => $request->phone_number,
-                'is_active'    => 1,
-                'accepts_marketing' => 1,
-                'password' => Hash::make(Str::random(10))
-            ]);
-    
-            ShippingAddress::create([
-                'first_name'   => $request->first_name,
-                'last_name'    => $request->last_name,
-                'user_id' => $customer->id,
-                'country_id' => $request->country_id,
-                'state_id' => $request->state_id,
-                'city' => $request->city,
-                'is_default' => 1,
-                'address' => $request->address,
-                'address2' => $request->address2,
-                'zip' => $request->postal_code,
-                'country' => $request->country,
-                'state' => $request->state,
-            ]);
-
+            $this->createUpdate($request, $customer);
             \Log::info("New customer added");
             $customers = Customer::whereHas('orders')->orderBy('created_at','desc')->paginate($pageSize);  
             return CustomerCollection::collection($customers);
         } catch (\Throwable $th) {
             \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response()->json(['message'=> "Failed to add add settings" ], 422);
+            return response()->json(['message'=> "Failed to save  customer"  .$th->getMessage()], 422);
         }
 
+    }
+
+
+
+    public function createUpdate($request, $customer){
+        $user  = $request->user(); 
+        $customer->store_id     = $user->store_id;
+        $customer->first_name   = $request->first_name;
+        $customer->last_name    = $request->last_name;
+        $customer->email   = $request->email;
+        $customer->phone_number = $request->phone_number;
+        $customer->is_active    = 1;
+        $customer->accepts_marketing = 1;
+        $customer->password = Hash::make(Str::random(10));
+        $customer->save();
+        
+        ShippingAddress::updateOrCreate(
+            ['user_id' => $customer->id],
+            [
+                'first_name' => $request->first_name,
+                'last_name'  => $request->last_name,
+                'user_id'    => $customer->id,
+                'country_id' => $request->country_id,
+                'state_id'   => $request->state_id,
+                'city'       => $request->city,
+                'is_default' => 1,
+                'address'    => $request->address,
+                'address2'   => $request->address2,
+                'zip'        => $request->postal_code,
+                'country'    => $request->country,
+                'state'      => $request->state,
+            ]
+        );
+        
     }
 
 
@@ -139,7 +148,6 @@ class CustomersController extends Controller
     public function show($id)
     {
         //
-        // dd(Order::getByRange($id));
         $month = time();
         $months[date("F", $month)] = 0;
         for ($i = 1; $i <= 11; $i++) {
@@ -152,8 +160,6 @@ class CustomersController extends Controller
             $months[$stat->month] = $stat->total_sale;
         }
 
-        // foreach($stats as )
-
         $customer = Customer::with(['orders.items','shipping_addresses'])->withTotalOrders($id)->find($id);
 
         $user = User::find($customer->user_id);
@@ -164,7 +170,6 @@ class CustomersController extends Controller
 
         $customer->number_of_orders = count($customer->orders);
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
-
 
         return Inertia::render('Customers/Show', compact('customer', 'user', 'months'));
     }
@@ -178,7 +183,7 @@ class CustomersController extends Controller
     public function edit($id)
     {
         //
-        $customer = User::with('orders')->find($id);
+        $customer = User::find($id);
         if (null === $customer) {
             throw new HttpException(404);
         }
@@ -197,10 +202,20 @@ class CustomersController extends Controller
         //
         $customer = Customer::find($id);
 
-        if($customer->update($request->input())) {
-            return response()->json($customer);
-        }else{ 
-            return response()->json('could not update', 400);
+        $request->validate([
+            'first_name'   => ['required','string'],
+            'last_name'    => ['required','string'],
+            'email'        => ['required','email','max:75','unique:users'],
+            'phone_number' => ['required']
+        ]);
+
+        try {
+            $this->createUpdate($request, $customer);
+            \Log::info("Customer Updated");
+            return response()->json(['message'=> "Customer details updated successfully" ], 200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to update settings"  .$th->getMessage()], 422);
         }
 
         // $categories = [];
