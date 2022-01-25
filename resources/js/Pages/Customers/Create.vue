@@ -312,8 +312,8 @@
                     <i
                         class="fas fa-spinner fa-pulse text-white m-2"
                         v-if="loading"
-                    ></i
-                    >{{ save }}
+                    ></i>
+                     {{ save }}
                     <!-- Save -->
                 </button>
                 <NotificationGroup group="top" position="top">
@@ -528,7 +528,7 @@ export default {
         const emailError = ref(false);
         const phoneError = ref(false);
         const loading = ref(false);
-        const save = ref("Save");
+        const save = ref('Save');
         const successMessage = ref("");
 
         // onBeforeMount(() => {
@@ -563,29 +563,33 @@ export default {
         }
         const loadingFn = () => {
             loading.value = false;
-            save.value = "Save";
-            window.location.href = "/settings/notifications/";
+            save.value = "Saving";
+            //window.location.href = "/settings/notifications/";
         };
         const errorFn = () => {
             loading.value = false;
             save.value = "Save";
         };
         const error_f_name=()=>{
+                        console.log("Hi");
             loading.value = false;
             firstNameError.value = true;
             save.value = "Save";
         }
         const error_email=()=>{
+                        console.log("Hi");
             loading.value = false;
             emailError.value = true;
             save.value = "Save";
         }
         const error_l_name=()=>{
+                        console.log("Hi");
             loading.value = false;
             lastNameError.value = true;
             save.value = "Save";
         }
         const error_phone=()=>{
+                        console.log("Hi");
             loading.value = false;
             phoneError.value = true;
             save.value = "Save";
@@ -593,19 +597,19 @@ export default {
         const submit = () => {
             loading.value = true;
             // Check which has error and make the error ref true
-            if (!personal_info.first_name.length) {
+            if (personal_info.first_name.length<1) {
                 save.value = "Saving";
                 setTimeout(error_f_name,3000);
             }
-            if (!personal_info.last_name.length) {
+            if (personal_info.last_name.length<1) {
                 save.value = "Saving";
                 setTimeout(error_l_name,3000);
             }
-            if (!personal_info.email.length) {
+            if (personal_info.email.length<1) {
                 save.value = "Saving";
                 setTimeout(error_email,3000)
             }
-            if (!personal_info.phone_number.length) {
+            if (personal_info.phone_number.length<1) {
                 save.value = "Saving";
                 setTimeout(error_phone,3000)
             }
@@ -613,6 +617,7 @@ export default {
             else {
                 const customer = { ...personal_info, ...address_info };
                 axios.post("store", customer).then((res) => {
+                    console.log(res);
                     if (res.status == 200) {
                         successMessage.value = res.data.message;
                         onClickTop();
@@ -621,10 +626,12 @@ export default {
                     } else if (res.status == 422) {
                         successMessage.value = res.data.message;
                         onClickBot();
+                        save.value = "Saving";
                         setTimeout(errorFn, 3000);
                     } else {
                         successMessage.value = "Database Error";
                         onClickBot();
+                        save.value = "Saving";
                         setTimeout(errorFn, 3000);
                     }
                 });
@@ -653,3 +660,4 @@ export default {
     },
 };
 </script>
+ 
