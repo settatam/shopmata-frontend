@@ -87,7 +87,7 @@
                         />
                         <error-icon
                             class="absolute top-10 right-2.5"
-                            v-show="firstNameError"
+                            v-show="firstNameError && !personal_info.first_name.length"
                         />
                     </div>
 
@@ -108,7 +108,7 @@
                         />
                         <error-icon
                             class="absolute top-10 right-2.5"
-                            v-show="lastNameError"
+                            v-show="lastNameError && !personal_info.last_name.length"
                         />
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                     />
                     <error-icon
                         class="absolute top-10 right-2.5"
-                        v-show="emailError"
+                        v-show="emailError && !personal_info.email.length"
                     />
                 </div>
                 <div class="required w-full mr-5 mt-5 relative">
@@ -150,7 +150,7 @@
                     />
                     <error-icon
                         class="absolute top-10 right-2.5"
-                        v-show="phoneError"
+                        v-show="phoneError && !personal_info.phone_number.length"
                     />
                 </div>
                 <div class="border-t-2 border-gray-300 mt-6 mb-7 -mx-8"></div>
@@ -189,6 +189,10 @@
                             required
                             v-model="address_info.address"
                         />
+                        <error-icon
+                        class="absolute top-10 right-2.5"
+                        v-show="addressError && !address_info.address.length"
+                    />
                     </div>
                     <div class="required w-full ml-5 relative">
                         <label
@@ -205,6 +209,10 @@
                             required
                             v-model="address_info.apartment"
                         />
+                         <error-icon
+                        class="absolute top-10 right-2.5"
+                        v-show="apartmentError && !address_info.apartment.length"
+                    />
                     </div>
                 </div>
                 <div class="required w-full mr-5 mt-5 relative">
@@ -272,10 +280,13 @@
                             required
                             v-model="address_info.city"
                         />
-                        
+                         <error-icon
+                        class="absolute top-10 right-2.5"
+                        v-show="cityError && !address_info.city.length"
+                    />
                     </div>
 
-                    <div class="required w-full ml-5">
+                    <div class="required w-full ml-5 relative">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
@@ -288,6 +299,10 @@
                             required
                             v-model="address_info.zip"
                         />
+                         <error-icon
+                        class="absolute top-10 right-2.5"
+                        v-show="zipError && !address_info.zip.length"
+                    />
                     </div>
                 </div>
             </div>
@@ -473,7 +488,7 @@ import { ChevronRightIcon, ArrowLeftIcon } from "@heroicons/vue/solid";
 import { HomeIcon } from "@heroicons/vue/outline";
 import { Inertia } from "@inertiajs/inertia";
 import ErrorIcon from "../../../assets/ErrorIcon.vue";
-
+import { notify } from "notiwind"
 const pages = [
     { name: "Add Customer", href: "/customers/create", current: false },
 ];
@@ -527,15 +542,14 @@ export default {
         const lastNameError = ref(false);
         const emailError = ref(false);
         const phoneError = ref(false);
+        const addressError = ref(false);
+        const apartmentError = ref(false)
+        const cityError = ref(false)
+        const zipError = ref(false)
         const loading = ref(false);
         const save = ref('Save');
         const successMessage = ref("");
 
-        // onBeforeMount(() => {
-        //     customer_notification == null
-        //         ? (personal_info.first_name = notification.name)
-        //         : (personal_info.first_name = customer_notification.first_name);
-        // });
         watch(address_info, (newVal) => {
             axios.get(`/api/states?country_id=${newVal.country_id}`).then((res) => {
                     country_state.value = res.data.data
@@ -563,35 +577,51 @@ export default {
         }
         const loadingFn = () => {
             loading.value = false;
-            save.value = "Saving";
-            //window.location.href = "/settings/notifications/";
+            save.value = "Save";
+            window.location.href = "/customers";
         };
         const errorFn = () => {
             loading.value = false;
             save.value = "Save";
         };
         const error_f_name=()=>{
-                        console.log("Hi");
             loading.value = false;
             firstNameError.value = true;
             save.value = "Save";
         }
         const error_email=()=>{
-                        console.log("Hi");
             loading.value = false;
             emailError.value = true;
             save.value = "Save";
         }
         const error_l_name=()=>{
-                        console.log("Hi");
             loading.value = false;
             lastNameError.value = true;
             save.value = "Save";
         }
         const error_phone=()=>{
-                        console.log("Hi");
             loading.value = false;
             phoneError.value = true;
+            save.value = "Save";
+        }
+        const error_address=()=>{
+            loading.value = false;
+            addressError.value = true;
+            save.value = "Save";
+        }
+        const error_apartment=()=>{
+            loading.value = false;
+            apartmentError.value = true;
+            save.value = "Save";
+        }
+        const error_city=()=>{
+            loading.value = false;
+            cityError.value = true;
+            save.value = "Save";
+        }
+        const error_zip=()=>{
+            loading.value = false;
+            zipError.value = true;
             save.value = "Save";
         }
         const submit = () => {
@@ -612,6 +642,22 @@ export default {
             if (personal_info.phone_number.length<1) {
                 save.value = "Saving";
                 setTimeout(error_phone,3000)
+            }
+            if (address_info.address.length<1) {
+                save.value = "Saving";
+                setTimeout(error_address,3000)
+            }
+            if (address_info.apartment.length<1) {
+                save.value = "Saving";
+                setTimeout(error_apartment,3000)
+            }
+            if (address_info.city.length<1) {
+                save.value = "Saving";
+                setTimeout(error_city,3000)
+            }
+            if (address_info.zip.length<1) {
+                save.value = "Saving";
+                setTimeout(error_zip,3000)
             }
             // If anyone has an error don't submit
             else {
@@ -650,6 +696,10 @@ export default {
             lastNameError,
             emailError,
             phoneError,
+            addressError,
+            apartmentError,
+            cityError,
+            zipError,
             submit,
             save,
             loading,
