@@ -22,8 +22,6 @@ class AlterCustomersTableChangeCountryToCoutryId extends Migration
             $table->string('address')->nullable();
             $table->string('address2')->nullable();
             $table->string('zip')->nullable();
-
-
         });
     }
 
