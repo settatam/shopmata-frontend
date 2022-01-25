@@ -17,7 +17,6 @@ class AlterShippingAddressesMakeCountryIdNull extends Migration
             $table->integer('country_id')->nullable()->change();
             $table->integer('state_id')->nullable()->change();
             $table->removeColumn('county_id');
-
         });
     }
 
