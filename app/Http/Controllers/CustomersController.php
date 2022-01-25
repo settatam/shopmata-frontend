@@ -51,7 +51,7 @@ class CustomersController extends Controller
             if ($request->filter && !$request->q && $from_date && $to_date) {
                 $query->whereBetween('created_at', [$from_date, $to_date]);
             }
-        })->orderBy($request->input('orderBy', 'id'), $request->input('sortOrder', 'asc'))->paginate($pageSize);  
+        })->orderBy('created_at','desc')->paginate($pageSize);  
       
         if ( $request->ajax() && $request->filter ) {
             return CustomerCollection::collection($customers);
@@ -89,8 +89,8 @@ class CustomersController extends Controller
         // ]);
 
         try {
-
             $user  = $request->user(); 
+            
             $customer = Customer::create([
                 'store_id'     => $user->store_id,
                 'first_name'   => $request->first_name,
@@ -118,7 +118,8 @@ class CustomersController extends Controller
             ]);
 
             \Log::info("New customer added");
-            return response()->json(['message' => "Customer added successfully."], 200);
+            $customers = Customer::whereHas('orders')->orderBy('created_at','desc')->paginate($pageSize);  
+            return CustomerCollection::collection($customers);
         } catch (\Throwable $th) {
             \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response()->json(['message'=> "Failed to add add settings" ], 422);
