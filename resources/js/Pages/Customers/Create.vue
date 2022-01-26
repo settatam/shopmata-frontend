@@ -1,4 +1,12 @@
 <template>
+    <!-- FONT AWESOME LINK -->
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+            integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+            crossorigin="anonymous"
+        />
+    <!-- FONT AWESOME LINK -->
     <app-layout>
         <!-- Breadcrumb -->
         <nav class="flex px-8 mt-8" aria-label="Breadcrumb">
@@ -62,7 +70,7 @@
                 <h2 class="text-xl font-semibold">Personal Information</h2>
 
                 <div class="flex">
-                    <div class="required w-full mr-5 mt-4">
+                    <div class="required w-full mr-5 mt-4 relative">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
@@ -78,12 +86,12 @@
                             v-model="personal_info.first_name"
                         />
                         <error-icon
-                            class="absolute top-11 right-2.5"
-                            v-show="firstNameError"
+                            class="absolute top-10 right-2.5"
+                            v-show="firstNameError && !personal_info.first_name.length"
                         />
                     </div>
 
-                    <div class="required w-full mt-4">
+                    <div class="required w-full mt-4 relative">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
@@ -99,13 +107,13 @@
                             v-model="personal_info.last_name"
                         />
                         <error-icon
-                            class="absolute top-11 right-2.5"
-                            v-show="lastNameError"
+                            class="absolute top-10 right-2.5"
+                            v-show="lastNameError && !personal_info.last_name.length"
                         />
                     </div>
                 </div>
 
-                <div class="required w-full mr-5 mt-5">
+                <div class="required w-full mr-5 mt-5 relative">
                     <label
                         class="block text-gray-600 font-semibold mb-1 bg-transparent"
                     >
@@ -121,11 +129,11 @@
                         v-model="personal_info.email"
                     />
                     <error-icon
-                        class="absolute top-11 right-2.5"
-                        v-show="emailError"
+                        class="absolute top-10 right-2.5"
+                        v-show="emailError && !personal_info.email.length"
                     />
                 </div>
-                <div class="required w-full mr-5 mt-5">
+                <div class="required w-full mr-5 mt-5 relative">
                     <label
                         class="block text-gray-600 font-semibold mb-1 bg-transparent"
                     >
@@ -138,11 +146,11 @@
                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder=""
                         required
-                        v-model="personal_info.phone"
+                        v-model="personal_info.phone_number"
                     />
                     <error-icon
-                        class="absolute top-11 right-2.5"
-                        v-show="phoneError"
+                        class="absolute top-10 right-2.5"
+                        v-show="phoneError && !personal_info.phone_number.length"
                     />
                 </div>
                 <div class="border-t-2 border-gray-300 mt-6 mb-7 -mx-8"></div>
@@ -166,7 +174,7 @@
                 </div> -->
 
                 <div class="flex mt-4">
-                    <div class="required w-full mr-5">
+                    <div class="required w-full mr-5 relative">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
@@ -182,11 +190,11 @@
                             v-model="address_info.address"
                         />
                         <error-icon
-                            class="absolute top-11 right-2.5"
-                            v-show="addressError"
-                        />
+                        class="absolute top-10 right-2.5"
+                        v-show="addressError && !address_info.address.length"
+                    />
                     </div>
-                    <div class="required w-full ml-5">
+                    <div class="required w-full ml-5 relative">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
@@ -201,20 +209,19 @@
                             required
                             v-model="address_info.apartment"
                         />
-                        <error-icon
-                            class="absolute top-11 right-2.5"
-                            v-show="apartmentError"
-                        />
+                         <error-icon
+                        class="absolute top-10 right-2.5"
+                        v-show="apartmentError && !address_info.apartment.length"
+                    />
                     </div>
                 </div>
-                <div class="required w-full mr-5 mt-5">
+                <div class="required w-full mr-5 mt-5 relative">
                     <label
                         class="block text-gray-600 font-semibold mb-1 bg-transparent"
                     >
                         Country
                     </label>
                     <select
-                        type="select"
                         id="country"
                         name="country"
                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -222,18 +229,16 @@
                         required
                         v-model="address_info.country_id"
                     >
+                        <option value="">Choose a Country</option>
                         <option
-                            v-for="(country, index) in this.countries"
+                            v-for="(country, index) in countries"
                             :key="index"
                             :value="country.id"
                         >
                             {{ country.name }}
                         </option>
                     </select>
-                    <error-icon
-                        class="absolute top-11 right-2.5"
-                        v-show="countryError"
-                    />
+                    
                 </div>
                 <div class="flex mt-4">
                     <div class="required w-full">
@@ -243,7 +248,6 @@
                             State
                         </label>
                         <select
-                            type="select"
                             id="state"
                             name="state"
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -260,13 +264,10 @@
                                 {{ state.name }}
                             </option>
                         </select>
-                        <error-icon
-                            class="absolute top-11 right-2.5"
-                            v-show="stateError"
-                        />
+                       
                     </div>
 
-                    <div class="required w-full ml-5">
+                    <div class="required w-full ml-5 relative">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
@@ -279,13 +280,13 @@
                             required
                             v-model="address_info.city"
                         />
-                        <error-icon
-                            class="absolute top-11 right-2.5"
-                            v-show="cityError"
-                        />
+                         <error-icon
+                        class="absolute top-10 right-2.5"
+                        v-show="cityError && !address_info.city.length"
+                    />
                     </div>
 
-                    <div class="required w-full ml-5">
+                    <div class="required w-full ml-5 relative">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
@@ -298,10 +299,10 @@
                             required
                             v-model="address_info.zip"
                         />
-                        <error-icon
-                            class="absolute top-11 right-2.5"
-                            v-show="zipError"
-                        />
+                         <error-icon
+                        class="absolute top-10 right-2.5"
+                        v-show="zipError && !address_info.zip.length"
+                    />
                     </div>
                 </div>
             </div>
@@ -319,29 +320,15 @@
             <div class="">
                 <button
                     type="button"
-                    class="disabled:bg-gray-400 text-white bg-indigo-700 rounded-md px-8 py-3"
-                    :class="
-                        personal_info.first_name.length > 1 &&
-                        personal_info.last_name.length > 1 &&
-                        personal_info.email.length > 1 &&
-                        personal_info.phone.length > 1 &&
-                        address_info.address.length > 1 &&
-                        address_info.apartment.length > 1 &&
-                        address_info.country_id.length > 1 &&
-                        address_info.state_id.length > 1 &&
-                        address_info.city.length > 1 &&
-                        address_info.zip.length
-                            ? 'bg-indigo-600'
-                            : 'bg-gray-400'
-                    "
+                    class="disabled:bg-gray-400  bg-indigo-600 text-white rounded-md px-8 py-3"
                     :disabled="loading"
                     @click="submit"
                 >
                     <i
                         class="fas fa-spinner fa-pulse text-white m-2"
                         v-if="loading"
-                    ></i
-                    >{{ save }}
+                    ></i>
+                     {{ save }}
                     <!-- Save -->
                 </button>
                 <NotificationGroup group="top" position="top">
@@ -488,7 +475,7 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive,watch } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import axios from "axios";
 import {
@@ -500,9 +487,8 @@ import {
 import { ChevronRightIcon, ArrowLeftIcon } from "@heroicons/vue/solid";
 import { HomeIcon } from "@heroicons/vue/outline";
 import { Inertia } from "@inertiajs/inertia";
-import { onBeforeMount } from "@vue/runtime-core";
 import ErrorIcon from "../../../assets/ErrorIcon.vue";
-
+import { notify } from "notiwind"
 const pages = [
     { name: "Add Customer", href: "/customers/create", current: false },
 ];
@@ -537,12 +523,12 @@ export default {
 
     setup({ props, customer_notification, notification }) {
         const open = ref(false);
-        const customer = reactive();
+        const country_state = ref({});
         const personal_info = reactive({
             first_name: "",
             last_name: "",
             email: "",
-            phone: "",
+            phone_number: "",
         });
         const address_info = reactive({
             address: "",
@@ -557,20 +543,18 @@ export default {
         const emailError = ref(false);
         const phoneError = ref(false);
         const addressError = ref(false);
-        const apartmentError = ref(false);
-        const countryError = ref(false);
-        const stateError = ref(false);
-        const cityError = ref(false);
-        const zipError = ref(false);
+        const apartmentError = ref(false)
+        const cityError = ref(false)
+        const zipError = ref(false)
         const loading = ref(false);
-        const save = ref("Save");
+        const save = ref('Save');
         const successMessage = ref("");
 
-        // onBeforeMount(() => {
-        //     customer_notification == null
-        //         ? (personal_info.first_name = notification.name)
-        //         : (personal_info.first_name = customer_notification.first_name);
-        // });
+        watch(address_info, (newVal) => {
+            axios.get(`/api/states?country_id=${newVal.country_id}`).then((res) => {
+                    country_state.value = res.data.data
+                });
+        });
         function onClickTop() {
             notify(
                 {
@@ -594,31 +578,92 @@ export default {
         const loadingFn = () => {
             loading.value = false;
             save.value = "Save";
-            window.location.href = "/settings/notifications/";
+            window.location.href = "/customers";
         };
         const errorFn = () => {
             loading.value = false;
             save.value = "Save";
         };
-
+        const error_f_name=()=>{
+            loading.value = false;
+            firstNameError.value = true;
+            save.value = "Save";
+        }
+        const error_email=()=>{
+            loading.value = false;
+            emailError.value = true;
+            save.value = "Save";
+        }
+        const error_l_name=()=>{
+            loading.value = false;
+            lastNameError.value = true;
+            save.value = "Save";
+        }
+        const error_phone=()=>{
+            loading.value = false;
+            phoneError.value = true;
+            save.value = "Save";
+        }
+        const error_address=()=>{
+            loading.value = false;
+            addressError.value = true;
+            save.value = "Save";
+        }
+        const error_apartment=()=>{
+            loading.value = false;
+            apartmentError.value = true;
+            save.value = "Save";
+        }
+        const error_city=()=>{
+            loading.value = false;
+            cityError.value = true;
+            save.value = "Save";
+        }
+        const error_zip=()=>{
+            loading.value = false;
+            zipError.value = true;
+            save.value = "Save";
+        }
         const submit = () => {
+            loading.value = true;
+            // Check which has error and make the error ref true
+            if (personal_info.first_name.length<1) {
+                save.value = "Saving";
+                setTimeout(error_f_name,3000);
+            }
+            if (personal_info.last_name.length<1) {
+                save.value = "Saving";
+                setTimeout(error_l_name,3000);
+            }
+            if (personal_info.email.length<1) {
+                save.value = "Saving";
+                setTimeout(error_email,3000)
+            }
+            if (personal_info.phone_number.length<1) {
+                save.value = "Saving";
+                setTimeout(error_phone,3000)
+            }
+            if (address_info.address.length<1) {
+                save.value = "Saving";
+                setTimeout(error_address,3000)
+            }
+            if (address_info.apartment.length<1) {
+                save.value = "Saving";
+                setTimeout(error_apartment,3000)
+            }
+            if (address_info.city.length<1) {
+                save.value = "Saving";
+                setTimeout(error_city,3000)
+            }
+            if (address_info.zip.length<1) {
+                save.value = "Saving";
+                setTimeout(error_zip,3000)
+            }
             // If anyone has an error don't submit
-            if (
-                !personal_info.first_name.length ||
-                !personal_info.last_name.length ||
-                !personal_info.email.length ||
-                !personal_info.phone.length ||
-                !address_info.address.length ||
-                !address_info.apartment.length ||
-                !address_info.country_id.length ||
-                !address_info.state_id.length ||
-                !address_info.city.length ||
-                !address_info.zip.length
-            ) {
-                return;
-            } else {
+            else {
+                const customer = { ...personal_info, ...address_info };
                 axios.post("store", customer).then((res) => {
-                    loading.value = true;
+                    console.log(res);
                     if (res.status == 200) {
                         successMessage.value = res.data.message;
                         onClickTop();
@@ -627,106 +672,23 @@ export default {
                     } else if (res.status == 422) {
                         successMessage.value = res.data.message;
                         onClickBot();
+                        save.value = "Saving";
                         setTimeout(errorFn, 3000);
                     } else {
                         successMessage.value = "Database Error";
                         onClickBot();
+                        save.value = "Saving";
                         setTimeout(errorFn, 3000);
                     }
                 });
             }
-            // Check which has error and make the error ref true
-            if (!personal_info.first_name.length) {
-                firstNameError.value = true;
-            }
-            if (!personal_info.last_name.length) {
-                lastNameError.value = true;
-            }
-            if (!personal_info.email.length) {
-                emailError.value = true;
-            }
-            if (!personal_info.phone.length) {
-                phoneError.value = true;
-            }
-            if (!address_info.address.length) {
-                addressError.value = true;
-            }
-            if (!address_info.apartment.length) {
-                apartmentError.value = true;
-            }
-            if (!address_info.country_id.length) {
-                countryError.value = true;
-            }
-            if (!address_info.state_id.length) {
-                stateError.value = true;
-            }
-            if (!address_info.city.length) {
-                cityError.value = true;
-            }
-            if (!address_info.zip.length) {
-                zipError.value = true;
-            }
+            
         };
 
-        // data() {
-        //     return {
-        //         states: this.states,
-        //         notification: null,
-        //         country_state: {},
-        //         customer: {},
-        // personal_info: {
-        //     first_name: "",
-        //     last_name: "",
-        //     email: "",
-        //     phone: "",
-        // },
-        // address_info: {
-        //     first_name: "",
-        //     last_name: "",
-        //     address: "",
-        //     apartment: "",
-        //     city: "",
-        //     state: "",
-        // },
-        // last_name: this.last_name,
-        //     };
-        // },
-        // methods: {
-        // submit() {
-        // this.customer.user = this.personal_info;
-        //         const customer = { ...this.personal_info, ...this.address_info };
-        //         Inertia.post("/customers", customer);
-        //     },
-        // },
-        // mounted() {
-        //     this.country_state = this.states;
-        // },
-        // watch: {
-        // "address_info.country_id"(newVal, oldVal) {
-        //console.log(oldVal)
-        //         axios.get(`/api/states?country_id=${newVal}`).then((res) => {
-        //             this.country_state = res.data.data;
-        //             console.log(this.country_state);
-        //         });
-        //     },
-        // },
-
-        // const customer = props.customer;
-
-        // pages.push({
-        //     name: customer?.id,
-        //     href: `/customers/${customer?.id}`,
-        //     current: false,
-        // });
-
-        // function submit() {
-        //     Inertia.post(`/customers`);
-        // }
-
+       
         return {
             pages,
             statusStyles,
-            customer,
             customer_notification,
             personal_info,
             address_info,
@@ -736,13 +698,16 @@ export default {
             phoneError,
             addressError,
             apartmentError,
-            countryError,
-            stateError,
             cityError,
             zipError,
             submit,
+            save,
+            loading,
+            country_state,
+            submit
             // list,
         };
     },
 };
 </script>
+ 

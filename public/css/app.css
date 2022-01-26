@@ -1144,8 +1144,8 @@ select {
 .right-1\/2 {
 	right: 50%;
 }
-.top-11 {
-	top: 2.75rem;
+.top-10 {
+	top: 2.5rem;
 }
 .right-2\.5 {
 	right: 0.625rem;
@@ -1194,6 +1194,9 @@ select {
 }
 .left-2 {
 	left: 0.5rem;
+}
+.top-11 {
+	top: 2.75rem;
 }
 .top-1 {
 	top: 0.25rem;
