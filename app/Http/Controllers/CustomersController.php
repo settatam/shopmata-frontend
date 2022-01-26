@@ -39,7 +39,7 @@ class CustomersController extends Controller
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
         $filters   = $request->all('q', 'orderBy', 'sortOrder');
-        $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request, $from_date, $to_date) {
+        $customers = Customer::where(function (Builder $query) use ($request, $from_date, $to_date) {
             if ($request->filter && $request->q) {
                 $query->where('first_name', 'like', '%' . $request->q . '%')
                     ->orWhere('last_name', 'like', '%' . $request->q . '%')
@@ -200,7 +200,7 @@ class CustomersController extends Controller
     {
         
         $customer = Customer::find($id);
-        
+
         $request->validate([
             'first_name'   => ['required','string'],
             'last_name'    => ['required','string'],
@@ -213,8 +213,8 @@ class CustomersController extends Controller
             \Log::info("Customer Updated");
             return response()->json(['message'=> "Customer details updated successfully" ], 200);
         } catch (\Throwable $th) {
-            \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response()->json(['message'=> "Failed to update settings"  .$th->getMessage()], 422);
+            \Log::Error("Failed to update  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to update settings"], 422);
         }
     }
 
