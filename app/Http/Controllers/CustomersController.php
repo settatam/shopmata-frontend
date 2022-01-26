@@ -57,8 +57,6 @@ class CustomersController extends Controller
             return CustomerCollection::collection($customers);
         }
 
-        dd($customers);
-
 
         return Inertia::render('Customers/Index', compact('customers', 'filters', 'countries'));
     }
