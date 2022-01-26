@@ -198,9 +198,9 @@ class CustomersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
         $customer = Customer::find($id);
-
+        
         $request->validate([
             'first_name'   => ['required','string'],
             'last_name'    => ['required','string'],
