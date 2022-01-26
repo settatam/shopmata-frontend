@@ -39,7 +39,7 @@ class CustomersController extends Controller
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
         $filters   = $request->all('q', 'orderBy', 'sortOrder');
-        $customers = Customer::whereHas('orders')->where(function (Builder $query) use ($request, $from_date, $to_date) {
+        $customers = Customer::where(function (Builder $query) use ($request, $from_date, $to_date) {
             if ($request->filter && $request->q) {
                 $query->where('first_name', 'like', '%' . $request->q . '%')
                     ->orWhere('last_name', 'like', '%' . $request->q . '%')
@@ -56,6 +56,8 @@ class CustomersController extends Controller
         if ( $request->ajax() && $request->filter ) {
             return CustomerCollection::collection($customers);
         }
+
+        dd($customers);
 
 
         return Inertia::render('Customers/Index', compact('customers', 'filters', 'countries'));
