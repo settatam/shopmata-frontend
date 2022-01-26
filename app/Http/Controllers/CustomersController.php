@@ -200,7 +200,7 @@ class CustomersController extends Controller
     {
         
         $customer = Customer::find($id);
-        
+
         $request->validate([
             'first_name'   => ['required','string'],
             'last_name'    => ['required','string'],
@@ -213,8 +213,8 @@ class CustomersController extends Controller
             \Log::info("Customer Updated");
             return response()->json(['message'=> "Customer details updated successfully" ], 200);
         } catch (\Throwable $th) {
-            \Log::Error("Failed to save  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response()->json(['message'=> "Failed to update settings"  .$th->getMessage()], 422);
+            \Log::Error("Failed to update  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to update settings"], 422);
         }
     }
 
