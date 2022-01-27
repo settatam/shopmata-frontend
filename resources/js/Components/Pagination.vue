@@ -31,20 +31,18 @@
         <nav class="relative z-0 inline-flex  rounded-md shadow-sm -space-x-px" aria-label="Pagination">
           <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
             <span v-for="(page,index) in meta.links" :key="index">
-                <inertia-link v-if="page.label.includes('Previous')" href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <inertia-link v-if="page.label.includes('Previous') && page.url " :href="!page.url?'#':page.url" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                     <span class="sr-only">Previous</span>
                     <ChevronLeftIcon class="h-6 w-5" aria-hidden="true" />
                 </inertia-link >
                 <inertia-link  v-if="page.label.includes('Previous')==false && page.label.includes('Next')==false" :href="page.url" aria-current="page" :class="page.active?'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border  font-medium':'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border font-medium'">
                     {{page.label}}
                 </inertia-link >
-                <inertia-link  v-if="page.label.includes('Next')" href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <inertia-link  v-if="page.label.includes('Next') && page.url " :href="!page.url?'#':page.url" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                     <span class="sr-only">Next</span>
-                    <ChevronRightIcon class="h-6 w-5" aria-hidden="true" />
+                    <ChevronRightIcon class="h-6 w-5" aria-hidden="true"  />
                 </inertia-link >
-            </span>
-
-          
+            </span>  
         </nav>
       </div>
     </div>
