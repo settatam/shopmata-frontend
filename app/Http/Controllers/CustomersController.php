@@ -150,6 +150,8 @@ class CustomersController extends Controller
         //
         $store = Store::find(session('store_id'));
 
+        $store->load('currency');
+
         $month = time();
         $months[date("F", $month)] = 0;
         for ($i = 1; $i <= 11; $i++) {
