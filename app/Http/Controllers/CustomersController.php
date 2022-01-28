@@ -103,7 +103,8 @@ class CustomersController extends Controller
 
 
 
-    public function createUpdate($request, $customer){
+    public function createUpdate($request, $customer)
+    {
         $user  = $request->user(); 
         $customer->store_id     = $user->store_id;
         $customer->first_name   = $request->first_name;
@@ -147,6 +148,8 @@ class CustomersController extends Controller
     public function show($id)
     {
         //
+        $store = Store::find(session('store_id'));
+
         $month = time();
         $months[date("F", $month)] = 0;
         for ($i = 1; $i <= 11; $i++) {
@@ -170,7 +173,8 @@ class CustomersController extends Controller
         $customer->number_of_orders = count($customer->orders);
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
 
-        return Inertia::render('Customers/Show', compact('customer', 'user', 'months'));
+
+        return Inertia::render('Customers/Show', compact('store','customer', 'user', 'months'));
     }
 
     /**
