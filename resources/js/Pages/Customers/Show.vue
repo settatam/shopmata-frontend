@@ -108,7 +108,7 @@
                                         {{ getCustomer.phone_number }}
                                     </h2> -->
                                 <h2 class="text-black text-xs lg:text-base">
-                                    {{ store.phone }}
+                                    {{ customer?.phone }}
                                 </h2>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                                 {{ customer?.last_name }}
                             </h2>
                             <h2 class="mb-1">{{ store.address }}</h2>
-                            <h2 class="mb-1">Apt 402</h2>
+                            <h2 class="mb-1"></h2>
                             <h2 class="mb-1">
                                 {{ customer?.city }}
                                 {{ customer?.state }}
@@ -140,40 +140,15 @@
                     </div>
                     <div class="border-b border-gray-200 -mx-5 mb-6.5">
                         <div class="px-5 flex justify-between mb-4">
-                            <h2 class="font-bold">Shipping Address 1</h2>
+                            <h2 class="font-bold">Shipping Address</h2>
                         </div>
                         <div class="px-5 text-gray-500 mb-6 text-xs">
                             <h2 class="font-normal mb-1">
                                 {{ customer.first_name }}
                                 {{ customer.last_name }}
                             </h2>
-                            <h2 class="mb-1">{{ store.address }}</h2>
-                            <h2 class="mb-1">Apt 402</h2>
-                            <h2 class="mb-1">
-                                {{ customer?.city }}
-                                {{ customer?.state }}
-                            </h2>
-                            <h2 class="mb-6">
-                                {{ customer?.country }}
-                            </h2>
-                            <!-- <a
-                                    href="/order/address"
-                                    class="font-semibold text-indigo-700"
-                                    >Add new address</a
-                                > -->
-                        </div>
-                    </div>
-                    <div class="-mx-5 mb-6.5">
-                        <div class="px-5 flex justify-between mb-4">
-                            <h2 class="font-bold">Shipping Address 2</h2>
-                        </div>
-                        <div class="px-5 text-gray-500 mb-6 text-xs">
-                            <h2 class="font-normal mb-1">
-                                {{ customer.first_name }}
-                                {{ customer.last_name }}
-                            </h2>
-                            <h2 class="mb-1">{{ store.address }}</h2>
-                            <h2 class="mb-1">Apt 402</h2>
+                            <h2 class="mb-1">{{ customer?.address }}</h2>
+                            <h2 class="mb-1"></h2>
                             <h2 class="mb-1">
                                 {{ customer?.city }}
                                 {{ customer?.state }}
@@ -198,7 +173,7 @@
                                 <h2 class="font-bold text-lg mb-1 mt-2.5">
                                     <!-- {{ store.currency.symbol_left }} -->
                                     {{
-                                        store.currency.code +
+                                        store.currency.code + " "+
                                         customer.total_orders
                                     }}
                                 </h2>
@@ -959,8 +934,8 @@ export default {
 <style scoped>
 @import "style.css";
 .quill {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 </style>
 <style src="@vueform/multiselect/themes/default.css"></style>
