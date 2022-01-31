@@ -108,7 +108,7 @@
                                         {{ getCustomer.phone_number }}
                                     </h2> -->
                                 <h2 class="text-black text-xs lg:text-base">
-                                    {{ customer?.phone }}
+                                    {{ customer?.phone_number }}
                                 </h2>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                                 {{ customer?.first_name }}
                                 {{ customer?.last_name }}
                             </h2>
-                            <h2 class="mb-1">{{ store.address }}</h2>
+                            <h2 class="mb-1">{{customer.address==null?"Address not available":customer.address }}</h2>
                             <h2 class="mb-1"></h2>
                             <h2 class="mb-1">
                                 {{ customer?.city }}
@@ -147,14 +147,14 @@
                                 {{ customer.first_name }}
                                 {{ customer.last_name }}
                             </h2>
-                            <h2 class="mb-1">{{ customer?.address }}</h2>
+                            <h2 class="mb-1">{{customer.address==null?"Address not available":customer.address }}</h2>
                             <h2 class="mb-1"></h2>
                             <h2 class="mb-1">
-                                {{ customer?.city }}
+                                {{ customer?.city }} 
                                 {{ customer?.state }}
                             </h2>
                             <h2 class="mb-6">
-                                {{ customer?.country }}
+                                {{ customer.country ==null?"Country not available":customer.country }}
                             </h2>
                             <!-- <a
                                     href="/order/address"
@@ -174,7 +174,7 @@
                                     <!-- {{ store.currency.symbol_left }} -->
                                     {{
                                         store.currency.code + " "+
-                                        customer.total_orders
+                                        (customer.total_orders==null ? '0' : customer.total_orders)
                                     }}
                                 </h2>
                                 <p class="text-gray-400">Total Amount</p>
@@ -193,7 +193,7 @@
                             <div class="flex flex-col">
                                 <pending-orders />
                                 <h2 class="font-bold text-lg mb-1 mt-2.5">
-                                    {{ customer.pending_order }}
+                                    {{ !customer.pending_order?'0':customer.pending_order}}
                                 </h2>
                                 <p class="text-gray-400">Pending Order</p>
                             </div>
@@ -315,8 +315,8 @@
                                                 </th> -->
                                             </tr>
                                         </thead>
-                                        <tbody class="divide-y divide-gray-200">
-                                            <tr
+                                        <tbody class="divide-y divide-gray-200" v-if="customer.orders.length>0">
+                                            <tr 
                                                 class=""
                                                 v-for="order in customer.orders"
                                                 :key="order.id"
@@ -330,23 +330,23 @@
                                                     <td
                                                         class="px-3 pt-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider"
                                                     >
-                                                        {{ order.order_id }}
+                                                        {{ !order.order_id ?"N/A":order.order_id }}
                                                     </td>
                                                 </inertia-link>
                                                 <td
                                                     class="px-3 text-left text-base font-medium text-gray-500 tracking-wider"
                                                 >
-                                                    {{ order.created_at }}
+                                                    {{ order.created_at?"N/A":order.created_at }}
                                                 </td>
                                                 <td
                                                     class="px-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                                 >
-                                                    {{ order.items.id }}
+                                                    {{ order.items.id?"N/A" : order.items.id }}
                                                 </td>
                                                 <td
                                                     class="px-3 text-base pl-6 font-medium text-gray-500 uppercase tracking-wider"
                                                 >
-                                                    {{ order.items.length }}
+                                                    {{ order.items.length?"N/A" :order.items.length }}
                                                 </td>
                                                 <td
                                                     class="px-3 text-base font-medium text-gray-500 uppercase tracking-wider"
@@ -354,7 +354,7 @@
                                                     {{
                                                         store.currency
                                                             .symbol_left +
-                                                        order.total
+                                                        (order.total==null?"N/A":order.total)
                                                     }}
                                                 </td>
                                                 <td
@@ -374,7 +374,7 @@
                                                                 ]"
                                                             >
                                                                 {{
-                                                                    order.status
+                                                                    order.status == null ? "N/A" : order.status
                                                                 }}
                                                             </span>
                                                         </div>
@@ -402,6 +402,9 @@
                                                     </div>
                                                 </td> -->
                                             </tr>
+                                        </tbody>
+                                        <tbody class="flex w-full justify-center" v-else>
+                                                <h3 class=" text-center uppercase">Data not available</h3>
                                         </tbody>
                                     </table>
                                 </div>
