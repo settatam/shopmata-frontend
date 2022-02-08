@@ -19,7 +19,7 @@
             <form action="#" method="POST" class="space-y-6" @submit.prevent="submit">
               <div>
                 <label for="sales_method_id" class="block text-sm font-medium text-gray-700">
-                  How do you currently sell your products
+                  How do you currently sell your products <span class="text-red-600 text-xs mx-4" v-if="v$.sales_method_id.$error">{{ v$.sales_method_id.$errors[0].$message }}</span>
                 </label>
 
                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -34,7 +34,7 @@
 
               <div>
                 <label for="" class="block text-sm font-medium text-gray-700">
-                  What Industry are you currently operating?
+                  What Industry are you currently operating? <span class="text-red-600 text-xs mx-4" v-if="v$.industry_id.$error">{{ v$.industry_id.$errors[0].$message }}</span>
                 </label>
 
                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -49,7 +49,7 @@
 
               <div>
                 <label for="has_website" class="block text-sm font-medium text-gray-700">
-                  Do you currently have a website?
+                  Do you currently have a website? <span class="text-red-600 text-xs mx-4" v-if="v$.has_website.$error">{{ v$.has_website.$errors[0].$message }}</span>
                 </label>
 
                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -65,7 +65,7 @@
 
               <div>
                 <label for="has_website" class="block text-sm font-medium text-gray-700">
-                  Which country will you primarily sell in?
+                  Which country will you primarily sell in? <span class="text-red-600 text-xs mx-4" v-if="v$.country_id.$error">{{ v$.country_id.$errors[0].$message }}</span>
                 </label>
 
                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -79,7 +79,11 @@
               </div>
 
               <div>
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button v-if="!v$.$error" type="submit" :disabled="v$.$error" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Continue
+                </button>
+
+                <button v-else type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Continue
                 </button>
               </div>
@@ -93,8 +97,10 @@
 
 <script>
 import axios from "axios";
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { Inertia } from '@inertiajs/inertia'
+import useVuelidate from "@vuelidate/core";
+import { required, minValue, helpers } from "@vuelidate/validators";
 
 export default {
   props: {
@@ -157,15 +163,33 @@ export default {
       country_id: 0
     })
 
+    const rules = computed(() => {
+            return {
+                sales_method_id: { required, minValueValue: helpers.withMessage("* Select a valid sales method", minValue(1))},
+                has_website: { required, minValueValue: helpers.withMessage("* Select a valid option", minValue(1)) },
+                industry_id: {required, minValueValue: helpers.withMessage("* Select a valid industry", minValue(1))},
+                country_id: {required, minValueValue: helpers.withMessage("* Select a valid country", minValue(1))},
+            };
+        });
+
+        const v$ = useVuelidate(rules, store);
+
     function submit() {
-      Inertia.put('/store', store)
+      this.v$.$validate();
+      if (!this.v$.$error) {
+                Inertia.put('/store', store);
+            } else {
+                console.log("Errors in your form!");
+            }
+      
     }
     return {
       industries,
       methods,
       selected_method,
       submit,
-      store
+      store,
+      v$
     }
   }
 };
