@@ -10,7 +10,7 @@
                 <div class="mt-8">
                     <div>
                         <div>
-                            <p class="text-sm font-medium text-gray-700">
+                            <p class="text-lg font-medium text-gray-700">
                                 Sign in with
                             </p>
                         </div>
@@ -49,7 +49,7 @@
                                         name="store_name"
                                         type="text"
                                         autocomplete="store_name"
-                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        class="appearance-none block w-full cursor-pointer px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="store.name"
                                     />
                                     <div
@@ -92,7 +92,7 @@
                                         name="email"
                                         type="email"
                                         autocomplete="email"
-                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        class="appearance-none cursor-pointer block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="store.email"
                                     />
                                     <div
@@ -136,7 +136,7 @@
                                         name="password"
                                         type="password"
                                         autocomplete="current-password"
-                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        class="appearance-none cursor-pointer block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="store.password"
                                     />
                                     <!-- <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" v-if="errors.password">
@@ -169,7 +169,7 @@
                                         name="confirm_password"
                                         type="password"
                                         autocomplete="current-password"
-                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        class="appearance-none cursor-pointer block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="store.password_confirmation"
                                     />
                                 </div>
@@ -189,7 +189,7 @@
                             <div>
                                 <button v-if="!v$.$error"
                                     :disabled="v$.$error"
-                                    :class="{disabled: loading}"
+                                    :class="{disabled: loading, 'opacity-25 cursor-not-allowed': loading }"
                                     type="submit"
                                     class="w-full  flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >Continue
@@ -222,7 +222,7 @@ import axios from "axios";
 import { ref, reactive, computed } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import useVuelidate from "@vuelidate/core";
-import { required, email, sameAs, helpers } from "@vuelidate/validators";
+import { required, email, sameAs, helpers, minLength } from "@vuelidate/validators";
 
 export default {
     props: {
@@ -284,13 +284,23 @@ export default {
                     required: helpers.withMessage("* Invalid email", required),
                     email,
                 },
-                password: { required },
+                password: { required: helpers.withMessage(
+                        "* This field cannot be empty",
+                        required
+                    ), 
+                minLengthValue: helpers.withMessage(
+                        "* Password must have a minimum of 8 characters",
+                        minLength(8)
+                    ), },
                 password_confirmation: {
                     required: helpers.withMessage(
-                        "* Passwords do not match",
+                        "* This field cannot be empty",
                         required
+                    ), 
+                    sameAsPassword: helpers.withMessage(
+                        "* Passwords do not match",
+                        sameAs(store.password)
                     ),
-                    sameAsPassword: sameAs(store.password),
                 },
                 name: {
                     required: helpers.withMessage(
@@ -306,7 +316,7 @@ export default {
         function submit() {
             this.v$.$validate();
             if (!this.v$.$error) {
-              loading.value = !loading.value
+                loading.value = !loading.value
                 Inertia.post("/register", store);
             } else {
                 console.log("Errors in your form!");
