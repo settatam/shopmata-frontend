@@ -22,6 +22,11 @@
                             ></div>
                         </div>
                     </div>
+                    <!-- Error message -->
+                        <div class="mt-1" > 
+                            <p class="text-red-600 text-xs" v-if="loginError"> * Form contains errors</p>
+                        </div>
+                    <!-- Error ends -->
 
                     <div class="mt-6">
                         <form
@@ -36,12 +41,6 @@
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     Store Name
-                                    <span
-                                        class="text-red-600 text-xs mx-4"
-                                        v-if="v$.name.$error"
-                                    >
-                                        {{ v$.name.$errors[0].$message }}
-                                    </span>
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input
@@ -72,6 +71,14 @@
                                         </svg>
                                     </div>
                                 </div>
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs mx-4"
+                                        v-if="v$.name.$error"
+                                    >
+                                        {{ v$.name.$errors[0].$message }}
+                                    </p>
+                                </div>
                             </div>
                             <div>
                                 <label
@@ -79,12 +86,6 @@
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     Email address
-                                    <span
-                                        class="text-red-600 text-xs mx-4"
-                                        v-if="v$.email.$error"
-                                    >
-                                        {{ v$.email.$errors[0].$message }}
-                                    </span>
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input
@@ -115,6 +116,14 @@
                                         </svg>
                                     </div>
                                 </div>
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs mx-4"
+                                        v-if="v$.email.$error"
+                                    >
+                                        {{ v$.email.$errors[0].$message }}
+                                    </p>
+                                </div>
                             </div>
 
                             <div class="space-y-1">
@@ -123,12 +132,6 @@
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     Password
-                                    <span
-                                        class="text-red-600 text-xs mx-4"
-                                        v-if="v$.password.$error"
-                                    >
-                                        {{ v$.password.$errors[0].$message }}
-                                    </span>
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input
@@ -145,6 +148,14 @@
                     </svg>
                   </div> -->
                                 </div>
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs mx-4"
+                                        v-if="v$.password.$error"
+                                    >
+                                        {{ v$.password.$errors[0].$message }}
+                                    </p>
+                                </div>
                             </div>
 
                             <div class="space-y-1">
@@ -153,15 +164,6 @@
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     Confirm Password
-                                    <span
-                                        class="text-red-600 text-xs mx-4"
-                                        v-if="v$.password_confirmation.$error"
-                                    >
-                                        {{
-                                            v$.password_confirmation.$errors[0]
-                                                .$message
-                                        }}
-                                    </span>
                                 </label>
                                 <div class="mt-1">
                                     <input
@@ -172,6 +174,8 @@
                                         class="appearance-none cursor-pointer block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="store.password_confirmation"
                                     />
+                                </div>
+                                <div class="mt-1">
                                 </div>
                             </div>
 
@@ -219,7 +223,7 @@
 
 <script>
 import axios from "axios";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import useVuelidate from "@vuelidate/core";
 import { required, email, sameAs, helpers, minLength } from "@vuelidate/validators";
@@ -269,7 +273,7 @@ export default {
         //   }
         // }
         const loading = ref(false)
-
+        const loginError = ref(false);
         const store = reactive({
             step: 1,
             email: "",
@@ -278,6 +282,8 @@ export default {
             name: "",
         });
 
+        watch(store,() => loginError.value = false);
+
         const rules = computed(() => {
             return {
                 email: {
@@ -285,13 +291,10 @@ export default {
                     email,
                 },
                 password: { required: helpers.withMessage(
-                        "* This field cannot be empty",
+                        "* Enter your password",
                         required
                     ), 
-                minLengthValue: helpers.withMessage(
-                        "* Password must have a minimum of 8 characters",
-                        minLength(8)
-                    ), },
+                },
                 password_confirmation: {
                     required: helpers.withMessage(
                         "* This field cannot be empty",
@@ -319,7 +322,7 @@ export default {
                 loading.value = !loading.value
                 Inertia.post("/register", store);
             } else {
-                console.log("Errors in your form!");
+                loginError.value = true
             }
         }
 
@@ -327,7 +330,8 @@ export default {
             store,
             submit,
             v$,
-            loading
+            loading,
+            loginError
         };
     },
 };
