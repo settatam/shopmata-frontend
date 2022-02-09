@@ -43,7 +43,6 @@ class StoreController extends Controller
                     "type" => "failed",
                     "message" => "You must be Logged In",
                 ];
-
                 return response()->json([ 'notification' => $notification ], 401);
             }
             
@@ -69,9 +68,7 @@ class StoreController extends Controller
                 Log::info('Created a new owner with the following details', $store_user);
             }
 
-
-            //create 
-            
+            //create
             $notification = [
                 "title" => "Store Created Successfully",
                 "type" => "success",
@@ -87,15 +84,12 @@ class StoreController extends Controller
                 'line' => $e->getLine(),
                 'type' => class_basename( $e ),
             ];
-
             \Log::info("create store exception".print_r($exceptionDetails, true));
-
             $notification = [
                 "title" => "An Exception Occurred",
                 "type" => "failed",
                 "message" => $exceptionDetails['message']
             ];
-
             return response()->json(['notification' => $notification ], 500);
         }
     }
@@ -104,6 +98,7 @@ class StoreController extends Controller
         
         $redirect = false;
         $input = $request->input();
+
         $redirect = 'settings.general';
         
         if($request->has('step')) {
@@ -114,7 +109,6 @@ class StoreController extends Controller
                     'has_website'=>['required']
                 ]);
                 $input['step'] = 3;
-
                 $country = Country::find($request->country_id);
                 if(null !== $country) {
                     $input['timezone_id'] = $country->default_time_zone_id;
@@ -123,7 +117,7 @@ class StoreController extends Controller
                 }
                 $redirect = 'register-step-3';
             }else if($request->step == 3){
-                
+
                 $request->validate([
                     'first_name'=>['required'],
                     'last_name'=>['required'],
@@ -140,8 +134,8 @@ class StoreController extends Controller
 
                 $user = User::find(Auth::id());
                 $user_details = [
-                                    'first_name'=>$input['first_name'], 
-                                    'last_name'=>$input['last_name']
+                                    'first_name' => $input['first_name'], 
+                                    'last_name'  => $input['last_name']
                                 ];
 
                 if(null !== $user){
