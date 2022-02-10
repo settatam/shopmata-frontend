@@ -14,6 +14,12 @@
                         </div>
                     </div>
 
+                    <!-- Error message -->
+                        <div class="mt-1" > 
+                            <p class="text-red-600 text-xs" v-if="loginError"> * You have errors in your form</p>
+                        </div>
+                    <!-- Error ends -->
+
                     <div class="mt-6">
                         <form
                             action="#"
@@ -27,14 +33,6 @@
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     How do you currently sell your products
-                                    <span
-                                        class="text-red-600 text-xs mx-4"
-                                        v-if="v$.sales_method_id.$error"
-                                        >{{
-                                            v$.sales_method_id.$errors[0]
-                                                .$message
-                                        }}</span
-                                    >
                                 </label>
 
                                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -54,7 +52,18 @@
                                         </option>
                                     </select>
                                 </div>
+                                <div class="mt-1">
+                                <p
+                                        class="text-red-600 text-xs mx-4"
+                                        v-if="v$.sales_method_id.$error"
+                                        >{{
+                                            v$.sales_method_id.$errors[0]
+                                                .$message
+                                        }}
+                                    </p>
                             </div>
+                            </div>
+                            
 
                             <div>
                                 <label
@@ -62,13 +71,6 @@
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     What Industry are you currently operating?
-                                    <span
-                                        class="text-red-600 text-xs mx-4"
-                                        v-if="v$.industry_id.$error"
-                                        >{{
-                                            v$.industry_id.$errors[0].$message
-                                        }}</span
-                                    >
                                 </label>
 
                                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -90,6 +92,15 @@
                                         </option>
                                     </select>
                                 </div>
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs mx-4"
+                                        v-if="v$.industry_id.$error"
+                                        >{{
+                                            v$.industry_id.$errors[0].$message
+                                        }}
+                                    </p>
+                                </div>
                             </div>
 
                             <div>
@@ -98,13 +109,6 @@
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     Do you currently have a website?
-                                    <span
-                                        class="text-red-600 text-xs mx-4"
-                                        v-if="v$.has_website.$error"
-                                        >{{
-                                            v$.has_website.$errors[0].$message
-                                        }}</span
-                                    >
                                 </label>
 
                                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -114,10 +118,19 @@
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         v-model="store.has_website"
                                     >
-                                        <option value="0">Select</option>
+                                        <option value="null">Select</option>
                                         <option value="1">Yes</option>
                                         <option value="0">No</option>
                                     </select>
+                                </div>
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs mx-4"
+                                        v-if="v$.has_website.$error"
+                                        >{{
+                                            v$.has_website.$errors[0].$message
+                                        }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -127,13 +140,6 @@
                                     class="block text-sm font-medium text-gray-700"
                                 >
                                     Which country will you primarily sell in?
-                                    <span
-                                        class="text-red-600 text-xs mx-4"
-                                        v-if="v$.country_id.$error"
-                                        >{{
-                                            v$.country_id.$errors[0].$message
-                                        }}</span
-                                    >
                                 </label>
 
                                 <div class="mt-1 relative rounded-md shadow-sm">
@@ -154,6 +160,15 @@
                                             {{ country.name }}
                                         </option>
                                     </select>
+                                </div>
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs mx-4"
+                                        v-if="v$.country_id.$error"
+                                        >{{
+                                            v$.country_id.$errors[0].$message
+                                        }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -204,10 +219,10 @@
 
 <script>
 import axios from "axios";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import useVuelidate from "@vuelidate/core";
-import { required, minValue, helpers } from "@vuelidate/validators";
+import { required, minValue, helpers, numeric } from "@vuelidate/validators";
 
 export default {
     props: {
@@ -261,6 +276,7 @@ export default {
         const methods = props.methods;
         const selected_method = ref("");
         const loading = ref(false);
+        const loginError = ref(false);
 
         const store = reactive({
             industry_id: 0,
@@ -269,6 +285,8 @@ export default {
             step: 2,
             country_id: 0,
         });
+
+        watch(store,() => loginError.value = false);
 
         const rules = computed(() => {
             return {
@@ -281,9 +299,9 @@ export default {
                 },
                 has_website: {
                     required,
-                    minValueValue: helpers.withMessage(
+                    numeric: helpers.withMessage(
                         "* Select a valid option",
-                        minValue(1)
+                        numeric
                     ),
                 },
                 industry_id: {
@@ -311,7 +329,7 @@ export default {
                 loading.value = !loading.value
                 Inertia.put("/store", store);
             } else {
-                console.log("Errors in your form!");
+                loginError.value = true
             }
         }
         return {
@@ -322,6 +340,7 @@ export default {
             store,
             v$,
             loading,
+            loginError
         };
     },
 };

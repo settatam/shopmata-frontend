@@ -152,7 +152,7 @@ class ShippingRatesController extends Controller
             
         }else{
 
-        return \Redirect::route('settings.shipping')->withErrors('You do not have permissions to delete this record');
+            return \Redirect::route('settings.shipping')->withErrors('You do not have permissions to delete this record');
         }
     }
 }
