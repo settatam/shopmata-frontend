@@ -51,11 +51,9 @@ class ShippingRatesController extends Controller
         ]);
 
         try {
-            
             $data = $request->input();
             $data['store_id'] = $request->session()->get('store_id');
             $data['user_id'] = Auth::id();
-
             if($shipping_rate = ShippingRate::create($data)) {
                 Log::info(Auth::id() . ' created a new shipping rate ' , $data);
                 if(isset($data['conditions'])) {
@@ -70,7 +68,8 @@ class ShippingRatesController extends Controller
             return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
 
         } catch (\Throwable $th) {
-            //throw $th;
+            return response()->json(['message'=>"Failed to save shipping rate"], 422);
+            \Log::error("Failed to save shipping rate" . collect($request->all())  ."Error: " .$th->getMessage() );
         }
 
     }
@@ -120,7 +119,6 @@ class ShippingRatesController extends Controller
             $rate->description = $request->description;
             if($rate->save()) {
                 // Log::info();
-                //Add to Store Activity
             }
         }
 
