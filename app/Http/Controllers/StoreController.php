@@ -154,7 +154,6 @@ class StoreController extends Controller
                 
                 $input['step'] = 4;
                 $redirect = 'dashboard';
-
                 foreach($input as $index => $value) {
                     if(is_array($value)) unset($input[$index]);
                     if(is_null($value)) unset($input[$index]);

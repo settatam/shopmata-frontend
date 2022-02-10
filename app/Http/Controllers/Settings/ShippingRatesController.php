@@ -42,34 +42,37 @@ class ShippingRatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-        // dd($request->input());
-        
+    { 
+
         $request->validate([
             'name'=>['required'],
             'price'=>['required'],
             'is_domestic'=>['required']
         ]);
 
-        $data = $request->input();
-        $data['store_id'] = $request->session()->get('store_id');
-        $data['user_id'] = Auth::id();
+        try {
+            
+            $data = $request->input();
+            $data['store_id'] = $request->session()->get('store_id');
+            $data['user_id'] = Auth::id();
 
-        if($shipping_rate = ShippingRate::create($data)) {
-            Log::info(Auth::id() . ' created a new shipping rate ' , $data);
-
-            if(isset($data['conditions'])) {
-                foreach($data['conditions'] as $condition) {
-                    $condition['user_id'] = Auth::id();
-                    $condition['shipping_rate_id'] = $shipping_rate->id;
-                    $shipping_condition = ShippingRateCondition::create($condition);
-                    Log::info(Auth::id() . ' created a new shipping rate condition ' , $condition);
+            if($shipping_rate = ShippingRate::create($data)) {
+                Log::info(Auth::id() . ' created a new shipping rate ' , $data);
+                if(isset($data['conditions'])) {
+                    foreach($data['conditions'] as $condition) {
+                        $condition['user_id'] = Auth::id();
+                        $condition['shipping_rate_id'] = $shipping_rate->id;
+                        $shipping_condition = ShippingRateCondition::create($condition);
+                        Log::info(Auth::id() . ' created a new shipping rate condition ' , $condition);
+                    }
                 }
             }
+            return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
+
+        } catch (\Throwable $th) {
+            //throw $th;
         }
 
-        return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
     }
 
     /**
