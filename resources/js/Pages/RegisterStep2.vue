@@ -14,12 +14,6 @@
                         </div>
                     </div>
 
-                    <!-- Error message -->
-                        <div class="mt-1" > 
-                            <p class="text-red-600 text-xs" v-if="loginError"> * You have errors in your form</p>
-                        </div>
-                    <!-- Error ends -->
-
                     <div class="mt-6">
                         <form
                             action="#"
@@ -38,6 +32,7 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="sales_method_id"
+                                        :class="{'border-red-600': v$.sales_method_id.$error, 'border-gray-300': !v$.sales_method_id.$error}"
                                         name="location"
                                         v-model="store.sales_method_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -54,7 +49,7 @@
                                 </div>
                                 <div class="mt-1">
                                 <p
-                                        class="text-red-600 text-xs mx-4"
+                                        class="text-red-600 text-xs"
                                         v-if="v$.sales_method_id.$error"
                                         >{{
                                             v$.sales_method_id.$errors[0]
@@ -76,6 +71,7 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="location"
+                                        :class="{'border-red-600': v$.industry_id.$error, 'border-gray-300': !v$.industry_id.$error}"
                                         name="location"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         v-model="store.industry_id"
@@ -94,7 +90,7 @@
                                 </div>
                                 <div class="mt-1">
                                     <p
-                                        class="text-red-600 text-xs mx-4"
+                                        class="text-red-600 text-xs"
                                         v-if="v$.industry_id.$error"
                                         >{{
                                             v$.industry_id.$errors[0].$message
@@ -114,6 +110,7 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="has_website"
+                                        :class="{'border-red-600': v$.has_website.$error, 'border-gray-300': !v$.has_website.$error}"
                                         name="has_website"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         v-model="store.has_website"
@@ -125,7 +122,7 @@
                                 </div>
                                 <div class="mt-1">
                                     <p
-                                        class="text-red-600 text-xs mx-4"
+                                        class="text-red-600 text-xs"
                                         v-if="v$.has_website.$error"
                                         >{{
                                             v$.has_website.$errors[0].$message
@@ -145,6 +142,7 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="country"
+                                        :class="{'border-red-600': v$.country_id.$error, 'border-gray-300': !v$.country_id.$error}"
                                         name="country_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         v-model="store.country_id"
@@ -163,7 +161,7 @@
                                 </div>
                                 <div class="mt-1">
                                     <p
-                                        class="text-red-600 text-xs mx-4"
+                                        class="text-red-600 text-xs"
                                         v-if="v$.country_id.$error"
                                         >{{
                                             v$.country_id.$errors[0].$message
@@ -180,12 +178,11 @@
                                     type="submit"
                                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
-                                    Continue
 
                                     <svg
                                         v-if="loading"
                                         role="status"
-                                        class="ml-4 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                        class="mr-5 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                                         viewBox="0 0 100 101"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -199,12 +196,14 @@
                                             fill="currentFill"
                                         ></path>
                                     </svg>
+
+                                    Continue
                                 </button>
 
                                 <button
                                     v-else
                                     type="submit"
-                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
                                     Continue
                                 </button>
@@ -293,28 +292,28 @@ export default {
                 sales_method_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        "* Select a valid sales method",
+                        "Please enter a valid sales method",
                         minValue(1)
                     ),
                 },
                 has_website: {
                     required,
                     numeric: helpers.withMessage(
-                        "* Select a valid option",
+                        "Please select a valid option",
                         numeric
                     ),
                 },
                 industry_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        "* Select a valid industry",
+                        "Please select a valid industry",
                         minValue(1)
                     ),
                 },
                 country_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        "* Select a valid country",
+                        "Please select a valid country",
                         minValue(1)
                     ),
                 },
