@@ -32,7 +32,12 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="sales_method_id"
-                                        :class="{'border-red-600': v$.sales_method_id.$error, 'border-gray-300': !v$.sales_method_id.$error}"
+                                        :class="{
+                                            'border-red-600':
+                                                v$.sales_method_id.$error,
+                                            'border-gray-300':
+                                                !v$.sales_method_id.$error,
+                                        }"
                                         name="location"
                                         v-model="store.sales_method_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -48,17 +53,17 @@
                                     </select>
                                 </div>
                                 <div class="mt-1">
-                                <p
+                                    <p
                                         class="text-red-600 text-xs"
                                         v-if="v$.sales_method_id.$error"
-                                        >{{
+                                    >
+                                        {{
                                             v$.sales_method_id.$errors[0]
                                                 .$message
                                         }}
                                     </p>
+                                </div>
                             </div>
-                            </div>
-                            
 
                             <div>
                                 <label
@@ -71,7 +76,12 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="location"
-                                        :class="{'border-red-600': v$.industry_id.$error, 'border-gray-300': !v$.industry_id.$error}"
+                                        :class="{
+                                            'border-red-600':
+                                                v$.industry_id.$error,
+                                            'border-gray-300':
+                                                !v$.industry_id.$error,
+                                        }"
                                         name="location"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         v-model="store.industry_id"
@@ -92,9 +102,8 @@
                                     <p
                                         class="text-red-600 text-xs"
                                         v-if="v$.industry_id.$error"
-                                        >{{
-                                            v$.industry_id.$errors[0].$message
-                                        }}
+                                    >
+                                        {{ v$.industry_id.$errors[0].$message }}
                                     </p>
                                 </div>
                             </div>
@@ -110,7 +119,12 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="has_website"
-                                        :class="{'border-red-600': v$.has_website.$error, 'border-gray-300': !v$.has_website.$error}"
+                                        :class="{
+                                            'border-red-600':
+                                                v$.has_website.$error,
+                                            'border-gray-300':
+                                                !v$.has_website.$error,
+                                        }"
                                         name="has_website"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         v-model="store.has_website"
@@ -124,9 +138,8 @@
                                     <p
                                         class="text-red-600 text-xs"
                                         v-if="v$.has_website.$error"
-                                        >{{
-                                            v$.has_website.$errors[0].$message
-                                        }}
+                                    >
+                                        {{ v$.has_website.$errors[0].$message }}
                                     </p>
                                 </div>
                             </div>
@@ -142,7 +155,12 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="country"
-                                        :class="{'border-red-600': v$.country_id.$error, 'border-gray-300': !v$.country_id.$error}"
+                                        :class="{
+                                            'border-red-600':
+                                                v$.country_id.$error,
+                                            'border-gray-300':
+                                                !v$.country_id.$error,
+                                        }"
                                         name="country_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         v-model="store.country_id"
@@ -163,9 +181,8 @@
                                     <p
                                         class="text-red-600 text-xs"
                                         v-if="v$.country_id.$error"
-                                        >{{
-                                            v$.country_id.$errors[0].$message
-                                        }}
+                                    >
+                                        {{ v$.country_id.$errors[0].$message }}
                                     </p>
                                 </div>
                             </div>
@@ -174,11 +191,14 @@
                                 <button
                                     v-if="!v$.$error"
                                     :disabled="v$.$error"
-                                    :class="{disabled: loading, 'opacity-25 cursor-not-allowed': loading }"
+                                    :class="{
+                                        disabled: loading,
+                                        'opacity-25 cursor-not-allowed':
+                                            loading,
+                                    }"
                                     type="submit"
                                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
-
                                     <svg
                                         v-if="loading"
                                         role="status"
@@ -233,7 +253,6 @@ export default {
 
     data() {
         return {
-            // loading: false,
             notification: null,
             show: false,
             user: {
@@ -245,37 +264,12 @@ export default {
             search: "",
         };
     },
-    methods: {
-        // async registerUser() {
-        //   this.loading = true;
-        //   try {
-        //     const res = await axios.post("/register", { ...this.user});
-        //     const { notification, storeCount, stores } = res.data;
-        //     if (storeCount > 1) {
-        //       this.stores = stores;
-        //       this.selectStore = true;
-        //     } else {
-        //       this.notification = notification;
-        //       // window.location.href = "/dashboard";
-        //     }
-        //   } catch (error) {
-        //     console.log(error);
-        //     const { notification } = error.response.data;
-        //     this.notification = notification;
-        //     this.loading = false;
-        //   }
-        // },
-        toggleShow() {
-            this.show = !this.show;
-        },
-    },
 
     setup(props) {
         const industries = props.industries;
         const methods = props.methods;
         const selected_method = ref("");
         const loading = ref(false);
-        const loginError = ref(false);
 
         const store = reactive({
             industry_id: 0,
@@ -284,8 +278,6 @@ export default {
             step: 2,
             country_id: 0,
         });
-
-        watch(store,() => loginError.value = false);
 
         const rules = computed(() => {
             return {
@@ -324,12 +316,11 @@ export default {
 
         function submit() {
             this.v$.$validate();
-            if (!this.v$.$error) {
-                loading.value = !loading.value
-                Inertia.put("/store", store);
-            } else {
-                loginError.value = true
+            if (this.v$.$error) {
+                return;
             }
+            loading.value = !loading.value;
+            Inertia.put("/store", store);
         }
         return {
             industries,
@@ -339,7 +330,6 @@ export default {
             store,
             v$,
             loading,
-            loginError
         };
     },
 };
