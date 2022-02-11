@@ -212,12 +212,7 @@ export default {
     const popModal = () => {
       Modal.value = true
       }
-    /* const delete_location = ()=>{
-      open_delete.value = true
-      is_delete_location.value = true
-      //Inertia.delete(`/settings/store-locations/${id}`)
-      //location.reload()  
-    } */
+    
     const delete_location =()=>{
       is_delete_location.value = true
       open_delete.value = true

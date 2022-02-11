@@ -16,7 +16,6 @@ class GiftCardsController extends Controller
      */
     public function index()
     {
-        // $giftCardsSettings = GiftCard::all();
         $store = Store::find(session('store_id'));
         return Inertia::render('Settings/GiftCards/Index', compact('store'));
     }
@@ -37,9 +36,62 @@ class GiftCardsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+
+    public function createGiftCards(Request $request)
     {
-        //
+        try {
+            // 'store_id', 'expire', 'period', 'duration'
+            $data = $request->all();
+            $validator = Validator::make($data, [
+                "expire" => "required|in:1,2",
+                "duration" => "nullable|string|in:years,months,days",
+                "period" => "nullable|string",
+            ]);
+
+            if ($validator->fails()) {
+                $notification = [
+                    "title" => "Validation Errors",
+                    "type" => "failed",
+                    "message" => "Request Failed Validation",
+                    "validationErrors" => $validator->errors(),
+                ];
+                return response()->json(['notification' => $notification], 400);
+            }
+
+            $updateGiftCard = Store::where('id', session('store_id'))
+                ->update([
+                    'gift_card_should_expire' => $data['expire'],
+                    'gift_card_expire_after' => $data['period'],
+                    'gift_card_expiry_duration' => $data['duration']
+                ]);
+
+            \Log::info(Auth::id() . "Updated gift cards" . print_r($data, true));
+
+            $notification = [
+                "title" => "Successful",
+                "type" => "success",
+                "message" => "Gift Card Settings Updated",
+            ];
+
+            return response()->json(['notification' => $notification]);
+        } catch (\Exception $e) {
+            $exceptionDetails = [
+                "message" => $e->getMessage(),
+                'file' => basename($e->getFile()),
+                'line' => $e->getLine(),
+                'type' => class_basename($e),
+            ];
+
+            \Log::info("Create Shipping Profile Exception" . print_r($exceptionDetails, true));
+
+            $notification = [
+                "title" => "An Exception Occurred",
+                "type" => "failed",
+                "message" => "An Exception Occurred Please Try Again",
+            ];
+
+            return response()->json(['notification' => $notification], 422);
+        }
     }
 
     /**

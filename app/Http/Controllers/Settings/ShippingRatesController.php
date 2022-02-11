@@ -66,7 +66,6 @@ class ShippingRatesController extends Controller
                 }
             }
             return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
-
         } catch (\Throwable $th) {
             return response()->json(['message'=>"Failed to save shipping rate"], 422);
             \Log::error("Failed to save shipping rate" . collect($request->all())  ."Error: " .$th->getMessage() );

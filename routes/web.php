@@ -177,8 +177,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::delete('settings/payments/{id}', [SettingsController::class, 'deletePayment']);
 
 	#Settings -> Gift Cards
-	Route::get('settings/gift-cards', [GiftCardsController::class, 'index'])->name('settings.giftCards');
-	Route::post('settings/gift-cards', [SettingsController::class, 'createGiftCards']);
+	Route::get('settings/gift-cards',  [GiftCardsController::class, 'index'])->name('settings.giftCards');
+	Route::post('settings/gift-cards', [GiftCardsController::class,  'createGiftCards']);
 
 	#Settings -> Notifications
 	Route::get('settings/notifications', [NotificationsController::class, 'index']);
@@ -237,7 +237,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('order-customer-note', OrderCustomerNoteController::class);
     Route::resource('settings/shipping-rates', ShippingRatesController::class);
-    /* Route::put('settings/shipping-rates/{id}', ShippingRatesController::class,update); */
+    // Route::put('settings/shipping-rates/{id}', ShippingRatesController::class,update); */
 
     // Navigation
 
