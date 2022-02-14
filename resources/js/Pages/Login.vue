@@ -354,14 +354,13 @@ export default {
 
         async function loginUser() {
             this.v$.$validate();
-
             if (this.v$.$error) {
                 return;
             }
             loading.value = !loading.value;
             axios
                 .post("/login", user)
-                .then((res)=>window.location.href = "/dashboard")
+                .then((res) => (window.location.href = "/dashboard"))
                 .catch((error) => {
                     console.log(error);
                     loginError.value = true;

@@ -61,10 +61,10 @@
                                         class="appearance-none block w-full cursor-pointer px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="store.name"
                                     />
-                                    <div
+                                    <!-- <div
                                         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
                                         v-if="errors.name"
-                                    ></div>
+                                    ></div> -->
                                 </div>
                                 <div class="mt-1">
                                     <p
@@ -95,10 +95,6 @@
                                         class="appearance-none cursor-pointer block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="store.email"
                                     />
-                                    <div
-                                        class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
-                                        v-if="errors.email"
-                                    ></div>
                                 </div>
                                 <div class="mt-1">
                                     <p
@@ -106,6 +102,12 @@
                                         v-if="v$.email.$error"
                                     >
                                         {{ v$.email.$errors[0].$message }}
+                                    </p>
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="errors"
+                                    >
+                                        {{ errors.email[0] }}
                                     </p>
                                 </div>
                             </div>
@@ -132,11 +134,6 @@
                                         class="appearance-none cursor-pointer block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="store.password"
                                     />
-                                    <!-- <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none" v-if="errors.password">
-                      <svg class="h-5 w-5 text-red-500" x-description="Heroicon name: solid/exclamation-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                    </svg>
-                  </div> -->
                                 </div>
                                 <div class="mt-1">
                                     <p
@@ -278,6 +275,8 @@ export default {
 
     setup(props) {
         const loading = ref(false);
+        let errors = ref(null);
+
         const store = reactive({
             step: 1,
             email: "",
@@ -328,7 +327,19 @@ export default {
                 return;
             }
             loading.value = !loading.value;
-            Inertia.post("/register", store);
+            axios
+                .post("/register", store)
+                .then((response) => {
+                    Inertia.visit("/register/step-2", {
+                        method: "get",
+                    });
+                })
+                .catch((error) => {
+                    loading.value = !loading.value;
+                    if (error.response.data.errors) {
+                        errors.value = error.response.data.errors;
+                    }
+                });
         }
 
         return {
@@ -336,6 +347,7 @@ export default {
             submit,
             v$,
             loading,
+            errors,
         };
     },
 };

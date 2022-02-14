@@ -20,7 +20,8 @@ class ShippingRatesController extends Controller
      */
     public function index()
     {
-        //
+        
+        
         return new ShippingRateCollection(ShippingRate::with('conditions')->orderBy('id', 'desc')->get());
 
     }
@@ -32,7 +33,10 @@ class ShippingRatesController extends Controller
      */
     public function create()
     {
-        //
+        $condition_options = ShippingRateCondition::$condition_options;
+        $rate_options = ShippingRateCondition::$rate_options;
+        $rates = ShippingRate::with('conditions')->orderBy('id', 'desc')->get();
+        return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rates', 'condition_options', 'rate_options'));
     }
 
     /**
@@ -42,34 +46,35 @@ class ShippingRatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-        // dd($request->input());
-        
+    { 
+
         $request->validate([
             'name'=>['required'],
             'price'=>['required'],
             'is_domestic'=>['required']
         ]);
 
-        $data = $request->input();
-        $data['store_id'] = $request->session()->get('store_id');
-        $data['user_id'] = Auth::id();
-
-        if($shipping_rate = ShippingRate::create($data)) {
-            Log::info(Auth::id() . ' created a new shipping rate ' , $data);
-
-            if(isset($data['conditions'])) {
-                foreach($data['conditions'] as $condition) {
-                    $condition['user_id'] = Auth::id();
-                    $condition['shipping_rate_id'] = $shipping_rate->id;
-                    $shipping_condition = ShippingRateCondition::create($condition);
-                    Log::info(Auth::id() . ' created a new shipping rate condition ' , $condition);
+        try {
+            $data = $request->input();
+            $data['store_id'] = $request->session()->get('store_id');
+            $data['user_id'] = Auth::id();
+            if($shipping_rate = ShippingRate::create($data)) {
+                Log::info(Auth::id() . ' created a new shipping rate ' , $data);
+                if(isset($data['conditions'])) {
+                    foreach($data['conditions'] as $condition) {
+                        $condition['user_id'] = Auth::id();
+                        $condition['shipping_rate_id'] = $shipping_rate->id;
+                        $shipping_condition = ShippingRateCondition::create($condition);
+                        Log::info(Auth::id() . ' created a new shipping rate condition ' , $condition);
+                    }
                 }
             }
+            return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
+        } catch (\Throwable $th) {
+            return response()->json(['message'=>"Failed to save shipping rate"], 422);
+            \Log::error("Failed to save shipping rate" . collect($request->all())  ."Error: " .$th->getMessage() );
         }
 
-        return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
     }
 
     /**
@@ -90,8 +95,12 @@ class ShippingRatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+
+        $condition_options = ShippingRateCondition::$condition_options;
+        $rate_options = ShippingRateCondition::$rate_options;
+        $rate = ShippingRate::find($id);
+        return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rate', 'condition_options', 'rate_options'));
     }
 
     /**
@@ -117,7 +126,6 @@ class ShippingRatesController extends Controller
             $rate->description = $request->description;
             if($rate->save()) {
                 // Log::info();
-                //Add to Store Activity
             }
         }
 
@@ -149,7 +157,7 @@ class ShippingRatesController extends Controller
             
         }else{
 
-        return \Redirect::route('settings.shipping')->withErrors('You do not have permissions to delete this record');
+            return \Redirect::route('settings.shipping')->withErrors('You do not have permissions to delete this record');
         }
     }
 }

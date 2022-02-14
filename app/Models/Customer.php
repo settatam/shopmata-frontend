@@ -51,10 +51,13 @@ class Customer extends Model
         return $this->hasMany(StoreUser::class);
     }
 
+
     public function shipping_addresses()
     {
         return $this->hasMany(ShippingAddress::class, 'user_id', 'user_id');
     }
+
+    
 
     public function orders()
     {
@@ -63,7 +66,7 @@ class Customer extends Model
 
     public function scopeWithTotalOrders($query, $customer_id){
         return $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_orders')
-                ->where('customer_id', $customer_id)
+            ->where('customer_id', $customer_id)
         ]);
     }
 }
