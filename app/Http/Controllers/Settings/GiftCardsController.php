@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Store;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
+
 
 class GiftCardsController extends Controller
 {
