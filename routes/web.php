@@ -235,7 +235,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('online-store/store-users', StoreUserController::class);
 
     Route::resource('order-customer-note', OrderCustomerNoteController::class);
-	Route::get('settings/shipping-rates/create', [ShippingRatesController::class, 'create']);
     Route::resource('settings/shipping-rates', ShippingRatesController::class);
 
 
