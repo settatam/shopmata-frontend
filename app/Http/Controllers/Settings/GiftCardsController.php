@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Store;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class GiftCardsController extends Controller
@@ -76,12 +78,12 @@ class GiftCardsController extends Controller
             ];
 
             return response()->json(['notification' => $notification]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $th) {
             $exceptionDetails = [
-                "message" => $e->getMessage(),
-                'file' => basename($e->getFile()),
-                'line' => $e->getLine(),
-                'type' => class_basename($e),
+                "message" => $th->getMessage(),
+                'file' => basename($th->getFile()),
+                'line' => $th->getLine(),
+                'type' => class_basename($th),
             ];
 
             \Log::info("Create Shipping Profile Exception" . print_r($exceptionDetails, true));
