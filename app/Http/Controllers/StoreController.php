@@ -19,6 +19,8 @@ class StoreController extends Controller
         try {
             $data = $request->all();
 
+            return response(null,422);
+
             $validator = Validator::make($data, [
                 'store' => ['required', 'string', 'max:255'],
             ]);

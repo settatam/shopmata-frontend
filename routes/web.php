@@ -97,7 +97,6 @@ Route::post('staff/registration/new', [StaffsController::class, 'createStaff']);
 Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('dashboard/data', [DashboardController::class, 'getData']);
-
 	Route::get('/get/user/store/products', [StoreController::class, 'getStoreProducts']);
 
 
@@ -237,7 +236,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('order-customer-note', OrderCustomerNoteController::class);
     Route::resource('settings/shipping-rates', ShippingRatesController::class);
-    // Route::put('settings/shipping-rates/{id}', ShippingRatesController::class,update); */
 
     // Navigation
 

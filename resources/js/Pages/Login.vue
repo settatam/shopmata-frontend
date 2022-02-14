@@ -298,7 +298,30 @@ export default {
             search: "",
         };
     },
-
+    /* methods: {
+    async loginUser() {
+      this.loading = true;
+      try {
+        const res = await axios.post("/login", { ...this.user});
+        const { notification, storeCount, stores } = res.data;
+        if (storeCount > 1) {
+          this.stores = stores;
+          this.selectStore = true;
+        } else {
+          this.notification = notification;
+          window.location.href = "/dashboard";
+        }
+      } catch (error) {
+        console.log(error);
+        const { notification } = error.response.data;
+        this.notification = notification;
+        this.loading = false;
+      }
+    },
+    toggleShow() {
+      this.show = !this.show;
+    },
+  }, */
     setup() {
         const loading = ref(false);
         const user = reactive({
@@ -331,28 +354,19 @@ export default {
 
         async function loginUser() {
             this.v$.$validate();
-
-            if (!this.v$.$error) {
-                loading.value = !loading.value;
-
-                try {
-                    let res = await axios.post("/login", user);
-                    const { notification, storeCount, stores } = res.data;
-                    if (storeCount > 1) {
-                        this.stores = stores;
-                        this.selectStore = true;
-                    } else {
-                        this.notification = notification;
-                        window.location.href = "/dashboard";
-                    }
-                } catch (error) {
+            if (this.v$.$error) {
+                return;
+            }
+            loading.value = !loading.value;
+            axios
+                .post("/login", user)
+                .then((res) => (window.location.href = "/dashboard"))
+                .catch((error) => {
+                    console.log(error);
                     loginError.value = true;
                     loading.value = false;
-                }
-            } else {
-            }
+                });
         }
-
         return { v$, user, loginUser, loginError, loading };
     },
 };

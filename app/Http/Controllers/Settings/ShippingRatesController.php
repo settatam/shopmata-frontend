@@ -20,7 +20,8 @@ class ShippingRatesController extends Controller
      */
     public function index()
     {
-        //
+        
+        
         return new ShippingRateCollection(ShippingRate::with('conditions')->orderBy('id', 'desc')->get());
 
     }
@@ -32,7 +33,10 @@ class ShippingRatesController extends Controller
      */
     public function create()
     {
-        //
+        $condition_options = ShippingRateCondition::$condition_options;
+        $rate_options = ShippingRateCondition::$rate_options;
+        $rates = ShippingRate::with('conditions')->orderBy('id', 'desc')->get();
+        return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rates', 'condition_options', 'rate_options'));
     }
 
     /**
@@ -91,8 +95,12 @@ class ShippingRatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
+    {   
+
+        $condition_options = ShippingRateCondition::$condition_options;
+        $rate_options = ShippingRateCondition::$rate_options;
+        $rate = ShippingRate::find($id);
+        return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rate', 'condition_options', 'rate_options'));
     }
 
     /**
