@@ -26,8 +26,6 @@ class ShippingProfileController extends Controller
         $rate_options = ShippingRateCondition::$rate_options;
         $rates = ShippingRate::with('conditions')->orderBy('id', 'desc')->get();
         return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rates', 'condition_options', 'rate_options'));
-
-
     }
 
     /**
