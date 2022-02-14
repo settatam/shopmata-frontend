@@ -330,7 +330,6 @@ export default {
 
         async function loginUser() {
             this.v$.$validate();
-
             if (this.v$.$error) {
                 return;
             }

@@ -230,6 +230,39 @@
                             </div>
                             <!-- Street address ends -->
 
+                            <!-- city begins-->
+
+                            <div class="">
+                                <label
+                                    for="city"
+                                    class="block text-sm font-medium text-gray-700"
+                                >
+                                    City
+                                </label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    <input
+                                        id="city"
+                                        :class="{
+                                            'border-red-600': v$.city.$error,
+                                            'border-gray-300': !v$.city.$error,
+                                        }"
+                                        name="city"
+                                        type="text"
+                                        autocomplete="city"
+                                        class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        v-model="store_details.city"
+                                    />
+                                </div>
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="v$.city.$error"
+                                    >
+                                        {{ v$.city.$errors[0].$message }}
+                                    </p>
+                                </div>
+                            </div>
+
                             <div class="flex">
                                 <!-- Suite apt begins -->
                                 <div class="lg:w-1/2 md:w-1/2">
@@ -270,49 +303,55 @@
                                     </div>
                                 </div>
                                 <!-- Suite apt ends -->
-                                <!-- city begins-->
+
+                                <!-- Zip starts -->
 
                                 <div class="lg:w-1/2 md:w-1/2">
                                     <label
-                                        for="city"
+                                        for="postal-code"
                                         class="block text-sm font-medium text-gray-700"
                                     >
-                                        City
+                                        Zip / Postal Code
                                     </label>
                                     <div
                                         class="mt-1 relative rounded-md shadow-sm"
                                     >
                                         <input
-                                            id="city"
+                                            id="postal-code"
+                                            name="postal_code"
                                             :class="{
                                                 'border-red-600':
-                                                    v$.city.$error,
+                                                    v$.postal_code.$error,
                                                 'border-gray-300':
-                                                    !v$.city.$error,
+                                                    !v$.postal_code.$error,
                                             }"
-                                            name="city"
                                             type="text"
-                                            autocomplete="city"
+                                            autocomplete="postal-code"
                                             class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            v-model="store_details.city"
+                                            v-model="store_details.postal_code"
                                         />
                                     </div>
                                     <div class="mt-1">
                                         <p
                                             class="text-red-600 text-xs"
-                                            v-if="v$.city.$error"
+                                            v-if="v$.postal_code.$error"
                                         >
-                                            {{ v$.city.$errors[0].$message }}
+                                            {{
+                                                v$.postal_code.$errors[0]
+                                                    .$message
+                                            }}
                                         </p>
                                     </div>
                                 </div>
+
+                                <!-- Zip ends -->
 
                                 <!-- city ends -->
                             </div>
 
                             <div class="flex">
                                 <!-- Country starts -->
-                                <div class="lg:w-1/3 md:w-1/3 lg:mr-4 md:mr-4">
+                                <div class="lg:w-1/2 md:w-1/2 lg:mr-4 md:mr-4">
                                     <label
                                         for="country_id"
                                         class="block text-sm font-medium text-gray-700"
@@ -348,7 +387,7 @@
                                 <!-- Country ends -->
 
                                 <!-- State starts -->
-                                <div class="lg:w-1/3 md:w-1/3 lg:mr-4 md:mr-4">
+                                <div class="lg:w-1/2 md:w-1/2 lg:mr-4 md:mr-4">
                                     <label
                                         for="state_id"
                                         class="block text-sm font-medium text-gray-700"
@@ -416,53 +455,11 @@
                                 </div>
 
                                 <!-- State ends -->
-
-                                <!-- Zip starts -->
-
-                                <div class="lg:w-1/3 md:w-1/3">
-                                    <label
-                                        for="postal-code"
-                                        class="block text-sm font-medium text-gray-700"
-                                    >
-                                        Zip / Postal Code
-                                    </label>
-                                    <div
-                                        class="mt-1 relative rounded-md shadow-sm"
-                                    >
-                                        <input
-                                            id="postal-code"
-                                            name="postal_code"
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.postal_code.$error,
-                                                'border-gray-300':
-                                                    !v$.postal_code.$error,
-                                            }"
-                                            type="text"
-                                            autocomplete="postal-code"
-                                            class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            v-model="store_details.postal_code"
-                                        />
-                                    </div>
-                                    <div class="mt-1">
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.postal_code.$error"
-                                        >
-                                            {{
-                                                v$.postal_code.$errors[0]
-                                                    .$message
-                                            }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Zip ends -->
                             </div>
 
                             <!-- Buttons start -->
                             <div class="flex justify-between">
-                                <inertia-link href="/register/step-2">
+                                <inertia-link href="/register/step-2?back=1">
                                     Back
                                 </inertia-link>
                                 <button

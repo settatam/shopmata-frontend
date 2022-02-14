@@ -31,21 +31,27 @@ class RegisterController extends Controller
         return \Inertia\Inertia::render('Register');
     }
 
-    public function registerStep2($step=null) {
-            $store_id = session()->get('store_id');
-            $store = Store::find($store_id);
-            if(null !== $store) {
-                if($store->step == 2) {
-                    $industries = StoreIndustry::orderBy('name', 'asc')->get();
-                    $methods = SalesMethod::orderBy('name', 'asc')->get();
-                    $countries = Country::where('status', 1)->get();
-                    return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries'));
-                }else if($store->step == 3) {
-                    return \Redirect::route('register-step-3');
-                }else if($store->step == 4) {
-                    return \Redirect::route('dashboard');
-                }
+    public function registerStep2(Request $request, $step=null) {
+        $store_id = session()->get('store_id');
+        $store = Store::find($store_id);
+        if(null !== $store) {
+
+            if ($request->back) {
+                $store->step = 2;
+                $store->save();
+            } 
+            
+            if($store->step == 2) {
+                $industries = StoreIndustry::orderBy('name', 'asc')->get();
+                $methods    = SalesMethod::orderBy('name', 'asc')->get();
+                $countries  = Country::where('status', 1)->get();
+                return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries'));
+            }else if($store->step == 3) {
+                return \Redirect::route('register-step-3');
+            }else if($store->step == 4) {
+                return \Redirect::route('dashboard');
             }
+        }
         return \Redirect::route('register');
     }
 
@@ -55,6 +61,8 @@ class RegisterController extends Controller
         if(null !== $store && $store->step == 3) {
             $countries = Country::where('status', 1)->get();
             $states = State::where('country_id', $store->country_id)->get();
+
+            
             return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
         }
         return \Redirect::route('register');
@@ -62,28 +70,23 @@ class RegisterController extends Controller
     
     public function RegisterUser(Request $request)
     {
-        $data = $request->input();
-        // dd($data);
         
-        // try {
-            // $geoip = geoip($ip=null);
+        $data = $request->input();
 
-            // $data['email'] = session('email');
-            // $data['store_domain'] = session('store_domain');
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255','unique:users'],
+            'password' => ['required', 'string', 'confirmed', Password::min(8)],
+            'name' => ['required', 'string'],
+        ]);
 
-
-            $request->validate([
-                'email' => ['required', 'string', 'email', 'max:255'],
-                'password' => ['required', 'string', 'confirmed', Password::min(8)],
-                'name' => ['required', 'string'],
-            ]);
+        try {
+            
 
             $user_details = [
                 'email' => $data['email'],
                 'password' => Hash::make($data['password'])
             ];
           
-
             if($user = User::create($user_details)) {
                 Log::info('A new user has been created', $user_details);
             }else{
@@ -159,24 +162,24 @@ class RegisterController extends Controller
 
             return \Redirect::route('register-step-2');
 
-        // } catch (\Exception $e) {
-        //     $exceptionDetails = [
-        //         "message" => $e->getMessage(),
-        //         'file' => basename($e->getFile()),
-        //         'line' => $e->getLine(),
-        //         'type' => class_basename($e),
-        //     ];
+        } catch (\Exception $e) {
+            $exceptionDetails = [
+                "message" => $e->getMessage(),
+                'file' => basename($e->getFile()),
+                'line' => $e->getLine(),
+                'type' => class_basename($e),
+            ];
 
-        //     \Log::info("create user exception" . print_r($exceptionDetails, true));
+            \Log::info("create user exception" . print_r($exceptionDetails, true));
 
-        //     $notification = [
-        //         "title" => "An Exception Occurred",
-        //         "type" => "failed",
-        //         "message" => $exceptionDetails['message'],
-        //     ];
+            $notification = [
+                "title" => "An Exception Occurred",
+                "type" => "failed",
+                "message" => $exceptionDetails['message'],
+            ];
 
-        //     return response()->json(['notification' => $notification], 500);
-        // }
+            return response()->json(['notification' => $notification], 500);
+        }
     }
 
     private function generateSlug($str)
