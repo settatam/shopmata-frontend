@@ -2307,6 +2307,11 @@ select {
 	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
 	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
 }
+.space-x-5 > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-x-reverse: 0;
+	margin-right: calc(1.25rem * var(--tw-space-x-reverse));
+	margin-left: calc(1.25rem * calc(1 - var(--tw-space-x-reverse)));
+}
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
 	border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -3134,6 +3139,9 @@ select {
 }
 .font-normal {
 	font-weight: 400;
+}
+.font-light {
+	font-weight: 300;
 }
 .uppercase {
 	text-transform: uppercase;
@@ -3985,6 +3993,11 @@ input[type='checkbox']:focus {
 	.sm\:my-2 {
 		margin-top: 0.5rem;
 		margin-bottom: 0.5rem;
+	}
+
+	.sm\:-mx-6 {
+		margin-left: -1.5rem;
+		margin-right: -1.5rem;
 	}
 
 	.sm\:ml-3 {
@@ -4935,6 +4948,11 @@ input[type='checkbox']:focus {
 	.lg\:mx-auto {
 		margin-left: auto;
 		margin-right: auto;
+	}
+
+	.lg\:-mx-8 {
+		margin-left: -2rem;
+		margin-right: -2rem;
 	}
 
 	.lg\:mr-4 {

@@ -43,7 +43,7 @@
                             <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
                             <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
-                          <inertia-link href="/settings/shipping-and-delivery/shipping-profile">
+                          <inertia-link href="settings/shipping-rates/create">
                             <button class="text-indigo-700 mr-5 cursor-pointer">Create Shipping Rate</button>
                           </inertia-link>
                         </div>
@@ -52,35 +52,59 @@
                               <QuestionMarkCircleIcon class="h-5 w-5"/>
                             </Tooltip> 
                           </span>
-                            <div class="mt-6 flex-col">
-                                <div>
-                                    <div class="flex-col mt-2">
-                                        <div class="flex items-center text-gray-600">
-                                            <div class="w-10 flex items-center"><img class="w-5 h-5 " src="../../../../assets/globe.svg" alt="globe"></div>
-                                            <div class="w-3/10">Domestic</div>
-                                            <div class="w-1/10 text-center">Price</div>
-                                            <div class="min-w-max md:w-4/10 text-center hidden md:block">Conditions</div>
-                                            <div class="min-w-max md:w-2/10 invisible">...</div>
-                                        </div>
-                                        <div class=" mt-1 border-t border-gray-100 -mr-5 -ml-8"></div>
-                                        <div v-for="shipping in shipping_rate" :key="shipping.id">
-                                          <div class="flex mt-1">
-                                              <div class="w-10"></div>
-                                              <div class="min-w-max md:w-3/10">{{shipping.name}}</div>
-                                              <div class="min-w-max md:w-1/10 text-center">{{shipping.price}}</div>
-                                              <div class="min-w-max md:w-4/10 text-center hidden md:block">{{shipping.conditions.length}} condition(s)</div>
-                                              <div class="min-w-max md:w-2/10 cursor-pointer justify-end flex">
-                                              <inertia-link :href="`/settings/shipping-rates/${shipping.id}`">
-                                                <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer mr-4"/>
-                                              </inertia-link>
-                                                <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="deleteShipping_rate()"/>    
-                                                <delete-alert v-if="is_delete_shipping_rate" :delete_msg="this.delete_msg_shipping_rate" :open="open_delete" @close="emitClose" :id="shipping.id" :delete_url="delete_url_shipping_rate" />
-                                              </div>
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
+            <div class="flex flex-col">
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                  <div class="overflow-hidden">
+                    <table class="min-w-full">
+                      <thead class="border-b">
+                        <tr>
+                          <th scope="col" class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left">
+                            <img class="w-5 h-5 " src="../../../../assets/globe.svg" alt="globe">
+                          </th>
+                          <th scope="col" class="text-sm font-medium text-gray-600 px-6 py-4 text-left">
+                            Domestic
+                          </th>
+                          <th scope="col" class="text-sm font-medium text-gray-600 px-6 py-4 text-left">
+                            Price
+                          </th>
+                          <th scope="col" class="text-sm font-medium text-gray-600 px-6 py-4 text-left">
+                            Conditions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-b"  v-for="shipping in shipping_rate" :key="shipping.id">
+                          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-600">1</td>
+                          <td class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap">
+                            {{shipping.name}}
+                          </td>
+                          <td class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap">
+                            {{shipping.price}}
+                          </td>
+                          <td class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap ">
+                            {{shipping.conditions.length}} condition(s)
+                          </td>
+
+                          <td class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap justify-end flex">
+                            <inertia-link :href="`/settings/shipping-rates/${shipping.id}/edit`">
+                              <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer mr-4"/>
+                            </inertia-link>
+                            <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="deleteShipping_rate()"/>    
+                            <delete-alert v-if="is_delete_shipping_rate" :delete_msg="this.delete_msg_shipping_rate" :open="open_delete" @close="emitClose" :id="shipping.id" :delete_url="delete_url_shipping_rate" />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
                       </div>
                 </div>
                   <pick-up-modal @close="this.popUp=false" v-if="this.popUp"/>
@@ -122,7 +146,7 @@
                               </div>
                              </div>
                               <div class="flex flex-col justify-between py-5">
-                                <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer" @click="edit_location(location.id)"/>
+                                <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer" @click="edit_shipping(location.id)"/>
                                 <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="delete_location"/>
                               </div>
                            </div>
@@ -137,7 +161,7 @@
 </template>
 
 <script>
-
+// import axios from "axios";
 import { reactive, ref, onBeforeMount } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
@@ -196,12 +220,11 @@ export default {
     }
   },
   methods:{
-    edit_location(){
-      this.popUpEdit = true
-    }
+    
   },
 
   setup(props) {
+    const store = props.store
     const open = ref(false)
     const local_delivery = ref(false)
     const Modal = ref(false)
@@ -236,6 +259,10 @@ export default {
       is_delete_shipping_rate.value = true
       open_delete.value = true
     }
+
+    const edit_shipping = function(){
+      
+    }
   
     return {
       statusStyles,
@@ -251,6 +278,7 @@ export default {
       is_delete_shipping_rate,
       emitClose,
       open_delete,
+      edit_shipping
     }
   },
 
