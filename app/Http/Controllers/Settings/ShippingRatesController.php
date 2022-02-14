@@ -8,6 +8,8 @@ use App\Models\ShippingRate;
 use App\Models\ShippingRateCondition;
 use App\Http\Resources\ShippingRate as ShippingRateResource;
 use App\Http\Resources\ShippingRateCollection;
+use Inertia\Inertia;
+
 use Log;
 use Auth;
 
