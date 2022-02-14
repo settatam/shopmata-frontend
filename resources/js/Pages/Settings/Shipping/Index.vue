@@ -43,7 +43,7 @@
                             <p class="font-semibold uppercase mr-8">Custom Shipping Rate</p>
                             <p class="px-2 bg-gray-200 text-gray-400">Default</p>
                           </div>
-                          <inertia-link href="settings/shipping-rates/create">
+                          <inertia-link href="/settings/shipping-rates/create">
                             <button class="text-indigo-700 mr-5 cursor-pointer">Create Shipping Rate</button>
                           </inertia-link>
                         </div>
