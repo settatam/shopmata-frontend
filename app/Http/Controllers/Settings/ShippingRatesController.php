@@ -73,8 +73,9 @@ class ShippingRatesController extends Controller
             }
             return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
         } catch (\Throwable $th) {
-            return response()->json(['message'=>"Failed to save shipping rate"], 422);
             \Log::error("Failed to save shipping rate" . collect($request->all())  ."Error: " .$th->getMessage() );
+            return response()->json(['message'=>"Failed to save shipping rate". $th->getMessage()], 422);
+
         }
 
     }
@@ -122,13 +123,35 @@ class ShippingRatesController extends Controller
         ]);
 
         $rate = ShippingRate::find($id);
-        if(null !== $rate) {
-            $rate->name = $request->name;
-            $rate->price = $request->price;
-            $rate->description = $request->description;
-            if($rate->save()) {
-                // Log::info();
+        $rate->name = $request->name;
+        $rate->price = $request->price;
+        $rate->description = $request->description;
+        $rate->is_domestic = $request->is_domestic;
+        $rate->match_all_condition = $request->match_all_condition;
+        if($rate->save()) {
+            // Log::info();
+        }
+        
+
+        try {
+            $data = $request->input();
+            $data['store_id'] = $request->session()->get('store_id');
+            $data['user_id'] = Auth::id();
+            if($shipping_rate = ShippingRate::create($data)) {
+                Log::info(Auth::id() . ' created a new shipping rate ' , $data);
+                if(isset($data['conditions'])) {
+                    foreach($data['conditions'] as $condition) {
+                        $condition['user_id'] = Auth::id();
+                        $condition['shipping_rate_id'] = $shipping_rate->id;
+                        $shipping_condition = ShippingRateCondition::create($condition);
+                        Log::info(Auth::id() . ' created a new shipping rate condition ' , $condition);
+                    }
+                }
             }
+            return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
+        } catch (\Throwable $th) {
+            return response()->json(['message'=>"Failed to save shipping rate"], 422);
+            \Log::error("Failed to save shipping rate" . collect($request->all())  ."Error: " .$th->getMessage() );
         }
 
     }
@@ -148,17 +171,17 @@ class ShippingRatesController extends Controller
                 if(count($rate->conditions)) {
                     ShippingRateCondition::where('shipping_rate_id', $id)->delete();
                 }
-                
+
                 if($rate->delete()) {
                     Log::info(Auth::id() . ' deleted a shipping rate ' . $id);
                 }
+
                 return response()->json('Resource Deleted');
             }else{
                 return response()->json('Resource could not be deleted', 400);
             }
             
         }else{
-
             return \Redirect::route('settings.shipping')->withErrors('You do not have permissions to delete this record');
         }
     }
