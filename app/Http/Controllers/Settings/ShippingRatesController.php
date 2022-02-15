@@ -102,7 +102,7 @@ class ShippingRatesController extends Controller
         $condition_options = ShippingRateCondition::$condition_options;
         $rate_options = ShippingRateCondition::$rate_options;
         $rate = ShippingRate::find($id);
-        return Inertia::render('Settings/Shipping/Components/ShippingProfile', compact('rate', 'condition_options', 'rate_options'));
+        return Inertia::render('Settings/Shipping/Components/EditShippingProfile', compact('rate', 'condition_options', 'rate_options'));
     }
 
     /**

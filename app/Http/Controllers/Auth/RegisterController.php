@@ -61,8 +61,6 @@ class RegisterController extends Controller
         if(null !== $store && $store->step == 3) {
             $countries = Country::where('status', 1)->get();
             $states = State::where('country_id', $store->country_id)->get();
-
-            
             return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
         }
         return \Redirect::route('register');
