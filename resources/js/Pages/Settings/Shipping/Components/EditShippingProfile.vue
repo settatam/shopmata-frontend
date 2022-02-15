@@ -181,7 +181,9 @@ export default {
                             description:rateStore.description,
                             price:rateStore.price,
                             is_domestic:rateStore.is_domestic,
-                            match_all_condition:rateStore.match_all_condition
+                            is_international: rateStore.is_international,
+                            match_all_condition:rateStore.match_all_condition,
+                            rate_id: rateStore.id
                             })
         const bodyError = ref(false)
 
@@ -211,11 +213,12 @@ export default {
                     price:rates.value.price,
                     description:rates.value.description,
                     is_domestic:rates.value.is_domestic,
+                    is_international:rates.value.is_international,
                     match_all_condition:rates.value.match_all_condition,
                     conditions:data.value 
                 }
     
-               Inertia.post('/settings/shipping-rates',formData)
+               Inertia.patch(`/settings/shipping-rates/${rateStore.id}/`,formData)
                // rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
                // data.value =([{condition:'is equal to',tag:'Total Amount',value:''}])
            }
