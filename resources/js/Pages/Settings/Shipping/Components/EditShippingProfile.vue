@@ -76,7 +76,7 @@
                                         </div>
                                     </div>
 
-                                        <template v-for="(datum, index) in data" :key="index" >
+                                        <template v-for="(datum, index) in rateStore.conditions" :key="index" >
                                             <div class="flex flex-wrap justify-between lg:flex-row lg:justify-between mt-4">
                                                 <div class="w-4.5/10 lg:w-3/10">
                                                     <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none mb-2 lg:mb-0" v-model="datum.tag">
@@ -183,7 +183,8 @@ export default {
                             is_domestic:rateStore.is_domestic,
                             is_international: rateStore.is_international,
                             match_all_condition:rateStore.match_all_condition,
-                            rate_id: rateStore.id
+                            rate_id: rateStore.id,
+                            conditions:rateStore.conditions 
                             })
         const bodyError = ref(false)
 
@@ -191,7 +192,7 @@ export default {
             data.value.splice(id , id+1)
         }
         const add = ()=> {
-            data.value.push({
+            rateStore.conditions.push({
                 condition:"is equal to",
                 tag:"State",
                 value:''
@@ -215,7 +216,7 @@ export default {
                     is_domestic:rates.value.is_domestic,
                     is_international:rates.value.is_international,
                     match_all_condition:rates.value.match_all_condition,
-                    conditions:data.value 
+                    conditions:rates.conditions 
                 }
     
                Inertia.patch(`/settings/shipping-rates/${rateStore.id}/`,formData)
