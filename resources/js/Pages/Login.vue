@@ -360,9 +360,12 @@ export default {
             loading.value = !loading.value;
             axios
                 .post("/login", user)
-                .then((res) => (window.location.href = "/dashboard"))
+                .then((res) => {
+                    Inertia.visit("/dashboard", {
+                        method: "get",
+                    });
+                })
                 .catch((error) => {
-                    console.log(error);
                     loginError.value = true;
                     loading.value = false;
                 });
