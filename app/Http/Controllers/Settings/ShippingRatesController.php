@@ -123,31 +123,31 @@ class ShippingRatesController extends Controller
             'is_domestic'=>['required']
         ]);
 
-        $rate = ShippingRate::find($id);
-        $rate->name = $request->name;
-        $rate->price = $request->price;
-        $rate->description = $request->description;
-        $rate->is_domestic = $request->is_domestic;
-        $rate->match_all_condition = $request->match_all_condition;
-        if($rate->save()) {
-            // Log::info();
-        }
-        
-
         try {
+            $rate = ShippingRate::find($id);
+            $rate->name = $request->name;
+            $rate->price = $request->price;
+            $rate->description = $request->description;
+            $rate->is_domestic = $request->is_domestic;
+            $rate->match_all_condition = $request->match_all_condition;
+            $rate->is_international = $request->is_international;
             $data = $request->input();
             $data['store_id'] = $request->session()->get('store_id');
             $data['user_id'] = Auth::id();
-            if($shipping_rate = ShippingRate::create($data)) {
-                Log::info(Auth::id() . ' created a new shipping rate ' , $data);
+            if( $rate->save() ) {
+                ShippingRateCondition::destroy($rate->conditions->pluck('id')->toArray());
+                Log::info(Auth::id() . ' Updated new shipping rate ' , $data);
                 if(isset($data['conditions'])) {
                     foreach($data['conditions'] as $condition) {
                         $condition['user_id'] = Auth::id();
-                        $condition['shipping_rate_id'] = $shipping_rate->id;
+                        $condition['shipping_rate_id'] = $rate->id;
                         $shipping_condition = ShippingRateCondition::create($condition);
-                        Log::info(Auth::id() . ' created a new shipping rate condition ' , $condition);
+                        Log::info(Auth::id() . ' Updated a new shipping rate condition ' , $condition);
                     }
                 }
+            } else {
+                return response()->json(['message'=>"Failed to update shipping rate"], 422);
+                \Log::error("Failed to update shipping rate" . collect($request->all())  ."Error: " .$th->getMessage() );
             }
             return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
         } catch (\Throwable $th) {
