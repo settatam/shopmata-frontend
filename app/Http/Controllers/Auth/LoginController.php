@@ -27,8 +27,8 @@ class LoginController extends Controller
     {
         try {
             $credentials = $request->only('email', 'password');
-            $storeId = request('storeId');
 
+            $storeId = request('storeId');
             $validator = Validator::make($credentials, [
                 'email' => ['required', 'string', 'email'],
                 'password' => ['required', 'string'],
@@ -46,9 +46,6 @@ class LoginController extends Controller
 
             $user = User::with('store_users')
                 ->where('email', $request->email)->first();
-
-               // return response()->json($user, 422);
-
             if ($user === null) {
                 $notification = [
                     "title" => "User not found",
@@ -57,106 +54,41 @@ class LoginController extends Controller
                 ];
                 return response()->json(['notification' => $notification], 422);
             } else {
-                if (count($user->store_users) == 1) {
-                    if (Auth::attempt($credentials)) {
-                        Login::create(
-                            ['user_id' => Auth::id(), 
-                            'store_id' => $user->store_users[0]->store_id,
-                            'ip_address' => $request->ip()
-                        ]
-                        );
+                if (Auth::attempt($credentials)) {
+                    Login::create(
+                        ['user_id' => Auth::id(), 
+                         'store_id' => $user->store_id,
+                        'ip_address' => $request->ip()
+                    ]
+                    );
 
-                        //Log the user ..
-                        session(['store_id' => $user->store_users[0]->store_id]);
+                    //Log the user ..
+                    session(['store_id' => $user->store_id]);
 
-                        $notification = [
-                            "title" => "Successful",
-                            "type" => "success",
-                            "message" => "Login Successful",
-                        ];
-
-                        return response()->json(['notification' => $notification, 'storeCount' => 1, 'stores' => null]);
-                    } else {
-                        $notification = [
-                            "title" => "Failed",
-                            "type" => "failed",
-                            "message" => "Password Does Not Match",
-                        ];
-                        return response()->json(['notification' => $notification], 400);
-                    }
-                } else {
-                    $stores = [];
-                    for ($i = 0; $i < count($user->store_users); $i++) {
-                        $user->store_users[$i]->name = null !== $user->store_users[$i]->store ? $user->store_users[$i]->store->name : '';
-                        $user->store_users[$i]->id = null !== $user->store_users[$i]->store ? $user->store_users[$i]->store->id : '';
-                    }
-
-                    if ($storeId !== 0) {
-                        //the user selected a store Id
-
-                        $storeExists = false;
-                        $selectedStore = null;
-                        foreach ($user->store_users as $storeUsers) {
-                            if ($storeUsers->store_id === $storeId) {
-                                \Log::info('store exists'.print_r($storeUsers, true));
-                                $storeExists = true;
-                                $selectedStore = $storeUsers;
-                                break;
-                            }
-                        }
-                        if ($storeExists === false) {
-                            $notification = [
-                                "title" => "Store not found",
-                                "type" => "failed",
-                                "message" => "The Selected Store is Invalid",
-                            ];
-                            return response()->json(['notification' => $notification], 422);
-                        }
-
-                        if (Auth::attempt($credentials)) {
-                            Login::create(
-                                ['user_id' => Auth::id(), 
-                                 'store_id' => $selectedStore->store->id,
-                                 'ip_address'=>$request->ip()
-                                ]
-                            );
-                            //Log the user ..
-                            session(['store_id' => $selectedStore->store->id ]);
-                            \Log::info("session stoore id". session('store_id'));
-
-                            $notification = [
-                                "title" => "Successful",
-                                "type" => "success",
-                                "message" => "Login Successful",
-                            ];
-
-                            return response()->json(['notification' => $notification, 'storeCount' => 1, 'stores' => null]);
-                        } else {
-                            $notification = [
-                                "title" => "Failed",
-                                "type" => "failed",
-                                "message" => "Password Does Not Match",
-                            ];
-                            return response()->json(['notification' => $notification], 400);
-                        }
-                    }
-
-                    //Display the stores for the user which he wants to log into
                     $notification = [
-                        "title" => "Choose your store",
+                        "title" => "Successful",
                         "type" => "success",
-                        "message" => 'You have Multiple Stores',
+                        "message" => "Login Successful",
                     ];
 
-                    return response()->json(['notification' => $notification, 'storeCount' => count($user->store_users), 'stores' => $user->store_users], 200);
-
+                    return response()->json(['notification' => $notification, 'storeCount' => 1, 'stores' => null]);
+                } else {
+                    $notification = [
+                        "title" => "Failed",
+                        "type" => "failed",
+                        "message" => "Password Does Not Match",
+                    ];
+                    return response()->json(['notification' => $notification], 400);
                 }
-                // if (Auth::attempt($credentials)) {
-                //     // Authentication passed...
-                //     // return redirect()->intended('dashboard');
-                //     if (count($user->store_users) == 1) {
+                
+
+                // if (count($user->store_users) == 1) {
+                //     if (Auth::attempt($credentials)) {
                 //         Login::create(
-                //             ['user_id' => Auth::id(), 'store_id' => $user->store_users[0]->store_id]
+                //             ['user_id' => Auth::id(), 
+                //             'store_id' => $user->store_users[0]->store_id,
+                //             'ip_address' => $request->ip()
+                //         ]
                 //         );
 
                 //         //Log the user ..
@@ -170,58 +102,81 @@ class LoginController extends Controller
 
                 //         return response()->json(['notification' => $notification, 'storeCount' => 1, 'stores' => null]);
                 //     } else {
-                //         $stores = [];
-                //         for ($i = 0; $i < count($user->store_users); $i++) {
-                //             $user->store_users[$i]->name = null !== $user->store_users[$i]->store ? $user->store_users[$i]->store->name : '';
-                //             $user->store_users[$i]->id = null !== $user->store_users[$i]->store ? $user->store_users[$i]->store->id : '';
-                //         }
-
-                //         //check if the user preselected a store
-                //         if ($storeId !== 0) {
-                //             $storeExists = false;
-                //             foreach ($storeUsers as $user->store_users) {
-                //                 if ($storeUsers->store_id === $storeId) {
-                //                     $storeExists = true;
-                //                     break;
-                //                 }
-                //             }
-                //             if ($storeExists === false) {
-                //                 $notification = [
-                //                     "title" => "Store not found",
-                //                     "type" => "failed",
-                //                     "message" => "The Selected Store is Invalid",
-                //                 ];
-                //                 return response()->json(['notification' => $notification], 422);
-                //             }
-
-                //             Login::create(
-                //                 ['user_id' => Auth::id(), 'store_id' => $user->store_users[0]->store_id]
-                //             );
-
-                //             //Log the user ..
-                //             session(['store_id' => $user->store_users[0]->store_id]);
-
-                //             return response()->json(['notification' => $notification, 'storeCount' => 1, 'stores' => null]);
-                //         }
-
-                //         //Display the stores for the user which he wants to log into
                 //         $notification = [
-                //             "title" => "Choose your store",
-                //             "type" => "success",
-                //             "message" => 'You have Multiple Stores',
+                //             "title" => "Failed",
+                //             "type" => "failed",
+                //             "message" => "Password Does Not Match",
                 //         ];
-
-                //         return response()->json(['notification' => $notification, 'storeCount' => count($user->store_users), 'stores' => $user->store_users], 200);
+                //         return response()->json(['notification' => $notification], 400);
+                //     }
+                // } else {
+                //     $stores = [];
+                //     for ($i = 0; $i < count($user->store_users); $i++) {
+                //         $user->store_users[$i]->name = null !== $user->store_users[$i]->store ? $user->store_users[$i]->store->name : '';
+                //         $user->store_users[$i]->id = null !== $user->store_users[$i]->store ? $user->store_users[$i]->store->id : '';
                 //     }
 
-                // } else {
+                //     if ($storeId !== 0) {
+                //         //the user selected a store Id
+
+                //         $storeExists = false;
+                //         $selectedStore = null;
+                //         foreach ($user->store_users as $storeUsers) {
+                //             if ($storeUsers->store_id === $storeId) {
+                //                 \Log::info('store exists'.print_r($storeUsers, true));
+                //                 $storeExists = true;
+                //                 $selectedStore = $storeUsers;
+                //                 break;
+                //             }
+                //         }
+                //         if ($storeExists === false) {
+                //             $notification = [
+                //                 "title" => "Store not found",
+                //                 "type" => "failed",
+                //                 "message" => "The Selected Store is Invalid",
+                //             ];
+                //             return response()->json(['notification' => $notification], 422);
+                //         }
+
+                //         if (Auth::attempt($credentials)) {
+                //             Login::create(
+                //                 ['user_id' => Auth::id(), 
+                //                  'store_id' => $selectedStore->store->id,
+                //                  'ip_address'=>$request->ip()
+                //                 ]
+                //             );
+                //             //Log the user ..
+                //             session(['store_id' => $selectedStore->store->id ]);
+                //             \Log::info("session store id". session('store_id'));
+
+                //             $notification = [
+                //                 "title" => "Successful",
+                //                 "type" => "success",
+                //                 "message" => "Login Successful",
+                //             ];
+
+                //             return response()->json(['notification' => $notification, 'storeCount' => 1, 'stores' => null]);
+                //         } else {
+                //             $notification = [
+                //                 "title" => "Failed",
+                //                 "type" => "failed",
+                //                 "message" => "Password Does Not Match",
+                //             ];
+                //             return response()->json(['notification' => $notification], 400);
+                //         }
+                //     }
+
+                //     //Display the stores for the user which he wants to log into
                 //     $notification = [
-                //         "title" => "Failed",
-                //         "type" => "failed",
-                //         "message" => "Password Does Not Match",
+                //         "title" => "Choose your store",
+                //         "type" => "success",
+                //         "message" => 'You have Multiple Stores',
                 //     ];
-                //     return response()->json(['notification' => $notification], 400);
+
+                //     return response()->json(['notification' => $notification, 'storeCount' => count($user->store_users), 'stores' => $user->store_users], 200);
+
                 // }
+                
             }
 
             $notification = [
@@ -248,7 +203,7 @@ class LoginController extends Controller
                 "message" => $exceptionDetails['message'],
             ];
 
-            return response()->json(['notification' => $notification], 500);
+            return response()->json(['notification' => $notification], 422);
         }
     }
 }

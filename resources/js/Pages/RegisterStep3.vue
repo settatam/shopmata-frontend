@@ -387,7 +387,7 @@
                                 <!-- Country ends -->
 
                                 <!-- State starts -->
-                                <div class="lg:w-1/2 md:w-1/2 lg:mr-4 md:mr-4">
+                                <div class="lg:w-1/2 md:w-1/2">
                                     <label
                                         for="state_id"
                                         class="block text-sm font-medium text-gray-700"
