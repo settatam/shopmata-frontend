@@ -74,7 +74,7 @@ class ShippingRatesController extends Controller
             return \Redirect::route('settings.shipping')->withSuccess('Your shipping rate was created successfully');
         } catch (\Throwable $th) {
             \Log::error("Failed to save shipping rate" . collect($request->all())  ."Error: " .$th->getMessage() );
-            return response()->json(['message'=>"Failed to save shipping rate". $th->getMessage()], 422);
+            return response()->json(['message'=>"Failed to save shipping rate"], 422);
 
         }
 
@@ -103,6 +103,7 @@ class ShippingRatesController extends Controller
         $condition_options = ShippingRateCondition::$condition_options;
         $rate_options = ShippingRateCondition::$rate_options;
         $rate = ShippingRate::find($id);
+        $rate->load('conditions');
         return Inertia::render('Settings/Shipping/Components/EditShippingProfile', compact('rate', 'condition_options', 'rate_options'));
     }
 
