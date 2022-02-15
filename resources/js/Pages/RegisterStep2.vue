@@ -270,7 +270,6 @@ export default {
         const methods = props.methods;
         const selected_method = ref("");
         const loading = ref(false);
-
         const store = reactive({
             industry_id: 0,
             sales_method_id: 0,

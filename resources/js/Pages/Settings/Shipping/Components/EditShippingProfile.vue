@@ -23,16 +23,18 @@
                 </li>
               </ol>
             </nav>
-          <div class="flex-1 flex xl:overflow-hidden mt-5">
+          <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
             <!-- Secondary sidebar -->
             <Nav page="Shipping"></Nav>
             <!-- Main content -->
-            <div class="flex-1 max-h-screen xl:overflow-y-auto">
+            <div class="flex-1 max-h-screen xl:overflow-y-auto overflow-x-scroll">
                 <div class="w-auto  lg:ml-7 lg:mr-2">
                     <div class="mb-6">
-                         <div class="px-8 pb-8 pt-6  mb-6 bg-white">
+                         <div class="px-4 md:px-8 pb-8 pt-6  mb-6 bg-white">
                             <h1 class="text-2xl font-semibold">Add Shipping Rate</h1>
-                             <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <span class="text-indigo-700 underline cursor-pointer">Watch a demo</span></p>            
+                             <p class=" text-gray-500">Select a state and the cities within that state you can deliver to. Set a delivery rate and how long it will take to deliver items. <a class="text-indigo-700 underline cursor-pointer" @click="this.videoPop=true">Watch a demo</a></p>                       
+                                <demo-video-modal @close="this.videoPop=false"  v-if="this.videoPop"/>
+                                
                                 <div class="w-auto relative" >
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Rate Name
@@ -44,7 +46,7 @@
                                     <label class="block mt-4 mb-2 bg-transparent text-lg">
                                         Price
                                     </label>
-                                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="rates.price" required/>
+                                    <input type="number"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="rates.price" required/>
                                     <error-icon class="absolute top-8 right-0" v-show="bodyError && !rates.price.length "/>
                                 </div>
                                  <div class="w-full mt-4 ">
@@ -53,51 +55,53 @@
                                     </p>
                                     <div class=" items-center">
                                         <input type="radio" value="0"  class="mr-2" v-model="rates.is_domestic" name="domestic">
-                                        <label for="domestic"> Domestic</label>
+                                        <label for="domestic" @click="rates.is_domestic ='0'" class="cursor-pointer"> Domestic</label>
                                     </div>
                                     
                                     <div class=" items-center mt-2">
                                         <input type="radio" class="mr-2" value="1" v-model="rates.is_domestic" name="international">
-                                        <label for="international"> International</label>
+                                        <label for="international" @click="rates.is_domestic='1'" class="cursor-pointer"> International</label>
                                     </div>
                                 </div>
                                     <p class="font-semibold mt-6 text-lg">Orders must match</p>
                                     <div class="flex mt-4">
                                         <div class=" items-center">
-                                            <input type="radio" value="0"  class="mr-2" v-model="rates.match_all_condition">
-                                            <label for=""> All Conditions</label>
+                                            <input type="radio" value="0"  class="mr-2" v-model="rates.match_all_condition" name="all_condition">
+                                            <label for="all_condition" @click="rates.match_all_condition ='0'" class="cursor-pointer"> All Conditions</label>
                                         </div>
                                     
                                         <div class=" items-center ml-10">
-                                            <input type="radio" class="mr-2" value="1" v-model="rates.match_all_condition">
-                                            <label for=""> Any Condition</label>
+                                            <input type="radio" class="mr-2" value="1" v-model="rates.match_all_condition" name="any_condition">
+                                            <label for="any_condition" @click="rates.match_all_condition='1'" class="cursor-pointer"> Any Condition</label>
                                         </div>
                                     </div>
 
-                                        <template v-for="(datum, index) in data" :key="index" >
-                                            <div class="flex flex-col lg:flex-row lg:justify-between mt-4">
-                                                <div class="flex flex-col w-3/10">
-                                                    <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.tag">
+                                        <template v-for="(datum, index) in rateStore.conditions" :key="index" >
+                                            <div class="flex flex-wrap justify-between lg:flex-row lg:justify-between mt-4">
+                                                <div class="w-4.5/10 lg:w-3/10">
+                                                    <select name="options" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none mb-2 lg:mb-0" v-model="datum.tag">
                                                         <option v-for="(option,index) in rate" :key="index" :value="option.title">
                                                             {{option.title}}
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="flex flex-col w-3/10">  
-                                                    <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.condition">
+                                                <div class="w-4.5/10 lg:w-3/10">  
+                                                    <select name="conditions" id=""  class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none" v-model="datum.condition">
                                                         <option v-for="(condition, index) in conditions" :key="index" :value="condition.title">
                                                         {{condition.title}}
                                                         </option>
                                                     </select>
                                                 </div>
-                                                <div class="flex flex-col w-3.5/10 mb-2">
-                                                    <select name="state" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" v-if="datum.tag=='State'" v-model="datum.value">
+                                                <div class="w-8.5/10 lg:w-3/10 mb-2">
+                                                    <select name="state" id="" class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 w-full hover:bg-gray-50 focus:outline-none" v-if="datum.tag=='State'" v-model="datum.value">
                                                         <option v-for="(state,index) in states" :key="index" :value="state.id">
                                                             {{state.name}}
                                                         </option>
                                                     </select>
-                                                    <input type="text" class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.value">
+                                                    <input type="number" class="w-full text-xs py-2 sm:text-sm rounded-md border-gray-300" v-else v-model="datum.value">
                                                 </div>
+                                                <TrashIcon v-if="data.length>1 && index !=0" class="w-5 h-5 text-red-500 my-auto cursor-pointer" @click="removeCondition(index)"/>
+                                                <TrashIcon v-else class="w-5 h-5 invisible"/>
                                             </div>
                                         </template>
                                             <button class="text-indigo-700 sm:text-sm text-xs font-semibold mt-4 " @click="add()">Add New Condition</button>
@@ -106,8 +110,8 @@
                                         <label class="block font-semibold mb-2 bg-transparent">
                                             Description
                                         </label>
-                                        <textarea   class="shadow-sm h-36 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
-                                        <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/120</span>
+                                        <textarea   :class="[rates.description.length>50?'focus:border-red-500 focus:ring-red-500':'focus:border-indigo-500','shadow-sm h-20 block w-full sm:text-sm border-gray-300 rounded-md']" placeholder="Write a delivery note ......." v-model="rates.description" required></textarea>
+                                        <span class="text-gray-400 absolute bottom-1 right-3">{{rates.description.length}}/50</span>
                                         </div>
                                     </div>
                                      
@@ -129,11 +133,12 @@
 <script>
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav';
-import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon} from '@heroicons/vue/outline'
+import {LocationMarkerIcon,ChevronRightIcon,HomeIcon,DotsHorizontalIcon,XIcon,TrashIcon} from '@heroicons/vue/outline'
 import {onBeforeMount, reactive, ref} from 'vue'
 import Button from '../../../../Jetstream/Button.vue';
 import { Inertia } from '@inertiajs/inertia';
 import ErrorIcon from '../../../ErrorIcon.vue'
+import DemoVideoModal from './DemoVideoModal.vue'
 
 const pages = [
   { name: 'Settings', href: '/settings', current: false },
@@ -141,7 +146,7 @@ const pages = [
   { name: 'Shipping Profile', href: '/settings/shipping-and-delivery/shipping-profile', current: true },
 ]
 export default {
-    props:['rate_options','condition_options','store'],
+    props:['rate_options','condition_options','store', 'rate'],
      components: {
         Nav,
         AppLayout,
@@ -149,16 +154,21 @@ export default {
           Button,
           DotsHorizontalIcon, 
           ErrorIcon,
+          XIcon,
+          DemoVideoModal,
+          TrashIcon
     }, 
     data(){
         return{
             open:false,
             location_id:'', 
+            videoPop: false,
         }
     },
     methods:{
     },
     setup(props){
+        const rateStore = props.rate
         const Modal = ref(false)
         const popModal = () => {
             Modal.value = true
@@ -166,15 +176,26 @@ export default {
         const states = ref([])
         const conditions = props.condition_options
         const rate = props.rate_options
-        const data = ref([{condition:'is equal to',tag:'Price',value:''}])
-        const rates = ref({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
+        const data = ref([{condition:'is equal to',tag:'State',value:''}])
+        const rates = ref({ name:rateStore.name,
+                            description:rateStore.description,
+                            price:rateStore.price,
+                            is_domestic:rateStore.is_domestic,
+                            is_international: rateStore.is_international,
+                            match_all_condition:rateStore.match_all_condition,
+                            rate_id: rateStore.id,
+                            conditions:rateStore.conditions 
+                            })
         const bodyError = ref(false)
+
+        const removeCondition=(id)=>{
+            data.value.splice(id , id+1)
+        }
         const add = ()=> {
-            data.value.push({
-                rate:"Price",
+            rateStore.conditions.push({
                 condition:"is equal to",
-                price:"",
-                state:''
+                tag:"State",
+                value:''
             })
         }
         
@@ -183,15 +204,24 @@ export default {
                 states.value = res.data.data
             }) 
         })
-    const formData = ()=>{
-        return {...data, ...rates}
-    }
+
        const submit=()=>{
            if (!rates.value.name || !rates.value.price) {
                bodyError.value = true       
            } else {
-               Inertia.patch(`/settings/shipping-rates/${id}`,formData)
-                location.reload()
+               const formData = {
+                    name:rates.value.name, 
+                    price:rates.value.price,
+                    description:rates.value.description,
+                    is_domestic:rates.value.is_domestic,
+                    is_international:rates.value.is_international,
+                    match_all_condition:rates.value.match_all_condition,
+                    conditions:rates.value.conditions 
+                }
+    
+               Inertia.patch(`/settings/shipping-rates/${rateStore.id}/`,formData)
+               // rates.value=({name:'',description:'',price:'',is_domestic:'',match_all_condition:''})
+               // data.value =([{condition:'is equal to',tag:'Total Amount',value:''}])
            }
        }
         return{
@@ -205,7 +235,9 @@ export default {
             add,
             states,
             submit,
-            bodyError
+            bodyError,
+            removeCondition,
+            rateStore
         }
     }
 }
