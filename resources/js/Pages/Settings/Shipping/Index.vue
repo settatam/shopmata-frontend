@@ -330,13 +330,14 @@
 </template>
 
 <script>
-import { reactive, ref, onBeforeMount, computed } from 'vue'
+import { reactive, ref, onBeforeMount, computed, onMounted } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav';
 import axios from "axios"
 import PickUpModal from "./Components/PickUpModal.vue"
 import PickUpModalEdit from "./Components/PickUpModalEdit.vue"
+import { notify } from "notiwind";
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ChevronLeftIcon,GlobeAltIcon,ChevronRightIcon } from '@heroicons/vue/solid'
 import { BriefcaseIcon,LocationMarkerIcon,HomeIcon,TrashIcon,PencilIcon,QuestionMarkCircleIcon } from '@heroicons/vue/outline'
@@ -401,6 +402,7 @@ export default {
     const popModal = () => {
       Modal.value = true
       }
+    const successMessage = ref("Sucessfully Saved");
     
     const delete_location =()=>{
       is_delete_location.value = true
@@ -425,16 +427,37 @@ export default {
       
     }
 
+    function onClickTop() {
+            notify(
+                {
+                    group: "top",
+                    title: "Success",
+                    text: successMessage.value,
+                },
+                4000
+            );
+        }
+        function onClickBot() {
+            notify(
+                {
+                    group: "bottom",
+                    title: "Error",
+                    text: successMessage.value,
+                },
+                4000
+            );
+        }
+
     const delete_Shipping = (id) =>{
-      axios.post(`/settings/shipping-rates/${id}`)
+      loading.value = !loading.value
+      axios.delete(`/settings/shipping-rates/${id}`)
         .then(res=> {
-                    Inertia.visit("/settings/shipping-and-delivery", {
-                        method: "get",
-                    });
+                    if(res.status == 200){
+                        setTimeout(onClickTop, 1000);
+                    }
+                    Inertia.visit("/settings/shipping-and-delivery");
                 })
         .catch(error=> console.log(error))
-        // loading.value = !loading.value
-        // axios.post()
     }
   
     return {
@@ -453,7 +476,9 @@ export default {
       open_delete,
       edit_shipping,
       delete_Shipping,
-      loading
+      loading,
+      onClickTop,
+      onClickBot,
     }
   },
 
