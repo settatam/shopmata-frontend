@@ -177,9 +177,10 @@ class ShippingRatesController extends Controller
                     Log::info(Auth::id() . ' deleted a shipping rate ' . $id);
                 }
 
-                return response()->json('Resource Deleted');
+                return ShippingRate::with('conditions')->orderBy('id', 'desc')->get();
+
             }else{
-                return response()->json('Resource could not be deleted', 400);
+                return response()->json('Resource could not be deleted', 422);
             }
             
         }else{
