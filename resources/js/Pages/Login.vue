@@ -224,14 +224,12 @@
 
                             <div>
                                 <button
-                                    id="testthis"
                                     v-if="!v$.$error"
                                     :disabled="v$.$error"
                                     :class="{
                                         disabled: loading,
                                         'opacity-25 cursor-not-allowed':
                                             loading,
-                                        'cursor-not-allowed': loading,
                                     }"
                                     type="submit"
                                     class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -335,7 +333,7 @@ export default {
             if (this.v$.$error) {
                 return;
             }
-            loading.value = true;
+            loading.value = !loading.value;
             axios
                 .post("/login", user)
                 .then((res) => {

@@ -216,7 +216,7 @@ export default {
                     is_domestic:rates.value.is_domestic,
                     is_international:rates.value.is_international,
                     match_all_condition:rates.value.match_all_condition,
-                    conditions:rates.conditions 
+                    conditions:rates.value.conditions 
                 }
     
                Inertia.patch(`/settings/shipping-rates/${rateStore.id}/`,formData)
