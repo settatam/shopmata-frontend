@@ -49,7 +49,7 @@
                                     <input type="number"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder=""  v-model="rates.price" required/>
                                     <error-icon class="absolute top-8 right-0" v-show="bodyError && !rates.price.length "/>
                                 </div>
-                                 <div class="w-full mt-4 ">
+                                <div class="w-full mt-4 ">
                                     <p class="block text-gray-600 font-semibold text-lg mb-2 bg-transparent">
                                         Rate for
                                     </p>
@@ -147,16 +147,16 @@ const pages = [
 ]
 export default {
     props:['rate_options','condition_options','store'],
-     components: {
+    components: {
         Nav,
         AppLayout,
         LocationMarkerIcon,ChevronRightIcon,HomeIcon,
-          Button,
-          DotsHorizontalIcon, 
-          ErrorIcon,
-          XIcon,
-          DemoVideoModal,
-          TrashIcon
+        Button,
+        DotsHorizontalIcon, 
+        ErrorIcon,
+        XIcon,
+        DemoVideoModal,
+        TrashIcon
     }, 
     data(){
         return{
