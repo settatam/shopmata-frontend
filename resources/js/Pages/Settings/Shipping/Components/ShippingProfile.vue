@@ -529,13 +529,13 @@ export default {
             return {
                 name: {
                     required: helpers.withMessage(
-                        'This field cannot be empty',
+                        'Enter a shipping rate name',
                         required
                     )
                 },
                 description: {
                     required: helpers.withMessage(
-                        'This field cannot be empty',
+                        'Enter a shipping rate description',
                         required
                     ),
                     maxValue: helpers.withMessage(
@@ -545,26 +545,20 @@ export default {
                 },
                 price: {
                     required: helpers.withMessage(
-                        'This field cannot be empty',
-                        required
-                    )
-                },
-                conditions: {
-                    required: helpers.withMessage(
-                        'This field cannot be empty',
+                        'Enter a shipping rate price',
                         required
                     )
                 },
                 match_all_condition: {
-                    required: helpers.withMessage('Select an option', required)
+                    required: helpers.withMessage('Select an order condition', required)
                 },
                 is_domestic: {
-                    required: helpers.withMessage('Select an option', required)
+                    required: helpers.withMessage('Select an order rate', required)
                 },
                 conditions: {
                     $each: helpers.forEach({
                         value: {
-                            required
+                            required: helpers.withMessage('Select or Enter a condition value', required)
                         }
                     })
                 }
