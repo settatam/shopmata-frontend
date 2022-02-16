@@ -486,10 +486,6 @@ export default {
     setup (props) {
         const loading = ref(false)
         const store = props.store
-        const Modal = ref(false)
-        const popModal = () => {
-            Modal.value = true
-        }
         const states = ref([])
         const conditions = props.condition_options
         const rate = props.rate_options
@@ -578,8 +574,6 @@ export default {
 
         return {
             pages,
-            Modal,
-            popModal,
             rate,
             rates,
             data,
