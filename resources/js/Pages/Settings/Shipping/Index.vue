@@ -401,7 +401,7 @@ export default {
     const popModal = () => {
       Modal.value = true
       }
-    const notificationMessage = ref("Sucessfully Saved");
+    const notificationMessage = ref("Sucessfully Deleted");
     
     const delete_location =()=>{
       is_delete_location.value = true
@@ -444,6 +444,7 @@ export default {
                 },
                 4000
             );
+            loading.value = null
         }
 
 
