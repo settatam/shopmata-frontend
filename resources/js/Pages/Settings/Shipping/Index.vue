@@ -449,7 +449,6 @@ export default {
 
     const delete_Shipping = (id, index) =>{
       loading.value = index;
-      console.log(loading.value)
       axios.delete(`/settings/shipping-rates/${id}`)
         .then(res=> {
                     if(res.status == 200){
