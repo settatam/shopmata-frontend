@@ -205,6 +205,7 @@ export default {
                     price:rates.value.price,
                     description:rates.value.description,
                     is_domestic:rates.value.is_domestic,
+                    is_international:rates.value.is_international,
                     match_all_condition:rates.value.match_all_condition,
                     conditions:data.value 
                 }
