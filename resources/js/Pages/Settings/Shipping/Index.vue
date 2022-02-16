@@ -444,6 +444,7 @@ export default {
                 },
                 4000
             );
+            loading.value = null
         }
 
 
