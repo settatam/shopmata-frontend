@@ -40,14 +40,14 @@ class RegisterController extends Controller
     }
 
     public function registerStep3() {
-        $store_id = session()->get('store_id');
-        $store = Store::find($store_id);
-        if(null !== $store && $store->step == 3) {
+        // $store_id = session()->get('store_id');
+        // $store = Store::find($store_id);
+        // if(null !== $store && $store->step == 3) {
             $countries = Country::where('status', 1)->get();
-            $states = State::where('country_id', $store->country_id)->get();
+            $states = State::where(['country_id' => 1 , 'country_id' => 158])->get();
             return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
-        }
-        return \Redirect::route('register');
+       // }
+       // return \Redirect::route('register');
     }
     
     public function RegisterUser(Request $request)
@@ -83,7 +83,7 @@ class RegisterController extends Controller
             if (!Auth::attempt($credentials)) {
                 return \Redirect::route('register');
             }
-            
+
             return \Redirect::route('register-step-2');
 
         } catch (\Exception $e) {
