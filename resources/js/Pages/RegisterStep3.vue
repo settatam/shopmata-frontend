@@ -1,16 +1,142 @@
 <template>
     <div class="min-h-screen bg-white flex">
-        <div class="hidden lg:block lg:w-1/2 relative w-0 lg:bg-indigo-700" />
+        <!-- left div -->
+        <div
+            class="hidden lg:block lg:w-1/2 relative w-0 lg:bg-indigo-700 -skew-x-6 -translate-x-20 pt-10 px-18 flex-col"
+        >
+            <div
+                class="flex flex-col lg:px-20 xl:px-24 translate-x-20 skew-x-6 text-white"
+            >
+                <!-- logo start -->
+
+                <div class="">
+                    <div class="mb-32">
+                        <img
+                            src="../../assets/Shopmata-white.png"
+                            class="h-7"
+                            alt=""
+                        />
+                    </div>
+                    <!-- logo end -->
+
+                    <!-- text start -->
+
+                    <div class="space-y-2">
+                        <div class="font-extrabold">
+                            <h1 class="text-5xl m-">Sell more,</h1>
+                            <h1 class="text-5xl">anywhere. Fast.</h1>
+                        </div>
+
+                        <div class="font-normal">
+                            <p class="text-base">
+                                Everything you need to sell online, offline
+                                <br />
+                                and on social media
+                            </p>
+                        </div>
+                    </div>
+                    <!-- text end -->
+
+                    <!-- progress bar -->
+                    <div class="mt-10">
+                        <ul>
+                            <li class="list-none no-underline">
+                                <span
+                                    :style="{
+                                        'border-radius': '50%',
+                                        padding: '0.4rem 0.8rem'
+                                    }"
+                                    class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700"
+                                    >1</span
+                                >
+                                <span>Basic Information</span>
+                            </li>
+                            <div
+                                :style="{
+                                    'border-left': '2px solid #fff',
+                                    'margin-left': '1.2rem',
+                                    padding: '1.3rem'
+                                }"
+                                class="z-0"
+                            ></div>
+                            <li>
+                                <span
+                                    :style="{
+                                        'border-radius': '50%',
+                                        padding: '0.4rem 0.8rem'
+                                    }"
+                                    class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700 text-white"
+                                    >2</span
+                                >
+                                <span class="text-white"
+                                    >Create a Store</span
+                                >
+                            </li>
+                            <div
+                                :style="{
+                                    'border-left': '2px solid #fff',
+                                    'margin-left': '1.2rem',
+                                    padding: '1.3rem'
+                                }"
+                                class="z-0"
+                            ></div>
+                            <li>
+                                <span
+                                    :style="{
+                                        'border-radius': '50%',
+                                        padding: '0.4rem 0.8rem'
+                                    }"
+                                    class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700 text-white"
+                                    >3</span
+                                >
+                                <span class="text-gray-darken"
+                                    >Enter Business Address</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- progress bar -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Left div ends -->
+
         <div
             class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 lg:w-1/2"
         >
             <div class="mx-auto w-full">
-                <div>
-                    <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-                        Enter Your Details
-                    </h2>
-                    <p>Let's know more about you</p>
+                <div class="flex flex-col justify-center">
+                    <div class="flex justify-center my-1">
+                        <p class="text-xs text-gray-lighter ">Step 3 of 3</p>
+                    </div>
+                    <div class="flex justify-center my-1">
+                        <h1 class="font-bold text-2xl">
+                            Add Your Business Address
+                        </h1>
+                    </div>
+                    <div class="flex justify-center my-1">
+                        <p class="text-gray-lighter text-lg text-center">
+                            This address will be used as your default <br>
+                            address. It can be changed <v-list three-line>
+                                <template v-for="(item, index) in items">
+                                    <v-subheader v-if="item.header" :key="item.header">{{ item.header }}</v-subheader>
+                                    <v-divider v-else-if="item.divider" :inset="item.inset" :key="index"></v-divider>
+                                    <v-list-tile avatar v-else :key="item.title" @click="">
+                                        <v-list-tile-avatar>
+                                            <img :src="item.avatar">
+                                        </v-list-tile-avatar>
+                                        <v-list-tile-content>
+                                            <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                                            <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                </template>
+                            </v-list>
+                        </p>
+                    </div>
                 </div>
+
 
                 <div class="mt-8">
                     <div class="mt-6">
@@ -34,8 +160,8 @@
                                         :class="{
                                             'border-red-600':
                                                 v$.business_name.$error,
-                                            'border-gray-300':
-                                                !v$.business_name.$error,
+                                            'border-gray-300': !v$.business_name
+                                                .$error
                                         }"
                                         name="store_name"
                                         type="text"
@@ -78,8 +204,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.first_name.$error,
-                                                'border-gray-300':
-                                                    !v$.first_name.$error,
+                                                'border-gray-300': !v$
+                                                    .first_name.$error
                                             }"
                                             name="first_name"
                                             type="text"
@@ -118,8 +244,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.last_name.$error,
-                                                'border-gray-300':
-                                                    !v$.last_name.$error,
+                                                'border-gray-300': !v$.last_name
+                                                    .$error
                                             }"
                                             type="text"
                                             autocomplete="last_name"
@@ -176,7 +302,7 @@
                                         name="phone-number"
                                         :class="{
                                             'border-red-600': v$.phone.$error,
-                                            'border-gray-300': !v$.phone.$error,
+                                            'border-gray-300': !v$.phone.$error
                                         }"
                                         id="phone-number"
                                         autocomplete="tel"
@@ -209,8 +335,8 @@
                                         id="address"
                                         :class="{
                                             'border-red-600': v$.address.$error,
-                                            'border-gray-300':
-                                                !v$.address.$error,
+                                            'border-gray-300': !v$.address
+                                                .$error
                                         }"
                                         name="address"
                                         type="text"
@@ -244,7 +370,7 @@
                                         id="city"
                                         :class="{
                                             'border-red-600': v$.city.$error,
-                                            'border-gray-300': !v$.city.$error,
+                                            'border-gray-300': !v$.city.$error
                                         }"
                                         name="city"
                                         type="text"
@@ -280,8 +406,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.address2.$error,
-                                                'border-gray-300':
-                                                    !v$.address2.$error,
+                                                'border-gray-300': !v$.address2
+                                                    .$error
                                             }"
                                             name="address2"
                                             type="text"
@@ -322,8 +448,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.postal_code.$error,
-                                                'border-gray-300':
-                                                    !v$.postal_code.$error,
+                                                'border-gray-300': !v$
+                                                    .postal_code.$error
                                             }"
                                             type="text"
                                             autocomplete="postal-code"
@@ -367,8 +493,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.country_id.$error,
-                                                'border-gray-300':
-                                                    !v$.country_id.$error,
+                                                'border-gray-300': !v$
+                                                    .country_id.$error
                                             }"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                             v-model="store_details.country_id"
@@ -403,8 +529,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.state_id.$error,
-                                                'border-gray-300':
-                                                    !v$.state_id.$error,
+                                                'border-gray-300': !v$.state_id
+                                                    .$error
                                             }"
                                             id="state_id"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -471,8 +597,7 @@
                                     type="submit"
                                     :class="{
                                         disabled: loading,
-                                        'opacity-25 cursor-not-allowed':
-                                            loading,
+                                        'opacity-25 cursor-not-allowed': loading
                                     }"
                                     class="flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
@@ -517,36 +642,36 @@
 </template>
 
 <script>
-import { ref, reactive, computed, watch } from "vue";
-import { Inertia } from "@inertiajs/inertia";
-import useVuelidate from "@vuelidate/core";
-import { required, helpers, numeric, minValue } from "@vuelidate/validators";
+import { ref, reactive, computed, watch } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import useVuelidate from '@vuelidate/core'
+import { required, helpers, numeric, minValue } from '@vuelidate/validators'
 
 export default {
     props: {
         countries: Array,
         states: Array,
         store: Object,
-        errors: Object,
+        errors: Object
     },
-    data() {
+    data () {
         return {
             loading: false,
             notification: null,
             show: false,
             user: {
-                email: "",
-                password: "",
+                email: '',
+                password: ''
             },
             selectStore: false,
             stores: [],
-            search: "",
-        };
+            search: ''
+        }
     },
 
-    setup(props) {
-        const store_details = reactive(props.store);
-        const loading = ref(false);
+    setup (props) {
+        const store_details = reactive(props.store)
+        const loading = ref(false)
 
         // start
 
@@ -554,89 +679,89 @@ export default {
             return {
                 business_name: {
                     required: helpers.withMessage(
-                        "Please enter a business name",
+                        'Please enter a business name',
                         required
-                    ),
+                    )
                 },
                 first_name: {
                     required: helpers.withMessage(
-                        "Please enter a first name",
+                        'Please enter a first name',
                         required
-                    ),
+                    )
                 },
                 last_name: {
                     required: helpers.withMessage(
-                        "Please enter a last name",
+                        'Please enter a last name',
                         required
-                    ),
+                    )
                 },
                 address: {
                     required: helpers.withMessage(
-                        "Please enter a address",
+                        'Please enter a address',
                         required
-                    ),
+                    )
                 },
                 address2: {
                     required: helpers.withMessage(
-                        "Please enter a address",
+                        'Please enter a address',
                         required
-                    ),
+                    )
                 },
                 city: {
                     required: helpers.withMessage(
-                        "Please enter a city",
+                        'Please enter a city',
                         required
-                    ),
+                    )
                 },
                 country_id: {
-                    required: helpers.withMessage("Invalid country", required),
+                    required: helpers.withMessage('Invalid country', required)
                 },
                 phone: {
                     required: helpers.withMessage(
-                        "Please enter a phone number",
+                        'Please enter a phone number',
                         required
                     ),
-                    numeric,
+                    numeric
                 },
                 country_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        "* Select a valid country",
+                        '* Select a valid country',
                         minValue(1)
-                    ),
+                    )
                 },
                 state_id: {
-                    required: helpers.withMessage("* Select a state", required),
+                    required: helpers.withMessage('* Select a state', required)
                 },
                 postal_code: {
                     required: helpers.withMessage(
-                        "* Invalid zip/postal code",
+                        '* Invalid zip/postal code',
                         required
                     ),
-                    numeric,
-                },
-            };
-        });
+                    numeric
+                }
+            }
+        })
         // end
 
-        const v$ = useVuelidate(rules, store_details);
+        const v$ = useVuelidate(rules, store_details)
 
-        function submit() {
-            this.v$.$validate();
+        function submit () {
+            this.v$.$validate()
             if (this.v$.$error) {
-                return;
+                return
             }
-            store_details.step = 3;
-            loading.value = !loading.value;
-            Inertia.put("/store", store_details);
+            store_details.step = 3
+            loading.value = !loading.value
+            Inertia.put('/store', store_details)
         }
 
         return {
             store_details,
             submit,
             loading,
-            v$,
-        };
-    },
-};
+            v$
+        }
+    }
+}
 </script>
