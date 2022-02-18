@@ -33,7 +33,6 @@ class RegisterController extends Controller
 
     public function registerStep2(Request $request, $step=null) {
        // $store_id = session()->get('store_id');
-        
         $industries = StoreIndustry::orderBy('name', 'asc')->get();
         $methods    = SalesMethod::orderBy('name', 'asc')->get();
         $countries  = Country::where('status', 1)->get();
@@ -79,6 +78,11 @@ class RegisterController extends Controller
                 Log::error('A new could not be created', $user_details);
             }
 
+            $credentials = ['email' => $data['email'], 'password' => $data['password']];
+
+            if (!Auth::attempt($credentials)) {
+                return \Redirect::route('register');
+            }
             
             return \Redirect::route('register-step-2');
 
