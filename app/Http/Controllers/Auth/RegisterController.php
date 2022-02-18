@@ -32,27 +32,12 @@ class RegisterController extends Controller
     }
 
     public function registerStep2(Request $request, $step=null) {
-        $store_id = session()->get('store_id');
-        $store = Store::find($store_id);
-        if(null !== $store) {
-
-            if ($request->back) {
-                $store->step = 2;
-                $store->save();
-            } 
-            
-            if($store->step == 2) {
-                $industries = StoreIndustry::orderBy('name', 'asc')->get();
-                $methods    = SalesMethod::orderBy('name', 'asc')->get();
-                $countries  = Country::where('status', 1)->get();
-                return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries'));
-            }else if($store->step == 3) {
-                return \Redirect::route('register-step-3');
-            }else if($store->step == 4) {
-                return \Redirect::route('dashboard');
-            }
-        }
-        return \Redirect::route('register');
+       // $store_id = session()->get('store_id');
+        
+        $industries = StoreIndustry::orderBy('name', 'asc')->get();
+        $methods    = SalesMethod::orderBy('name', 'asc')->get();
+        $countries  = Country::where('status', 1)->get();
+        return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries'));
     }
 
     public function registerStep3() {
@@ -74,7 +59,8 @@ class RegisterController extends Controller
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255','unique:users'],
             'password' => ['required', 'string', 'confirmed', Password::min(8)],
-            'name' => ['required', 'string'],
+            'first_name'   => ['required', 'min:1', 'max:100'],
+            'last_name'    => ['required','min:1','max:200'],
         ]);
 
         try {
@@ -82,6 +68,8 @@ class RegisterController extends Controller
 
             $user_details = [
                 'email' => $data['email'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['first_name'],
                 'password' => Hash::make($data['password'])
             ];
           
@@ -91,73 +79,7 @@ class RegisterController extends Controller
                 Log::error('A new could not be created', $user_details);
             }
 
-            $store = new Store;
-            $store->name = $data['name'];
-            $slug = $store->generateSlug();
-
-            //Time to create Store
-
-            $store_data = [
-                'is_active'=>0,
-                'name'=>$data['name'],
-                'slug'=>$slug,
-                'store_plan_id'=>1,
-                'step'=>2,
-                'account_email'=>$data['email'],
-                'user_id'=>$user->id,
-                'theme_id'=>1,
-            ];
-
-            //Log new store
             
-            //Create Store
-            //Create Default TimeZone
-            //Create Default Theme
-            //Create Default Currency
-            //Create Domains
-            //Create Default Weight Unit
-            //Create Store Users -- Current user will be super user
-            //Create Store Plan
-
-
-            //Log new user
-
-            if($store = Store::create($store_data)) {
-                Log::info('Created a new store for user_id: ' . $user->id, $store_data);
-            }else{
-                Log::error('Could not create store for user_id: ' . $user->id, $store_data);
-            }
-
-            $user->store_id = $store->id;
-            $user->save();
-
-            $storeOwnerDetails = StoreGroup::where('name', 'Owner')->first(); //Cache this
-
-            $store_user = [
-                'store_id' => $store->id,
-                'user_id' => $user->id,
-                'store_group_id' => $storeOwnerDetails->id ?? 1,
-            ];
-
-            if(StoreUser::create($store_user)) {
-                Log::info('created a new store user', $store_user);
-            }
-
-            session()->flush();
-
-            $credentials = ['email' => $data['email'], 'password' => $data['password']];
-
-            if (!Auth::attempt($credentials)) {
-                return \Redirect::route('register');
-            }
-
-            Login::create(
-                ['user_id'=> $user->id, 'store_id' => $store->id]
-            );
-
-            //Log the user ..
-            session(['store_id' => $store->id]);
-
             return \Redirect::route('register-step-2');
 
         } catch (\Exception $e) {
