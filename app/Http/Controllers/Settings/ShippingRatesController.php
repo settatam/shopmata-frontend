@@ -8,6 +8,7 @@ use App\Models\ShippingRate;
 use App\Models\ShippingRateCondition;
 use App\Http\Resources\ShippingRate as ShippingRateResource;
 use App\Http\Resources\ShippingRateCollection;
+use App\Http\Resources\ShippingRate as ShipRate;
 use Inertia\Inertia;
 
 use Log;
@@ -21,11 +22,8 @@ class ShippingRatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        
-        
+    {   
         return new ShippingRateCollection(ShippingRate::with('conditions')->orderBy('id', 'desc')->get());
-
     }
 
     /**
@@ -177,9 +175,10 @@ class ShippingRatesController extends Controller
                     Log::info(Auth::id() . ' deleted a shipping rate ' . $id);
                 }
 
-                return response()->json('Resource Deleted');
+                return ShipRate::collection(ShippingRate::with('conditions')->orderBy('id', 'desc')->get());
+
             }else{
-                return response()->json('Resource could not be deleted', 400);
+                return response()->json('Resource could not be deleted', 422);
             }
             
         }else{
