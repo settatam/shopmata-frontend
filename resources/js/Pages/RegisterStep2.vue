@@ -514,6 +514,7 @@ export default {
         const v$ = useVuelidate(rules, store)
 
         function submit () {
+            console.log(true)
             this.v$.$validate()
             if (this.v$.$error) {
                 return
