@@ -527,6 +527,12 @@ export default {
                         method: 'get'
                     })
                 })
+                .catch(error => {
+                    loading.value = false
+                    if (error.response.data.errors) {
+                        errors.value = error.response.data.errors
+                    }
+                })
                 /* .catch(error => {
                     loading.value = false
                     if (error.response.data.errors) {
