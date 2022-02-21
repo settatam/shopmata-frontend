@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\Register;
+use Illuminate\Http\Request;
+
 
 class StoreController extends Controller
 {
