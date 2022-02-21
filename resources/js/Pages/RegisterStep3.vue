@@ -118,21 +118,7 @@
                     <div class="flex justify-center my-1">
                         <p class="text-gray-lighter text-lg text-center">
                             This address will be used as your default <br>
-                            address. It can be changed <v-list three-line>
-                                <template v-for="(item, index) in items">
-                                    <v-subheader v-if="item.header" :key="item.header">{{ item.header }}</v-subheader>
-                                    <v-divider v-else-if="item.divider" :inset="item.inset" :key="index"></v-divider>
-                                    <v-list-tile avatar v-else :key="item.title" @click="">
-                                        <v-list-tile-avatar>
-                                            <img :src="item.avatar">
-                                        </v-list-tile-avatar>
-                                        <v-list-tile-content>
-                                            <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                                            <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                </template>
-                            </v-list>
+                            address. It can be changed 
                         </p>
                     </div>
                 </div>

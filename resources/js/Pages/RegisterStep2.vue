@@ -222,11 +222,53 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="sales_method_id"
+                                        
+                                        name="location"
+                                        v-model="store.sales_method_id"
+                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                    >
+                                        <option value="0">Select</option>
+                                        <!-- <option
+                                            v-for="method in methods"
+                                            :key="method.id"
+                                            :value="method.id"
+                                        >
+                                            {{ method.name }}
+                                        </option> -->
+                                    </select>
+                                </div>
+                                <!-- <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="v$.sales_method_id.$error"
+                                    >
+                                        {{
+                                            v$.sales_method_id.$errors[0]
+                                                .$message
+                                        }}
+                                    </p>
+                                </div> -->
+                            </div>
+                            <!-- Business size ends -->
+
+                            <!-- business practice starts -->
+                            <div>
+                                <label
+                                    for=""
+                                    class="block text-sm font-medium text-gray-700"
+                                >
+                                    What best descibes how you currently sell
+                                    your products?
+                                </label>
+
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    <select
+                                        id="sales_method_id"
                                         :class="{
                                             'border-red-600':
                                                 v$.sales_method_id.$error,
-                                            'border-gray-300': !v$
-                                                .sales_method_id.$error
+                                            'border-gray-300':
+                                                !v$.sales_method_id.$error,
                                         }"
                                         name="location"
                                         v-model="store.sales_method_id"
@@ -247,56 +289,7 @@
                                         class="text-red-600 text-xs"
                                         v-if="v$.sales_method_id.$error"
                                     >
-                                        {{
-                                            v$.sales_method_id.$errors[0]
-                                                .$message
-                                        }}
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Business size ends -->
-
-                            <!-- business practice starts -->
-                            <div>
-                                <label
-                                    for=""
-                                    class="block text-sm font-medium text-gray-700"
-                                >
-                                    What best descibes how you currently sell
-                                    your products?
-                                </label>
-
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                    <select
-                                        id="location"
-                                        :class="{
-                                            'border-red-600':
-                                                v$.industry_id.$error,
-                                            'border-gray-300': !v$.industry_id
-                                                .$error
-                                        }"
-                                        name="location"
-                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                        v-model="store.industry_id"
-                                    >
-                                        <option value="0">
-                                            Select
-                                        </option>
-                                        <option
-                                            v-for="industry in industries"
-                                            :key="industry.id"
-                                            :value="industry.id"
-                                        >
-                                            {{ industry.name }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="mt-1">
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.industry_id.$error"
-                                    >
-                                        {{ v$.industry_id.$errors[0].$message }}
+                                        {{ v$.sales_method_id.$errors[0].$message }}
                                     </p>
                                 </div>
                             </div>
@@ -472,12 +465,12 @@ export default {
         const selected_method = ref('')
         const loading = ref(false)
         const store = reactive({
+            name: "",
+            domain: "",
             industry_id: 0,
-            sales_method_id: 0,
             has_website: null,
-            step: 2,
-            country_id: 0,
-            domain: ''
+            sales_method_id: 0,
+            step: 2,         
         })
 
         const rules = computed(() => {
@@ -500,13 +493,6 @@ export default {
                     required,
                     minValueValue: helpers.withMessage(
                         'Please select a valid industry',
-                        minValue(1)
-                    )
-                },
-                country_id: {
-                    required,
-                    minValueValue: helpers.withMessage(
-                        'Please select a valid country',
                         minValue(1)
                     )
                 },
@@ -533,7 +519,7 @@ export default {
                 return
             }
             loading.value = !loading.value
-            Inertia.put('/store', store)
+            Inertia.post('/store/create', store)
         }
         return {
             industries,
