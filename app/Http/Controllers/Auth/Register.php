@@ -36,8 +36,8 @@ trait Register
         
         } catch (\Exception $e) {
             $errorMessages = $this->exMessage($e);
-            \Log::info("Exception" . print_r($$errorMessages['exceptionDetails'], true));
-            return response()->json(['status' => $$errorMessages['notification']], 422);
+            \Log::info("Exception" . print_r($errorMessages['exceptionDetails'], true));
+            return response()->json(['status' => $errorMessages['notification']], 422);
         }
     }
 
@@ -107,8 +107,8 @@ trait Register
             throw new Exception("Failed to save user");
         } catch (\Exception $e) {
             $errorMessages = $this->exMessage($e);
-            \Log::info("Exception" . print_r($$errorMessages['exceptionDetails'], true));
-            return response()->json(['status' => $$errorMessages['notification']], 422);
+            \Log::info("Exception" . print_r($errorMessages['exceptionDetails'], true));
+            return response()->json(['status' => $errorMessages['notification']], 422);
         }
     }
 
@@ -154,8 +154,8 @@ trait Register
 
         } catch (\Exception $e) {
             $errorMessages = $this->exMessage($e);
-            \Log::info("Exception" . print_r($$errorMessages['exceptionDetails'], true));
-            return response()->json(['status' => $$errorMessages['notification']], 422);
+            \Log::info("Exception" . print_r($errorMessages['exceptionDetails'], true));
+            return response()->json(['status' => $errorMessages['notification']], 422);
         }
     }
 
