@@ -16,4 +16,8 @@ class Country extends Model
     public function timezone() {
     	return $this->belongsTo(Timezone::class, 'timezone_id', 'id');
     }
+
+    public function states() {
+    	return $this->hasMany(State::class);
+    }
 }
