@@ -519,7 +519,23 @@ export default {
                 return
             }
             loading.value = !loading.value
-            Inertia.post('/store/create', store)
+            axios
+                .post('/store/create', store)
+                .then(response => {
+                    Inertia.visit('/register/step-3', {
+                        method: 'get'
+                    })
+                })
+                /* .catch(error => {
+                    loading.value = false
+                    if (error.response.data.errors) {
+                        errors.value = error.response.data.errors
+                    }
+                }) */
+            // Inertia.post('/store/create', store)
+
+
+            
         }
         return {
             industries,
