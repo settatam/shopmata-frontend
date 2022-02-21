@@ -46,8 +46,9 @@ class RegisterController extends Controller
 
     public function registerStep3(Request $request) {
         $countries = Country::where('status', 1)->get();
+        $countries->load('states');
         $states = State::where(['country_id' => 1 , 'country_id' => 158])->get();
-        return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
+        return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries','store'));
     }
     
     public function RegisterUser(Request $request)
