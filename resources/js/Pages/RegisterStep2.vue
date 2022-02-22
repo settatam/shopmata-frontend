@@ -139,15 +139,15 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input
                                         :class="{
-                                            'border-red-600': v$.name.$error,
-                                            'border-gray-300': !v$.name.$error
+                                            'border-red-600': v$.store_name.$error,
+                                            'border-gray-300': !v$.store_name.$error
                                         }"
                                         id="store_name"
                                         name="store_name"
                                         type="text"
                                         autocomplete="store_name"
                                         class="appearance-none block w-full cursor-pointer px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        v-model="store.name"
+                                        v-model="store.store_name"
                                     />
                                     <!-- <div
                                         class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
@@ -157,9 +157,9 @@
                                 <div class="mt-1">
                                     <p
                                         class="text-red-600 text-xs"
-                                        v-if="v$.name.$error"
+                                        v-if="v$.store_name.$error"
                                     >
-                                        {{ v$.name.$errors[0].$message }}
+                                        {{ v$.store_name.$errors[0].$message }}
                                     </p>
                                 </div>
                             </div>
@@ -465,7 +465,7 @@ export default {
         const selected_method = ref('')
         const loading = ref(false)
         const store = reactive({
-            name: "",
+            store_name: "",
             domain: "",
             industry_id: 0,
             has_website: null,
@@ -496,7 +496,7 @@ export default {
                         minValue(1)
                     )
                 },
-                name: {
+                store_name: {
                     required: helpers.withMessage(
                         'Please enter a valid store name',
                         required

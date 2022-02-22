@@ -129,86 +129,6 @@
                             class="space-y-6"
                             v-on:submit.prevent="submit"
                         >
-                            <div class="flex">
-                                <!-- First name begins -->
-                                <div class="w-1/2">
-                                    <label
-                                        for="first_name"
-                                        class="block text-sm font-medium text-gray-700"
-                                    >
-                                        First Name
-                                    </label>
-                                    <div
-                                        class="mt-1 relative rounded-md shadow-sm mr-4"
-                                    >
-                                        <input
-                                            id="first_name"
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.first_name.$error,
-                                                'border-gray-300': !v$
-                                                    .first_name.$error
-                                            }"
-                                            name="first_name"
-                                            type="text"
-                                            autocomplete="first_name"
-                                            class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            v-model="store_details.first_name"
-                                        />
-                                    </div>
-                                    <div class="mt-1">
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.first_name.$error"
-                                        >
-                                            {{
-                                                v$.first_name.$errors[0]
-                                                    .$message
-                                            }}
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- First name ends -->
-                                <!-- Last name begins -->
-                                <div class="w-1/2">
-                                    <label
-                                        for="last_name"
-                                        class="block text-sm font-medium text-gray-700"
-                                    >
-                                        Last Name
-                                    </label>
-                                    <div
-                                        class="mt-1 relative rounded-md shadow-sm"
-                                    >
-                                        <input
-                                            id="last_name"
-                                            name="last_name"
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.last_name.$error,
-                                                'border-gray-300': !v$.last_name
-                                                    .$error
-                                            }"
-                                            type="text"
-                                            autocomplete="last_name"
-                                            class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            v-model="store_details.last_name"
-                                        />
-                                    </div>
-                                    <div class="mt-1">
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.last_name.$error"
-                                        >
-                                            {{
-                                                v$.last_name.$errors[0].$message
-                                            }}
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Last name ends -->
-                            </div>
-
                             <!-- Street address begins -->
                             <div>
                                 <label
@@ -383,7 +303,6 @@
                                             }}
                                         </p>
                                     </div>
-
                                 </div>
 
                                 <!-- State ends -->
@@ -470,8 +389,6 @@
                                 </div>
 
                                 <!-- Zip ends -->
-
-                                
                             </div>
 
                             <!-- phone starts -->
@@ -620,8 +537,6 @@ export default {
         const countries = props.countries
 
         const store_details = reactive({
-            first_name: '',
-            last_name: '',
             address: '',
             address2: '',
             country_id: '',
@@ -629,7 +544,7 @@ export default {
             city: '',
             postal_code: '',
             phone: '',
-            step: 3, 
+            step: 3
         })
 
         const states = computed(() => {
@@ -644,35 +559,14 @@ export default {
 
         const rules = computed(() => {
             return {
-                first_name: {
-                    required: helpers.withMessage(
-                        'Enter a first name',
-                        required
-                    )
-                },
-                last_name: {
-                    required: helpers.withMessage(
-                        'Enter a last name',
-                        required
-                    )
-                },
                 address: {
-                    required: helpers.withMessage(
-                        'Enter an address',
-                        required
-                    )
+                    required: helpers.withMessage('Enter an address', required)
                 },
                 address2: {
-                    required: helpers.withMessage(
-                        'Enter an address',
-                        required
-                    )
+                    required: helpers.withMessage('Enter an address', required)
                 },
                 city: {
-                    required: helpers.withMessage(
-                        'Enter a city',
-                        required
-                    )
+                    required: helpers.withMessage('Enter a city', required)
                 },
                 country_id: {
                     required: helpers.withMessage('Invalid country', required)
