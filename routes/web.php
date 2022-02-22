@@ -256,7 +256,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 	Route::get('online-store/themes', [ThemeController::class, 'index']);
 
+	Route::post('store/create', [StoreController::class, 'store']);
 	Route::put('store', [StoreController::class, 'update']);
+
 
 	Route::get('store/pages/generate-slug/{title}', [PagesController::class, 'generateSlug']);
 	Route::get('store/pages/editor/{id?}', [PagesController::class, 'editor']);

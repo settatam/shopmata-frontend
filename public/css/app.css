@@ -1865,11 +1865,11 @@ select {
 .w-36 {
 	width: 9rem;
 }
-.w-screen {
-	width: 100vw;
-}
 .w-1\/2 {
 	width: 50%;
+}
+.w-screen {
+	width: 100vw;
 }
 .w-9\/10 {
 	width: 90%;
@@ -4990,10 +4990,6 @@ input[type='checkbox']:focus {
 		margin-right: -2rem;
 	}
 
-	.lg\:mr-4 {
-		margin-right: 1rem;
-	}
-
 	.lg\:mb-0 {
 		margin-bottom: 0px;
 	}
@@ -5024,6 +5020,10 @@ input[type='checkbox']:focus {
 
 	.lg\:mr-8 {
 		margin-right: 2rem;
+	}
+
+	.lg\:mr-4 {
+		margin-right: 1rem;
 	}
 
 	.lg\:mr-11 {
