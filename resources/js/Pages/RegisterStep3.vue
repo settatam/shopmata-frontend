@@ -68,9 +68,7 @@
                                     class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700 text-white"
                                     >2</span
                                 >
-                                <span class="text-white"
-                                    >Create a Store</span
-                                >
+                                <span class="text-white">Create a Store</span>
                             </li>
                             <div
                                 :style="{
@@ -89,7 +87,7 @@
                                     class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700 text-white"
                                     >3</span
                                 >
-                                <span class="text-gray-darken"
+                                <span class="text-white"
                                     >Enter Business Address</span
                                 >
                             </li>
@@ -117,12 +115,11 @@
                     </div>
                     <div class="flex justify-center my-1">
                         <p class="text-gray-lighter text-lg text-center">
-                            This address will be used as your default <br>
-                            address. It can be changed 
+                            This address will be used as your default <br />
+                            business address. It can be changed later
                         </p>
                     </div>
                 </div>
-
 
                 <div class="mt-8">
                     <div class="mt-6">
@@ -132,50 +129,9 @@
                             class="space-y-6"
                             v-on:submit.prevent="submit"
                         >
-                            <!-- Store name begins -->
-                            <div>
-                                <label
-                                    for="store_name"
-                                    class="block text-sm font-medium text-gray-700"
-                                >
-                                    Business Name
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                    <input
-                                        id="store_name"
-                                        :class="{
-                                            'border-red-600':
-                                                v$.business_name.$error,
-                                            'border-gray-300': !v$.business_name
-                                                .$error
-                                        }"
-                                        name="store_name"
-                                        type="text"
-                                        autocomplete="store_name"
-                                        class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        v-model="store_details.business_name"
-                                    />
-
-                                    <div
-                                        class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
-                                        v-if="errors.business_name"
-                                    ></div>
-                                </div>
-                                <div class="mt-1">
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.business_name.$error"
-                                    >
-                                        {{
-                                            v$.business_name.$errors[0].$message
-                                        }}
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Store name ends -->
                             <div class="flex">
                                 <!-- First name begins -->
-                                <div class="lg:w-1/2 md:w-1/2">
+                                <div class="w-1/2">
                                     <label
                                         for="first_name"
                                         class="block text-sm font-medium text-gray-700"
@@ -214,7 +170,7 @@
                                 </div>
                                 <!-- First name ends -->
                                 <!-- Last name begins -->
-                                <div class="lg:w-1/2 md:w-1/2">
+                                <div class="w-1/2">
                                     <label
                                         for="last_name"
                                         class="block text-sm font-medium text-gray-700"
@@ -253,13 +209,278 @@
                                 <!-- Last name ends -->
                             </div>
 
+                            <!-- Street address begins -->
+                            <div>
+                                <label
+                                    for="email"
+                                    class="block text-sm font-medium text-gray-700"
+                                >
+                                    Address
+                                </label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    <input
+                                        id="address"
+                                        :class="{
+                                            'border-red-600': v$.address.$error,
+                                            'border-gray-300': !v$.address
+                                                .$error
+                                        }"
+                                        name="address"
+                                        type="text"
+                                        autocomplete="address"
+                                        class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        v-model="store_details.address"
+                                    />
+                                </div>
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="v$.address.$error"
+                                    >
+                                        {{ v$.address.$errors[0].$message }}
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Street address ends -->
+
+                            <!-- Suite apt begins -->
+                            <div class="w-full">
+                                <label
+                                    for="address2"
+                                    class="block text-sm font-medium text-gray-700"
+                                >
+                                    Apartment/Suite
+                                </label>
+                                <div
+                                    class="mt-1 relative rounded-md shadow-sm "
+                                >
+                                    <input
+                                        id="address2"
+                                        :class="{
+                                            'border-red-600':
+                                                v$.address2.$error,
+                                            'border-gray-300': !v$.address2
+                                                .$error
+                                        }"
+                                        name="address2"
+                                        type="text"
+                                        autocomplete="address2"
+                                        class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        v-model="store_details.address2"
+                                    />
+                                </div>
+
+                                <div class="mt-1">
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="v$.address2.$error"
+                                    >
+                                        {{ v$.address2.$errors[0].$message }}
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Suite apt ends -->
+
+                            <div class="flex">
+                                <!-- Country starts -->
+                                <div class="w-1/2 mr-4">
+                                    <label
+                                        for="country_id"
+                                        class="block text-sm font-medium text-gray-700"
+                                    >
+                                        Country
+                                    </label>
+                                    <div
+                                        class="mt-1 relative rounded-md shadow-sm"
+                                    >
+                                        <select
+                                            name="country_id"
+                                            id="country_id"
+                                            :class="{
+                                                'border-red-600':
+                                                    v$.country_id.$error,
+                                                'border-gray-300': !v$
+                                                    .country_id.$error
+                                            }"
+                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                            v-model="store_details.country_id"
+                                        >
+                                            <option
+                                                v-for="country in countries"
+                                                :value="country.id"
+                                                :key="country.id"
+                                            >
+                                                {{ country.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Country ends -->
+
+                                <!-- State starts -->
+                                <div class="w-1/2">
+                                    <label
+                                        for="state_id"
+                                        class="block text-sm font-medium text-gray-700"
+                                    >
+                                        State
+                                    </label>
+                                    <div
+                                        class="mt-1 relative rounded-md shadow-sm"
+                                        v-if="states.length"
+                                    >
+                                        <select
+                                            name="state_id"
+                                            :class="{
+                                                'border-red-600':
+                                                    v$.state_id.$error,
+                                                'border-gray-300': !v$.state_id
+                                                    .$error
+                                            }"
+                                            id="state_id"
+                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                            v-model="store_details.state_id"
+                                        >
+                                            <option
+                                                v-for="state in states[0]
+                                                    .states"
+                                                :value="state.id"
+                                                :key="state.id"
+                                            >
+                                                {{ state.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <!-- v-else -->
+                                    <div
+                                        class="mt-1 relative rounded-md shadow-sm"
+                                        v-else
+                                    >
+                                        <select
+                                            name="state_id"
+                                            :class="{
+                                                'border-red-600':
+                                                    v$.state_id.$error,
+                                                'border-gray-300': !v$.state_id
+                                                    .$error
+                                            }"
+                                            id="state_id"
+                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                            v-model="store_details.state_id"
+                                        >
+                                            <option> </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-1">
+                                        <p
+                                            class="text-red-600 text-xs"
+                                            v-if="v$.state_id.$error"
+                                        >
+                                            {{
+                                                v$.state_id.$errors[0].$message
+                                            }}
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <!-- State ends -->
+                            </div>
+
+                            <div class="flex">
+                                <!-- city begins-->
+
+                                <div class="w-1/2 mr-4 ">
+                                    <label
+                                        for="city"
+                                        class="block text-sm font-medium text-gray-700"
+                                    >
+                                        City
+                                    </label>
+                                    <div
+                                        class="mt-1 relative rounded-md shadow-sm"
+                                    >
+                                        <input
+                                            id="city"
+                                            :class="{
+                                                'border-red-600':
+                                                    v$.city.$error,
+                                                'border-gray-300': !v$.city
+                                                    .$error
+                                            }"
+                                            name="city"
+                                            type="text"
+                                            autocomplete="city"
+                                            class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            v-model="store_details.city"
+                                        />
+                                    </div>
+                                    <div class="mt-1">
+                                        <p
+                                            class="text-red-600 text-xs"
+                                            v-if="v$.city.$error"
+                                        >
+                                            {{ v$.city.$errors[0].$message }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- city ends -->
+
+                                <!-- Zip starts -->
+
+                                <div class="w-1/2">
+                                    <label
+                                        for="postal-code"
+                                        class="block text-sm font-medium text-gray-700"
+                                    >
+                                        Zip Code
+                                    </label>
+                                    <div
+                                        class="mt-1 relative rounded-md shadow-sm"
+                                    >
+                                        <input
+                                            id="postal-code"
+                                            name="postal_code"
+                                            :class="{
+                                                'border-red-600':
+                                                    v$.postal_code.$error,
+                                                'border-gray-300': !v$
+                                                    .postal_code.$error
+                                            }"
+                                            type="text"
+                                            autocomplete="postal-code"
+                                            class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            v-model="store_details.postal_code"
+                                        />
+                                    </div>
+                                    <div class="mt-1">
+                                        <p
+                                            class="text-red-600 text-xs"
+                                            v-if="v$.postal_code.$error"
+                                        >
+                                            {{
+                                                v$.postal_code.$errors[0]
+                                                    .$message
+                                            }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Zip ends -->
+
+                                
+                            </div>
+
                             <!-- phone starts -->
                             <div>
                                 <label
                                     for="last_name"
                                     class="block text-sm font-medium text-gray-700"
                                 >
-                                    Phone
+                                    Phone Number
                                 </label>
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <div
@@ -308,273 +529,12 @@
                             </div>
                             <!-- phone ends -->
 
-                            <!-- Street address begins -->
-                            <div>
-                                <label
-                                    for="email"
-                                    class="block text-sm font-medium text-gray-700"
-                                >
-                                    Street Address
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                    <input
-                                        id="address"
-                                        :class="{
-                                            'border-red-600': v$.address.$error,
-                                            'border-gray-300': !v$.address
-                                                .$error
-                                        }"
-                                        name="address"
-                                        type="text"
-                                        autocomplete="address"
-                                        class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        v-model="store_details.address"
-                                    />
-                                </div>
-                                <div class="mt-1">
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.address.$error"
-                                    >
-                                        {{ v$.address.$errors[0].$message }}
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Street address ends -->
-
-                            <!-- city begins-->
-
-                            <div class="">
-                                <label
-                                    for="city"
-                                    class="block text-sm font-medium text-gray-700"
-                                >
-                                    City
-                                </label>
-                                <div class="mt-1 relative rounded-md shadow-sm">
-                                    <input
-                                        id="city"
-                                        :class="{
-                                            'border-red-600': v$.city.$error,
-                                            'border-gray-300': !v$.city.$error
-                                        }"
-                                        name="city"
-                                        type="text"
-                                        autocomplete="city"
-                                        class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        v-model="store_details.city"
-                                    />
-                                </div>
-                                <div class="mt-1">
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.city.$error"
-                                    >
-                                        {{ v$.city.$errors[0].$message }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="flex">
-                                <!-- Suite apt begins -->
-                                <div class="lg:w-1/2 md:w-1/2">
-                                    <label
-                                        for="address2"
-                                        class="block text-sm font-medium text-gray-700"
-                                    >
-                                        Suite / Apt
-                                    </label>
-                                    <div
-                                        class="mt-1 relative rounded-md shadow-sm mr-4"
-                                    >
-                                        <input
-                                            id="address2"
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.address2.$error,
-                                                'border-gray-300': !v$.address2
-                                                    .$error
-                                            }"
-                                            name="address2"
-                                            type="text"
-                                            autocomplete="address2"
-                                            class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            v-model="store_details.address2"
-                                        />
-                                    </div>
-
-                                    <div class="mt-1">
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.address2.$error"
-                                        >
-                                            {{
-                                                v$.address2.$errors[0].$message
-                                            }}
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Suite apt ends -->
-
-                                <!-- Zip starts -->
-
-                                <div class="lg:w-1/2 md:w-1/2">
-                                    <label
-                                        for="postal-code"
-                                        class="block text-sm font-medium text-gray-700"
-                                    >
-                                        Zip / Postal Code
-                                    </label>
-                                    <div
-                                        class="mt-1 relative rounded-md shadow-sm"
-                                    >
-                                        <input
-                                            id="postal-code"
-                                            name="postal_code"
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.postal_code.$error,
-                                                'border-gray-300': !v$
-                                                    .postal_code.$error
-                                            }"
-                                            type="text"
-                                            autocomplete="postal-code"
-                                            class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            v-model="store_details.postal_code"
-                                        />
-                                    </div>
-                                    <div class="mt-1">
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.postal_code.$error"
-                                        >
-                                            {{
-                                                v$.postal_code.$errors[0]
-                                                    .$message
-                                            }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Zip ends -->
-
-                                <!-- city ends -->
-                            </div>
-
-                            <div class="flex">
-                                <!-- Country starts -->
-                                <div class="lg:w-1/2 md:w-1/2 lg:mr-4 md:mr-4">
-                                    <label
-                                        for="country_id"
-                                        class="block text-sm font-medium text-gray-700"
-                                    >
-                                        Country
-                                    </label>
-                                    <div
-                                        class="mt-1 relative rounded-md shadow-sm"
-                                    >
-                                        <select
-                                            name="country_id"
-                                            id="country_id"
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.country_id.$error,
-                                                'border-gray-300': !v$
-                                                    .country_id.$error
-                                            }"
-                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                            v-model="store_details.country_id"
-                                        >
-                                            <option
-                                                v-for="country in countries"
-                                                :value="country.id"
-                                                :key="country.id"
-                                            >
-                                                {{ country.name }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Country ends -->
-
-                                <!-- State starts -->
-                                <div class="lg:w-1/2 md:w-1/2">
-                                    <label
-                                        for="state_id"
-                                        class="block text-sm font-medium text-gray-700"
-                                    >
-                                        State / Province
-                                    </label>
-                                    <div
-                                        class="mt-1 relative rounded-md shadow-sm"
-                                        v-if="states.length"
-                                    >
-                                        <select
-                                            name="state_id"
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.state_id.$error,
-                                                'border-gray-300': !v$.state_id
-                                                    .$error
-                                            }"
-                                            id="state_id"
-                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                            v-model="store_details.state_id"
-                                        >
-                                            <option value="" selected>
-                                                Choose State
-                                            </option>
-                                            <option
-                                                v-for="state in states"
-                                                :value="state.id"
-                                                :key="state.id"
-                                            >
-                                                {{ state.name }}
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <div class="mt-1">
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.state_id.$error"
-                                        >
-                                            {{
-                                                v$.state_id.$errors[0].$message
-                                            }}
-                                        </p>
-                                    </div>
-
-                                    <!-- <div
-                                        class="mt-1 relative rounded-md shadow-sm"
-                                        v-else
-                                    >
-                                        <input
-                                            id="state"
-                                            name="state"
-                                            type="text"
-                                            autocomplete="state"
-                                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            v-model="store_details.state"
-                                        />
-                                    </div> -->
-                                    <!-- <div>
-                                        <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.state.$error"
-                                    >
-                                        {{ v$.state.$errors[0].$message }}
-                                    </p>
-                                    </div> -->
-                                </div>
-
-                                <!-- State ends -->
-                            </div>
-
                             <!-- Buttons start -->
                             <div class="flex justify-between">
-                                <inertia-link href="/register/step-2?back=1">
+                                <inertia-link
+                                    class="flex justify-center py-2 w-36 border-gray-darken border rounded-md bg-white shadow-sm text-sm font-medium hover:bg-indigo-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    href="/register/step-2?back=1"
+                                >
                                     Back
                                 </inertia-link>
                                 <button
@@ -605,7 +565,7 @@
                                         ></path>
                                     </svg>
 
-                                    Go To Dashboard
+                                    Enter My Store
                                 </button>
 
                                 <!-- else -->
@@ -614,7 +574,7 @@
                                     type="submit"
                                     class="flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
-                                    Go To Dashboard
+                                    Enter My Store
                                 </button>
                             </div>
 
@@ -636,7 +596,7 @@ import { required, helpers, numeric, minValue } from '@vuelidate/validators'
 export default {
     props: {
         countries: Array,
-        states: Array,
+        // states: Array,
         store: Object,
         errors: Object
     },
@@ -656,46 +616,61 @@ export default {
     },
 
     setup (props) {
-        const store_details = reactive(props.store)
+        // const store_details = reactive(props.store)
+        const countries = props.countries
+
+        const store_details = reactive({
+            first_name: '',
+            last_name: '',
+            address: '',
+            address2: '',
+            country_id: '',
+            state_id: '',
+            city: '',
+            postal_code: '',
+            phone: '',
+            step: 3, 
+        })
+
+        const states = computed(() => {
+            return countries.filter(
+                country => country.id == store_details.country_id
+            )
+        })
+
         const loading = ref(false)
 
         // start
 
         const rules = computed(() => {
             return {
-                business_name: {
-                    required: helpers.withMessage(
-                        'Please enter a business name',
-                        required
-                    )
-                },
                 first_name: {
                     required: helpers.withMessage(
-                        'Please enter a first name',
+                        'Enter a first name',
                         required
                     )
                 },
                 last_name: {
                     required: helpers.withMessage(
-                        'Please enter a last name',
+                        'Enter a last name',
                         required
                     )
                 },
                 address: {
                     required: helpers.withMessage(
-                        'Please enter a address',
+                        'Enter an address',
                         required
                     )
                 },
                 address2: {
                     required: helpers.withMessage(
-                        'Please enter a address',
+                        'Enter an address',
                         required
                     )
                 },
                 city: {
                     required: helpers.withMessage(
-                        'Please enter a city',
+                        'Enter a city',
                         required
                     )
                 },
@@ -704,24 +679,17 @@ export default {
                 },
                 phone: {
                     required: helpers.withMessage(
-                        'Please enter a phone number',
+                        'Enter a phone number',
                         required
                     ),
                     numeric
-                },
-                country_id: {
-                    required,
-                    minValueValue: helpers.withMessage(
-                        '* Select a valid country',
-                        minValue(1)
-                    )
                 },
                 state_id: {
                     required: helpers.withMessage('* Select a state', required)
                 },
                 postal_code: {
                     required: helpers.withMessage(
-                        '* Invalid zip/postal code',
+                        'Enter a postal code',
                         required
                     ),
                     numeric
@@ -737,16 +705,29 @@ export default {
             if (this.v$.$error) {
                 return
             }
-            store_details.step = 3
-            loading.value = !loading.value
-            Inertia.put('/store', store_details)
+            loading.value = true
+            axios
+                .put('/store', store_details)
+                .then(response => {
+                    Inertia.visit('/dashboard', {
+                        method: 'get'
+                    })
+                })
+                .catch(error => {
+                    loading.value = false
+                    if (error.response.data.errors) {
+                        errors.value = error.response.data.errors
+                    }
+                })
         }
 
         return {
             store_details,
             submit,
             loading,
-            v$
+            v$,
+            countries,
+            states
         }
     }
 }
