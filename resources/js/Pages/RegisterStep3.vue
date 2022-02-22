@@ -362,26 +362,26 @@
                                     >
                                         <input
                                             id="postal-code"
-                                            name="postal_code"
+                                            name="zip"
                                             :class="{
                                                 'border-red-600':
-                                                    v$.postal_code.$error,
+                                                    v$.zip.$error,
                                                 'border-gray-300': !v$
-                                                    .postal_code.$error
+                                                    .zip.$error
                                             }"
                                             type="text"
                                             autocomplete="postal-code"
                                             class="appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            v-model="store_details.postal_code"
+                                            v-model="store_details.zip"
                                         />
                                     </div>
                                     <div class="mt-1">
                                         <p
                                             class="text-red-600 text-xs"
-                                            v-if="v$.postal_code.$error"
+                                            v-if="v$.zip.$error"
                                         >
                                             {{
-                                                v$.postal_code.$errors[0]
+                                                v$.zip.$errors[0]
                                                     .$message
                                             }}
                                         </p>
@@ -542,7 +542,7 @@ export default {
             country_id: '',
             state_id: '',
             city: '',
-            postal_code: '',
+            zip: '',
             phone: '',
             step: 3
         })
@@ -581,7 +581,7 @@ export default {
                 state_id: {
                     required: helpers.withMessage('* Select a state', required)
                 },
-                postal_code: {
+                zip: {
                     required: helpers.withMessage(
                         'Enter a postal code',
                         required

@@ -1252,6 +1252,9 @@ select {
 .float-right {
 	float: right;
 }
+.m-0 {
+	margin: 0px;
+}
 .m-auto {
 	margin: auto;
 }
@@ -1755,6 +1758,9 @@ select {
 .h-2 {
 	height: 0.5rem;
 }
+.h-24 {
+	height: 6rem;
+}
 .h-7 {
 	height: 1.75rem;
 }
@@ -1862,11 +1868,11 @@ select {
 .w-4\.5\/10 {
 	width: 45%;
 }
-.w-36 {
-	width: 9rem;
-}
 .w-1\/2 {
 	width: 50%;
+}
+.w-36 {
+	width: 9rem;
 }
 .w-screen {
 	width: 100vw;
@@ -2782,6 +2788,9 @@ select {
 .p-5 {
 	padding: 1.25rem;
 }
+.p-0 {
+	padding: 0px;
+}
 .p-3 {
 	padding: 0.75rem;
 }
@@ -2796,9 +2805,6 @@ select {
 }
 .p-0\.5 {
 	padding: 0.125rem;
-}
-.p-0 {
-	padding: 0px;
 }
 .p-px {
 	padding: 1px;
@@ -5120,6 +5126,10 @@ input[type='checkbox']:focus {
 
 	.lg\:w-3\/10 {
 		width: 30%;
+	}
+
+	.lg\:w-36 {
+		width: 9rem;
 	}
 
 	.lg\:min-w-0 {
