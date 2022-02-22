@@ -41,7 +41,9 @@ class RegisterController extends Controller
         $industries = StoreIndustry::orderBy('name', 'asc')->get();
         $methods    = SalesMethod::orderBy('name', 'asc')->get();
         $countries  = Country::where('status', 1)->get();
-        return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries'));
+        $user  = $request->user();
+        $store      = $user->store_id ? Store::find($user->store_id) : null;
+        return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries','store'));
     }
 
     public function registerStep3(Request $request) {
