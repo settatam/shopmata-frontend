@@ -138,7 +138,6 @@ trait Register
                 'next_url' => 'step-3',
                 'status' => 'success',
                 'message' => 'User created successfully',
-                'store' => $store
             ], 200);
 
         } catch (\Exception $e) {
