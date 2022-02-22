@@ -514,12 +514,11 @@ export default {
         const v$ = useVuelidate(rules, store)
 
         function submit () {
-            console.log(true)
             this.v$.$validate()
             if (this.v$.$error) {
                 return
             }
-            loading.value = !loading.value
+            loading.value = true
             axios
                 .post('/store/create', store)
                 .then(response => {
@@ -533,15 +532,6 @@ export default {
                         errors.value = error.response.data.errors
                     }
                 })
-                /* .catch(error => {
-                    loading.value = false
-                    if (error.response.data.errors) {
-                        errors.value = error.response.data.errors
-                    }
-                }) */
-            // Inertia.post('/store/create', store)
-
-
             
         }
         return {

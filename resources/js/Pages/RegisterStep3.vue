@@ -131,7 +131,7 @@
                         >
                             <div class="flex">
                                 <!-- First name begins -->
-                                <div class="lg:w-1/2 md:w-1/2">
+                                <div class="w-1/2">
                                     <label
                                         for="first_name"
                                         class="block text-sm font-medium text-gray-700"
@@ -170,7 +170,7 @@
                                 </div>
                                 <!-- First name ends -->
                                 <!-- Last name begins -->
-                                <div class="lg:w-1/2 md:w-1/2">
+                                <div class="w-1/2">
                                     <label
                                         for="last_name"
                                         class="block text-sm font-medium text-gray-700"
@@ -705,9 +705,20 @@ export default {
             if (this.v$.$error) {
                 return
             }
-            store_details.step = 3
-            loading.value = !loading.value
-            Inertia.put('/store', store_details)
+            loading.value = true
+            axios
+                .put('/store', store_details)
+                .then(response => {
+                    Inertia.visit('/dashboard', {
+                        method: 'get'
+                    })
+                })
+                .catch(error => {
+                    loading.value = false
+                    if (error.response.data.errors) {
+                        errors.value = error.response.data.errors
+                    }
+                })
         }
 
         return {
