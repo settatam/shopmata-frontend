@@ -14,7 +14,10 @@ class DashboardController extends Controller
      * Dashboard Data
      */
     public function index() {
-        $store_id = session()->get('store_id');
+        $user = request()->user();
+        $store_id  = $user->store_id;
+        session(['store_id' => $store_id]);
+
         if($store_id) {
             $store = Store::find($store_id);      
             if(null !== $store) {
@@ -30,7 +33,7 @@ class DashboardController extends Controller
                 }  
             }
         }
-        return \Redirect::route('register'); 
+        return \Redirect::route('login'); 
     }
     
 

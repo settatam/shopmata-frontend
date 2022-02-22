@@ -44,7 +44,7 @@
                                 <span
                                     :style="{
                                         'border-radius': '50%',
-                                        padding: '0.4rem 0.8rem'
+                                        padding: '0.4rem 0.8rem',
                                     }"
                                     class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700"
                                     >1</span
@@ -55,7 +55,7 @@
                                 :style="{
                                     'border-left': '2px solid #fff',
                                     'margin-left': '1.2rem',
-                                    padding: '1.3rem'
+                                    padding: '1.3rem',
                                 }"
                                 class="z-0"
                             ></div>
@@ -63,7 +63,7 @@
                                 <span
                                     :style="{
                                         'border-radius': '50%',
-                                        padding: '0.4rem 0.8rem'
+                                        padding: '0.4rem 0.8rem',
                                     }"
                                     class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700 text-white"
                                     >2</span
@@ -74,7 +74,7 @@
                                 :style="{
                                     'border-left': '2px solid #8A8A99',
                                     'margin-left': '1.2rem',
-                                    padding: '1.3rem'
+                                    padding: '1.3rem',
                                 }"
                                 class="z-0"
                             ></div>
@@ -82,7 +82,7 @@
                                 <span
                                     :style="{
                                         'border-radius': '50%',
-                                        padding: '0.4rem 0.8rem'
+                                        padding: '0.4rem 0.8rem',
                                     }"
                                     class="w-5 h-5 mr-4 border-solid border-2 border-gray-darken z-20 bg-indigo-700 text-gray-darken"
                                     >3</span
@@ -106,7 +106,7 @@
             <div class="mx-auto w-full">
                 <div class="flex flex-col justify-center">
                     <div class="flex justify-center my-1">
-                        <p class="text-xs text-gray-lighter ">Step 2 of 3</p>
+                        <p class="text-xs text-gray-lighter">Step 2 of 3</p>
                     </div>
                     <div class="flex justify-center my-1">
                         <h1 class="font-bold text-2xl">
@@ -139,8 +139,13 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <input
                                         :class="{
+<<<<<<< HEAD
                                             'border-red-600': v$.store_name.$error,
                                             'border-gray-300': !v$.store_name.$error
+=======
+                                            'border-red-600': v$.name.$error,
+                                            'border-gray-300': !v$.name.$error,
+>>>>>>> e51fbbb2742e945aaadfe55ea117704bb99b1cdd
                                         }"
                                         id="store_name"
                                         name="store_name"
@@ -179,7 +184,7 @@
                                     <input
                                         :class="{
                                             'border-red-600': v$.name.$error,
-                                            'border-gray-300': !v$.name.$error
+                                            'border-gray-300': !v$.name.$error,
                                         }"
                                         id="store_domain"
                                         name="store_domain"
@@ -222,7 +227,6 @@
                                 <div class="mt-1 relative rounded-md shadow-sm">
                                     <select
                                         id="sales_method_id"
-                                        
                                         name="location"
                                         v-model="store.sales_method_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -289,7 +293,10 @@
                                         class="text-red-600 text-xs"
                                         v-if="v$.sales_method_id.$error"
                                     >
-                                        {{ v$.sales_method_id.$errors[0].$message }}
+                                        {{
+                                            v$.sales_method_id.$errors[0]
+                                                .$message
+                                        }}
                                     </p>
                                 </div>
                             </div>
@@ -310,16 +317,14 @@
                                         :class="{
                                             'border-red-600':
                                                 v$.industry_id.$error,
-                                            'border-gray-300': !v$.industry_id
-                                                .$error
+                                            'border-gray-300':
+                                                !v$.industry_id.$error,
                                         }"
                                         name="location"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                         v-model="store.industry_id"
                                     >
-                                        <option value="0">
-                                            Select
-                                        </option>
+                                        <option value="0">Select</option>
                                         <option
                                             v-for="industry in industries"
                                             :key="industry.id"
@@ -356,8 +361,8 @@
                                         :class="{
                                             'border-red-600':
                                                 v$.has_website.$error,
-                                            'border-gray-300': !v$.has_website
-                                                .$error
+                                            'border-gray-300':
+                                                !v$.has_website.$error,
                                         }"
                                         name="has_website"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -387,7 +392,8 @@
                                     :disabled="v$.$error"
                                     :class="{
                                         disabled: loading,
-                                        'opacity-25 cursor-not-allowed': loading
+                                        'opacity-25 cursor-not-allowed':
+                                            loading,
                                     }"
                                     type="submit"
                                     class="w-36 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -431,108 +437,107 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { ref, reactive, computed, watch } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import useVuelidate from '@vuelidate/core'
-import { required, minValue, helpers, numeric } from '@vuelidate/validators'
+import axios from "axios";
+import { ref, reactive, computed, watch } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+import useVuelidate from "@vuelidate/core";
+import { required, minValue, helpers, numeric } from "@vuelidate/validators";
 
 export default {
     props: {
         industries: Array,
         methods: Array,
         errors: Object,
-        countries: Array
+        countries: Array,
     },
 
-    data () {
+    data() {
         return {
             notification: null,
             show: false,
             user: {
-                email: '',
-                password: ''
+                email: "",
+                password: "",
             },
             selectStore: false,
             stores: [],
-            search: ''
-        }
+            search: "",
+        };
     },
 
-    setup (props) {
-        const industries = props.industries
-        const methods = props.methods
-        const selected_method = ref('')
-        const loading = ref(false)
+    setup(props) {
+        const industries = props.industries;
+        const methods = props.methods;
+        const selected_method = ref("");
+        const loading = ref(false);
         const store = reactive({
             store_name: "",
             domain: "",
             industry_id: 0,
             has_website: null,
             sales_method_id: 0,
-            step: 2,         
-        })
+            step: 2,
+        });
 
         const rules = computed(() => {
             return {
                 sales_method_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        'Please enter a valid sales method',
+                        "Please enter a valid sales method",
                         minValue(1)
-                    )
+                    ),
                 },
                 has_website: {
                     required,
                     numeric: helpers.withMessage(
-                        'Please select a valid option',
+                        "Please select a valid option",
                         numeric
-                    )
+                    ),
                 },
                 industry_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        'Please select a valid industry',
+                        "Please select a valid industry",
                         minValue(1)
-                    )
+                    ),
                 },
                 store_name: {
                     required: helpers.withMessage(
-                        'Please enter a valid store name',
+                        "Please enter a valid store name",
                         required
-                    )
+                    ),
                 },
                 domain: {
                     required: helpers.withMessage(
-                        'Please enter a valid store domain',
+                        "Please enter a valid store domain",
                         required
-                    )
-                }
-            }
-        })
+                    ),
+                },
+            };
+        });
 
-        const v$ = useVuelidate(rules, store)
+        const v$ = useVuelidate(rules, store);
 
-        function submit () {
-            this.v$.$validate()
+        function submit() {
+            this.v$.$validate();
             if (this.v$.$error) {
-                return
+                return;
             }
-            loading.value = true
+            loading.value = true;
             axios
-                .post('/store/create', store)
-                .then(response => {
-                    Inertia.visit('/register/step-3', {
-                        method: 'get'
-                    })
+                .post("/store/create", store)
+                .then((response) => {
+                    Inertia.visit("/register/step-3", {
+                        method: "get",
+                    });
                 })
-                .catch(error => {
-                    loading.value = false
+                .catch((error) => {
+                    loading.value = false;
                     if (error.response.data.errors) {
-                        errors.value = error.response.data.errors
+                        errors.value = error.response.data.errors;
                     }
-                })
-            
+                });
         }
         return {
             industries,
@@ -541,8 +546,8 @@ export default {
             submit,
             store,
             v$,
-            loading
-        }
-    }
-}
+            loading,
+        };
+    },
+};
 </script>
