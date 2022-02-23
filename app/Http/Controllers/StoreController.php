@@ -11,13 +11,19 @@ class StoreController extends Controller
    
     use Register;
 
-    public function store(Request $request){
-        $this->registerStep2($request);
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
+    public function store(Request $request)
+    {
+       return  $this->registerStep2($request);
     }
 
 
-    public function update(Request $request) {
-        $this->registerStep3($request);
+    public function update(Request $request) 
+    {
+       return $this->registerStep3($request);
     }
 
 

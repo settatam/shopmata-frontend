@@ -35,6 +35,7 @@ module.exports = {
                 purple: {
                     light: "#DE21FF",
                     darker: "#632A6D",
+                    darken: "#4338CA",
                 },
                 green: {
                     light: "#ECFEEE",

@@ -16,6 +16,7 @@ trait Register
 
         try {
 
+            //You must be logged in
             $data = $request->all();
             $data['password'] = bcrypt($data['password']);
             if($user = User::create($data)) {
@@ -48,30 +49,19 @@ trait Register
 
             $user = $request->user();
             $store = new Store;
-            $name = $request->store_name;
+            $store_name = $request->store_name;
             $store_data = [
                 'is_active'=>0,
                 'name'=>$store_name,
-                'store_domain'=>$store_name,
+                'store_domain'=>$request->store_domain,
                 'slug'=>Helper::generateSlug($store_name),
                 'store_plan_id'=>1,
                 'step'=>2,
                 'account_email'=>$user->email,
                 'user_id'=>$user->id,
                 'theme_id'=>1,
+                'industry_id' => $request->industry_id
             ];
-
-            //Log new store
-            
-            //Create Store
-            //Create Default TimeZone
-            //Create Default Theme
-            //Create Default Currency
-            //Create Domains
-            //Create Default Weight Unit
-            //Create Store Users -- Current user will be super user
-            //Create Store Plan
-
 
             //Log new user
 
@@ -104,7 +94,7 @@ trait Register
             }
 
             Log::error('Could not create store for user_id: ' . $user->id, $store_data);
-            throw new Exception("Failed to save user");
+            throw new Exception("Failed to create your store");
         } catch (\Exception $e) {
             $errorMessages = $this->exMessage($e);
             \Log::info("Exception" . print_r($errorMessages['exceptionDetails'], true));
@@ -114,13 +104,14 @@ trait Register
 
 
 
-    protected  function registerStep3($request) {
+    public  function registerStep3($request) 
+    {
 
         try {
-                  
             $redirect = false;
             $user = $request->user();
             $input = $request->input();
+            $store_id = $user->store_id;
             $redirect = 'settings.general';
             if($request->has('step')) {
                 if($request->step == 3){
@@ -130,14 +121,12 @@ trait Register
                         $input['currency_id'] = $country->currency_id;
                         $input['unit_id'] = $country->unit_id;
                     }                   
-            
                     $input['step'] = 4;
                     $redirect = 'dashboard';
                 } 
             }
 
-            $store = Store::find($user->store_id);
-
+            $store = Store::find($store_id);
             if($store->update($input)) {
                 Log::info(Auth::id() . ' updated store ' . $store_id . ' with the following details', $input);
             }else{
@@ -149,7 +138,6 @@ trait Register
                 'next_url' => 'step-3',
                 'status' => 'success',
                 'message' => 'User created successfully',
-                'store' => $store
             ], 200);
 
         } catch (\Exception $e) {

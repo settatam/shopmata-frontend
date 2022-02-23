@@ -225,7 +225,7 @@
                             <div>
                                 <button
                                     v-if="!v$.$error"
-                                    :disabled="v$.$error"
+                                    :disabled="loading"
                                     :class="{
                                         disabled: loading,
                                         'opacity-25 cursor-not-allowed':
