@@ -43,7 +43,9 @@ class Store extends Model
                             'login_wall',
                             'enable_store_pickup',
                             'enable_pay_on_delivery',
-                            'step'
+                            'step',
+                            'sales_method_id',
+                            'has_website'
     					];
 
     // protected static function booted()

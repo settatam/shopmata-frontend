@@ -149,7 +149,7 @@
                         <div class="wrap-circles">
                             <div class="circle per-25">
                                 <div class="inner text-xs">
-                                    <p class="text-sm">2 of 3</p>
+                                    <p class="text-sm">1 of 3</p>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +157,7 @@
 
                         <!-- circle text start -->
                         <div class="ml-4 ">
-                            <div class="text-xl font-medium">
+                            <div class="text-xl font-medium text-indigo-700">
                                 <p>Basic Information</p>
                             </div>
                             <div class="font-normal text-xs">
