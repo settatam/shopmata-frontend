@@ -60,7 +60,9 @@ trait Register
                 'account_email'=>$user->email,
                 'user_id'=>$user->id,
                 'theme_id'=>1,
-                'industry_id' => $request->industry_id
+                'industry_id' => $request->industry_id,
+                'sales_method_id' => $request->sales_method_id,
+                'has_website' => $request->has_website ? 1 :0
             ];
 
             //Log new user
