@@ -4891,16 +4891,20 @@ input[type='checkbox']:focus {
 		text-align: right;
 	}
 
+	.md\:text-sm {
+		font-size: 0.985rem;
+	}
+
+	.md\:text-lg {
+		font-size: 1.125rem;
+	}
+
 	.md\:text-3xl {
 		font-size: 1.875rem;
 	}
 
 	.md\:text-base {
 		font-size: 1rem;
-	}
-
-	.md\:text-lg {
-		font-size: 1.125rem;
 	}
 
 	.md\:text-xl {
@@ -4913,10 +4917,6 @@ input[type='checkbox']:focus {
 
 	.md\:text-2xl {
 		font-size: 1.5rem;
-	}
-
-	.md\:text-sm {
-		font-size: 0.985rem;
 	}
 
 	.md\:font-bold {
@@ -4989,6 +4989,11 @@ input[type='checkbox']:focus {
 	.lg\:mx-auto {
 		margin-left: auto;
 		margin-right: auto;
+	}
+
+	.lg\:my-auto {
+		margin-top: auto;
+		margin-bottom: auto;
 	}
 
 	.lg\:-mx-8 {
@@ -5092,6 +5097,10 @@ input[type='checkbox']:focus {
 		width: 50%;
 	}
 
+	.lg\:w-36 {
+		width: 9rem;
+	}
+
 	.lg\:w-full {
 		width: 100%;
 	}
@@ -5126,10 +5135,6 @@ input[type='checkbox']:focus {
 
 	.lg\:w-3\/10 {
 		width: 30%;
-	}
-
-	.lg\:w-36 {
-		width: 9rem;
 	}
 
 	.lg\:min-w-0 {
@@ -5316,12 +5321,12 @@ input[type='checkbox']:focus {
 		text-align: left;
 	}
 
-	.lg\:text-base {
-		font-size: 1rem;
-	}
-
 	.lg\:text-lg {
 		font-size: 1.125rem;
+	}
+
+	.lg\:text-base {
+		font-size: 1rem;
 	}
 
 	.lg\:text-2xl {

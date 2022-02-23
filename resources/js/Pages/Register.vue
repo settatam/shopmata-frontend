@@ -5,7 +5,7 @@
             class="lg:hidden bg-indigo-700 h-24 w-full m-0 p-0 flex items-center"
         >
             <div class="pl-8">
-                <img src="../../assets/Shopmata-white.png" class="h-7" alt="" />
+                <img src="../../assets/Shopmata-white.png" class="h-5" alt="" />
             </div>
         </div>
 
@@ -118,7 +118,7 @@
             <div
                 class="flex-1 flex flex-col py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 lg:w-1/2"
             >
-                <div class="mx-auto w-full">
+                <div class="mx-auto lg:my-auto w-full">
                     <!-- header 1 starts -->
 
                     <div class="flex flex-col justify-center">
@@ -133,9 +133,11 @@
                             </h1>
                         </div>
                         <div class="flex justify-center my-1">
-                            <p class="text-gray-lighter text-sm lg:text-lg text-center">
-                                Enter your details to launch your own store
-                                in minutes
+                            <p
+                                class="text-gray-lighter text-sm lg:text-lg text-center"
+                            >
+                                Enter your details to launch your own store in
+                                minutes
                             </p>
                         </div>
                     </div>
@@ -143,29 +145,20 @@
 
                     <!-- circular progress bar header start -->
                     <div class="lg:hidden my-8 flex flex-row items-center">
-
                         <!-- actual circle -->
-                        <div class="soft-circle">
-                            <div class="inside"></div>
-                            <div class="key ">1 of 3</div>
-                            <div class="circle">
-                                <div class="shade left">
-                                    <div class="progressing"></div>
-                                </div>
-                                <div class="shade right">
-                                    <div class="progressing"></div>
-                                </div>
+                        <div class="wrap-circles">
+                            <div class="circle per-25">
+                                <div class="inner">1 of 3</div>
                             </div>
                         </div>
                         <!-- actual circle end -->
 
-
                         <!-- circle text start -->
                         <div class="ml-12 ">
-                            <div class="text-xl font-medium">
+                            <div class="text-2xl font-medium">
                                 <p>Basic Information</p>
                             </div>
-                            <div class="font-normal text-xs">
+                            <div class="font-normal text-sm">
                                 <p>Next: Create a Store</p>
                             </div>
                         </div>
@@ -451,7 +444,7 @@
                                     <button
                                         v-else
                                         type="submit"
-                                        class="w-36 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        class="w-full lg:w-36 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
                                         Next
                                     </button>
@@ -601,71 +594,40 @@ export default {
 </script>
 
 <style scoped>
-.soft-circle {
-    height: 100px;
-    width: 100px;
-    position: relative;
-    color: #212121;
-    border: solid #f7f7f7 1px;
-    border-radius: 50%;
-}
-.soft-circle .inside {
-    position: absolute;
-    z-index: 6;
-    top: 50%;
-    left: 50%;
-    height: 80px;
-    width: 80px;
-    margin: -40px 0 0 -40px;
+.wrap-circles {
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
     background: #fff;
-    border-radius: 100%;
 }
-.soft-circle .key {
+
+.circle {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0.5rem;
+    border-radius: 50%;
+    /*   background: #FFCDB2; */
+    overflow: hidden;
+}
+.circle.per-25 {
+    background-image: conic-gradient(#4338ca 33%, #f7f7f7 0);
+}
+
+.circle .inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
-    font-size: 18px;
-    font-weight: 500;
-    color: #000;
-}
-.soft-circle .shade {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background: #f7f7f7;
-    -webkit-border-radius: 100%;
-    clip: rect(0px, 100px, 100px, 50px);
-}
-.circle .shade .progressing {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    -webkit-border-radius: 100%;
-    clip: rect(0px, 50px, 100px, 0px);
-    background: #4338ca;
-}
-.circle .left .progressing {
-    z-index: 1;
-    animation: left 1s linear both;
-}
-@keyframes left {
-    100% {
-        transform: rotate(120deg);
-    }
-}
-.circle .right {
-    transform: rotate(120deg);
-    z-index: 3;
-}
-.circle .right .progressing {
-    animation: right 4s linear both;
-    animation-delay: 4s;
-}
-@keyframes right {
-    100% {
-        transform: rotate(0deg);
-    }
+    width: 115px;
+    height: 115px;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 1.85em;
+    font-weight: 300;
+    color: black;
 }
 </style>
