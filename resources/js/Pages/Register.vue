@@ -154,7 +154,7 @@
                         <!-- actual circle end -->
 
                         <!-- circle text start -->
-                        <div class="ml-12 ">
+                        <div class="ml-4 ">
                             <div class="text-2xl font-medium">
                                 <p>Basic Information</p>
                             </div>
@@ -412,7 +412,7 @@
                                 <div class="flex justify-end">
                                     <button
                                         v-if="!v$.$error"
-                                        :disabled="v$.$error"
+                                        :disabled="loading"
                                         :class="{
                                             disabled: loading,
                                             'opacity-25 cursor-not-allowed': loading

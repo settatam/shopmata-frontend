@@ -157,7 +157,7 @@
                             <!-- actual circle end -->
 
                             <!-- circle text start -->
-                            <div class="ml-8 ">
+                            <div class="ml-4 ">
                                 <div class="text-xl font-medium">
                                     <p>Enter Business Address</p>
                                 </div>
@@ -537,7 +537,7 @@
                                         </inertia-link>
                                         <button
                                             v-if="!v$.$error"
-                                            :disabled="v$.$error"
+                                            :disabled="loading"
                                             type="submit"
                                             :class="{
                                                 disabled: loading,

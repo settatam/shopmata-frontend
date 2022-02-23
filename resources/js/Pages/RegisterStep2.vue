@@ -153,7 +153,7 @@
                         <!-- actual circle end -->
 
                         <!-- circle text start -->
-                        <div class="ml-12 ">
+                        <div class="ml-4 ">
                             <div class="text-2xl font-medium">
                                 <p>Create a Store</p>
                             </div>
@@ -455,7 +455,7 @@
                                 <div class="flex justify-end">
                                     <button
                                         v-if="!v$.$error"
-                                        :disabled="v$.$error"
+                                        :disabled="loading"
                                         :class="{
                                             disabled: loading,
                                             'opacity-25 cursor-not-allowed': loading
@@ -506,7 +506,7 @@
 
 <script>
 import axios from 'axios'
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import useVuelidate from '@vuelidate/core'
 import { required, minValue, helpers, numeric } from '@vuelidate/validators'
@@ -535,7 +535,28 @@ export default {
     },
 
     setup (props) {
+
         const storeProp = props.store
+        /* onMounted(test => {
+            if (test == null) {
+                store.store_name = ''
+                store.domain = ''
+                store.industry_id = 0
+                store.has_website = null
+                store.sales_method_id = 0
+                store.size_of_business = ''
+                store.step = 2
+            } else {
+                store.store_name = storeProp.store_name
+                store.domain = storeProp.domain
+                store.industry_id = storeProp.industry_id
+                store.has_website = storeProp.has_website
+                store.sales_method_id = storeProp.sales_method_id
+                store.size_of_business = storeProp.size_of_business
+                store.step = storeProp.step
+            }
+        }) */
+
         const industries = props.industries
         const methods = props.methods
         const selected_method = ref('')
@@ -617,8 +638,8 @@ export default {
             submit,
             store,
             v$,
-            loading,
-            storeProp
+            loading
+            // storeProp
         }
     }
 }
@@ -638,7 +659,6 @@ export default {
     height: 150px;
     margin: 0.5rem;
     border-radius: 50%;
-    /*   background: #FFCDB2; */
     overflow: hidden;
 }
 .circle.per-25 {
