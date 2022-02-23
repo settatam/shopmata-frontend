@@ -42,7 +42,7 @@ class RegisterController extends Controller
         $methods    = SalesMethod::orderBy('name', 'asc')->get();
         $countries  = Country::where('status', 1)->get();
         $user       = $request->user();
-        $store      = $user->store_id ? Store::find($user->store_id) : null;
+        $store      = null !== $user ? Store::find($user->store_id) : null;
         return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries','store'));
     }
 
