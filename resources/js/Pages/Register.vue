@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-white flex flex-col">
         <!-- mobile banner start -->
         <div
-            class="lg:hidden bg-indigo-700 h-24 w-full m-0 p-0 flex items-center"
+            class="lg:hidden bg-purple-darken h-24 w-full m-0 p-0 flex items-center"
         >
             <div class="pl-8">
                 <img src="../../assets/Shopmata-white.png" class="h-5" alt="" />
@@ -144,21 +144,23 @@
                     <!-- header 1 ends -->
 
                     <!-- circular progress bar header start -->
-                    <div class="lg:hidden my-8 flex flex-row items-center">
+                    <div class="lg:hidden flex flex-row items-center">
                         <!-- actual circle -->
                         <div class="wrap-circles">
                             <div class="circle per-25">
-                                <div class="inner">1 of 3</div>
+                                <div class="inner text-xs">
+                                    <p class="text-sm">2 of 3</p>
+                                </div>
                             </div>
                         </div>
                         <!-- actual circle end -->
 
                         <!-- circle text start -->
                         <div class="ml-4 ">
-                            <div class="text-2xl font-medium">
+                            <div class="text-xl font-medium">
                                 <p>Basic Information</p>
                             </div>
-                            <div class="font-normal text-sm">
+                            <div class="font-normal text-xs">
                                 <p>Next: Create a Store</p>
                             </div>
                         </div>
@@ -603,11 +605,10 @@ export default {
 
 .circle {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     margin: 0.5rem;
     border-radius: 50%;
-    /*   background: #FFCDB2; */
     overflow: hidden;
 }
 .circle.per-25 {
@@ -622,12 +623,10 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 115px;
-    height: 115px;
+    width: 75px;
+    height: 75px;
     background: #fff;
     border-radius: 50%;
-    font-size: 1.85em;
-    font-weight: 300;
     color: black;
 }
 </style>

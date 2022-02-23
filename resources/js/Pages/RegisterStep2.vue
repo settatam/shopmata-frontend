@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-white flex flex-col">
         <!-- mobile banner start -->
         <div
-            class="lg:hidden bg-indigo-700 h-24 w-full m-0 p-0 flex items-center"
+            class="lg:hidden bg-purple-darken h-24 w-full m-0 p-0 flex items-center"
         >
             <div class="pl-8">
                 <img src="../../assets/Shopmata-white.png" class="h-5" alt="" />
@@ -142,22 +142,24 @@
                     <!-- header 1 ends -->
 
                     <!-- circular progress bar header start -->
-                    <div class="lg:hidden my-8 flex flex-row items-center">
+                    <div class="lg:hidden flex flex-row items-center">
                         <!-- actual circle -->
                         <div class="wrap-circles">
                             <div class="circle per-25">
-                                <div class="inner">2 of 3</div>
+                                <div class="inner text-xs">
+                                    <p class="text-sm">2 of 3</p>
+                                </div>
                             </div>
                         </div>
 
                         <!-- actual circle end -->
 
                         <!-- circle text start -->
-                        <div class="ml-4 ">
-                            <div class="text-2xl font-medium">
+                        <div class=" ">
+                            <div class="text-xl font-medium text-indigo-700">
                                 <p>Create a Store</p>
                             </div>
-                            <div class="font-normal text-sm">
+                            <div class="font-normal text-xs">
                                 <p>Next: Enter Business Address</p>
                             </div>
                         </div>
@@ -166,8 +168,8 @@
 
                     <!-- circular progress bar header end -->
 
-                    <div class="mt-8">
-                        <div class="mt-6">
+                    <div class="mt-1">
+                        <div class="mt-1">
                             <form
                                 action="#"
                                 method="POST"
@@ -232,16 +234,16 @@
                                         <input
                                             :class="{
                                                 'border-red-600':
-                                                    v$.domain.$error,
-                                                'border-gray-300': !v$.domain
-                                                    .$error
+                                                    v$.store_domain.$error,
+                                                'border-gray-300': !v$
+                                                    .store_domain.$error
                                             }"
                                             id="store_domain"
                                             name="store_domain"
                                             type="text"
                                             autocomplete="store_domain"
                                             class="appearance-none flex-none w-full cursor-pointer px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm flex pr-32"
-                                            v-model="store.domain"
+                                            v-model="store.store_domain"
                                         />
 
                                         <span
@@ -257,9 +259,12 @@
                                     <div class="mt-1">
                                         <p
                                             class="text-red-600 text-xs"
-                                            v-if="v$.domain.$error"
+                                            v-if="v$.store_domain.$error"
                                         >
-                                            {{ v$.domain.$errors[0].$message }}
+                                            {{
+                                                v$.store_domain.$errors[0]
+                                                    .$message
+                                            }}
                                         </p>
                                     </div>
                                 </div>
@@ -506,7 +511,7 @@
 
 <script>
 import axios from 'axios'
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, onUpdated } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import useVuelidate from '@vuelidate/core'
 import { required, minValue, helpers, numeric } from '@vuelidate/validators'
@@ -535,33 +540,36 @@ export default {
     },
 
     setup (props) {
+        const storeProp = reactive(props.store)
+        const store = reactive({})
 
-        const storeProp = props.store
-        /* onMounted(test => {
-            if (test == null) {
+        onMounted(() => {
+            if (props.store == null) {
                 store.store_name = ''
-                store.domain = ''
+                store.store_domain = ''
                 store.industry_id = 0
                 store.has_website = null
                 store.sales_method_id = 0
                 store.size_of_business = ''
                 store.step = 2
             } else {
-                store.store_name = storeProp.store_name
-                store.domain = storeProp.domain
+                store.store_name = storeProp.name
+                store.store_domain = storeProp.store_domain
                 store.industry_id = storeProp.industry_id
                 store.has_website = storeProp.has_website
                 store.sales_method_id = storeProp.sales_method_id
                 store.size_of_business = storeProp.size_of_business
                 store.step = storeProp.step
+                store.id = storeProp.id
             }
-        }) */
+        })
 
         const industries = props.industries
         const methods = props.methods
         const selected_method = ref('')
         const loading = ref(false)
-        const store = reactive({
+        /* 
+            const store = reactive({
             store_name: '',
             domain: '',
             industry_id: 0,
@@ -569,7 +577,8 @@ export default {
             sales_method_id: 0,
             size_of_business: '',
             step: 2
-        })
+        }) 
+        */
 
         const rules = computed(() => {
             return {
@@ -600,7 +609,7 @@ export default {
                         required
                     )
                 },
-                domain: {
+                store_domain: {
                     required: helpers.withMessage(
                         'Please enter a valid store domain',
                         required
@@ -638,8 +647,8 @@ export default {
             submit,
             store,
             v$,
-            loading
-            // storeProp
+            loading,
+            storeProp
         }
     }
 }
@@ -655,8 +664,8 @@ export default {
 
 .circle {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     margin: 0.5rem;
     border-radius: 50%;
     overflow: hidden;
@@ -673,12 +682,10 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 115px;
-    height: 115px;
+    width: 75px;
+    height: 75px;
     background: #fff;
     border-radius: 50%;
-    font-size: 1.85em;
-    font-weight: 300;
     color: black;
 }
 </style>

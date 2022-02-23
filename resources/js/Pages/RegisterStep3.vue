@@ -3,7 +3,7 @@
         <div>
             <!-- mobile banner start -->
             <div
-                class="lg:hidden bg-indigo-700 h-24 w-full m-0 p-0 flex items-center"
+                class="lg:hidden bg-purple-darken h-24 w-full m-0 p-0 flex items-center"
             >
                 <div class="pl-8">
                     <img
@@ -147,7 +147,7 @@
                         <!-- header 1 ends -->
 
                         <!-- circular progress bar header start -->
-                        <div class="lg:hidden my-8 flex flex-row items-center">
+                        <div class="lg:hidden flex flex-row items-center">
                             <!-- actual circle -->
                             <div class="wrap-circles">
                                 <div class="circle per-25">
