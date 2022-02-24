@@ -22,6 +22,7 @@ class StoreController extends Controller
        return  $this->registerStep2($request);
     }
 
+
     public function update(Request $request) 
     {
        return $this->registerStep3($request);

@@ -26,7 +26,7 @@ class RegisterStep2Request extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {   
         return [                       
             'store_domain' => ['required', 'max:255','unique:stores'],
             'store_name' => [
