@@ -62,7 +62,7 @@ trait Register
                 'theme_id'=>1,
                 'industry_id' => $request->industry_id,
                 'sales_method_id' => $request->sales_method_id,
-                'has_website' => $request->has_website ? 1 :0
+                'has_website' => $request->has_website ? 1 : 0,
             ];
 
             //Log new user

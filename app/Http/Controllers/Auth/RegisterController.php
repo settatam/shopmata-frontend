@@ -53,7 +53,7 @@ class RegisterController extends Controller
         return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
     }
     
-    public function RegisterUser(Request $request)
+    public function RegisterUser(RegisterStep1Request $request)
     {
         $this->registerStep1($request);
     }
