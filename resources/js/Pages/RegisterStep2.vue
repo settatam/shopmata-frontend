@@ -57,7 +57,7 @@
                                     <span
                                         :style="{
                                             'border-radius': '50%',
-                                            padding: '0.4rem 0.8rem'
+                                            padding: '0.4rem 0.8rem',
                                         }"
                                         class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700"
                                         >1</span
@@ -68,7 +68,7 @@
                                     :style="{
                                         'border-left': '2px solid #fff',
                                         'margin-left': '1.2rem',
-                                        padding: '1.3rem'
+                                        padding: '1.3rem',
                                     }"
                                     class="z-0"
                                 ></div>
@@ -76,7 +76,7 @@
                                     <span
                                         :style="{
                                             'border-radius': '50%',
-                                            padding: '0.4rem 0.8rem'
+                                            padding: '0.4rem 0.8rem',
                                         }"
                                         class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700 text-white"
                                         >2</span
@@ -89,7 +89,7 @@
                                     :style="{
                                         'border-left': '2px solid #8A8A99',
                                         'margin-left': '1.2rem',
-                                        padding: '1.3rem'
+                                        padding: '1.3rem',
                                     }"
                                     class="z-0"
                                 ></div>
@@ -97,7 +97,7 @@
                                     <span
                                         :style="{
                                             'border-radius': '50%',
-                                            padding: '0.4rem 0.8rem'
+                                            padding: '0.4rem 0.8rem',
                                         }"
                                         class="w-5 h-5 mr-4 border-solid border-2 border-gray-darken z-20 bg-indigo-700 text-gray-darken"
                                         >3</span
@@ -121,9 +121,7 @@
                 <div class="mx-auto lg:my-auto w-full">
                     <div class="flex flex-col justify-center">
                         <div class="hidden lg:flex justify-center my-1">
-                            <p class="text-xs text-gray-lighter ">
-                                Step 2 of 3
-                            </p>
+                            <p class="text-xs text-gray-lighter">Step 2 of 3</p>
                         </div>
                         <div class="flex justify-center my-1">
                             <h1 class="font-bold text-2xl">
@@ -191,8 +189,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.store_name.$error,
-                                                'border-gray-300': !v$
-                                                    .store_name.$error
+                                                'border-gray-300':
+                                                    !v$.store_name.$error,
                                             }"
                                             id="store_name"
                                             name="store_name"
@@ -235,8 +233,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.store_domain.$error,
-                                                'border-gray-300': !v$
-                                                    .store_domain.$error
+                                                'border-gray-300':
+                                                    !v$.store_domain.$error,
                                             }"
                                             id="store_domain"
                                             name="store_domain"
@@ -330,8 +328,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.sales_method_id.$error,
-                                                'border-gray-300': !v$
-                                                    .sales_method_id.$error
+                                                'border-gray-300':
+                                                    !v$.sales_method_id.$error,
                                             }"
                                             name="location"
                                             v-model="store.sales_method_id"
@@ -378,16 +376,14 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.industry_id.$error,
-                                                'border-gray-300': !v$
-                                                    .industry_id.$error
+                                                'border-gray-300':
+                                                    !v$.industry_id.$error,
                                             }"
                                             name="location"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                             v-model="store.industry_id"
                                         >
-                                            <option value="0">
-                                                Select
-                                            </option>
+                                            <option value="0">Select</option>
                                             <option
                                                 v-for="industry in industries"
                                                 :key="industry.id"
@@ -429,8 +425,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.has_website.$error,
-                                                'border-gray-300': !v$
-                                                    .has_website.$error
+                                                'border-gray-300':
+                                                    !v$.has_website.$error,
                                             }"
                                             name="has_website"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -463,7 +459,8 @@
                                         :disabled="loading"
                                         :class="{
                                             disabled: loading,
-                                            'opacity-25 cursor-not-allowed': loading
+                                            'opacity-25 cursor-not-allowed':
+                                                loading,
                                         }"
                                         type="submit"
                                         class="w-full lg:w-36 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -510,11 +507,11 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { ref, reactive, computed, onMounted, onUpdated } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
-import useVuelidate from '@vuelidate/core'
-import { required, minValue, helpers, numeric } from '@vuelidate/validators'
+import axios from "axios";
+import { ref, reactive, computed, onMounted, onUpdated } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+import useVuelidate from "@vuelidate/core";
+import { required, minValue, helpers, numeric } from "@vuelidate/validators";
 
 export default {
     props: {
@@ -522,52 +519,52 @@ export default {
         methods: Array,
         errors: Object,
         countries: Array,
-        store: Object
+        store: Object,
     },
 
-    data () {
+    data() {
         return {
             notification: null,
             show: false,
             user: {
-                email: '',
-                password: ''
+                email: "",
+                password: "",
             },
             selectStore: false,
             stores: [],
-            search: ''
-        }
+            search: "",
+        };
     },
 
-    setup (props) {
-        const storeProp = reactive(props.store)
-        const store = reactive({})
+    setup(props) {
+        const storeProp = reactive(props.store);
+        const store = reactive({});
 
         onMounted(() => {
             if (props.store == null) {
-                store.store_name = ''
-                store.store_domain = ''
-                store.industry_id = 0
-                store.has_website = null
-                store.sales_method_id = 0
-                store.size_of_business = ''
-                store.step = 2
+                store.store_name = "";
+                store.store_domain = "";
+                store.industry_id = 0;
+                store.has_website = null;
+                store.sales_method_id = 0;
+                store.size_of_business = "";
+                store.step = 2;
             } else {
-                store.store_name = storeProp.name
-                store.store_domain = storeProp.store_domain
-                store.industry_id = storeProp.industry_id
-                store.has_website = storeProp.has_website
-                store.sales_method_id = storeProp.sales_method_id
-                store.size_of_business = storeProp.size_of_business
-                store.step = storeProp.step
-                store.id = storeProp.id
+                store.store_name = storeProp.name;
+                store.store_domain = storeProp.store_domain;
+                store.industry_id = storeProp.industry_id;
+                store.has_website = storeProp.has_website;
+                store.sales_method_id = storeProp.sales_method_id;
+                store.size_of_business = storeProp.size_of_business;
+                store.step = storeProp.step;
+                store.id = storeProp.id;
             }
-        })
+        });
 
-        const industries = props.industries
-        const methods = props.methods
-        const selected_method = ref('')
-        const loading = ref(false)
+        const industries = props.industries;
+        const methods = props.methods;
+        const selected_method = ref("");
+        const loading = ref(false);
         /* 
             const store = reactive({
             store_name: '',
@@ -585,60 +582,60 @@ export default {
                 sales_method_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        'Please enter a valid sales method',
+                        "Please enter a valid sales method",
                         minValue(1)
-                    )
+                    ),
                 },
                 has_website: {
                     required,
                     numeric: helpers.withMessage(
-                        'Please select a valid option',
+                        "Please select a valid option",
                         numeric
-                    )
+                    ),
                 },
                 industry_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        'Please select a valid industry',
+                        "Please select a valid industry",
                         minValue(1)
-                    )
+                    ),
                 },
                 store_name: {
                     required: helpers.withMessage(
-                        'Please enter a valid store name',
+                        "Please enter a valid store name",
                         required
-                    )
+                    ),
                 },
                 store_domain: {
                     required: helpers.withMessage(
-                        'Please enter a valid store domain',
+                        "Please enter a valid store domain",
                         required
-                    )
-                }
-            }
-        })
+                    ),
+                },
+            };
+        });
 
-        const v$ = useVuelidate(rules, store)
+        const v$ = useVuelidate(rules, store);
 
-        function submit () {
-            this.v$.$validate()
+        function submit() {
+            this.v$.$validate();
             if (this.v$.$error) {
-                return
+                return;
             }
-            loading.value = true
+            loading.value = true;
             axios
-                .post('/store/create', store)
-                .then(response => {
-                    Inertia.visit('/register/step-3', {
-                        method: 'get'
-                    })
+                .post("/store/create", store)
+                .then((response) => {
+                    Inertia.visit("/register/step-3", {
+                        method: "get",
+                    });
                 })
-                .catch(error => {
-                    loading.value = false
+                .catch((error) => {
+                    loading.value = false;
                     if (error.response.data.errors) {
-                        errors.value = error.response.data.errors
+                        errors.value = error.response.data.errors;
                     }
-                })
+                });
         }
         return {
             industries,
@@ -648,10 +645,10 @@ export default {
             store,
             v$,
             loading,
-            storeProp
-        }
-    }
-}
+            storeProp,
+        };
+    },
+};
 </script>
 
 <style scoped>

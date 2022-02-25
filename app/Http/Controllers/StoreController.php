@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\Register;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegisterStep2Request;
+
 
 
 class StoreController extends Controller
@@ -15,7 +17,7 @@ class StoreController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(Request $request)
+    public function store(RegisterStep2Request $request)
     {
        return  $this->registerStep2($request);
     }
