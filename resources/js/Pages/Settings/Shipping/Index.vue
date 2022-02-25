@@ -194,7 +194,7 @@
 <!-- loading svg ends -->
 
 <!-- trash icon start -->
-                                <TrashIcon class="w-5 h-5 text-red-500 cursor-pointer" @click="delete_location"/>
+                                <TrashIcon v-else class="w-5 h-5 text-red-500 cursor-pointer" @click="delete_location(location.id, index)"/>
 
 <!-- trash icon ends -->
 
@@ -434,7 +434,7 @@ export default {
     
     const delete_location =(id,index)=>{
       pickupLoading.value = index;
-      axios.delete(`/settings/shipping-rates/delete/${id}`)
+      axios.delete(`/settings/store-locations/${id}`)
         .then(res=> {
                     if(res.status == 200){
                         setTimeout(onClickTop, 1500);
@@ -522,6 +522,7 @@ export default {
       loading,
       onClickTop,
       onClickBot,
+      pickupLoading
     }
   },
 
