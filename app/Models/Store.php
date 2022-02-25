@@ -94,7 +94,6 @@ class Store extends Model
         //default_unit
         //store_plan_id,
         //payment_gateway_id
-
     }
 
 
