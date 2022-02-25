@@ -337,7 +337,7 @@ export default {
             return {
                 name: {
                     required: helpers.withMessage(
-                        'Enter a business name',
+                        'Enter a location',
                         required
                     )
                 },

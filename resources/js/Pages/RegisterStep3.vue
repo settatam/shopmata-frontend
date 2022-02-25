@@ -151,14 +151,16 @@
                             <!-- actual circle -->
                             <div class="wrap-circles">
                                 <div class="circle per-25">
-                                    <div class="inner">3 of 3</div>
+                                    <div class="inner text-xs">
+                                        <p class="text-sm">3 of 3</p>
+                                    </div>
                                 </div>
                             </div>
                             <!-- actual circle end -->
 
                             <!-- circle text start -->
                             <div class="ml-4 ">
-                                <div class="text-xl font-medium">
+                                <div class="text-xl font-medium text-indigo-700">
                                     <p>Enter Business Address</p>
                                 </div>
                             </div>
@@ -720,15 +722,14 @@ export default {
 
 .circle {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     margin: 0.5rem;
     border-radius: 50%;
-    /*   background: #FFCDB2; */
     overflow: hidden;
 }
 .circle.per-25 {
-    background-image: conic-gradient(#4338ca 100%, #f7f7f7 0);
+    background-image: conic-gradient(#4338ca 66%, #f7f7f7 0);
 }
 
 .circle .inner {
@@ -739,12 +740,10 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 115px;
-    height: 115px;
+    width: 75px;
+    height: 75px;
     background: #fff;
     border-radius: 50%;
-    font-size: 1.85em;
-    font-weight: 300;
     color: black;
 }
 </style>
