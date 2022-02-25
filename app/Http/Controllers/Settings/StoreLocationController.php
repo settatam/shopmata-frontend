@@ -153,10 +153,9 @@ class StoreLocationController extends Controller
                 if($location->delete()) {
                     Log::info('User ' . Auth::id() . ' deleted a store location ' . $id);
                     return $this->getLocations();
-
                 }else{
                     Log::error('User ' . Auth::id() . ' could not delete a store location ' . $id);
-                    return \Redirect::route('settings.shipping');
+                    return response()->json('Resource could not be deleted', 422);
                 }
             }else{
                 // $bag = new MessageBag;
