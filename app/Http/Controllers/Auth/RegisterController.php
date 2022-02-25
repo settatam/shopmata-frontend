@@ -33,11 +33,17 @@ class RegisterController extends Controller
     use Register;
 
 
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['getRegister','RegisterUser']]);
+    }
+
     public function getRegister() {
         return \Inertia\Inertia::render('Register');
     }
 
-    public function registerStep2(Request $request, $step=null) {
+    public function registerStep2(Request $request, $step=null) 
+    {
         $industries = StoreIndustry::orderBy('name', 'asc')->get();
         $methods    = SalesMethod::orderBy('name', 'asc')->get();
         $countries  = Country::where('status', 1)->get();
@@ -46,14 +52,15 @@ class RegisterController extends Controller
         return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries','store'));
     }
 
-    public function registerStep3(Request $request) {
+    public function registerStep3(Request $request) 
+    {
         $countries = Country::where('status', 1)->get();
         $countries->load('states');
-        $states = State::where(['country_id' => 1 , 'country_id' => 158])->get();
-        return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
+        $states    = State::where(['country_id' => 1 , 'country_id' => 158])->get();
+        return     \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
     }
     
-    public function RegisterUser(Request $request)
+    public function RegisterUser(RegisterStep1Request $request)
     {
         $this->registerStep1($request);
     }
