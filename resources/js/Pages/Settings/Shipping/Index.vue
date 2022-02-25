@@ -435,7 +435,7 @@ export default {
     const delete_location =(id,index)=>{
       pickupLoading.value = index;
       axios.delete(`/settings/store-locations/${id}`)
-        .then(res=> {
+        .then(res=> { console.log((res))
                     if(res.status == 200){
                         setTimeout(onClickTop, 1500);
                     }
