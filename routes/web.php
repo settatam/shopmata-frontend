@@ -261,14 +261,18 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('online-store/themes', [ThemeController::class, 'index']);
 
-    Route::put('store', [StoreController::class, 'update']);
+	Route::post('store/create', [StoreController::class, 'store']);
+	Route::put('store/{id}', [StoreController::class, 'update']);
 
-    Route::get('store/pages/generate-slug/{title}', [PagesController::class, 'generateSlug']);
-    Route::get('store/pages/editor/{id?}', [PagesController::class, 'editor']);
-    Route::get('store/pages/code-editor/{id?}', [PagesController::class, 'codeEditor']);
-    Route::resource('store/pages', PagesController::class);
-    Route::resource('store/blog', StoreBlogController::class);
-    ##Store Domains
+	Route::put('store', [StoreController::class, 'update']);
+
+
+	Route::get('store/pages/generate-slug/{title}', [PagesController::class, 'generateSlug']);
+	Route::get('store/pages/editor/{id?}', [PagesController::class, 'editor']);
+	Route::get('store/pages/code-editor/{id?}', [PagesController::class, 'codeEditor']);
+	Route::resource('store/pages', PagesController::class);
+	Route::resource('store/blog', StoreBlogController::class);
+	##Store Domains
 
     Route::resource('store/domains', StoreDomainsController::class);
     // Route::resource('store/themes', StoreThemesController::class);

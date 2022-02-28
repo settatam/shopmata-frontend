@@ -11,7 +11,14 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 
 class StoreLocationController extends Controller
-{
+{    
+
+    public $user;
+
+
+    public function __construct() {
+        $this->user = request()->user();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,9 +26,7 @@ class StoreLocationController extends Controller
      */
     public function index()
     {
-        //
-        $locations = StoreLocation::orderBy('created_at')->paginate();
-        return response()->json($locations);
+        return $this->getLocations();
     }
 
     /**
@@ -85,6 +90,12 @@ class StoreLocationController extends Controller
 
     }
 
+
+    public function getLocations(){
+        $locations = StoreLocation::orderBy('created_at')->where('store_id', $this->user->store_id)->paginate();
+        return response()->json($locations);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -141,19 +152,14 @@ class StoreLocationController extends Controller
             if(null !== $location) {
                 if($location->delete()) {
                     Log::info('User ' . Auth::id() . ' deleted a store location ' . $id);
-                    return \Redirect::route('settings.shipping');
-                    // return response()->json(['success'=>true]);
-
+                    return $this->getLocations();
                 }else{
                     Log::error('User ' . Auth::id() . ' could not delete a store location ' . $id);
-                    return \Redirect::route('settings.shipping');
-                    // return response()->json(['success'=>false], 422);
+                    return response()->json('Resource could not be deleted', 422);
                 }
             }else{
-                //
                 // $bag = new MessageBag;
                 return \Redirect::route('settings.shipping')->withErrors(['location', 'This location does not exist']);
-                // return response()->json(['success'=>false, 'message'=>'You do not have permissions to delete a store'], 422);
             }
         }
     }

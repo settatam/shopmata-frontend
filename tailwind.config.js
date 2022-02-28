@@ -20,6 +20,8 @@ module.exports = {
             xl: "1.25rem",
             "2xl": "1.5rem",
             "3xl": "1.875rem",
+            "4xl": "2rem",
+            "5xl": "2.25rem",
             sm: "0.985rem",
         },
         extend: {
@@ -33,6 +35,7 @@ module.exports = {
                 purple: {
                     light: "#DE21FF",
                     darker: "#632A6D",
+                    darken: "#4338CA",
                 },
                 green: {
                     light: "#ECFEEE",
@@ -41,6 +44,11 @@ module.exports = {
                 red: {
                     light: "#C9000033",
                     darker: "#FF0000",
+                },
+                gray: {
+                    lighter: "#5C5C66",
+                    darker: "#333333",
+                    darken: "#8A8A99",
                 },
             },
             opacity: {

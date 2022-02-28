@@ -1222,6 +1222,9 @@ select {
 .z-10 {
 	z-index: 10;
 }
+.z-20 {
+	z-index: 20;
+}
 .z-30 {
 	z-index: 30;
 }
@@ -1248,6 +1251,9 @@ select {
 }
 .float-right {
 	float: right;
+}
+.m-0 {
+	margin: 0px;
 }
 .m-auto {
 	margin: auto;
@@ -1304,6 +1310,10 @@ select {
 	margin-top: 2rem;
 	margin-bottom: 2rem;
 }
+.my-1 {
+	margin-top: 0.25rem;
+	margin-bottom: 0.25rem;
+}
 .-mx-5 {
 	margin-left: -1.25rem;
 	margin-right: -1.25rem;
@@ -1347,10 +1357,6 @@ select {
 .mx-0 {
 	margin-left: 0px;
 	margin-right: 0px;
-}
-.my-1 {
-	margin-top: 0.25rem;
-	margin-bottom: 0.25rem;
 }
 .mx-5 {
 	margin-left: 1.25rem;
@@ -1524,6 +1530,9 @@ select {
 .mr-5 {
 	margin-right: 1.25rem;
 }
+.mb-32 {
+	margin-bottom: 8rem;
+}
 .mt-20 {
 	margin-top: 5rem;
 }
@@ -1595,9 +1604,6 @@ select {
 }
 .mt-6\.5 {
 	margin-top: 1.625rem;
-}
-.mb-32 {
-	margin-bottom: 8rem;
 }
 .mb-3\.5 {
 	margin-bottom: 0.875rem;
@@ -1752,14 +1758,17 @@ select {
 .h-2 {
 	height: 0.5rem;
 }
+.h-24 {
+	height: 6rem;
+}
+.h-7 {
+	height: 1.75rem;
+}
 .h-11 {
 	height: 2.75rem;
 }
 .h-14 {
 	height: 3.5rem;
-}
-.h-7 {
-	height: 1.75rem;
 }
 .h-3 {
 	height: 0.75rem;
@@ -1859,11 +1868,14 @@ select {
 .w-4\.5\/10 {
 	width: 45%;
 }
-.w-screen {
-	width: 100vw;
-}
 .w-1\/2 {
 	width: 50%;
+}
+.w-36 {
+	width: 9rem;
+}
+.w-screen {
+	width: 100vw;
 }
 .w-9\/10 {
 	width: 90%;
@@ -1909,9 +1921,6 @@ select {
 }
 .w-72 {
 	width: 18rem;
-}
-.w-36 {
-	width: 9rem;
 }
 .w-2\/5 {
 	width: 40%;
@@ -2072,6 +2081,14 @@ select {
 	--tw-translate-x: 0px;
 	transform: var(--tw-transform);
 }
+.-translate-x-20 {
+	--tw-translate-x: -5rem;
+	transform: var(--tw-transform);
+}
+.translate-x-20 {
+	--tw-translate-x: 5rem;
+	transform: var(--tw-transform);
+}
 .translate-y-2 {
 	--tw-translate-y: 0.5rem;
 	transform: var(--tw-transform);
@@ -2080,12 +2097,16 @@ select {
 	--tw-translate-x: 1.25rem;
 	transform: var(--tw-transform);
 }
-.translate-x-20 {
-	--tw-translate-x: 5rem;
-	transform: var(--tw-transform);
-}
 .rotate-90 {
 	--tw-rotate: 90deg;
+	transform: var(--tw-transform);
+}
+.-skew-x-6 {
+	--tw-skew-x: -6deg;
+	transform: var(--tw-transform);
+}
+.skew-x-6 {
+	--tw-skew-x: 6deg;
 	transform: var(--tw-transform);
 }
 .scale-95 {
@@ -2283,6 +2304,11 @@ select {
 	--tw-space-x-reverse: 0;
 	margin-right: calc(0.5rem * var(--tw-space-x-reverse));
 	margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-y-reverse: 0;
+	margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+	margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 .space-x-1 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-x-reverse: 0;
@@ -2514,6 +2540,14 @@ select {
 	--tw-border-opacity: 1;
 	border-color: rgba(220, 38, 38, var(--tw-border-opacity));
 }
+.border-white {
+	--tw-border-opacity: 1;
+	border-color: rgba(255, 255, 255, var(--tw-border-opacity));
+}
+.border-gray-darken {
+	--tw-border-opacity: 1;
+	border-color: rgba(138, 138, 153, var(--tw-border-opacity));
+}
 .border-purple-darker {
 	--tw-border-opacity: 1;
 	border-color: rgba(99, 42, 109, var(--tw-border-opacity));
@@ -2664,6 +2698,14 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(156, 163, 175, var(--tw-bg-opacity));
 }
+.bg-purple-darken {
+	--tw-bg-opacity: 1;
+	background-color: rgba(67, 56, 202, var(--tw-bg-opacity));
+}
+.bg-indigo-700 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(67, 56, 202, var(--tw-bg-opacity));
+}
 .bg-gray-900 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(17, 24, 39, var(--tw-bg-opacity));
@@ -2675,10 +2717,6 @@ select {
 .bg-red-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
-}
-.bg-indigo-700 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(67, 56, 202, var(--tw-bg-opacity));
 }
 .bg-indigo-400 {
 	--tw-bg-opacity: 1;
@@ -2754,6 +2792,9 @@ select {
 .p-5 {
 	padding: 1.25rem;
 }
+.p-0 {
+	padding: 0px;
+}
 .p-3 {
 	padding: 0.75rem;
 }
@@ -2768,9 +2809,6 @@ select {
 }
 .p-0\.5 {
 	padding: 0.125rem;
-}
-.p-0 {
-	padding: 0px;
 }
 .p-px {
 	padding: 1px;
@@ -2980,6 +3018,12 @@ select {
 .pb-9 {
 	padding-bottom: 2.25rem;
 }
+.pt-10 {
+	padding-top: 2.5rem;
+}
+.pr-32 {
+	padding-right: 8rem;
+}
 .pr-10 {
 	padding-right: 2.5rem;
 }
@@ -3105,6 +3149,12 @@ select {
 }
 .text-3xl {
 	font-size: 1.875rem;
+}
+.text-5xl {
+	font-size: 2.25rem;
+}
+.text-4xl {
+	font-size: 2rem;
 }
 .text-xm {
 	font-size: 0.75rem;
@@ -3293,6 +3343,18 @@ select {
 .text-purple-darker {
 	--tw-text-opacity: 1;
 	color: rgba(99, 42, 109, var(--tw-text-opacity));
+}
+.text-gray-darken {
+	--tw-text-opacity: 1;
+	color: rgba(138, 138, 153, var(--tw-text-opacity));
+}
+.text-gray-lighter {
+	--tw-text-opacity: 1;
+	color: rgba(92, 92, 102, var(--tw-text-opacity));
+}
+.text-gray-darker {
+	--tw-text-opacity: 1;
+	color: rgba(51, 51, 51, var(--tw-text-opacity));
 }
 .text-yellow-400 {
 	--tw-text-opacity: 1;
@@ -4341,6 +4403,14 @@ input[type='checkbox']:focus {
 		font-size: 0.985rem;
 	}
 
+	.sm\:text-5xl {
+		font-size: 2.25rem;
+	}
+
+	.sm\:text-4xl {
+		font-size: 2rem;
+	}
+
 	.sm\:text-xm {
 		font-size: 0.75rem;
 	}
@@ -4825,16 +4895,20 @@ input[type='checkbox']:focus {
 		text-align: right;
 	}
 
+	.md\:text-sm {
+		font-size: 0.985rem;
+	}
+
+	.md\:text-lg {
+		font-size: 1.125rem;
+	}
+
 	.md\:text-3xl {
 		font-size: 1.875rem;
 	}
 
 	.md\:text-base {
 		font-size: 1rem;
-	}
-
-	.md\:text-lg {
-		font-size: 1.125rem;
 	}
 
 	.md\:text-xl {
@@ -4847,10 +4921,6 @@ input[type='checkbox']:focus {
 
 	.md\:text-2xl {
 		font-size: 1.5rem;
-	}
-
-	.md\:text-sm {
-		font-size: 0.985rem;
 	}
 
 	.md\:font-bold {
@@ -4925,13 +4995,14 @@ input[type='checkbox']:focus {
 		margin-right: auto;
 	}
 
+	.lg\:my-auto {
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
 	.lg\:-mx-8 {
 		margin-left: -2rem;
 		margin-right: -2rem;
-	}
-
-	.lg\:mr-4 {
-		margin-right: 1rem;
 	}
 
 	.lg\:mb-0 {
@@ -4964,6 +5035,10 @@ input[type='checkbox']:focus {
 
 	.lg\:mr-8 {
 		margin-right: 2rem;
+	}
+
+	.lg\:mr-4 {
+		margin-right: 1rem;
 	}
 
 	.lg\:mr-11 {
@@ -5024,6 +5099,10 @@ input[type='checkbox']:focus {
 
 	.lg\:w-1\/2 {
 		width: 50%;
+	}
+
+	.lg\:w-36 {
+		width: 9rem;
 	}
 
 	.lg\:w-full {
@@ -5246,12 +5325,12 @@ input[type='checkbox']:focus {
 		text-align: left;
 	}
 
-	.lg\:text-base {
-		font-size: 1rem;
-	}
-
 	.lg\:text-lg {
 		font-size: 1.125rem;
+	}
+
+	.lg\:text-base {
+		font-size: 1rem;
 	}
 
 	.lg\:text-2xl {

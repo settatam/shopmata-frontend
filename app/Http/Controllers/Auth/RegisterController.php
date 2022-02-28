@@ -22,92 +22,47 @@ use Auth as UserAuth;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\Timezone;
+use App\Http\Requests\RegisterStep1Request;
+use App\Http\Controllers\Auth\Register;
+
+
 
 
 class RegisterController extends Controller
 {
-    
+    use Register;
+
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['getRegister','RegisterUser']]);
+    }
+
     public function getRegister() {
         return \Inertia\Inertia::render('Register');
     }
 
-    public function registerStep2(Request $request, $step=null) {
-       // $store_id = session()->get('store_id');
+    public function registerStep2(Request $request, $step=null) 
+    {
         $industries = StoreIndustry::orderBy('name', 'asc')->get();
         $methods    = SalesMethod::orderBy('name', 'asc')->get();
         $countries  = Country::where('status', 1)->get();
-        return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries'));
+        $user       = $request->user();
+        $store      = null !== $user ? Store::find($user->store_id) : null;
+        return \Inertia\Inertia::render('RegisterStep2', compact('industries', 'methods', 'countries','store'));
     }
 
-    public function registerStep3() {
-        $store_id = session()->get('store_id');
-        $store = Store::find($store_id);
-        if(null !== $store && $store->step == 3) {
-            $countries = Country::where('status', 1)->get();
-            $states = State::where('country_id', $store->country_id)->get();
-            return \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
-        }
-        return \Redirect::route('register');
+    public function registerStep3(Request $request) 
+    {
+        $countries = Country::where('status', 1)->get();
+        $countries->load('states');
+        $states    = State::where(['country_id' => 1 , 'country_id' => 158])->get();
+        return     \Inertia\Inertia::render('RegisterStep3', compact('states', 'countries'));
     }
     
-    public function RegisterUser(Request $request)
+    public function RegisterUser(RegisterStep1Request $request)
     {
-        
-        $data = $request->input();
-
-        $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255','unique:users'],
-            'password' => ['required', 'string', 'confirmed', Password::min(8)],
-            'first_name'   => ['required', 'min:1', 'max:100'],
-            'last_name'    => ['required','min:1','max:200'],
-        ]);
-
-        try {
-            
-
-            $user_details = [
-                'email' => $data['email'],
-                'first_name' => $data['first_name'],
-                'last_name' => $data['first_name'],
-                'password' => Hash::make($data['password'])
-            ];
-          
-            if($user = User::create($user_details)) {
-                Log::info('A new user has been created', $user_details);
-            }else{
-                Log::error('A new could not be created', $user_details);
-            }
-
-            $credentials = ['email' => $data['email'], 'password' => $data['password']];
-
-            if (!Auth::attempt($credentials)) {
-                return \Redirect::route('register');
-            }
-            
-            return \Redirect::route('register-step-2');
-
-        } catch (\Exception $e) {
-            $exceptionDetails = [
-                "message" => $e->getMessage(),
-                'file' => basename($e->getFile()),
-                'line' => $e->getLine(),
-                'type' => class_basename($e),
-            ];
-
-            \Log::info("create user exception" . print_r($exceptionDetails, true));
-
-            $notification = [
-                "title" => "An Exception Occurred",
-                "type" => "failed",
-                "message" => $exceptionDetails['message'],
-            ];
-
-            return response()->json(['notification' => $notification], 500);
-        }
+        $this->registerStep1($request);
     }
 
-    private function generateSlug($str)
-    {
-        return str_replace(" ", "-", $str);
-    }
 }
