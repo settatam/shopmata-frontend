@@ -15,10 +15,6 @@ class StoreLocationController extends Controller
 
     public $user;
 
-
-    public function __construct() {
-        $this->user = request()->user();
-    }
     /**
      * Display a listing of the resource.
      *
@@ -56,7 +52,7 @@ class StoreLocationController extends Controller
                 'address'=>['required']
             ]);
 
-            $data['store_id'] = $request->session()->get('store_id');
+            $data['store_id'] = $request->user()->store_id;
             
             if($create = StoreLocation::create($data)) {
                 Log::info('User ' . Auth::id() . ' created a store location ', $data);
@@ -92,7 +88,8 @@ class StoreLocationController extends Controller
 
 
     public function getLocations(){
-        $locations = StoreLocation::orderBy('created_at')->where('store_id', $this->user->store_id)->paginate();
+        $user = request()->user();
+        $locations = StoreLocation::orderBy('created_at')->where('store_id', $user->store_id)->paginate();
         return response()->json($locations);
     }
 
@@ -152,7 +149,7 @@ class StoreLocationController extends Controller
             if(null !== $location) {
                 if($location->delete()) {
                     Log::info('User ' . Auth::id() . ' deleted a store location ' . $id);
-                    return $this->getLocations();
+                    return  $this->getLocations();
                 }else{
                     Log::error('User ' . Auth::id() . ' could not delete a store location ' . $id);
                     return response()->json('Resource could not be deleted', 422);
