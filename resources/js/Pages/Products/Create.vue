@@ -1128,14 +1128,14 @@ export default {
                 description: "",
                 brand: "",
                 images: [
-                    {
-                        alt: "",
-                        id: 15834,
-                        large: "https://fashionerize.nyc3.digitaloceanspaces.com/teddies-afrique/item_16454138374d6e3c8e3ba057efacc43cba98ac0067.jpg",
-                        message: "Image Created",
-                        thumb: "https://fashionerize.nyc3.digitaloceanspaces.com/teddies-afrique/item_16454138374d6e3c8e3ba057efacc43cba98ac0067_thumb.jpg",
-                        status: 0,
-                    },
+                    // {
+                    //     alt: "",
+                    //     id: 15834,
+                    //     large: "https://fashionerize.nyc3.digitaloceanspaces.com/teddies-afrique/item_16454138374d6e3c8e3ba057efacc43cba98ac0067.jpg",
+                    //     message: "Image Created",
+                    //     thumb: "https://fashionerize.nyc3.digitaloceanspaces.com/teddies-afrique/item_16454138374d6e3c8e3ba057efacc43cba98ac0067_thumb.jpg",
+                    //     status: 0,
+                    // },
                 ],
                 price: "",
                 compare_at_price: "",
