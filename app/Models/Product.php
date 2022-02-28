@@ -4,12 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use App\Scopes\StoreScope;
 
 class Product extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'sku',
@@ -100,5 +104,25 @@ class Product extends Model
         }
 
         return $slug;
+    }
+
+    public function defaultVariant()
+    {
+        return $this->variants()->orderBy('id', 'asc')->first();
+    }
+
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class);
+    }
+
+    public function allAssets(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function assets(): HasMany
+    {
+        return $this->allAssets()->whereNull('sku');
     }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductVariant extends Model
 {
@@ -18,11 +20,23 @@ class ProductVariant extends Model
         'is_active'
     ];
 
-    public function attributes() {
-    	return $this->hasMany(ProductAttribute::class, 'sku', 'sku');
+    public function attributes(): HasMany
+    {
+        return $this->hasMany(ProductVariantAttribute::class, 'sku', 'sku');
     }
 
-    public function product() {
-    	return $this->belongsTo(Product::class, 'product_id', 'id');
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function assets(): HasMany
+    {
+        return $this->hasMany(ProductImage::class, 'sku', 'sku');
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
     }
 }
