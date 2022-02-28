@@ -691,7 +691,7 @@ export default {
                 .delete(`/settings/store-locations/${id}`)
                 .then((res) => {
                     setTimeout(onClickTop, 1500);
-                    //Inertia.visit("/settings/shipping-and-delivery");
+                    Inertia.visit("/settings/shipping-and-delivery");
                 })
                 .catch((error) => {
                     notificationMessage.value =

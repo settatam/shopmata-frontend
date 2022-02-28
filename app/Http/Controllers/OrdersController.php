@@ -22,10 +22,12 @@ class OrdersController extends Controller
     {
 
         $statuses = Order::statuses();
-        $filters = $request->all('search', 'from', 'to', 'user');
-        // $orders = Order::whereHas('user')->with('user')->with('items')->orderBy('id', 'asc')->paginate(50);
+        $filters  = $request->all('search', 'from', 'to', 'user');
+        $store_id = session('store_id');
 
-       $orders = Order::whereHas('user', function($query){
+        //$orders = Order::whereHas('user')->with('user')->with('items')->orderBy('id', 'asc')->paginate(50);
+
+       $orders = Order::where('store_id', $store_id)->whereHas('user', function($query){
             // $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_sum')
             //                 ->whereColumn('store_id', 'orders.store_id'),
             // ]);
@@ -34,10 +36,10 @@ class OrdersController extends Controller
             ->with('tags')
             ->orderBy('id', 'asc')->paginate(50);
 
-        $shipping_addresses = ShippingAddress::where('user_id', Auth::id())->orderBy('is_default')->get();
+        //$shipping_addresses = ShippingAddress::where('user_id', Auth::id())->orderBy('is_default')->get();
 
         // dd($orders);
-        return Inertia::render('Orders/Index', compact('orders', 'filters', 'shipping_addresses', 'statuses'));
+        return Inertia::render('Orders/Index', compact('orders', 'filters', 'statuses'));
     }
 
     /**
