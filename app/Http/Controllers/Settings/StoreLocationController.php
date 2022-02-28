@@ -90,7 +90,7 @@ class StoreLocationController extends Controller
     public function getLocations()
     {
         $store_id = session('store_id');
-        $locations = StoreLocation::orderBy('created_at')->where('store_id', $user->store_id)->paginate();
+        $locations = StoreLocation::orderBy('created_at')->where('store_id', $store_id)->paginate();
         return response()->json($locations);
     }
 
