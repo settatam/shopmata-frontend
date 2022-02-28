@@ -52,7 +52,7 @@ class StoreLocationController extends Controller
                 'address'=>['required']
             ]);
 
-            $data['store_id'] = $request->user()->store_id;
+            $data['store_id'] = $request->session()->get('store_id');
             
             if($create = StoreLocation::create($data)) {
                 Log::info('User ' . Auth::id() . ' created a store location ', $data);
@@ -87,8 +87,9 @@ class StoreLocationController extends Controller
     }
 
 
-    public function getLocations(){
-        $user = request()->user();
+    public function getLocations()
+    {
+        $store_id = session('store_id');
         $locations = StoreLocation::orderBy('created_at')->where('store_id', $user->store_id)->paginate();
         return response()->json($locations);
     }
