@@ -160,7 +160,7 @@
                                                             <tr
                                                                 class="border-b"
                                                                 v-for="(shipping,
-                                                                index) in shipping_rate"
+                                                                index) in shipping_rates"
                                                                 :key="
                                                                     shipping.id
                                                                 "
@@ -235,7 +235,7 @@
                                                                     <TrashIcon
                                                                         v-else
                                                                         @click="
-                                                                            delete_Shipping(
+                                                                            deleteShipping(
                                                                                 shipping.id,
                                                                                 index
                                                                             )
@@ -296,7 +296,7 @@
                                             <p
                                                 class="text-indigo-600 cursor-pointer"
                                                 v-if="
-                                                    this.local_pickup.length !=
+                                                    this.local_pickups.length !=
                                                         0
                                                 "
                                                 @click="this.popUp = true"
@@ -326,7 +326,7 @@
                                 </div>
                                 <div
                                     class="flex flex-col items-center"
-                                    v-if="this.local_pickup.length == 0"
+                                    v-if="this.s.length == 0"
                                 >
                                     <p class="mt-8 mb-6">
                                         No local pickup address, add a location
@@ -343,7 +343,7 @@
                                 <div class="flex flex-col" v-else>
                                     <div
                                         v-for="(location, index) in this
-                                            .local_pickup"
+                                            .local_pickups"
                                         :key="location.id"
                                         class="bg-gray-50 border border-gray-300 h-32 pl-8 pr-7 mb-3 flex justify-between"
                                     >
@@ -683,7 +683,7 @@ export default {
         const isDeleteLocation = ref(false)
         const openDelete = ref(false)
         const isDeleteShippingRate = ref(false)
-        const shipping_rate = ref([])
+        const shipping_rates = ref([])
         const popModal = () => {
             Modal.value = true
         }
@@ -694,9 +694,8 @@ export default {
             axios
                 .delete(`/settings/store-locations/${id}`)
                 .then(res => {
-                    console.log(res)
-                    // setTimeout(onClickTop, 1500)
-                    // Inertia.visit('/settings/shipping-and-delivery')
+                    setTimeout(onClickTop, 1500)
+                    Inertia.visit('/settings/shipping-and-delivery')
                 })
                 .catch(error => {
                     notificationMessage.value =
@@ -709,11 +708,11 @@ export default {
             isDeleteLocation.value = false
             isDeleteShippingRate.value = false
         }
-        const local_pickup = props.locations
+        const local_pickups = props.locations
 
         onBeforeMount(() => {
             axios.get('/settings/shipping-rates').then(res => {
-                shipping_rate.value = res.data.data
+                shipping_rates.value = res.data.data
             })
         })
 
@@ -738,14 +737,14 @@ export default {
                 {
                     group: 'bottom',
                     title: 'Error',
-                    text: successMessage.value
+                    text: notificationMessage.value
                 },
                 4000
             )
             loading.value = null
         }
 
-        const delete_Shipping = (id, index) => {
+        const deleteShipping = (id, index) => {
             loading.value = index
             axios
                 .delete(`/settings/shipping-rates/${id}`)
@@ -767,16 +766,16 @@ export default {
             pages,
             localDelivery,
             deleteLocation,
-            local_pickup,
+            local_pickups,
             Modal,
             popModal,
-            shipping_rate,
+            shipping_rates,
             deleteShippingRate,
             isDeleteLocation,
             isDeleteShippingRate,
             emitClose,
             openDelete,
-            delete_Shipping,
+            deleteShipping,
             loading,
             onClickTop,
             onClickBot,
