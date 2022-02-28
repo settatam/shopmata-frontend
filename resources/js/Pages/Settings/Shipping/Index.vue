@@ -47,7 +47,7 @@
                 <Nav page="Shipping"></Nav>
                 <!-- Main content -->
                 <div class="flex-1 max-h-screen xl:overflow-y-auto">
-                    <div class="w-auto  lg:ml-7 lg:mr-2">
+                    <div class="w-auto lg:ml-7 lg:mr-2">
                         <div class="mb-6">
                             <h1 class="text-2xl mb-2 font-semibold">
                                 Shipping and Delivery
@@ -60,7 +60,7 @@
                                     Manage how customers receive their orders.
                                 </p>
                                 <div
-                                    class="px-2 md:px-5  border border-gray-300 mt-5 pt-8 pb-12 rounded-sm"
+                                    class="px-2 md:px-5 border border-gray-300 mt-5 pt-8 pb-12 rounded-sm"
                                 >
                                     <p class="text-xl font-semibold">
                                         Shipping
@@ -105,9 +105,7 @@
                                         rates or destination restrictions for
                                         groups of products.
                                         <Tooltip
-                                            :tooltipText="
-                                                'A shipping profile enables you to decide how much you will charge your customer for shipping and also decide where you can ship to'
-                                            "
+                                            :tooltipText="'A shipping profile enables you to decide how much you will charge your customer for shipping and also decide where you can ship to'"
                                         >
                                             <QuestionMarkCircleIcon
                                                 class="h-5 w-5"
@@ -131,7 +129,7 @@
                                                                     class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                                                                 >
                                                                     <img
-                                                                        class="w-5 h-5 "
+                                                                        class="w-5 h-5"
                                                                         src="../../../../assets/globe.svg"
                                                                         alt="globe"
                                                                     />
@@ -159,8 +157,10 @@
                                                         <tbody>
                                                             <tr
                                                                 class="border-b"
-                                                                v-for="(shipping,
-                                                                index) in shipping_rates"
+                                                                v-for="(
+                                                                    shipping,
+                                                                    index
+                                                                ) in shipping_rates"
                                                                 :key="
                                                                     shipping.id
                                                                 "
@@ -170,7 +170,7 @@
                                                                 >
                                                                     {{
                                                                         index +
-                                                                            1
+                                                                        1
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -188,7 +188,7 @@
                                                                     }}
                                                                 </td>
                                                                 <td
-                                                                    class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap "
+                                                                    class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                                                                 >
                                                                     {{
                                                                         shipping
@@ -202,9 +202,7 @@
                                                                     class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap justify-end flex"
                                                                 >
                                                                     <inertia-link
-                                                                        :href="
-                                                                            `/settings/shipping-rates/${shipping.id}/edit`
-                                                                        "
+                                                                        :href="`/settings/shipping-rates/${shipping.id}/edit`"
                                                                     >
                                                                         <PencilIcon
                                                                             class="w-5 h-5 text-indigo-600 cursor-pointer mr-4"
@@ -214,7 +212,7 @@
                                                                     <svg
                                                                         v-if="
                                                                             loading ==
-                                                                                index
+                                                                            index
                                                                         "
                                                                         role="status"
                                                                         class="w-5 h-5 text-gray-500 animate-spin dark:text-gray-600 fill-blue-600"
@@ -278,7 +276,7 @@
                                 @close="this.popUp = false"
                                 v-if="this.popUp"
                             />
-                            <div class="pl-5 pr-2  mt-5 py-7 bg-white">
+                            <div class="pl-5 pr-2 mt-5 py-7 bg-white">
                                 <div class="rounded-sm flex flex-col">
                                     <div class="flex">
                                         <input
@@ -296,8 +294,8 @@
                                             <p
                                                 class="text-indigo-600 cursor-pointer"
                                                 v-if="
-                                                    this.local_pickups.length !=
-                                                        0
+                                                    this.local_pickup.length !=
+                                                    0
                                                 "
                                                 @click="this.popUp = true"
                                             >
@@ -313,9 +311,7 @@
                                             their orders. Learn more about local
                                             pickup.
                                             <Tooltip
-                                                :tooltipText="
-                                                    'Customers can pick up their purchase from your physical store when you choose this option'
-                                                "
+                                                :tooltipText="'Customers can pick up their purchase from your physical store when you choose this option'"
                                             >
                                                 <QuestionMarkCircleIcon
                                                     class="h-5 w-5"
@@ -326,7 +322,7 @@
                                 </div>
                                 <div
                                     class="flex flex-col items-center"
-                                    v-if="this.s.length == 0"
+                                    v-if="this.local_pickup.length == 0"
                                 >
                                     <p class="mt-8 mb-6">
                                         No local pickup address, add a location
@@ -334,7 +330,7 @@
                                     </p>
                                     <button
                                         type="button"
-                                        class=" h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                        class="h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                                         @click="this.popUp = true"
                                     >
                                         Add location
@@ -343,7 +339,7 @@
                                 <div class="flex flex-col" v-else>
                                     <div
                                         v-for="(location, index) in this
-                                            .local_pickups"
+                                            .local_pickup"
                                         :key="location.id"
                                         class="bg-gray-50 border border-gray-300 h-32 pl-8 pr-7 mb-3 flex justify-between"
                                     >
@@ -369,7 +365,7 @@
                                                     <location-marker-icon
                                                         class="w-7 h-7 mr-1 pt-2"
                                                     />
-                                                    <div class=" flex flex-col">
+                                                    <div class="flex flex-col">
                                                         <p class="font-bold">
                                                             {{ location.city }}
                                                             Branch
@@ -592,53 +588,53 @@
 </template>
 
 <script>
-import { reactive, ref, onBeforeMount, computed, onMounted } from 'vue'
-import AppLayout from '../../../Layouts/AppLayout.vue'
-import Search from '../../Search.vue'
-import Nav from '../Nav'
-import axios from 'axios'
-import PickUpModal from './Components/PickUpModal.vue'
-import PickUpModalEdit from './Components/PickUpModalEdit.vue'
-import { notify } from 'notiwind'
+import { reactive, ref, onBeforeMount, computed, onMounted } from "vue";
+import AppLayout from "../../../Layouts/AppLayout.vue";
+import Search from "../../Search.vue";
+import Nav from "../Nav";
+import axios from "axios";
+import PickUpModal from "./Components/PickUpModal.vue";
+import PickUpModalEdit from "./Components/PickUpModalEdit.vue";
+import { notify } from "notiwind";
 import {
     Dialog,
     DialogOverlay,
     TransitionChild,
-    TransitionRoot
-} from '@headlessui/vue'
+    TransitionRoot,
+} from "@headlessui/vue";
 import {
     ChevronLeftIcon,
     GlobeAltIcon,
-    ChevronRightIcon
-} from '@heroicons/vue/solid'
+    ChevronRightIcon,
+} from "@heroicons/vue/solid";
 import {
     BriefcaseIcon,
     LocationMarkerIcon,
     HomeIcon,
     TrashIcon,
     PencilIcon,
-    QuestionMarkCircleIcon
-} from '@heroicons/vue/outline'
-import { Inertia } from '@inertiajs/inertia'
-import DeliveryModal from './Components/DeliveryModal.vue'
-import Tooltip from '../../../Components/Tooltip/Components/Tooltip.vue'
-import DeleteAlert from '../../../Components/DeleteAlert.vue'
+    QuestionMarkCircleIcon,
+} from "@heroicons/vue/outline";
+import { Inertia } from "@inertiajs/inertia";
+import DeliveryModal from "./Components/DeliveryModal.vue";
+import Tooltip from "../../../Components/Tooltip/Components/Tooltip.vue";
+import DeleteAlert from "../../../Components/DeleteAlert.vue";
 
 const statusStyles = {
-    success: 'bg-green-100 text-green-800',
-    processing: 'bg-yellow-100 text-yellow-800',
-    failed: 'bg-gray-100 text-gray-800'
-}
+    success: "bg-green-100 text-green-800",
+    processing: "bg-yellow-100 text-yellow-800",
+    failed: "bg-gray-100 text-gray-800",
+};
 const pages = [
-    { name: 'Settings', href: '/settings', current: false },
+    { name: "Settings", href: "/settings", current: false },
     {
-        name: 'Shipping and Delivery',
-        href: '/settings/shipping-and-delivery',
-        current: true
-    }
-]
+        name: "Shipping and Delivery",
+        href: "/settings/shipping-and-delivery",
+        current: true,
+    },
+];
 export default {
-    props: ['locations'],
+    props: ["locations"],
     components: {
         Nav,
         AppLayout,
@@ -658,70 +654,70 @@ export default {
         DeliveryModal,
         QuestionMarkCircleIcon,
         Tooltip,
-        DeleteAlert
+        DeleteAlert,
     },
 
-    data () {
+    data() {
         return {
             popUp: false,
             popUpEdit: false,
             delete_msg_location:
-                'Are you sure you want to delete the selected location? The data will be removed and this action cannot be undone.',
-            delete_url_location: '/settings/store-locations',
+                "Are you sure you want to delete the selected location? The data will be removed and this action cannot be undone.",
+            delete_url_location: "/settings/store-locations",
             delete_msg_shipping_rate:
-                'Are you sure you want to delete the selected shipping rate? The data will be removed and this action cannot be undone.',
-            delete_url_shipping_rate: '/settings/shipping-rates'
-        }
+                "Are you sure you want to delete the selected shipping rate? The data will be removed and this action cannot be undone.",
+            delete_url_shipping_rate: "/settings/shipping-rates",
+        };
     },
 
-    setup (props) {
-        const loading = ref(null)
-        const pickupLoading = ref(null)
-        const open = ref(false)
-        const localDelivery = ref(false)
-        const Modal = ref(false)
-        const isDeleteLocation = ref(false)
-        const openDelete = ref(false)
-        const isDeleteShippingRate = ref(false)
-        const shipping_rates = ref([])
+    setup(props) {
+        const loading = ref(null);
+        const pickupLoading = ref(null);
+        const open = ref(false);
+        const localDelivery = ref(false);
+        const Modal = ref(false);
+        const isDeleteLocation = ref(false);
+        const openDelete = ref(false);
+        const isDeleteShippingRate = ref(false);
+        const shipping_rates = ref([]);
         const popModal = () => {
-            Modal.value = true
-        }
-        const notificationMessage = ref('Sucessfully Deleted')
+            Modal.value = true;
+        };
+        const notificationMessage = ref("Sucessfully Deleted");
 
         const deleteLocation = (id, index) => {
-            pickupLoading.value = index
+            pickupLoading.value = index;
             axios
                 .delete(`/settings/store-locations/${id}`)
-                .then(res => {
-                    setTimeout(onClickTop, 1500)
-                    Inertia.visit('/settings/shipping-and-delivery')
+                .then((res) => {
+                    setTimeout(onClickTop, 1500);
+                    Inertia.visit("/settings/shipping-and-delivery");
                 })
-                .catch(error => {
+                .catch((error) => {
                     notificationMessage.value =
-                        'Sorry, we could not process your request at the moment'
-                    setTimeout(onClickBot, 1500)
-                })
-        }
+                        "Sorry, we could not process your request at the moment";
+                    setTimeout(onClickBot, 1500);
+                });
+        };
 
         const emitClose = () => {
-            isDeleteLocation.value = false
-            isDeleteShippingRate.value = false
-        }
-        const local_pickups = props.locations
+            isDeleteLocation.value = false;
+            isDeleteShippingRate.value = false;
+        };
+        const local_pickup = props.locations;
 
         onBeforeMount(() => {
-            axios.get('/settings/shipping-rates').then(res => {
-                shipping_rates.value = res.data.data
-            })
-        })
+            axios.get("/settings/shipping-rates").then((res) => {
+                shipping_rates.value = res.data.data;
+            });
+        });
 
         const deleteShippingRate = () => {
-            isDeleteShippingRate.value = true
-            openDelete.value = true
-        }
+            isDeleteShippingRate.value = true;
+            openDelete.value = true;
+        };
 
-        function onClickTop () {
+        function onClickTop() {
             notify(
                 {
                     group: 'top',
@@ -732,41 +728,41 @@ export default {
             )
         }
 
-        function onClickBot () {
+        function onClickBot() {
             notify(
                 {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: notificationMessage.value
+                    group: "bottom",
+                    title: "Error",
+                    text: notificationMessage.value,
                 },
                 4000
-            )
-            loading.value = null
+            );
+            loading.value = null;
         }
 
         const deleteShipping = (id, index) => {
-            loading.value = index
+            loading.value = index;
             axios
                 .delete(`/settings/shipping-rates/${id}`)
-                .then(res => {
+                .then((res) => {
                     if (res.status == 200) {
-                        setTimeout(onClickTop, 1500)
+                        setTimeout(onClickTop, 1500);
                     }
                     Inertia.visit('/settings/shipping-and-delivery')
                 })
-                .catch(error => {
+                .catch((error) => {
                     notificationMessage.value =
-                        'Sorry, we could not process your request at the moment'
-                    setTimeout(onClickBot, 1500)
-                })
-        }
+                        "Sorry, we could not process your request at the moment";
+                    setTimeout(onClickBot, 1500);
+                });
+        };
 
         return {
             statusStyles,
             pages,
             localDelivery,
             deleteLocation,
-            local_pickups,
+            local_pickup,
             Modal,
             popModal,
             shipping_rates,
@@ -779,8 +775,8 @@ export default {
             loading,
             onClickTop,
             onClickBot,
-            pickupLoading
-        }
-    }
-}
+            pickupLoading,
+        };
+    },
+};
 </script>
