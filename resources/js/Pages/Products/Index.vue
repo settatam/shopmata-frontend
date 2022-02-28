@@ -25,7 +25,7 @@
         </div>
 
         <div class="mt-8">
-          
+
           <!-- Activity table (small breakpoint and up) -->
           <div class=" sm:block">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
@@ -126,7 +126,7 @@
                                 <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded cursor-pointer" :value="product.id" v-model="selected" @click="uncheckBox(product.id)"/>
                             </div>
                             <div class="flex-shrink-0 h-12 w-12 mr-5">
-                              <img class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
+                              <img v-if="product.images.length" class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
                             </div>
                             <inertia-link :href="'products/'+product.id+'/'" class="group inline-flex space-x-2 truncate">
                               <p class="text-gray-800 truncate group-hover:text-gray-900 break-normal">
@@ -143,7 +143,7 @@
                           {{ product.currency }}
                           <span class="text-gray-900 font-normal">{{ product.amount }} </span>
                         </td>
-                        
+
                         <td class="w-1/10 px-6 py-4 whitespace-nowrap text-sm text-gray-500 md:block">
                           <span :class="[statusStyles[product.status], 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-normal capitalize']">
                             {{product.status}}
@@ -159,7 +159,7 @@
                         <!-- <td>
                           <pencil-icon class="w-5 h-5 text-indigo-700"/>
                         </td> -->
-                      </tr> 
+                      </tr>
                     </tbody>
                   </table>
                   <div class="flex flex-col items-center pb-20 bg-white" v-if="products.data.length==0">
@@ -184,7 +184,7 @@
                     <div class="flex items-center w-4/5 mr-1">
                       <input id="comments" aria-describedby="comments-description" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded cursor-pointer mr-1" :value="product.id" v-model="selected" @click="uncheckBox(product.id)"/>
                       <div class="h-10 w-10 mr-3">
-                        <img class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
+                        <img v-if="product.images.length" class="h-12 w-12 rounded-full" :src="product.images[0].url" alt='{{product.title}}' />
                       </div>
                       <div class="flex flex-col w-full overflow-x-hidden">
                         <div>
@@ -354,11 +354,11 @@ export default {
         this.selectedAll=false
      },
      delete_action(){
-       
+
           //console.log(id)
           this.selected =[]
           this.selectedAll=false
-        
+
       }
   },
   setup() {
@@ -396,7 +396,7 @@ export default {
       }
 
       products.data.length == selected.value.length ? (selectedAll.value = true) : (selectedAll.value = false);  */
-      
+
     //}
     /* function deleteSelected(){
       let selectedRows = selected.value.map((s) => s.id).join(",");
@@ -408,10 +408,10 @@ export default {
           axios.get(`/products/get-data?term=${term}`)
             .then(res=>{
                 suggestions.value = res.data
-            }) 
+            })
           }
     } */
-/* 
+/*
     function updateCurrentList(index){
       const suggestion = suggestions.value.filter(list => list.id == index)
       selection.value = suggestion[0].title;
@@ -430,7 +430,7 @@ export default {
          }
        }
     } */
-    
+
     return {
       transactions,
       statusStyles,
@@ -448,7 +448,7 @@ export default {
     }
   },
   async mounted() {
-  
+
   },
 
 }

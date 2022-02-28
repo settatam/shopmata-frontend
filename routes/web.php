@@ -61,7 +61,7 @@ use App\Http\Controllers\OnlineStore\StoreUserController;
 */
 
 Route::get('/', function () {
-	return Inertia\Inertia::render('Landing');
+    return Inertia\Inertia::render('Landing');
 })->name('landing');
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -81,13 +81,13 @@ Route::post('store', ['StoreController', 'store'])->name('create-new-store');
 
 
 Route::group(['prefix' => 'auth'], function () {
-	Route::get("get-started/{step}", [HomeController::class, 'getStarted']);
-	Route::post('create-store', [StoreController::class, 'createStore']);
-	Route::get('recover-password', [HomeController::class, 'passwordRecovery']);
-	Route::post('recover-password', [HomeController::class, 'sendRecoveryMail']);
-	Route::get('change-password', [HomeController::class, 'changePassword']);
-	Route::post('change-password', [HomeController::class, 'changeUserPassword']);
-	Route::post('initiate-store-registration', [HomeController::class, 'initializeStore']);
+    Route::get("get-started/{step}", [HomeController::class, 'getStarted']);
+    Route::post('create-store', [StoreController::class, 'createStore']);
+    Route::get('recover-password', [HomeController::class, 'passwordRecovery']);
+    Route::post('recover-password', [HomeController::class, 'sendRecoveryMail']);
+    Route::get('change-password', [HomeController::class, 'changePassword']);
+    Route::post('change-password', [HomeController::class, 'changeUserPassword']);
+    Route::post('initiate-store-registration', [HomeController::class, 'initializeStore']);
 });
 
 
@@ -95,140 +95,145 @@ Route::get('staff/registration/new', [StaffsController::class, 'registration']);
 Route::post('staff/registration/new', [StaffsController::class, 'createStaff']);
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
-	Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-	Route::get('dashboard/data', [DashboardController::class, 'getData']);
-	Route::get('/get/user/store/products', [StoreController::class, 'getStoreProducts']);
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard/data', [DashboardController::class, 'getData']);
+    Route::get('/get/user/store/products', [StoreController::class, 'getStoreProducts']);
 
 
-	#Products
-	Route::get('products', [ProductsController::class, 'index'])->name('products');
-	Route::get('products/get-data', [ProductsController::class, 'getData'])->name('products.data');
-	Route::get('products/get-single/{id}', [ProductsController::class, 'getSingle'])->name('products.single');
-	Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
-	Route::post('products', [ProductsController::class, 'store']);
-	Route::get('products/{id}', [ProductsController::class, 'edit'])->name('products.edit');
-	Route::put('products/{id}', [ProductsController::class, 'update']);
-	Route::post('products/get-order-products', [ProductsController::class, 'getOrderProducts']);
+    #Products
+    Route::get('products/', [ProductsController::class, 'index'])->name('products');
+    Route::get('products/get-data', [ProductsController::class, 'getData'])->name('products.data');
+    Route::get('products/get-single/{id}', [ProductsController::class, 'getSingle'])->name('products.single');
+    Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
+    Route::post('products/', [ProductsController::class, 'store']);
+    Route::get('products/{id}', [ProductsController::class, 'edit'])->name('products.edit')
+        ->where('id', '[0-9]+');
+    Route::put('products/{id}', [ProductsController::class, 'update'])
+        ->where('id', '[0-9]+');
+    Route::post('products/get-order-products', [ProductsController::class, 'getOrderProducts']);
+    Route::post('products/upload-csv', [ProductsController::class, 'uploadCSV']);
+    Route::get('products/delete', [ProductsController::class, 'deleteProduct']);
+    Route::get('products/delete-multiple', [ProductsController::class, 'deleteMultipleProducts']);
+    Route::get('products/search', [ProductsController::class, 'tableSearch']);
 
-	#Brands
-	Route::get('brands', [BrandsController::class, 'index'])->name('brands');
-	Route::get('brands/create', [BrandsController::class, 'create'])->name('brands.create');
-	Route::post('brands', [BrandsController::class, 'store']);
-	Route::get('brands/{id}/edit', [BrandsController::class, 'edit'])->name('brands.edit');
-	Route::put('brands/{id}', [BrandsController::class, 'update']);
+    #Brands
+    Route::get('brands', [BrandsController::class, 'index'])->name('brands');
+    Route::get('brands/create', [BrandsController::class, 'create'])->name('brands.create');
+    Route::post('brands', [BrandsController::class, 'store']);
+    Route::get('brands/{id}/edit', [BrandsController::class, 'edit'])->name('brands.edit');
+    Route::put('brands/{id}', [BrandsController::class, 'update']);
 
-	#Categories
-	Route::get('categories', [CategoryController::class, 'index'])->name('categories');
-	Route::any('categories/search/{query}', [CategoryController::class, 'search']);
-	Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
-	Route::post('categories', [CategoryController::class, 'store']);
-	Route::get('categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-	Route::put('categories/{id}', [CategoryController::class, 'update']);
+    #Categories
+    Route::get('categories', [CategoryController::class, 'index'])->name('categories');
+    Route::any('categories/search/{query}', [CategoryController::class, 'search']);
+    Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('categories', [CategoryController::class, 'store']);
+    Route::get('categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('categories/{id}', [CategoryController::class, 'update']);
 
-	#Orders
-	Route::get('orders', [OrdersController::class, 'index'])->name('orders');
-	Route::get('orders/create', [OrdersController::class, 'create'])->name('orders.create');
-	Route::post('orders/create', [OrdersController::class, 'store']);
-	Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
-	Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
+    #Orders
+    Route::get('orders', [OrdersController::class, 'index'])->name('orders');
+    Route::get('orders/create', [OrdersController::class, 'create'])->name('orders.create');
+    Route::post('orders/create', [OrdersController::class, 'store']);
+    Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
+    Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
 
-	//Bank Details
-
-
-	#Settings
-	Route::get('settings', [GeneralController::class, 'index'])->name('settings');
-
-	#Settings -> External Links
-	Route::get('settings/contact',[SettingsController::class, 'support']);
-	Route::get('settings/delivery-method',[SettingsController::class, 'deliveryMethod']);
-	Route::get('settings/international-payment',[SettingsController::class, 'internationalPayment']);
-	Route::get('settings/privacy-policy',[SettingsController::class, 'privacyPolicy']);
-	Route::get('settings/shipping-rate',[SettingsController::class, 'aboutShippingRate']);
-	Route::get('settings/terms-of-service',[SettingsController::class, 'termsOfService']);
+    //Bank Details
 
 
-	#Settings -> General
-	Route::get('settings/general', [GeneralController::class, 'index'])->name('settings.general');
-	Route::put('settings/general', [SettingsController::class, 'updateStore'])->name('settings.updateStore');
+    #Settings
+    Route::get('settings', [GeneralController::class, 'index'])->name('settings');
 
-	#Settings -> Plan and Permissions
-	Route::get('settings/plan-and-permissions', [SettingsController::class, 'permissions'])->name('settings.permissions');
-	Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.inviteStaff');
-	Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
-
-	#Settings -> Remittance
-	Route::resource('settings/remittance', PayoutSettingsController::class);
-
-
-	#Settings -> Shipping and Delivery
-	Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
-	Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
-	Route::get('settings/shipping-and-delivery/local-pickup/manage', [SettingsController::class, 'manageLocalPickup'])->name('settings.shipping.manageLocalPickup');
-	Route::get('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'generalShippingRate'])->name('settings.shipping.generalShippingRate');
-	Route::post('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'createGeneralShippingRate']);
-	Route::get('settings/shipping-and-delivery/shipping-profile', [ShippingProfileController::class, 'index'])->name('settings.shipping.shippingProfile');
-
-	#Settings -> Payments
-	Route::get('settings/payments', [PaymentsController::class, 'index'])->name('settings.payments');
-	Route::get('settings/payments/gateways', [SettingsController::class, 'addPaymentOption'])->name('settings.payments.addPaymentOption');
-	Route::get('settings/payments/gateways/{gateway_id}', [SettingsController::class, 'paymentOptionInfo']);
-	Route::post('settings/payments/gateways', [SettingsController::class, 'savePaymentOption']);
-	Route::delete('settings/payments/{id}', [SettingsController::class, 'deletePayment']);
-
-	#Settings -> Gift Cards
-	Route::get('settings/gift-cards',  [GiftCardsController::class, 'index'])->name('settings.giftCards');
-	Route::post('settings/gift-cards', [GiftCardsController::class,  'createGiftCards']);
-
-	#Settings -> Notifications
-	Route::get('settings/notifications', [NotificationsController::class, 'index']);
-	Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
-	Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
-	Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
+    #Settings -> External Links
+    Route::get('settings/contact', [SettingsController::class, 'support']);
+    Route::get('settings/delivery-method', [SettingsController::class, 'deliveryMethod']);
+    Route::get('settings/international-payment', [SettingsController::class, 'internationalPayment']);
+    Route::get('settings/privacy-policy', [SettingsController::class, 'privacyPolicy']);
+    Route::get('settings/shipping-rate', [SettingsController::class, 'aboutShippingRate']);
+    Route::get('settings/terms-of-service', [SettingsController::class, 'termsOfService']);
 
 
+    #Settings -> General
+    Route::get('settings/general', [GeneralController::class, 'index'])->name('settings.general');
+    Route::put('settings/general', [SettingsController::class, 'updateStore'])->name('settings.updateStore');
 
-	#Settings -> User
-	Route::get('settings/user', [SettingsController::class, 'user'])->name('settings.user');
-	Route::post('settings/user', [SettingsController::class, 'createUser'])->name('settings.user');
+    #Settings -> Plan and Permissions
+    Route::get('settings/plan-and-permissions', [SettingsController::class, 'permissions'])->name('settings.permissions');
+    Route::get('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'create'])->name('settings.inviteStaff');
+    Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
-	#Settings -> Shipping Profiles
-	Route::get('settings/shipping-profiles', [ShippingProfileController::class, 'index'])->name('settings.shipping.shippingProfiles');
-	Route::post('settings/shipping-profiles', [ShippingProfileController::class, 'store']);
+    #Settings -> Remittance
+    Route::resource('settings/remittance', PayoutSettingsController::class);
 
-	#Analytics
-	Route::get('analytics', [AnalyticsController::class, 'index']);
 
-	#Discounts
-	Route::get('discounts', [DiscountsController::class, 'index'])->name('discounts');
-	Route::post('discounts', [DiscountsController::class, 'store']);
-	Route::put('discounts', [DiscountsController::class, 'update']);
-	Route::get('discounts/create', [DiscountsController::class, 'create'])->name('discounts.create');
+    #Settings -> Shipping and Delivery
+    Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
+    Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
+    Route::get('settings/shipping-and-delivery/local-pickup/manage', [SettingsController::class, 'manageLocalPickup'])->name('settings.shipping.manageLocalPickup');
+    Route::get('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'generalShippingRate'])->name('settings.shipping.generalShippingRate');
+    Route::post('settings/shipping-and-delivery/general-shipping-rate', [SettingsController::class, 'createGeneralShippingRate']);
+    Route::get('settings/shipping-and-delivery/shipping-profile', [ShippingProfileController::class, 'index'])->name('settings.shipping.shippingProfile');
 
-	Route::post('/generate/user/discount/code', [DiscountsController::class, 'createDiscountCode']);
+    #Settings -> Payments
+    Route::get('settings/payments', [PaymentsController::class, 'index'])->name('settings.payments');
+    Route::get('settings/payments/gateways', [SettingsController::class, 'addPaymentOption'])->name('settings.payments.addPaymentOption');
+    Route::get('settings/payments/gateways/{gateway_id}', [SettingsController::class, 'paymentOptionInfo']);
+    Route::post('settings/payments/gateways', [SettingsController::class, 'savePaymentOption']);
+    Route::delete('settings/payments/{id}', [SettingsController::class, 'deletePayment']);
 
-	#Customers
-	Route::get('customers', [CustomersController::class, 'index'])->name('customers');
-	Route::get('customers/create', [CustomersController::class, 'create']);
-	Route::post('customers/store', [CustomersController::class, 'store']);
-	Route::get('customers/{id}/edit', [CustomersController::class, 'edit'])->name('customers.edit');
-	Route::put('customers/{id}', [CustomersController::class, 'update']);
-	Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
-	Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
-	Route::post('product-images', [ImagesController::class, 'store']);
-	Route::get('product-images', [ImagesController::class, 'index']);
+    #Settings -> Gift Cards
+    Route::get('settings/gift-cards', [GiftCardsController::class, 'index'])->name('settings.giftCards');
+    Route::post('settings/gift-cards', [GiftCardsController::class, 'createGiftCards']);
 
-	## Store Preferences
+    #Settings -> Notifications
+    Route::get('settings/notifications', [NotificationsController::class, 'index']);
+    Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
+    Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
+    Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
 
-	Route::resource('preferences', 'StorePreferencesController');
 
-	## Online Store
+    #Settings -> User
+    Route::get('settings/user', [SettingsController::class, 'user'])->name('settings.user');
+    Route::post('settings/user', [SettingsController::class, 'createUser'])->name('settings.user');
 
-	// Route::resource('store/themes', 'ThemeController');
+    #Settings -> Shipping Profiles
+    Route::get('settings/shipping-profiles', [ShippingProfileController::class, 'index'])->name('settings.shipping.shippingProfiles');
+    Route::post('settings/shipping-profiles', [ShippingProfileController::class, 'store']);
 
-	Route::get('online-store/code-editor', [CodeEditorController::class, 'index']);
-	Route::post('online-store/code-editor', [CodeEditorController::class, 'store']);
-	Route::put('online-store/code-editor/{id}', [CodeEditorController::class, 'update']);
-	Route::get('online-store/code-editor/{id}', [CodeEditorController::class, 'show']);
+    #Analytics
+    Route::get('analytics', [AnalyticsController::class, 'index']);
+
+    #Discounts
+    Route::get('discounts', [DiscountsController::class, 'index'])->name('discounts');
+    Route::post('discounts', [DiscountsController::class, 'store']);
+    Route::put('discounts', [DiscountsController::class, 'update']);
+    Route::get('discounts/create', [DiscountsController::class, 'create'])->name('discounts.create');
+
+    Route::post('/generate/user/discount/code', [DiscountsController::class, 'createDiscountCode']);
+
+    #Customers
+    Route::get('customers', [CustomersController::class, 'index'])->name('customers');
+    Route::get('customers/create', [CustomersController::class, 'create']);
+    Route::post('customers/store', [CustomersController::class, 'store']);
+    Route::get('customers/{id}/edit', [CustomersController::class, 'edit'])->name('customers.edit');
+    Route::put('customers/{id}', [CustomersController::class, 'update']);
+    Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
+    Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
+    Route::post('product-images', [ImagesController::class, 'store']);
+    Route::get('product-images', [ImagesController::class, 'index']);
+
+    ## Store Preferences
+
+    Route::resource('preferences', 'StorePreferencesController');
+
+    ## Online Store
+
+    // Route::resource('store/themes', 'ThemeController');
+
+    Route::get('online-store/code-editor', [CodeEditorController::class, 'index']);
+    Route::post('online-store/code-editor', [CodeEditorController::class, 'store']);
+    Route::put('online-store/code-editor/{id}', [CodeEditorController::class, 'update']);
+    Route::get('online-store/code-editor/{id}', [CodeEditorController::class, 'show']);
     Route::get('online-store/editor', [CodeEditorController::class, 'index']);
 
     Route::resource('online-store/locations', LocationController::class);
@@ -254,7 +259,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('editor-pages/{id}', [OpenEditorPagesController::class, 'show']);
     Route::delete('online-store/editor-pages/{id}', [OpenEditorPagesController::class, 'destroy']);
 
-	Route::get('online-store/themes', [ThemeController::class, 'index']);
+    Route::get('online-store/themes', [ThemeController::class, 'index']);
 
 	Route::post('store/create', [StoreController::class, 'store']);
 	Route::put('store/{id}', [StoreController::class, 'update']);
@@ -269,8 +274,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 	Route::resource('store/blog', StoreBlogController::class);
 	##Store Domains
 
-	Route::resource('store/domains', StoreDomainsController::class);
-	// Route::resource('store/themes', StoreThemesController::class);
-	Route::resource('settings/store-users', PlansAndPermissionsController::class);
-	Route::resource('settings/store-locations', StoreLocationController::class);
+    Route::resource('store/domains', StoreDomainsController::class);
+    // Route::resource('store/themes', StoreThemesController::class);
+    Route::resource('settings/store-users', PlansAndPermissionsController::class);
+    Route::resource('settings/store-locations', StoreLocationController::class);
 });
