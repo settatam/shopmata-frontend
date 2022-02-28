@@ -745,10 +745,7 @@ export default {
             axios
                 .delete(`/settings/shipping-rates/${id}`)
                 .then((res) => {
-                    if (res.status == 200) {
-                        setTimeout(onClickTop, 1500);
-                    }
-                    Inertia.visit('/settings/shipping-and-delivery')
+                    console.log(res)
                 })
                 .catch((error) => {
                     notificationMessage.value =
