@@ -689,38 +689,26 @@ export default {
         }
         const notificationMessage = ref('Sucessfully Deleted')
         const filteredLocations = ref([])
-        const local_pickups = reactive(props.locations)
+        let local_pickups = reactive(props.locations)
 
         const deleteLocation = (id, index) => {
-            let reid = [id]
-            filteredLocations.value = props.locations.filter(
-                item => !reid.includes(item.id)
-            )
-            // local_pickups = filteredLocations.value
 
             pickupLoading.value = index
             axios
                 .delete(`/settings/store-locations/${id}`)
                 .then((res, id) => {
-                    console.log(
-                        local_pickups.filter(item => !id.includes(item.id))
-                    )
+                    local_pickups = local_pickups.filter(item => item.id != id);
                     setTimeout(onClickTop, 1500)
                     Inertia.visit('/settings/shipping-and-delivery')
                 })
                 .catch(error => {
-                    let reid = [id]
-                    filteredLocations.value = props.locations.filter(
-                        item => !reid.includes(item.id)
-                    )
-
-                    // notificationMessage.value =
-                    //     "Sorry, we could not process your request at the moment";
-                    // setTimeout(onClickBot, 1500);
+                    notificationMessage.value =
+                        "Sorry, we could not process your request at the moment";
+                    setTimeout(onClickBot, 1500);
                 })
         }
 
-        watchEffect (filteredLocations,() => local_pickups = filteredLocations);
+        // watchEffect (filteredLocations,() => local_pickups = filteredLocations);
 
         const emitClose = () => {
             isDeleteLocation.value = false
