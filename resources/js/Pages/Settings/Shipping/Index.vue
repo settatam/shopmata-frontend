@@ -294,7 +294,7 @@
                                             <p
                                                 class="text-indigo-600 cursor-pointer"
                                                 v-if="
-                                                    this.local_pickup.length !=
+                                                    this.local_pickups.length !=
                                                     0
                                                 "
                                                 @click="this.popUp = true"
@@ -322,7 +322,7 @@
                                 </div>
                                 <div
                                     class="flex flex-col items-center"
-                                    v-if="this.local_pickup.length == 0"
+                                    v-if="this.local_pickups.length == 0"
                                 >
                                     <p class="mt-8 mb-6">
                                         No local pickup address, add a location
@@ -339,7 +339,7 @@
                                 <div class="flex flex-col" v-else>
                                     <div
                                         v-for="(location, index) in this
-                                            .local_pickup"
+                                            .local_pickups"
                                         :key="location.id"
                                         class="bg-gray-50 border border-gray-300 h-32 pl-8 pr-7 mb-3 flex justify-between"
                                     >
@@ -689,9 +689,10 @@ export default {
             pickupLoading.value = index;
             axios
                 .delete(`/settings/store-locations/${id}`)
-                .then((res) => {
-                    setTimeout(onClickTop, 1500);
-                    Inertia.visit("/settings/shipping-and-delivery");
+                .then((res, id) => {
+                    console.log (local_pickups.filter(item => !id.includes(item.id)))
+                    // setTimeout(onClickTop, 1500);
+                    // Inertia.visit("/settings/shipping-and-delivery");
                 })
                 .catch((error) => {
                     notificationMessage.value =
@@ -704,7 +705,7 @@ export default {
             isDeleteLocation.value = false;
             isDeleteShippingRate.value = false;
         };
-        const local_pickup = props.locations;
+        const local_pickups = props.locations;
 
         onBeforeMount(() => {
             axios.get("/settings/shipping-rates").then((res) => {
@@ -745,7 +746,10 @@ export default {
             axios
                 .delete(`/settings/shipping-rates/${id}`)
                 .then((res) => {
-                    console.log(res)
+                    if (res.status == 200) {
+                        setTimeout(onClickTop, 1500);
+                    }
+                    Inertia.visit('/settings/shipping-and-delivery')
                 })
                 .catch((error) => {
                     notificationMessage.value =
@@ -759,7 +763,7 @@ export default {
             pages,
             localDelivery,
             deleteLocation,
-            local_pickup,
+            local_pickups,
             Modal,
             popModal,
             shipping_rates,
