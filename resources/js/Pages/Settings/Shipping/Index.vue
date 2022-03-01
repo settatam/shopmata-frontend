@@ -105,7 +105,9 @@
                                         rates or destination restrictions for
                                         groups of products.
                                         <Tooltip
-                                            :tooltipText="'A shipping profile enables you to decide how much you will charge your customer for shipping and also decide where you can ship to'"
+                                            :tooltipText="
+                                                'A shipping profile enables you to decide how much you will charge your customer for shipping and also decide where you can ship to'
+                                            "
                                         >
                                             <QuestionMarkCircleIcon
                                                 class="h-5 w-5"
@@ -157,10 +159,8 @@
                                                         <tbody>
                                                             <tr
                                                                 class="border-b"
-                                                                v-for="(
-                                                                    shipping,
-                                                                    index
-                                                                ) in shipping_rates"
+                                                                v-for="(shipping,
+                                                                index) in shipping_rates"
                                                                 :key="
                                                                     shipping.id
                                                                 "
@@ -170,7 +170,7 @@
                                                                 >
                                                                     {{
                                                                         index +
-                                                                        1
+                                                                            1
                                                                     }}
                                                                 </td>
                                                                 <td
@@ -202,7 +202,9 @@
                                                                     class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap justify-end flex"
                                                                 >
                                                                     <inertia-link
-                                                                        :href="`/settings/shipping-rates/${shipping.id}/edit`"
+                                                                        :href="
+                                                                            `/settings/shipping-rates/${shipping.id}/edit`
+                                                                        "
                                                                     >
                                                                         <PencilIcon
                                                                             class="w-5 h-5 text-indigo-600 cursor-pointer mr-4"
@@ -212,7 +214,7 @@
                                                                     <svg
                                                                         v-if="
                                                                             loading ==
-                                                                            index
+                                                                                index
                                                                         "
                                                                         role="status"
                                                                         class="w-5 h-5 text-gray-500 animate-spin dark:text-gray-600 fill-blue-600"
@@ -295,7 +297,7 @@
                                                 class="text-indigo-600 cursor-pointer"
                                                 v-if="
                                                     this.local_pickups.length !=
-                                                    0
+                                                        0
                                                 "
                                                 @click="this.popUp = true"
                                             >
@@ -311,7 +313,9 @@
                                             their orders. Learn more about local
                                             pickup.
                                             <Tooltip
-                                                :tooltipText="'Customers can pick up their purchase from your physical store when you choose this option'"
+                                                :tooltipText="
+                                                    'Customers can pick up their purchase from your physical store when you choose this option'
+                                                "
                                             >
                                                 <QuestionMarkCircleIcon
                                                     class="h-5 w-5"
@@ -588,53 +592,53 @@
 </template>
 
 <script>
-import { reactive, ref, onBeforeMount, computed, onMounted } from "vue";
-import AppLayout from "../../../Layouts/AppLayout.vue";
-import Search from "../../Search.vue";
-import Nav from "../Nav";
-import axios from "axios";
-import PickUpModal from "./Components/PickUpModal.vue";
-import PickUpModalEdit from "./Components/PickUpModalEdit.vue";
-import { notify } from "notiwind";
+import { reactive, ref, onBeforeMount, computed, onMounted, watch, watchEffect  } from 'vue'
+import AppLayout from '../../../Layouts/AppLayout.vue'
+import Search from '../../Search.vue'
+import Nav from '../Nav'
+import axios from 'axios'
+import PickUpModal from './Components/PickUpModal.vue'
+import PickUpModalEdit from './Components/PickUpModalEdit.vue'
+import { notify } from 'notiwind'
 import {
     Dialog,
     DialogOverlay,
     TransitionChild,
-    TransitionRoot,
-} from "@headlessui/vue";
+    TransitionRoot
+} from '@headlessui/vue'
 import {
     ChevronLeftIcon,
     GlobeAltIcon,
-    ChevronRightIcon,
-} from "@heroicons/vue/solid";
+    ChevronRightIcon
+} from '@heroicons/vue/solid'
 import {
     BriefcaseIcon,
     LocationMarkerIcon,
     HomeIcon,
     TrashIcon,
     PencilIcon,
-    QuestionMarkCircleIcon,
-} from "@heroicons/vue/outline";
-import { Inertia } from "@inertiajs/inertia";
-import DeliveryModal from "./Components/DeliveryModal.vue";
-import Tooltip from "../../../Components/Tooltip/Components/Tooltip.vue";
-import DeleteAlert from "../../../Components/DeleteAlert.vue";
+    QuestionMarkCircleIcon
+} from '@heroicons/vue/outline'
+import { Inertia } from '@inertiajs/inertia'
+import DeliveryModal from './Components/DeliveryModal.vue'
+import Tooltip from '../../../Components/Tooltip/Components/Tooltip.vue'
+import DeleteAlert from '../../../Components/DeleteAlert.vue'
 
 const statusStyles = {
-    success: "bg-green-100 text-green-800",
-    processing: "bg-yellow-100 text-yellow-800",
-    failed: "bg-gray-100 text-gray-800",
-};
+    success: 'bg-green-100 text-green-800',
+    processing: 'bg-yellow-100 text-yellow-800',
+    failed: 'bg-gray-100 text-gray-800'
+}
 const pages = [
-    { name: "Settings", href: "/settings", current: false },
+    { name: 'Settings', href: '/settings', current: false },
     {
-        name: "Shipping and Delivery",
-        href: "/settings/shipping-and-delivery",
-        current: true,
-    },
-];
+        name: 'Shipping and Delivery',
+        href: '/settings/shipping-and-delivery',
+        current: true
+    }
+]
 export default {
-    props: ["locations"],
+    props: ['locations'],
     components: {
         Nav,
         AppLayout,
@@ -654,71 +658,87 @@ export default {
         DeliveryModal,
         QuestionMarkCircleIcon,
         Tooltip,
-        DeleteAlert,
+        DeleteAlert
     },
 
-    data() {
+    data () {
         return {
             popUp: false,
             popUpEdit: false,
             delete_msg_location:
-                "Are you sure you want to delete the selected location? The data will be removed and this action cannot be undone.",
-            delete_url_location: "/settings/store-locations",
+                'Are you sure you want to delete the selected location? The data will be removed and this action cannot be undone.',
+            delete_url_location: '/settings/store-locations',
             delete_msg_shipping_rate:
-                "Are you sure you want to delete the selected shipping rate? The data will be removed and this action cannot be undone.",
-            delete_url_shipping_rate: "/settings/shipping-rates",
-        };
+                'Are you sure you want to delete the selected shipping rate? The data will be removed and this action cannot be undone.',
+            delete_url_shipping_rate: '/settings/shipping-rates'
+        }
     },
 
-    setup(props) {
-        const loading = ref(null);
-        const pickupLoading = ref(null);
-        const open = ref(false);
-        const localDelivery = ref(false);
-        const Modal = ref(false);
-        const isDeleteLocation = ref(false);
-        const openDelete = ref(false);
-        const isDeleteShippingRate = ref(false);
-        const shipping_rates = ref([]);
+    setup (props) {
+        const loading = ref(null)
+        const pickupLoading = ref(null)
+        const open = ref(false)
+        const localDelivery = ref(false)
+        const Modal = ref(false)
+        const isDeleteLocation = ref(false)
+        const openDelete = ref(false)
+        const isDeleteShippingRate = ref(false)
+        const shipping_rates = ref([])
         const popModal = () => {
-            Modal.value = true;
-        };
-        const notificationMessage = ref("Sucessfully Deleted");
+            Modal.value = true
+        }
+        const notificationMessage = ref('Sucessfully Deleted')
+        const filteredLocations = ref([])
+        const local_pickups = reactive(props.locations)
 
         const deleteLocation = (id, index) => {
-            pickupLoading.value = index;
+            let reid = [id]
+            filteredLocations.value = props.locations.filter(
+                item => !reid.includes(item.id)
+            )
+            // local_pickups = filteredLocations.value
+
+            pickupLoading.value = index
             axios
                 .delete(`/settings/store-locations/${id}`)
                 .then((res, id) => {
-                    console.log (local_pickups.filter(item => !id.includes(item.id)))
-                    // setTimeout(onClickTop, 1500);
-                    // Inertia.visit("/settings/shipping-and-delivery");
+                    console.log(
+                        local_pickups.filter(item => !id.includes(item.id))
+                    )
+                    setTimeout(onClickTop, 1500)
+                    Inertia.visit('/settings/shipping-and-delivery')
                 })
-                .catch((error) => {
-                    notificationMessage.value =
-                        "Sorry, we could not process your request at the moment";
-                    setTimeout(onClickBot, 1500);
-                });
-        };
+                .catch(error => {
+                    let reid = [id]
+                    filteredLocations.value = props.locations.filter(
+                        item => !reid.includes(item.id)
+                    )
+
+                    // notificationMessage.value =
+                    //     "Sorry, we could not process your request at the moment";
+                    // setTimeout(onClickBot, 1500);
+                })
+        }
+
+        watchEffect (filteredLocations,() => local_pickups = filteredLocations);
 
         const emitClose = () => {
-            isDeleteLocation.value = false;
-            isDeleteShippingRate.value = false;
-        };
-        const local_pickups = props.locations;
+            isDeleteLocation.value = false
+            isDeleteShippingRate.value = false
+        }
 
         onBeforeMount(() => {
-            axios.get("/settings/shipping-rates").then((res) => {
-                shipping_rates.value = res.data.data;
-            });
-        });
+            axios.get('/settings/shipping-rates').then(res => {
+                shipping_rates.value = res.data.data
+            })
+        })
 
         const deleteShippingRate = () => {
-            isDeleteShippingRate.value = true;
-            openDelete.value = true;
-        };
+            isDeleteShippingRate.value = true
+            openDelete.value = true
+        }
 
-        function onClickTop() {
+        function onClickTop () {
             notify(
                 {
                     group: 'top',
@@ -729,34 +749,34 @@ export default {
             )
         }
 
-        function onClickBot() {
+        function onClickBot () {
             notify(
                 {
-                    group: "bottom",
-                    title: "Error",
-                    text: notificationMessage.value,
+                    group: 'bottom',
+                    title: 'Error',
+                    text: notificationMessage.value
                 },
                 4000
-            );
-            loading.value = null;
+            )
+            loading.value = null
         }
 
         const deleteShipping = (id, index) => {
-            loading.value = index;
+            loading.value = index
             axios
                 .delete(`/settings/shipping-rates/${id}`)
-                .then((res) => {
+                .then(res => {
                     if (res.status == 200) {
-                        setTimeout(onClickTop, 1500);
+                        setTimeout(onClickTop, 1500)
                     }
                     Inertia.visit('/settings/shipping-and-delivery')
                 })
-                .catch((error) => {
+                .catch(error => {
                     notificationMessage.value =
-                        "Sorry, we could not process your request at the moment";
-                    setTimeout(onClickBot, 1500);
-                });
-        };
+                        'Sorry, we could not process your request at the moment'
+                    setTimeout(onClickBot, 1500)
+                })
+        }
 
         return {
             statusStyles,
@@ -777,7 +797,8 @@ export default {
             onClickTop,
             onClickBot,
             pickupLoading,
-        };
-    },
-};
+            filteredLocations
+        }
+    }
+}
 </script>
