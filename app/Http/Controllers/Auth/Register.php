@@ -142,6 +142,8 @@ trait Register
             if(!$request->store_id  && $store = Store::create($store_data)) {
                 $user->store_id = $store->id;
                 $user->save();
+
+                session(['store_id' => 'value']);
                 $storeOwnerDetails = StoreGroup::where('name', 'Owner')->first(); //Cache this
                 Log::info('Created a new store for user_id: ' . $user->id, $store_data);
                 $store_user = [
