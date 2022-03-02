@@ -242,8 +242,6 @@
                                                                         "
                                                                         class="w-5 h-5 text-red-500 cursor-pointer"
                                                                     />
-
-                                                                    
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -257,8 +255,8 @@
                             <pick-up-modal
                                 @close="popUp = false"
                                 v-if="popUp"
+                                :countries="countryData"
                             />
-                            
 
                             <div class="pl-5 pr-2 mt-5 py-7 bg-white">
                                 <div class="rounded-sm flex flex-col">
@@ -277,11 +275,8 @@
                                             </p>
                                             <p
                                                 class="text-indigo-600 cursor-pointer"
-                                                v-if="
-                                                    local_pickups.length !=
-                                                        0
-                                                "
-                                                @click="popUp = true"
+                                                v-if="local_pickups.length != 0"
+                                                @click="popModal()"
                                             >
                                                 Add Location
                                             </p>
@@ -354,13 +349,15 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                         <div
                                             class="flex flex-col justify-between py-5"
                                         >
-                                            <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer" @click="popEditModal(location)"  />
+                                            <PencilIcon
+                                                class="w-5 h-5 text-indigo-600 cursor-pointer"
+                                                @click="popEditModal(location)"
+                                            />
 
                                             <!-- loading svg -->
                                             <svg
@@ -399,13 +396,12 @@
                                     </div>
 
                                     <PickUpModalEdit
-                                                    @close="popUpEdit = false"
-                                                    :location="locationData"
-                                                    v-if="popUpEdit"
-                                                />
+                                        @close="popUpEdit = false"
+                                        :location="locationData"
+                                        v-if="popUpEdit"
+                                        :countries="countryData"
+                                    />
                                 </div>
-
-                                
 
                                 <!-- location stops -->
                             </div>
@@ -558,7 +554,6 @@
                             </div>
                         </div>
                     </NotificationGroup>
-
                 </div>
             </div>
         </div>
@@ -566,7 +561,7 @@
 </template>
 
 <script>
-import { reactive, ref, onBeforeMount  } from 'vue'
+import { reactive, ref, onBeforeMount } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Nav from '../Nav'
 import axios from 'axios'
@@ -579,10 +574,7 @@ import {
     TransitionChild,
     TransitionRoot
 } from '@headlessui/vue'
-import {
-    GlobeAltIcon,
-    ChevronRightIcon
-} from '@heroicons/vue/solid'
+import { GlobeAltIcon, ChevronRightIcon } from '@heroicons/vue/solid'
 import {
     BriefcaseIcon,
     LocationMarkerIcon,
@@ -610,7 +602,7 @@ const pages = [
     }
 ]
 export default {
-    props: ['locations'],
+    props: ['locations', 'countries'],
     components: {
         Nav,
         AppLayout,
@@ -634,8 +626,7 @@ export default {
     },
 
     data () {
-        return {
-        }
+        return {}
     },
 
     setup (props) {
@@ -645,28 +636,33 @@ export default {
         const shipping_rates = ref([])
         const popUpEdit = ref(false)
         const locationData = ref(null)
+        const countryData = ref([])
         const popUp = ref(false)
-        const popEditModal = (data) => {
+        const popModal = () => {
+            countryData.value = props.countries
+            popUp.value = true
+        }
+        const popEditModal = data => {
             popUpEdit.value = true
             locationData.value = data
+            countryData.value = props.countries
         }
         const notificationMessage = ref('Sucessfully Deleted')
         const filteredLocations = ref([])
         const local_pickups = reactive(props.locations)
         const deleteLocation = (id, index) => {
-
             pickupLoading.value = index
             axios
                 .delete(`/settings/store-locations/${id}`)
                 .then((res, id) => {
-                    local_pickups = local_pickups.filter(item => item.id != id);
+                    local_pickups = local_pickups.filter(item => item.id != id)
                     setTimeout(onClickTop, 1500)
                     Inertia.visit('/settings/shipping-and-delivery')
                 })
                 .catch(error => {
                     notificationMessage.value =
-                        "Sorry, we could not process your request at the moment";
-                    setTimeout(onClickBot, 1500);
+                        'Sorry, we could not process your request at the moment'
+                    setTimeout(onClickBot, 1500)
                 })
         }
 
@@ -675,7 +671,6 @@ export default {
                 shipping_rates.value = res.data.data
             })
         })
-
 
         function onClickTop () {
             notify(
@@ -733,7 +728,9 @@ export default {
             popEditModal,
             popUpEdit,
             locationData,
-            popUp
+            popUp,
+            popModal,
+            countryData
         }
     }
 }
