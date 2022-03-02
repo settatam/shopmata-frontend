@@ -121,12 +121,12 @@ class StoreLocationController extends Controller
             ]);
 
             $location = StoreLocation::find($id);
-            foreach($request->input() as $index => $value) {
-                $location->{$index} = $value;
-            }
+            $data = $request->input();
+            $data['store_id'] = $request->session()->get('store_id');
+            
 
             try {
-                if($location->save()) {
+                if($location->update($data)) {
                     Log::info(Auth::id() . 'updated store location with the following details', $request->input());
                 }
             } catch(\Illuminate\Database\QueryException $ex){ 
