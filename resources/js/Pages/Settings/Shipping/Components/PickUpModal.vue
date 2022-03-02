@@ -134,13 +134,13 @@
                                         <select
                                             :class="{
                                                 'border-red-600':
-                                                    v$.state.$error,
-                                                'border-gray-300': !v$.state
+                                                    v$.state_id.$error,
+                                                'border-gray-300': !v$.state_id
                                                     .$error
                                             }"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                             placeholder=""
-                                            v-model="local_pickup.state"
+                                            v-model="local_pickup.state_id"
                                             required
                                         >
                                             <option value=""
@@ -156,9 +156,9 @@
                                         </select>
                                         <p
                                             class="text-red-600 text-xs"
-                                            v-if="v$.state.$error"
+                                            v-if="v$.state_id.$error"
                                         >
-                                            {{ v$.state.$errors[0].$message }}
+                                            {{ v$.state_id.$errors[0].$message }}
                                         </p>
                                     </div>
                                 </div>
@@ -328,7 +328,7 @@ export default {
             name: '',
             address: '',
             country_id: '',
-            state: '',
+            state_id: '',
             postal_code: '',
             city: ''
         })
@@ -344,7 +344,7 @@ export default {
                 country_id: {
                     required: helpers.withMessage('Select a country', required)
                 },
-                state: {
+                state_id: {
                     required: helpers.withMessage('Select a state', required)
                 },
                 address: {
