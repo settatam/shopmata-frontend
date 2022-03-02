@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\StoreLocation;
 use Illuminate\Support\Facades\Log;
+use App\Models\Country;
+
 
 class ShippingController extends Controller
 {
@@ -19,7 +21,9 @@ class ShippingController extends Controller
     {
         //
         $locations = StoreLocation::orderBy('id', 'desc')->get();
-        return Inertia::render('Settings/Shipping/Index', compact('locations'));
+        $countries = Country::where('status', 1)->get();
+        $countries->load('states');
+        return Inertia::render('Settings/Shipping/Index', compact('countries','locations'));
     }
 
     /**
