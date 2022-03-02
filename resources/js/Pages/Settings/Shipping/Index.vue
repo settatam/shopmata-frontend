@@ -243,27 +243,7 @@
                                                                         class="w-5 h-5 text-red-500 cursor-pointer"
                                                                     />
 
-                                                                    <delete-alert
-                                                                        v-if="
-                                                                            isDeleteShippingRate
-                                                                        "
-                                                                        :delete_msg="
-                                                                            this
-                                                                                .delete_msg_shipping_rate
-                                                                        "
-                                                                        :open="
-                                                                            openDelete
-                                                                        "
-                                                                        @close="
-                                                                            emitClose
-                                                                        "
-                                                                        :id="
-                                                                            shipping.id
-                                                                        "
-                                                                        :delete_url="
-                                                                            delete_url_shipping_rate
-                                                                        "
-                                                                    />
+                                                                    
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -275,9 +255,11 @@
                                 </div>
                             </div>
                             <pick-up-modal
-                                @close="this.popUp = false"
-                                v-if="this.popUp"
+                                @close="popUp = false"
+                                v-if="popUp"
                             />
+                            
+
                             <div class="pl-5 pr-2 mt-5 py-7 bg-white">
                                 <div class="rounded-sm flex flex-col">
                                     <div class="flex">
@@ -296,10 +278,10 @@
                                             <p
                                                 class="text-indigo-600 cursor-pointer"
                                                 v-if="
-                                                    this.local_pickups.length !=
+                                                    local_pickups.length !=
                                                         0
                                                 "
-                                                @click="this.popUp = true"
+                                                @click="popUp = true"
                                             >
                                                 Add Location
                                             </p>
@@ -326,7 +308,7 @@
                                 </div>
                                 <div
                                     class="flex flex-col items-center"
-                                    v-if="this.local_pickups.length == 0"
+                                    v-if="local_pickups.length == 0"
                                 >
                                     <p class="mt-8 mb-6">
                                         No local pickup address, add a location
@@ -335,11 +317,13 @@
                                     <button
                                         type="button"
                                         class="h-12 w-40 rounded-md border border-transparent shadow-sm px-8 py-3 bg-indigo-600 text-base text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                                        @click="this.popUp = true"
+                                        @click="popUp = true"
                                     >
                                         Add location
                                     </button>
                                 </div>
+
+                                <!-- display location -->
                                 <div class="flex flex-col" v-else>
                                     <div
                                         v-for="(location, index) in this
@@ -353,19 +337,6 @@
                                             </p>
                                             <div class="flex justify-between">
                                                 <div class="flex">
-                                                    <delete-alert
-                                                        v-if="isDeleteLocation"
-                                                        :delete_msg="
-                                                            this
-                                                                .delete_msg_location
-                                                        "
-                                                        :open="openDelete"
-                                                        @close="emitClose"
-                                                        :id="location.id"
-                                                        :delete_url="
-                                                            delete_url_location
-                                                        "
-                                                    />
                                                     <location-marker-icon
                                                         class="w-7 h-7 mr-1 pt-2"
                                                     />
@@ -383,21 +354,13 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <pick-up-modal-edit
-                                                    @close="
-                                                        this.popUpEdit = false
-                                                    "
-                                                    :location="location.id"
-                                                    v-if="this.popUpEdit"
-                                                />
+                                                
                                             </div>
                                         </div>
                                         <div
                                             class="flex flex-col justify-between py-5"
                                         >
-                                            <PencilIcon
-                                                class="w-5 h-5 text-indigo-600 cursor-pointer"
-                                            />
+                                            <PencilIcon class="w-5 h-5 text-indigo-600 cursor-pointer" @click="popEditModal(location)"  />
 
                                             <!-- loading svg -->
                                             <svg
@@ -434,7 +397,17 @@
                                             <!-- trash icon ends -->
                                         </div>
                                     </div>
+
+                                    <PickUpModalEdit
+                                                    @close="popUpEdit = false"
+                                                    :location="locationData"
+                                                    v-if="popUpEdit"
+                                                />
                                 </div>
+
+                                
+
+                                <!-- location stops -->
                             </div>
                         </div>
                     </div>
@@ -585,6 +558,7 @@
                             </div>
                         </div>
                     </NotificationGroup>
+
                 </div>
             </div>
         </div>
@@ -592,9 +566,8 @@
 </template>
 
 <script>
-import { reactive, ref, onBeforeMount, computed, onMounted, watch, watchEffect  } from 'vue'
+import { reactive, ref, onBeforeMount  } from 'vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
-import Search from '../../Search.vue'
 import Nav from '../Nav'
 import axios from 'axios'
 import PickUpModal from './Components/PickUpModal.vue'
@@ -607,7 +580,6 @@ import {
     TransitionRoot
 } from '@headlessui/vue'
 import {
-    ChevronLeftIcon,
     GlobeAltIcon,
     ChevronRightIcon
 } from '@heroicons/vue/solid'
@@ -663,36 +635,25 @@ export default {
 
     data () {
         return {
-            popUp: false,
-            popUpEdit: false,
-            delete_msg_location:
-                'Are you sure you want to delete the selected location? The data will be removed and this action cannot be undone.',
-            delete_url_location: '/settings/store-locations',
-            delete_msg_shipping_rate:
-                'Are you sure you want to delete the selected shipping rate? The data will be removed and this action cannot be undone.',
-            delete_url_shipping_rate: '/settings/shipping-rates'
         }
     },
 
     setup (props) {
         const loading = ref(null)
         const pickupLoading = ref(null)
-        const open = ref(false)
         const localDelivery = ref(false)
-        const Modal = ref(false)
-        const isDeleteLocation = ref(false)
-        const openDelete = ref(false)
-        const isDeleteShippingRate = ref(false)
         const shipping_rates = ref([])
-        const popModal = () => {
-            Modal.value = true
+        const popUpEdit = ref(false)
+        const locationData = ref(null)
+        const popUp = ref(false)
+        const popEditModal = (data) => {
+            popUpEdit.value = true
+            locationData.value = data
         }
         const notificationMessage = ref('Sucessfully Deleted')
         const filteredLocations = ref([])
-        let local_pickups = reactive(props.locations)
-
+        const local_pickups = reactive(props.locations)
         const deleteLocation = (id, index) => {
-
             pickupLoading.value = index
             axios
                 .delete(`/settings/store-locations/${id}`)
@@ -708,23 +669,12 @@ export default {
                 })
         }
 
-        // watchEffect (filteredLocations,() => local_pickups = filteredLocations);
-
-        const emitClose = () => {
-            isDeleteLocation.value = false
-            isDeleteShippingRate.value = false
-        }
-
         onBeforeMount(() => {
             axios.get('/settings/shipping-rates').then(res => {
                 shipping_rates.value = res.data.data
             })
         })
 
-        const deleteShippingRate = () => {
-            isDeleteShippingRate.value = true
-            openDelete.value = true
-        }
 
         function onClickTop () {
             notify(
@@ -772,20 +722,17 @@ export default {
             localDelivery,
             deleteLocation,
             local_pickups,
-            Modal,
-            popModal,
             shipping_rates,
-            deleteShippingRate,
-            isDeleteLocation,
-            isDeleteShippingRate,
-            emitClose,
-            openDelete,
             deleteShipping,
             loading,
             onClickTop,
             onClickBot,
             pickupLoading,
-            filteredLocations
+            filteredLocations,
+            popEditModal,
+            popUpEdit,
+            locationData,
+            popUp
         }
     }
 }
