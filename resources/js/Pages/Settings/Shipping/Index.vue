@@ -654,7 +654,6 @@ export default {
         const filteredLocations = ref([])
         const local_pickups = reactive(props.locations)
         const deleteLocation = (id, index) => {
-
             pickupLoading.value = index
             axios
                 .delete(`/settings/store-locations/${id}`)

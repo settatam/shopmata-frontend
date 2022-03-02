@@ -17,7 +17,8 @@ class StoreLocation extends Model
     	'city',
     	'state_id',
     	'country_id',
-    	'store_id'
+    	'store_id',
+        'name'
     ];
 
     protected static function booted()
