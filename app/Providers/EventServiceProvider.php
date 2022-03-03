@@ -8,7 +8,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 
 use App\Events\UserAndStoreCreated;
-use App\Listners\UserAndStoreCreatedListener;
+use App\Listeners\UserAndStoreCreatedListener;
 
 
 
