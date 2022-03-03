@@ -213,12 +213,10 @@
                                 </div>
 
                                 <div class="text-sm">
-                                    <a
-                                        href="#"
-                                        class="font-medium text-indigo-600 hover:text-indigo-500"
-                                    >
+                                    
+                                    <inertia-link  href="/password/reset" class="underline text-sm text-gray-600 hover:text-gray-900">
                                         Forgot your password?
-                                    </a>
+                                    </inertia-link>
                                 </div>
                             </div>
 
@@ -284,6 +282,8 @@ import { ref, reactive, computed, watch } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { Inertia } from "@inertiajs/inertia";
 import { required, email, helpers } from "@vuelidate/validators";
+import { Link } from '@inertiajs/inertia-vue3'
+
 export default {
     data() {
         return {
