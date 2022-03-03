@@ -3,9 +3,9 @@
         <!-- Page 1 start -->
         <div v-if="displayOne" class="flex flex-col w-full">
             <div class="w-8">
-                <div class="px-2 py-2 bg-gray-200 cursor-pointer">
+                <inertia-link href="login" class="px-2 py-2 bg-gray-200 cursor-pointer">
                     <ArrowLeftIcon class="h-5 w-5  text-black" />
-                </div>
+                </inertia-link>
             </div>
 
             <div class="flex flex-col items-center w-full my-32">
