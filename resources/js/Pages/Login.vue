@@ -284,6 +284,8 @@ import { ref, reactive, computed, watch } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { Inertia } from "@inertiajs/inertia";
 import { required, email, helpers } from "@vuelidate/validators";
+import { Link } from '@inertiajs/inertia-vue3'
+
 export default {
     data() {
         return {

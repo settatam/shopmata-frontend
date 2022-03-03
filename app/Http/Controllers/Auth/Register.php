@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash,Auth,Validator,Log,Notification};
 use App\Http\Helpers\Helper;
 
+use App\Events\UserAndStoreCreated;
+
+
 use Exception;
 
 trait Register 
@@ -219,8 +222,9 @@ trait Register
                 Log::info(Auth::id() . ' updated store ' . $store_id . ' with the following details', $input);
             }else{
                 Log::info(Auth::id() . ' could not update store ' . $store_id . ' with the following details', $input);
-                throw new Exception("Failed to save your store");
             }
+
+            event(new UserAndStoreCreated($user));
             
             return  response()->json([
                 'next_url' => 'step-3',
@@ -237,8 +241,8 @@ trait Register
 
 
     public function exMessage($e) {
-        $data = [];
 
+        $data = [];
         $data['exceptionDetails'] = [
             "message" => $e->getMessage(),
             'file' => basename($e->getFile()),
