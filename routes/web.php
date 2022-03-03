@@ -69,6 +69,8 @@ Route::get('/', function () {
 // })->name('dashboard');
 
 Route::get('login', [LoginController::class, 'getLogin'])->name('login');
+Route::post('settings/logout', [LoginController::class, 'logout']);
+
 Route::get('register/step-2', [RegisterController::class, 'registerStep2'])->name('register-step-2');
 Route::get('register/step-3', [RegisterController::class, 'registerStep3'])->name('register-step-3');
 Route::get('register', [RegisterController::class, 'getRegister'])->name('register');
