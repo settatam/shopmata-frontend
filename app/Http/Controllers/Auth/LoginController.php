@@ -17,9 +17,32 @@ class LoginController extends Controller
 {   
     use AuthenticatesUsers;
 
+
+    protected $redirectTo = '/dashboard';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest', ['except' => ['logout']]);
+    }
+
+
+
     public function getLogin() {
         return \Inertia\Inertia::render('Login');
     }
+
+
+
+    public function ForgotPassword(){
+        return \Inertia\Inertia::render('Auth/ForgotPassword');
+    }
+
+
     /**
      * Handle an authentication attempt.
      *
