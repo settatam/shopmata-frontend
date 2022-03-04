@@ -2396,9 +2396,6 @@ select {
 	overflow-wrap: normal;
 	word-break: normal;
 }
-.break-all {
-	word-break: break-all;
-}
 .rounded-md {
 	border-radius: 0.375rem;
 }

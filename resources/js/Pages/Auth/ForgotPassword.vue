@@ -2,8 +2,9 @@
     <div class="min-h-screen bg-white flex mx-4 px-8 py-8">
         <!-- Page 1 start -->
         <div v-if="displayOne" class="flex flex-col w-full">
+
             <div class="w-8">
-                <inertia-link href="login" class="px-2 py-2 bg-gray-200 cursor-pointer">
+                <inertia-link href="/login" class="block px-2 py-2 bg-gray-200 cursor-pointer">
                     <ArrowLeftIcon class="h-5 w-5  text-black" />
                 </inertia-link>
             </div>
