@@ -584,7 +584,6 @@ import LoadingSpinner from '../Components/LoadingSpinner.vue'
 export default {
     props: {
         countries: Array,
-        // states: Array,
         store: Object,
         errors: Object
     },
@@ -604,7 +603,6 @@ export default {
     },
     components: { LoadingSpinner },
     setup (props) {
-        // const store_details = reactive(props.store)
         const countries = props.countries
 
         const store_details = reactive({

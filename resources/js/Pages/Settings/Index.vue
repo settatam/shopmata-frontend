@@ -397,11 +397,6 @@
                                         }})
                                     </option>
                                 </select>
-                                <!-- <p class="w-full text-gray-400 mb-4">You have made your first sale, so you need to 
-                      <inertia-link href="/settings/contact">
-                        <span class="text-indigo-700 cursor-pointer" >contact support</span> 
-                      </inertia-link>
-                    if you want to change your currency</p> -->
                             </div>
                         </div>
                         <button
@@ -580,7 +575,6 @@ import AppLayout from '../../Layouts/AppLayout.vue'
 import Search from '../Search.vue'
 import Nav from './Nav'
 import axios from 'axios'
-//import ErrorIcon from '../../../assets/ErrorIcon.vue'
 import { notify } from 'notiwind'
 import {
     Dialog,
@@ -588,7 +582,7 @@ import {
     TransitionChild,
     TransitionRoot
 } from '@headlessui/vue'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/solid'
+import { ChevronRightIcon } from '@heroicons/vue/solid'
 import { HomeIcon } from '@heroicons/vue/outline'
 import { Inertia } from '@inertiajs/inertia'
 
@@ -657,7 +651,6 @@ export default {
         const loadingFn = () => {
             loading.value = false
             save.value = 'Save Changes'
-            //window.location.href = '/settings/notifications/'
         }
         const errorFn = () => {
             loading.value = false
@@ -694,8 +687,6 @@ export default {
         }
         return {
             statusStyles,
-            //store_details,
-            //states,
             pages,
             state,
             save,
@@ -704,7 +695,6 @@ export default {
             store_details,
             submit,
             loading,
-            //updateStates
             onClickTop,
             onClickBot
         }

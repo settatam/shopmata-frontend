@@ -548,17 +548,6 @@ export default {
         const methods = props.methods
         const selected_method = ref('')
         const loading = ref(false)
-        /* 
-            const store = reactive({
-            store_name: '',
-            domain: '',
-            industry_id: 0,
-            has_website: null,
-            sales_method_id: 0,
-            size_of_business: '',
-            step: 2
-        }) 
-        */
 
         const rules = computed(() => {
             return {
