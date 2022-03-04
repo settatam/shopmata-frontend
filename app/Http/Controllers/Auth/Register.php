@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\{Hash,Auth,Validator,Log,Notification};
 use App\Http\Helpers\Helper;
 
 use App\Events\UserAndStoreCreated;
-
-
+use App\Notifications\SendNotificationForNewStore;
 use Exception;
 
 trait Register 
@@ -46,7 +45,8 @@ trait Register
     }
 
 
-    public  function registerStep2($request) {
+    public  function registerStep2($request) 
+    {
 
         try {
 
