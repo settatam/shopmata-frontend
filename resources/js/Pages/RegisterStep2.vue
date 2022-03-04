@@ -57,7 +57,7 @@
                                     <span
                                         :style="{
                                             'border-radius': '50%',
-                                            padding: '0.4rem 0.8rem',
+                                            padding: '0.4rem 0.8rem'
                                         }"
                                         class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700"
                                         >1</span
@@ -68,7 +68,7 @@
                                     :style="{
                                         'border-left': '2px solid #fff',
                                         'margin-left': '1.2rem',
-                                        padding: '1.3rem',
+                                        padding: '1.3rem'
                                     }"
                                     class="z-0"
                                 ></div>
@@ -76,7 +76,7 @@
                                     <span
                                         :style="{
                                             'border-radius': '50%',
-                                            padding: '0.4rem 0.8rem',
+                                            padding: '0.4rem 0.8rem'
                                         }"
                                         class="w-5 h-5 mr-4 border-solid border-2 border-white z-20 bg-indigo-700 text-white"
                                         >2</span
@@ -89,7 +89,7 @@
                                     :style="{
                                         'border-left': '2px solid #8A8A99',
                                         'margin-left': '1.2rem',
-                                        padding: '1.3rem',
+                                        padding: '1.3rem'
                                     }"
                                     class="z-0"
                                 ></div>
@@ -97,7 +97,7 @@
                                     <span
                                         :style="{
                                             'border-radius': '50%',
-                                            padding: '0.4rem 0.8rem',
+                                            padding: '0.4rem 0.8rem'
                                         }"
                                         class="w-5 h-5 mr-4 border-solid border-2 border-gray-darken z-20 bg-indigo-700 text-gray-darken"
                                         >3</span
@@ -189,8 +189,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.store_name.$error,
-                                                'border-gray-300':
-                                                    !v$.store_name.$error,
+                                                'border-gray-300': !v$
+                                                    .store_name.$error
                                             }"
                                             id="store_name"
                                             name="store_name"
@@ -233,8 +233,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.store_domain.$error,
-                                                'border-gray-300':
-                                                    !v$.store_domain.$error,
+                                                'border-gray-300': !v$
+                                                    .store_domain.$error
                                             }"
                                             id="store_domain"
                                             name="store_domain"
@@ -328,8 +328,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.sales_method_id.$error,
-                                                'border-gray-300':
-                                                    !v$.sales_method_id.$error,
+                                                'border-gray-300': !v$
+                                                    .sales_method_id.$error
                                             }"
                                             name="location"
                                             v-model="store.sales_method_id"
@@ -376,8 +376,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.industry_id.$error,
-                                                'border-gray-300':
-                                                    !v$.industry_id.$error,
+                                                'border-gray-300': !v$
+                                                    .industry_id.$error
                                             }"
                                             name="location"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -425,8 +425,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.has_website.$error,
-                                                'border-gray-300':
-                                                    !v$.has_website.$error,
+                                                'border-gray-300': !v$
+                                                    .has_website.$error
                                             }"
                                             name="has_website"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -459,30 +459,12 @@
                                         :disabled="loading"
                                         :class="{
                                             disabled: loading,
-                                            'opacity-25 cursor-not-allowed':
-                                                loading,
+                                            'opacity-25 cursor-not-allowed': loading
                                         }"
                                         type="submit"
                                         class="w-full lg:w-36 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
-                                        <svg
-                                            v-if="loading"
-                                            role="status"
-                                            class="mr-5 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                                            viewBox="0 0 100 101"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                                fill="currentColor"
-                                            ></path>
-                                            <path
-                                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                                fill="currentFill"
-                                            ></path>
-                                        </svg>
-
+                                        <LoadingSpinner v-if="loading" />
                                         Next
                                     </button>
 
@@ -507,11 +489,12 @@
 </template>
 
 <script>
-import axios from "axios";
-import { ref, reactive, computed, onMounted, onUpdated } from "vue";
-import { Inertia } from "@inertiajs/inertia";
-import useVuelidate from "@vuelidate/core";
-import { required, minValue, helpers, numeric } from "@vuelidate/validators";
+import axios from 'axios'
+import { ref, reactive, computed, onMounted, onUpdated } from 'vue'
+import { Inertia } from '@inertiajs/inertia'
+import useVuelidate from '@vuelidate/core'
+import { required, minValue, helpers, numeric } from '@vuelidate/validators'
+import LoadingSpinner from '../Components/LoadingSpinner.vue'
 
 export default {
     props: {
@@ -519,52 +502,52 @@ export default {
         methods: Array,
         errors: Object,
         countries: Array,
-        store: Object,
+        store: Object
     },
 
-    data() {
+    data () {
         return {
             notification: null,
             show: false,
             user: {
-                email: "",
-                password: "",
+                email: '',
+                password: ''
             },
             selectStore: false,
             stores: [],
-            search: "",
-        };
+            search: ''
+        }
     },
-
-    setup(props) {
-        const storeProp = reactive(props.store);
-        const store = reactive({});
+    components: { LoadingSpinner },
+    setup (props) {
+        const storeProp = reactive(props.store)
+        const store = reactive({})
 
         onMounted(() => {
             if (props.store == null) {
-                store.store_name = "";
-                store.store_domain = "";
-                store.industry_id = 0;
-                store.has_website = null;
-                store.sales_method_id = 0;
-                store.size_of_business = "";
-                store.step = 2;
+                store.store_name = ''
+                store.store_domain = ''
+                store.industry_id = 0
+                store.has_website = null
+                store.sales_method_id = 0
+                store.size_of_business = ''
+                store.step = 2
             } else {
-                store.store_name = storeProp.name;
-                store.store_domain = storeProp.store_domain;
-                store.industry_id = storeProp.industry_id;
-                store.has_website = storeProp.has_website;
-                store.sales_method_id = storeProp.sales_method_id;
-                store.size_of_business = storeProp.size_of_business;
-                store.step = storeProp.step;
-                store.id = storeProp.id;
+                store.store_name = storeProp.name
+                store.store_domain = storeProp.store_domain
+                store.industry_id = storeProp.industry_id
+                store.has_website = storeProp.has_website
+                store.sales_method_id = storeProp.sales_method_id
+                store.size_of_business = storeProp.size_of_business
+                store.step = storeProp.step
+                store.id = storeProp.id
             }
-        });
+        })
 
-        const industries = props.industries;
-        const methods = props.methods;
-        const selected_method = ref("");
-        const loading = ref(false);
+        const industries = props.industries
+        const methods = props.methods
+        const selected_method = ref('')
+        const loading = ref(false)
         /* 
             const store = reactive({
             store_name: '',
@@ -582,60 +565,60 @@ export default {
                 sales_method_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        "Please enter a valid sales method",
+                        'Please enter a valid sales method',
                         minValue(1)
-                    ),
+                    )
                 },
                 has_website: {
                     required,
                     numeric: helpers.withMessage(
-                        "Please select a valid option",
+                        'Please select a valid option',
                         numeric
-                    ),
+                    )
                 },
                 industry_id: {
                     required,
                     minValueValue: helpers.withMessage(
-                        "Please select a valid industry",
+                        'Please select a valid industry',
                         minValue(1)
-                    ),
+                    )
                 },
                 store_name: {
                     required: helpers.withMessage(
-                        "Please enter a valid store name",
+                        'Please enter a valid store name',
                         required
-                    ),
+                    )
                 },
                 store_domain: {
                     required: helpers.withMessage(
-                        "Please enter a valid store domain",
+                        'Please enter a valid store domain',
                         required
-                    ),
-                },
-            };
-        });
-
-        const v$ = useVuelidate(rules, store);
-
-        function submit() {
-            this.v$.$validate();
-            if (this.v$.$error) {
-                return;
+                    )
+                }
             }
-            loading.value = true;
+        })
+
+        const v$ = useVuelidate(rules, store)
+
+        function submit () {
+            this.v$.$validate()
+            if (this.v$.$error) {
+                return
+            }
+            loading.value = true
             axios
-                .post("/store/create", store)
-                .then((response) => {
-                    Inertia.visit("/register/step-3", {
-                        method: "get",
-                    });
+                .post('/store/create', store)
+                .then(response => {
+                    Inertia.visit('/register/step-3', {
+                        method: 'get'
+                    })
                 })
-                .catch((error) => {
-                    loading.value = false;
+                .catch(error => {
+                    loading.value = false
                     if (error.response.data.errors) {
-                        errors.value = error.response.data.errors;
+                        errors.value = error.response.data.errors
                     }
-                });
+                })
         }
         return {
             industries,
@@ -645,10 +628,10 @@ export default {
             store,
             v$,
             loading,
-            storeProp,
-        };
-    },
-};
+            storeProp
+        }
+    }
+}
 </script>
 
 <style scoped>
