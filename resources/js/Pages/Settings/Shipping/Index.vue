@@ -255,7 +255,7 @@
                             <pick-up-modal
                                 @close="popUp = false"
                                 v-if="popUp"
-                                :countries="countryData"
+                                :countries="countries"
                             />
 
                             <div class="pl-5 pr-2 mt-5 py-7 bg-white">
