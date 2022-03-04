@@ -226,7 +226,7 @@ trait Register
 
            /// event(new UserAndStoreCreated($user));
 
-            $user->notify(new SendNotificationForNewStore());
+            $user->notify(new \App\Notifications\SendNotificationForNewStore());
 
             
             return  response()->json([
