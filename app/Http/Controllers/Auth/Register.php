@@ -224,7 +224,10 @@ trait Register
                 Log::info(Auth::id() . ' could not update store ' . $store_id . ' with the following details', $input);
             }
 
-            event(new UserAndStoreCreated($user));
+           /// event(new UserAndStoreCreated($user));
+
+            $user->notify(new SendNotificationForNewStore());
+
             
             return  response()->json([
                 'next_url' => 'step-3',
