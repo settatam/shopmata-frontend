@@ -398,6 +398,7 @@
                                 @add-variant-name="addVariantName"
                                 @added-variant-value="addVariantValue"
                                 @removed-variant-value="removeVariantValue"
+                                v-model:has-variants="product.has_variants"
                             ></variants-form>
 
                             <!-- Link Starts Here -->
@@ -475,8 +476,14 @@
                                                         id="avail_qty"
                                                         class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md"
                                                         aria-describedby="availabnle qty"
+                                                        :disabled="
+                                                            product.has_variants
+                                                        "
+                                                        :readonly="
+                                                            product.has_variants
+                                                        "
                                                         v-model="
-                                                            product.quantity
+                                                            computedQuantity
                                                         "
                                                     />
                                                 </div>
@@ -698,18 +705,18 @@
                                             of 70 characters used
                                         </p>
                                         <div class="mt-1">
-                                            <p
-                                                class="text-red-600 text-xs"
-                                                v-if="
-                                                    v$.product.seo_page_title
-                                                        .$error
-                                                "
-                                            >
-                                                {{
-                                                    v$.product.seo_page_title
-                                                        .$errors[0].$message
-                                                }}
-                                            </p>
+                                            <!--                                            <p-->
+                                            <!--                                                class="text-red-600 text-xs"-->
+                                            <!--                                                v-if="-->
+                                            <!--                                                    v$.product.seo_page_title-->
+                                            <!--                                                        .$error-->
+                                            <!--                                                "-->
+                                            <!--                                            >-->
+                                            <!--                                                {{-->
+                                            <!--                                                    v$.product.seo_page_title-->
+                                            <!--                                                        .$errors[0].$message-->
+                                            <!--                                                }}-->
+                                            <!--                                            </p>-->
                                         </div>
                                     </div>
                                     <div class="mb-6">
@@ -738,18 +745,18 @@
                                             of 320 characters used
                                         </p>
                                         <div class="mt-1">
-                                            <p
-                                                class="text-red-600 text-xs"
-                                                v-if="
-                                                    v$.product.seo_description
-                                                        .$error
-                                                "
-                                            >
-                                                {{
-                                                    v$.product.seo_description
-                                                        .$errors[0].$message
-                                                }}
-                                            </p>
+                                            <!--                                            <p-->
+                                            <!--                                                class="text-red-600 text-xs"-->
+                                            <!--                                                v-if="-->
+                                            <!--                                                    v$.product.seo_description-->
+                                            <!--                                                        .$error-->
+                                            <!--                                                "-->
+                                            <!--                                            >-->
+                                            <!--                                                {{-->
+                                            <!--                                                    v$.product.seo_description-->
+                                            <!--                                                        .$errors[0].$message-->
+                                            <!--                                                }}-->
+                                            <!--                                            </p>-->
                                         </div>
                                     </div>
                                     <div class="mb-6">
@@ -966,14 +973,17 @@
                                         class="py-2 text-xm md:text-xs px-4 rounded border text-gray-600 border-gray-200 w-full"
                                         name="brand_type"
                                         v-model="new_brand"
+                                        placeholder="Brand Name"
                                     />
                                 </div>
 
                                 <div
                                     class="flex cursor-pointer text-indigo-700 my-4 float-right"
+                                    @click="createCustomBrand"
                                 >
                                     <plus-icon class="w-5 h-5 mr-1" />
-                                    <p>Add Brand</p>
+                                    <p v-if="new_brand">Add Brand</p>
+                                    <p v-else>Create Brand</p>
                                 </div>
                             </div>
                         </div>
@@ -1128,14 +1138,14 @@ export default {
                 description: "",
                 brand: "",
                 images: [
-                    // {
-                    //     alt: "",
-                    //     id: 15834,
-                    //     large: "https://fashionerize.nyc3.digitaloceanspaces.com/teddies-afrique/item_16454138374d6e3c8e3ba057efacc43cba98ac0067.jpg",
-                    //     message: "Image Created",
-                    //     thumb: "https://fashionerize.nyc3.digitaloceanspaces.com/teddies-afrique/item_16454138374d6e3c8e3ba057efacc43cba98ac0067_thumb.jpg",
-                    //     status: 0,
-                    // },
+                    {
+                        alt: "",
+                        id: 15834,
+                        large: "https://fashionerize.nyc3.digitaloceanspaces.com/teddies-afrique/item_16454138374d6e3c8e3ba057efacc43cba98ac0067.jpg",
+                        message: "Image Created",
+                        thumb: "https://fashionerize.nyc3.digitaloceanspaces.com/teddies-afrique/item_16454138374d6e3c8e3ba057efacc43cba98ac0067_thumb.jpg",
+                        status: 0,
+                    },
                 ],
                 price: "",
                 compare_at_price: "",
@@ -1173,6 +1183,9 @@ export default {
                     {
                         type: "",
                         values: [],
+                        price: "",
+                        quantity: "",
+                        sku: "",
                     },
                 ],
             },
@@ -1214,12 +1227,6 @@ export default {
                 min_quantity: {
                     numeric,
                 },
-                seo_page_title: {
-                    alphaNum,
-                },
-                seo_description: {
-                    alphaNum,
-                },
                 handle: {
                     alphaNum,
                 },
@@ -1240,6 +1247,19 @@ export default {
                 is_active: this.variants.has_variants ? 1 : 0,
             };
         },
+        computedQuantity: {
+            get() {
+                return this.product.has_variants
+                    ? this.variantList.reduce(
+                          (prev, curr) => prev + parseInt(curr.quantity),
+                          0
+                      )
+                    : this.product.quantity;
+            },
+            set(val) {
+                this.product.quantity = val;
+            },
+        },
     },
     mounted() {
         this.domainWidth = this.$refs.domain_name.clientWidth + 10 + "px";
@@ -1253,6 +1273,20 @@ export default {
                     behavior: "smooth",
                 });
                 return;
+            }
+
+            if (this.product.has_variants) {
+                this.product.variants = [];
+                this.product.available_variant_attributes =
+                    this.variants.options.map((option) => option.type);
+                this.variantList.forEach((variant) => {
+                    this.product.variants.push({
+                        price: variant.price,
+                        sku: variant.sku,
+                        quantity: variant.quantity,
+                        attributes: variant.property,
+                    });
+                });
             }
             const productsRequest = {};
             productsRequest.assets = [];
@@ -1290,7 +1324,7 @@ export default {
             if (!this.show_brand_input) {
                 this.show_brand_input = true;
             } else {
-                // Make a request to the api to create a brand,
+                axios.post("");
 
                 this.show_brand_input = false;
             }
@@ -1321,11 +1355,11 @@ export default {
         },
         removeVariantValue(e) {
             if (!e.e) return false;
-            let index = e.index;
+            let index = parseInt(e.index);
             let text = e.e[0];
             let indice = this.variants.options[index].values.indexOf(text);
-            this.variants.options[index].values.splice(this.variants.options[index].values.indexOf(text), 1);
-            console.log(e);
+            this.variants.options[index].values.splice(indice, 1);
+            this.displayVariants();
         },
         addCategory() {
             this.inventory.category.push({
@@ -1445,7 +1479,11 @@ export default {
 
             for (let i = 0; i < base_attribute.values.length; i++) {
                 for (let k = 0; k < first_attribute; k++) {
-                    z[q].push(base_attribute.values[i]);
+                    console.log(base_attribute);
+                    z[q].push({
+                        attribute: base_attribute.type,
+                        value: base_attribute.values[i],
+                    });
                     q++;
                 }
             }
@@ -1456,7 +1494,11 @@ export default {
                 q = 0;
                 for (let k = 0; k < second_attributes; k++) {
                     for (let i = 0; i < attributes[1].values.length; i++) {
-                        z[q].push(attributes[1].values[i]);
+                        console.log(attributes[1]);
+                        z[q].push({
+                            attribute: attributes[1].type,
+                            value: attributes[1].values[i],
+                        });
                         q++;
                     }
                 }
@@ -1468,7 +1510,11 @@ export default {
                 q = 0;
                 for (let k = 0; k < third_attributes; k++) {
                     for (let i = 0; i < attributes[2].values.length; i++) {
-                        z[q].push(attributes[2].values[i]);
+                        console.log(attributes[2]);
+                        z[q].push({
+                            attribute: attributes[2].type,
+                            value: attributes[2].values[i],
+                        });
                         q++;
                     }
                 }
@@ -1477,8 +1523,9 @@ export default {
             let variantList = [];
 
             for (let l = 0; l < z.length; l++) {
+                console.log(z);
                 variantList.push({
-                    name: z[l].join(", "),
+                    property: z[l],
                     price: "",
                     quantity: 1,
                     sku: "",

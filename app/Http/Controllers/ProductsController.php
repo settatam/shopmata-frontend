@@ -224,9 +224,9 @@ class ProductsController extends Controller
             return $sku;
         }
 
-        $firstPortion = strtoupper(substr($product->title, 0, 4));
-        $secondPortion = $product->brand ? strtoupper(substr($product->brand->name, 0, 4)) : strtoupper(RandomFunctions::generateRandomString(4, true));
-        $thirdPortion = $product->type ? strtoupper(substr($product->type->name, 0, 4)) : strtoupper(RandomFunctions::generateRandomString(4, true));
+        $firstPortion = strtoupper(trim(substr($product->title, 0, 4)));
+        $secondPortion = trim($product->brand ? strtoupper(substr($product->brand->name, 0, 4)) : strtoupper(RandomFunctions::generateRandomString(4, true)));
+        $thirdPortion = trim($product->type ? strtoupper(substr($product->type->name, 0, 4)) : strtoupper(RandomFunctions::generateRandomString(4, true)));
         $sku = "$firstPortion-$secondPortion-$thirdPortion";
         $count = ProductVariant::where([
             ['store_id', '=', $product->store_id,],
@@ -526,8 +526,16 @@ class ProductsController extends Controller
             }
             $product->save();
 
+            foreach($product->variants as $variant) {
+                $variant->attributes()->delete();
+                $variant->refresh();
+                $variant->delete();
+
+            }
+
             if($product->has_variants) {
-                $product->variants()->delete();
+
+
                 foreach ($request->input('variants') as $variant) {
                     $productVariant = new ProductVariant();
                     $productVariant->product_id = $product->id;
@@ -544,6 +552,8 @@ class ProductsController extends Controller
                     if (count($variant['attributes']) !== count($variantAttributeTypesHashTable)) {
                         throw new InvalidInputException("The variant attributes must match the available variant attributes");
                     }
+
+
 
                     foreach ($variant['attributes'] as $attribute) {
                         if (!array_key_exists($attribute['attribute'], $variantAttributeTypesHashTable)) {

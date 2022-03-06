@@ -392,70 +392,72 @@
                             @added="addOption"
                             @add-variant-name="addVariantName"
                             @added-variant-value="addVariantValue"
+                            @removed-variant-value="removeVariantValue"
+                            v-model:has-variants="productToUpdate.has_variants"
                         ></variants-form>
 
                         <!-- Link Starts Here -->
-                        <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">
-                            <div
-                                class="flex justify-between cursor-pointer"
-                                @click="link_open = !link_open"
-                            >
-                                <p
-                                    class="text-black font-semibold text-lg mb-6"
-                                >
-                                    Link
-                                </p>
-                                <chevron-up-icon
-                                    class="h-5 w-5 text-indigo-700 cursor-pointer"
-                                    v-if="link_open"
-                                />
-                                <chevron-down-icon
-                                    class="h-5 w-5 text-indigo-700 cursor-pointer"
-                                    v-else
-                                />
-                            </div>
-                            <div v-if="link_open">
-                                <div class="flex flex-col mt-4 text-gray-600">
-                                    <label for="manufacturer"
-                                        >Manufacturer</label
-                                    >
-                                    <input
-                                        type="text"
-                                        name="manufacturer"
-                                        id=""
-                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"
-                                    />
-                                </div>
-                                <div class="flex flex-col mt-4 text-gray-600">
-                                    <label for="Collections">Collections</label>
-                                    <input
-                                        type="text"
-                                        name="Collections"
-                                        id=""
-                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"
-                                    />
-                                </div>
-                                <div class="flex flex-col mt-4 text-gray-600">
-                                    <label for="filters">Filters</label>
-                                    <input
-                                        type="text"
-                                        name="filters"
-                                        id=""
-                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"
-                                    />
-                                </div>
-                                <div class="flex flex-col mt-4 text-gray-600">
-                                    <label for="related"
-                                        >Related Products</label
-                                    >
-                                    <input
-                                        type="text"
-                                        name="related"
-                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+<!--                        <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">-->
+<!--                            <div-->
+<!--                                class="flex justify-between cursor-pointer"-->
+<!--                                @click="link_open = !link_open"-->
+<!--                            >-->
+<!--                                <p-->
+<!--                                    class="text-black font-semibold text-lg mb-6"-->
+<!--                                >-->
+<!--                                    Link-->
+<!--                                </p>-->
+<!--                                <chevron-up-icon-->
+<!--                                    class="h-5 w-5 text-indigo-700 cursor-pointer"-->
+<!--                                    v-if="link_open"-->
+<!--                                />-->
+<!--                                <chevron-down-icon-->
+<!--                                    class="h-5 w-5 text-indigo-700 cursor-pointer"-->
+<!--                                    v-else-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                            <div v-if="link_open">-->
+<!--                                <div class="flex flex-col mt-4 text-gray-600">-->
+<!--                                    <label for="manufacturer"-->
+<!--                                        >Manufacturer</label-->
+<!--                                    >-->
+<!--                                    <input-->
+<!--                                        type="text"-->
+<!--                                        name="manufacturer"-->
+<!--                                        id=""-->
+<!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
+<!--                                    />-->
+<!--                                </div>-->
+<!--                                <div class="flex flex-col mt-4 text-gray-600">-->
+<!--                                    <label for="Collections">Collections</label>-->
+<!--                                    <input-->
+<!--                                        type="text"-->
+<!--                                        name="Collections"-->
+<!--                                        id=""-->
+<!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
+<!--                                    />-->
+<!--                                </div>-->
+<!--                                <div class="flex flex-col mt-4 text-gray-600">-->
+<!--                                    <label for="filters">Filters</label>-->
+<!--                                    <input-->
+<!--                                        type="text"-->
+<!--                                        name="filters"-->
+<!--                                        id=""-->
+<!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
+<!--                                    />-->
+<!--                                </div>-->
+<!--                                <div class="flex flex-col mt-4 text-gray-600">-->
+<!--                                    <label for="related"-->
+<!--                                        >Related Products</label-->
+<!--                                    >-->
+<!--                                    <input-->
+<!--                                        type="text"-->
+<!--                                        name="related"-->
+<!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
+<!--                                    />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <!-- Inventory Starts here -->
 
                         <div
@@ -503,9 +505,13 @@
                                                     id="avail_qty"
                                                     class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md"
                                                     aria-describedby="availabnle qty"
-                                                    v-model="
-                                                        productToUpdate.quantity
+                                                    :disabled="
+                                                        product.has_variants
                                                     "
+                                                    :readonly="
+                                                        product.has_variants
+                                                    "
+                                                    v-model="computedQuantity"
                                                 />
                                             </div>
                                             <div class="mt-1">
@@ -707,6 +713,7 @@
                                     </label>
                                     <input
                                         :class="[
+                                            productToUpdate.seo_page_title &&
                                             productToUpdate.seo_page_title
                                                 .length > 70
                                                 ? 'focus:ring-red-500 focus:border-red-500'
@@ -719,25 +726,26 @@
                                     />
                                     <p class="text-gray-500">
                                         {{
+                                            productToUpdate.seo_page_title &&
                                             productToUpdate.seo_page_title
                                                 .length
                                         }}
                                         of 70 characters used
                                     </p>
                                     <div class="mt-1">
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="
-                                                v$.productToUpdate
-                                                    .seo_page_title.$error
-                                            "
-                                        >
-                                            {{
-                                                v$.productToUpdate
-                                                    .seo_page_title.$errors[0]
-                                                    .$message
-                                            }}
-                                        </p>
+                                        <!--                                        <p-->
+                                        <!--                                            class="text-red-600 text-xs"-->
+                                        <!--                                            v-if="-->
+                                        <!--                                                v$.productToUpdate-->
+                                        <!--                                                    .seo_page_title.$error-->
+                                        <!--                                            "-->
+                                        <!--                                        >-->
+                                        <!--                                            {{-->
+                                        <!--                                                v$.productToUpdate-->
+                                        <!--                                                    .seo_page_title.$errors[0]-->
+                                        <!--                                                    .$message-->
+                                        <!--                                            }}-->
+                                        <!--                                        </p>-->
                                     </div>
                                 </div>
                                 <div class="mb-6">
@@ -752,6 +760,7 @@
                                         rows="6"
                                         cols="50"
                                         :class="[
+                                            productToUpdate.seo_description &&
                                             productToUpdate.seo_description
                                                 .length > 320
                                                 ? 'focus:ring-red-500 focus:border-red-500'
@@ -765,25 +774,26 @@
                                     />
                                     <p class="text-gray-500">
                                         {{
+                                            productToUpdate.seo_description &&
                                             productToUpdate.seo_description
                                                 .length
                                         }}
                                         of 320 characters used
                                     </p>
                                     <div class="mt-1">
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="
-                                                v$.productToUpdate
-                                                    .seo_description.$error
-                                            "
-                                        >
-                                            {{
-                                                v$.productToUpdate
-                                                    .seo_description.$errors[0]
-                                                    .$message
-                                            }}
-                                        </p>
+                                        <!--                                        <p-->
+                                        <!--                                            class="text-red-600 text-xs"-->
+                                        <!--                                            v-if="-->
+                                        <!--                                                v$.productToUpdate-->
+                                        <!--                                                    .seo_description.$error-->
+                                        <!--                                            "-->
+                                        <!--                                        >-->
+                                        <!--                                            {{-->
+                                        <!--                                                v$.productToUpdate-->
+                                        <!--                                                    .seo_description.$errors[0]-->
+                                        <!--                                                    .$message-->
+                                        <!--                                            }}-->
+                                        <!--                                        </p>-->
                                     </div>
                                 </div>
                                 <div class="mb-6">
@@ -895,18 +905,17 @@ import {
     TransitionRoot,
 } from "@headlessui/vue";
 import {
+    ChevronDownIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
-    ChevronDownIcon,
     ChevronUpIcon,
 } from "@heroicons/vue/solid";
 import {
     ChartPieIcon,
-    InformationCircleIcon,
     HomeIcon,
+    InformationCircleIcon,
 } from "@heroicons/vue/outline";
 import hljs from "highlight.js";
-import InventoryForm from "./Components/InventoryForm";
 import ShippingForm from "./Components/ShippingForm";
 import VariantsForm from "./Components/VariantsForm";
 import MediaUrlModal from "./Components/MediaUrlModal";
@@ -1047,12 +1056,7 @@ export default {
             variants: {
                 has_variants: true,
                 is_active: 0,
-                options: [
-                    {
-                        type: "",
-                        values: [],
-                    },
-                ],
+                options: [],
             },
             files: [],
             showUrlModal: false,
@@ -1092,12 +1096,6 @@ export default {
                 min_quantity: {
                     numeric,
                 },
-                seo_page_title: {
-                    alphaNum,
-                },
-                seo_description: {
-                    alphaNum,
-                },
                 handle: {
                     alphaNum,
                 },
@@ -1118,12 +1116,28 @@ export default {
                 is_active: this.variants.has_variants ? 1 : 0,
             };
         },
+        computedQuantity: {
+            get() {
+                return this.productToUpdate.has_variants
+                    ? this.variantList.reduce(
+                          (prev, curr) => prev + parseInt(curr.quantity),
+                          0
+                      )
+                    : this.productToUpdate.quantity;
+            },
+            set(val) {
+                this.productToUpdate.quantity = val;
+            },
+        },
     },
     mounted() {
         this.domainWidth = this.$refs.domain_name.clientWidth + 10 + "px";
         let keys = Object.keys(this.productToUpdate);
         keys.map((key) => {
-            this.productToUpdate[key] = this.product[key];
+            if (key === "has_variants") {
+                this.productToUpdate.has_variants =
+                    this.product.has_variants === 1;
+            } else this.productToUpdate[key] = this.product[key];
         });
         this.productToUpdate.sell_out_of_stock =
             !!this.product.sell_out_of_stock;
@@ -1140,6 +1154,38 @@ export default {
             id: asset.id,
         }));
         this.$refs.description.setHTML(this.productToUpdate.description);
+        if (this.productToUpdate.has_variants) {
+            this.variants.has_variants = true;
+            this.product.variants.map((variant, index) => {
+                variant.attributes.forEach((attribute) => {
+                    if (index === 0) {
+                        this.variants.options.push({
+                            price: "",
+                            quantity: "",
+                            sku: "",
+                            type: attribute.attribute,
+                            values: [attribute.value],
+                        });
+                    } else {
+                        const values = this.variants.options.filter(
+                            (option) => option.type === attribute.attribute
+                        )[0].values;
+                        if (!values.includes(attribute.value)) {
+                            this.variants.options
+                                .filter(
+                                    (option) =>
+                                        option.type === attribute.attribute
+                                )[0]
+                                .values.push(attribute.value);
+                        }
+                    }
+                });
+                this.variantList.push({
+                    ...variant,
+                    property: variant.attributes,
+                });
+            });
+        }
     },
     methods: {
         updateProduct() {
@@ -1147,10 +1193,24 @@ export default {
             if (this.v$.$error) {
                 alert("I got here");
                 console.log(window);
-                document.getElementById();
+                // document.getElementById();
                 return;
             }
             const productsRequest = {};
+            if (this.productToUpdate.has_variants) {
+                productsRequest.variants = [];
+                productsRequest.available_variant_attributes =
+                    this.variants.options.map((option) => option.type);
+                this.variantList.forEach((variant) => {
+                    productsRequest.variants.push({
+                        price: variant.price,
+                        sku: variant.sku,
+                        quantity: variant.quantity,
+                        attributes: variant.property,
+                    });
+                });
+            }
+
             productsRequest.assets = [];
             this.productToUpdate.images.map((image) => {
                 productsRequest.assets.push({
@@ -1160,7 +1220,9 @@ export default {
                 });
             });
             Object.keys(this.productToUpdate).map((key) => {
-                productsRequest[key] = this.productToUpdate[key];
+                if(key !== 'variants') {
+                    productsRequest[key] = this.productToUpdate[key];
+                }
             });
             this.submitting = true;
             axios
@@ -1197,10 +1259,19 @@ export default {
             this.variants.options[index].name = e.target.value;
             //console.log(e)
         },
+        removeVariantValue(e) {
+            if (!e.e) return false;
+            let index = parseInt(e.index);
+            let text = e.e[0];
+            let indice = this.variants.options[index].values.indexOf(text);
+            this.variants.options[index].values.splice(indice, 1);
+            this.displayVariants();
+        },
         addVariantValue(e) {
             if (!e) return false;
             let index = e[1];
             let name = e[0];
+            console.log(name)
             this.variants.options[index].values.push(name);
             this.displayVariants();
         },
@@ -1321,7 +1392,11 @@ export default {
 
             for (let i = 0; i < base_attribute.values.length; i++) {
                 for (let k = 0; k < first_attribute; k++) {
-                    z[q].push(base_attribute.values[i]);
+                    console.log(base_attribute);
+                    z[q].push({
+                        attribute: base_attribute.type,
+                        value: base_attribute.values[i],
+                    });
                     q++;
                 }
             }
@@ -1332,7 +1407,11 @@ export default {
                 q = 0;
                 for (let k = 0; k < second_attributes; k++) {
                     for (let i = 0; i < attributes[1].values.length; i++) {
-                        z[q].push(attributes[1].values[i]);
+                        console.log(attributes[1]);
+                        z[q].push({
+                            attribute: attributes[1].type,
+                            value: attributes[1].values[i],
+                        });
                         q++;
                     }
                 }
@@ -1344,7 +1423,11 @@ export default {
                 q = 0;
                 for (let k = 0; k < third_attributes; k++) {
                     for (let i = 0; i < attributes[2].values.length; i++) {
-                        z[q].push(attributes[2].values[i]);
+                        console.log(attributes[2]);
+                        z[q].push({
+                            attribute: attributes[2].type,
+                            value: attributes[2].values[i],
+                        });
                         q++;
                     }
                 }
@@ -1353,8 +1436,9 @@ export default {
             let variantList = [];
 
             for (let l = 0; l < z.length; l++) {
+                console.log(z);
                 variantList.push({
-                    name: z[l].join(", "),
+                    property: z[l],
                     price: "",
                     quantity: 1,
                     sku: "",
@@ -1382,6 +1466,7 @@ export default {
 </script>
 <style scoped>
 @import "style.css";
+
 .quill {
     display: flex;
     flex-direction: column;
