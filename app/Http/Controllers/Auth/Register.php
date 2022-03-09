@@ -226,7 +226,9 @@ trait Register
 
            /// event(new UserAndStoreCreated($user));
 
-            $user->notify(new \App\Notifications\SendNotificationForNewStore());
+           // $user->notify(new \App\Notifications\SendNotificationForNewStore());
+            \Mail::to("jacob.atam@gmail.com")->send(new \App\Mail\StoreCreated());
+
 
             
             return  response()->json([
