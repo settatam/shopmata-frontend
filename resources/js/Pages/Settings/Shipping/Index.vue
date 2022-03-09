@@ -122,7 +122,7 @@
                                             <div
                                                 class="py-2 inline-block min-w-full sm:px-6 lg:px-8"
                                             >
-                                                <div class="overflow-hidden">
+                                                <div class="overflow-scroll">
                                                     <table class="min-w-full">
                                                         <thead class="border-b">
                                                             <tr>
@@ -399,7 +399,7 @@
                                         @close="popUpEdit = false"
                                         :location="locationData"
                                         v-if="popUpEdit"
-                                        :countries="countryData"
+                                        :countries="countries"
                                     />
                                 </div>
 
@@ -574,10 +574,8 @@ import {
     TransitionChild,
     TransitionRoot
 } from '@headlessui/vue'
-import { GlobeAltIcon, ChevronRightIcon } from '@heroicons/vue/solid'
+import { ChevronRightIcon } from '@heroicons/vue/solid'
 import {
-    BriefcaseIcon,
-    LocationMarkerIcon,
     HomeIcon,
     TrashIcon,
     PencilIcon,
@@ -586,7 +584,6 @@ import {
 import { Inertia } from '@inertiajs/inertia'
 import DeliveryModal from './Components/DeliveryModal.vue'
 import Tooltip from '../../../Components/Tooltip/Components/Tooltip.vue'
-import DeleteAlert from '../../../Components/DeleteAlert.vue'
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -612,21 +609,13 @@ export default {
         TransitionRoot,
         ChevronRightIcon,
         HomeIcon,
-        GlobeAltIcon,
-        BriefcaseIcon,
-        LocationMarkerIcon,
         PickUpModal,
         PickUpModalEdit,
         TrashIcon,
         PencilIcon,
         DeliveryModal,
         QuestionMarkCircleIcon,
-        Tooltip,
-        DeleteAlert
-    },
-
-    data () {
-        return {}
+        Tooltip
     },
 
     setup (props) {
@@ -636,16 +625,16 @@ export default {
         const shipping_rates = ref([])
         const popUpEdit = ref(false)
         const locationData = ref(null)
-        const countryData = ref([])
+        const countries = ref([])
         const popUp = ref(false)
         const popModal = () => {
-            countryData.value = props.countries
+            countries.value = props.countries
             popUp.value = true
         }
         const popEditModal = data => {
             popUpEdit.value = true
             locationData.value = data
-            countryData.value = props.countries
+            countries.value = props.countries
         }
         const notificationMessage = ref('Sucessfully Deleted')
         const filteredLocations = ref([])
@@ -730,7 +719,7 @@ export default {
             locationData,
             popUp,
             popModal,
-            countryData
+            countries
         }
     }
 }

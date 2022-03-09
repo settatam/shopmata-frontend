@@ -302,11 +302,9 @@ import { ref, reactive, computed } from 'vue'
 import {
     Dialog,
     DialogOverlay,
-    DialogTitle,
     TransitionChild,
     TransitionRoot
 } from '@headlessui/vue'
-import { XIcon } from '@heroicons/vue/solid'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
 import useVuelidate from '@vuelidate/core'
@@ -319,9 +317,7 @@ export default {
     components: {
         Dialog,
         DialogOverlay,
-        DialogTitle,
         TransitionChild,
-        XIcon,
         TransitionRoot
     },
 
