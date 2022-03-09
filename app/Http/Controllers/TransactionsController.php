@@ -45,7 +45,7 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        //
+        return Inertia::render('Transactions/Show');
     }
 
     /**
