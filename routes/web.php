@@ -43,7 +43,9 @@ use App\Http\Controllers\StoreBlogController;
 
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\OnlineStore\CodeEditorController;
-use App\Http\Controllers\OnlineStore\ThemeController;
+use App\Http\Controllers\OnlineStore\ThemeController; 
+use App\Http\Controllers\TransactionsController; 
+
 use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
 use App\Http\Controllers\OnlineStore\NavigationController;
 use App\Http\Controllers\OnlineStore\LocationController;
