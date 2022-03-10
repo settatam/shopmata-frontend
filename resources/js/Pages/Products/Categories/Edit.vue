@@ -218,15 +218,15 @@
                                     id="title"
                                     class="block w-full pr-10 sm:text-sm rounded-md border-gray-300"
                                     :class="
-                                        page.title.length > 70
+                                        page.seo_title.length > 70
                                             ? '[border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500]'
                                             : ''
                                     "
-                                    v-model="page.title"
+                                    v-model="page.seo_title"
                                 />
                                 <div
                                     class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
-                                    v-if="page.title.length > 70"
+                                    v-if="page.seo_title.length > 70"
                                 >
                                     <ExclamationCircleIcon
                                         class="h-5 w-5 text-red-500"
@@ -235,14 +235,14 @@
                                 </div>
                             </div>
                             <p class="text-gray-500">
-                                {{ page.title.length }} of 70 characters used
+                                {{ page.seo_title.length }} of 70 characters used
                             </p>
-                            <!-- <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.title.length > 70)">Your title must be less than 70 characters.</p> -->
+                            <!-- <p class="mt-2 text-sm text-red-600" id="seo_title-error" v-if="(page.seo_title.length > 70)">Your seo_title must be less than 70 characters.</p> -->
                             <span
-                                v-if="v$.page.title.$error"
+                                v-if="v$.page.seo_title.$error"
                                 class="text-red-400"
                             >
-                                {{ v$.page.title.$errors[0].$message }}
+                                {{ v$.page.seo_title.$errors[0].$message }}
                             </span>
                         </div>
                         <div class="mt-9">
@@ -258,15 +258,15 @@
                                     id="title"
                                     class="block w-full pr-10 sm:text-sm rounded-md border-gray-300"
                                     :class="
-                                        page.description.length > 70
+                                        page.seo_description.length > 70
                                             ? '[border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500]'
                                             : ''
                                     "
-                                    v-model="page.description"
+                                    v-model="page.seo_description"
                                 />
                                 <div
                                     class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
-                                    v-if="page.description.length > 70"
+                                    v-if="page.seo_description.length > 70"
                                 >
                                     <ExclamationCircleIcon
                                         class="h-5 w-5 text-red-500"
@@ -275,18 +275,18 @@
                                 </div>
                             </div>
                             <p class="text-gray-500">
-                                {{ page.description.length }} of 70 characters
+                                {{ page.seo_description.length }} of 70 characters
                                 used
                             </p>
-                            <!-- <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.description.length > 70)">Your description must be less than 70 characters.</p> -->
+                            <!-- <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.seo_description.length > 70)">Your seo_description must be less than 70 characters.</p> -->
                             <span
-                                v-if="v$.page.description.$error"
+                                v-if="v$.page.seo_description.$error"
                                 class="text-red-400"
                             >
-                                {{ v$.page.description.$errors[0].$message }}
+                                {{ v$.page.seo_description.$errors[0].$message }}
                             </span>
                         </div>
-                        <div class="mb-6">
+                        <div class="mb-6 mt-9">
                             <label
                                 class="block text-gray-600 mb-2 bg-transparent"
                                 for="url_handle"
@@ -326,26 +326,6 @@
                                     {{ v$.page.url.$errors[0].$message }}
                                 </p>
                             </div>
-                        </div>
-                        <div class="mt-9">
-                            <label
-                                for="title"
-                                class="block text-sm font-medium text-gray-700"
-                                >URL and Handle</label
-                            >
-                            <div class="mt-1 relative rounded-md shadow-sm">
-                                <input
-                                    type="text"
-                                    name="url"
-                                    id="title"
-                                    class="block w-full pr-10 sm:text-sm rounded-md border-gray-300 placeholder-gray-500"
-                                    v-model="page.url"
-                                    placeholder="https://www.cashinmybag.com/products/"
-                                />
-                            </div>
-                            <span v-if="v$.page.url.$error">
-                                {{ v$.page.url.$errors[0].$message }}
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -408,8 +388,10 @@ import { Inertia } from "@inertiajs/inertia";
 export default {
     props: {
         category: Object,
+        store: Object
     },
     mounted() {
+        this.domainWidth = this.$refs.domain_name.clientWidth + 10 + "px";
         this.conditions = JSON.parse(this.category.conditions).map(
             (condition) => ({
                 tag: condition.attribute,
@@ -423,6 +405,7 @@ export default {
     data: function () {
         return {
             v$: useVuelidate(),
+            domainWidth: "0",
             submitting: false,
             theme_template: "Default Collection",
             conditions: [
@@ -472,8 +455,8 @@ export default {
             condition_label: "is equal to",
             toggle: true,
             page: {
-                description: "",
-                title: "",
+                seo_description: "",
+                seo_title: "",
                 url: "",
             },
             collection: {
@@ -549,14 +532,14 @@ export default {
     validations() {
         return {
             page: {
-                description: {
+                seo_description: {
                     required: helpers.withMessage(
                         "This field cannot be empty",
                         required
                     ),
                     minLength: maxLength(70),
                 },
-                title: {
+                seo_title: {
                     required: helpers.withMessage(
                         "This field cannot be empty",
                         required
@@ -568,7 +551,6 @@ export default {
                         "This field cannot be empty",
                         required
                     ),
-                    url,
                 },
             },
             collection: {

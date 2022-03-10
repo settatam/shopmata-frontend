@@ -76,6 +76,7 @@ class CollectionsController extends Controller
             $collection->image_thumb = $request->input('image_thumb') ?? $collection->image_thumb;
             $collection->image_alt = $request->input('image_alt') ?? $collection->image_alt;
             $collection->handle = $collectionSlug;
+            $collection->page_title = $request->input('seo_title');
             $collection->conditions = json_encode($request->input('conditions'), JSON_THROW_ON_ERROR);
             $collection->save();
             return response([
