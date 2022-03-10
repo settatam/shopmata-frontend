@@ -50,6 +50,7 @@ module.exports = {
                     lighter: "#5C5C66",
                     darker: "#333333",
                     darken: "#8A8A99",
+                    background: "#E5E5E5",
                 },
                 purplish: {
                     light: "#F2F1FE"

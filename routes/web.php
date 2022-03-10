@@ -43,7 +43,9 @@ use App\Http\Controllers\StoreBlogController;
 
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\OnlineStore\CodeEditorController;
-use App\Http\Controllers\OnlineStore\ThemeController;
+use App\Http\Controllers\OnlineStore\ThemeController; 
+use App\Http\Controllers\TransactionsController; 
+
 use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
 use App\Http\Controllers\OnlineStore\NavigationController;
 use App\Http\Controllers\OnlineStore\LocationController;
@@ -104,8 +106,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('dashboard/data', [DashboardController::class, 'getData']);
     Route::get('/get/user/store/products', [StoreController::class, 'getStoreProducts']);
-
-
     #Products
     Route::get('products/', [ProductsController::class, 'index'])->name('products');
     Route::get('products/get-data', [ProductsController::class, 'getData'])->name('products.data');
@@ -143,7 +143,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('orders/create', [OrdersController::class, 'store']);
     Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
     Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
-
     //Bank Details
 
 
@@ -170,7 +169,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     #Settings -> Remittance
     Route::resource('settings/remittance', PayoutSettingsController::class);
-
+    Route::resource('transactions',        TransactionsController::class);
 
     #Settings -> Shipping and Delivery
     Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
