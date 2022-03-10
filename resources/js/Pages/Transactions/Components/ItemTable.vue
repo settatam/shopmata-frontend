@@ -1,58 +1,58 @@
 <template>
-    <div class=" rounded-md bg-white ml-3 mr-3 my-4 overflow-scroll">
+    <div class=" rounded-md bg-white my-4 overflow-scroll lg:mx-2">
         <table class="min-w-full">
             <thead class="border-b table-auto">
                 <tr>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         TYPE
                     </th>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         PICTURE
                     </th>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         DESCRIPTION
                     </th>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         QTY
                     </th>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         OVERRIDE
                     </th>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         DWT
                     </th>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         PRICE
                     </th>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         INOTES
                     </th>
                     <th
-                        class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         EDIT/DELETE
@@ -63,37 +63,37 @@
             <tbody>
                 <tr v-for="item in items" :key="item.index">
                     <td
-                        class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.type }}
                     </td>
                     <td
-                        class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.img }}
                     </td>
                     <td
-                        class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.description }}
                     </td>
                     <td
-                        class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.qty }}
                     </td>
                     <td
-                        class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.override }}
                     </td>
                     <td
-                        class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.dwt }}
                     </td>
                     <td
-                        class="text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.price }}
                     </td>
@@ -102,7 +102,7 @@
         </table>
 
         <!-- total -->
-        <div class="flex flex-row justify-end w-full space-x-4 my-4 font-bold">
+        <div class="flex flex-row justify-end w-full space-x-4 my-4 font-bold text-xs lg:text-sm">
             <p>Toal Value: 1</p>
             <p>$600.00</p>
             <p class="pr-16">Estimated Profit: $600</p>

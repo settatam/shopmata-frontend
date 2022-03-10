@@ -1,6 +1,6 @@
 <template>
-    <div class=" rounded-md bg-white ml-3">
-        <div class="rounded-t-md w-full bg-purple-darken py-4 pl-4 text-white">
+    <div class=" rounded-md bg-white lg:mx-2">
+        <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1>Kit Information</h1>
         </div>
 
@@ -26,42 +26,42 @@
             </div>
 
             <!-- images start -->
-            <div class="m-4">
+            <div class="">
                 <div class="p-4 flex flex-row justify-between">
                     <div>
                         <input type="checkbox" id="vehicle1" name="Tyvek" />
-                        <label for="vehicle1"> Tyvek</label>
+                        <label for="vehicle1" class="text-xs lg:text-sm"> Tyvek</label>
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle2" name="Fedex" />
-                        <label for="vehicle2"> Fedex</label>
+                        <label for="vehicle2" class="text-xs lg:text-sm"> Fedex</label>
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="Customer" />
-                        <label for="vehicle3"> Customer</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm"> Customer</label>
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="Other" />
-                        <label for="vehicle3"> Other</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm"> Other</label>
                     </div>
                 </div>
 
                 <div class="p-4 flex flex-row justify-between">
                     <div>
                         <input type="checkbox" id="vehicle3" name="10%" />
-                        <label for="vehicle3"> 10%</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm"> 10%</label>
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="FedexGr" />
-                        <label for="vehicle3"> Fedex Gr</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm"> Fedex Gr</label>
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="FedexEx" />
-                        <label for="vehicle3"> Fedex Ex</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm"> Fedex Ex</label>
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="Box" />
-                        <label for="vehicle3"> Box</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm"> Box</label>
                     </div>
                 </div>
             </div>

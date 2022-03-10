@@ -2,8 +2,20 @@
     <app-layout>
         <!-- Page header -->
         <div id="container" class="flex flex-col mx-3">
-            <div class="flex flex-col justify-start m-3">
-                <h1 class="font-bold">Transactions</h1>
+            <div class="flex flex-row justify-between">
+                <div class="flex flex-col justify-start m-3">
+                    <h1 class="mt-4 font-bold">Transactions</h1>
+                </div>
+
+                <div class="lg:hidden flex flex-row justify-start mr-3 py-4">
+                    <button
+                        class="bg-purple-darken px-2 py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
+                        type="submit"
+                    >
+                        <PlusIcon class="h-4 w-5 inline-flex items-center" />
+                        <span class="pl-2">Add Customer</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Search start -->
@@ -38,36 +50,54 @@
 
             <!-- transaction items -->
             <table class="my-4 mx-3 bg-white rounded-md">
-                <tr class="flex justify-between">
-                    <th class="px-6 pt-6 ">Items</th>
-                    <th class="mr-44 md:mr-64 lg:mr-64 pt-6">Customers</th>
-                </tr>
-                <hr class="bg-gray-background text-gray-background" />
+                <thead class="border-b table-auto">
+                    <tr class="font-semibold tracking-wide text-left">
+                        <th
+                            class="text-sm font-medium text-gray-600 px-5 mr-1 py-1"
+                            scope="col"
+                        >
+                            Items
+                        </th>
+                        <th
+                            class="text-sm font-medium text-gray-600 px-5 mr-1 py-1"
+                            scope="col"
+                        >
+                            Customers
+                        </th>
+                    </tr>
+                </thead>
 
-                <tr v-for="item in transactions" :key="item.index" class="py-3">
-                    <div class="flex flex-row justify-between">
-                        <div class="py-4 px-6 flex flex-col">
-                            <td class="text-gray-darken text-sm">
-                                Multiple item:
-                                <span class="text-black font-medium">{{
-                                    item.multipleItem
-                                }}</span>
-                            </td>
-                            <td class="text-gray-darken text-sm">
-                                Description:
-                                <span class="text-black font-medium">{{
-                                    item.description
-                                }}</span>
-                            </td>
-                            <td class="text-gray-darken text-sm">
-                                Comments:
-                                <span class="text-black font-medium">{{
-                                    item.comments
-                                }}</span>
-                            </td>
-                        </div>
+                <tbody>
+                    <tr
+                        v-for="item in transactions"
+                        :key="item.index"
+                        class="py-3"
+                    >
+                        <td class="">
+                            <div class="py-4 px-6 flex flex-col">
+                                <td class="text-gray-darken text-sm">
+                                    Multiple item:
+                                    <span class="text-black font-medium">{{
+                                        item.multipleItem
+                                    }}</span>
+                                </td>
+                                <td class="text-gray-darken text-sm">
+                                    Description:
+                                    <span class="text-black font-medium">{{
+                                        item.description
+                                    }}</span>
+                                </td>
+                                <td class="text-gray-darken text-sm">
+                                    Comments:
+                                    <span class="text-black font-medium">{{
+                                        item.comments
+                                    }}</span>
+                                </td>
+                            </div>
+                        </td>
 
-                        <div class="flex flex-row">
+
+                        <td class="flex flex-col lg:flex-row border-b border-gray-background">
                             <!-- trans info -->
                             <div class="py-4 px-6 flex flex-col">
                                 <td class="text-purple-darken font-bold">
@@ -95,10 +125,10 @@
                                     Send Kit
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                    <hr class="bg-gray-background text-gray-background" />
-                </tr>
+                        </td>
+
+                    </tr>
+                </tbody>
             </table>
         </div>
     </app-layout>
@@ -108,7 +138,7 @@
 import { ref, reactive } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
-import { SearchIcon } from '@heroicons/vue/solid'
+import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
 import { MailIcon } from '@heroicons/vue/outline'
 
 const transactions = [
@@ -133,7 +163,8 @@ export default {
     components: {
         AppLayout,
         SearchIcon,
-        MailIcon
+        MailIcon,
+        PlusIcon
     },
     props: {
         notifications: Array

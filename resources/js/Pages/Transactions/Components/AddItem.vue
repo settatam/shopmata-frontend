@@ -107,7 +107,7 @@
                                     </div>
                                 </div>
 
-                                <div class="flex required  mb-4">
+                                <div class="flex flex-col lg:flex-row required  mb-4">
                                     <div class="mr-2 w-full">
                                         <label
                                             class="block text-gray-600 font-semibold mb-2 bg-transparent"
@@ -135,7 +135,7 @@
                                         </p>
                                     </div>
 
-                                    <div class="ml-2 w-full">
+                                    <div class="lg:ml-2 w-full">
                                         <label
                                             class="block text-gray-600 font-semibold mb-2 bg-transparent"
                                         >

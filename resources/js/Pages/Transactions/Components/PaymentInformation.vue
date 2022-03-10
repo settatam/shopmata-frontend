@@ -1,15 +1,15 @@
 <template>
-    <div class=" rounded-md bg-white ml-3">
+    <div class=" rounded-md bg-white lg:mx-2">
         <div class="rounded-t-md w-full bg-purple-darken py-4 pl-4 text-white">
             <h1>Payment Information</h1>
         </div>
 
         <div class="p-4 space-y-2">
-            <p class="font-medium text-sm text-black">
+            <p class="font-medium text-xs lg:text-sm text-black">
                 Traffic Source
                 <span class="font-normal"></span>
             </p>
-            <p class="font-medium text-sm text-purple-darken">
+            <p class="font-medium text-xs lg:text-sm text-purple-darken">
                 More details
                 <span class="font-normal"></span>
             </p>
