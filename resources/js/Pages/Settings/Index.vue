@@ -228,9 +228,8 @@
                                     >
                                         <option value="">Choose a State</option>
                                         <option
-                                            v-for="(
-                                                state, index
-                                            ) in country_state"
+                                            v-for="(state,
+                                            index) in country_state"
                                             :key="index"
                                             :value="state.id"
                                         >
@@ -392,17 +391,12 @@
                                         :key="index"
                                         :value="currency.id"
                                     >
-                                        {{ currency.symbol_left + " " }}
+                                        {{ currency.symbol_left + ' ' }}
                                         {{ currency.title }} ({{
                                             currency.code
                                         }})
                                     </option>
                                 </select>
-                                <!-- <p class="w-full text-gray-400 mb-4">You have made your first sale, so you need to 
-                      <inertia-link href="/settings/contact">
-                        <span class="text-indigo-700 cursor-pointer" >contact support</span> 
-                      </inertia-link>
-                    if you want to change your currency</p> -->
                             </div>
                         </div>
                         <button
@@ -576,32 +570,31 @@
 </template>
 
 <script>
-import { ref, reactive, watch, onBeforeMount } from "vue";
-import AppLayout from "../../Layouts/AppLayout.vue";
-import Search from "../Search.vue";
-import Nav from "./Nav";
-import axios from "axios";
-//import ErrorIcon from '../../../assets/ErrorIcon.vue'
-import { notify } from "notiwind";
+import { ref, reactive, watch, onBeforeMount } from 'vue'
+import AppLayout from '../../Layouts/AppLayout.vue'
+import Search from '../Search.vue'
+import Nav from './Nav'
+import axios from 'axios'
+import { notify } from 'notiwind'
 import {
     Dialog,
     DialogOverlay,
     TransitionChild,
-    TransitionRoot,
-} from "@headlessui/vue";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/solid";
-import { HomeIcon } from "@heroicons/vue/outline";
-import { Inertia } from "@inertiajs/inertia";
+    TransitionRoot
+} from '@headlessui/vue'
+import { ChevronRightIcon } from '@heroicons/vue/solid'
+import { HomeIcon } from '@heroicons/vue/outline'
+import { Inertia } from '@inertiajs/inertia'
 
 const statusStyles = {
-    success: "bg-green-100 text-green-800",
-    processing: "bg-yellow-100 text-yellow-800",
-    failed: "bg-gray-100 text-gray-800",
-};
+    success: 'bg-green-100 text-green-800',
+    processing: 'bg-yellow-100 text-yellow-800',
+    failed: 'bg-gray-100 text-gray-800'
+}
 const pages = [
-    { name: "Settings", href: "/settings", current: false },
-    { name: "General Information", href: "/settings/general", current: true },
-];
+    { name: 'Settings', href: '/settings', current: false },
+    { name: 'General Information', href: '/settings/general', current: true }
+]
 
 export default {
     props: {
@@ -612,7 +605,7 @@ export default {
         industries: Array,
         timezones: Array,
         errors: Object,
-        states: Array,
+        states: Array
     },
 
     components: {
@@ -623,80 +616,77 @@ export default {
         TransitionChild,
         TransitionRoot,
         ChevronRightIcon,
-        HomeIcon,
+        HomeIcon
         //ErrorIcon
     },
 
-    setup({ store, states }) {
-        const open = ref(false);
-        const state = ref(states);
-        const country_state = ref({});
-        const store_details = reactive(store);
-        const save = ref("Save Changes");
-        const loading = ref(false);
-        const successMessage = ref("");
-        function onClickTop() {
+    setup ({ store, states }) {
+        const open = ref(false)
+        const state = ref(states)
+        const country_state = ref({})
+        const store_details = reactive(store)
+        const save = ref('Save Changes')
+        const loading = ref(false)
+        const successMessage = ref('')
+        function onClickTop () {
             notify(
                 {
-                    group: "top",
-                    title: "Success",
-                    text: successMessage.value,
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
                 },
                 4000
-            );
+            )
         }
-        function onClickBot() {
+        function onClickBot () {
             notify(
                 {
-                    group: "bottom",
-                    title: "Error",
-                    text: successMessage.value,
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
                 },
                 4000
-            );
+            )
         }
         const loadingFn = () => {
-            loading.value = false;
-            save.value = "Save Changes";
-            //window.location.href = '/settings/notifications/'
-        };
+            loading.value = false
+            save.value = 'Save Changes'
+        }
         const errorFn = () => {
-            loading.value = false;
-            save.value = "Save Changes";
-        };
+            loading.value = false
+            save.value = 'Save Changes'
+        }
         onBeforeMount(() => {
-            country_state.value = state.value;
-        });
-        watch(store_details, (newVal) => {
+            country_state.value = state.value
+        })
+        watch(store_details, newVal => {
             axios
                 .get(`/api/states?country_id=${newVal.country_id}`)
-                .then((res) => {
-                    country_state.value = res.data.data;
-                });
-        });
+                .then(res => {
+                    country_state.value = res.data.data
+                })
+        })
         const submit = () => {
-            axios.put("/store", store_details).then((res) => {
-                loading.value = true;
+            axios.put('/store', store_details).then(res => {
+                loading.value = true
                 if (res.status == 200) {
-                    successMessage.value = res.data.notification.message;
-                    setTimeout(onClickTop, 2000);
-                    save.value = "Saving";
-                    setTimeout(loadingFn, 3000);
+                    successMessage.value = res.data.notification.message
+                    setTimeout(onClickTop, 2000)
+                    save.value = 'Saving'
+                    setTimeout(loadingFn, 3000)
                 } else if (res.status == 422) {
-                    successMessage.value = res.data.notification.message;
-                    setTimeout(onClickBot, 2000);
-                    setTimeout(errorFn, 3000);
+                    successMessage.value = res.data.notification.message
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
                 } else {
-                    successMessage.value = "Database Error";
-                    setTimeout(onClickBot, 2000);
-                    setTimeout(errorFn, 3000);
+                    successMessage.value = 'Database Error'
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
                 }
-            });
-        };
+            })
+        }
         return {
             statusStyles,
-            //store_details,
-            //states,
             pages,
             state,
             save,
@@ -705,10 +695,9 @@ export default {
             store_details,
             submit,
             loading,
-            //updateStates
             onClickTop,
-            onClickBot,
-        };
-    },
-};
+            onClickBot
+        }
+    }
+}
 </script>

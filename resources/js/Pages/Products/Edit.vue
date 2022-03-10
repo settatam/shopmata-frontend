@@ -161,6 +161,38 @@
                                             </p>
                                         </div>
                                     </div>
+                                    <div class="mb-10">
+                                        <label
+                                            class="block text-sm text-gray-500"
+                                            for="sku"
+                                        >
+                                            Product SKU
+                                        </label>
+                                        <div class="mt-1">
+                                            <input
+                                                type="text"
+                                                name="street-address"
+                                                id="sku"
+                                                autocomplete="street-address"
+                                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                v-model="productToUpdate.sku"
+                                                :disabled="productToUpdate.has_variants"
+                                            />
+                                        </div>
+                                        <!--                                            <div class="mt-1">-->
+                                        <!--                                                <p-->
+                                        <!--                                                    class="text-red-600 text-xs"-->
+                                        <!--                                                    v-if="-->
+                                        <!--                                                        v$.product.sku.$error-->
+                                        <!--                                                    "-->
+                                        <!--                                                >-->
+                                        <!--                                                    {{-->
+                                        <!--                                                        v$.product.sku-->
+                                        <!--                                                            .$errors[0].$message-->
+                                        <!--                                                    }}-->
+                                        <!--                                                </p>-->
+                                        <!--                                            </div>-->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1433,19 +1465,86 @@ export default {
                 }
             }
 
-            let variantList = [];
+            if (z.length > this.variantList.length) {
+                // We are adding
+                // Check if we are adding new variant property
 
-            for (let l = 0; l < z.length; l++) {
-                console.log(z);
-                variantList.push({
-                    property: z[l],
-                    price: "",
-                    quantity: 1,
-                    sku: "",
-                });
+                console.log("adding", z, this.variantList);
+                for (let l = 0; l < z.length; l++) {
+                    let filteredVariantLists = this.variantList.filter(
+                        (item) => {
+                            // let exists = true;
+                            // // JSON.stringify(item.property) ===
+                            // // JSON.stringify(z[l])
+                            // Object.keys(item.property).forEach((prop) => {
+                            //     if (item.property[prop] != z[l][prop]) {
+                            //         exists = false;
+                            //     }
+                            // });
+                            // return exists;
+                            let exists = true;
+                            z[l].forEach((singleObj) => {
+                                let correspondingSingleObj =
+                                    item.property.filter(
+                                        (prop) =>
+                                            prop.attribute ===
+                                            singleObj.attribute
+                                    )[0];
+                                if (
+                                    correspondingSingleObj.value !==
+                                    singleObj.value
+                                ) {
+                                    exists = false;
+                                }
+                            });
+                            return exists;
+                        }
+                    );
+                    if (!filteredVariantLists.length) {
+                        this.variantList.push({
+                            property: z[l],
+                            price: this.product.price || "",
+                            quantity: 1,
+                            sku: this.product.sku
+                                ? `${this.product.sku}-${this.variantList.length}`
+                                : "",
+                        });
+                    }
+                }
+            } else {
+                // I don't believe we should ever get here, but this is just in case.
+                this.variantList = [];
+                for (let l = 0; l < z.length; l++) {
+                    console.log(z[l]);
+                    // Determine if we are adding or removing
+                    // If we are adding, check if the value of the current z already exists in the variant list, when we find one that doesn't, we add it
+                    // If we are removing, loop through the varia
+
+                    this.variantList.push({
+                        property: z[l],
+                        price: this.product.price || "",
+                        quantity: 1,
+                        sku: this.product.sku
+                            ? `${this.product.sku}-${l + 1}`
+                            : "",
+                    });
+                }
             }
 
-            this.variantList = variantList;
+            // for (let l = 0; l < z.length; l++) {
+            //     console.log(z[l]);
+            //     // Determine if we are adding or removing
+            //     // If we are adding, check if the value of the current z already exists in the variant list, when we find one that doesn't, we add it
+            //     // If we are removing, loop through the varia
+            //     variantList.push({
+            //         property: z[l],
+            //         price: "",
+            //         quantity: 1,
+            //         sku: "",
+            //     });
+            // }
+            //
+            // this.variantList = variantList;
         },
     },
 

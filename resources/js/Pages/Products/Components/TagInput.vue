@@ -80,7 +80,7 @@ export default {
         };
         const removeTag = (index) => {
             const removedTag = tags.value[index];
-            tags.value.splice(index, 1);
+            // tags.value.splice(index, 1);
             emit("removedtag", [removedTag, tags.value]);
         };
 
