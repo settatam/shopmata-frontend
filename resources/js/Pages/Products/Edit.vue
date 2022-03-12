@@ -1102,7 +1102,7 @@ export default {
             productToUpdate: {
                 title: {
                     required: helpers.withMessage(
-                        "Please enter a title",
+                        "Please enter a title.",
                         required
                     ),
                 },
