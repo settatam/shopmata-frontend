@@ -40,13 +40,7 @@ use App\Http\Controllers\StoreDomainsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\OnlineStore\EditorController;
-use App\Http\Controllers\OnlineStore\CodeEditorController;
-use App\Http\Controllers\OnlineStore\ThemeController;
 use App\Http\Controllers\TransactionsController;
-use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
-use App\Http\Controllers\OnlineStore\NavigationController;
-use App\Http\Controllers\OnlineStore\LocationController;
-use App\Http\Controllers\OnlineStore\StoreUserController;
 
 
 /*
