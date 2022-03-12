@@ -465,7 +465,7 @@
                                         focus:border-transparent
                                         sm:text-sm
                                     "
-                                    placeholder="Search transactions"
+                                    placeholder="search for products, customers, orders............."
                                     type="search"
                                 />
                             </div>
@@ -688,6 +688,12 @@ const navigation = [
     {
         name: "Customers",
         href: "/customers",
+        icon: UserGroupIcon,
+        current: false,
+    },
+    {
+        name: "Transactions",
+        href: "/transactions",
         icon: UserGroupIcon,
         current: false,
     },

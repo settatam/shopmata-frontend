@@ -10,8 +10,9 @@
             </div>
 
             <div class="flex flex-col items-center w-full my-32">
-                <div class="my-1 py-1">
-                    <h1 class="font-bold text-2xl">Forgot Password</h1>
+                <div class="my-1 py-1 flex flex-row">
+                    <h1 class="font-bold text-2xl mx-3">Forgot Password</h1>
+                    <img src="../../../assets/padlockIcon.png" alt="" class="h-5 w-5">
                 </div>
                 <div class="mx-0 w-38">
                     <p class="text-xs text-gray-lighter text-center">
