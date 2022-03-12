@@ -845,7 +845,7 @@
                                                 class="text-gray-500 sm:text-sm"
                                                 ref="domain_name"
                                             >
-                                                {{ store.domains[0].name }}/
+                                                {{ store.domains[0].length ? store.domains[0].name + "/" : "" }}
                                             </span>
                                         </div>
                                         <input
@@ -1102,7 +1102,7 @@ export default {
             productToUpdate: {
                 title: {
                     required: helpers.withMessage(
-                        "Please enter a title",
+                        "Please enter a title.",
                         required
                     ),
                 },
