@@ -482,6 +482,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- rest ends -->
         </div>
     </div>

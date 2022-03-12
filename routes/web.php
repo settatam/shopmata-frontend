@@ -1,55 +1,53 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\StoreController;
-use App\Http\Controllers\BrandsController;
-use App\Http\Controllers\ImagesController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\StaffsController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BrandsController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DiscountsController;
-use App\Http\Controllers\StoreTemplatesController;
-use App\Http\Controllers\MenuController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\OnlineStore\CodeEditorController;
+use App\Http\Controllers\OnlineStore\LocationController;
+use App\Http\Controllers\OnlineStore\NavigationController;
+use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
+use App\Http\Controllers\OnlineStore\StoreUserController;
+use App\Http\Controllers\OnlineStore\ThemeController;
 use App\Http\Controllers\OrderCustomerNoteController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\PagesController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\Settings\EmailMarketingSettingsController;
-use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\GeneralController;
-use App\Http\Controllers\Settings\PaymentsController;
-use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\GiftCardsController;
-use App\Http\Controllers\Settings\PlansAndPermissionsController;
+use App\Http\Controllers\Settings\NotificationsController;
+use App\Http\Controllers\Settings\PaymentsController;
 use App\Http\Controllers\Settings\PayoutSettingsController;
-
-use App\Http\Controllers\Settings\StoreLocationController;
+use App\Http\Controllers\Settings\PlansAndPermissionsController;
+use App\Http\Controllers\Settings\ShippingController;
+use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\ShippingRatesController;
 use App\Http\Controllers\Settings\StoreActualNotificationsController;
-
-use App\Http\Controllers\Settings\NotificationsController;
-use App\Http\Controllers\StorePreferencesController;
-use App\Http\Controllers\StoreDomainsController;
-use App\Http\Controllers\OnlineStoreController;
-use App\Http\Controllers\StoreThemesController;
-use App\Http\Controllers\PagesController;
+use App\Http\Controllers\Settings\StoreLocationController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\StaffsController;
 use App\Http\Controllers\StoreBlogController;
-
+use App\Http\Controllers\StoreController;
+use App\Http\Controllers\StoreDomainsController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\OnlineStore\CodeEditorController;
-use App\Http\Controllers\OnlineStore\ThemeController; 
-use App\Http\Controllers\TransactionsController; 
-
+use App\Http\Controllers\OnlineStore\ThemeController;
+use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
 use App\Http\Controllers\OnlineStore\NavigationController;
 use App\Http\Controllers\OnlineStore\LocationController;
 use App\Http\Controllers\OnlineStore\StoreUserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,7 +78,6 @@ Route::post('login', [LoginController::class, 'authenticate']);
 Route::get('password/reset', [LoginController::class, 'ForgotPassword']);
 
 Route::post('register', [RegisterController::class, 'RegisterUser']);
-
 
 
 //Create Store here
@@ -118,9 +115,17 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         ->where('id', '[0-9]+');
     Route::post('products/get-order-products', [ProductsController::class, 'getOrderProducts']);
     Route::post('products/upload-csv', [ProductsController::class, 'uploadCSV']);
-    Route::get('products/delete', [ProductsController::class, 'deleteProduct']);
-    Route::get('products/delete-multiple', [ProductsController::class, 'deleteMultipleProducts']);
+    Route::post('products/delete', [ProductsController::class, 'deleteProduct']);
+    Route::post('products/delete-multiple', [ProductsController::class, 'deleteMultipleProducts']);
     Route::get('products/search', [ProductsController::class, 'tableSearch']);
+
+    #Collections
+    Route::prefix('collections')->group(function () {
+        Route::post('/', [CollectionsController::class, 'store']);
+        Route::get('/', [CollectionsController::class, 'index']);
+        Route::post('/update/{id}', [CollectionsController::class, 'update']);
+        Route::post('/delete/{id}', [CollectionsController::class, 'delete']);
+    });
 
     #Brands
     Route::get('brands', [BrandsController::class, 'index'])->name('brands');
@@ -266,18 +271,18 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::get('online-store/themes', [ThemeController::class, 'index']);
 
-	Route::post('store/create', [StoreController::class, 'store']);
-	Route::put('store/{id}', [StoreController::class, 'update']);
+    Route::post('store/create', [StoreController::class, 'store']);
+    Route::put('store/{id}', [StoreController::class, 'update']);
 
-	Route::put('store', [StoreController::class, 'update']);
+    Route::put('store', [StoreController::class, 'update']);
 
 
-	Route::get('store/pages/generate-slug/{title}', [PagesController::class, 'generateSlug']);
-	Route::get('store/pages/editor/{id?}', [PagesController::class, 'editor']);
-	Route::get('store/pages/code-editor/{id?}', [PagesController::class, 'codeEditor']);
-	Route::resource('store/pages', PagesController::class);
-	Route::resource('store/blog', StoreBlogController::class);
-	##Store Domains
+    Route::get('store/pages/generate-slug/{title}', [PagesController::class, 'generateSlug']);
+    Route::get('store/pages/editor/{id?}', [PagesController::class, 'editor']);
+    Route::get('store/pages/code-editor/{id?}', [PagesController::class, 'codeEditor']);
+    Route::resource('store/pages', PagesController::class);
+    Route::resource('store/blog', StoreBlogController::class);
+    ##Store Domains
 
     Route::resource('store/domains', StoreDomainsController::class);
     // Route::resource('store/themes', StoreThemesController::class);

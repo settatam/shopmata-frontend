@@ -50,6 +50,7 @@ export default {
         showCount: { type: Boolean, default: false },
         comment: Function,
         dataIndex: Number,
+        defaultTags: Array,
     },
     emits: ["comment", "removedtag"],
     /* methods:{
@@ -60,7 +61,7 @@ export default {
   }, */
     setup(props, { emit }) {
         // Tags
-        const tags = ref(props.modelValue);
+        const tags = ref(props.defaultTags);
         const newTag = ref("");
         const id = Math.random().toString(36).substring(7);
 
@@ -74,12 +75,12 @@ export default {
                 return;
             }
             emit("comment", [newTag.value, props.dataIndex]);
-            tags.value.push(tag);
+            // tags.value.push(tag);
             newTag.value = ""; // reset newTag
         };
         const removeTag = (index) => {
             const removedTag = tags.value[index];
-            tags.value.splice(index, 1);
+            // tags.value.splice(index, 1);
             emit("removedtag", [removedTag, tags.value]);
         };
 
