@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Store;
+use App\Validators\Product\BrandsControllerValidators;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class BrandsController extends Controller
 {
+    use BrandsControllerValidators;
+
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +25,8 @@ class BrandsController extends Controller
     {
 
         // \Log::info("brand request".print_r($request->all(), true));
-        $brands = Brand::orderBy('name', 'desc')->where('name', 'like', '%'.$request->search.'%')->paginate(50);
-        
+        $brands = Brand::orderBy('name', 'desc')->where('name', 'like', '%' . $request->search . '%')->paginate(50);
+
         $filters = $request->all('search');
         return Inertia::render('Brands/Index', compact('brands', 'filters'));
     }
@@ -39,41 +42,63 @@ class BrandsController extends Controller
         return Inertia::render('Brands/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        // dd($request);
-        $store = Store::store();
-        $store_id = $store[0]->id;
-        $slug = Str::slug($request->title);
-
-        if ($brand = Brand::create([
-            'store_id' => 2,
-            'name' => $request->name,
-            'page_title' => $request->page_title,
-            'description' => $request->description,
-            'meta_title' => $request->meta_title,
-            'meta_description' => $request->meta_decription,
-            'meta_keyword' => $request->meta_keyword,
-            'slug' => $slug
-        ])) {
-            Log::info('dddd');
-        } else {
-            Log::error('asdfasdf');
-        }
-
-        return Redirect::route('brands')->with('success', 'Brand created.');
+        $this->validateStoreRequest($request);
+        $brand_name = $request->input('name');
+        $append = Brand::where('slug', '=', $brand_name)->count();
+        $slug = Str::slug($brand_name);
+        Brand::create([
+            'store_id' => session()->get('store_id'),
+            'name' => $brand_name,
+            'slug' => $slug . ($append > 0 ? "-$append" : ""),
+            'page_title' => '',
+            'description' => '',
+            'meta_title' => '',
+            'meta_description' => '',
+            'meta_keyword' => '',
+        ]);
+        return response([
+            'status' => 'success',
+            'message' => 'Brand created successfully',
+        ]);
     }
+
+//    /**
+//     * Store a newly created resource in storage.
+//     *
+//     * @param \Illuminate\Http\Request $request
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function store(Request $request)
+//    {
+//        // dd($request);
+//        $store = Store::store();
+//        $store_id = $store[0]->id;
+//        $slug = Str::slug($request->title);
+//
+//        if ($brand = Brand::create([
+//            'store_id' => 2,
+//            'name' => $request->name,
+//            'page_title' => $request->page_title,
+//            'description' => $request->description,
+//            'meta_title' => $request->meta_title,
+//            'meta_description' => $request->meta_decription,
+//            'meta_keyword' => $request->meta_keyword,
+//            'slug' => $slug
+//        ])) {
+//            Log::info('dddd');
+//        } else {
+//            Log::error('asdfasdf');
+//        }
+//
+//        return Redirect::route('brands')->with('success', 'Brand created.');
+//    }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -84,7 +109,7 @@ class BrandsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -100,8 +125,8 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -122,7 +147,7 @@ class BrandsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -161,7 +161,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="mb-10">
+                                    <div class="mb-10" v-if="!productToUpdate.has_variants">
                                         <label
                                             class="block text-sm text-gray-500"
                                             for="sku"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ProductCreated;
 use App\Events\ProductDeleted;
+use App\Events\ProductStatusUpdated;
 use App\Exceptions\InvalidInputException;
 use App\Http\Resources\Product as ProductResource;
 use App\Models\Brand;
@@ -67,11 +68,13 @@ class ProductsController extends Controller
             if ($request->tag) $query->where('tag', $request->tag);
         })
             ->where('store_id', '=', $store_id)
-            ->orderBy('id', 'desc')->with('categories')->with('images')->paginate($pageSize);
+            ->orderBy('id', 'desc')->with('categories', 'variants', 'brand')->with('images')->paginate($pageSize);
 
         // \Log::info("products Retrieved".print_r($products, true));
 
         $brands = Brand::orderBy('name', 'desc')->get();
+
+        $product_types = ProductType::orderBy('id', 'asc')->get();
 
         foreach ($products as $product) {
             $categories = [];
@@ -86,7 +89,7 @@ class ProductsController extends Controller
             $product->type = implode(', ', $categories);
         }
 
-        return Inertia::render('Products/Index', compact('products', 'filters', 'brands'));
+        return Inertia::render('Products/Index', compact('products', 'filters', 'brands', 'product_types'));
     }
 
     /**
@@ -635,9 +638,9 @@ class ProductsController extends Controller
         $brand = $request->query("brand");
         $type = $request->query("type");
         $status = $request->query("status");
-        $store_id = $request->session()->get('store_id');
+        $storeID = session()->get('store_id');
 
-        $products = Product::where(function ($query) use ($search) {
+        $products = Product::with('categories', 'variants', 'brand')->where('store_id', $storeID)->where(function ($query) use ($search) {
             $query->where('title', 'like', "%" . $search . "%")
                 ->orWhere('quantity', 'like', "%" . $search . "%")
                 ->orWhere('seo_description', 'like', "%" . $search . "%")
@@ -648,8 +651,19 @@ class ProductsController extends Controller
             $query->where('product_type_id', '=', $type);
         })->when($status, function ($query, $status) {
             $query->where('status', '=', $status);
-        })->where('store_id', '=', 'store_id')
-            ->get();
+        })->get();
+        foreach ($products as $product) {
+            $categories = [];
+            $product->image = count($product->images) ? $product->images[0]->thumb ?? $product->images[0]->image_url : '';
+            if (count($product->categories)) {
+                foreach ($product->categories as $cat) {
+                    if (null !== $cat->category) {
+                        $categories[] = $cat->category->name;
+                    }
+                }
+            }
+            $product->type = implode(', ', $categories);
+        }
         return response([
             'data' => [
                 'products' => $products
@@ -659,8 +673,8 @@ class ProductsController extends Controller
 
     public function deleteProduct(Request $request)
     {
-        $storeID = $request->query('store_id');
-        $productID = $request->query('product_id');
+        $storeID = session()->get('store_id');
+        $productID = $request->input('product_id');
         try {
             Store::findOrFail($storeID);
             $product = Product::findOrFail($productID);
@@ -680,7 +694,7 @@ class ProductsController extends Controller
     }
 
     public function deleteMultipleProducts(Request $request) {
-        $storeID = $request->query('store_id');
+        $storeID = session()->get('store_id');
         $productIDs = $request->input('product_ids');
         DB::beginTransaction();
         foreach($productIDs as $productID) {
@@ -765,6 +779,29 @@ class ProductsController extends Controller
         } catch(Exception $exp) {
             DB::rollBack();
             throw new InvalidInputException($exp->getMessage());
+        }
+
+    }
+
+    public function updateProductStatus(Request $request, $id)
+    {
+        $this->validateUpdateProductStatusRequest($request);
+        try {
+            $storeID = $request->query('store_id') ?? $request->session()->get('store_id');
+            $product = Product::findOrFail($id);
+            if ($product->store_id != $storeID) {
+                throw new InvalidInputException("The product does not exist in your store.");
+            }
+            $oldStatus = $product->status;
+            $product->status = $request->input('status');
+            $product->save();
+            ProductStatusUpdated::dispatch($product, $oldStatus);
+            return response([
+                'message' => "Product status updated successfully",
+                'status' => 'success'
+            ]);
+        } catch (ModelNotFoundException $exp) {
+            throw new InvalidInputException("The product does not exist in your store.");
         }
 
     }

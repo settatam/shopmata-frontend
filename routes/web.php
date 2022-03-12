@@ -108,8 +108,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         ->where('id', '[0-9]+');
     Route::post('products/get-order-products', [ProductsController::class, 'getOrderProducts']);
     Route::post('products/upload-csv', [ProductsController::class, 'uploadCSV']);
-    Route::get('products/delete', [ProductsController::class, 'deleteProduct']);
-    Route::get('products/delete-multiple', [ProductsController::class, 'deleteMultipleProducts']);
+    Route::post('products/delete', [ProductsController::class, 'deleteProduct']);
+    Route::post('products/delete-multiple', [ProductsController::class, 'deleteMultipleProducts']);
     Route::get('products/search', [ProductsController::class, 'tableSearch']);
 
     #Collections

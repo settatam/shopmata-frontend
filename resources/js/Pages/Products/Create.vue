@@ -1130,6 +1130,7 @@ export default {
     data() {
         return {
             submitting: false,
+            filteredProducts: [],
             valueContent: "",
             new_brand: "",
             variantList: [],
@@ -1294,6 +1295,11 @@ export default {
     },
     mounted() {
         this.domainWidth = this.$refs.domain_name.clientWidth + 10 + "px";
+        this.$notify({
+            group: "error",
+            title: "Error",
+            text: "Your email is already used!"
+        }, 4000)
     },
     methods: {
         submitNewProduct() {
@@ -1355,7 +1361,16 @@ export default {
             if (!this.show_brand_input) {
                 this.show_brand_input = true;
             } else {
-                axios.post("");
+                axios
+                    .post("/brands", {
+                        name: this.new_brand,
+                    })
+                    .then((res) => {
+                        Inertia.reload({
+                            only: ["brands"],
+                        });
+                        this.new_brand = "";
+                    });
 
                 this.show_brand_input = false;
             }
@@ -1551,7 +1566,7 @@ export default {
                 }
             }
 
-             if (z.length > this.variantList.length) {
+            if (z.length > this.variantList.length) {
                 // We are adding
                 // Check if we are adding new variant property
 

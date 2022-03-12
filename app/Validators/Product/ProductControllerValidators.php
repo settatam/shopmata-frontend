@@ -348,4 +348,11 @@ trait ProductControllerValidators
         }
         return $validated;
     }
+
+    public function validateUpdateProductStatusRequest(Request $request) {
+        $validated = ValidatorWrapper::wrap($request, [
+            "status" => ["required", "string", Rule::in("active", "archived", "deleted", "pending", "approved")],
+        ]);
+
+    }
 }
