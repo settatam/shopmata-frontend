@@ -5,6 +5,7 @@ namespace App\Console\Commands\OneOffs;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
 use App\Models\Transaction;
+use App\Models\Store;
 
 class LoadBuyMyGoldData extends Command
 {
@@ -21,6 +22,7 @@ class LoadBuyMyGoldData extends Command
      * @var string
      */
     protected $description = 'Command description';
+    protected $stores;
 
     /**
      * Create a new command instance.
@@ -30,6 +32,7 @@ class LoadBuyMyGoldData extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->stores = Store::whereIn('name', ['BuyMyGold', 'SellMyJewelry'])->get()->pluck('id', 'name');
     }
 
     /**
@@ -41,10 +44,31 @@ class LoadBuyMyGoldData extends Command
     {
         $response = Http::get('https://buymygold.com/api/transactions');
         $data = $response->body();
-        if($r = json_decode($data, true)) {
+        if($orders = json_decode($data, true)) {
+            foreach ($orders['orders'] as $order)
+            $transaction = Transaction::firstOrNew(
+                ['id' => $order['order_id']]
+            );
+
+            //Create the customer using the customer details in the endpoint
+
+            $transaction->status_id = $order['status_id'];
+            $transaction->dwt = $order['dwt'];
+            $transaction->insurance_value = $order['insurance_value'];
+            $transaction->payment_type_id = getPaymentType($order['payment_type']);
+            $transaction->bin_location = $order['bin_location'];
+            $transaction->store_id = this->getStore($order['is_jewelry']);
+            $transaction->kit_type = $order['kit_type'];
+
+            //Create the transaction history
+
+            //Create eh transaction notes
 
         }
-        dd($body);
 
+    }
+
+    private function getStore($value) {
+        return ($value) ? $this->stores['SellMyJewelry'] : $this->stores['BuyMyGold'];
     }
 }
