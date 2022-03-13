@@ -14,7 +14,7 @@
                         <input
                             type="search"
                             :disabled="true"
-                            class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white disabled:bg-gray-background mx-2"
+                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white disabled:bg-gray-background mx-2"
                             placeholder="Kit Received"
                             autocomplete="off"
                         />
@@ -24,7 +24,7 @@
                     </div>
                     <div>
                         <button
-                            class="bg-purple-darken py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
+                            class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
                             type="submit"
                         >
                             Confirm Status
@@ -40,7 +40,7 @@
                         <input
                             type="search"
                             :disabled="true"
-                            class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white disabled:bg-gray-background mx-2"
+                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white disabled:bg-gray-background mx-2"
                             placeholder="Kit Received"
                             autocomplete="off"
                         />
@@ -50,7 +50,7 @@
                     </div>
                     <div>
                         <button
-                            class="bg-purple-darken py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
+                            class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
                             type="submit"
                         >
                             Confirm Status

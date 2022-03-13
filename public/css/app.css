@@ -5310,6 +5310,10 @@ input[type='checkbox']:focus {
 		align-items: flex-start;
 	}
 
+	.lg\:justify-end {
+		justify-content: flex-end;
+	}
+
 	.lg\:justify-between {
 		justify-content: space-between;
 	}
