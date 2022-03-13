@@ -131,34 +131,61 @@
                                         >
                                             State
                                         </label>
-                                        <select
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.state.$error,
-                                                'border-gray-300': !v$.state
-                                                    .$error
-                                            }"
-                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            placeholder=""
-                                            v-model="local_pickup.state"
-                                            required
-                                        >
-                                            <option value=""
-                                                >Choose a State</option
+
+                                        <div v-if="states.length">
+                                            <select
+                                                :class="{
+                                                    'border-red-600':
+                                                        v$.state_id.$error,
+                                                    'border-gray-300': !v$
+                                                        .state_id.$error
+                                                }"
+                                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                placeholder=""
+                                                v-model="local_pickup.state_id"
+                                                required
                                             >
-                                            <option
-                                                v-for="(state,
-                                                index) in country_state"
-                                                :key="index"
-                                                :value="state.id"
-                                                >{{ state.name }}</option
+                                                <option value=""
+                                                    >Choose a State</option
+                                                >
+                                                <option
+                                                    v-for="(state,
+                                                    index) in states[0].states"
+                                                    :key="index"
+                                                    :value="state.id"
+                                                    >{{ state.name }}</option
+                                                >
+                                            </select>
+                                        </div>
+
+                                        <!-- v-else -->
+
+                                        <div v-else>
+                                            <select
+                                                :class="{
+                                                    'border-red-600':
+                                                        v$.state_id.$error,
+                                                    'border-gray-300': !v$
+                                                        .state_id.$error
+                                                }"
+                                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                placeholder=""
+                                                v-model="local_pickup.state_id"
+                                                required
                                             >
-                                        </select>
+                                                <option value="null"
+                                                    >Select State</option
+                                                >
+                                            </select>
+                                        </div>
+
                                         <p
                                             class="text-red-600 text-xs"
-                                            v-if="v$.state.$error"
+                                            v-if="v$.state_id.$error"
                                         >
-                                            {{ v$.state.$errors[0].$message }}
+                                            {{
+                                                v$.state_id.$errors[0].$message
+                                            }}
                                         </p>
                                     </div>
                                 </div>
@@ -275,76 +302,57 @@ import { ref, reactive, computed } from 'vue'
 import {
     Dialog,
     DialogOverlay,
-    DialogTitle,
     TransitionChild,
     TransitionRoot
 } from '@headlessui/vue'
-import { XIcon } from '@heroicons/vue/solid'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
 import useVuelidate from '@vuelidate/core'
-import { required, helpers, numeric, minValue } from '@vuelidate/validators'
+import { required, helpers, numeric } from '@vuelidate/validators'
 
 export default {
     emits: ['close'],
-    props: ['store'],
+    props: ['store', 'countries'],
 
     components: {
         Dialog,
         DialogOverlay,
-        DialogTitle,
         TransitionChild,
-        XIcon,
         TransitionRoot
     },
-    data () {
-        return {
-            countries: '',
-            country_state: {}
-        }
-    },
-    methods: {
-        closeModal () {
-            this.open = false
-            this.$emit('close')
-        }
-    },
-    mounted () {
-        axios.get('/api/countries').then(res => {
-            this.countries = res.data.data
-        })
-    },
-    watch: {
-        'local_pickup.country_id' (newVal, oldVal) {
-            axios.get(`/api/states?country_id=${newVal}`).then(res => {
-                this.country_state = res.data.data
-            })
-        }
-    },
-    setup () {
+
+    setup (props, ctx) {
         const open = ref(true)
+        const countries = props.countries
+        const states = computed(() => {
+            return countries.filter(
+                country => country.id == local_pickup.country_id
+            )
+        })
 
         const local_pickup = reactive({
             name: '',
             address: '',
             country_id: '',
-            state: '',
+            state_id: '',
             postal_code: '',
             city: ''
         })
 
+        const closeModal = () => {
+            open.value = false
+            ctx.emit('close')
+        }
+
         const rules = computed(() => {
             return {
                 name: {
-                    required: helpers.withMessage(
-                        'Enter a location',
-                        required
-                    )
+                    required: helpers.withMessage('Enter a location', required)
                 },
                 country_id: {
                     required: helpers.withMessage('Select a country', required)
                 },
-                state: {
+                state_id: {
                     required: helpers.withMessage('Select a state', required)
                 },
                 address: {
@@ -384,7 +392,10 @@ export default {
             open,
             local_pickup,
             submit,
-            v$
+            v$,
+            closeModal,
+            countries,
+            states
         }
     }
 }

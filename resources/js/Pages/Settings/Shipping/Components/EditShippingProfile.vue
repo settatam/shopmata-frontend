@@ -61,13 +61,13 @@
                                     items.
                                     <a
                                         class="text-indigo-700 underline cursor-pointer"
-                                        @click="this.videoPop = true"
+                                        @click="videoPop = true"
                                         >Watch a demo</a
                                     >
                                 </p>
                                 <demo-video-modal
-                                    @close="this.videoPop = false"
-                                    v-if="this.videoPop"
+                                    @close="videoPop = false"
+                                    v-if="videoPop"
                                 />
 
                                 <div class="w-auto relative">
@@ -86,10 +86,6 @@
                                         placeholder=""
                                         v-model="rates.name"
                                         required
-                                    />
-                                    <error-icon
-                                        class="absolute top-8 right-0"
-                                        v-show="bodyError && !rates.name.length"
                                     />
                                 </div>
 
@@ -118,12 +114,6 @@
                                         placeholder=""
                                         v-model="rates.price"
                                         required
-                                    />
-                                    <error-icon
-                                        class="absolute top-8 right-0"
-                                        v-show="
-                                            bodyError && !rates.price.length
-                                        "
                                     />
                                 </div>
 
@@ -432,20 +422,14 @@
 import AppLayout from '../../../../Layouts/AppLayout.vue'
 import Nav from '../../Nav'
 import {
-    LocationMarkerIcon,
-    ChevronRightIcon,
     HomeIcon,
-    DotsHorizontalIcon,
-    XIcon,
     TrashIcon
 } from '@heroicons/vue/outline'
 import { onBeforeMount, reactive, ref, computed } from 'vue'
-import Button from '../../../../Jetstream/Button.vue'
 import { Inertia } from '@inertiajs/inertia'
-import ErrorIcon from '../../../ErrorIcon.vue'
 import DemoVideoModal from './DemoVideoModal.vue'
 import useVuelidate from '@vuelidate/core'
-import { required, maxLength, helpers, integer } from '@vuelidate/validators'
+import { required, maxLength, helpers, } from '@vuelidate/validators'
 
 const pages = [
     { name: 'Settings', href: '/settings', current: false },
@@ -465,26 +449,14 @@ export default {
     components: {
         Nav,
         AppLayout,
-        LocationMarkerIcon,
-        ChevronRightIcon,
         HomeIcon,
-        Button,
-        DotsHorizontalIcon,
-        ErrorIcon,
-        XIcon,
         DemoVideoModal,
         TrashIcon
-    },
-    data () {
-        return {
-            open: false,
-            location_id: '',
-            videoPop: false
-        }
     },
     methods: {},
     setup (props) {
         const loading = ref(false)
+        const videoPop = ref(false)
         const store = props.store
         const rateStore = props.rate
         const states = ref([])
@@ -599,7 +571,8 @@ export default {
             rateStore,
             v$,
             rules,
-            loading
+            loading,
+            videoPop
         }
     }
 }

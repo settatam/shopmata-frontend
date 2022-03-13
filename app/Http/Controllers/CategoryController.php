@@ -25,7 +25,8 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::orderBy('id', 'asc')->paginate(50);
+
+        $categories = Collection::orderBy('id', 'asc')->paginate(50);
         $filters = $request->all('search', 'level');
         return Inertia::render('Products/Categories/Index', compact('categories', 'filters'));
     }
@@ -129,11 +130,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
+        $category = Collection::find($id);
         if (is_null($category)) {
             throw new HttpException(404);
         }
-        return Inertia::render('Categories/Update', compact('category'));
+        return Inertia::render('Products/Categories/Edit', compact('category'));
     }
 
     /**

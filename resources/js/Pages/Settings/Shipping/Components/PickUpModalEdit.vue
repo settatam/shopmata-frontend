@@ -3,7 +3,7 @@
         <Dialog
             as="div"
             class="fixed z-10 inset-0 overflow-y-auto "
-            @close="closeModal()"
+            @close="closeModal"
         >
             <div
                 class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
@@ -64,11 +64,21 @@
                                         Location Name
                                     </label>
                                     <input
+                                        :class="{
+                                            'border-red-600': v$.name.$error,
+                                            'border-gray-300': !v$.name.$error
+                                        }"
                                         type="text"
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         v-model="local_pickup.name"
                                         required
                                     />
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="v$.name.$error"
+                                    >
+                                        {{ v$.name.$errors[0].$message }}
+                                    </p>
                                 </div>
 
                                 <div class="flex required  mb-4">
@@ -80,6 +90,12 @@
                                             Country
                                         </label>
                                         <select
+                                            :class="{
+                                                'border-red-600':
+                                                    v$.country_id.$error,
+                                                'border-gray-300': !v$
+                                                    .country_id.$error
+                                            }"
                                             id="country_id"
                                             name="country_id"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -97,30 +113,78 @@
                                                 {{ country.iso_code_2 }}</option
                                             >
                                         </select>
+
+                                        <p
+                                            class="text-red-600 text-xs"
+                                            v-if="v$.country_id.$error"
+                                        >
+                                            {{
+                                                v$.country_id.$errors[0]
+                                                    .$message
+                                            }}
+                                        </p>
                                     </div>
+
                                     <div class="ml-2 w-full">
                                         <label
                                             class="block text-gray-600 font-semibold mb-2 bg-transparent"
                                         >
                                             State
                                         </label>
-                                        <select
-                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            placeholder=""
-                                            v-model="local_pickup.state_id"
-                                            required
+                                        <div v-if="states.length">
+                                            <select
+                                                :class="{
+                                                    'border-red-600':
+                                                        v$.state_id.$error,
+                                                    'border-gray-300': !v$
+                                                        .state_id.$error
+                                                }"
+                                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                placeholder=""
+                                                v-model="local_pickup.state_id"
+                                                required
+                                            >
+                                                <option value=""
+                                                    >Choose a State</option
+                                                >
+                                                <option
+                                                    v-for="(state,
+                                                    index) in states[0].states"
+                                                    :key="index"
+                                                    :value="state.id"
+                                                    >{{ state.name }}</option
+                                                >
+                                            </select>
+                                        </div>
+
+                                        <!-- v-else -->
+
+                                        <div v-else>
+                                            <select
+                                                :class="{
+                                                    'border-red-600':
+                                                        v$.state_id.$error,
+                                                    'border-gray-300': !v$
+                                                        .state_id.$error
+                                                }"
+                                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                placeholder=""
+                                                v-model="local_pickup.state_id"
+                                                required
+                                            >
+                                                <option value="null"
+                                                    >Select State</option
+                                                >
+                                                
+                                            </select>
+
+                                        </div>
+                                        <p
+                                            class="text-red-600 text-xs"
+                                            v-if="v$.state_id.$error"
                                         >
-                                            <option value=""
-                                                >Choose a State</option
-                                            >
-                                            <option
-                                                v-for="(state,
-                                                index) in country_state"
-                                                :key="index"
-                                                :value="state.id"
-                                                >{{ state.name }}</option
-                                            >
-                                        </select>
+                                            {{ v$.state_id.$errors[0].$message }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="flex required  mb-4">
@@ -131,13 +195,27 @@
                                             City
                                         </label>
                                         <input
+                                            :class="{
+                                                'border-red-600':
+                                                    v$.city.$error,
+                                                'border-gray-300': !v$.city
+                                                    .$error
+                                            }"
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                             placeholder=""
                                             v-model="local_pickup.city"
                                             required
                                         />
+
+                                        <p
+                                            class="text-red-600 text-xs"
+                                            v-if="v$.city.$error"
+                                        >
+                                            {{ v$.city.$errors[0].$message }}
+                                        </p>
                                     </div>
+
                                     <div class="ml-2 w-full">
                                         <label
                                             class="block text-gray-600 font-semibold mb-2 bg-transparent"
@@ -145,12 +223,27 @@
                                             Postal Code
                                         </label>
                                         <input
+                                            :class="{
+                                                'border-red-600':
+                                                    v$.postal_code.$error,
+                                                'border-gray-300': !v$
+                                                    .postal_code.$error
+                                            }"
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                             placeholder=""
                                             v-model="local_pickup.postal_code"
                                             required
                                         />
+                                        <p
+                                            class="text-red-600 text-xs"
+                                            v-if="v$.postal_code.$error"
+                                        >
+                                            {{
+                                                v$.postal_code.$errors[0]
+                                                    .$message
+                                            }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class=" required w-full mb-4">
@@ -160,11 +253,22 @@
                                         Address
                                     </label>
                                     <input
+                                        :class="{
+                                            'border-red-600': v$.address.$error,
+                                            'border-gray-300': !v$.address
+                                                .$error
+                                        }"
                                         type="text"
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         v-model="local_pickup.address"
                                         required
                                     />
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="v$.address.$error"
+                                    >
+                                        {{ v$.address.$errors[0].$message }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -192,7 +296,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import {
     Dialog,
     DialogOverlay,
@@ -203,10 +307,12 @@ import {
 import { XIcon } from '@heroicons/vue/solid'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
+import useVuelidate from '@vuelidate/core'
+import { required, helpers, numeric, minValue } from '@vuelidate/validators'
 
 export default {
     emits: ['close'],
-    props: ['location'],
+    props: ['location', 'countries'],
 
     components: {
         Dialog,
@@ -216,56 +322,81 @@ export default {
         XIcon,
         TransitionRoot
     },
-    data () {
-        return {
-            countries: '',
-            country_state: {},
-            local_pickup: {}
+
+    setup (props, ctx) {
+        const open = ref(true)
+        const location = props.location
+        const countries = props.countries
+        const states = computed(() => {
+            return countries.filter(
+                country => country.id == local_pickup.country_id
+            )
+        })
+        const local_pickup = reactive({
+            name: location.name,
+            address: location.address,
+            country_id: location.country_id,
+            state_id: location.state_id,
+            postal_code: location.postal_code,
+            city: location.city
+        })
+
+        const closeModal = () => {
+            open.value = false
+            ctx.emit('close')
         }
-    },
-    methods: {
-        closeModal () {
-            this.open = false
-            this.$emit('close')
-        },
-        submit () {
-            if (this.local_pickup.address.length < 1) {
-                alert('Address field can be empty')
+
+        const rules = computed(() => {
+            return {
+                name: {
+                    required: helpers.withMessage('Enter a location', required)
+                },
+                country_id: {
+                    required: helpers.withMessage('Select a country', required)
+                },
+                state_id: {
+                    required: helpers.withMessage('Select a state', required)
+                },
+                address: {
+                    required: helpers.withMessage('Enter an address', required)
+                },
+                city: {
+                    required: helpers.withMessage('Enter a city name', required)
+                },
+                postal_code: {
+                    required: helpers.withMessage(
+                        'Enter a zip/postal code',
+                        required
+                    ),
+                    numeric
+                }
+            }
+        })
+
+        const v$ = useVuelidate(rules, local_pickup)
+
+        function submit () {
+            this.v$.$validate()
+            if (local_pickup.address.length < 1) {
+                return
             } else {
                 axios
-                    .put(
-                        `/settings/store-locations/${this.location}`,
-                        this.local_pickup
-                    )
-                    .then(() => {
+                    .put(`/settings/store-locations/${location.id}`, local_pickup)
+                    .then(res => {
                         this.open = false
                         Inertia.visit('/settings/shipping-and-delivery')
                     })
             }
         }
-    },
-    mounted () {
-        axios.get('/api/countries').then(res => {
-            this.countries = res.data.data
-            //console.log(countries)
-        }),
-            axios
-                .get(`/settings/store-locations/${this.location}`)
-                .then(res => {
-                    this.local_pickup = res.data
-                })
-    },
-    watch: {
-        'local_pickup.country_id' (newVal) {
-            axios.get(`/api/states?country_id=${newVal}`).then(res => {
-                this.country_state = res.data.data
-            })
-        }
-    },
-    setup () {
-        const open = ref(true)
+
         return {
-            open
+            open,
+            local_pickup,
+            submit,
+            v$,
+            closeModal,
+            countries,
+            states,
         }
     }
 }

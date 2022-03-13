@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash,Auth,Validator,Log,Notification};
 use App\Http\Helpers\Helper;
 
+use App\Events\UserAndStoreCreated;
+use App\Notifications\SendNotificationForNewStore;
 use Exception;
 
 trait Register 
@@ -43,7 +45,8 @@ trait Register
     }
 
 
-    public  function registerStep2($request) {
+    public  function registerStep2($request) 
+    {
 
         try {
 
@@ -142,6 +145,7 @@ trait Register
             if(!$request->store_id  && $store = Store::create($store_data)) {
                 $user->store_id = $store->id;
                 $user->save();
+                session(['store_id' => 'value']);
                 $storeOwnerDetails = StoreGroup::where('name', 'Owner')->first(); //Cache this
                 Log::info('Created a new store for user_id: ' . $user->id, $store_data);
                 $store_user = [
@@ -218,8 +222,14 @@ trait Register
                 Log::info(Auth::id() . ' updated store ' . $store_id . ' with the following details', $input);
             }else{
                 Log::info(Auth::id() . ' could not update store ' . $store_id . ' with the following details', $input);
-                throw new Exception("Failed to save your store");
             }
+
+           /// event(new UserAndStoreCreated($user));
+
+           // $user->notify(new \App\Notifications\SendNotificationForNewStore());
+            \Mail::to("jacob.atam@gmail.com")->send(new \App\Mail\StoreCreated());
+
+
             
             return  response()->json([
                 'next_url' => 'step-3',
@@ -236,8 +246,8 @@ trait Register
 
 
     public function exMessage($e) {
-        $data = [];
 
+        $data = [];
         $data['exceptionDetails'] = [
             "message" => $e->getMessage(),
             'file' => basename($e->getFile()),

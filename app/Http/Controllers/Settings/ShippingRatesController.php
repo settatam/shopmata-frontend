@@ -23,8 +23,8 @@ class ShippingRatesController extends Controller
      */
     public function index()
     {   
-        $user = request()->user();
-        return new ShippingRateCollection(ShippingRate::with('conditions')->where('store_id', $user->store_id)->orderBy('id', 'desc')->get());
+        $store_id = session('store_id');
+        return new ShippingRateCollection(ShippingRate::with('conditions')->where('store_id', $store_id)->orderBy('id', 'desc')->get());
     }
 
     /**
