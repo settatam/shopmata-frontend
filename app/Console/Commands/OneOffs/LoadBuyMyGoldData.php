@@ -51,18 +51,22 @@ class LoadBuyMyGoldData extends Command
             );
 
             //Create the customer using the customer details in the endpoint
-
             $transaction->status_id = $order['status_id'];
             $transaction->dwt = $order['dwt'];
             $transaction->insurance_value = $order['insurance_value'];
             $transaction->payment_type_id = getPaymentType($order['payment_type']);
             $transaction->bin_location = $order['bin_location'];
-            $transaction->store_id = this->getStore($order['is_jewelry']);
+            $transaction->store_id = $this->getStore($order['is_jewelry']);
             $transaction->kit_type = $order['kit_type'];
+            $transaction->save();
 
             //Create the transaction history
-
+            
             //Create eh transaction notes
+            $transaction->notes()->create([
+                'notes' => $order['notes'],
+                'type' => $order['notes_private'] ? 'private' : 'public',
+            ]);
 
         }
 
