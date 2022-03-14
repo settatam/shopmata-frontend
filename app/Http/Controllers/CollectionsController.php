@@ -82,6 +82,8 @@ class CollectionsController extends Controller
             $collection->handle = $collectionSlug;
             $collection->page_title = $request->input('seo_title');
             $collection->conditions = json_encode($request->input('conditions'), JSON_THROW_ON_ERROR);
+            $collection->seo_title = $request->input('seo_title');
+            $collection->seo_description = $request->input('seo_description');
             $collection->save();
             return response([
                 'message' => 'Collection updated successfully'
