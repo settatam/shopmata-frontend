@@ -82,7 +82,7 @@
                     <p class="font-semibold text-lg">Collection Details</p>
                     <div class="mt-4">
                         <label for="name" class="block text-xs text-gray-700"
-                            >Category Name</label
+                            >Collection Name</label
                         >
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <input
@@ -636,7 +636,7 @@ export default {
         },
         submitForm() {
             this.v$.$validate();
-            if (!this.v$.$error) {
+            if (this.v$.$error) {
                 return;
             }
             let appended = {};

@@ -584,7 +584,7 @@ export default {
                         this.submitting = false;
                     });
             } else {
-                alert("Form field empty");
+                return
             }
         },
         updateTemp(val) {
