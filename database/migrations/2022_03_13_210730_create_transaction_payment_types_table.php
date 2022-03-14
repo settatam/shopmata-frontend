@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterShippingRatesTableAddStoreId extends Migration
+class CreateTransactionPaymentTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AlterShippingRatesTableAddStoreId extends Migration
      */
     public function up()
     {
-        Schema::table('shipping_rates', function (Blueprint $table) {
-            // $table->integer('store_id');
+        Schema::create('transaction_payment_types', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +26,6 @@ class AlterShippingRatesTableAddStoreId extends Migration
      */
     public function down()
     {
-        Schema::table('shipping_rates', function (Blueprint $table) {
-            $table->dropColumn('store_id');
-        });
+        Schema::dropIfExists('transaction_payment_types');
     }
 }
