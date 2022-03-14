@@ -39,7 +39,9 @@
                 </div>
             </div>
         </div>
-        <div class="mx-auto pb-5 md:by-10 px-4 sm:px-6 lg:px-8 flex md:flex-row flex-col md:justify-between">
+        <div
+            class="mx-auto pb-5 md:by-10 px-4 sm:px-6 lg:px-8 flex md:flex-row flex-col md:justify-between"
+        >
             <!-- Main -->
             <div class="w-full">
                 <div class="bg-white flex flex-col p-8">
@@ -235,7 +237,8 @@
                                 </div>
                             </div>
                             <p class="text-gray-500">
-                                {{ page.seo_title.length }} of 70 characters used
+                                {{ page.seo_title.length }} of 70 characters
+                                used
                             </p>
                             <!-- <p class="mt-2 text-sm text-red-600" id="seo_title-error" v-if="(page.seo_title.length > 70)">Your seo_title must be less than 70 characters.</p> -->
                             <span
@@ -275,15 +278,17 @@
                                 </div>
                             </div>
                             <p class="text-gray-500">
-                                {{ page.seo_description.length }} of 70 characters
-                                used
+                                {{ page.seo_description.length }} of 70
+                                characters used
                             </p>
                             <!-- <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.seo_description.length > 70)">Your seo_description must be less than 70 characters.</p> -->
                             <span
                                 v-if="v$.page.seo_description.$error"
                                 class="text-red-400"
                             >
-                                {{ v$.page.seo_description.$errors[0].$message }}
+                                {{
+                                    v$.page.seo_description.$errors[0].$message
+                                }}
                             </span>
                         </div>
                         <div class="mb-6 mt-9">
@@ -293,24 +298,26 @@
                             >
                                 URL and handle
                             </label>
-                            <div
-                                class="mt-1 relative rounded-md shadow-sm"
-                            >
+                            <div class="mt-1 relative rounded-md shadow-sm">
                                 <div
                                     class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                                 >
-                                                <span
-                                                    class="text-gray-500 sm:text-sm"
-                                                    ref="domain_name"
-                                                >
-                                                    {{ store.domains[0].length ? store.domains[0].name + "/" : "" }}
-                                                </span>
+                                    <span
+                                        class="text-gray-500 sm:text-sm"
+                                        ref="domain_name"
+                                    >
+                                        {{
+                                            store.domains[0].length
+                                                ? store.domains[0].name + "/"
+                                                : ""
+                                        }}
+                                    </span>
                                 </div>
                                 <input
                                     type="text"
                                     :style="{
-                                                    paddingLeft: domainWidth,
-                                                }"
+                                        paddingLeft: domainWidth,
+                                    }"
                                     name="handle"
                                     id="handle"
                                     class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -340,14 +347,15 @@
                     <button
                         class="inline-flex items-center px-8 py-3 border border-transparent shadow-sm rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                         @click="submitForm()"
-
                     >
                         Update
                     </button>
                 </div>
             </div>
             <!-- Sidebar -->
-            <div class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm gap-y-4 w-full">
+            <div
+                class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm gap-y-4 w-full"
+            >
                 <div class="bg-white px-5 pt-4 pb-3">
                     <p class="font-semibold">Collection image</p>
                     <div id="img-previewer" v-if="collection.img">
@@ -403,7 +411,7 @@ import { notify } from "notiwind";
 export default {
     props: {
         category: Object,
-        store: Object
+        store: Object,
     },
     mounted() {
         this.domainWidth = this.$refs.domain_name.clientWidth + 10 + "px";
@@ -416,12 +424,15 @@ export default {
         );
         this.collection.description = this.category.description;
         this.collection.name = this.category.title;
-        if(this.category.image_url) {
+        if (this.category.image_url) {
             this.collection.img = {
                 large: this.category.image_url,
-                thumb: this.category.image_thumb
-            }
+                thumb: this.category.image_thumb,
+            };
         }
+        this.page.seo_description = this.category.seo_description || "";
+        this.page.seo_title = this.category.seo_title || "";
+        this.page.url = this.category.handle || "";
     },
     data: function () {
         return {
@@ -483,7 +494,7 @@ export default {
             collection: {
                 name: "",
                 description: "",
-                img: null
+                img: null,
             },
         };
     },
@@ -514,8 +525,8 @@ export default {
         submitForm() {
             this.v$.$validate();
             if (!this.v$.$error) {
-                let appended = {}
-                if(this.collection.img) {
+                let appended = {};
+                if (this.collection.img) {
                     appended.image_url = this.collection.img.large;
                     appended.image_thumb = this.collection.img.thumb;
                     appended.image_alt = this.collection.name;
@@ -529,6 +540,7 @@ export default {
                         })),
                         ...this.collection,
                         ...appended,
+                        ...this.page,
                     })
                     .then((response) => {
                         Inertia.visit("/categories", {

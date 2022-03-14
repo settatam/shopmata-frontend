@@ -77,6 +77,7 @@ trait ProductControllerValidators
             "brand_id" => "brand",
             "product_type_id" => "product type",
             "custom_product_type_id" => "custom product type",
+            "assets" => "images"
         ])->toArray();
         if(Product::where([
             ['title', 'LIKE', $request->input('title')],

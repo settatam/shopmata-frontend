@@ -2033,9 +2033,6 @@ select {
 .w-3\/6 {
 	width: 50%;
 }
-.w-18 {
-	width: 4.5rem;
-}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -5084,11 +5081,6 @@ input[type='checkbox']:focus {
 	.lg\:mx-2 {
 		margin-left: 0.5rem;
 		margin-right: 0.5rem;
-	}
-
-	.lg\:my-0 {
-		margin-top: 0px;
-		margin-bottom: 0px;
 	}
 
 	.lg\:mx-0 {
