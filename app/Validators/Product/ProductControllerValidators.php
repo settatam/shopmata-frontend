@@ -9,6 +9,7 @@ use App\Validators\ValidatorWrapper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Models\Product;
 
 trait ProductControllerValidators
 {
@@ -25,7 +26,7 @@ trait ProductControllerValidators
             "price" => ["numeric", "required", "bail",],
             "compare_at_price" => ["numeric", "nullable", "bail", ],
             "store_id" => ["numeric", "required", "bail", "exists:stores,id"],
-            "handle" => ["string", "required", "bail",],
+            "handle" => ["string", "nullable", "bail",],
             "upc" => ["nullable", "string", "bail",],
             "ean" => ["nullable", "string", "bail",],
             "jan" => ["nullable", "string", "bail",],
@@ -77,6 +78,12 @@ trait ProductControllerValidators
             "product_type_id" => "product type",
             "custom_product_type_id" => "custom product type",
         ])->toArray();
+        if(Product::where([
+            ['title', 'LIKE', $request->input('title')],
+            ['store_id', '=', $request->input('store_id')]
+        ])->exists()) {
+            throw new InvalidInputException("A product already exists with this title in your store.");
+        }
         if ($request->input('has_variants')) {
             $variantInputs = ValidatorWrapper::wrap($request, [
                 "available_variant_attributes" => ["required", "bail"],

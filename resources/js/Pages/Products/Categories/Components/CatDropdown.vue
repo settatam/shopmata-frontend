@@ -1,7 +1,7 @@
 <template>
     <Menu as="div" class="relative inline-block text-left">
     <div>
-      <MenuButton class="flex justify-between w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm">
+      <MenuButton class="flex justify-between w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none">
             {{label}}
         <SelectorIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
       </MenuButton>
@@ -11,12 +11,12 @@
       <MenuItems class="origin-top-left absolute left-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
         <div class="py-1">
           <MenuItem v-slot="{ active }" v-for="(option,index) in options" :key="index">
-            <p :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']" @click="emitValue(option.title)">{{option.title}}</p>
+            <p :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2']" @click="emitValue(option.title)">{{option.title}}</p>
           </MenuItem>
          </div>
       </MenuItems>
     </transition>
-  </Menu>  
+  </Menu>
 </template>
 <script>
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
@@ -33,7 +33,7 @@ export default {
 
       data(){
         return{
-          
+
         }
       },
       methods:{

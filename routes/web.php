@@ -119,6 +119,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/', [CollectionsController::class, 'index']);
         Route::post('/update/{id}', [CollectionsController::class, 'update']);
         Route::post('/delete/{id}', [CollectionsController::class, 'delete']);
+        Route::post('/delete-multiple', [CollectionsController::class, 'deleteMultiple']);
+        Route::get("/search", [CollectionsController::class, 'searchForCollection']);
     });
 
     #Brands
@@ -282,4 +284,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     // Route::resource('store/themes', StoreThemesController::class);
     Route::resource('settings/store-users', PlansAndPermissionsController::class);
     Route::resource('settings/store-locations', StoreLocationController::class);
+});
+
+Route::get('check-migrations', function() {
+   return response()->json([
+       'tables' => \Illuminate\Support\Facades\DB::table('migrations')->get()
+   ]);
 });

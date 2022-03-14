@@ -9,3 +9,21 @@ input[type='checkbox']:focus {
 .v3dp__popout[data-v-2e128338] {
     right: 0;
 }
+
+#img-previewer {
+    position: relative;
+}
+.close__btn {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: white;
+    color: black;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
