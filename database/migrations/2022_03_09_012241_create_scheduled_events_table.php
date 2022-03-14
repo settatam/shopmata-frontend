@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransactionNotesTable extends Migration
+class CreateScheduledEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateTransactionNotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_notes', function (Blueprint $table) {
+        Schema::create('scheduled_events', function (Blueprint $table) {
             $table->id();
-            $table->integer('transaction_id')->nullable();
-            $table->string('title')->nullable();
-            $table->text('notes')->nullable();
-            $table->integer('user_id')->nullable();
+            $table->integer('store_id');
+            $table->integer('user_id');
+            $table->integer('event_id');
+            $table->timestamp('event_time');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateTransactionNotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_notes');
+        Schema::dropIfExists('scheduled_events');
     }
 }

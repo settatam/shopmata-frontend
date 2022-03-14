@@ -21,7 +21,8 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "rcrowe/twigbridge": "^0.12.3",
         "tightenco/ziggy": "^1.0",
-        "torann/geoip": "^3.0"
+        "torann/geoip": "^3.0",
+        "twilio/sdk": "^6.35"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

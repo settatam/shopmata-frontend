@@ -16,7 +16,7 @@ class AlterOrderBillingAddressesTableAddOrderId extends Migration
         Schema::table('order_billing_addresses', function (Blueprint $table) {
             $table->string('paypal_address',50)->nullable();
             $table->string('venmo_address',50)->nullable();
-            $table->integer('order_id')->nullable();
+            // $table->integer('order_id')->nullable();
         });
     }
 

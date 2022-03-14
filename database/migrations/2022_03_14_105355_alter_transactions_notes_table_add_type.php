@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterShippingRatesTableAddStoreId extends Migration
+class AlterTransactionsNotesTableAddType extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AlterShippingRatesTableAddStoreId extends Migration
      */
     public function up()
     {
-        Schema::table('shipping_rates', function (Blueprint $table) {
-            // $table->integer('store_id');
+        Schema::table('transaction_notes', function (Blueprint $table) {
+            $table->string('type')->nullable()->index();
         });
     }
 
@@ -25,8 +25,8 @@ class AlterShippingRatesTableAddStoreId extends Migration
      */
     public function down()
     {
-        Schema::table('shipping_rates', function (Blueprint $table) {
-            $table->dropColumn('store_id');
+        Schema::table('transaction_notes', function (Blueprint $table) {
+            $table->dropColumn('type');
         });
     }
 }
