@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Scopes\StoreScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use App\Scopes\StoreScope;
 
 class Product extends Model
 {
@@ -20,10 +21,12 @@ class Product extends Model
         'title',
         'description',
         'weight',
+        "weight_unit",
+        "price",
         'compare_at_price',
         'has_variants',
         'store_id',
-        'handle',
+        'slug',
         'date_available',
         'minimum_order',
         'brand_id'
@@ -61,42 +64,59 @@ class Product extends Model
         return static::find($id);
     }
 
-    public function variants()
+    public function variants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
     }
 
-    public function categories()
+    public function categories(): HasMany
     {
         return $this->hasMany(ProductCategory::class);
     }
 
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class);
     }
 
-    public function brand()
+    public function allAssets(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function assets(): HasMany
+    {
+        return $this->allAssets()->whereNull('sku');
+    }
+
+    public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
-    public function options() {
+    public function productType(): BelongsTo
+    {
+        return $this->belongsTo(ProductType::class);
+    }
+
+    public function options(): HasMany
+    {
         return $this->hasMany(ProductOption::class);
     }
 
-    public function tags() {
-        return $this->hasMany(ProductTag::class);
+    public function metaFields(): HasMany
+    {
+        return $this->hasMany(ProductMetaField::class);
     }
 
 
-    public static function makeSlug($title, $store_id)
+    public static function makeSlug($title, $store_id): string
     {
         if (!$title || !$store_id) return '';
 
         $slug = Str::slug($title);
 
-        $slug_count  = Product::where('title', $title)->where('store_id', $store_id)->count();
+        $slug_count = Product::where('title', $title)->where('store_id', $store_id)->count();
 
         if ($slug_count >= 1) {
             $slug .= '_';
@@ -104,6 +124,11 @@ class Product extends Model
         }
 
         return $slug;
+    }
+
+    public function store(): BelongsTo
+    {
+        return $this->belongsTo(Store::class);
     }
 
     public function defaultVariant()
@@ -116,13 +141,4 @@ class Product extends Model
         return $this->belongsToMany(Collection::class);
     }
 
-    public function allAssets(): HasMany
-    {
-        return $this->hasMany(ProductImage::class);
-    }
-
-    public function assets(): HasMany
-    {
-        return $this->allAssets()->whereNull('sku');
-    }
 }

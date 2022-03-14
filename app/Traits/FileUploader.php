@@ -16,11 +16,10 @@ trait FileUploader {
 
 	}
 
-	//This is for themefiles
 	public function uploadAsset() {
-		
+
 		$needs_interpretation = false;
-		
+
 		if(strpos($this->title, 'js.twig') !== false) {
 			//File is a js.twig
 		}else if(strpos($this->title, 'css.twig') !== false) {
