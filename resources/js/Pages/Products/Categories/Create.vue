@@ -720,29 +720,29 @@ export default {
 
     validations() {
         return {
-            page: {
-                description: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
-                    maxLength: maxLength(70),
-                },
-                page_title: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
-                    maxLength: maxLength(70),
-                },
-                handle: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
-                    url,
-                },
-            },
+            // page: {
+            //     description: {
+            //         required: helpers.withMessage(
+            //             "This field cannot be empty",
+            //             required
+            //         ),
+            //         maxLength: maxLength(70),
+            //     },
+            //     page_title: {
+            //         required: helpers.withMessage(
+            //             "This field cannot be empty",
+            //             required
+            //         ),
+            //         maxLength: maxLength(70),
+            //     },
+            //     handle: {
+            //         required: helpers.withMessage(
+            //             "This field cannot be empty",
+            //             required
+            //         ),
+            //         url,
+            //     },
+            // },
             category: {
                 name: {
                     required: helpers.withMessage(
