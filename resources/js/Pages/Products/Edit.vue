@@ -161,7 +161,10 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="mb-10" v-if="!productToUpdate.has_variants">
+                                    <div
+                                        class="mb-10"
+                                        v-if="!productToUpdate.has_variants"
+                                    >
                                         <label
                                             class="block text-sm text-gray-500"
                                             for="sku"
@@ -176,7 +179,9 @@
                                                 autocomplete="street-address"
                                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                 v-model="productToUpdate.sku"
-                                                :disabled="productToUpdate.has_variants"
+                                                :disabled="
+                                                    productToUpdate.has_variants
+                                                "
                                             />
                                         </div>
                                         <!--                                            <div class="mt-1">-->
@@ -429,67 +434,67 @@
                         ></variants-form>
 
                         <!-- Link Starts Here -->
-<!--                        <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">-->
-<!--                            <div-->
-<!--                                class="flex justify-between cursor-pointer"-->
-<!--                                @click="link_open = !link_open"-->
-<!--                            >-->
-<!--                                <p-->
-<!--                                    class="text-black font-semibold text-lg mb-6"-->
-<!--                                >-->
-<!--                                    Link-->
-<!--                                </p>-->
-<!--                                <chevron-up-icon-->
-<!--                                    class="h-5 w-5 text-indigo-700 cursor-pointer"-->
-<!--                                    v-if="link_open"-->
-<!--                                />-->
-<!--                                <chevron-down-icon-->
-<!--                                    class="h-5 w-5 text-indigo-700 cursor-pointer"-->
-<!--                                    v-else-->
-<!--                                />-->
-<!--                            </div>-->
-<!--                            <div v-if="link_open">-->
-<!--                                <div class="flex flex-col mt-4 text-gray-600">-->
-<!--                                    <label for="manufacturer"-->
-<!--                                        >Manufacturer</label-->
-<!--                                    >-->
-<!--                                    <input-->
-<!--                                        type="text"-->
-<!--                                        name="manufacturer"-->
-<!--                                        id=""-->
-<!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
-<!--                                    />-->
-<!--                                </div>-->
-<!--                                <div class="flex flex-col mt-4 text-gray-600">-->
-<!--                                    <label for="Collections">Collections</label>-->
-<!--                                    <input-->
-<!--                                        type="text"-->
-<!--                                        name="Collections"-->
-<!--                                        id=""-->
-<!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
-<!--                                    />-->
-<!--                                </div>-->
-<!--                                <div class="flex flex-col mt-4 text-gray-600">-->
-<!--                                    <label for="filters">Filters</label>-->
-<!--                                    <input-->
-<!--                                        type="text"-->
-<!--                                        name="filters"-->
-<!--                                        id=""-->
-<!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
-<!--                                    />-->
-<!--                                </div>-->
-<!--                                <div class="flex flex-col mt-4 text-gray-600">-->
-<!--                                    <label for="related"-->
-<!--                                        >Related Products</label-->
-<!--                                    >-->
-<!--                                    <input-->
-<!--                                        type="text"-->
-<!--                                        name="related"-->
-<!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
-<!--                                    />-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!--                        <div class="bg-white p-4 md:p-8 mb-3 md:mb-5 rounded">-->
+                        <!--                            <div-->
+                        <!--                                class="flex justify-between cursor-pointer"-->
+                        <!--                                @click="link_open = !link_open"-->
+                        <!--                            >-->
+                        <!--                                <p-->
+                        <!--                                    class="text-black font-semibold text-lg mb-6"-->
+                        <!--                                >-->
+                        <!--                                    Link-->
+                        <!--                                </p>-->
+                        <!--                                <chevron-up-icon-->
+                        <!--                                    class="h-5 w-5 text-indigo-700 cursor-pointer"-->
+                        <!--                                    v-if="link_open"-->
+                        <!--                                />-->
+                        <!--                                <chevron-down-icon-->
+                        <!--                                    class="h-5 w-5 text-indigo-700 cursor-pointer"-->
+                        <!--                                    v-else-->
+                        <!--                                />-->
+                        <!--                            </div>-->
+                        <!--                            <div v-if="link_open">-->
+                        <!--                                <div class="flex flex-col mt-4 text-gray-600">-->
+                        <!--                                    <label for="manufacturer"-->
+                        <!--                                        >Manufacturer</label-->
+                        <!--                                    >-->
+                        <!--                                    <input-->
+                        <!--                                        type="text"-->
+                        <!--                                        name="manufacturer"-->
+                        <!--                                        id=""-->
+                        <!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
+                        <!--                                    />-->
+                        <!--                                </div>-->
+                        <!--                                <div class="flex flex-col mt-4 text-gray-600">-->
+                        <!--                                    <label for="Collections">Collections</label>-->
+                        <!--                                    <input-->
+                        <!--                                        type="text"-->
+                        <!--                                        name="Collections"-->
+                        <!--                                        id=""-->
+                        <!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
+                        <!--                                    />-->
+                        <!--                                </div>-->
+                        <!--                                <div class="flex flex-col mt-4 text-gray-600">-->
+                        <!--                                    <label for="filters">Filters</label>-->
+                        <!--                                    <input-->
+                        <!--                                        type="text"-->
+                        <!--                                        name="filters"-->
+                        <!--                                        id=""-->
+                        <!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
+                        <!--                                    />-->
+                        <!--                                </div>-->
+                        <!--                                <div class="flex flex-col mt-4 text-gray-600">-->
+                        <!--                                    <label for="related"-->
+                        <!--                                        >Related Products</label-->
+                        <!--                                    >-->
+                        <!--                                    <input-->
+                        <!--                                        type="text"-->
+                        <!--                                        name="related"-->
+                        <!--                                        class="block w-full pl-7 sm:text-sm border-gray-300 rounded-md"-->
+                        <!--                                    />-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
                         <!-- Inventory Starts here -->
 
                         <div
@@ -845,7 +850,12 @@
                                                 class="text-gray-500 sm:text-sm"
                                                 ref="domain_name"
                                             >
-                                                {{ store.domains.length ? store.domains[0].name + "/" : "" }}
+                                                {{
+                                                    store.domains.length
+                                                        ? store.domains[0]
+                                                              .name + "/"
+                                                        : ""
+                                                }}
                                             </span>
                                         </div>
                                         <input
@@ -920,6 +930,8 @@
                 </div>
             </div>
         </div>
+        <SuccessNotif />
+        <ErrorNotif />
     </app-layout>
 </template>
 
@@ -965,6 +977,9 @@ import {
 } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { Inertia } from "@inertiajs/inertia";
+import { notify } from "notiwind";
+import SuccessNotif from "@/Pages/Products/Components/SuccessNotif.vue";
+import ErrorNotif from "@/Pages/Products/Components/ErrorNotif.vue";
 
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
@@ -1008,6 +1023,8 @@ export default {
         ChevronDownIcon,
         HomeIcon,
         ChartPieIcon,
+        SuccessNotif,
+        ErrorNotif,
     },
 
     data() {
@@ -1252,7 +1269,7 @@ export default {
                 });
             });
             Object.keys(this.productToUpdate).map((key) => {
-                if(key !== 'variants') {
+                if (key !== "variants") {
                     productsRequest[key] = this.productToUpdate[key];
                 }
             });
@@ -1263,8 +1280,35 @@ export default {
                     Inertia.visit("/products", {
                         method: "get",
                     });
+                    notify(
+                        {
+                            group: "success",
+                            title: "Success",
+                            text: `Product updated successfully`,
+                        },
+                        4000
+                    );
                 })
                 .catch((error) => {
+                    if (error.response.status === 400) {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: error.response.data.message,
+                            },
+                            4000
+                        );
+                    } else {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: "Something went wrong, please try again later.",
+                            },
+                            4000
+                        );
+                    }
                     console.log(error.response.data);
                     if (error.response.data.errors) {
                         errors.value = error.response.data.errors;
@@ -1303,7 +1347,7 @@ export default {
             if (!e) return false;
             let index = e[1];
             let name = e[0];
-            console.log(name)
+            console.log(name);
             this.variants.options[index].values.push(name);
             this.displayVariants();
         },

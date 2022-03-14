@@ -1273,9 +1273,6 @@ select {
 .col-span-10 {
 	grid-column: span 10 / span 10;
 }
-.col-start-1 {
-	grid-column-start: 1;
-}
 .float-right {
 	float: right;
 }
@@ -3676,6 +3673,23 @@ input[type='checkbox']:focus {
 .v3dp__popout[data-v-2e128338] {
     right: 0;
 }
+#img-previewer {
+    position: relative;
+}
+.close__btn {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: white;
+    color: black;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .focus-within\:text-gray-600:focus-within {
 	--tw-text-opacity: 1;
 	color: rgba(75, 85, 99, var(--tw-text-opacity));
@@ -5056,14 +5070,6 @@ input[type='checkbox']:focus {
 		grid-column: span 2 / span 2;
 	}
 
-	.lg\:col-span-1 {
-		grid-column: span 1 / span 1;
-	}
-
-	.lg\:col-start-4 {
-		grid-column-start: 4;
-	}
-
 	.lg\:m-0 {
 		margin: 0px;
 	}
@@ -5272,10 +5278,6 @@ input[type='checkbox']:focus {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
 
-	.lg\:grid-cols-5 {
-		grid-template-columns: repeat(5, minmax(0, 1fr));
-	}
-
 	.lg\:flex-row {
 		flex-direction: row;
 	}
@@ -5294,11 +5296,6 @@ input[type='checkbox']:focus {
 
 	.lg\:gap-24 {
 		gap: 6rem;
-	}
-
-	.lg\:gap-x-5 {
-		-moz-column-gap: 1.25rem;
-		     column-gap: 1.25rem;
 	}
 
 	.lg\:space-y-8 > :not([hidden]) ~ :not([hidden]) {

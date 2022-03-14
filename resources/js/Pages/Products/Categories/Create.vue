@@ -153,7 +153,7 @@
                                         name="conditions"
                                         id=""
                                         v-model="condition.tag"
-                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
@@ -171,7 +171,7 @@
                                         name="conditions"
                                         id=""
                                         v-model="condition.value"
-                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
@@ -188,7 +188,7 @@
                                 <div class="flex flex-col w-3.5/10 mb-2">
                                     <input
                                         type="text"
-                                        class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300"
+                                        class="w-full py-1.5 sm:text-sm rounded-md border-gray-300"
                                         v-model="condition.condition"
                                     />
                                 </div>
@@ -220,7 +220,7 @@
                                     <select
                                         name="product_condition"
                                         v-model="condition.tag"
-                                        class="rounded-md border border-gray-300 shadow-sm px-3 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-3 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
@@ -242,7 +242,7 @@
                                     <select
                                         name="all_conditions"
                                         v-model="condition.tag"
-                                        class="rounded-md border border-gray-300 shadow-sm px-3 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-3 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
@@ -262,13 +262,13 @@
                                 >
                                 <input
                                     type="text"
-                                    class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300"
+                                    class="w-full py-1.5 rounded-md border-gray-300"
                                     v-model="condition.condition"
                                 />
                             </div>
                         </template>
                         <button
-                            class="text-indigo-700 sm:text-sm rounded-md border border-indigo-700 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4"
+                            class="text-indigo-700 sm:text-sm rounded-md border border-indigo-700 mb-5 pl-3 pr-6 py-2.5 mt-4"
                             @click="add"
                         >
                             Add another condition
@@ -479,12 +479,20 @@
                 </div>
             </div>
             <!-- Sidebar -->
-            <div
-                class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm gap-y-4 w-full"
-            >
+            <div class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm gap-y-4 w-full">
                 <div class="bg-white px-5 pt-4 pb-3 rounded-sm">
                     <p class="font-semibold">Collection image</p>
-                    <drop-zone class="mt-3"></drop-zone>
+                    <div id="img-previewer" v-if="category.img">
+                        <button @click="removePreview" class="close__btn">
+                            &times;
+                        </button>
+                        <img
+                            alt=""
+                            :src="category.img.large"
+                            class="w-100 mb-5"
+                        />
+                    </div>
+                    <drop-zone @add-image="onAddImage" class="mt-3"></drop-zone>
                 </div>
                 <div class="bg-white px-5 py-4 md:my-4 rounded-sm">
                     <p class="font-semibold mt-2">Collection theme</p>
@@ -501,13 +509,15 @@
                 </div>
             </div>
         </div>
+        <SuccessNotif />
+        <ErrorNotif />
     </app-layout>
 </template>
 
 <script>
 import { ref, reactive } from "vue";
 import AppLayout from "../../../Layouts/AppLayout.vue";
-import DropZone from "./Components/Dropzone.vue";
+import DropZone from "../Components/Dropzone.vue";
 import CatDropDown from "./Components/CatDropdown.vue";
 import Condition from "./Components/Condition.vue";
 import {
@@ -522,6 +532,9 @@ import { HomeIcon } from "@heroicons/vue/outline";
 import { required, maxLength, url, helpers } from "@vuelidate/validators";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
+import SuccessNotif from "@/Pages/Products/Components/SuccessNotif.vue";
+import ErrorNotif from "@/Pages/Products/Components/ErrorNotif.vue";
+import { notify } from "notiwind";
 
 const pages = [
     { name: "All Collections", href: "/categories", current: false },
@@ -591,6 +604,7 @@ export default {
             category: {
                 name: "",
                 description: "",
+                img: null,
             },
         };
     },
@@ -605,6 +619,8 @@ export default {
         Condition,
         HomeIcon,
         ChevronRightIcon,
+        SuccessNotif,
+        ErrorNotif,
     },
     computed: {
         formData() {
@@ -612,10 +628,22 @@ export default {
         },
     },
     methods: {
+        removePreview() {
+            this.category.img = null;
+        },
+        onAddImage(e) {
+            this.category.img = e.data[0];
+        },
         submitForm() {
             this.v$.$validate();
             if (!this.v$.$error) {
                 return;
+            }
+            let appended = {};
+            if (this.category.img !== null) {
+                appended.image_url = this.category.img.large;
+                appended.image_thumb = this.category.img.thumb;
+                appended.image_alt = this.category.name;
             }
             axios
                 .post("/collections", {
@@ -624,14 +652,42 @@ export default {
                         condition: condition.value,
                         value: condition.condition,
                     })),
-                    ...this.category
+                    ...this.category,
+                    ...appended,
                 })
                 .then((response) => {
                     Inertia.visit("/categories", {
                         method: "get",
                     });
+                    notify(
+                        {
+                            group: "success",
+                            title: "Success",
+                            text: "Collection created successfully",
+                        },
+                        4000
+                    );
                 })
                 .catch((error) => {
+                    if (error.response.status === 400) {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: error.response.data.message,
+                            },
+                            4000
+                        );
+                    } else {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: "Something went wrong, please try again later.",
+                            },
+                            4000
+                        );
+                    }
                     console.log(error.response.data);
                     if (error.response.data.errors) {
                         errors.value = error.response.data.errors;

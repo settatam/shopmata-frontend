@@ -39,9 +39,9 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col lg:grid lg:grid-cols-5 lg:gap-x-5 mx-5">
+        <div class="mx-auto pb-5 md:by-10 px-4 sm:px-6 lg:px-8 flex md:flex-row flex-col md:justify-between">
             <!-- Main -->
-            <div class="col-start-1 col-span-3">
+            <div class="w-full">
                 <div class="bg-white flex flex-col p-8">
                     <p class="font-semibold">Collection Details</p>
                     <div class="mt-4">
@@ -135,7 +135,7 @@
                                         name="conditions"
                                         id=""
                                         v-model="condition.tag"
-                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
@@ -160,7 +160,7 @@
                                         name="conditions"
                                         id=""
                                         v-model="condition.equal"
-                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
@@ -177,7 +177,7 @@
                                 <div class="flex flex-col w-3.5/10 mb-2">
                                     <input
                                         type="text"
-                                        class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300"
+                                        class="w-full py-1.5 sm:text-sm rounded-md border-gray-300"
                                         v-model="condition.condition"
                                     />
                                 </div>
@@ -347,10 +347,20 @@
                 </div>
             </div>
             <!-- Sidebar -->
-            <div class="lg:col-start-4 lg:col-span-1">
+            <div class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm gap-y-4 w-full">
                 <div class="bg-white px-5 pt-4 pb-3">
                     <p class="font-semibold">Collection image</p>
-                    <drop-zone class="mt-3"></drop-zone>
+                    <div id="img-previewer" v-if="collection.img">
+                        <button @click="removePreview" class="close__btn">
+                            &times;
+                        </button>
+                        <img
+                            alt=""
+                            :src="collection.img.large"
+                            class="w-100 mb-5"
+                        />
+                    </div>
+                    <drop-zone @add-image="onAddImage" class="mt-3"></drop-zone>
                 </div>
                 <div class="bg-white px-5 py-4 my-4">
                     <p class="font-semibold mt-2">Collection image</p>
@@ -366,12 +376,14 @@
                 </div>
             </div>
         </div>
+        <ErrorNotif />
+        <SuccessNotif />
     </app-layout>
 </template>
 
 <script>
 import AppLayout from "../../../Layouts/AppLayout.vue";
-import DropZone from "./Components/Dropzone.vue";
+import DropZone from "../Components/Dropzone.vue";
 import CatDropDown from "./Components/CatDropdown.vue";
 import Condition from "./Components/Condition.vue";
 import {
@@ -384,6 +396,9 @@ import useVuelidate from "@vuelidate/core";
 import { required, maxLength, url, helpers } from "@vuelidate/validators";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
+import ErrorNotif from "@/Pages/Products/Components/ErrorNotif";
+import SuccessNotif from "@/Pages/Products/Components/SuccessNotif";
+import { notify } from "notiwind";
 
 export default {
     props: {
@@ -401,6 +416,12 @@ export default {
         );
         this.collection.description = this.category.description;
         this.collection.name = this.category.title;
+        if(this.category.image_url) {
+            this.collection.img = {
+                large: this.category.image_url,
+                thumb: this.category.image_thumb
+            }
+        }
     },
     data: function () {
         return {
@@ -462,10 +483,13 @@ export default {
             collection: {
                 name: "",
                 description: "",
+                img: null
             },
         };
     },
     components: {
+        SuccessNotif,
+        ErrorNotif,
         AppLayout,
         DropZone,
         CatDropDown,
@@ -481,9 +505,21 @@ export default {
         },
     },
     methods: {
+        removePreview() {
+            this.collection.img = null;
+        },
+        onAddImage(e) {
+            this.collection.img = e.data[0];
+        },
         submitForm() {
             this.v$.$validate();
             if (!this.v$.$error) {
+                let appended = {}
+                if(this.collection.img) {
+                    appended.image_url = this.collection.img.large;
+                    appended.image_thumb = this.collection.img.thumb;
+                    appended.image_alt = this.collection.name;
+                }
                 axios
                     .post(`/collections/update/${this.category.id}`, {
                         conditions: this.conditions.map((condition) => ({
@@ -492,14 +528,42 @@ export default {
                             value: condition.condition,
                         })),
                         ...this.collection,
+                        ...appended,
                     })
                     .then((response) => {
                         Inertia.visit("/categories", {
                             method: "get",
                         });
+                        notify(
+                            {
+                                group: "success",
+                                title: "Success",
+                                text: "Collection edited successfully",
+                            },
+                            4000
+                        );
                     })
                     .catch((error) => {
                         console.log(error.response.data);
+                        if (error.response.status === 400) {
+                            notify(
+                                {
+                                    group: "error",
+                                    title: "Error",
+                                    text: error.response.data.message,
+                                },
+                                4000
+                            );
+                        } else {
+                            notify(
+                                {
+                                    group: "error",
+                                    title: "Error",
+                                    text: "Something went wrong, please try again later.",
+                                },
+                                4000
+                            );
+                        }
                         if (error.response.data.errors) {
                             errors.value = error.response.data.errors;
                         }
@@ -533,24 +597,24 @@ export default {
         return {
             page: {
                 seo_description: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
+                    // required: helpers.withMessage(
+                    //     "This field cannot be empty",
+                    //     required
+                    // ),
                     minLength: maxLength(70),
                 },
                 seo_title: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
+                    // required: helpers.withMessage(
+                    //     "This field cannot be empty",
+                    //     required
+                    // ),
                     minLength: maxLength(70),
                 },
                 url: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
+                    // required: helpers.withMessage(
+                    //     "This field cannot be empty",
+                    //     required
+                    // ),
                 },
             },
             collection: {

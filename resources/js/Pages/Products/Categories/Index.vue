@@ -14,7 +14,7 @@
                                         <h1
                                             class="text-lg md:text-2xl font-bold leading-7 text-gray-900 sm:leading-9 sm:truncate"
                                         >
-                                            All Categories
+                                            All Collections
                                         </h1>
                                     </div>
                                 </div>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="">
-                <label for="search" class="text-xm md:text-base">
+                <label for="search" class="text-xm md:text-base mb-3">
                     What are you looking for?
                 </label>
                 <div
@@ -54,8 +54,18 @@
                         class="rounded text-xm md:text-base text-gray-500 w-full md:search-field md:w-full pl-12 pr-2 bg-transparent border border-gray-200 placeholder-gray-500 placehol"
                         placeholder="Search by collection name"
                         type="search"
+                        v-model="q"
+                        @keydown="searchAction"
                     />
                 </div>
+            </div>
+            <div v-if="selected.length" class="mt-3 mb-3">
+                <button
+                    class="rounded-md border border-transparent shadow-sm px-10 py-3 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer focus:ring-red-500 sm:text-sm"
+                    @click="delete_selected = true"
+                >
+                    Delete Collection
+                </button>
             </div>
             <div class="flex items-center justify-between my-4 md:hidden">
                 <div
@@ -131,11 +141,11 @@
 
                         <tbody
                             class="bg-white divide-y divide-gray-200"
-                            v-if="categories.data.length > 0"
+                            v-if="collectionListing.length > 0"
                         >
                             <tr
                                 class="bg-white hover:bg-indigo-50"
-                                v-for="category in categories.data"
+                                v-for="category in collectionListing"
                                 :key="category.id"
                             >
                                 <td
@@ -162,10 +172,16 @@
                                             class="flex-shrink-0 h-12 w-12 rounded-sm mr-3.5 lg:mr-5 border-2 border-r"
                                         >
                                             <img
-                                                :src="category.image_url"
+                                                :src="category.image_thumb"
                                                 alt="category_image"
                                             />
                                         </div>
+                                        <img
+                                            v-else
+                                            src="/images/product-placeholder.png"
+                                            class="h-12 w-12 rounded-full mr-3.5 lg:mr-5"
+                                            alt="{{category.title}}"
+                                        />
                                         <inertia-link
                                             :href="`/categories/${category.id}/edit`"
                                             class="group inline-flex space-x-2 w-72"
@@ -173,7 +189,7 @@
                                             <p
                                                 class="text-gray-800 truncate group-hover:text-gray-900 break-normal"
                                             >
-                                                {{ category.description }}
+                                                {{ category.title }}
                                             </p>
                                         </inertia-link>
                                     </div>
@@ -298,31 +314,98 @@
                 </div>
             </div>
         </div>
+        <delete-alert
+            @close="close"
+            @delete="delete_action"
+            v-if="delete_selected"
+            :selected="selected"
+            :open="open_delete"
+            item="collection"
+        />
+        <SuccessNotif />
+        <ErrorNotif />
     </app-layout>
 </template>
 <script>
 import { ref } from "vue";
 import AppLayout from "../../../Layouts/AppLayout.vue";
+import SuccessNotif from "@/Pages/Products/Components/SuccessNotif.vue";
+import ErrorNotif from "@/Pages/Products/Components/ErrorNotif.vue";
 import { PencilIcon, PlusIcon, SearchIcon } from "@heroicons/vue/solid";
 import { TrashIcon } from "@heroicons/vue/outline";
+import axios from "axios";
+import { notify } from "notiwind";
+import { Inertia } from "@inertiajs/inertia";
+import DeleteAlert from "@/Pages/Products/Components/DeleteAlert.vue";
 export default {
     props: {
-        categories: Array
+        categories: Object,
     },
-    components: { AppLayout, PencilIcon, PlusIcon, SearchIcon, TrashIcon },
+    components: {
+        AppLayout,
+        PencilIcon,
+        PlusIcon,
+        SearchIcon,
+        TrashIcon,
+        DeleteAlert,
+        ErrorNotif,
+        SuccessNotif
+    },
+    computed: {
+        collectionListing() {
+            if (
+                !this.q
+            ) {
+                return this.categories.data;
+            } else {
+                if (this.haveFilteredOnce) {
+                    return this.filteredCollections;
+                } else {
+                    return this.categories.data;
+                }
+            }
+        },
+    },
     data() {
         return {
             selected: [],
             selectedAll: false,
             delete_selected: false,
+            filteredCollections: [],
+            q: "",
+            haveFilteredOnce: false,
         };
     },
+    watch: {
+        q: function (value) {
+            if (!value) {
+                this.initiateSearch();
+            }
+        },
+    },
     methods: {
+        initiateSearch: function () {
+            axios
+                .get(`/collections/search`, {
+                    params: {
+                        q: this.q,
+                    },
+                })
+                .then((res) => {
+                    this.haveFilteredOnce = true;
+                    this.filteredCollections = res.data.data;
+                });
+        },
+        searchAction: function (e) {
+            if (e.key === "Enter" && this.q) {
+                this.initiateSearch();
+            }
+        },
         select() {
             this.selected = [];
             if (!this.selectedAll) {
-                for (let i in this.categories) {
-                    this.selected.push(this.categories[i].id);
+                for (let i in this.categories.data) {
+                    this.selected.push(this.categories.data[i].id);
                 }
             }
         },
@@ -344,9 +427,70 @@ export default {
         },
         delete_action() {
             //console.log(id)
-            this.selected = [];
-            this.selectedAll = false;
+            const count = this.selected.length;
+            axios
+                .post(`collections/delete-multiple`, {
+                    collection_ids: this.selected,
+                })
+                .then((response) => {
+                    notify(
+                        {
+                            group: "success",
+                            title: "Success",
+                            text: `Collection${
+                                count > 1 ? "s" : ""
+                            } deleted  successfully`,
+                        },
+                        4000
+                    );
+                    this.selected = [];
+                    this.selectedAll = false;
+                    Inertia.reload({
+                        only: ["categories"],
+                    });
+                    notify(
+                        {
+                            group: "success",
+                            title: "Success",
+                            text: "Collection(s) deleted successfully",
+                        },
+                        4000
+                    );
+                })
+                .catch((error) => {
+                    console.log(error.response.data);
+                    if (error.response.status === 400) {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: error.response.data.message,
+                            },
+                            4000
+                        );
+                    } else {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: "Something went wrong, please try again later.",
+                            },
+                            4000
+                        );
+                    }
+                    if (error.response.data.errors) {
+                        errors.value = error.response.data.errors;
+                    }
+                })
+                .finally(() => {
+                    this.submitting = false;
+                });
         },
+    },
+    setup() {
+        const open_delete = ref(false);
+
+        return { open_delete };
     },
 };
 </script>

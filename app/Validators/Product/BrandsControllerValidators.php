@@ -19,7 +19,7 @@ trait BrandsControllerValidators
             ['name', '=', $request->input("name")],
             ['store_id', '=', $store_id]
         ])->exists()) {
-            throw new InvalidInputException("This brand already exists on the system");
+            throw new InvalidInputException("This brand already exists on your store.");
         }
     }
 }

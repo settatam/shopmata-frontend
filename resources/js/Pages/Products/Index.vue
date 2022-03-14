@@ -82,7 +82,7 @@
                                         placeholder="Search by name, email....."
                                         type="search"
                                         v-model="q"
-                                        @keydown="initiateSearch"
+                                        @keydown="searchAction"
                                     />
                                 </div>
                             </div>
@@ -95,11 +95,13 @@
                                     id=""
                                     class="rounded text-gray-500 w-full text-xm md:text-base bg-transparent border border-gray-200"
                                     v-model="filteredProductBrand"
+                                    @change="initiateSearch"
                                 >
                                     <option value="">All</option>
                                     <option
                                         v-for="(brand, index) in brands"
                                         :key="`brand_${index}`"
+                                        :value="brand.id"
                                     >
                                         {{ brand.name }}
                                     </option>
@@ -114,6 +116,7 @@
                                     id=""
                                     class="rounded text-gray-500 text-xm md:text-base w-full bg-transparent border border-gray-200"
                                     v-model="filteredProductType"
+                                    @change="initiateSearch"
                                 >
                                     <option value="">All</option>
                                     <option
@@ -137,6 +140,7 @@
                                         id=""
                                         class="rounded text-xm md:text-base text-gray-500 w-full bg-transparent border border-gray-200"
                                         v-model="filteredProductStatus"
+                                        @change="initiateSearch"
                                     >
                                         <option value="active">Active</option>
                                         <option value="archived">
@@ -289,6 +293,8 @@
                                                         "
                                                         class="h-12 w-12 rounded-full"
                                                         :src="
+                                                            product.images[0]
+                                                                .thumb ||
                                                             product.images[0]
                                                                 .url
                                                         "
@@ -628,6 +634,8 @@
                 </div>
             </div>
         </div>
+        <SuccessNotif />
+        <ErrorNotif />
     </app-layout>
 </template>
 
@@ -645,6 +653,9 @@ import {
 } from "@heroicons/vue/solid";
 import { ScaleIcon, PlusIcon, TrashIcon } from "@heroicons/vue/outline";
 import DeleteAlert from "./Components/DeleteAlert.vue";
+import SuccessNotif from "@/Pages/Products/Components/SuccessNotif.vue";
+import ErrorNotif from "@/Pages/Products/Components/ErrorNotif.vue";
+import { notify } from "notiwind";
 
 const transactions = [
     {
@@ -694,12 +705,25 @@ export default {
         ChevronRightIcon,
         PencilIcon,
         DeleteAlert,
+        ErrorNotif,
+        SuccessNotif,
     },
     computed: {
         productListing() {
-            return this.filteredProducts.length
-                ? this.filteredProducts
-                : this.products.data;
+            if (
+                !this.q &&
+                this.filteredProductType === "" &&
+                this.filteredProductStatus === "active" &&
+                this.filteredProductBrand === ""
+            ) {
+                return this.products.data;
+            } else {
+                if (this.haveFilteredOnce) {
+                    return this.filteredProducts;
+                } else {
+                    return this.products.data;
+                }
+            }
         },
     },
     data() {
@@ -712,38 +736,43 @@ export default {
             filteredProductBrand: "",
             q: "",
             filteredProducts: [],
+            haveFilteredOnce: false,
         };
     },
     watch: {
         q: function (value) {
             if (!value) {
-                this.filteredProducts = [];
+                this.initiateSearch();
             }
         },
     },
     methods: {
-        initiateSearch: function (e) {
+        initiateSearch: function () {
+            axios
+                .get(`/products/search`, {
+                    params: {
+                        q: this.q,
+                        ...(this.filteredProductBrand
+                            ? {
+                                  brand: this.filteredProductBrand,
+                              }
+                            : {}),
+                        ...(this.filteredProductType
+                            ? {
+                                  type: this.filteredProductType,
+                              }
+                            : {}),
+                        status: this.filteredProductStatus,
+                    },
+                })
+                .then((res) => {
+                    this.haveFilteredOnce = true;
+                    this.filteredProducts = res.data.data.products;
+                });
+        },
+        searchAction: function (e) {
             if (e.key === "Enter" && this.q) {
-                axios
-                    .get(`/products/search`, {
-                        params: {
-                            q: this.q,
-                            ...(this.filteredProductBrand
-                                ? {
-                                      brand: this.filteredProductBrand,
-                                  }
-                                : {}),
-                            ...(this.filteredProductType
-                                ? {
-                                      type: this.filteredProductType,
-                                  }
-                                : {}),
-                            status: this.filteredProductStatus,
-                        },
-                    })
-                    .then((res) => {
-                        this.filteredProducts = res.data.data.products;
-                    });
+                this.initiateSearch();
             }
         },
         select() {
@@ -772,11 +801,22 @@ export default {
         },
         delete_action() {
             //console.log(id)
+            const count = this.selected.length;
             axios
                 .post(`products/delete-multiple`, {
                     product_ids: this.selected,
                 })
                 .then((response) => {
+                    notify(
+                        {
+                            group: "success",
+                            title: "Success",
+                            text: `Product${
+                                count > 1 ? "s" : ""
+                            } deleted  successfully`,
+                        },
+                        4000
+                    );
                     this.selected = [];
                     this.selectedAll = false;
                     Inertia.reload({
@@ -785,6 +825,25 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error.response.data);
+                    if (error.response.status === 400) {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: error.response.data.message,
+                            },
+                            4000
+                        );
+                    } else {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: "Something went wrong, please try again later.",
+                            },
+                            4000
+                        );
+                    }
                     if (error.response.data.errors) {
                         errors.value = error.response.data.errors;
                     }

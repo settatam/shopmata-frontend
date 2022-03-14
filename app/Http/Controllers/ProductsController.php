@@ -640,12 +640,13 @@ class ProductsController extends Controller
         $status = $request->query("status");
         $storeID = session()->get('store_id');
 
-        $products = Product::with('categories', 'variants', 'brand')->where('store_id', $storeID)->where(function ($query) use ($search) {
-            $query->where('title', 'like', "%" . $search . "%")
-                ->orWhere('quantity', 'like', "%" . $search . "%")
-                ->orWhere('seo_description', 'like', "%" . $search . "%")
-                ->orWhere('seo_page_title', 'like', "%" . $search . "%");
-        })->when($brand, function ($query, $brand) {
+        $products = Product::with('categories', 'variants', 'brand')->where('store_id', $storeID)
+            ->when($search, function($query, $search){
+                $query->where('title', 'like', "%" . $search . "%")
+                    ->orWhere('quantity', 'like', "%" . $search . "%")
+                    ->orWhere('seo_description', 'like', "%" . $search . "%")
+                    ->orWhere('seo_page_title', 'like', "%" . $search . "%");
+            })->when($brand, function ($query, $brand) {
             $query->where('brand_id', '=', $brand);
         })->when($type, function ($query, $type) {
             $query->where('product_type_id', '=', $type);
