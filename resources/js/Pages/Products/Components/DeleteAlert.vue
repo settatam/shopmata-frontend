@@ -64,8 +64,8 @@ export default {
       },
       deleteUser(){
           this.open = false
-           this.$emit('close')
            this.$emit('delete')
+           this.$emit('close')
       }
   },
   setup() {
