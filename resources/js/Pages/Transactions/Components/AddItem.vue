@@ -135,7 +135,7 @@
                                         </p>
                                     </div>
 
-                                    <div class="lg:ml-2 w-full">
+                                    <div class="lg:ml-2 w-full lg:mt-0 mt-4">
                                         <label
                                             class="block text-gray-600 font-semibold mb-2 bg-transparent"
                                         >
