@@ -82,7 +82,7 @@
                     <p class="font-semibold text-lg">Collection Details</p>
                     <div class="mt-4">
                         <label for="name" class="block text-xs text-gray-700"
-                            >Category Name</label
+                            >Collection Name</label
                         >
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <input
@@ -153,16 +153,16 @@
                                         name="conditions"
                                         id=""
                                         v-model="condition.tag"
-                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
                                                 option, index
                                             ) in product_options"
                                             :key="index"
-                                            v-bind:value="option.title"
+                                            v-bind:value="option.name"
                                         >
-                                            {{ option.title }}
+                                            {{ option.name }}
                                         </option>
                                     </select>
                                 </div>
@@ -171,24 +171,24 @@
                                         name="conditions"
                                         id=""
                                         v-model="condition.value"
-                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
                                                 option, index
-                                            ) in condition_options"
+                                            ) in getConditionOptions(condition)"
                                             :key="index"
-                                            v-bind:value="option.title"
+                                            v-bind:value="option.name"
                                             class="text-gray-700', 'block px-4 py-2 text-sm"
                                         >
-                                            {{ option.title }}
+                                            {{ option.name }}
                                         </option>
                                     </select>
                                 </div>
                                 <div class="flex flex-col w-3.5/10 mb-2">
                                     <input
                                         type="text"
-                                        class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300"
+                                        class="w-full py-1.5 sm:text-sm rounded-md border-gray-300"
                                         v-model="condition.condition"
                                     />
                                 </div>
@@ -220,7 +220,7 @@
                                     <select
                                         name="product_condition"
                                         v-model="condition.tag"
-                                        class="rounded-md border border-gray-300 shadow-sm px-3 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-3 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
@@ -242,7 +242,7 @@
                                     <select
                                         name="all_conditions"
                                         v-model="condition.tag"
-                                        class="rounded-md border border-gray-300 shadow-sm px-3 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-3 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
@@ -262,13 +262,13 @@
                                 >
                                 <input
                                     type="text"
-                                    class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300"
+                                    class="w-full py-1.5 rounded-md border-gray-300"
                                     v-model="condition.condition"
                                 />
                             </div>
                         </template>
                         <button
-                            class="text-indigo-700 sm:text-sm rounded-md border border-indigo-700 text-xs mb-5 pl-3 pr-6 py-2.5 mt-4"
+                            class="text-indigo-700 sm:text-sm rounded-md border border-indigo-700 mb-5 pl-3 pr-6 py-2.5 mt-4"
                             @click="add"
                         >
                             Add another condition
@@ -484,7 +484,17 @@
             >
                 <div class="bg-white px-5 pt-4 pb-3 rounded-sm">
                     <p class="font-semibold">Collection image</p>
-                    <drop-zone class="mt-3"></drop-zone>
+                    <div id="img-previewer" v-if="category.img">
+                        <button @click="removePreview" class="close__btn">
+                            &times;
+                        </button>
+                        <img
+                            alt=""
+                            :src="category.img.large"
+                            class="w-100 mb-5"
+                        />
+                    </div>
+                    <drop-zone @add-image="onAddImage" class="mt-3"></drop-zone>
                 </div>
                 <div class="bg-white px-5 py-4 md:my-4 rounded-sm">
                     <p class="font-semibold mt-2">Collection theme</p>
@@ -501,13 +511,15 @@
                 </div>
             </div>
         </div>
+        <SuccessNotif />
+        <ErrorNotif />
     </app-layout>
 </template>
 
 <script>
 import { ref, reactive } from "vue";
 import AppLayout from "../../../Layouts/AppLayout.vue";
-import DropZone from "./Components/Dropzone.vue";
+import DropZone from "../Components/Dropzone.vue";
 import CatDropDown from "./Components/CatDropdown.vue";
 import Condition from "./Components/Condition.vue";
 import {
@@ -522,62 +534,150 @@ import { HomeIcon } from "@heroicons/vue/outline";
 import { required, maxLength, url, helpers } from "@vuelidate/validators";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
+import SuccessNotif from "@/Pages/Products/Components/SuccessNotif.vue";
+import ErrorNotif from "@/Pages/Products/Components/ErrorNotif.vue";
+import { notify } from "notiwind";
 
 const pages = [
     { name: "All Collections", href: "/categories", current: false },
     { name: "Create Collection", href: "/categories/create", current: true },
 ];
 export default {
-    props: {
-        product_options: Array,
-        condition_options: Array,
-    },
+    // props: {
+    //     product_options: Array,
+    //     condition_options: Array,
+    // },
     data: function () {
         return {
             submitting: false,
             v$: useVuelidate(),
             theme_template: "Default Collection",
+            product_options: [
+                {
+                    name: "Product Title",
+                    numeric: false,
+                    value: "Product Title",
+                },
+                { name: "Product Type", numeric: false, value: "Product Type" },
+                {
+                    name: "Product Vendor",
+                    numeric: false,
+                    value: "Product Vendor",
+                },
+                {
+                    name: "Product Price",
+                    numeric: true,
+                    value: "Product Price",
+                },
+                { name: "Product Tag", numeric: false, value: "Product Tag" },
+                {
+                    name: "Stock Quantity",
+                    numeric: true,
+                    value: "Stock Quantity",
+                },
+                { name: "Weight", numeric: true , value: "Weight" },
+            ],
+            condition_options: [
+                {
+                    name: "is equal to",
+                    value: "is equal to",
+                    numeric: null,
+                },
+                {
+                    name: "is not equal to",
+                    value: "is not equal to",
+                    numeric: null,
+                },
+                {
+                    name: "is greater than",
+                    value: "is greater than",
+                    numeric: true,
+                },
+                {
+                    name: "is less than",
+                    value: "is less than",
+                    numeric: true,
+                },
+                {
+                    name: "starts with",
+                    value: "starts with",
+                    numeric: false,
+                },
+                {
+                    name: "ends with",
+                    value: "ends with",
+                    numeric: false,
+                },
+                {
+                    name: "contains",
+                    value: "contains",
+                    numeric: false,
+                },
+                {
+                    name: "does not contain",
+                    value: "does not contain",
+                    numeric: false,
+                },
+                {
+                    name: "is not empty",
+                    value: "is not empty",
+                    numeric: false,
+                },
+                {
+                    name: "is empty",
+                    value: "is empty",
+                    numeric: false,
+                },
+            ],
             conditions: [
                 {
                     tag: "Product Title",
                     condition: "",
-                    value: "value",
+                    value: "",
                 },
             ],
             template_opt: {
                 product_title: {
                     text: "Product Title",
                     value: "Product Title",
+                    numeric: false,
                 },
                 product_type: {
                     text: "Product Type",
                     value: "Product Type",
+                    numeric: false,
                 },
                 product_price: {
                     text: "Product Price",
                     value: "Product Price",
+                    numeric: true,
                 },
                 product_tag: {
                     text: "Product Tag",
                     value: "Product Tag",
+                    numeric: false,
                 },
                 weight: {
                     text: "Weight",
                     value: "Weight",
+                    numeric: true,
                 },
             },
             condition_opt: {
                 equal: {
                     text: "is equal to",
                     value: "equal",
+                    numeric: null,
                 },
                 greater: {
                     text: "is greater that",
                     value: "greater",
+                    numeric: true,
                 },
                 less: {
                     text: "is less than",
                     value: "less",
+                    numeric: true,
                 },
             },
             product_tag: "Product tag",
@@ -591,6 +691,7 @@ export default {
             category: {
                 name: "",
                 description: "",
+                img: null,
             },
         };
     },
@@ -605,6 +706,8 @@ export default {
         Condition,
         HomeIcon,
         ChevronRightIcon,
+        SuccessNotif,
+        ErrorNotif,
     },
     computed: {
         formData() {
@@ -612,10 +715,37 @@ export default {
         },
     },
     methods: {
+        getConditionOptions(option) {
+            console.log("The option parameter is ", option)
+            let currentOption = this.product_options.filter(
+                (product_option) => product_option.value === option.tag
+            );
+            currentOption = currentOption.length
+                ? currentOption[0]
+                : this.product_options[0];
+            console.log("The current option is ", currentOption[0]);
+            return this.condition_options.filter(
+                (condition_option) =>
+                    condition_option.numeric === null ||
+                    condition_option.numeric === currentOption.numeric
+            );
+        },
+        removePreview() {
+            this.category.img = null;
+        },
+        onAddImage(e) {
+            this.category.img = e.data[0];
+        },
         submitForm() {
             this.v$.$validate();
-            if (!this.v$.$error) {
+            if (this.v$.$error) {
                 return;
+            }
+            let appended = {};
+            if (this.category.img !== null) {
+                appended.image_url = this.category.img.large;
+                appended.image_thumb = this.category.img.thumb;
+                appended.image_alt = this.category.name;
             }
             axios
                 .post("/collections", {
@@ -624,14 +754,42 @@ export default {
                         condition: condition.value,
                         value: condition.condition,
                     })),
-                    ...this.category
+                    ...this.category,
+                    ...appended,
                 })
                 .then((response) => {
                     Inertia.visit("/categories", {
                         method: "get",
                     });
+                    notify(
+                        {
+                            group: "success",
+                            title: "Success",
+                            text: "Collection created successfully",
+                        },
+                        4000
+                    );
                 })
                 .catch((error) => {
+                    if (error.response.status === 400) {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: error.response.data.message,
+                            },
+                            4000
+                        );
+                    } else {
+                        notify(
+                            {
+                                group: "error",
+                                title: "Error",
+                                text: "Something went wrong, please try again later.",
+                            },
+                            4000
+                        );
+                    }
                     console.log(error.response.data);
                     if (error.response.data.errors) {
                         errors.value = error.response.data.errors;
@@ -664,29 +822,29 @@ export default {
 
     validations() {
         return {
-            page: {
-                description: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
-                    maxLength: maxLength(70),
-                },
-                page_title: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
-                    maxLength: maxLength(70),
-                },
-                handle: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
-                    url,
-                },
-            },
+            // page: {
+            //     description: {
+            //         required: helpers.withMessage(
+            //             "This field cannot be empty",
+            //             required
+            //         ),
+            //         maxLength: maxLength(70),
+            //     },
+            //     page_title: {
+            //         required: helpers.withMessage(
+            //             "This field cannot be empty",
+            //             required
+            //         ),
+            //         maxLength: maxLength(70),
+            //     },
+            //     handle: {
+            //         required: helpers.withMessage(
+            //             "This field cannot be empty",
+            //             required
+            //         ),
+            //         url,
+            //     },
+            // },
             category: {
                 name: {
                     required: helpers.withMessage(

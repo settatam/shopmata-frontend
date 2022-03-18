@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\NotificationsController as NewNotificationsController;
 
 
 /*
@@ -119,6 +120,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/', [CollectionsController::class, 'index']);
         Route::post('/update/{id}', [CollectionsController::class, 'update']);
         Route::post('/delete/{id}', [CollectionsController::class, 'delete']);
+        Route::post('/delete-multiple', [CollectionsController::class, 'deleteMultiple']);
+        Route::get("/search", [CollectionsController::class, 'searchForCollection']);
     });
 
     #Brands
@@ -194,6 +197,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
     Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
     Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
+
+    #Notifications
+    Route::get('temp-notifications', [NewNotificationsController::class, 'index']);
+    Route::get('temp-notifications/{id}', [NewNotificationsController::class, 'show'])->where('id', '[0-9]+');
+    Route::get('temp-notifications/create', [NewNotificationsController::class, 'create']);
 
 
     #Settings -> User
@@ -282,4 +290,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     // Route::resource('store/themes', StoreThemesController::class);
     Route::resource('settings/store-users', PlansAndPermissionsController::class);
     Route::resource('settings/store-locations', StoreLocationController::class);
+});
+
+Route::get('check-migrations', function() {
+   return response()->json([
+       'tables' => \Illuminate\Support\Facades\DB::table('migrations')->get()
+   ]);
 });
