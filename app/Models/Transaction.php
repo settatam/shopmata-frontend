@@ -23,6 +23,15 @@ class Transaction extends Model
     public function notes() {
         return $this->hasMany(TransactionNote::class);
     }
+  
+     
+     public function customer() {
+    	return $this->belongsTo(Customer::class);
+    }
+
+    public function getCreatedAtAttribute($value){
+    	return \Carbon\Carbon::parse($value)->diffForHumans();
+	   }
 
 
     public function items() {

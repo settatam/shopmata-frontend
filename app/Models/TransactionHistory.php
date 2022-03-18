@@ -25,7 +25,4 @@ class TransactionHistory extends Model
     const OFFER_DECLINED = 'OFFER DECLINED';
     const OFFER_PAID = 'OFFER PAID';
 
-
-   
-
 }

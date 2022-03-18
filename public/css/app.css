@@ -1273,9 +1273,6 @@ select {
 .col-span-10 {
 	grid-column: span 10 / span 10;
 }
-.col-start-1 {
-	grid-column-start: 1;
-}
 .float-right {
 	float: right;
 }
@@ -1299,9 +1296,6 @@ select {
 }
 .m-10 {
 	margin: 2.5rem;
-}
-.m-3 {
-	margin: 0.75rem;
 }
 .mx-auto {
 	margin-left: auto;
@@ -2615,10 +2609,6 @@ select {
 	--tw-border-opacity: 1;
 	border-color: rgba(239, 68, 68, var(--tw-border-opacity));
 }
-.border-gray-background {
-	--tw-border-opacity: 1;
-	border-color: rgba(229, 229, 229, var(--tw-border-opacity));
-}
 .border-gray-50 {
 	--tw-border-opacity: 1;
 	border-color: rgba(249, 250, 251, var(--tw-border-opacity));
@@ -3444,10 +3434,6 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(217, 119, 6, var(--tw-text-opacity));
 }
-.text-gray-background {
-	--tw-text-opacity: 1;
-	color: rgba(229, 229, 229, var(--tw-text-opacity));
-}
 .text-red-darker {
 	--tw-text-opacity: 1;
 	color: rgba(255, 0, 0, var(--tw-text-opacity));
@@ -3676,13 +3662,26 @@ input[type='checkbox']:focus {
 .v3dp__popout[data-v-2e128338] {
     right: 0;
 }
+#img-previewer {
+    position: relative;
+}
+.close__btn {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: white;
+    color: black;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .focus-within\:text-gray-600:focus-within {
 	--tw-text-opacity: 1;
 	color: rgba(75, 85, 99, var(--tw-text-opacity));
-}
-.focus-within\:text-gray-background:focus-within {
-	--tw-text-opacity: 1;
-	color: rgba(229, 229, 229, var(--tw-text-opacity));
 }
 .focus-within\:outline-none:focus-within {
 	outline: 2px solid transparent;
@@ -4812,6 +4811,10 @@ input[type='checkbox']:focus {
 		flex-direction: row;
 	}
 
+	.md\:flex-col {
+		flex-direction: column;
+	}
+
 	.md\:flex-wrap {
 		flex-wrap: wrap;
 	}
@@ -5056,14 +5059,6 @@ input[type='checkbox']:focus {
 		grid-column: span 2 / span 2;
 	}
 
-	.lg\:col-span-1 {
-		grid-column: span 1 / span 1;
-	}
-
-	.lg\:col-start-4 {
-		grid-column-start: 4;
-	}
-
 	.lg\:m-0 {
 		margin: 0px;
 	}
@@ -5086,6 +5081,11 @@ input[type='checkbox']:focus {
 	.lg\:mx-2 {
 		margin-left: 0.5rem;
 		margin-right: 0.5rem;
+	}
+
+	.lg\:mx-0 {
+		margin-left: 0px;
+		margin-right: 0px;
 	}
 
 	.lg\:mb-0 {
@@ -5216,10 +5216,6 @@ input[type='checkbox']:focus {
 		width: 20rem;
 	}
 
-	.lg\:w-2\/4 {
-		width: 50%;
-	}
-
 	.lg\:w-1\/3 {
 		width: 33.333333%;
 	}
@@ -5272,10 +5268,6 @@ input[type='checkbox']:focus {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
 
-	.lg\:grid-cols-5 {
-		grid-template-columns: repeat(5, minmax(0, 1fr));
-	}
-
 	.lg\:flex-row {
 		flex-direction: row;
 	}
@@ -5288,6 +5280,10 @@ input[type='checkbox']:focus {
 		align-items: flex-start;
 	}
 
+	.lg\:justify-end {
+		justify-content: flex-end;
+	}
+
 	.lg\:justify-between {
 		justify-content: space-between;
 	}
@@ -5296,15 +5292,16 @@ input[type='checkbox']:focus {
 		gap: 6rem;
 	}
 
-	.lg\:gap-x-5 {
-		-moz-column-gap: 1.25rem;
-		     column-gap: 1.25rem;
-	}
-
 	.lg\:space-y-8 > :not([hidden]) ~ :not([hidden]) {
 		--tw-space-y-reverse: 0;
 		margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
 		margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+	}
+
+	.lg\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
+		--tw-space-x-reverse: 0;
+		margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+		margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 	}
 
 	.lg\:rounded-md {
