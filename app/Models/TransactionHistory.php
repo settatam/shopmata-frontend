@@ -9,6 +9,11 @@ class TransactionHistory extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'event',
+    ];
+
+
     const UPDATED = 'UPDATED';
     const FULFILLED = 'FULFILLED';
     const KIT_DENIED = 'KIT DENIED';
