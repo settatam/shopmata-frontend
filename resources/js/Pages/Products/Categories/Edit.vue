@@ -39,9 +39,11 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col lg:grid lg:grid-cols-5 lg:gap-x-5 mx-5">
+        <div
+            class="mx-auto pb-5 md:by-10 px-4 sm:px-6 lg:px-8 flex md:flex-row flex-col md:justify-between"
+        >
             <!-- Main -->
-            <div class="col-start-1 col-span-3">
+            <div class="w-full">
                 <div class="bg-white flex flex-col p-8">
                     <p class="font-semibold">Collection Details</p>
                     <div class="mt-4">
@@ -135,12 +137,12 @@
                                         name="conditions"
                                         id=""
                                         v-model="condition.tag"
-                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
                                                 option, index
-                                            ) in template_opt"
+                                            ) in product_options"
                                             :key="index"
                                             v-bind:value="option.value"
                                         >
@@ -160,12 +162,12 @@
                                         name="conditions"
                                         id=""
                                         v-model="condition.equal"
-                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none text-xm"
+                                        class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
                                     >
                                         <option
                                             v-for="(
                                                 option, index
-                                            ) in condition_opt"
+                                            ) in getConditionOptions(condition)"
                                             :key="index"
                                             v-bind:value="option.value"
                                             class="text-gray-700', 'block px-4 py-2 text-sm"
@@ -177,7 +179,7 @@
                                 <div class="flex flex-col w-3.5/10 mb-2">
                                     <input
                                         type="text"
-                                        class="w-full text-xs py-1.5 sm:text-sm rounded-md border-gray-300"
+                                        class="w-full py-1.5 sm:text-sm rounded-md border-gray-300"
                                         v-model="condition.condition"
                                     />
                                 </div>
@@ -235,7 +237,8 @@
                                 </div>
                             </div>
                             <p class="text-gray-500">
-                                {{ page.seo_title.length }} of 70 characters used
+                                {{ page.seo_title.length }} of 70 characters
+                                used
                             </p>
                             <!-- <p class="mt-2 text-sm text-red-600" id="seo_title-error" v-if="(page.seo_title.length > 70)">Your seo_title must be less than 70 characters.</p> -->
                             <span
@@ -275,15 +278,17 @@
                                 </div>
                             </div>
                             <p class="text-gray-500">
-                                {{ page.seo_description.length }} of 70 characters
-                                used
+                                {{ page.seo_description.length }} of 70
+                                characters used
                             </p>
                             <!-- <p class="mt-2 text-sm text-red-600" id="title-error" v-if="(page.seo_description.length > 70)">Your seo_description must be less than 70 characters.</p> -->
                             <span
                                 v-if="v$.page.seo_description.$error"
                                 class="text-red-400"
                             >
-                                {{ v$.page.seo_description.$errors[0].$message }}
+                                {{
+                                    v$.page.seo_description.$errors[0].$message
+                                }}
                             </span>
                         </div>
                         <div class="mb-6 mt-9">
@@ -293,24 +298,26 @@
                             >
                                 URL and handle
                             </label>
-                            <div
-                                class="mt-1 relative rounded-md shadow-sm"
-                            >
+                            <div class="mt-1 relative rounded-md shadow-sm">
                                 <div
                                     class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                                 >
-                                                <span
-                                                    class="text-gray-500 sm:text-sm"
-                                                    ref="domain_name"
-                                                >
-                                                    {{ store.domains[0].length ? store.domains[0].name + "/" : "" }}
-                                                </span>
+                                    <span
+                                        class="text-gray-500 sm:text-sm"
+                                        ref="domain_name"
+                                    >
+                                        {{
+                                            store.domains[0].length
+                                                ? store.domains[0].name + "/"
+                                                : ""
+                                        }}
+                                    </span>
                                 </div>
                                 <input
                                     type="text"
                                     :style="{
-                                                    paddingLeft: domainWidth,
-                                                }"
+                                        paddingLeft: domainWidth,
+                                    }"
                                     name="handle"
                                     id="handle"
                                     class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -340,17 +347,28 @@
                     <button
                         class="inline-flex items-center px-8 py-3 border border-transparent shadow-sm rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                         @click="submitForm()"
-
                     >
                         Update
                     </button>
                 </div>
             </div>
             <!-- Sidebar -->
-            <div class="lg:col-start-4 lg:col-span-1">
+            <div
+                class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm gap-y-4 w-full"
+            >
                 <div class="bg-white px-5 pt-4 pb-3">
                     <p class="font-semibold">Collection image</p>
-                    <drop-zone class="mt-3"></drop-zone>
+                    <div id="img-previewer" v-if="collection.img">
+                        <button @click="removePreview" class="close__btn">
+                            &times;
+                        </button>
+                        <img
+                            alt=""
+                            :src="collection.img.large"
+                            class="w-100 mb-5"
+                        />
+                    </div>
+                    <drop-zone @add-image="onAddImage" class="mt-3"></drop-zone>
                 </div>
                 <div class="bg-white px-5 py-4 my-4">
                     <p class="font-semibold mt-2">Collection image</p>
@@ -366,12 +384,14 @@
                 </div>
             </div>
         </div>
+        <ErrorNotif />
+        <SuccessNotif />
     </app-layout>
 </template>
 
 <script>
 import AppLayout from "../../../Layouts/AppLayout.vue";
-import DropZone from "./Components/Dropzone.vue";
+import DropZone from "../Components/Dropzone.vue";
 import CatDropDown from "./Components/CatDropdown.vue";
 import Condition from "./Components/Condition.vue";
 import {
@@ -384,11 +404,14 @@ import useVuelidate from "@vuelidate/core";
 import { required, maxLength, url, helpers } from "@vuelidate/validators";
 import axios from "axios";
 import { Inertia } from "@inertiajs/inertia";
+import ErrorNotif from "@/Pages/Products/Components/ErrorNotif";
+import SuccessNotif from "@/Pages/Products/Components/SuccessNotif";
+import { notify } from "notiwind";
 
 export default {
     props: {
         category: Object,
-        store: Object
+        store: Object,
     },
     mounted() {
         this.domainWidth = this.$refs.domain_name.clientWidth + 10 + "px";
@@ -401,6 +424,15 @@ export default {
         );
         this.collection.description = this.category.description;
         this.collection.name = this.category.title;
+        if (this.category.image_url) {
+            this.collection.img = {
+                large: this.category.image_url,
+                thumb: this.category.image_thumb,
+            };
+        }
+        this.page.seo_description = this.category.seo_description || "";
+        this.page.seo_title = this.category.seo_title || "";
+        this.page.url = this.category.handle || "";
     },
     data: function () {
         return {
@@ -415,42 +447,83 @@ export default {
                     equal: "equal",
                 },
             ],
-            template_opt: {
-                product_title: {
-                    text: "Product Title",
+            product_options: [
+                {
+                    name: "Product Title",
+                    numeric: false,
                     value: "Product Title",
                 },
-                product_type: {
-                    text: "Product Type",
-                    value: "Product Type",
+                { name: "Product Type", numeric: false, value: "Product Type" },
+                {
+                    name: "Product Vendor",
+                    numeric: false,
+                    value: "Product Vendor",
                 },
-                product_price: {
-                    text: "Product Price",
+                {
+                    name: "Product Price",
+                    numeric: true,
                     value: "Product Price",
                 },
-                product_tag: {
-                    text: "Product Tag",
-                    value: "Product Tag",
+                { name: "Product Tag", numeric: false, value: "Product Tag" },
+                {
+                    name: "Stock Quantity",
+                    numeric: true,
+                    value: "Stock Quantity",
                 },
-                weight: {
-                    text: "Weight",
-                    value: "Weight",
-                },
-            },
-            condition_opt: {
-                equal: {
-                    text: "is equal to",
+                { name: "Weight", numeric: true, value: "Weight" },
+            ],
+            condition_options: [
+                {
+                    name: "is equal to",
                     value: "is equal to",
+                    numeric: null,
                 },
-                greater: {
-                    text: "is greater that",
-                    value: "is greater that",
+                {
+                    name: "is not equal to",
+                    value: "is not equal to",
+                    numeric: null,
                 },
-                less: {
-                    text: "is less than",
+                {
+                    name: "is greater than",
+                    value: "is greater than",
+                    numeric: true,
+                },
+                {
+                    name: "is less than",
                     value: "is less than",
+                    numeric: true,
                 },
-            },
+                {
+                    name: "starts with",
+                    value: "starts with",
+                    numeric: false,
+                },
+                {
+                    name: "ends with",
+                    value: "ends with",
+                    numeric: false,
+                },
+                {
+                    name: "contains",
+                    value: "contains",
+                    numeric: false,
+                },
+                {
+                    name: "does not contain",
+                    value: "does not contain",
+                    numeric: false,
+                },
+                {
+                    name: "is not empty",
+                    value: "is not empty",
+                    numeric: false,
+                },
+                {
+                    name: "is empty",
+                    value: "is empty",
+                    numeric: false,
+                },
+            ],
             product_tag: "Product tag",
             condition_label: "is equal to",
             toggle: true,
@@ -462,10 +535,13 @@ export default {
             collection: {
                 name: "",
                 description: "",
+                img: null,
             },
         };
     },
     components: {
+        SuccessNotif,
+        ErrorNotif,
         AppLayout,
         DropZone,
         CatDropDown,
@@ -481,9 +557,36 @@ export default {
         },
     },
     methods: {
+        getConditionOptions(option) {
+            console.log("The option parameter is ", option)
+            let currentOption = this.product_options.filter(
+                (product_option) => product_option.value === option.tag
+            );
+            currentOption = currentOption.length
+                ? currentOption[0]
+                : this.product_options[0];
+            console.log("The current option is ", currentOption[0]);
+            return this.condition_options.filter(
+                (condition_option) =>
+                    condition_option.numeric === null ||
+                    condition_option.numeric === currentOption.numeric
+            );
+        },
+        removePreview() {
+            this.collection.img = null;
+        },
+        onAddImage(e) {
+            this.collection.img = e.data[0];
+        },
         submitForm() {
             this.v$.$validate();
             if (!this.v$.$error) {
+                let appended = {};
+                if (this.collection.img) {
+                    appended.image_url = this.collection.img.large;
+                    appended.image_thumb = this.collection.img.thumb;
+                    appended.image_alt = this.collection.name;
+                }
                 axios
                     .post(`/collections/update/${this.category.id}`, {
                         conditions: this.conditions.map((condition) => ({
@@ -492,14 +595,43 @@ export default {
                             value: condition.condition,
                         })),
                         ...this.collection,
+                        ...appended,
+                        ...this.page,
                     })
                     .then((response) => {
                         Inertia.visit("/categories", {
                             method: "get",
                         });
+                        notify(
+                            {
+                                group: "success",
+                                title: "Success",
+                                text: "Collection edited successfully",
+                            },
+                            4000
+                        );
                     })
                     .catch((error) => {
                         console.log(error.response.data);
+                        if (error.response.status === 400) {
+                            notify(
+                                {
+                                    group: "error",
+                                    title: "Error",
+                                    text: error.response.data.message,
+                                },
+                                4000
+                            );
+                        } else {
+                            notify(
+                                {
+                                    group: "error",
+                                    title: "Error",
+                                    text: "Something went wrong, please try again later.",
+                                },
+                                4000
+                            );
+                        }
                         if (error.response.data.errors) {
                             errors.value = error.response.data.errors;
                         }
@@ -508,7 +640,7 @@ export default {
                         this.submitting = false;
                     });
             } else {
-                alert("Form field empty");
+                return
             }
         },
         updateTemp(val) {
@@ -533,24 +665,24 @@ export default {
         return {
             page: {
                 seo_description: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
+                    // required: helpers.withMessage(
+                    //     "This field cannot be empty",
+                    //     required
+                    // ),
                     minLength: maxLength(70),
                 },
                 seo_title: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
+                    // required: helpers.withMessage(
+                    //     "This field cannot be empty",
+                    //     required
+                    // ),
                     minLength: maxLength(70),
                 },
                 url: {
-                    required: helpers.withMessage(
-                        "This field cannot be empty",
-                        required
-                    ),
+                    // required: helpers.withMessage(
+                    //     "This field cannot be empty",
+                    //     required
+                    // ),
                 },
             },
             collection: {

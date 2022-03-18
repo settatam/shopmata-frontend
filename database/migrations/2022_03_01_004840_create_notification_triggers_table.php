@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCollectionProductTable extends Migration
+class CreateNotificationTriggersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateCollectionProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('collection_product', function (Blueprint $table) {
+        Schema::create('notification_triggers', function (Blueprint $table) {
             $table->id();
-            $table->integer('collection_id');
-            $table->integer('product_id');
-            $table->integer('user_id');
-            $table->integer('store_id');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateCollectionProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collection_product');
+        Schema::dropIfExists('notification_triggers');
     }
 }

@@ -14,7 +14,7 @@ class AlterShippingRatesTableAddStoreId extends Migration
     public function up()
     {
         Schema::table('shipping_rates', function (Blueprint $table) {
-            $table->integer('store_id');
+            // $table->integer('store_id');
         });
     }
 

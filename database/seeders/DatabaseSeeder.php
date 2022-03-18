@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ShippingAddressesTableSeeder::class);
         $this->call(ShippingGatewaysTableSeeder::class);
         $this->call(ShippingRateConditionsTableSeeder::class);
-        $this->call(ShippingRatesTableSeeder::class);
+//        $this->call(ShippingRatesTableSeeder::class);
         $this->call(StatesTableSeeder::class);
         $this->call(StoreActivitiesTableSeeder::class);
         $this->call(StoreActualNotificationsTableSeeder::class);

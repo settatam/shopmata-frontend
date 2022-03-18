@@ -16,6 +16,7 @@ class CreateTransactionNotesTable extends Migration
         Schema::create('transaction_notes', function (Blueprint $table) {
             $table->id();
             $table->integer('transaction_id')->nullable();
+            $table->string('title')->nullable();
             $table->text('notes')->nullable();
             $table->integer('user_id')->nullable();
             $table->timestamps();

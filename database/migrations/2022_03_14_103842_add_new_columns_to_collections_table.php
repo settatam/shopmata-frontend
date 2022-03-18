@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnsToCollectionsTable extends Migration
+class AddNewColumnsToCollectionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,6 +19,8 @@ class AddColumnsToCollectionsTable extends Migration
             $table->string('image_alt', 189)->nullable();
             $table->integer('theme_id')->nullable();
             $table->longText('conditions');
+            $table->string('seo_title')->nullable();
+            $table->string('seo_description')->nullable();
         });
     }
 
@@ -35,6 +37,8 @@ class AddColumnsToCollectionsTable extends Migration
             $table->dropColumn('image_alt');
             $table->dropColumn('theme_id');
             $table->dropColumn('conditions');
+            $table->dropColumn('seo_title');
+            $table->dropColumn('seo_description');
         });
     }
 }

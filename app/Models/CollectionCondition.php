@@ -35,8 +35,8 @@ class CollectionCondition extends Model
     	['title'=>'Product Vendor', 'type'=>'int'],
     	['title'=>'Product Price', 'type'=>'int'],
     	['title'=>'Product Tag', 'type'=>'string'],
-    	['title'=>'Weight', 'type'=>'string'],
     	['title'=>'Stock Quantity', 'type'=>'string'],
+    	['title'=>'Weight', 'type'=>'string'],
     ];
 
 }
