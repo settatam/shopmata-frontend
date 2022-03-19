@@ -49,74 +49,61 @@
                 <div class="flex-1 max-h-screen xl:overflow-y-auto">
                     <div class="w-auto lg:ml-7 lg:mr-2">
                         <div class="mb-6">
-                            <h1 class="text-2xl font-semibold">
-                                Notifications
-                            </h1>
+                            <div
+                                class="flex flex-row w-full justify-between py-4"
+                            >
+                                <h1 class="text-2xl font-semibold">
+                                    Notifications
+                                </h1>
+
+                                <button
+                                    class="bg-purple-darken px-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
+                                    type="submit"
+                                    @click="popModal()"
+                                >
+                                    <span class="pl-2"
+                                        >Create Notification</span
+                                    >
+                                </button>
+                            </div>
+
+                            <CreateNotification @close="popUp = false" v-if="popUp" />
+
                             <p class="text-gray-500 mb-4">
                                 Click on any option to select an editable
                                 template that will be used to send messages to
                                 your customer.
                             </p>
-                            <OrdersBox :notifications="notifications" :openOrder="openOrder"/>
+                            <OrdersBox
+                                :notifications="notifications"
+                                :openOrder="openOrder"
+                            />
 
-                            <LocalDeliveryBox :notifications="notifications" :openLocal="openLocal"/>
-                            
-                            <ShippingBox :notifications="notifications" :openShipping="openShipping"/>
+                            <LocalDeliveryBox
+                                :notifications="notifications"
+                                :openLocal="openLocal"
+                            />
 
-                            <LocalPickupBox :notifications="notifications" :openPickup="openPickup"/>
+                            <ShippingBox
+                                :notifications="notifications"
+                                :openShipping="openShipping"
+                            />
 
-                            <CustomerBox :notifications="notifications" :openCustomer="openCustomer"/>
+                            <LocalPickupBox
+                                :notifications="notifications"
+                                :openPickup="openPickup"
+                            />
 
-                            <EmailMarketingBox :notifications="notifications" :openMarketing="openMarketing"/>
-                            
-                            <ReturnsBox :notifications="notifications" :openReturn="openReturn"/>
+                            <CustomerBox
+                                :notifications="notifications"
+                                :openCustomer="openCustomer"
+                            />
 
+                            <EmailMarketingBox
+                                :notifications="notifications"
+                                :openMarketing="openMarketing"
+                            />
 
-                            <h1 class="text-2xl font-semibold">
-                                Email Marketing
-                            </h1>
-                            <p class="text-gray-500 mb-4">
-                                Choose consent and tracking options.
-                            </p>
-                            <div class="p-4 md:p-8 my-6 bg-white">
-                                <div
-                                    class="flex items-center justify-between mb-5"
-                                >
-                                    <div>
-                                        <h2 class="font-bold text-xl">
-                                            Double opt-in
-                                        </h2>
-                                        <p class="text-gray-500 mt-3 mb-7">
-                                            Get explicit consent from customers
-                                            to send them email marketing. Learn
-                                            more
-                                        </p>
-                                        <span class="text-indigo-700 font-bold"
-                                            ><input
-                                                id="comments"
-                                                aria-describedby="comments-description"
-                                                name="comments"
-                                                type="checkbox"
-                                                :false-value="0"
-                                                :true-value="1"
-                                                v-model="
-                                                    email_marketing.double_opt_in
-                                                "
-                                                class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded mr-2.5"
-                                            />
-                                            Require customers to confirm their
-                                            subscription</span
-                                        >
-                                        <p class="text-gray-500 mt-4">
-                                            Customers who sign up will receive a
-                                            confirmation email to validate their
-                                            subscription. Previous subscribers
-                                            will not be affected.
-                                        </p>
-                                    </div>
-                                    <!-- <chevron-up-icon class="w-6 h-6 text-indigo-700 cursor-pointer"/> -->
-                                </div>
-                            </div>
                             <error
                                 v-if="error"
                                 :msg="successMessage"
@@ -127,56 +114,7 @@
                                 :msg="successMessage"
                                 class="w-full z-30"
                             />
-                            <div class="p-4 md:p-8 my-6 bg-white">
-                                <div
-                                    class="flex items-center justify-between mb-5"
-                                >
-                                    <h2 class="font-bold text-xl">
-                                        Shopmata Email open tracking
-                                    </h2>
-                                    <chevron-up-icon
-                                        class="w-6 h-6 text-indigo-700 cursor-pointer"
-                                        @click="openTracking = false"
-                                        v-if="openTracking"
-                                    />
-                                    <chevron-down-icon
-                                        class="w-6 h-6 text-indigo-700 cursor-pointer"
-                                        @click="openTracking = true"
-                                        v-else
-                                    />
-                                </div>
-                                <div v-if="openTracking">
-                                    <p class="text-gray-500 mt-3 mb-7">
-                                        Open tracking allows you to see how many
-                                        emails are opened.
-                                    </p>
-                                    <div
-                                        v-for="(track, index) in emailTracking"
-                                        :key="index"
-                                        class="flex flex-col my-5"
-                                    >
-                                        <div class="flex">
-                                            <input
-                                                type="radio"
-                                                name="postalCodes"
-                                                :value="track.value"
-                                                v-model="
-                                                    email_marketing.open_tracking
-                                                "
-                                                class="cursor-pointer custom-form-radio mt-1 mr-2"
-                                            />
-                                            <p
-                                                class="text-indigo-700 font-bold"
-                                            >
-                                                {{ track.title }}
-                                            </p>
-                                        </div>
-                                        <p class="text-gray-500 w-full">
-                                            {{ track.description }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+
                             <!-- 
                             <h1 class="text-2xl font-semibold">
                                 Staff order notifications
@@ -436,6 +374,7 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav'
 import axios from 'axios'
+import CreateNotification from "./Components/CreateNotification.vue"
 
 import {
     Dialog,
@@ -452,14 +391,13 @@ import {
 import { HomeIcon } from '@heroicons/vue/outline'
 import { onBeforeMount, watch, watchEffect } from '@vue/runtime-core'
 import { notify } from 'notiwind'
-import OrdersBox from "./Components/OrdersBox.vue"
-import LocalDeliveryBox from "./Components/LocalDeliveryBox.vue"
-import EmailMarketingBox from "./Components/EmailMarketingBox.vue"
-import CustomerBox from "./Components/CustomerBox.vue"
-import ReturnsBox from "./Components/ReturnsBox.vue"
-import ShippingBox from "./Components/ShippingBox.vue"
-import LocalPickupBox from "./Components/LocalPickupBox.vue"
-
+import OrdersBox from './Components/OrdersBox.vue'
+import LocalDeliveryBox from './Components/LocalDeliveryBox.vue'
+import EmailMarketingBox from './Components/EmailMarketingBox.vue'
+import CustomerBox from './Components/CustomerBox.vue'
+import ReturnsBox from './Components/ReturnsBox.vue'
+import ShippingBox from './Components/ShippingBox.vue'
+import LocalPickupBox from './Components/LocalPickupBox.vue'
 
 const pages = [
     { name: 'Settings', href: '/settings', current: false },
@@ -495,8 +433,7 @@ export default {
         CustomerBox,
         EmailMarketingBox,
         ReturnsBox,
-
-
+        CreateNotification
     },
 
     data () {
@@ -540,8 +477,7 @@ export default {
             }
         }
     },
-    methods: {},
-    setup ({ email_marketing_settings, notifications }) {
+    setup ({ email_marketing_settings }) {
         const email_marketing = reactive({
             double_opt_in:
                 email_marketing_settings.length == 0
@@ -555,7 +491,7 @@ export default {
         const success = ref(false)
         const error = ref(false)
         const successMessage = ref('')
-        const orders = notifications.orders
+        const popUp = ref(false)
 
         function onClickTop () {
             notify(
@@ -577,7 +513,12 @@ export default {
                 4000
             )
         }
-        //console.log(success.value)
+
+        const popModal = () => {
+            popUp.value = true
+            console.log(popUp.value)
+        }
+
         watch(email_marketing, (curr, prev) => {
             axios.post('notifications/email-marketing', curr).then(res => {
                 if (res.status == 200) {
@@ -602,8 +543,8 @@ export default {
             successMessage,
             onClickTop,
             onClickBot,
-            orders,
-
+            popModal,
+            popUp
         }
     }
 }

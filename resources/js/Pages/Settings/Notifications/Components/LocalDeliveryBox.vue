@@ -1,17 +1,26 @@
 <template>
     <div class="p-4 md:p-8 my-6 bg-white">
-        <div class="flex items-center justify-between mb-5">
-            <h2 class="font-bold text-xl">Local Delivery</h2>
-            <chevron-up-icon
-                class="w-6 h-6 text-indigo-700 cursor-pointer"
-                v-if="openLocal"
-                @click="openLocal = false"
-            />
-            <chevron-down-icon
-                class="w-6 h-6 text-indigo-700 cursor-pointer"
-                v-else
-                @click="openLocal = true"
-            />
+        <div class="flex mb-5 flex-col">
+            <div class="flex items-center justify-between">
+                <h2 class="font-bold text-xl">Local Delivery</h2>
+                <chevron-up-icon
+                    class="w-6 h-6 text-indigo-700 cursor-pointer"
+                    v-if="openLocal"
+                    @click="openLocal = false"
+                />
+                <chevron-down-icon
+                    class="w-6 h-6 text-indigo-700 cursor-pointer"
+                    v-else
+                    @click="openLocal = true"
+                />
+            </div>
+
+            <div class="text-gray-500">
+                <h1>
+                    Select an option and edit the template to enable its
+                    function.
+                </h1>
+            </div>
         </div>
 
         <div v-if="openLocal">
@@ -28,9 +37,13 @@
                         {{ delivery.name }}
                     </p>
                 </inertia-link>
-                <p class="text-gray-500 w-full">
-                    {{ delivery.description }}
-                </p>
+
+                <div class="flex items-center">
+                    <input type="checkbox" id="vehicle1" name="Tyvek" />
+                    <label for="vehicle1" class="text-gray-500 w-full px-2 ">
+                        {{ delivery.description }}</label
+                    >
+                </div>
             </div>
         </div>
     </div>

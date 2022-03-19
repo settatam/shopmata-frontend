@@ -150,7 +150,6 @@ export default {
     setup () {
         const popUp = ref(false);
         const popModal = () => {
-            console.log("test")
             popUp.value = true
         }
         const items = reactive([
