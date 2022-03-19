@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionOffer extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'offer',
+        'type'
+    ];
 }

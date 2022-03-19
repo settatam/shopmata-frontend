@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Events\ProductCreated;
 use App\Events\ProductDeleted;
+use App\Events\ProductStatusUpdated;
 use App\Exceptions\InvalidInputException;
 use App\Http\Resources\Product as ProductResource;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CollectionProduct;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductImage;
@@ -67,15 +69,17 @@ class ProductsController extends Controller
             if ($request->tag) $query->where('tag', $request->tag);
         })
             ->where('store_id', '=', $store_id)
-            ->orderBy('id', 'desc')->with('categories')->with('images')->paginate($pageSize);
+            ->orderBy('id', 'desc')->with('categories', 'variants', 'brand')->with('images')->paginate($pageSize);
 
         // \Log::info("products Retrieved".print_r($products, true));
 
         $brands = Brand::orderBy('name', 'desc')->get();
 
+        $product_types = ProductType::orderBy('id', 'asc')->get();
+
         foreach ($products as $product) {
             $categories = [];
-            $product->image = count($product->images) ? $product->images[0]->thumb ?? $product->images[0]->image_url : '';
+            $product->image = $product->image();
             if (count($product->categories)) {
                 foreach ($product->categories as $cat) {
                     if (null !== $cat->category) {
@@ -86,7 +90,7 @@ class ProductsController extends Controller
             $product->type = implode(', ', $categories);
         }
 
-        return Inertia::render('Products/Index', compact('products', 'filters', 'brands'));
+        return Inertia::render('Products/Index', compact('products', 'filters', 'brands', 'product_types'));
     }
 
     /**
@@ -224,9 +228,9 @@ class ProductsController extends Controller
             return $sku;
         }
 
-        $firstPortion = strtoupper(substr($product->title, 0, 4));
-        $secondPortion = $product->brand ? strtoupper(substr($product->brand->name, 0, 4)) : strtoupper(RandomFunctions::generateRandomString(4, true));
-        $thirdPortion = $product->type ? strtoupper(substr($product->type->name, 0, 4)) : strtoupper(RandomFunctions::generateRandomString(4, true));
+        $firstPortion = strtoupper(trim(substr($product->title, 0, 4)));
+        $secondPortion = trim($product->brand ? strtoupper(substr($product->brand->name, 0, 4)) : strtoupper(RandomFunctions::generateRandomString(4, true)));
+        $thirdPortion = trim($product->type ? strtoupper(substr($product->type->name, 0, 4)) : strtoupper(RandomFunctions::generateRandomString(4, true)));
         $sku = "$firstPortion-$secondPortion-$thirdPortion";
         $count = ProductVariant::where([
             ['store_id', '=', $product->store_id,],
@@ -260,9 +264,9 @@ class ProductsController extends Controller
             }
         } else {
             $slug_count = Product::where('title', $request->input('title'))->count();
+            $handle = Str::slug($request->input('title'));
 
             if ($slug_count >= 1) {
-                $handle = Str::slug($request->input('title'));
                 $handle .= '-';
                 $handle .= $slug_count;
             }
@@ -355,14 +359,12 @@ class ProductsController extends Controller
 
                     if (array_key_exists('assets', $variant)) {
                         foreach ($variant['assets'] as $asset) {
-                            $productImage = new ProductImage();
+                            $productImage = new Image();
+                            $productImage->imageable_id = $variant->id;
+                            $productImage->imageable_type = get_class($product);
                             $productImage->url = $asset['url'];
-                            $productImage->alt = $asset['description'];
-                            $productImage->rank = $asset['rank'];
-                            $productImage->thumb = $asset['thumb'] ?? $asset['url'];
-                            $productImage->store_id = $request->input('store_id');
-                            $productImage->product_id = $product->id;
-                            $productImage->sku = $productVariant->sku;
+                            $productImage->thumbnail = $asset['thumb'] ?? $asset['url'];
+                            $productImage->rank = $asset['is_default'] ? 0 : 1;
                             $productImage->save();
                         }
                     }
@@ -381,17 +383,12 @@ class ProductsController extends Controller
             }
 
             foreach ($request->input('assets') as $index => $asset) {
-                $productImage = new ProductImage();
+                $productImage = new Image();
+                $productImage->imageable_id = $product->id;
+                $productImage->imageable_type = get_class($product);
                 $productImage->url = $asset['url'];
-                $productImage->alt = $asset['description'];
-                $productImage->thumb = $asset['thumb'] ?? $asset['url'];
-                if (isset($asset['rank'])) {
-                    $productImage->rank = $asset['rank'];
-                } else {
-                    $productImage->rank = $index;
-                }
-                $productImage->store_id = $request->input('store_id');
-                $productImage->product_id = $product->id;
+                $productImage->thumbnail = $asset['thumb'] ?? $asset['url'];
+                $productImage->rank = $asset['is_default'] ? 0 : 1;
                 $productImage->save();
             }
 
@@ -526,8 +523,30 @@ class ProductsController extends Controller
             }
             $product->save();
 
+            if($request->input('assets')) {
+                $product->images()->delete();
+                foreach ($request->input('assets') as $index => $asset) {
+                    $productImage = new Image();
+                    $productImage->imageable_id = $product->id;
+                    $productImage->imageable_type = get_class($product);
+                    $productImage->url = $asset['url'];
+                    $productImage->thumbnail = $asset['thumb'] ?? $asset['url'];
+                    $productImage->rank = $asset['is_default'] ? 0 : 1;
+                    $productImage->save();
+                }
+            }
+
+
+            foreach($product->variants as $variant) {
+                $variant->attributes()->delete();
+                $variant->refresh();
+                $variant->delete();
+
+            }
+
             if($product->has_variants) {
-                $product->variants()->delete();
+
+
                 foreach ($request->input('variants') as $variant) {
                     $productVariant = new ProductVariant();
                     $productVariant->product_id = $product->id;
@@ -545,6 +564,8 @@ class ProductsController extends Controller
                         throw new InvalidInputException("The variant attributes must match the available variant attributes");
                     }
 
+
+
                     foreach ($variant['attributes'] as $attribute) {
                         if (!array_key_exists($attribute['attribute'], $variantAttributeTypesHashTable)) {
                             throw new InvalidInputException("The attribute '" . $attribute['attribute'] . "' does not exist in the defined available variant attributes.");
@@ -558,14 +579,11 @@ class ProductsController extends Controller
                     }
                     if (array_key_exists('assets', $variant)) {
                         foreach ($variant['assets'] as $asset) {
-                            $productImage = new ProductImage();
+                            $productImage = new Image();
+                            $productImage->imageable_id = $variant->id;
+                            $productImage->imageable_type = get_class($variant);
                             $productImage->url = $asset['url'];
-                            $productImage->alt = $asset['description'];
-                            $productImage->rank = $asset['rank'];
-                            $productImage->thumb = $asset['thumb'] ?? $asset['url'];
-                            $productImage->store_id = $request->input('store_id');
-                            $productImage->product_id = $product->id;
-                            $productImage->sku = $productVariant->sku;
+                            $productImage->thumbnail = $asset['thumb'];
                             $productImage->save();
                         }
                     }
@@ -625,21 +643,33 @@ class ProductsController extends Controller
         $brand = $request->query("brand");
         $type = $request->query("type");
         $status = $request->query("status");
-        $store_id = $request->session()->get('store_id');
+        $storeID = session()->get('store_id');
 
-        $products = Product::where(function ($query) use ($search) {
-            $query->where('title', 'like', "%" . $search . "%")
-                ->orWhere('quantity', 'like', "%" . $search . "%")
-                ->orWhere('seo_description', 'like', "%" . $search . "%")
-                ->orWhere('seo_page_title', 'like', "%" . $search . "%");
-        })->when($brand, function ($query, $brand) {
+        $products = Product::with('categories', 'variants', 'brand')->where('store_id', $storeID)
+            ->when($search, function($query, $search){
+                $query->where('title', 'like', "%" . $search . "%")
+                    ->orWhere('quantity', 'like', "%" . $search . "%")
+                    ->orWhere('seo_description', 'like', "%" . $search . "%")
+                    ->orWhere('seo_page_title', 'like', "%" . $search . "%");
+            })->when($brand, function ($query, $brand) {
             $query->where('brand_id', '=', $brand);
         })->when($type, function ($query, $type) {
             $query->where('product_type_id', '=', $type);
         })->when($status, function ($query, $status) {
             $query->where('status', '=', $status);
-        })->where('store_id', '=', 'store_id')
-            ->get();
+        })->get();
+        foreach ($products as $product) {
+            $categories = [];
+            $product->image = count($product->images) ? $product->images[0]->thumb ?? $product->images[0]->image_url : '';
+            if (count($product->categories)) {
+                foreach ($product->categories as $cat) {
+                    if (null !== $cat->category) {
+                        $categories[] = $cat->category->name;
+                    }
+                }
+            }
+            $product->type = implode(', ', $categories);
+        }
         return response([
             'data' => [
                 'products' => $products
@@ -649,8 +679,8 @@ class ProductsController extends Controller
 
     public function deleteProduct(Request $request)
     {
-        $storeID = $request->query('store_id');
-        $productID = $request->query('product_id');
+        $storeID = session()->get('store_id');
+        $productID = $request->input('product_id');
         try {
             Store::findOrFail($storeID);
             $product = Product::findOrFail($productID);
@@ -670,7 +700,7 @@ class ProductsController extends Controller
     }
 
     public function deleteMultipleProducts(Request $request) {
-        $storeID = $request->query('store_id');
+        $storeID = session()->get('store_id');
         $productIDs = $request->input('product_ids');
         DB::beginTransaction();
         foreach($productIDs as $productID) {
@@ -755,6 +785,29 @@ class ProductsController extends Controller
         } catch(Exception $exp) {
             DB::rollBack();
             throw new InvalidInputException($exp->getMessage());
+        }
+
+    }
+
+    public function updateProductStatus(Request $request, $id)
+    {
+        $this->validateUpdateProductStatusRequest($request);
+        try {
+            $storeID = $request->query('store_id') ?? $request->session()->get('store_id');
+            $product = Product::findOrFail($id);
+            if ($product->store_id != $storeID) {
+                throw new InvalidInputException("The product does not exist in your store.");
+            }
+            $oldStatus = $product->status;
+            $product->status = $request->input('status');
+            $product->save();
+            ProductStatusUpdated::dispatch($product, $oldStatus);
+            return response([
+                'message' => "Product status updated successfully",
+                'status' => 'success'
+            ]);
+        } catch (ModelNotFoundException $exp) {
+            throw new InvalidInputException("The product does not exist in your store.");
         }
 
     }

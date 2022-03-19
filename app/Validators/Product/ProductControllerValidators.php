@@ -9,6 +9,7 @@ use App\Validators\ValidatorWrapper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Models\Product;
 
 trait ProductControllerValidators
 {
@@ -25,7 +26,7 @@ trait ProductControllerValidators
             "price" => ["numeric", "required", "bail",],
             "compare_at_price" => ["numeric", "nullable", "bail", ],
             "store_id" => ["numeric", "required", "bail", "exists:stores,id"],
-            "handle" => ["string", "required", "bail",],
+            "handle" => ["string", "nullable", "bail",],
             "upc" => ["nullable", "string", "bail",],
             "ean" => ["nullable", "string", "bail",],
             "jan" => ["nullable", "string", "bail",],
@@ -76,7 +77,14 @@ trait ProductControllerValidators
             "brand_id" => "brand",
             "product_type_id" => "product type",
             "custom_product_type_id" => "custom product type",
+            "assets" => "images"
         ])->toArray();
+        if(Product::where([
+            ['title', 'LIKE', $request->input('title')],
+            ['store_id', '=', $request->input('store_id')]
+        ])->exists()) {
+            throw new InvalidInputException("A product already exists with this title in your store.");
+        }
         if ($request->input('has_variants')) {
             $variantInputs = ValidatorWrapper::wrap($request, [
                 "available_variant_attributes" => ["required", "bail"],
@@ -209,6 +217,7 @@ trait ProductControllerValidators
     public function validateProductUpdate(Request $request)
     {
         $storeID = session()->get('store_id');
+        $productID = $request->input('id');
         $validated = ValidatorWrapper::wrap($request, [
             "id" => ["required", "numeric", "bail",
                 Rule::exists('products', 'id')
@@ -289,8 +298,11 @@ trait ProductControllerValidators
                 "available_variant_attributes" => ["required", "bail"],
                 "available_variant_attributes.*" => ["required", "string"],
                 "variants.*.sku" => ["string", "required", "bail", Rule::unique('product_variants')
-                    ->where(function ($query) use ($storeID) {
-                        $query->where('store_id', $storeID);
+                    ->where(function ($query) use ($storeID, $productID) {
+                        $query->where([
+                            ['store_id', '=', $storeID],
+                            ['product_id', '<>', $productID]
+                        ]);
                     })],
                 "variants.*.price" => ["numeric", "required", "bail",],
                 "variants.*.quantity" => ["numeric", "required", "bail",],
@@ -298,8 +310,8 @@ trait ProductControllerValidators
                 "variants.*.attributes" => ["required",],
                 "variants.*.attributes.*.attribute" => ["required", "string", "bail"],
                 "variants.*.attributes.*.value" => ["required", "string", "bail"],
-                "variants.*.assets" => ["required", "bail",],
-                "variants.*.assets.*.url" => ["string", "bail", "required"],
+                "variants.*.assets" => ["nullable", "bail",],
+                "variants.*.assets.*.url" => ["string", "bail", "required_with:variants.*.assets"],
                 "variants.*.assets.*.thumb" => ["string", "bail", "nullable",],
                 "variants.*.assets.*.description" => ["string", "bail", "nullable"],
                 "variants.*.assets.*.rank" => ["numeric", "integer", "bail", "nullable"],
@@ -343,5 +355,12 @@ trait ProductControllerValidators
             $uniqueHashTable[$asset['url']] = true;
         }
         return $validated;
+    }
+
+    public function validateUpdateProductStatusRequest(Request $request) {
+        $validated = ValidatorWrapper::wrap($request, [
+            "status" => ["required", "string", Rule::in("active", "archived", "deleted", "pending", "approved")],
+        ]);
+
     }
 }
