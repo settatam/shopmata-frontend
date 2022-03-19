@@ -4,7 +4,7 @@
             <h1>Kit Information</h1>
         </div>
 
-        <form action="" method="post">
+        <form action="" method="post" class="px-3">
             <div class="p-4 space-y-2">
                 <select
                     id="sales_method_id"
@@ -30,52 +30,74 @@
                 <div class="p-4 flex flex-row justify-between">
                     <div>
                         <input type="checkbox" id="vehicle1" name="Tyvek" />
-                        <label for="vehicle1" class="text-xs lg:text-sm"> Tyvek</label>
+                        <label for="vehicle1" class="text-xs lg:text-sm">
+                            Tyvek</label
+                        >
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle2" name="Fedex" />
-                        <label for="vehicle2" class="text-xs lg:text-sm"> Fedex</label>
+                        <label for="vehicle2" class="text-xs lg:text-sm">
+                            Fedex</label
+                        >
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="Customer" />
-                        <label for="vehicle3" class="text-xs lg:text-sm"> Customer</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm">
+                            Customer</label
+                        >
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="Other" />
-                        <label for="vehicle3" class="text-xs lg:text-sm"> Other</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm">
+                            Other</label
+                        >
                     </div>
                 </div>
 
                 <div class="p-4 flex flex-row justify-between">
                     <div>
                         <input type="checkbox" id="vehicle3" name="10%" />
-                        <label for="vehicle3" class="text-xs lg:text-sm"> 10%</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm">
+                            10%</label
+                        >
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="FedexGr" />
-                        <label for="vehicle3" class="text-xs lg:text-sm"> Fedex Gr</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm">
+                            Fedex Gr</label
+                        >
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="FedexEx" />
-                        <label for="vehicle3" class="text-xs lg:text-sm"> Fedex Ex</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm">
+                            Fedex Ex</label
+                        >
                     </div>
                     <div>
                         <input type="checkbox" id="vehicle3" name="Box" />
-                        <label for="vehicle3" class="text-xs lg:text-sm"> Box</label>
+                        <label for="vehicle3" class="text-xs lg:text-sm">
+                            Box</label
+                        >
                     </div>
                 </div>
             </div>
 
             <!-- images end -->
         </form>
+
+        <!-- sms start -->
+        <div>
+            <Sms class="my-4"/>
+        </div>
     </div>
 </template>
 
 <script>
 import AppLayout from '../../../Layouts/AppLayout.vue'
+import Sms from '../Components/Sms.vue'
 
 export default {
-    components: { AppLayout },
+    components: { AppLayout, Sms },
     setup () {
         return {}
     }

@@ -1306,6 +1306,9 @@ select {
 .m-10 {
 	margin: 2.5rem;
 }
+.m-3 {
+	margin: 0.75rem;
+}
 .mx-auto {
 	margin-left: auto;
 	margin-right: auto;
@@ -2042,9 +2045,6 @@ select {
 .w-3\/6 {
 	width: 50%;
 }
-.w-18 {
-	width: 4.5rem;
-}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -2617,6 +2617,10 @@ select {
 .border-red-500 {
 	--tw-border-opacity: 1;
 	border-color: rgba(239, 68, 68, var(--tw-border-opacity));
+}
+.border-gray-background {
+	--tw-border-opacity: 1;
+	border-color: rgba(229, 229, 229, var(--tw-border-opacity));
 }
 .border-gray-50 {
 	--tw-border-opacity: 1;
@@ -3452,6 +3456,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(217, 119, 6, var(--tw-text-opacity));
 }
+.text-gray-background {
+	--tw-text-opacity: 1;
+	color: rgba(229, 229, 229, var(--tw-text-opacity));
+}
 .text-red-darker {
 	--tw-text-opacity: 1;
 	color: rgba(255, 0, 0, var(--tw-text-opacity));
@@ -3687,6 +3695,10 @@ input[type='checkbox']:focus {
 .focus-within\:text-gray-600:focus-within {
 	--tw-text-opacity: 1;
 	color: rgba(75, 85, 99, var(--tw-text-opacity));
+}
+.focus-within\:text-gray-background:focus-within {
+	--tw-text-opacity: 1;
+	color: rgba(229, 229, 229, var(--tw-text-opacity));
 }
 .focus-within\:outline-none:focus-within {
 	outline: 2px solid transparent;
@@ -5107,11 +5119,6 @@ input[type='checkbox']:focus {
 		margin-right: 0.5rem;
 	}
 
-	.lg\:my-0 {
-		margin-top: 0px;
-		margin-bottom: 0px;
-	}
-
 	.lg\:mx-0 {
 		margin-left: 0px;
 		margin-right: 0px;
@@ -5189,6 +5196,10 @@ input[type='checkbox']:focus {
 		display: flex;
 	}
 
+	.lg\:table-cell {
+		display: table-cell;
+	}
+
 	.lg\:grid {
 		display: grid;
 	}
@@ -5243,6 +5254,10 @@ input[type='checkbox']:focus {
 
 	.lg\:w-80 {
 		width: 20rem;
+	}
+
+	.lg\:w-2\/4 {
+		width: 50%;
 	}
 
 	.lg\:w-1\/3 {

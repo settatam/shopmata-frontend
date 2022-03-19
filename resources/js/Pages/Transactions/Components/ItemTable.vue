@@ -1,7 +1,7 @@
 <template>
     <div class=" rounded-md bg-white my-4 overflow-scroll lg:mx-2">
         <table class="min-w-full">
-            <thead class="border-b table-auto">
+            <thead class="Kev table-auto">
                 <tr>
                     <th
                         class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
@@ -28,31 +28,31 @@
                         QTY
                     </th>
                     <th
-                        class="hidden lg:block text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         OVERRIDE
                     </th>
                     <th
-                        class="hidden lg:block text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         DWT
                     </th>
                     <th
-                        class="hidden lg:block text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         PRICE
                     </th>
                     <th
-                        class="hidden lg:block text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         INOTES
                     </th>
                     <th
-                        class="hidden lg:block text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         EDIT/DELETE
@@ -83,17 +83,17 @@
                         {{ item.qty }}
                     </td>
                     <td
-                        class="hidden lg:block text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="hidden lg:table-cell text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.override }}
                     </td>
                     <td
-                        class="hidden lg:block text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="hidden lg:table-cell text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.dwt }}
                     </td>
                     <td
-                        class="hidden lg:block text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="hidden lg:table-cell text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.price }}
                     </td>
