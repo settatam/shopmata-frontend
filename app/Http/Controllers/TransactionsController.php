@@ -14,7 +14,8 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $transaction = null;
         return Inertia::render('Transactions/Index');
     }
 
