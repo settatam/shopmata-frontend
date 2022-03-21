@@ -70,13 +70,14 @@
                         </th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <tr
-                        v-for="item in transactions"
+                        v-for="item in filterLists"
                         :key="item.index"
                         class="py-3"
                     >
-                        <td class="border-b">
+                        <td class="border-b w-auto lg:w-2/3">
                             <div class="py-4 px-6 flex flex-col">
                                 <td class="text-gray-darken text-sm">
                                     Comments:
@@ -108,24 +109,30 @@
                                     <MailIcon class="h-5 w-5" />
                                 </td>
                             </div>
-
-                            
                         </td>
 
                         <!-- options column start-->
                         <td class="border-b">
-                            <button
-                                class="bg-purple-darken px-6 py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="submit"
-                            >
-                                Send Kit
-                            </button>
+                            <div class="py-4 px-6 flex flex-col">
+                                <button
+                                    class="bg-purple-darken py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                                    type="submit"
+                                >
+                                    Send Kit
+                                </button>
+                            </div>
                         </td>
 
                         <!-- options column end -->
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Pagination -->
+            <pagination
+                :meta="pagination"
+                v-if="pagination.total > pagination.per_page"
+            />
         </div>
     </app-layout>
 </template>
@@ -135,6 +142,7 @@ import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
 import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
 import { MailIcon } from '@heroicons/vue/outline'
+import Pagination from '../../Components/Pagination.vue'
 const transactions = [
     {
         multipleItem: '2 silver Liberty dollars',
@@ -156,16 +164,19 @@ export default {
         AppLayout,
         SearchIcon,
         MailIcon,
-        PlusIcon
+        PlusIcon,
+        Pagination
     },
     props: {
         notifications: Array,
         transactions: Object
     },
-    setup (props) {
+    setup ({ transactions }) {
         const open = ref(false)
-        const notifications = props.notifications
-        const transactions = reactive([
+        const notifications = notifications
+        const pagination = ref(transactions)
+        const filterLists = ref(transactions.data)
+        /* const transactions = reactive([
             {
                 comments: '',
                 transactionNumber: '#4004',
@@ -187,10 +198,20 @@ export default {
                 customerName: 'Rick London',
                 transactionLocation: 'Philadelphia, PA'
             }
-        ])
+        ]) */
+
+        function success (list, page) {
+            filterLists.value = list
+            pagination.value = page
+            loading.value = false
+        }
+
         return {
             transactions,
-            statusStyles
+            statusStyles,
+            pagination,
+            filterLists
+
             // notifications
         }
     }
