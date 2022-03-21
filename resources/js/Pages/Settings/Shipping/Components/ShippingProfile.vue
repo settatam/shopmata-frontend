@@ -546,15 +546,24 @@ export default {
                     )
                 },
                 match_all_condition: {
-                    required: helpers.withMessage('Select an order condition', required)
+                    required: helpers.withMessage(
+                        'Select an order condition',
+                        required
+                    )
                 },
                 is_domestic: {
-                    required: helpers.withMessage('Select an order rate', required)
+                    required: helpers.withMessage(
+                        'Select an order rate',
+                        required
+                    )
                 },
                 conditions: {
                     $each: helpers.forEach({
                         value: {
-                            required: helpers.withMessage('Select or Enter a condition value', required)
+                            required: helpers.withMessage(
+                                'Select or Enter a condition value',
+                                required
+                            )
                         }
                     })
                 }
