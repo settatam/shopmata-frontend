@@ -56,16 +56,21 @@ class EventNotification
     }
 
     public function sendEmail($data) {
-        $d['name'] = 'Seth Atam';
-        $template = \Twig::createTemplate('hello {{ name }}');
-
-        dd(\Twig::render($template, $d));
         return Mail::to('seth.atam@gmail.com')->send(new EmailSender($data));
     }
 
-    public function sendSMS(){
+    public function sendSMS($message){
         //
         //Send Email (Get message template ...
         //Send SMS
+        $d['name'] = 'Seth Atam';
+        $template = \Twig::createTemplate('hello {{ name }}');
+
+        $message = \Twig::render($template, $d);
+        //Create a class to send the SMS and call the sender statically ...
+        //Save the sent message in a database ..
+        //Call the table something like SMS messages.
+        //We should be able to search the messages
+
     }
 }
