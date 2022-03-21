@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Twig\Environment;
 
 
 class EventNotification
@@ -55,6 +56,10 @@ class EventNotification
     }
 
     public function sendEmail($data) {
+        $d['name'] = 'Seth Atam';
+        $template = \Twig::createTemplate('hello {{ name }}');
+
+        dd(\Twig::render($template, $d));
         return Mail::to('seth.atam@gmail.com')->send(new EmailSender($data));
     }
 
