@@ -4,10 +4,12 @@ namespace App\Console\Commands\OneOffs;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
+use App\Models\Customer;
 use App\Models\Image;
 use App\Models\Transaction;
 use App\Models\TransactionHistory;
 use App\Models\Store;
+
 
 class LoadBuyMyGoldData extends Command
 {
@@ -57,16 +59,33 @@ class LoadBuyMyGoldData extends Command
                 
                 //Create the customer using the customer details in the endpoint
                 $transaction->status_id = $order['status_id'];
-                $transaction->user_id   = $order['user_id'];
+                $transaction->user_id   = $order['user_id'];//Customer id
                 $transaction->tags = $order['tags'];
 
                 //$transaction->insurance_value = $order['insurance_value'];
                 //$transaction->payment_type_id = getPaymentType($order['payment_type']);
                 //$transaction->bin_location = $order['bin_location'];
-                //$transaction->store_id = 2;// $this->getStore($order['is_jewelry']);
+                $transaction->store_id = 2;
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
 
+                //add customers
+
+                $customer = new Customer;
+                $customer->email    = $order["customer_email"];
+                $customer->first_name     =   $order["customer_name"];
+                $customer->address  =   $order["customer_address"];
+                $customer->city     =   $order["customer_city"];
+                //$customer->state    =   $order["customer_state"];
+                $customer->store_id    =   2;
+                $customer->zip      =   $order["customer_zip"];
+                $customer->phone_number    =   $order["customer_phone"];
+                $customer->address2 =   $order["customer_address2"];
+                $customer->dob      =   $order["customer_dob"];
+                $customer->password =   bcrypt($order["customer_name"]);
+                $customer->accepts_marketing      =   1;
+
+                $customer->save();
                 //Create the transaction history
             
                 foreach ($transaction->histories as $history) {
