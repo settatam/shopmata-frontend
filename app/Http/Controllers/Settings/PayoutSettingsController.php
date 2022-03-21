@@ -91,8 +91,8 @@ class PayoutSettingsController extends Controller
             \Log::info("Updated Payout Settings".  collect($request->all()));
             return response()->json(['message' => "Settings saved successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to save payout settings" .$th->getMessage() ], 422);
             \Log::Error("Failed to save  settings  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to save payout settings" ], 422);
         }
     
     }

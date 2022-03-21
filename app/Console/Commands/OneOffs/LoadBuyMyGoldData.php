@@ -46,7 +46,7 @@ class LoadBuyMyGoldData extends Command
     {
         $response = Http::get('https://buymygold.com/api/transactions');
         $data = $response->body();
-       
+
         if($orders = json_decode($data, true)) {
             foreach ($orders['orders'] as $order) {
                 $transaction = new Transaction;

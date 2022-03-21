@@ -397,8 +397,6 @@ class ProductsController extends Controller
             // Fire new Product Created Event to send out emails and other similar stuff.
             $product->refresh();
             $product->load(['variants.assets', 'variants.attributes', 'assets']);
-
-
             ProductCreated::dispatch($product);
             return response([
                 'message' => 'Product created successfully',

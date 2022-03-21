@@ -43,8 +43,8 @@ class StoreActualNotificationsController extends Controller
             \Log::info("Updated store actual notifications with".  collect($request->all()));
             return response()->json(['message' => "Notification saved successfully."], 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=>"Failed to save notification"], 422);
             \Log::error("Failed to Update store actual notifications with" . collect($request->all())  ."Error: " .$th->getMessage() );
+            return response()->json(['message'=>"Failed to save notification"], 422);
         }
     }
 
