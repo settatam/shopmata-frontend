@@ -2,7 +2,7 @@
     <app-layout>
         <!-- Page header -->
         <div id="container" class="flex flex-col mx-3">
-                        <div class="flex flex-row justify-between">
+            <div class="flex flex-row justify-between">
                 <div class="flex flex-col justify-start m-3">
                     <h1 class="mt-4 font-bold">Transactions</h1>
                 </div>
@@ -48,7 +48,7 @@
 
             <!-- transaction items -->
             <table class="my-4 mx-3 bg-white rounded-md">
-                                <thead class="border-b table-auto">
+                <thead class="border-b table-auto">
                     <tr class="font-semibold tracking-wide text-left">
                         <th
                             class="text-sm font-medium text-gray-600 px-5 mr-1 py-1"
@@ -62,28 +62,22 @@
                         >
                             Customers
                         </th>
+                        <th
+                            class="text-sm font-medium text-gray-600 px-5 mr-1 py-1"
+                            scope="col"
+                        >
+                            Options
+                        </th>
                     </tr>
                 </thead>
-                                <tbody>
+                <tbody>
                     <tr
                         v-for="item in transactions"
                         :key="item.index"
                         class="py-3"
                     >
-                        <td class="">
+                        <td class="border-b">
                             <div class="py-4 px-6 flex flex-col">
-                                <td class="text-gray-darken text-sm">
-                                    Multiple item:
-                                    <span class="text-black font-medium">{{
-                                        item.multipleItem
-                                    }}</span>
-                                </td>
-                                <td class="text-gray-darken text-sm">
-                                    Description:
-                                    <span class="text-black font-medium">{{
-                                        item.description
-                                    }}</span>
-                                </td>
                                 <td class="text-gray-darken text-sm">
                                     Comments:
                                     <span class="text-black font-medium">{{
@@ -92,8 +86,10 @@
                                 </td>
                             </div>
                         </td>
-                        
-                        <td class="flex flex-col lg:flex-row border-b border-gray-background">
+
+                        <td
+                            class="flex flex-col lg:flex-row border-b border-gray-background"
+                        >
                             <!-- trans info -->
                             <div class="py-4 px-6 flex flex-col">
                                 <td class="text-purple-darken font-bold">
@@ -112,16 +108,21 @@
                                     <MailIcon class="h-5 w-5" />
                                 </td>
                             </div>
-                            <div class="flex flex-col justify-start mx-6 py-4">
-                                <button
-                                    class="bg-purple-darken px-6 py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                    type="submit"
-                                >
-                                    Send Kit
-                                </button>
-                            </div>
-                                                    </td>
 
+                            
+                        </td>
+
+                        <!-- options column start-->
+                        <td class="border-b">
+                            <button
+                                class="bg-purple-darken px-6 py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                                type="submit"
+                            >
+                                Send Kit
+                            </button>
+                        </td>
+
+                        <!-- options column end -->
                     </tr>
                 </tbody>
             </table>
@@ -154,19 +155,18 @@ export default {
     components: {
         AppLayout,
         SearchIcon,
-                MailIcon,
+        MailIcon,
         PlusIcon
     },
     props: {
-        notifications: Array
+        notifications: Array,
+        transactions: Object
     },
     setup (props) {
         const open = ref(false)
         const notifications = props.notifications
         const transactions = reactive([
             {
-                multipleItem: '2 silver Liberty dollars',
-                description: '',
                 comments: '',
                 transactionNumber: '#4004',
                 transactionDate: '2022-06-01 08:45:23',
@@ -174,8 +174,6 @@ export default {
                 transactionLocation: 'Philadelphia, PA'
             },
             {
-                multipleItem: '2 silver Liberty dollars',
-                description: '',
                 comments: '',
                 transactionNumber: '#4004',
                 transactionDate: '2022-06-01 08:45:23',
@@ -183,8 +181,6 @@ export default {
                 transactionLocation: 'Philadelphia, PA'
             },
             {
-                multipleItem: '2 silver Liberty dollars',
-                description: '',
                 comments: '',
                 transactionNumber: '#4004',
                 transactionDate: '2022-06-01 08:45:23',
