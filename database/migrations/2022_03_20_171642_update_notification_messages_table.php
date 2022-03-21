@@ -16,7 +16,7 @@ class UpdateNotificationMessagesTable extends Migration
         Schema::table('store_notification_messages', function (Blueprint $table) {
             //
             $table->integer('store_notification_id');
-            $table->integer('store_id');
+            //$table->integer('store_id');
             $table->enum('channel', ['email', 'sms', 'voice', 'slack']);
             $table->boolean('should_queue')->default(false);
         });
