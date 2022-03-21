@@ -28,56 +28,56 @@
             <!-- images start -->
             <div class="">
                 <div class="p-4 flex flex-row justify-between">
-                    <div>
-                        <input type="checkbox" id="vehicle1" name="Tyvek" />
+                    <div class="flex flex-col justify-center items-center">
                         <label for="vehicle1" class="text-xs lg:text-sm">
                             Tyvek</label
                         >
+                        <input type="checkbox" id="vehicle1" name="Tyvek" />
                     </div>
-                    <div>
-                        <input type="checkbox" id="vehicle2" name="Fedex" />
+                    <div class="flex flex-col justify-center items-center">
                         <label for="vehicle2" class="text-xs lg:text-sm">
                             Fedex</label
                         >
+                        <input class="" type="checkbox" id="vehicle2" name="Fedex" />
                     </div>
-                    <div>
-                        <input type="checkbox" id="vehicle3" name="Customer" />
+                    <div class="flex flex-col justify-center items-center">
                         <label for="vehicle3" class="text-xs lg:text-sm">
                             Customer</label
                         >
+                        <input type="checkbox" id="vehicle3" name="Customer" />
                     </div>
-                    <div>
-                        <input type="checkbox" id="vehicle3" name="Other" />
+                    <div class="flex flex-col justify-center items-center">
                         <label for="vehicle3" class="text-xs lg:text-sm">
                             Other</label
                         >
+                        <input type="checkbox" id="vehicle3" name="Other" />
                     </div>
                 </div>
 
                 <div class="p-4 flex flex-row justify-between">
-                    <div>
-                        <input type="checkbox" id="vehicle3" name="10%" />
+                    <div class="flex flex-col justify-center items-center">
                         <label for="vehicle3" class="text-xs lg:text-sm">
                             10%</label
                         >
+                        <input type="checkbox" id="vehicle3" name="10%" />
                     </div>
-                    <div>
-                        <input type="checkbox" id="vehicle3" name="FedexGr" />
+                    <div class="flex flex-col justify-center items-center">
                         <label for="vehicle3" class="text-xs lg:text-sm">
                             Fedex Gr</label
                         >
+                        <input type="checkbox" id="vehicle3" name="FedexGr" />
                     </div>
-                    <div>
-                        <input type="checkbox" id="vehicle3" name="FedexEx" />
+                    <div class="flex flex-col justify-center items-center">
                         <label for="vehicle3" class="text-xs lg:text-sm">
                             Fedex Ex</label
                         >
+                        <input type="checkbox" id="vehicle3" name="FedexEx" />
                     </div>
-                    <div>
-                        <input type="checkbox" id="vehicle3" name="Box" />
+                    <div class="flex flex-col justify-center items-center">
                         <label for="vehicle3" class="text-xs lg:text-sm">
                             Box</label
                         >
+                        <input type="checkbox" id="vehicle3" name="Box" />
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
 
         <!-- sms start -->
         <div>
-            <Sms class="my-4"/>
+            <Sms class="my-4" />
         </div>
     </div>
 </template>

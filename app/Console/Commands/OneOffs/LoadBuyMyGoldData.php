@@ -67,7 +67,7 @@ class LoadBuyMyGoldData extends Command
                 //$transaction->insurance_value = $order['insurance_value'];
                 //$transaction->payment_type_id = getPaymentType($order['payment_type']);
                 //$transaction->bin_location = $order['bin_location'];
-                $transaction->store_id = 1;
+                $transaction->store_id = 2;
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
 
