@@ -4794,6 +4794,10 @@ input[type='checkbox']:focus {
 		width: 70%;
 	}
 
+	.md\:w-2\/4 {
+		width: 50%;
+	}
+
 	.md\:max-w-sm {
 		max-width: 24rem;
 	}

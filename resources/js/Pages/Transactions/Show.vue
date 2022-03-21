@@ -50,13 +50,13 @@
 import { ref, computed, watch, reactive } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
-import TransactionBox1 from '../Transactions/Components/TransactionBox1.vue'
-import KitInformation from '../Transactions/Components/KitInformation.vue'
-import CustomerInformation from '../Transactions/Components/CustomerInformation.vue'
-import PaymentInformation from '../Transactions/Components/PaymentInformation.vue'
-import TransactionTimeline from '../Transactions/Components/TransactionTimeline.vue'
-import ItemTable from '../Transactions/Components/ItemTable.vue'
-import TrafficSource from '../Transactions/Components/TrafficSource.vue'
+import TransactionBox1 from './Components/TransactionBox1.vue'
+import KitInformation from './Components/KitInformation.vue'
+import CustomerInformation from './Components/CustomerInformation.vue'
+import PaymentInformation from './Components/PaymentInformation.vue'
+import TransactionTimeline from './Components/TransactionTimeline.vue'
+import ItemTable from './Components/ItemTable.vue'
+import TrafficSource from './Components/TrafficSource.vue'
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',

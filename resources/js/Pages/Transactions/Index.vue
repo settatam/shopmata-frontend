@@ -77,7 +77,7 @@
                         :key="item.index"
                         class="py-3"
                     >
-                        <td class="border-b w-auto lg:w-2/3">
+                        <td class="border-b w-auto md:w-2/4 lg:w-2/3">
                             <div class="py-4 px-6 flex flex-col">
                                 <td class="text-gray-darken text-sm">
                                     Comments:
@@ -94,7 +94,9 @@
                             <!-- trans info -->
                             <div class="pb-4 pt-6 px-6 flex flex-col">
                                 <td class="text-purple-darken font-bold">
-                                    Transaction {{ item.transactionNumber }}
+                                    <inertia-link href="/transactions/{{ item.id }}">
+                                        <span class="text-indigo-700 cursor-pointer">Transaction {{ item.id }}</span>
+                                    </inertia-link>
                                 </td>
                                 <td class="text-gray-darken text-sm">
                                     {{ item.transactionDate }}
@@ -130,7 +132,7 @@
 
             <!-- Pagination -->
             <pagination
-            class="mx-3"
+                class="mx-3"
                 :meta="pagination"
                 v-if="pagination.total > pagination.per_page"
             />
@@ -144,6 +146,7 @@ import axios from 'axios'
 import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
 import { MailIcon } from '@heroicons/vue/outline'
 import Pagination from '../../Components/Pagination.vue'
+import { Inertia } from '@inertiajs/inertia'
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -202,7 +205,6 @@ export default {
             statusStyles,
             pagination,
             filterLists
-
             // notifications
         }
     }
