@@ -479,9 +479,7 @@
                 </div>
             </div>
             <!-- Sidebar -->
-            <div
-                class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm gap-y-4 w-full"
-            >
+            <div class="md:flex hidden flex-col md:ml-4 mt-4.5 md:mt-0 md:max-w-sm gap-y-4 w-full">
                 <div class="bg-white px-5 pt-4 pb-3 rounded-sm">
                     <p class="font-semibold">Collection image</p>
                     <div id="img-previewer" v-if="category.img">

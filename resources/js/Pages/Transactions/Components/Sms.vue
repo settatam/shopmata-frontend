@@ -1,10 +1,10 @@
 <template>
     <div class=" rounded-md bg-white lg:mx-2">
-        <div class="rounded-t-md w-full bg-purple-darken py-4 pl-4 text-white">
+        <div class="text-xl px-4 rounded-t-md w-full font-bold text-black">
             <h1>SMS</h1>
         </div>
 
-        <div class="p-4 space-y-2">
+        <div class="px-4 space-y-2">
             <div class="bg-gray-background p-4">
                 lorem ipsum etc
             </div>
@@ -13,7 +13,10 @@
                 lorem ipsum etc
             </div>
 
-            <div class="my-2 mx-1">
+            <div class="mt-3 mx-1">
+                <div>
+                    <h1 class="text-black font-bold text-xl pt-4">Send SMS</h1>
+                </div>
                 <textarea
                     class="shadow-sm h-20 block w-full sm:text-sm border-gray-300 rounded-md "
                     placeholder="Write a delivery note ......."

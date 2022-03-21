@@ -209,6 +209,7 @@
                         <div class=" flex justify-between">
                             <button
                                 type="file"
+                                @click="closeModal"
                                 class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                             >
                                 Cancel
