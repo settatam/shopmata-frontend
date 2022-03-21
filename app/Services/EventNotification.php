@@ -19,8 +19,6 @@ class EventNotification
     protected $event = '';
 
     public function __construct($event, $data) {
-//        $this->transaction = data_get($data, $transactoin_id);
-//        $this->customer = data()
           $this->data = $data;
           $this->event = $event;
           if(!count($this->data)) {
@@ -43,6 +41,8 @@ class EventNotification
             switch ($message->channel) {
                 case 'email':
                     $messageData['message'] = $message->message;
+                    //Get the template
+                    //Form the
                     return $this->sendEmail($messageData);
                     break;
                 case 'sms':
@@ -58,7 +58,8 @@ class EventNotification
         return Mail::to('seth.atam@gmail.com')->send(new EmailSender($data));
     }
 
-    public function sendMessages(){
+    public function sendSMS(){
+        //
         //Send Email (Get message template ...
         //Send SMS
     }

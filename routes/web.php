@@ -59,6 +59,10 @@ Route::get('/', function () {
     return Inertia\Inertia::render('Landing');
 })->name('landing');
 
+Route::get('test', function () {
+    return view('emails.sender');
+})->name('landing');
+
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 // 	return Inertia\Inertia::render('Dashboard');
 // })->name('dashboard');

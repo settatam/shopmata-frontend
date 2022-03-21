@@ -12,6 +12,9 @@ class EmailSender extends Mailable
     use Queueable, SerializesModels;
 
     public $data = [];
+    public $store = NULL;
+    public $transaction = NULL;
+
 
     /**
      * Create a new message instance.
@@ -22,6 +25,7 @@ class EmailSender extends Mailable
     {
         //
         $this->data = $data;
+        $this->store = $data['store'];
     }
 
     /**
