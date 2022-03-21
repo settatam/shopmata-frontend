@@ -92,7 +92,7 @@
                             class="flex flex-col lg:flex-row border-b border-gray-background"
                         >
                             <!-- trans info -->
-                            <div class="py-4 px-6 flex flex-col">
+                            <div class="pb-4 pt-6 px-6 flex flex-col">
                                 <td class="text-purple-darken font-bold">
                                     Transaction {{ item.transactionNumber }}
                                 </td>
@@ -130,6 +130,7 @@
 
             <!-- Pagination -->
             <pagination
+            class="mx-3"
                 :meta="pagination"
                 v-if="pagination.total > pagination.per_page"
             />
@@ -143,17 +144,7 @@ import axios from 'axios'
 import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
 import { MailIcon } from '@heroicons/vue/outline'
 import Pagination from '../../Components/Pagination.vue'
-const transactions = [
-    {
-        multipleItem: '2 silver Liberty dollars',
-        description: '',
-        comments: '',
-        transactionNumber: '#4004',
-        transactionDate: '2022-06-01 08:45:23',
-        customerName: 'Rick London',
-        transactionLocation: 'Philadelphia, PA'
-    }
-]
+
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
     processing: 'bg-yellow-100 text-yellow-800',
