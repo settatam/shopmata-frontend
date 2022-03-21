@@ -61,6 +61,8 @@ class LoadBuyMyGoldData extends Command
                 $transaction->status_id = $order['status_id'];
                 $transaction->user_id   = $order['user_id'];//Customer id
                 $transaction->tags = $order['tags'];
+                $transaction->comments = "20 carat diamond ring";
+
 
                 //$transaction->insurance_value = $order['insurance_value'];
                 //$transaction->payment_type_id = getPaymentType($order['payment_type']);
