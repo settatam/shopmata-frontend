@@ -160,9 +160,9 @@
                                                 option, index
                                             ) in product_options"
                                             :key="index"
-                                            v-bind:value="option.title"
+                                            v-bind:value="option.name"
                                         >
-                                            {{ option.title }}
+                                            {{ option.name }}
                                         </option>
                                     </select>
                                 </div>
@@ -176,12 +176,12 @@
                                         <option
                                             v-for="(
                                                 option, index
-                                            ) in condition_options"
+                                            ) in getConditionOptions(condition)"
                                             :key="index"
-                                            v-bind:value="option.title"
+                                            v-bind:value="option.name"
                                             class="text-gray-700', 'block px-4 py-2 text-sm"
                                         >
-                                            {{ option.title }}
+                                            {{ option.name }}
                                         </option>
                                     </select>
                                 </div>
@@ -541,56 +541,141 @@ const pages = [
     { name: "Create Collection", href: "/categories/create", current: true },
 ];
 export default {
-    props: {
-        product_options: Array,
-        condition_options: Array,
-    },
+    // props: {
+    //     product_options: Array,
+    //     condition_options: Array,
+    // },
     data: function () {
         return {
             submitting: false,
             v$: useVuelidate(),
             theme_template: "Default Collection",
+            product_options: [
+                {
+                    name: "Product Title",
+                    numeric: false,
+                    value: "Product Title",
+                },
+                { name: "Product Type", numeric: false, value: "Product Type" },
+                {
+                    name: "Product Vendor",
+                    numeric: false,
+                    value: "Product Vendor",
+                },
+                {
+                    name: "Product Price",
+                    numeric: true,
+                    value: "Product Price",
+                },
+                { name: "Product Tag", numeric: false, value: "Product Tag" },
+                {
+                    name: "Stock Quantity",
+                    numeric: true,
+                    value: "Stock Quantity",
+                },
+                { name: "Weight", numeric: true , value: "Weight" },
+            ],
+            condition_options: [
+                {
+                    name: "is equal to",
+                    value: "is equal to",
+                    numeric: null,
+                },
+                {
+                    name: "is not equal to",
+                    value: "is not equal to",
+                    numeric: null,
+                },
+                {
+                    name: "is greater than",
+                    value: "is greater than",
+                    numeric: true,
+                },
+                {
+                    name: "is less than",
+                    value: "is less than",
+                    numeric: true,
+                },
+                {
+                    name: "starts with",
+                    value: "starts with",
+                    numeric: false,
+                },
+                {
+                    name: "ends with",
+                    value: "ends with",
+                    numeric: false,
+                },
+                {
+                    name: "contains",
+                    value: "contains",
+                    numeric: false,
+                },
+                {
+                    name: "does not contain",
+                    value: "does not contain",
+                    numeric: false,
+                },
+                {
+                    name: "is not empty",
+                    value: "is not empty",
+                    numeric: false,
+                },
+                {
+                    name: "is empty",
+                    value: "is empty",
+                    numeric: false,
+                },
+            ],
             conditions: [
                 {
                     tag: "Product Title",
                     condition: "",
-                    value: "value",
+                    value: "",
                 },
             ],
             template_opt: {
                 product_title: {
                     text: "Product Title",
                     value: "Product Title",
+                    numeric: false,
                 },
                 product_type: {
                     text: "Product Type",
                     value: "Product Type",
+                    numeric: false,
                 },
                 product_price: {
                     text: "Product Price",
                     value: "Product Price",
+                    numeric: true,
                 },
                 product_tag: {
                     text: "Product Tag",
                     value: "Product Tag",
+                    numeric: false,
                 },
                 weight: {
                     text: "Weight",
                     value: "Weight",
+                    numeric: true,
                 },
             },
             condition_opt: {
                 equal: {
                     text: "is equal to",
                     value: "equal",
+                    numeric: null,
                 },
                 greater: {
                     text: "is greater that",
                     value: "greater",
+                    numeric: true,
                 },
                 less: {
                     text: "is less than",
                     value: "less",
+                    numeric: true,
                 },
             },
             product_tag: "Product tag",
@@ -628,6 +713,21 @@ export default {
         },
     },
     methods: {
+        getConditionOptions(option) {
+            console.log("The option parameter is ", option)
+            let currentOption = this.product_options.filter(
+                (product_option) => product_option.value === option.tag
+            );
+            currentOption = currentOption.length
+                ? currentOption[0]
+                : this.product_options[0];
+            console.log("The current option is ", currentOption[0]);
+            return this.condition_options.filter(
+                (condition_option) =>
+                    condition_option.numeric === null ||
+                    condition_option.numeric === currentOption.numeric
+            );
+        },
         removePreview() {
             this.category.img = null;
         },

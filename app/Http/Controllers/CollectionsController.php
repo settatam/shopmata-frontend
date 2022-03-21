@@ -19,6 +19,45 @@ class CollectionsController extends Controller
 {
     use CollectionsControllerValidators;
 
+    private const selectorMap = [
+        'is equal to' => [
+            '='
+        ],
+        'is not equal to' => [
+            '<>'
+        ],
+        'is greater than' => [
+            '>'
+        ],
+        'is less than' => [
+            '<'
+        ],
+    ];
+
+    private const operandMap = [
+        'Product Title' => [
+            'numeric' => false,
+        ],
+        'Product Type' => [
+            'numeric' => false,
+        ],
+        'Product Vendor' => [
+            'numeric' => false,
+        ],
+        'Product Price' => [
+            'numeric' => true,
+        ],
+        'Product Tag' => [
+            'numeric' => false,
+        ],
+        'Stock Quantity' => [
+            'numeric' => true,
+        ],
+        'Weight' => [
+            'numeric' => true,
+        ],
+    ];
+
     public function index(Request $request)
     {
         $categories = Collection::orderBy('id', 'asc')->paginate(50);
@@ -169,6 +208,7 @@ class CollectionsController extends Controller
         try {
             $collection = Collection::where('handle', $handle)->firstOrFail();
             $conditions = json_decode($collection->conditions, true);
+
             foreach($conditions as $condition) {
 
             }

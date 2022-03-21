@@ -293,9 +293,9 @@
                                                         "
                                                         class="h-12 w-12 rounded-full"
                                                         :src="
-                                                            product.images[0]
+                                                            product.image
                                                                 .thumb ||
-                                                            product.images[0]
+                                                            product.image
                                                                 .url
                                                         "
                                                         alt="{{product.title}}"

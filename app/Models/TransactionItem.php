@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionItem extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'item',
+        'is_jewelry'
+    ];
 }

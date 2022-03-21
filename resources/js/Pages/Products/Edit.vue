@@ -1201,6 +1201,7 @@ export default {
             thumb: asset.thumb,
             alt: asset.description,
             id: asset.id,
+            is_default: asset.rank === 0 ? "true" : false,
         }));
         this.$refs.description.setHTML(this.productToUpdate.description);
         if (this.productToUpdate.has_variants) {
@@ -1266,6 +1267,7 @@ export default {
                     url: image.large,
                     thumb: image.thumb,
                     description: image.alt,
+                    is_default: image.is_default
                 });
             });
             Object.keys(this.productToUpdate).map((key) => {
@@ -1359,7 +1361,11 @@ export default {
         },
         onAddImage(response) {
             for (let i = 0; i < response.data.length; i++) {
-                this.product.images.push(response.data[i]);
+                this.product.images.push({
+                    ...response.data[i],
+                    alt: "",
+                    is_default: false,
+                });
             }
         },
         handleFileDrop(e) {
