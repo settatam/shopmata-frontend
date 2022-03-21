@@ -75,9 +75,10 @@
                     <tr
                         v-for="item in filterLists"
                         :key="item.index"
-                        class="py-3"
+                        class="py-3 border-b border-gray-background
+"
                     >
-                        <td class="border-b w-auto md:w-2/4 lg:w-2/3">
+                        <td class=" w-auto md:w-2/4 lg:w-2/3">
                             <div class="py-4 px-6 flex flex-col">
                                 <td class="text-gray-darken text-sm">
                                     Comments:
@@ -89,7 +90,7 @@
                         </td>
 
                         <td
-                            class="flex flex-col lg:flex-row border-b border-gray-background"
+                            class="flex flex-col lg:flex-row "
                         >
                             <!-- trans info -->
                             <div class="pb-4 pt-6 px-6 flex flex-col">
@@ -114,7 +115,7 @@
                         </td>
 
                         <!-- options column start-->
-                        <td class="border-b">
+                        <td class="">
                             <div class="py-4 px-6 flex flex-col">
                                 <button
                                     class="bg-purple-darken py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"

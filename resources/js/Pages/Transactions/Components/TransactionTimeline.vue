@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md bg-white">
+    <div class=" rounded-md mt-4 bg-white lg:mx-2">
         <div class="rounded-t-md w-full bg-purple-darken py-4 pl-4 text-white">
             <h1 class="text-white">Transaction Timeline</h1>
         </div>
@@ -45,7 +45,7 @@
                             autocomplete="off"
                         />
                         <p class="text-xs my-2 mx-2 text-red-400">
-                            Offer
+                            Delete offer
                         </p>
                     </div>
                     <div>

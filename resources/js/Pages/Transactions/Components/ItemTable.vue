@@ -1,7 +1,7 @@
 <template>
-    <div class=" rounded-md bg-white my-4 overflow-scroll lg:mx-2">
+    <div class=" rounded-md bg-white mt-8 overflow-scroll lg:mx-2">
         <table class="min-w-full">
-            <thead class="Kev table-auto">
+            <thead class="Kev table-auto border-b">
                 <tr>
                     <th
                         class="text-xs lg:text-sm font-medium text-gray-600 px-5 mr-1 py-1 text-left"
@@ -59,7 +59,6 @@
                     </th>
                 </tr>
             </thead>
-            <hr class="bg-gray-background" />
             <tbody>
                 <tr v-for="item in items" :key="item.index">
                     <td
