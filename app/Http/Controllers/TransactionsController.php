@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Transaction;
 
 
 class TransactionsController extends Controller
@@ -14,8 +15,13 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return Inertia::render('Transactions/Index');
+    {   
+
+        $transactions = Transaction::where('store_id',session('store_id'))
+                                ->latest()
+                                ->paginate(10);
+        $transactions->load('items','customer');
+        return Inertia::render('Transactions/Index',compact('transactions'));
     }
 
     /**
@@ -46,8 +52,9 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        return Inertia::render('Transactions/Show');
+    {   
+        $transaction = Transaction::find($id);
+        return Inertia::render('Transactions/Show', compact('transaction'));
     }
 
     /**

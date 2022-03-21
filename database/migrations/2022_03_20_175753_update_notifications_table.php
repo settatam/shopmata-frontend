@@ -29,7 +29,7 @@ class UpdateNotificationsTable extends Migration
     public function down()
     {
         Schema::table('store_notifications', function (Blueprint $table) {
-            //
+            $table->dropColumn('is_default','store_id','user_id');
         });
     }
 }

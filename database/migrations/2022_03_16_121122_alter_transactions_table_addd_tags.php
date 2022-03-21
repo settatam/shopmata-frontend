@@ -26,7 +26,7 @@ class AlterTransactionsTableAdddTags extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn('dob');
+            $table->dropColumn('tags');
         });
     }
 }

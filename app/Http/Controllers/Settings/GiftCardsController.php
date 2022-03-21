@@ -24,15 +24,6 @@ class GiftCardsController extends Controller
         return Inertia::render('Settings/GiftCards/Index', compact('store'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -57,7 +48,7 @@ class GiftCardsController extends Controller
                     "title" => "Validation Errors",
                     "type" => "failed",
                     "message" => "Request Failed Validation",
-                    "validationErrors" => $validator->errors(),
+                    "errors" => $validator->errors(),
                 ];
                 return response()->json(['notification' => $notification], 400);
             }
@@ -86,7 +77,7 @@ class GiftCardsController extends Controller
                 'type' => class_basename($th),
             ];
 
-            \Log::info("Create Shipping Profile Exception" . print_r($exceptionDetails, true));
+            \Log::info("Exception" . print_r($exceptionDetails, true));
 
             $notification = [
                 "title" => "An Exception Occurred",
@@ -98,48 +89,5 @@ class GiftCardsController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }
