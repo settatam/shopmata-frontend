@@ -10,6 +10,7 @@ use App\Http\Resources\Product as ProductResource;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CollectionProduct;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductImage;
@@ -78,7 +79,7 @@ class ProductsController extends Controller
 
         foreach ($products as $product) {
             $categories = [];
-            $product->image = count($product->images) ? $product->images[0]->thumb ?? $product->images[0]->image_url : '';
+            $product->image = $product->image();
             if (count($product->categories)) {
                 foreach ($product->categories as $cat) {
                     if (null !== $cat->category) {
@@ -263,9 +264,9 @@ class ProductsController extends Controller
             }
         } else {
             $slug_count = Product::where('title', $request->input('title'))->count();
+            $handle = Str::slug($request->input('title'));
 
             if ($slug_count >= 1) {
-                $handle = Str::slug($request->input('title'));
                 $handle .= '-';
                 $handle .= $slug_count;
             }
@@ -358,14 +359,12 @@ class ProductsController extends Controller
 
                     if (array_key_exists('assets', $variant)) {
                         foreach ($variant['assets'] as $asset) {
-                            $productImage = new ProductImage();
+                            $productImage = new Image();
+                            $productImage->imageable_id = $variant->id;
+                            $productImage->imageable_type = get_class($product);
                             $productImage->url = $asset['url'];
-                            $productImage->alt = $asset['description'];
-                            $productImage->rank = $asset['rank'];
-                            $productImage->thumb = $asset['thumb'] ?? $asset['url'];
-                            $productImage->store_id = $request->input('store_id');
-                            $productImage->product_id = $product->id;
-                            $productImage->sku = $productVariant->sku;
+                            $productImage->thumbnail = $asset['thumb'] ?? $asset['url'];
+                            $productImage->rank = $asset['is_default'] ? 0 : 1;
                             $productImage->save();
                         }
                     }
@@ -384,17 +383,12 @@ class ProductsController extends Controller
             }
 
             foreach ($request->input('assets') as $index => $asset) {
-                $productImage = new ProductImage();
+                $productImage = new Image();
+                $productImage->imageable_id = $product->id;
+                $productImage->imageable_type = get_class($product);
                 $productImage->url = $asset['url'];
-                $productImage->alt = $asset['description'];
-                $productImage->thumb = $asset['thumb'] ?? $asset['url'];
-                if (isset($asset['rank'])) {
-                    $productImage->rank = $asset['rank'];
-                } else {
-                    $productImage->rank = $index;
-                }
-                $productImage->store_id = $request->input('store_id');
-                $productImage->product_id = $product->id;
+                $productImage->thumbnail = $asset['thumb'] ?? $asset['url'];
+                $productImage->rank = $asset['is_default'] ? 0 : 1;
                 $productImage->save();
             }
 
@@ -529,6 +523,20 @@ class ProductsController extends Controller
             }
             $product->save();
 
+            if($request->input('assets')) {
+                $product->images()->delete();
+                foreach ($request->input('assets') as $index => $asset) {
+                    $productImage = new Image();
+                    $productImage->imageable_id = $product->id;
+                    $productImage->imageable_type = get_class($product);
+                    $productImage->url = $asset['url'];
+                    $productImage->thumbnail = $asset['thumb'] ?? $asset['url'];
+                    $productImage->rank = $asset['is_default'] ? 0 : 1;
+                    $productImage->save();
+                }
+            }
+
+
             foreach($product->variants as $variant) {
                 $variant->attributes()->delete();
                 $variant->refresh();
@@ -571,14 +579,11 @@ class ProductsController extends Controller
                     }
                     if (array_key_exists('assets', $variant)) {
                         foreach ($variant['assets'] as $asset) {
-                            $productImage = new ProductImage();
+                            $productImage = new Image();
+                            $productImage->imageable_id = $variant->id;
+                            $productImage->imageable_type = get_class($variant);
                             $productImage->url = $asset['url'];
-                            $productImage->alt = $asset['description'];
-                            $productImage->rank = $asset['rank'];
-                            $productImage->thumb = $asset['thumb'] ?? $asset['url'];
-                            $productImage->store_id = $request->input('store_id');
-                            $productImage->product_id = $product->id;
-                            $productImage->sku = $productVariant->sku;
+                            $productImage->thumbnail = $asset['thumb'];
                             $productImage->save();
                         }
                     }

@@ -14,13 +14,13 @@ class AddNewColumnsToCollectionsTable extends Migration
     public function up()
     {
         Schema::table('collections', function (Blueprint $table) {
-//            $table->string('image_url', 189)->nullable();
-//            $table->string('image_thumb', 189)->nullable();
-//            $table->string('image_alt', 189)->nullable();
-//            $table->integer('theme_id')->nullable();
-//            $table->longText('conditions');
-//            $table->string('seo_title')->nullable();
-//            $table->string('seo_description')->nullable();
+            $table->string('image_url', 189)->nullable();
+            $table->string('image_thumb', 189)->nullable();
+            $table->string('image_alt', 189)->nullable();
+            $table->integer('theme_id')->nullable();
+            $table->longText('conditions');
+            $table->string('seo_title')->nullable();
+            $table->string('seo_description')->nullable();
         });
     }
 

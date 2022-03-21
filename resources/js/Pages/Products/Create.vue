@@ -58,10 +58,10 @@
                                 @click="submitNewProduct"
                                 :disabled="v$.$error || submitting"
                                 :class="{
-                                        disabled: v$.$error || submitting,
-                                        'opacity-25 cursor-not-allowed':
-                                            v$.$error || submitting,
-                                    }"
+                                    disabled: v$.$error || submitting,
+                                    'opacity-25 cursor-not-allowed':
+                                        v$.$error || submitting,
+                                }"
                             >
                                 <svg
                                     v-if="submitting"
@@ -1367,6 +1367,7 @@ export default {
                     url: image.large,
                     thumb: image.thumb,
                     description: image.alt,
+                    is_default: image.is_default
                 });
             });
             productsRequest.store_id = this.store.id;
@@ -1506,7 +1507,11 @@ export default {
         },
         onAddImage(response) {
             for (let i = 0; i < response.data.length; i++) {
-                this.product.images.push(response.data[i]);
+                this.product.images.push({
+                    ...response.data[i],
+                    alt: "",
+                    is_default: false,
+                });
             }
         },
         handleFileDrop(e) {

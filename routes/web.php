@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\NotificationsController as NewNotificationsController;
 
 
 /*
@@ -196,6 +197,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
     Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
     Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
+
+    #Notifications
+    Route::get('temp-notifications', [NewNotificationsController::class, 'index']);
+    Route::get('temp-notifications/{id}', [NewNotificationsController::class, 'show'])->where('id', '[0-9]+');
+    Route::get('temp-notifications/create', [NewNotificationsController::class, 'create']);
 
 
     #Settings -> User

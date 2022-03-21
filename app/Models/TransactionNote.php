@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionNote extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'notes',
+        'type',
+        'transaction_id'
+    ];
+
 }

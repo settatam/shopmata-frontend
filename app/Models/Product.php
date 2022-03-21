@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Scopes\StoreScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -74,9 +75,19 @@ class Product extends Model
         return $this->hasMany(ProductCategory::class);
     }
 
-    public function images(): HasMany
+//    public function images(): HasMany
+//    {
+//        return $this->hasMany(ProductImage::class);
+//    }
+
+    public function images(): MorphMany
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function image() {
+        $zeroRanked = $this->images()->where('rank', 0)->first();
+        return $zeroRanked ?? $this->images()->first();
     }
 
     public function allAssets(): HasMany

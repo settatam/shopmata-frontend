@@ -142,7 +142,7 @@
                                         <option
                                             v-for="(
                                                 option, index
-                                            ) in template_opt"
+                                            ) in product_options"
                                             :key="index"
                                             v-bind:value="option.value"
                                         >
@@ -167,7 +167,7 @@
                                         <option
                                             v-for="(
                                                 option, index
-                                            ) in condition_opt"
+                                            ) in getConditionOptions(condition)"
                                             :key="index"
                                             v-bind:value="option.value"
                                             class="text-gray-700', 'block px-4 py-2 text-sm"
@@ -447,42 +447,83 @@ export default {
                     equal: "equal",
                 },
             ],
-            template_opt: {
-                product_title: {
-                    text: "Product Title",
+            product_options: [
+                {
+                    name: "Product Title",
+                    numeric: false,
                     value: "Product Title",
                 },
-                product_type: {
-                    text: "Product Type",
-                    value: "Product Type",
+                { name: "Product Type", numeric: false, value: "Product Type" },
+                {
+                    name: "Product Vendor",
+                    numeric: false,
+                    value: "Product Vendor",
                 },
-                product_price: {
-                    text: "Product Price",
+                {
+                    name: "Product Price",
+                    numeric: true,
                     value: "Product Price",
                 },
-                product_tag: {
-                    text: "Product Tag",
-                    value: "Product Tag",
+                { name: "Product Tag", numeric: false, value: "Product Tag" },
+                {
+                    name: "Stock Quantity",
+                    numeric: true,
+                    value: "Stock Quantity",
                 },
-                weight: {
-                    text: "Weight",
-                    value: "Weight",
-                },
-            },
-            condition_opt: {
-                equal: {
-                    text: "is equal to",
+                { name: "Weight", numeric: true, value: "Weight" },
+            ],
+            condition_options: [
+                {
+                    name: "is equal to",
                     value: "is equal to",
+                    numeric: null,
                 },
-                greater: {
-                    text: "is greater that",
-                    value: "is greater that",
+                {
+                    name: "is not equal to",
+                    value: "is not equal to",
+                    numeric: null,
                 },
-                less: {
-                    text: "is less than",
+                {
+                    name: "is greater than",
+                    value: "is greater than",
+                    numeric: true,
+                },
+                {
+                    name: "is less than",
                     value: "is less than",
+                    numeric: true,
                 },
-            },
+                {
+                    name: "starts with",
+                    value: "starts with",
+                    numeric: false,
+                },
+                {
+                    name: "ends with",
+                    value: "ends with",
+                    numeric: false,
+                },
+                {
+                    name: "contains",
+                    value: "contains",
+                    numeric: false,
+                },
+                {
+                    name: "does not contain",
+                    value: "does not contain",
+                    numeric: false,
+                },
+                {
+                    name: "is not empty",
+                    value: "is not empty",
+                    numeric: false,
+                },
+                {
+                    name: "is empty",
+                    value: "is empty",
+                    numeric: false,
+                },
+            ],
             product_tag: "Product tag",
             condition_label: "is equal to",
             toggle: true,
@@ -516,6 +557,21 @@ export default {
         },
     },
     methods: {
+        getConditionOptions(option) {
+            console.log("The option parameter is ", option)
+            let currentOption = this.product_options.filter(
+                (product_option) => product_option.value === option.tag
+            );
+            currentOption = currentOption.length
+                ? currentOption[0]
+                : this.product_options[0];
+            console.log("The current option is ", currentOption[0]);
+            return this.condition_options.filter(
+                (condition_option) =>
+                    condition_option.numeric === null ||
+                    condition_option.numeric === currentOption.numeric
+            );
+        },
         removePreview() {
             this.collection.img = null;
         },
