@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterTransactionsTableAdddTags extends Migration
+class AlterTransactionsTableAddComments extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AlterTransactionsTableAdddTags extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->string('tags')->nullable();
+            $table->text('comments')->nullable();
+            $table->integer('store_id')->nullable();
         });
     }
 
@@ -26,7 +27,9 @@ class AlterTransactionsTableAdddTags extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn('tags');
+            $table->dropColumn('comments','store_id');
         });
     }
 }
+
+
