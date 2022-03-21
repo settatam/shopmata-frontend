@@ -607,7 +607,6 @@ export default {
         errors: Object,
         states: Array
     },
-
     components: {
         Nav,
         AppLayout,

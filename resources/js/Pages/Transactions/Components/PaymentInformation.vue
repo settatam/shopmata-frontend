@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md bg-white lg:mx-2">
+    <div class=" rounded-md bg-white lg:mx-2 ">
         <div class="rounded-t-md w-full bg-purple-darken py-4 pl-4 text-white">
             <h1>Payment Information</h1>
         </div>
