@@ -5,7 +5,7 @@
                 class="bg-gray-background w-full flex flex-col lg:space-y-2 px-4"
             >
             <!-- nav start -->
-                <nav class="flex px-6" aria-label="Breadcrumb">
+                <nav class="flex px-6 pt-8" aria-label="Breadcrumb">
                 <ol role="list" class="flex items-center space-x-4">
                     <li>
                         <div>
@@ -94,7 +94,7 @@ import PaymentInformation from './Components/PaymentInformation.vue'
 import TransactionTimeline from './Components/TransactionTimeline.vue'
 import ItemTable from './Components/ItemTable.vue'
 import TrafficSource from './Components/TrafficSource.vue'
-import { ChevronRightIcon } from '@heroicons/vue/solid'
+import { ChevronRightIcon, HomeIcon } from '@heroicons/vue/solid'
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -121,7 +121,8 @@ export default {
         TransactionTimeline,
         ItemTable,
         TrafficSource,
-        ChevronRightIcon
+        ChevronRightIcon,
+        HomeIcon
     },
     props: {
         notifications: Array

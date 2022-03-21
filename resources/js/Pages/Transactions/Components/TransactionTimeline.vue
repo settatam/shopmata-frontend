@@ -18,7 +18,7 @@
                             placeholder="Kit Received"
                             autocomplete="off"
                         />
-                        <p class="text-xs my-2 mx-2 text-red-400">
+                        <p class="text-xs my-2 mx-2 text-red-600">
                             Delete transaction
                         </p>
                     </div>
@@ -44,7 +44,7 @@
                             placeholder="Kit Received"
                             autocomplete="off"
                         />
-                        <p class="text-xs my-2 mx-2 text-red-400">
+                        <p class="text-xs my-2 mx-2 text-red-600">
                             Delete offer
                         </p>
                     </div>
