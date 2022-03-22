@@ -63,7 +63,7 @@
                             Customers
                         </th>
                         <th
-                            class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 hidden lg:table-cell"
+                            class="text-sm font-medium text-gray-600  py-1 hidden lg:table-cell "
                             scope="col"
                         >
                             Options
@@ -75,8 +75,7 @@
                     <tr
                         v-for="item in filterLists"
                         :key="item.index"
-                        class="py-3 border-b border-gray-background
-"
+                        class="py-3 border-b border-gray-background mr-2"
                     >
                         <td class=" w-auto md:w-2/4 lg:w-2/3">
                             <div
@@ -120,8 +119,9 @@
                                 <td class="text-black font-medium">
                                     {{ item.customer.city }}
                                 </td>
-                                <td>
+                                <td class="flex flex-row space-x-1">
                                     <MailIcon class="h-5 w-5" />
+                                    <PhoneIcon class="h-5 w-5" />
                                 </td>
 
                                 <td class="lg:hidden">
@@ -168,7 +168,7 @@ import { ref, reactive } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
 import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
-import { MailIcon } from '@heroicons/vue/outline'
+import { MailIcon, PhoneIcon } from '@heroicons/vue/outline'
 import Pagination from '../../Components/Pagination.vue'
 import { Inertia } from '@inertiajs/inertia'
 
@@ -183,6 +183,7 @@ export default {
         SearchIcon,
         MailIcon,
         PlusIcon,
+        PhoneIcon,
         Pagination
     },
     props: {
