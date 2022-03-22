@@ -73,7 +73,10 @@ class LoadBuyMyGoldData extends Command
 
                 //add customers
 
-                $customer = new Customer;
+                $customer = Customer::firstOrNew(
+                    ['id' => $order['user_id']]
+                );
+                $customer->id    = $order['user_id'];
                 $customer->email    = $order["customer_email"];
                 $customer->first_name     =   $order["customer_name"];
                 $customer->address  =   $order["customer_address"];
