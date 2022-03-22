@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\EventNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -81,5 +82,17 @@ class NotificationsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @throws \App\Exceptions\InvalidInputException
+     */
+    public function test(Request $request): void
+    {
+        (new EventNotification('Order confirmation', [
+            'store_id' => 2,
+            'customer_id' => 100,
+            'order_id' => 1
+        ]))->getAndSendMessages();
     }
 }
