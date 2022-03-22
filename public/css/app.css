@@ -1965,6 +1965,9 @@ select {
 .w-4\/5 {
 	width: 80%;
 }
+.w-24 {
+	width: 6rem;
+}
 .w-1 {
 	width: 0.25rem;
 }
@@ -2009,9 +2012,6 @@ select {
 }
 .w-1\/5 {
 	width: 20%;
-}
-.w-24 {
-	width: 6rem;
 }
 .w-4\/10 {
 	width: 40%;
@@ -5261,6 +5261,10 @@ input[type='checkbox']:focus {
 
 	.lg\:w-3\/10 {
 		width: 30%;
+	}
+
+	.lg\:w-3\/5 {
+		width: 60%;
 	}
 
 	.lg\:min-w-0 {

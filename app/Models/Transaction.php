@@ -26,7 +26,7 @@ class Transaction extends Model
   
      
      public function customer() {
-    	return $this->belongsTo(Customer::class);
+    	return $this->belongsTo(Customer::class,'user_id', 'id');
     }
 
     public function getCreatedAtAttribute($value){
