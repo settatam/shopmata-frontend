@@ -125,7 +125,7 @@ export default {
         HomeIcon
     },
     props: {
-        notifications: Array
+        notifications: Array,
     },
 
     setup (props) {
