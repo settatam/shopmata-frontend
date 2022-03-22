@@ -158,6 +158,7 @@ class LoadBuyMyGoldData extends Command
                 }
 
                 $items = $order['items'] ? explode(',', $order['items']) : null;
+
                 if ( !empty( $items )  > 0 ) {
                     foreach ( $items  as $item) {
                         $transaction->items()->create([
@@ -166,8 +167,6 @@ class LoadBuyMyGoldData extends Command
                         ]);
                     }
                 }
-
-                
 
                 foreach ($transaction->images as $image) {
                     $image->delete();
@@ -182,12 +181,12 @@ class LoadBuyMyGoldData extends Command
                         $dest = storage_path().'/'.$img;
                         copy($file, $dest);
                         if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
-                            $image  = env('DO_URL').'buymygold/images/items/'.$img;
-                            $imgs= new Image(['url' => $image, 'rank' => 1]);
-                            $transaction->images()->save($imgs);
-                            Storage::delete($dest);
+                             Storage::delete($dest);
                         }
-                        
+
+                        $image  = env('DO_URL').'buymygold/images/items/'.$img;
+                        $imgs= new Image(['url' => $image, 'rank' => 1]);
+                        $transaction->images()->save($imgs); 
                     }
                 } 
             }
