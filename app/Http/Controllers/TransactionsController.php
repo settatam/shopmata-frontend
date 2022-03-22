@@ -17,10 +17,10 @@ class TransactionsController extends Controller
     public function index()
     {   
 
-        $transactions = Transaction::where('store_id',session('store_id'))
+        $transactions = Transaction::with('items','customer','images')
+                                ->where('store_id',session('store_id'))
                                 ->latest()
                                 ->paginate(10);
-        $transactions->load('items','customer');
         return Inertia::render('Transactions/Index',compact('transactions'));
     }
 
