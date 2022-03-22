@@ -63,7 +63,7 @@
                             Customers
                         </th>
                         <th
-                            class="text-sm font-medium text-gray-600 px-5 mr-1 py-1"
+                            class="text-sm font-medium text-gray-600 px-5 mr-1 py-1 hidden lg:table-cell"
                             scope="col"
                         >
                             Options
@@ -79,7 +79,16 @@
 "
                     >
                         <td class=" w-auto md:w-2/4 lg:w-2/3">
-                            <div class="py-4 px-6 flex flex-col">
+                            <div
+                                class="py-4 px-6 flex  flex-col lg:flex-row items-center"
+                            >
+                                <td class="h-20 w-20 pt-4">
+                                    <img
+                                        src="../../../assets/placeholder.png"
+                                        alt=""
+                                    />
+                                </td>
+
                                 <td class="text-gray-darken text-sm">
                                     Comments:
                                     <span class="text-black font-medium">{{
@@ -89,34 +98,48 @@
                             </div>
                         </td>
 
-                        <td
-                            class="flex flex-col lg:flex-row "
-                        >
+                        <td class="flex flex-col lg:flex-row ">
                             <!-- trans info -->
                             <div class="pb-4 pt-6 px-6 flex flex-col">
                                 <td class="text-purple-darken font-bold">
-                                    <inertia-link href="/transactions/{{ item.id }}">
-                                        <span class="text-indigo-700 cursor-pointer">Transaction {{ item.id }}</span>
+                                    <inertia-link
+                                        :href="`/transactions/${item.id}`"
+                                    >
+                                        <span
+                                            class="text-indigo-700 cursor-pointer"
+                                            >Transaction #{{ item.id }}</span
+                                        >
                                     </inertia-link>
                                 </td>
-                                <td class="text-gray-darken text-sm">
-                                    {{ item.transactionDate }}
+                                <td class="text-gray-darken text-xs">
+                                    {{ item.created_at }}
                                 </td>
                                 <td class="text-black font-medium">
-                                    {{ item.customerName }}
+                                    {{ item.customer.first_name }}
                                 </td>
                                 <td class="text-black font-medium">
-                                    {{ item.transactionLocation }}
+                                    {{ item.customer.city }}
                                 </td>
                                 <td>
                                     <MailIcon class="h-5 w-5" />
+                                </td>
+
+                                <td class="lg:hidden">
+                                    <div class="py-4 w-24 flex flex-col ">
+                                        <button
+                                            class="bg-purple-darken py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                                            type="submit"
+                                        >
+                                            Send Kit
+                                        </button>
+                                    </div>
                                 </td>
                             </div>
                         </td>
 
                         <!-- options column start-->
-                        <td class="">
-                            <div class="py-4 px-6 flex flex-col">
+                        <td class="hidden lg:table-cell">
+                            <div class="py-4 w-24 flex flex-col">
                                 <button
                                     class="bg-purple-darken py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                     type="submit"

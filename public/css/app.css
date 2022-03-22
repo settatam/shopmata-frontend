@@ -2036,6 +2036,9 @@ select {
 .w-3\/6 {
 	width: 50%;
 }
+.w-18 {
+	width: 4.5rem;
+}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -2428,9 +2431,6 @@ select {
 }
 .break-words {
 	overflow-wrap: break-word;
-}
-.break-all {
-	word-break: break-all;
 }
 .rounded-md {
 	border-radius: 0.375rem;
