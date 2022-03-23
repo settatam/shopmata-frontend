@@ -36,6 +36,7 @@ class EmailSender extends Mailable
     public function build()
     {
         return $this->from($this->data['store']->email_send_from, $this->data['store']->name)
-                ->view('emails.sender');
+                ->subject($this->data['subject'])
+                ->html($this->data['parsed_message']);
     }
 }
