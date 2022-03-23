@@ -171,7 +171,6 @@ import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
 import { MailIcon, PhoneIcon } from '@heroicons/vue/outline'
 import Pagination from '../../Components/Pagination.vue'
 import { Inertia } from '@inertiajs/inertia'
-
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
     processing: 'bg-yellow-100 text-yellow-800',
@@ -218,13 +217,11 @@ export default {
                 transactionLocation: 'Philadelphia, PA'
             }
         ]) */
-
         function success (list, page) {
             filterLists.value = list
             pagination.value = page
             loading.value = false
         }
-
         return {
             transactions,
             statusStyles,
