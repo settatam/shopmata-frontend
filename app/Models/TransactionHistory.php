@@ -11,6 +11,7 @@ class TransactionHistory extends Model
 
     protected $fillable = [
         'event',
+        'created_at'
     ];
 
 
