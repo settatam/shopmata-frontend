@@ -206,6 +206,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('temp-notifications', [NewNotificationsController::class, 'index']);
     Route::get('temp-notifications/{id}', [NewNotificationsController::class, 'show'])->where('id', '[0-9]+');
     Route::get('temp-notifications/create', [NewNotificationsController::class, 'create']);
+    Route::get('temp-notifications/test', [NewNotificationsController::class, 'test']);
 
 
     #Settings -> User

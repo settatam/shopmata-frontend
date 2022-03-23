@@ -16,7 +16,7 @@ class Transaction extends Model
     
     public function images()
     {
-        return $this->morphMany(Transaction::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
 	}
 
 
@@ -25,13 +25,14 @@ class Transaction extends Model
     }
   
      
-     public function customer() {
+    public function customer() {
     	return $this->belongsTo(Customer::class,'user_id', 'id');
     }
+    
 
     public function getCreatedAtAttribute($value){
     	return \Carbon\Carbon::parse($value)->diffForHumans();
-	   }
+	}
 
 
     public function items() {
