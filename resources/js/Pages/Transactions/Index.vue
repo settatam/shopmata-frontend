@@ -169,11 +169,11 @@
             </table>
 
             <!-- Pagination -->
-            <!-- <pagination
+            <pagination
                 class="mx-3"
                 :meta="pagination"
                 v-if="pagination.total > pagination.per_page"
-            /> -->
+            />
         </div>
     </app-layout>
 </template>
