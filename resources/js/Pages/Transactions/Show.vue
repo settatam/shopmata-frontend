@@ -44,20 +44,20 @@
                 <!-- container for  containers -->
                 <div class="flex flex-col lg:flex-row w-full h-full">
                     <div class="w-full lg:w-1/3">
-                        <TransactionBox1 class="my-4 h-full" />
+                        <TransactionBox1 :transaction="transaction" class="my-4 h-full" />
                     </div>
-                    <div class="w-full lg:w-1/3">
+                    <div class="w-full lg:w-1/3 ">
                         <KitInformation class="my-4 h-full" />
                     </div>
                     <div class="w-full lg:w-1/3 h-full">
                         <div>
-                            <CustomerInformation class="my-4 h-full" />
+                            <CustomerInformation :customer="transaction.customer" class="my-4 " />
                         </div>
                         <div>
-                            <PaymentInformation class="my-4 h-full" />
+                            <PaymentInformation class="my-4" />
                         </div>
                         <div>
-                            <TrafficSource class="my-4 h-full" />
+                            <TrafficSource class="my-4 " />
                         </div>
                     </div>
                 </div>
@@ -126,6 +126,7 @@ export default {
     },
     props: {
         notifications: Array,
+        transaction: Object
     },
 
     setup (props) {

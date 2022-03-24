@@ -28,7 +28,7 @@ class Transaction extends Model
     public function customer() {
     	return $this->belongsTo(Customer::class,'user_id', 'id');
     }
-    
+
 
     public function getCreatedAtAttribute($value){
     	return \Carbon\Carbon::parse($value)->diffForHumans();
@@ -48,4 +48,8 @@ class Transaction extends Model
     public function offer() {
         return $this->hasOne(TransactionOffer::class);
     }
+
+
+
+    
 }
