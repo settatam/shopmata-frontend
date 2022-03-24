@@ -9,6 +9,8 @@ use App\Models\Image;
 use App\Models\Transaction;
 use App\Models\TransactionHistory;
 use App\Models\Store;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 
 
 class LoadBuyMyGoldData extends Command
@@ -82,7 +84,7 @@ class LoadBuyMyGoldData extends Command
                 $customer->address  =   $order["customer_address"];
                 $customer->city     =   $order["customer_city"];
                 //$customer->state    =   $order["customer_state"];
-                $customer->store_id    =   2;
+                $customer->store_id    =   2; //belongs to seth;
                 $customer->zip      =   $order["customer_zip"];
                 $customer->phone_number    =   $order["customer_phone"];
                 $customer->address2 =   $order["customer_address2"];
@@ -156,6 +158,7 @@ class LoadBuyMyGoldData extends Command
                 }
 
                 $items = $order['items'] ? explode(',', $order['items']) : null;
+
                 if ( !empty( $items )  > 0 ) {
                     foreach ( $items  as $item) {
                         $transaction->items()->create([
@@ -165,19 +168,25 @@ class LoadBuyMyGoldData extends Command
                     }
                 }
 
-
-                // dd($transaction->images);
-
-
-                // foreach ($transaction->images as $image) {
-                //     $image->delete();
-                // }
+                foreach ($transaction->images as $image) {
+                    $image->delete();
+                }
 
                 $images = $order['photos'] ?  explode(',', $order['photos']) : null;
+
                 if ( !empty( $images )  > 0 ) {
                     foreach ( $images  as $image) {
+                        $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
+                        $img = $image.'.o.jpg';
+                        $dest = storage_path().'/'.$img;
+                        copy($file, $dest);
+                        if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
+                             Storage::delete($dest);
+                        }
+
+                        $image  = env('DO_URL').'buymygold/images/items/'.$img;
                         $imgs= new Image(['url' => $image, 'rank' => 1]);
-                        $transaction->images()->save($imgs);
+                        $transaction->images()->save($imgs); 
                     }
                 } 
             }
