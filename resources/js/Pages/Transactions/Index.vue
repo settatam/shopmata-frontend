@@ -79,9 +79,18 @@
                     >
                         <td class=" w-auto md:w-2/4 lg:w-2/3">
                             <div
-                                class="py-4 px-6 flex  flex-col lg:flex-row items-center"
+                                class="py-4 px-6 flex  flex-col lg:flex-row items-center lg:space-x-2 space-y-1"
                             >
-                                <td class="h-20 w-20 pt-4">
+                                <td v-if="item.images.length > 0" class=" ">
+                                    <img
+                                        :src="item.images[0].url"
+                                        alt=""
+                                        width="50"
+                                        height="40"
+                                    />
+                                </td>
+
+                                <td v-else class="h-20 w-20 pt-4">
                                     <img
                                         src="../../../assets/placeholder.png"
                                         alt=""
@@ -155,11 +164,11 @@
             </table>
 
             <!-- Pagination -->
-            <pagination
+            <!-- <pagination
                 class="mx-3"
                 :meta="pagination"
                 v-if="pagination.total > pagination.per_page"
-            />
+            /> -->
         </div>
     </app-layout>
 </template>
@@ -190,33 +199,11 @@ export default {
         transactions: Object
     },
     setup ({ transactions }) {
+        const imageExists = ref(true)
         const open = ref(false)
         const notifications = notifications
         const pagination = ref(transactions)
         const filterLists = ref(transactions.data)
-        /* const transactions = reactive([
-            {
-                comments: '',
-                transactionNumber: '#4004',
-                transactionDate: '2022-06-01 08:45:23',
-                customerName: 'Rick London',
-                transactionLocation: 'Philadelphia, PA'
-            },
-            {
-                comments: '',
-                transactionNumber: '#4004',
-                transactionDate: '2022-06-01 08:45:23',
-                customerName: 'Rick London',
-                transactionLocation: 'Philadelphia, PA'
-            },
-            {
-                comments: '',
-                transactionNumber: '#4004',
-                transactionDate: '2022-06-01 08:45:23',
-                customerName: 'Rick London',
-                transactionLocation: 'Philadelphia, PA'
-            }
-        ]) */
         function success (list, page) {
             filterLists.value = list
             pagination.value = page
@@ -226,7 +213,8 @@ export default {
             transactions,
             statusStyles,
             pagination,
-            filterLists
+            filterLists,
+            imageExists
             // notifications
         }
     }
