@@ -58,7 +58,8 @@
                         <inertia-link
                             v-if="
                                 page.label.includes('Previous') == false &&
-                                    page.label.includes('Next') == false
+                                    page.label.includes('Next') == false &&
+                                    page.url
                             "
                             :href="page.url"
                             aria-current="page"
