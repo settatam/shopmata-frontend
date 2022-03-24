@@ -21,6 +21,7 @@ class TransactionsController extends Controller
                                 ->where('store_id',session('store_id'))
                                 ->latest()
                                 ->paginate(10);
+        $transactions->load('customer.state');
         return Inertia::render('Transactions/Index',compact('transactions'));
     }
 
