@@ -5,12 +5,20 @@
         </div>
 
         <div class="p-4 space-y-2">
-            <p class="font-medium text-xs lg:text-sm text-black">
-                Traffic Source
+            <p class="font-bold text-xs lg:text-sm text-black">
+                Method:
                 <span class="font-normal"></span>
             </p>
-            <p class="font-medium text-xs lg:text-sm text-purple-darken">
-                More details
+            <p class="font-bold text-xs lg:text-sm text-black">
+                Payable To:
+                <span class="font-normal"></span>
+            </p>
+            <p class="font-bold text-xs lg:text-sm text-black">
+                Account:
+                <span class="font-normal"></span>
+            </p>
+            <p class="font-bold text-xs lg:text-sm text-black">
+                Address:
                 <span class="font-normal"></span>
             </p>
             

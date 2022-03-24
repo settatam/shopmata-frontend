@@ -79,9 +79,18 @@
                     >
                         <td class=" w-auto md:w-2/4 lg:w-2/3">
                             <div
-                                class="py-4 px-6 flex  flex-col lg:flex-row items-center"
+                                class="py-4 px-6 flex  flex-col lg:flex-row items-center lg:space-x-2 space-y-1"
                             >
-                                <td class="h-20 w-20 pt-4">
+                                <td v-if="item.images.length > 0" class=" ">
+                                    <img
+                                        :src="item.images[0].url"
+                                        alt=""
+                                        width="50"
+                                        height="40"
+                                    />
+                                </td>
+
+                                <td v-else class="h-20 w-20 pt-4">
                                     <img
                                         src="../../../assets/placeholder.png"
                                         alt=""
@@ -116,9 +125,14 @@
                                 <td class="text-black font-medium">
                                     {{ item.customer.first_name }}
                                 </td>
-                                <td class="text-black font-medium">
+                                <td v-if="!item.customer.state" class="text-black font-medium">
                                     {{ item.customer.city }}
                                 </td>
+                                <td v-else class="text-black font-medium">
+                                    {{ item.customer.city }}, {{ item.customer.state.code }}
+
+                                </td>
+
                                 <td class="flex flex-row space-x-1">
                                     <MailIcon class="h-5 w-5" />
                                     <PhoneIcon class="h-5 w-5" />
@@ -155,11 +169,11 @@
             </table>
 
             <!-- Pagination -->
-            <pagination
+            <!-- <pagination
                 class="mx-3"
                 :meta="pagination"
                 v-if="pagination.total > pagination.per_page"
-            />
+            /> -->
         </div>
     </app-layout>
 </template>
@@ -190,33 +204,11 @@ export default {
         transactions: Object
     },
     setup ({ transactions }) {
+        const imageExists = ref(true)
         const open = ref(false)
         const notifications = notifications
         const pagination = ref(transactions)
         const filterLists = ref(transactions.data)
-        /* const transactions = reactive([
-            {
-                comments: '',
-                transactionNumber: '#4004',
-                transactionDate: '2022-06-01 08:45:23',
-                customerName: 'Rick London',
-                transactionLocation: 'Philadelphia, PA'
-            },
-            {
-                comments: '',
-                transactionNumber: '#4004',
-                transactionDate: '2022-06-01 08:45:23',
-                customerName: 'Rick London',
-                transactionLocation: 'Philadelphia, PA'
-            },
-            {
-                comments: '',
-                transactionNumber: '#4004',
-                transactionDate: '2022-06-01 08:45:23',
-                customerName: 'Rick London',
-                transactionLocation: 'Philadelphia, PA'
-            }
-        ]) */
         function success (list, page) {
             filterLists.value = list
             pagination.value = page
@@ -226,7 +218,8 @@ export default {
             transactions,
             statusStyles,
             pagination,
-            filterLists
+            filterLists,
+            imageExists
             // notifications
         }
     }
