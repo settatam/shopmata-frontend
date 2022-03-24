@@ -55,6 +55,7 @@ class TransactionsController extends Controller
     public function show($id)
     {   
         $transaction = Transaction::find($id);
+        $transactions->load('customer','customer.state','histories','offer','notes');
         return Inertia::render('Transactions/Show', compact('transaction'));
     }
 
