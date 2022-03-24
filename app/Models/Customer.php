@@ -52,13 +52,18 @@ class Customer extends Model
     }
 
 
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+
     public function shipping_addresses()
     {
         return $this->hasMany(ShippingAddress::class, 'user_id', 'user_id');
     }
 
     
-
     public function orders()
     {
         return $this->hasMany(Order::class);
