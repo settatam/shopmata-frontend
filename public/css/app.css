@@ -5263,10 +5263,6 @@ input[type='checkbox']:focus {
 		width: 30%;
 	}
 
-	.lg\:w-3\/5 {
-		width: 60%;
-	}
-
 	.lg\:min-w-0 {
 		min-width: 0px;
 	}
