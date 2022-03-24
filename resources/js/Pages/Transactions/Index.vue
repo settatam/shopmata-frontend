@@ -125,9 +125,14 @@
                                 <td class="text-black font-medium">
                                     {{ item.customer.first_name }}
                                 </td>
-                                <td class="text-black font-medium">
+                                <td v-if="!item.customer.state" class="text-black font-medium">
                                     {{ item.customer.city }}
                                 </td>
+                                <td v-else class="text-black font-medium">
+                                    {{ item.customer.city }}, {{ item.customer.state.code }}
+
+                                </td>
+
                                 <td class="flex flex-row space-x-1">
                                     <MailIcon class="h-5 w-5" />
                                     <PhoneIcon class="h-5 w-5" />
