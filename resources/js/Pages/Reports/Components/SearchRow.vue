@@ -18,10 +18,9 @@
                         <input
                             id="search-field"
                             name="search-field"
-                            class="rounded text-xm md:text-base text-gray-500 w-full md:search-field md:w-full pl-12 pr-2 bg-transparent border border-gray-200 placeholder-gray-500 placehol"
-                            placeholder="Search by name, email....."
+                            class="rounded text-xm md:text-base text-gray-500 w-full md:search-field md:w-full pl-12 pr-2 bg-white border border-gray-200 placeholder-gray-500 placehol"
+                            placeholder="Search Reports"
                             type="search"
-                            v-model="q"
                         />
                     </div>
                 </div>
@@ -30,7 +29,7 @@
                     <input
                         type="date"
                         name=""
-                        class="rounded text-xm md:text-base text-gray-500 w-full bg-transparent border border-gray-200"
+                        class="rounded text-xm md:text-base text-gray-500 w-full bg-white border border-gray-200"
                         id=""
                     />
                 </div>
@@ -39,7 +38,7 @@
                     <input
                         type="date"
                         name=""
-                        class="rounded text-xm md:text-base text-gray-500 w-full bg-transparent border border-gray-200"
+                        class="rounded text-xm md:text-base text-gray-500 w-full bg-white border border-gray-200"
                         id=""
                     />
                 </div>
@@ -48,7 +47,7 @@
                     <select
                         name="Status"
                         id=""
-                        class="rounded text-gray-500 text-xm md:text-base w-full bg-transparent border border-gray-200"
+                        class="rounded text-gray-500 text-xm md:text-base w-full bg-white border border-gray-200"
                     >
                         <option value="">Date Kit Requested</option>
                     </select>
@@ -58,7 +57,7 @@
                         <select
                             name="Tag"
                             id=""
-                            class="rounded text-xm md:text-base text-gray-500 w-full bg-transparent border border-gray-200"
+                            class="rounded text-xm md:text-base text-gray-500 w-full bg-white border border-gray-200"
                         >
                             <option value="active">BuyMyGold.com</option>
                         </select>

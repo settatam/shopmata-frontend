@@ -14,11 +14,16 @@
                 <TransactionTable />
             </div>
 
-            <h2 class="text-xs mx-3 my-3">FILTER BY: </h2>
+            
 
             <div>
                 <FilterBy/>
             </div>
+
+            <div>
+                <Entries/>
+            </div>
+
         </div>
     </app-layout>
 </template>
@@ -31,6 +36,8 @@ import { Inertia } from '@inertiajs/inertia'
 import SearchRow from './Components/SearchRow.vue'
 import TransactionTable from './Components/TransactionTable.vue'
 import FilterBy from './Components/FilterBy.vue'
+import Entries from './Components/Entries.vue'
+
 
 export default {
     components: {
@@ -38,7 +45,8 @@ export default {
         SearchIcon,
         SearchRow,
         TransactionTable,
-        FilterBy
+        FilterBy,
+        Entries
     },
     props: {
         notifications: Array,

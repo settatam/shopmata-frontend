@@ -1,17 +1,22 @@
 <template>
-    <div class=" my-4 md:px-0  rounded bg-transparent">
+    <div class=" my-3 md:px-0 bg-white rounded">
+
+        <div class="pt-3 pl-3">
+            <h2 class="text-xs" >FILTER BY: </h2>
+        </div>
+
         <div
             class="myGrid
 "
         >
-            <div class="w-full my-3 border-2 border-white" v-for="i in 13" :key="i">
+            <div class="w-full my-2 border" v-for="i in 13" :key="i">
                 <div class="">
                     <div
                         class="bg-purple-darken text-white px-2 py-2"
                     >
                         <h1>Statuses</h1>
                     </div>
-                    <div class="pl-3">
+                    <div class="pl-3 py-3 bg-white">
                         <div>
                             <input type="checkbox" id="vehicle1" name="Tyvek" />
                             <label for="vehicle1" class="text-xs lg:text-sm">
