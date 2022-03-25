@@ -4,7 +4,7 @@
         <div v-if="displayOne" class="flex flex-col w-full">
             <div class="flex flex-col items-center w-full my-32">
                 <div class="my-1 py-1">
-                    <h1 class="font-bold text-2xl">Forgot Password</h1>
+                    <h1 class="font-bold text-2xl">Forgot Password  dkdk</h1>
                 </div>
                 <div class="mx-0 w-38">
                     <p class="text-xs text-gray-lighter text-center">
