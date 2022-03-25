@@ -2359,6 +2359,11 @@ select {
 	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
 	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
 }
+.space-x-5 > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-x-reverse: 0;
+	margin-right: calc(1.25rem * var(--tw-space-x-reverse));
+	margin-left: calc(1.25rem * calc(1 - var(--tw-space-x-reverse)));
+}
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
 	border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -4822,16 +4827,12 @@ input[type='checkbox']:focus {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 
-	.md\:grid-cols-6 {
-		grid-template-columns: repeat(6, minmax(0, 1fr));
-	}
-
 	.md\:grid-cols-10 {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
 
-	.md\:grid-cols-7 {
-		grid-template-columns: repeat(7, minmax(0, 1fr));
+	.md\:grid-cols-6 {
+		grid-template-columns: repeat(6, minmax(0, 1fr));
 	}
 
 	.md\:flex-row {
@@ -5100,14 +5101,14 @@ input[type='checkbox']:focus {
 		margin-bottom: auto;
 	}
 
-	.lg\:-mx-8 {
-		margin-left: -2rem;
-		margin-right: -2rem;
-	}
-
 	.lg\:mx-2 {
 		margin-left: 0.5rem;
 		margin-right: 0.5rem;
+	}
+
+	.lg\:-mx-8 {
+		margin-left: -2rem;
+		margin-right: -2rem;
 	}
 
 	.lg\:mx-0 {
@@ -5470,12 +5471,12 @@ input[type='checkbox']:focus {
 		font-size: 1rem;
 	}
 
-	.lg\:text-2xl {
-		font-size: 1.5rem;
-	}
-
 	.lg\:text-sm {
 		font-size: 0.985rem;
+	}
+
+	.lg\:text-2xl {
+		font-size: 1.5rem;
 	}
 
 	.lg\:hover\:bg-gray-50:hover {
