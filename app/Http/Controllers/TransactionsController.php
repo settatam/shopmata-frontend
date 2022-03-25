@@ -36,7 +36,8 @@ class TransactionsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storag:wq
+     * e.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -55,7 +56,7 @@ class TransactionsController extends Controller
     public function show($id)
     {   
         $transaction = Transaction::find($id);
-        $transaction->load('customer','customer.state','histories','offer','notes');
+        $transaction->load('customer','customer.state','items','histories','offer','notes');
         return Inertia::render('Transactions/Show', compact('transaction'));
     }
 

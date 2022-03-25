@@ -177,6 +177,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('settings/remittance', PayoutSettingsController::class);
     Route::resource('transactions',        TransactionsController::class);
 
+    Route::resource('reports',        ReportsController::class);
+
+
     #Settings -> Shipping and Delivery
     Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
     Route::get('settings/shipping-and-delivery/local-delivery/manage', [SettingsController::class, 'manageLocalDelivery'])->name('settings.shipping.manageLocalDelivery');
