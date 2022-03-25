@@ -27,6 +27,8 @@ use App\Http\Controllers\Settings\NotificationsController;
 use App\Http\Controllers\Settings\PaymentsController;
 use App\Http\Controllers\Settings\PayoutSettingsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
+use App\Http\Controllers\ReportsController;
+
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\ShippingRatesController;
