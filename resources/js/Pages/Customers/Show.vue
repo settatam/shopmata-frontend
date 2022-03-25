@@ -85,15 +85,14 @@
                                 <p
                                     class="h-14 w-14 rounded-full capitalize bg-gray-100 text-black text-lg flex items-center justify-center font-semibold"
                                 >
-                                    {{ customer?.first_name.charAt(0)
-                                    }}{{ customer?.last_name.charAt(0) }}
+                                    {{ customer.first_name.charAt(0) }} {{ customer.last_name  }}
                                 </p>
                             </div>
                             <div class="flex flex-col">
                                 <inertia-link
                                     :href="'/customers/' + customer.id"
                                     >{{ customer.first_name }}
-                                    {{ customer.last_name }}</inertia-link
+                                    </inertia-link
                                 >
 
                                 <h2
