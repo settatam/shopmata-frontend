@@ -27,6 +27,8 @@ use App\Http\Controllers\Settings\NotificationsController;
 use App\Http\Controllers\Settings\PaymentsController;
 use App\Http\Controllers\Settings\PayoutSettingsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
+use App\Http\Controllers\ReportsController;
+
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\ShippingRatesController;
@@ -176,6 +178,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     #Settings -> Remittance
     Route::resource('settings/remittance', PayoutSettingsController::class);
     Route::resource('transactions',        TransactionsController::class);
+
+    Route::resource('reports',        ReportsController::class);
+
 
     #Settings -> Shipping and Delivery
     Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');

@@ -698,6 +698,12 @@ const navigation = [
         current: false,
     },
     {
+        name: "Reports",
+        href: "/reports",
+        icon: DocumentReportIcon,
+        current: false,
+    },
+    {
         name: "Analytics",
         href: "analytics",
         icon: ChartBarIcon,

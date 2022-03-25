@@ -192,10 +192,10 @@ export default {
             }
             loading.value = true
             displayOne.value = false
-            // axios
-            //     .post('/', store)
-            //     .then(res => (displayOne.value = false))
-            //     .catch(err => console.log(err))
+            axios
+                .post('/', store)
+                .then(res => (displayOne.value = false))
+                .catch(err => console.log(err))
         }
 
         return { v$, store, loading, sendLink, displayOne, backPageOne }
