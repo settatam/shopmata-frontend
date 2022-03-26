@@ -51,8 +51,8 @@ class CustomersController extends Controller
             if ($request->filter && !$request->q && $from_date && $to_date) {
                 $query->whereBetween('created_at', [$from_date, $to_date]);
             }
-        })->orderBy('created_at','desc')->paginate($pageSize);  
-      
+        })->orderBy('created_at','desc')->paginate($pageSize);
+
         if ( $request->ajax() && $request->filter ) {
             return CustomerCollection::collection($customers);
         }
@@ -79,8 +79,8 @@ class CustomersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
-    
+    {
+
         $request->validate([
             'first_name'   => ['required','string'],
             'last_name'    => ['required','string'],
@@ -105,7 +105,7 @@ class CustomersController extends Controller
 
     public function createUpdate($request, $customer)
     {
-        $user  = $request->user(); 
+        $user  = $request->user();
         $customer->store_id     = $user->store_id;
         $customer->first_name   = $request->first_name;
         $customer->last_name    = $request->last_name;
@@ -115,7 +115,7 @@ class CustomersController extends Controller
         $customer->accepts_marketing = 1;
         $customer->password           = Hash::make(Str::random(10));
         $customer->save();
-        
+
         ShippingAddress::updateOrCreate(
             ['user_id' => $customer->id],
             [
@@ -133,7 +133,7 @@ class CustomersController extends Controller
                 'state'      => $request->state,
             ]
         );
-        
+
     }
 
 
@@ -149,7 +149,6 @@ class CustomersController extends Controller
     {
         //
         $store = Store::find(session('store_id'));
-
         $store->load('currency');
 
         $month = time();
@@ -204,7 +203,7 @@ class CustomersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $customer = Customer::find($id);
 
         $request->validate([
@@ -250,7 +249,7 @@ class CustomersController extends Controller
             $data['message'] = "An error occured!";
             Log::error("Customer wasn't successfully deleted.");
         }
-        
+
         return Inertia::render('Customers/Index', compact('customers', 'data'));
     }
 }
