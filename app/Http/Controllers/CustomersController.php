@@ -187,7 +187,7 @@ class CustomersController extends Controller
     public function edit($id)
     {
         //
-        $customer = User::find($id);
+        $customer = Customer::find($id);
         if (null === $customer) {
             throw new HttpException(404);
         }
