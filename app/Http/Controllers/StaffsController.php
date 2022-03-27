@@ -81,6 +81,8 @@ class StaffsController extends Controller
             $validator = Validator::make($data, [
                 'email' => "required|email",
                 'role_id' => "required|numeric",
+                'first_name' => 'required|string',
+                'last_name' => 'required|string'
             ]);
 
             if ($validator->fails()) {
@@ -94,18 +96,11 @@ class StaffsController extends Controller
             }
 
             //check if store users already exists
-            $isUser = User::where('email', $data['email'])->first();
+
+        \Route::redirect('settings.inviteStaff', compact('errors'));
 
             if ($isUser !== null) {
                 $isStoreUser = StoreUser::where('user_id', $isUser->id)->where('store_id', session('store_id'))->first();
-                // if ($isStoreUser !== null) {
-                //     $notification = [
-                //         "title" => "Store User already Exists",
-                //         "type" => "failed",
-                //         "message" => "User with $data[email] already Exists in this Store",
-                //     ];
-                //     return response()->json(['notification' => $notification], 422);
-                // }
 
                 //create store user and send a mail
                 StoreUser::create([
@@ -118,19 +113,11 @@ class StaffsController extends Controller
 
                 Mail::to($data['email'])->send(new NewStoreUser($store->name));
 
-                \Route::redirect('settings.inviteStaff');
-    
-                // $notification = [
-                //     "title" => "User Created",
-                //     "type" => "success",
-                //     "message" => "Staff Store Account Has been Created",
-                // ];
-                // return response()->json(['notification' => $notification]);
             }
 
             $token = Str::random(30);
 
-            $invite = Invite::create([
+            $invite = SInvite::create([
                 'store_id' => session('store_id'),
                 'email' => $data['email'],
                 'role_id' => $data['role_id'],

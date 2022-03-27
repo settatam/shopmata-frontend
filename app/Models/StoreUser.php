@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
+use App\Models\User;
 
 class StoreUser extends Model
 {
@@ -31,5 +32,18 @@ class StoreUser extends Model
 
     public function group() {
     	return $this->belongsTo(StoreGroup::class, 'store_group_id', 'id');
+    }
+
+    public static function createNew(User $user, Store $store, $storeGroupId) {
+        $storeUser = new static;
+        $storeUser->store_id = $store->id;
+        $storeUser->user_id = $user->id;
+        $storeUser->storeGroupId = $storeGroupId;
+        $storeUser->status = self::$ACCEPTED;
+
+        if($storeUser->save()) {
+            //Log this results ...
+            //Create Store Activity ...
+        }
     }
 }

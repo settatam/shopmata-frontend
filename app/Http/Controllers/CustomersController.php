@@ -163,7 +163,7 @@ class CustomersController extends Controller
             $months[$stat->month] = $stat->total_sale;
         }
 
-        $customer = $user = Customer::with(['orders.items','shipping_addresses'])->withTotalOrders($id)->find($id);
+        $customer = Customer::with(['orders.items','shipping_addresses'])->withTotalOrders($id)->find($id);
 
         if (null === $customer) {
             throw new HttpException(404);
@@ -171,7 +171,6 @@ class CustomersController extends Controller
 
         $customer->number_of_orders = count($customer->orders);
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
-
 
         return Inertia::render('Customers/Show', compact('store','customer', 'user', 'months'));
     }
