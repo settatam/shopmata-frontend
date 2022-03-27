@@ -83,7 +83,7 @@ class LoadBuyMyGoldData extends Command
                 $customer->city         = $order["customer_city"];
                 $customer->state_id     = $this->getStateId($order["customer_state"]);
                 $customer->store_id     = 2; //belongs to seth;
-               // $transaction->store_id = this->getStore($order['is_jewelry']);
+               //$transaction->store_id = this->getStore($order['is_jewelry']);
 
                 $customer->zip          = $order["customer_zip"];
                 $customer->phone_number = $order["customer_phone"];
@@ -91,7 +91,6 @@ class LoadBuyMyGoldData extends Command
                 $customer->dob          = $order["customer_dob"];
                 $customer->password     = bcrypt($order["customer_name"]);
                 $customer->accepts_marketing      =   1;
-
                 $customer->save();
                 //Create the transaction history
             
