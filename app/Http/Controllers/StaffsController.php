@@ -75,7 +75,6 @@ class StaffsController extends Controller
 
     public function inviteStaff(Request $request)
     {
-        // try {
             $data = $request->all();
 
             $validator = Validator::make($data, [
@@ -95,66 +94,21 @@ class StaffsController extends Controller
                 // return response()->json(['notification' => $notification], 400);
             }
 
-            //check if store users already exists
+            $store = Store::find($request->session()->get('store_id'));
+//            try {
+               $notification =  StoreUser::createNew($data, $store);
+//            }catch (\Exception $e) {
+//                $notification = [
+//                    "title" => "Could not create user",
+//                    "type" => "failed",
+//                    "message" => "Request Validation",
+//                    "errors" => [$e->getMessage()],
+//                ];
+//                //Handle the exception somehow
+//            }
 
-        \Route::redirect('settings.inviteStaff', compact('errors'));
-
-            if ($isUser !== null) {
-                $isStoreUser = StoreUser::where('user_id', $isUser->id)->where('store_id', session('store_id'))->first();
-
-                //create store user and send a mail
-                StoreUser::create([
-                    'store_id' => session('store_id'),
-                    'user_id' => $isUser->id,
-                    'store_group_id' => $data['role_id'],
-                ]);
-
-                $store = Store::find(session('store_id'));
-
-                Mail::to($data['email'])->send(new NewStoreUser($store->name));
-
-            }
-
-            $token = Str::random(30);
-
-            $invite = SInvite::create([
-                'store_id' => session('store_id'),
-                'email' => $data['email'],
-                'role_id' => $data['role_id'],
-                'token' => $token,
-            ]);
-
-            \Log::info("Staff Invitation Created for store" . print_r($invite, true));
-
-            $url = config("app.url") . "/staff/registration/new?email=$data[email]" . "&t=$token";
-
-            Mail::to($data['email'])->send(new InviteUser($url));
-
-            $notification = [
-                "title" => "Invitation Sent Successfully",
-                "type" => "success",
-                "message" => "Invitation email has been sent to $data[email]",
-            ];
             return response()->json(['notification' => $notification]);
 
-        // } catch (\Exception $e) {
-        //     $exceptionDetails = [
-        //         "message" => $e->getMessage(),
-        //         'file' => basename($e->getFile()),
-        //         'line' => $e->getLine(),
-        //         'type' => class_basename($e),
-        //     ];
-
-        //     \Log::info("Invite Staff Exception" . print_r($exceptionDetails, true));
-
-        //     $notification = [
-        //         "title" => "An Exception Occurred",
-        //         "type" => "failed",
-        //         "message" => "Internal Server Error",
-        //     ];
-
-        //     return response()->json(['notification' => $notification], 500);
-        // }
     }
 
     public function registration()

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class StoreUser extends Model
 {
@@ -34,7 +36,30 @@ class StoreUser extends Model
     	return $this->belongsTo(StoreGroup::class, 'store_group_id', 'id');
     }
 
-    public static function createNew(User $user, Store $store, $storeGroupId) {
+    public static function createNew($data, Store $store) {
+
+        $storeUser = new static;
+
+        $checkUser = $storeUser->where('email', $data['email'])->first();
+
+        if(null !== $checkUser) {
+            throw new \Exception('This user already exists');
+        }
+        $storeUser->store_id = $store->id;
+        $storeUser->user_id = Auth::id();
+        $storeUser->first_name = $data['first_name'];
+        $storeUser->email = $data['email'];
+        $storeUser->last_name = $data['last_name'];
+        $storeUser->store_group_id = $data['role_id'];
+        $storeUser->status = self::$PENDING;
+
+        if($storeUser->save()) {
+            Log::info(Auth::id() . ' Created new store user', $data);
+            StoreUserInvite::createNewInvite($store, $storeUser);
+        }
+    }
+
+    public static function respondToUserRequest(Request $request) {
         $storeUser = new static;
         $storeUser->store_id = $store->id;
         $storeUser->user_id = $user->id;
@@ -42,8 +67,7 @@ class StoreUser extends Model
         $storeUser->status = self::$ACCEPTED;
 
         if($storeUser->save()) {
-            //Log this results ...
-            //Create Store Activity ...
+            StoreUserInvite::createNewInvite($store, $storeUser);
         }
     }
 }

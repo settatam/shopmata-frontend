@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\StoreUser;
 use Illuminate\Support\Facades\Mail;
+use Auth;
 
 class StoreUserInvite extends Model
 {
@@ -43,9 +44,9 @@ class StoreUserInvite extends Model
                 if($isUser->status == StoreUser::$DECLINED) {
                     $errors = ['This user has declined your invitation.'];
                 }
-
+                return $errors;
             }else{
-                return self::createNewInvite($data);
+                return self::createNewInvite($store, $data);
             }
     }
 
@@ -53,20 +54,28 @@ class StoreUserInvite extends Model
         return base64_encode($this->store_id . ':' .$this->email);
     }
 
-    public static function createNewInvite($data) {
+    public static function createNewInvite(Store $store, StoreUser $user) {
+        //Do validation ...
+        //Check for existing invites ...
         $invite = new static;
 
-        $invite->first_name = $data['first_name'];
-        $invite->last_name = $data['last_name'];
-        $invite->email = $data['email'];
+        $checkUser = $invite->where('store_user_id', $user->id)
+                            ->first();
+
+        if(null !== $checkUser) {
+            throw new \Exception('This user already exists in the system');
+        }
+
+        $invite->store_user_id = $user->id;
         $invite->token = $invite->generateInviteToken();
-        $invite->store_id = $data['store'];
+        $invite->status = self::PENDING;
+
         if($invite->save()) {
             //Send Email to User
-            \Log::info('New user invite has been created by ' . Auth::id(), $data);
-            $notify = (new EventNotification('User Invite', [
-                'store' => Store::find($invite->store_id),
-                'user' => $invite,
+            \Log::info('New user invite has been created by ' . Auth::id() . '  for store ' . $store->id);
+            $notify = (new EventNotification('Store User Invite', [
+                'store' => $store,
+                'user' => $user,
             ]));
         }
     }
