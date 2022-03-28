@@ -36,6 +36,14 @@ class StoreUser extends Model
     	return $this->belongsTo(StoreGroup::class, 'store_group_id', 'id');
     }
 
+    public function invitation() {
+        return $this->hasOne(StoreUserInvite::class, 'store_user_id', 'id');
+    }
+
+    public function getFullNameAttribute() {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public static function createNew($data, Store $store) {
 
         $storeUser = new static;
@@ -59,15 +67,30 @@ class StoreUser extends Model
         }
     }
 
-    public static function respondToUserRequest(Request $request) {
-        $storeUser = new static;
-        $storeUser->store_id = $store->id;
-        $storeUser->user_id = $user->id;
-        $storeUser->storeGroupId = $storeGroupId;
-        $storeUser->status = self::$ACCEPTED;
+    public static function respondToUserRequest($data) {
 
-        if($storeUser->save()) {
-            StoreUserInvite::createNewInvite($store, $storeUser);
+        $storeUser = self::whereHas('invitation', function($query) use ($data) {
+            $query->where('token', $data['token'])
+                  ->where('status', StoreUserInvite::PENDING);
+        })->get();
+
+        if(null !== $storeUser) {
+
+            $storeUser->store_id = $store->id;
+            $storeUser->user_id = $user->id;
+            $storeUser->storeGroupId = $storeGroupId;
+            $storeUser->status = self::$ACCEPTED;
+
+            if($storeUser->save()) {
+                StoreUserInvite::updateInvite($store, $storeUser);
+                User::createForStore($store, [
+                    'first_name' => $storeUser->first_name,
+                    'last_name' => $storeUser->first_name,
+                    'email' => $storeUser->first_name,
+                    'password' => $storeUser->first_name,
+                ]);
+            }
         }
+
     }
 }
