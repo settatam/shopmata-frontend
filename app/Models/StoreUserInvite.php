@@ -50,8 +50,8 @@ class StoreUserInvite extends Model
             }
     }
 
-    private function generateInviteToken() {
-        return base64_encode($this->store_id . ':' .$this->email);
+    private function generateInviteToken($store_id, $email) {
+        return base64_encode($store_id . ':' .$email);
     }
 
     public static function createNewInvite(Store $store, StoreUser $user) {
@@ -67,7 +67,7 @@ class StoreUserInvite extends Model
         }
 
         $invite->store_user_id = $user->id;
-        $invite->token = $invite->generateInviteToken();
+        $invite->token = $invite->generateInviteToken($store->id, $user->email);
         $invite->status = self::PENDING;
 
         if($invite->save()) {
@@ -80,23 +80,8 @@ class StoreUserInvite extends Model
         }
     }
 
-    public static function acceptInvite($id, $data, $userExists=false) {
-        $invite  = self::find($id);
+    public static function updateInvite(Store $store, $data) {
+        $invite = self::where();
         $invite->status = self::CONFIRMED;
-        if($userExists) {
-
-        }
-        if($invite->save()) {
-            $user = User::firstOrNew([
-                'email' => $invite->email
-            ]);
-
-            if(!$user->id) {
-                 // User::createNew();
-            }
-
-
-            //Create a new store user ...
-        }
     }
 }

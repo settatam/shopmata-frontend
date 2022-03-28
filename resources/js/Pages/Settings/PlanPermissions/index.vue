@@ -34,12 +34,12 @@
                             <h3 class="text-lg font-semibold">Plan details</h3>
                             <p class="text-sm text-gray-400">View our
                                 <inertia-link href="/settings/terms-of-service">
-                                 <span class="text-indigo-700 cursor-pointer" >terms of service</span>  
+                                 <span class="text-indigo-700 cursor-pointer" >terms of service</span>
                                 </inertia-link>
                                  and
                                 <inertia-link href="/settings/privacy-policy">
                                     <span class="text-indigo-700 cursor-pointer" >privacy policy.</span>
-                                </inertia-link> 
+                                </inertia-link>
                             </p>
 
                             <div class="px-2  border border-gray-300 mt-5 py-2.5 rounded">
@@ -112,7 +112,7 @@
                                  </div>
                                   <table class="w-full  divide-y divide-gray-200 table-auto">
                                     <thead class="bg-gray-50">
-                                    <tr> 
+                                    <tr>
                                         <th scope="col" class="w-4/10  px-6 py-3 text-left text-lg font-medium text-gray-500 tracking-wider">
                                             Names
                                         </th>
@@ -134,22 +134,22 @@
                                     <tbody class="bg-white divide-y divide-gray-200" v-for="user in storeUsers " :key=" user.id">
                                     <tr class="bg-white">
                                         <td class="w-4/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
-                                            <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.user.first_name + ' ' +user.user.last_name}}</p>  
+                                            <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.first_name + ' ' + user.last_name}}</p>
                                         </td>
                                         <td class="w-3/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
-                                            <p class="text-gray-800 text-left ">{{moment(user.last_login).format("LLLL")}}</p>  
+                                            <p class="text-gray-800 text-left ">{{moment(user.last_login).format("LLLL")}}</p>
                                         </td>
                                         <td class="w-3/10 px-6 py-4 text-right whitespace-nowrap text-sm text-gray-500" >
-                                           <p class="text-gray-800 text-left " v-if="user.store_group_id==1">Owner</p>  
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==2">Developer</p>  
-                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==3">Guest</p>  
+                                           <p class="text-gray-800 text-left " v-if="user.store_group_id==1">Owner</p>
+                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==2">Developer</p>
+                                            <p class="text-gray-800 text-left " v-if="user.store_group_id==3">Guest</p>
                                             <p class="text-gray-800 text-left " v-if="user.store_group_id==4">Admin</p>
                                         </td>
-                                    
-                                        <td class="px-6 py-4 text-right  text-sm text-gray-500 relative">                              
-                                            <div class="flex"> 
+
+                                        <td class="px-6 py-4 text-right  text-sm text-gray-500 relative">
+                                            <div class="flex">
                                                     <pencil-icon class="h-8 w-8 p-2 mr-6 text-indigo-600 cursor-pointer" @click="editRow(user)" />
-                                                    <trash-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer" @click="deleteRow(user.id)"/> 
+                                                    <trash-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer" @click="deleteRow(user.id)"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -189,12 +189,12 @@ const pages = [
 
 const plans = [
   { member_since: 'Jan. 1, 2021', current_plan: 'Shopmata/Monthly', status: 'Active', next_payment: 'on Nov. 31, 2021' },
-  
+
   // More people...
 ]
 export default {
   props: ['user', 'storeUsers', 'groups','login'],
-  components: { 
+  components: {
     AppLayout,
     Nav,
     PlusCircleIcon,
@@ -261,7 +261,7 @@ export default {
             this.deleteConfirmation = true
             this.open = true
             this.user_id = id
-        }, 
+        },
         checkAll(){
             this.selected = !this.selectAll ? [...this.storeUsers] : [];
             console.log(this.selectAll,...this.storeUsers)
@@ -283,7 +283,7 @@ export default {
     },
     setup() {
         const open = ref(false)
-    
+
     return {
       plans,
       moment,

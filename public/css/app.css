@@ -1459,9 +1459,6 @@ select {
 .mt-1 {
 	margin-top: 0.25rem;
 }
-.ml-2 {
-	margin-left: 0.5rem;
-}
 .mb-6 {
 	margin-bottom: 1.5rem;
 }
@@ -1479,6 +1476,9 @@ select {
 }
 .ml-1 {
 	margin-left: 0.25rem;
+}
+.ml-2 {
+	margin-left: 0.5rem;
 }
 .-mr-0\.5 {
 	margin-right: -0.125rem;
@@ -5473,12 +5473,12 @@ input[type='checkbox']:focus {
 		font-size: 0.985rem;
 	}
 
-	.lg\:text-xs {
-		font-size: 0.875rem;
-	}
-
 	.lg\:text-2xl {
 		font-size: 1.5rem;
+	}
+
+	.lg\:text-xs {
+		font-size: 0.875rem;
 	}
 
 	.lg\:hover\:bg-gray-50:hover {
