@@ -2803,6 +2803,10 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
 }
+.bg-gray-lighter {
+	--tw-bg-opacity: 1;
+	background-color: rgba(92, 92, 102, var(--tw-bg-opacity));
+}
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
 }
@@ -5470,12 +5474,12 @@ input[type='checkbox']:focus {
 		font-size: 0.985rem;
 	}
 
-	.lg\:text-2xl {
-		font-size: 1.5rem;
-	}
-
 	.lg\:text-xs {
 		font-size: 0.875rem;
+	}
+
+	.lg\:text-2xl {
+		font-size: 1.5rem;
 	}
 
 	.lg\:hover\:bg-gray-50:hover {
