@@ -1459,6 +1459,9 @@ select {
 .mt-1 {
 	margin-top: 0.25rem;
 }
+.ml-2 {
+	margin-left: 0.5rem;
+}
 .mb-6 {
 	margin-bottom: 1.5rem;
 }
@@ -1476,9 +1479,6 @@ select {
 }
 .ml-1 {
 	margin-left: 0.25rem;
-}
-.ml-2 {
-	margin-left: 0.5rem;
 }
 .-mr-0\.5 {
 	margin-right: -0.125rem;
@@ -2802,10 +2802,6 @@ select {
 .bg-cyan-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
-}
-.bg-gray-lighter {
-	--tw-bg-opacity: 1;
-	background-color: rgba(92, 92, 102, var(--tw-bg-opacity));
 }
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
