@@ -298,7 +298,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('store/domains', StoreDomainsController::class);
     // Route::resource('store/themes', StoreThemesController::class);
-    Route::resource('settings/store-users', PlansAndPermissionsController::class);
+    Route::resource('settings/store-users', PlansAndPermissionsController::class, [
+        
+    ]);
+
+    Route::get('settings/store-users', [PlansAndPermissionsController::class, 'index']);
+    Route::get('settings/store-users/{id}', [PlansAndPermissionsController::class, 'show']);
+    Route::get('settings/store-users/{id}/edit', [PlansAndPermissionsController::class, 'edit']);
+    Route::post('settings/store-users', [PlansAndPermissionsController::class, 'store']);
+    Route::delete('settings/store-users/{id}', [PlansAndPermissionsController::class, 'delete']);
+
     Route::resource('settings/store-locations', StoreLocationController::class);
 });
 

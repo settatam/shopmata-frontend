@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 use App\Models\Customer;
 use App\Models\Image;
 use App\Models\Transaction;
-use App\Models\TransactionHistory;
 use App\Models\Store;
 use App\Models\State;
 
@@ -54,6 +53,7 @@ class LoadBuyMyGoldData extends Command
         $data = $response->body();
 
         if($orders = json_decode($data, true)) {
+            $bar = $this->output->createProgressBar(count($orders['orders']));
             foreach ($orders['orders'] as $order) {
                 $transaction = new Transaction;
                 $transaction = Transaction::firstOrNew(
@@ -63,11 +63,11 @@ class LoadBuyMyGoldData extends Command
                 $transaction->status_id = $order['status_id'];
                 $transaction->user_id   = $order['user_id'];//Customer id
                 $transaction->tags = $order['tags'];
-                $transaction->comments = "20 carat diamond ring";
-                //$transaction->insurance_value = $order['insurance_value'];
-                //$transaction->payment_type_id = getPaymentType($order['payment_type']);
-                //$transaction->bin_location = $order['bin_location'];
-                $transaction->store_id = 2;
+                $transaction->comments = $order['values'];
+                $transaction->insurance_value = $order['ship_insurance'];
+                $transaction->payment_method_id = $order['pay_method'];
+//                $transaction->bin_location = $order['bin_location'];
+                $transaction->store_id = $this->getStore($order['is_jewelry']);
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
 
@@ -89,42 +89,63 @@ class LoadBuyMyGoldData extends Command
                 $customer->phone_number = $order["customer_phone"];
                 $customer->address2     = $order["customer_address2"];
                 $customer->dob          = $order["customer_dob"];
-                $customer->password     = bcrypt($order["customer_name"]);
-                $customer->accepts_marketing      =   1;
+                $customer->password     = bcrypt($order['order_password']);
+                $customer->accepts_marketing    =   1;
 
                 $customer->save();
                 //Create the transaction history
-            
+
                 foreach ($transaction->histories as $history) {
                     $history->delete();
                 }
-            
+
                 if ($order["date_update"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' => "UPDATED" , 'created_at' => $order["date_update"]]);
+                    $transaction->histories()->create([
+                        'event' => "UPDATED" ,
+                        'created_at' => $order["date_update"]
+                    ]);
                 }
 
                 if ($order["date_fulfilled"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create(['event' => "FULFILLED" ,'created_at' => $order["date_fulfilled"]]);
+                    $transaction->histories()->create([
+                        'event' => "FULFILLED" ,
+                        'created_at' => $order["date_fulfilled"]
+                    ]);
                 }
 
                 if ($order["date_kit_denied"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' => "KIT DENIED" , 'created_at' => $order["date_kit_denied"]]);
+                    $transaction->histories()->create([
+                        'event' => "KIT DENIED" ,
+                        'created_at' => $order["date_kit_denied"]
+                    ]);
                 }
 
                 if ($order["date_shipment_received"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' => "SHIPMENT RECEIVED", 'created_at' => $order["date_shipment_received"] ]);
+                    $transaction->histories()->create([
+                        'event' => "SHIPMENT RECEIVED",
+                        'created_at' => $order["date_shipment_received"]
+                    ]);
                 }
 
                 if ($order["date_shipment_declined"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' => "SHIPMENT DECLINED", 'created_at' => $order["date_shipment_declined"] ]);
+                    $transaction->histories()->create([
+                        'event' => "SHIPMENT DECLINED",
+                        'created_at' => $order["date_shipment_declined"]
+                    ]);
                 }
 
                 if ($order["date_shipment_returned"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' => 'SHIPMENT RETURNED', 'created_at' => $order["date_shipment_returned"]]);
+                    $transaction->histories()->create([
+                        'event' => 'SHIPMENT RETURNED',
+                        'created_at' => $order["date_shipment_returned"]
+                    ]);
                 }
 
                 if ($order["date_offer_given"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' => 'OFFER GIVEN', 'created_at' => $order["date_offer_given"]]);
+                    $transaction->histories()->create([
+                        'event' => 'OFFER GIVEN',
+                        'created_at' => $order["date_offer_given"]
+                    ]);
                 }
 
                 if ($order["date_offer_accepted"]  !== "0000-00-00 00:00:00"){
@@ -137,21 +158,20 @@ class LoadBuyMyGoldData extends Command
 
                 if ($order["date_offer_paid"]  !== "0000-00-00 00:00:00"){
                     $transaction->histories()->create([ 'event' => 'OFFER DECLINED', 'created_at' => $order["date_offer_paid"]]);
-                } 
-                
+                }
+
                 foreach ($transaction->notes as $note) {
                     $note->delete();
                 }
-                
+
                 //Create eh transaction notes
-                $transaction->notes()->create(['notes' => $order['notes'],'type' => $order['notes_private'] ? 'private' : 'public' ]);
+                $transaction->notes()->create([
+                    'notes' => $order['notes'],
+                    'type' => $order['notes_private'] ? 'private' : 'public' ]);
 
-
-                $transaction->offer()->delete(); 
-            
+                $transaction->offer()->delete();
 
                 $transaction->offer()->create(['offer' => $order['offer_amount']]);
-
 
                 foreach ($transaction->items as $item) {
                     $item->delete();
@@ -176,19 +196,27 @@ class LoadBuyMyGoldData extends Command
 
                 if ( !empty( $images )  > 0 ) {
                     foreach ( $images  as $image) {
-                        $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
-                        $img = $image.'.o.jpg';
-                        $dest = storage_path().'/'.$img;
-                        copy($file, $dest);
-                        if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
-                            Storage::delete($dest);
+                        try {
+                            $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
+                            $img = $image.'.o.jpg';
+                            $dest = storage_path().'/'.$img;
+                            copy($file, $dest);
+                            if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
+                                Storage::delete($dest);
+                            }
+                            $image  = env('DO_URL').'buymygold/images/items/'.$img;
+                            $imgs= new Image(['url' => $image, 'rank' => 1]);
+                            $transaction->images()->save($imgs);
+                        } catch(\Exception $e) {
+
                         }
-                        $image  = env('DO_URL').'buymygold/images/items/'.$img;
-                        $imgs= new Image(['url' => $image, 'rank' => 1]);
-                        $transaction->images()->save($imgs); 
+
                     }
-                } 
+                }
+                $bar->advance();
             }
+
+            $bar->finish();
 
         }
 
@@ -199,12 +227,10 @@ class LoadBuyMyGoldData extends Command
     }
 
 
-    private function getStateId($state_abreviation) {
+    private function getStateId($state_abreviation)
+    {
         $state = State::where('code', $state_abreviation)->first();
         return null !== $state ? $state->id : null;
     }
 
-
-    
-       
 }

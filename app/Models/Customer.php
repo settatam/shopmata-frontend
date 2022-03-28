@@ -60,10 +60,10 @@ class Customer extends Model
 
     public function shipping_addresses()
     {
-        return $this->hasMany(ShippingAddress::class, 'user_id', 'user_id');
+        return $this->hasMany(ShippingAddress::class, 'customer_id', 'id');
     }
 
-    
+
     public function orders()
     {
         return $this->hasMany(Order::class);
