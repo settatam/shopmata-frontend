@@ -179,17 +179,6 @@ class LoadBuyMyGoldData extends Command
 
                 $transaction->offer()->create(['offer' => $order['offer_amount']]);
 
-                
-                $items = $order['items'] ? explode(',', $order['items']) : null;
-
-                // if ( !empty( $items )  > 0 ) {
-                //     foreach ( $items  as $item) {
-                //         $transaction->items()->create([
-                //            'item' => $item,
-                //            'is_jewelry' => $order['is_jewelry'],
-                //         ]);
-                //     }
-                // }
 
                 foreach ($transaction->images as $image) {
                     $image->delete();
