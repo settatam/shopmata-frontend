@@ -4,7 +4,7 @@ namespace App\Console\Commands\OneOffs\BuyMyGold;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
-use App\Models\Category;
+use App\Models\Activity;
 use App\Http\Helpers\Helper;
 
 
@@ -57,6 +57,7 @@ class LoadActions extends Command
                 $activity->agent              =  $action['agent'];
                 $activity->offer              =  $action['offer'];
                 $activity->notes              =  $action['notes'];
+                $activity->created_at         =  $action['created_at'];
                 $activity->is_from_admin      =  true;
                 $activity->store_id           =  2;
                 $activity->save();                      
