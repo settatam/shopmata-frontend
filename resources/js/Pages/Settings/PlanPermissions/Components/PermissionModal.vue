@@ -25,12 +25,24 @@
               </div>
               <div class="border-t border-gray-300 mt-6 mb-6 -mx-6"></div>
               <div class="mt-3 sm:mt-5">
-                <div class=" required w-full mb-4">
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      First Name <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="invite.first_name" required/>
+                  </div>
+                  <div class=" required w-full mb-4">
+                    <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                      Last Name <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="invite.last_name" required/>
+                </div>
+                  <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       Email <span class="text-red-500">*</span>
                     </label>
-                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="jason@shopmata.com" v-model="invite.email" required/>
-                  </div>
+                    <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="invite.email" required/>
+                </div>
                   <div class=" required w-full mb-4">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                       User Roles <span class="text-red-500">*</span>
@@ -39,7 +51,7 @@
                       <option v-for="(role,index) in groups" :key="index" :value="role.id">{{role.name}}</option>
                     </select>
                   </div>
-                
+
               </div>
             </div>
             <div class="mt-5 sm:mt-6">
@@ -98,7 +110,9 @@ export default {
   },
   setup(props) {
     const open = ref(true)
-    const invite = reactive({email:props.user_email,role_id:1})
+    const invite = reactive({
+        email:props.user_email,role_id:1
+    })
     return {
       open,
       invite

@@ -36,6 +36,7 @@ class SmsManager
                 ]
             );
         } catch (TwilioException $exception) {
+            //We want to know why the mesaage was not sent. Store in DB???
             throw new SMSException($exception);
         }
 

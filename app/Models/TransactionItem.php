@@ -13,4 +13,11 @@ class TransactionItem extends Model
         'item',
         'is_jewelry'
     ];
+
+
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+	}
 }
