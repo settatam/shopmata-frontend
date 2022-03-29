@@ -22,7 +22,7 @@ class CreateActivitiesTable extends Migration
             $table->string('status')->nullable();
             $table->string('agent')->nullable();
             $table->decimal('offer',8,2)->nullable();
-            $table->string('notes')->nullable();
+            $table->longText('notes')->nullable();
             $table->string('name')->nullable();
             $table->boolean('is_from_admin')->default(false);
             $table->timestamps();

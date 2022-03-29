@@ -13,4 +13,10 @@ class Activity extends Model
         'id',
     ];
 
+
+    public function activityable()
+    {
+        return $this->morphTo();
+    }
+
 }
