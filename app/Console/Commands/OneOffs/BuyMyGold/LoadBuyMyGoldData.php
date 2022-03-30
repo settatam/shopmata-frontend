@@ -175,9 +175,12 @@ class LoadBuyMyGoldData extends Command
                     'type' => $order['notes_private'] ? 'private' : 'public'
                 ]);
 
-                $transaction->offer()->delete();
 
-                $transaction->offer()->create(['offer' => $order['offer_amount']]);
+                foreach ($transaction->offers as $offer) {
+                    $offer->delete();
+                }
+
+                $transaction->offers()->create(['offer' => $order['offer_amount']]);
 
 
                 foreach ($transaction->images as $image) {
