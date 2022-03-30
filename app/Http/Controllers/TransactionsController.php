@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Http;
 use App\Models\Category;
+use App\Models\Status;
 
 
 
@@ -60,9 +61,11 @@ class TransactionsController extends Controller
     public function show($id)
     {   
         $transaction = Transaction::find($id);
+        $statuses = Status::all();
+
         $categories = Category::where('store_id',session('store_id'))->get();
         $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','items');
-        return Inertia::render('Transactions/Show', compact('transaction','categories'));
+        return Inertia::render('Transactions/Show', compact('transaction','categories','statuses'));
     }
 
     /**
