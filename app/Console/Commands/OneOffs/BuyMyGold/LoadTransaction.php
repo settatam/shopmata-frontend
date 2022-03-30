@@ -174,22 +174,14 @@ class LoadTransaction extends Command
                     'notes' => $order['notes'],
                     'type' => $order['notes_private'] ? 'private' : 'public'
                 ]);
-
-                $transaction->offer()->delete();
-
-                $transaction->offer()->create(['offer' => $order['offer_amount']]);
-
                 
-                $items = $order['items'] ? explode(',', $order['items']) : null;
 
-                // if ( !empty( $items )  > 0 ) {
-                //     foreach ( $items  as $item) {
-                //         $transaction->items()->create([
-                //            'item' => $item,
-                //            'is_jewelry' => $order['is_jewelry'],
-                //         ]);
-                //     }
-                // }
+                foreach ($transaction->offers as $offer) {
+                    $offer->delete();
+                }
+
+                $transaction->offers()->create(['offer' => $order['offer_amount']]);
+
 
                 foreach ($transaction->images as $image) {
                     $image->delete();
