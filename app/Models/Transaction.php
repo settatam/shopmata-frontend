@@ -66,6 +66,6 @@ class Transaction extends Model
 
     public function sms()
     {
-        return $this->morphMany(Sms::class, 'smstable');
+        return $this->morphMany(Sms::class, 'smsable');
     } 
 }
