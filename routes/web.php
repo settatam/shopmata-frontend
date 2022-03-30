@@ -178,6 +178,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     #Settings -> Remittance
     Route::resource('settings/remittance', PayoutSettingsController::class);
     Route::resource('transactions',        TransactionsController::class);
+    Route::resource('transactions',        TransactionsController::class);
+
 
     Route::resource('reports',        ReportsController::class);
 

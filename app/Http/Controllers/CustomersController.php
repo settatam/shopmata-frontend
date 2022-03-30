@@ -171,8 +171,7 @@ class CustomersController extends Controller
 
         $customer->number_of_orders = count($customer->orders);
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
-
-        return Inertia::render('Customers/Show', compact('store','customer', 'user', 'months'));
+        return Inertia::render('Customers/Show', compact('store','customer', 'months'));
     }
 
     /**

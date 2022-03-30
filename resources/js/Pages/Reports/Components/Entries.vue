@@ -21,7 +21,7 @@
             <div class="my-2 ">
                 <button
                     class="bg-purple-darken px-2 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
-                    type="submit"
+                    type="submit" 
                 >
                     Export
                 </button>

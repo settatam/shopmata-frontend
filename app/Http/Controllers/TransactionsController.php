@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Http;
+
 
 
 class TransactionsController extends Controller
@@ -16,7 +18,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {   
-
+        
         $transactions = Transaction::with('items','customer','images')
                                 ->where('store_id',session('store_id'))
                                 ->latest()
@@ -34,6 +36,27 @@ class TransactionsController extends Controller
     {
         //
     }
+
+
+
+   
+
+
+
+    public function getApiData($url){
+
+        $response = Http::get($url);
+
+        $data = $response->body();
+
+        if($data = json_decode($data, true)) { 
+            return $data;
+        }
+
+        return null;
+    }
+
+
 
     /**
      * Store a newly created resource in storag:wq
