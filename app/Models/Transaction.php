@@ -58,7 +58,7 @@ class Transaction extends Model
     }
 
 
-    public function offer() 
+    public function offers() 
     {
         return $this->hasMany(TransactionOffer::class);
     }
