@@ -15,7 +15,7 @@ class AlterCategoriesTableMakeMerchantIdNull extends Migration
     {
         Schema::table('categories', function (Blueprint $table) {
             $table->dropColumn('mechant_id');
-            $table->integer('merchant_id')->nullable(); 
+            //$table->integer('merchant_id')->nullable(); 
         });
     }
 
