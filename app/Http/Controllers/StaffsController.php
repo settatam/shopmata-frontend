@@ -107,8 +107,7 @@ class StaffsController extends Controller
 //                //Handle the exception somehow
 //            }
 
-            return response()->json(['notification' => $notification]);
-
+            return redirect()->route('settings.permissions');
     }
 
     public function registration()
