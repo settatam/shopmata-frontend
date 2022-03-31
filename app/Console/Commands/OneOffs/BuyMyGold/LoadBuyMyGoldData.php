@@ -194,16 +194,19 @@ class LoadBuyMyGoldData extends Command
                 if ( !empty( $images )  > 0 ) {
                     foreach ( $images  as $image) {
                         try {
-                            $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
-                            $img = $image.'.o.jpg';
-                            $dest = storage_path().'/'.$img;
-                            copy($file, $dest);
-                            if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
-                                Storage::delete($dest);
+                            if ($image) {
+                                $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
+                                $img = $image.'.o.jpg';
+                                $dest = storage_path().'/'.$img;
+                                copy($file, $dest);
+                                if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
+                                    Storage::delete($dest);
+                                }
+                                $image  = env('DO_URL').'buymygold/images/items/'.$img;
+                                $imgs= new Image(['url' => $image, 'rank' => 1]);
+                                $transaction->images()->save($imgs);
                             }
-                            $image  = env('DO_URL').'buymygold/images/items/'.$img;
-                            $imgs= new Image(['url' => $image, 'rank' => 1]);
-                            $transaction->images()->save($imgs);
+                            
                         } catch(\Exception $e) {
                             dd($e->getMessage());
                         }
