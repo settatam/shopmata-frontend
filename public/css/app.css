@@ -2027,6 +2027,9 @@ select {
 .w-7 {
 	width: 1.75rem;
 }
+.w-4\/6 {
+	width: 66.666667%;
+}
 .w-28 {
 	width: 7rem;
 }
@@ -5173,6 +5176,14 @@ input[type='checkbox']:focus {
 
 	.lg\:ml-2 {
 		margin-left: 0.5rem;
+	}
+
+	.lg\:ml-28 {
+		margin-left: 7rem;
+	}
+
+	.lg\:ml-24 {
+		margin-left: 6rem;
 	}
 
 	.lg\:block {

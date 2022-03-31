@@ -14,7 +14,7 @@ class Sms extends Model
     ];
 
 
-    public function smstable()
+    public function smsable()
     {
         return $this->morphTo();
     }
