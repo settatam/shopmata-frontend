@@ -27,3 +27,5 @@ class TransactionHistory extends Model
     const OFFER_PAID = 'OFFER PAID';
 
 }
+
+
