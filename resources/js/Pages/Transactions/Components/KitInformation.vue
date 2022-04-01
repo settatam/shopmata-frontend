@@ -33,63 +33,60 @@
             </div>
 
             <!-- images start -->
+
             <div class="">
                 <div class="p-4 flex flex-row justify-between">
                     <div class="flex flex-col justify-center items-center">
-                        <label for="vehicle1" class="text-xs lg:text-sm">
+                        <label for="Tyvek" class="text-xs lg:text-sm">
                             Tyvek</label
                         >
-                        <input type="checkbox" id="vehicle1" name="Tyvek" />
+                        <input type="checkbox" id="Tyvek" name="Tyvek" />
                     </div>
                     <div class="flex flex-col justify-center items-center">
-                        <label for="vehicle2" class="text-xs lg:text-sm">
+                        <label for="Fedex" class="text-xs lg:text-sm">
                             Fedex</label
                         >
                         <input
                             class=""
                             type="checkbox"
-                            id="vehicle2"
+                            id="Fedex"
                             name="Fedex"
                         />
                     </div>
                     <div class="flex flex-col justify-center items-center">
-                        <label for="vehicle3" class="text-xs lg:text-sm">
+                        <label for="Customer" class="text-xs lg:text-sm">
                             Customer</label
                         >
-                        <input type="checkbox" id="vehicle3" name="Customer" />
+                        <input type="checkbox" id="Customer" name="Customer" />
                     </div>
                     <div class="flex flex-col justify-center items-center">
-                        <label for="vehicle3" class="text-xs lg:text-sm">
+                        <label for="Other" class="text-xs lg:text-sm">
                             Other</label
                         >
-                        <input type="checkbox" id="vehicle3" name="Other" />
+                        <input type="checkbox" id="Other" name="Other" />
                     </div>
                 </div>
 
                 <div class="p-4 flex flex-row justify-between">
                     <div class="flex flex-col justify-center items-center">
-                        <label for="vehicle3" class="text-xs lg:text-sm">
-                            10%</label
-                        >
-                        <input type="checkbox" id="vehicle3" name="10%" />
+                        <label for="10%" class="text-xs lg:text-sm"> 10%</label>
+                        <input type="checkbox" id="10%" name="10%" />
                     </div>
                     <div class="flex flex-col justify-center items-center">
-                        <label for="vehicle3" class="text-xs lg:text-sm">
+                        <label for=" FedexGr" class="text-xs lg:text-sm">
                             Fedex Gr</label
                         >
-                        <input type="checkbox" id="vehicle3" name="FedexGr" />
+                        <input type="checkbox" id=" FedexGr" name="FedexGr" />
                     </div>
                     <div class="flex flex-col justify-center items-center">
-                        <label for="vehicle3" class="text-xs lg:text-sm">
+                        <label for="FedexEx" class="text-xs lg:text-sm">
                             Fedex Ex</label
                         >
-                        <input type="checkbox" id="vehicle3" name="FedexEx" />
+                        <input type="checkbox" id="FedexEx" name="FedexEx" />
                     </div>
                     <div class="flex flex-col justify-center items-center">
-                        <label for="vehicle3" class="text-xs lg:text-sm">
-                            Box</label
-                        >
-                        <input type="checkbox" id="vehicle3" name="Box" />
+                        <label for="Box" class="text-xs lg:text-sm"> Box</label>
+                        <input type="checkbox" id="Box" name="Box" />
                     </div>
                 </div>
             </div>
@@ -114,12 +111,12 @@ export default {
     props: ['categories', 'transaction'],
     setup (props) {
         const categories = props.categories
-        const filteredCategory = computed(()=>{
-            return categories.filter((item)=>{
+        const filteredCategory = computed(() => {
+            return categories.filter(item => {
                 return item.slug
             })
         })
-        return {categories, filteredCategory}
+        return { categories, filteredCategory }
     }
 }
 </script>
