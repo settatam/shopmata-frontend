@@ -31,4 +31,9 @@ class TransactionPaymentAddress extends Model
         'check_country'
     ];
 
+    public function transaction_payment_type() 
+    {
+        return $this->belongsTo(TransactionPaymentType::class);
+    }
+
 }

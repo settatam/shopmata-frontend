@@ -1,19 +1,50 @@
 <template>
     <div class=" rounded-md bg-white lg:mx-2">
-        <div class="text-xl px-4 rounded-t-md w-full font-bold flex justify-center text-black">
+        <div
+            class="text-xl px-4 rounded-t-md w-full font-bold flex justify-center text-black"
+        >
             <h1>SMS</h1>
         </div>
 
-        <div class="px-4 space-y-2">
-            <div class="bg-gray-lightest p-4 scro-auto h-48">
-                lorem ipsum etc
-            </div>
+        <!-- sms chatbox starts -->
+        <div>
+            <div class="px-1 space-y-2 h-48 overflow-y-auto">
+                <template
+                    class="bg-gray-lightest p-4 "
+                    v-for="sms in transaction"
+                    :key="sms.index"
+                >
 
+                    <div
+                        class="flex items-end justify-end"
+                        v-if="sms.is_coming"
+                    >
+                        <div
+                            class="flex flex-col  max-w-xs mx-2 order-1 items-end"
+                        >
+                            <div>
+                                <span
+                                    class="px-4 py-2 rounded-lg inline-block p-2 bg-purple-darken text-white "
+                                    >{{ sms.message }}</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        v-else
+                        class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex justify-start"
+                    >
+                        <p>{{ sms.message }}</p>
+                    </div>
+                </template>
+            </div>
 
             <div class="mt-3 mx-1">
                 <div class="flex justify-center">
                     <h1 class="text-black font-bold text-xl pt-4">Send SMS</h1>
                 </div>
+
                 <textarea
                     class="shadow-sm h-20 block w-full sm:text-sm border-gray-300 rounded-md "
                     placeholder="Write a delivery note ......."
@@ -40,6 +71,7 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 
 export default {
     components: { AppLayout },
+    props: ['transaction'],
     setup () {
         return {}
     }
