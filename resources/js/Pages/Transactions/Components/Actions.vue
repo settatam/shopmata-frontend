@@ -1,16 +1,16 @@
 <template>
-    <div class=" rounded-md bg-white mt-4 overflow-scroll lg:mx-2">
+    <div class="table-fixed rounded-md bg-white mt-4 overflow-x-auto lg:mx-2">
         <table class="min-w-full">
-            <thead class="Kev table-auto border-b bg-purple-darken ">
-                <tr class="">
+            <thead class=" border-b bg-purple-darken ">
+                <tr class="break-words">
                     <th
-                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-4 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 w-2 py-4 text-left"
                         scope="col"
                     >
                         Action
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-3 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Date/Time
@@ -22,7 +22,7 @@
                         Agent
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 w-8 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Communication
@@ -42,36 +42,36 @@
                 </tr>
             </thead>
             <tbody>
-                <tr >
+                <tr v-for="item in transaction" :key="item.index">
                     <td
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
                     >
-                        Send SMS
+                        {{ item.name }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        03-29-2022 6:41pm
+                        {{ item.created_at }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        Jennifer
+                        {{ item.agent }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        Regardless it's a tougher sale
+                        {{ item.notes }}
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                       
+                        {{ item.offer }}
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        Kit Received
+                        {{ item.status }}
                     </td>
                 </tr>
             </tbody>

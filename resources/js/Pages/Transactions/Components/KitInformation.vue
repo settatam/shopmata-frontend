@@ -11,7 +11,13 @@
                     name="location"
                     class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 >
-                    <option value="0">Select</option>
+                    <option value="0">Choose Category</option>
+                    <option
+                        v-for="category in filteredCategory"
+                        :key="category.index"
+                        value=""
+                        >{{ category.slug }}</option
+                    >
                 </select>
             </div>
 
@@ -22,6 +28,7 @@
                     name=""
                     id=""
                     rows="10"
+                    v-model="transaction.comments"
                 ></textarea>
             </div>
 
@@ -38,7 +45,12 @@
                         <label for="vehicle2" class="text-xs lg:text-sm">
                             Fedex</label
                         >
-                        <input class="" type="checkbox" id="vehicle2" name="Fedex" />
+                        <input
+                            class=""
+                            type="checkbox"
+                            id="vehicle2"
+                            name="Fedex"
+                        />
                     </div>
                     <div class="flex flex-col justify-center items-center">
                         <label for="vehicle3" class="text-xs lg:text-sm">
@@ -93,13 +105,21 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Sms from '../Components/Sms.vue'
 
 export default {
     components: { AppLayout, Sms },
-    setup () {
-        return {}
+    props: ['categories', 'transaction'],
+    setup (props) {
+        const categories = props.categories
+        const filteredCategory = computed(()=>{
+            return categories.filter((item)=>{
+                return item.slug
+            })
+        })
+        return {categories, filteredCategory}
     }
 }
 </script>

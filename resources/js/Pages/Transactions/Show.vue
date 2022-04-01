@@ -50,7 +50,7 @@
                         />
                     </div>
                     <div class="w-full lg:w-1/3 ">
-                        <KitInformation class="my-4 h-full" />
+                        <KitInformation class="my-4 h-full" :categories="categories" :transaction="transaction"/>
                     </div>
                     <div class="w-full lg:w-1/3 h-full">
                         <div>
@@ -68,32 +68,27 @@
                     </div>
                 </div>
 
-                <!-- row 2 -->
-                <!-- <div class=" w-full flex flex-col lg:flex-row h-full">
-                    
-                </div> -->
-
                 <!-- row 3 -->
-                <div class="w-full">
-                    <ItemTable class="" />
+                <div class="w-full mt-8">
+                    <ItemTable :transaction="transaction.items" class="" />
                 </div>
                 <!-- row 3 ends -->
 
                 <!-- row 4 -->
                 <div class="w-full">
-                    <TransactionTimeline class="" />
+                    <TransactionTimeline class="mt-16" :transaction="transaction.notes"/>
                 </div>
                 <!-- row 4 starts -->
 
                 <!-- row 5 starts -->
                 <div class="w-full">
-                    <TransactionsTable :transaction="transaction" class="" />
+                    <TransactionsTable :transaction="transaction" class="mt-16" />
                 </div>
                 <!-- row 5 ends -->
 
                 <!-- row 6 starts -->
                 <div class="w-full">
-                    <Actions :transaction="transaction.activities" class="" />
+                    <Actions :transaction="transaction.activities" class="mt-16" />
                 </div>
                 <!-- row 6 ends -->
             </div>
@@ -148,7 +143,8 @@ export default {
     },
     props: {
         notifications: Array,
-        transaction: Object
+        transaction: Object,
+        categories: Array
     },
 
     setup (props) {

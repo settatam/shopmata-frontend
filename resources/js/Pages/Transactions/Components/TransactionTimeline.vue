@@ -1,26 +1,26 @@
 <template>
-    <div class=" rounded-md mt-4 bg-white lg:mx-2">
+    <div class=" rounded-md mt-18 bg-white lg:mx-2">
         <div class="rounded-t-md w-full bg-purple-darken py-4 pl-4 text-white">
             <h1 class="text-white">Transaction Timeline</h1>
         </div>
 
         <div
-            class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-around mx-4"
+            class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8"
         >
-            <div class=" my-4 flex flex-row">
+            <div class=" my-4 flex flex-row sm">
                 <label class="pt-2" for="">Status: </label>
-                <div class="flex flex-col lg:flex-row ">
+                <div class="flex flex-col md:flex lg:flex-row space-x-12">
                     <div>
                         <select
-                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white disabled:bg-gray-background mx-2 w-64 lg:w-96"
+                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
                             name=""
                             id=""
                         >
                             <option value="">Kit Received</option>
                         </select>
-                        <p class="text-xs my-2 mx-2 text-red-600">
+                        <!-- <p class="text-xs my-2 mx-2 text-red-600">
                             Delete transaction
-                        </p>
+                        </p> -->
                     </div>
                     <div>
                         <button
@@ -34,19 +34,22 @@
             </div>
 
             <div class=" my-4 flex flex-row">
-                <label class="pt-2" for="">Status: </label>
-                <div class="flex flex-col lg:flex-row ">
-                    <div>
+                <label class="pt-2" for="">Offer: </label>
+                <div class="flex flex-col lg:flex-row space-x-6">
+                    <div class="flex flex-col">
                         <input
                             type="search"
-                            :disabled="true"
-                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white disabled:bg-gray-background mx-2 w-64 lg:w-96"
+                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 w-full"
                             placeholder="Kit Received"
                             autocomplete="off"
                         />
-                        <p class="text-xs my-2 mx-2 text-red-600">
-                            Delete offer
-                        </p>
+                        <div class="flex flex-row">
+                            <input
+                                type="checkbox"
+                                class="text-xs my-2 mx-2 text-black"
+                            />
+                            <label class="mt-1" for="">2nd Offer</label>
+                        </div>
                     </div>
                     <div>
                         <button
@@ -61,30 +64,28 @@
         </div>
 
         <div
-            class="flex flex-col md:flex-row text-black text-xs lg:ml-28 md:text-sm"
+            class="flex flex-col md:flex-row text-black text-xs pl-4 md:text-sm"
         >
-            <div class="flex flex-col p-4 space-y-3 lg:w-1/2">
+            <div class="flex flex-col p-4 space-y-3 lg:w-1/3">
                 <p class="text-green-darker">Kit requested</p>
                 <p class="text-green-darker">Kit sent</p>
                 <p class="text-green-darker">Package Received</p>
                 <p>Offer given</p>
                 <p>Offer accepted</p>
                 <p>Payment processed</p>
-
                 
             </div>
 
-            
-
-            <div class="flex flex-col lg:w-1/2 mx-4">
+            <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
-                        placeholder="MET 3-2-22-Incoming via text"
+                        placeholder="Customer notes"
                         name=""
                         id=""
                         rows="3"
-                        cols="60"
+                        cols="150"
+                        v-model="transaction[0].notes"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full ">
@@ -126,7 +127,7 @@
                         name=""
                         id=""
                         rows="3"
-                        cols="60"
+                        cols="150"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
@@ -152,47 +153,62 @@
             </div>
         </div>
 
-        <div class="flex flex-col md:flex-row justify-around my-4 ml-4 lg:ml-24 py-4 w-4/6">
+        <div
+            class="flex flex-col flex-wrap md:flex-row  my-4 mx-4  py-4 w-full"
+        >
             <div>
-                <input type="checkbox" name="" id="" class="mx-2"/>
+                <input type="checkbox" name="" id="" class="mx-2" />
                 <label for="">SP</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2"/>
+                <input type="checkbox" name="" id="" class="mx-2" />
                 <label for="">Message Received</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2"/>
+                <input type="checkbox" name="" id="" class="mx-2" />
                 <label for="">MET</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2"/>
+                <input type="checkbox" name="" id="" class="mx-2" />
                 <label for="">MET2</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2"/>
+                <input type="checkbox" name="" id="" class="mx-2" />
                 <label for="">MET3</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2"/>
+                <input type="checkbox" name="" id="" class="mx-2" />
                 <label for="">Payment Rejected or Returned</label>
             </div>
         </div>
 
+        <div class="my-4">
+            <AdminImages />
+        </div>
 
+        <div class="my-4">
+            <Scans />
+        </div>
     </div>
 </template>
 
 <script>
 import AppLayout from '../../../Layouts/AppLayout.vue'
+import Scans from './Scans.vue'
+import AdminImages from './AdminImages.vue'
 
 export default {
     components: { AppLayout },
+    props:['transaction'],
+    components:{
+        Scans,
+        AdminImages
+    },
     setup () {
         return {}
     }
