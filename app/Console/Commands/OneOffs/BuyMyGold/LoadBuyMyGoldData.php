@@ -51,7 +51,6 @@ class LoadBuyMyGoldData extends Command
     {
         $response = Http::get('https://buymygold.com/api/transactions');
         $data = $response->body();
-
         if($orders = json_decode($data, true)) {
             $bar = $this->output->createProgressBar(count($orders['orders']));
             foreach ($orders['orders'] as $order) {
@@ -73,6 +72,31 @@ class LoadBuyMyGoldData extends Command
 
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
+
+                $transaction_payment_address = new TransactionPaymentAddress;
+
+                $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
+                    ['transaction_id' => $transaction->id ],
+                );
+                
+                $transaction_payment_address->pay_method              =  $transaction->pay_method;  
+                $transaction_payment_address->check_payable           =  $transaction->check_payable;
+                $transaction_payment_address->check_address           =  $transaction->check_address;
+                $transaction_payment_address->check_city              =  $transaction->check_city;
+                $transaction_payment_address->check_state             =  $transaction->check_state;
+                $transaction_payment_address->check_zip               =  $transaction->check_zip;
+                $transaction_payment_address->paypal_address          =  $transaction->paypal_address;
+                $transaction_payment_address->ach_bank_name           =  $transaction->ach_bank_name;   
+                $transaction_payment_address->ach_bank_address        =  $transaction->ach_bank_address;
+                $transaction_payment_address->ach_bank_address_city   =  $transaction->ach_bank_address_city;  
+                $transaction_payment_address->ach_bank_address_state  =  $transaction->ach_bank_address_state;
+                $transaction_payment_address->ach_bank_address_zip    =  $transaction->ach_bank_address_zip;
+                $transaction_payment_address->ach_routing_number      =  $transaction->ach_routing_number;
+                $transaction_payment_address->ach_account_number      =  $transaction->ach_account_number;   
+                $transaction_payment_address->ach_account_name        =  $transaction->ach_account_name;  
+                $transaction_payment_address->ach_account_type        =  $transaction->ach_account_type;
+                $transaction_payment_address->venmo_address           =  $transaction->venmo_address;
+                $transaction_payment_address->save();
 
                 //add customers
 

@@ -19,3 +19,6 @@ class TransactionPaymentType extends Model
         '7' => 'CashApp'
     ];
 }
+
+
+
