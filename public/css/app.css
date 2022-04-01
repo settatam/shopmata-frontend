@@ -1255,6 +1255,9 @@ select {
 .z-30 {
 	z-index: 30;
 }
+.order-1 {
+	order: 1;
+}
 .col-span-6 {
 	grid-column: span 6 / span 6;
 }
@@ -2233,6 +2236,9 @@ select {
 .flex-row {
 	flex-direction: row;
 }
+.flex-row-reverse {
+	flex-direction: row-reverse;
+}
 .flex-col {
 	flex-direction: column;
 }
@@ -2513,6 +2519,9 @@ select {
 }
 .rounded-br-md {
 	border-bottom-right-radius: 0.375rem;
+}
+.rounded-br-none {
+	border-bottom-right-radius: 0px;
 }
 .border {
 	border-width: 1px;
@@ -2819,6 +2828,10 @@ select {
 .bg-cyan-500 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
+}
+.bg-blue-600 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(37, 99, 235, var(--tw-bg-opacity));
 }
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
