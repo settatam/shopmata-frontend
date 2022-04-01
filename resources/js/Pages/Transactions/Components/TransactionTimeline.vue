@@ -168,7 +168,7 @@
 
             <div>
                 <input type="checkbox" name="MET" id="MET" class="mx-2" />
-                <label for="METbel>
+                <label for="MET">MET</label>
             </div>
 
             <div>
