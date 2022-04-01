@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md bg-white mt-8 overflow-scroll lg:mx-2">
+    <div class=" rounded-md bg-white mt-20 overflow-x-auto lg:mx-2">
         <!-- add item start -->
         <div class="flex flex-row justify-start ml-3 mr-3 py-4">
             <div>
@@ -18,8 +18,21 @@
         <!-- add item end -->
 
         <table class="min-w-full">
-            <thead class="Kev table-auto border-b bg-purple-darken ">
-                <tr class="">
+
+            <colgroup>
+                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%;" />
+            </colgroup>
+
+            <!-- <thead class="border-b bg-purple-darken "> -->
+                <tr class="border-b bg-purple-darken ">
                     <th
                         class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-4 text-left"
                         scope="col"
@@ -45,86 +58,135 @@
                         QTY
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         OVERRIDE
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         DWT
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         PRICE
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         INOTES
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         EDIT/DELETE
                     </th>
                 </tr>
-            </thead>
+            <!-- </thead> -->
             <tbody>
-                <tr v-for="item in items" :key="item.index">
+                <tr v-for="item in transaction" :key="item.index">
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.type }}
+                        {{ item.category }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.img }}
+                        {{}}
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap w-8"
                     >
                         {{ item.description }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.qty }}
+                        {{ item.quantity }}
                     </td>
                     <td
-                        class="hidden lg:table-cell text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.override }}
                     </td>
                     <td
-                        class="hidden lg:table-cell text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.dwt }}
                     </td>
                     <td
-                        class="hidden lg:table-cell text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         {{ item.price }}
+                    </td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    >
+                        {{ item.inotes }}
+                    </td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    >
+                        <p><span class="text-purple-darken">edit</span> / delete</p>
+                    </td>
+                </tr>
+
+                <!-- total ish -->
+                <tr class="bg-gray-background border-4 border-white">
+                    <td
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    ></td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    ></td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    ></td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    ></td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    ></td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
+                    >
+                        Total Value: {{transaction.length}}
+                    </td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
+                    >
+                        
+                    </td>
+                    <td
+                        class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
+                    >
+                        $600.00
+                    </td>
+                    <td
+                        class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
+                    >
+                        Estimated Profit: $-17.25
                     </td>
                 </tr>
             </tbody>
         </table>
 
         <!-- total -->
-        <div
+        <!-- <div
             class="flex flex-row ml-6 lg:mx-0 justify-start lg:justify-end w-full space-x-4 my-4 font-bold text-base lg:text-sm"
         >
             <p>Total Value: 1</p>
             <p>$600.00</p>
             <p class="pr-16">Estimated Profit: $600</p>
-        </div>
+        </div> -->
         <!-- total end -->
 
         <!-- add item start -->
@@ -146,29 +208,27 @@
 </template>
 
 <script>
-import { reactive, ref } from '@vue/reactivity'
+import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AddItem from '../Components/AddItem.vue'
 
 export default {
     components: { AppLayout, AddItem },
-    setup () {
+    props: ['transaction'],
+    setup (props) {
+        const transaction = reactive(props.transaction)
         const popUp = ref(false)
         const popModal = () => {
             popUp.value = true
         }
-        const items = reactive([
-            {
-                type: 'Misc',
-                img: '',
-                description: 'Pearl neck and bracelet with good stones',
-                qty: 1,
-                override: 'true',
-                dwt: '1',
-                price: 600.0
-            }
-        ])
-        return { items, popUp, popModal }
+
+        const totalDwt = computed(()=>{
+            return transaction.filter((item)=>{
+                return item.dwt
+            })
+        })
+
+        return { popUp, popModal, totalDwt }
     }
 }
 </script>

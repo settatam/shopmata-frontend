@@ -1729,6 +1729,9 @@ select {
 .-mr-5 {
 	margin-right: -1.25rem;
 }
+.mt-16 {
+	margin-top: 4rem;
+}
 .block {
 	display: block;
 }
@@ -2362,6 +2365,11 @@ select {
 	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
 	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
 }
+.space-x-12 > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-x-reverse: 0;
+	margin-right: calc(3rem * var(--tw-space-x-reverse));
+	margin-left: calc(3rem * calc(1 - var(--tw-space-x-reverse)));
+}
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
 	border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -2418,6 +2426,9 @@ select {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+.whitespace-normal {
+	white-space: normal;
 }
 .whitespace-nowrap {
 	white-space: nowrap;
@@ -2511,6 +2522,9 @@ select {
 }
 .border-2 {
 	border-width: 2px;
+}
+.border-4 {
+	border-width: 4px;
 }
 .border-b-2 {
 	border-bottom-width: 2px;
@@ -3467,6 +3481,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(127, 29, 29, var(--tw-text-opacity));
 }
+.text-blue-600 {
+	--tw-text-opacity: 1;
+	color: rgba(37, 99, 235, var(--tw-text-opacity));
+}
 .text-opacity-40 {
 	--tw-text-opacity: 0.4;
 }
@@ -3723,6 +3741,10 @@ input[type='checkbox']:focus {
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));
+}
+.hover\:border-gray-400:hover {
+	--tw-border-opacity: 1;
+	border-color: rgba(156, 163, 175, var(--tw-border-opacity));
 }
 .hover\:bg-indigo-600:hover {
 	--tw-bg-opacity: 1;
@@ -4207,6 +4229,10 @@ input[type='checkbox']:focus {
 		margin-top: 1.5rem;
 	}
 
+	.sm\:mt-2 {
+		margin-top: 0.5rem;
+	}
+
 	.sm\:block {
 		display: block;
 	}
@@ -4352,6 +4378,10 @@ input[type='checkbox']:focus {
 
 	.sm\:justify-between {
 		justify-content: space-between;
+	}
+
+	.sm\:justify-around {
+		justify-content: space-around;
 	}
 
 	.sm\:gap-x-4 {
@@ -5279,6 +5309,14 @@ input[type='checkbox']:focus {
 
 	.lg\:w-3\/10 {
 		width: 30%;
+	}
+
+	.lg\:w-5\/6 {
+		width: 83.333333%;
+	}
+
+	.lg\:w-1\/6 {
+		width: 16.666667%;
 	}
 
 	.lg\:min-w-0 {
