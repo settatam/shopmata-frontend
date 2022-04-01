@@ -18,6 +18,9 @@ class TransactionPaymentType extends Model
         '6' => 'Bank Transfer (Nigeria)',
         '7' => 'CashApp'
     ];
+
+
+    
 }
 
 
