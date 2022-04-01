@@ -5,7 +5,7 @@
         </div>
 
         <div class="px-4 space-y-2">
-            <div class="bg-gray-background p-4">
+            <div class="bg-gray-lightest p-4 scro-auto h-48">
                 lorem ipsum etc
             </div>
 
