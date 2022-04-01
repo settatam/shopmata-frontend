@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md bg-white mt-3 overflow-scroll lg:mx-2">
+    <div class=" rounded-md bg-white mt-3 overflow-x-auto lg:mx-2">
         <table class="min-w-full">
             <thead class="Kev table-auto border-b bg-purple-darken ">
                 <tr class="">
@@ -46,27 +46,32 @@
                     <td
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
                     >
-                        {{transaction.id}}
+                        {{ transaction.id }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{transaction.created_at}}
+                        {{ transaction.created_at }}
                     </td>
+                    <td
+                        v-if="transaction.items[0]"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    >
+                        {{ transaction.items[0].price }}
+                    </td>
+                    <td
+                        v-else
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    ></td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{transaction.items[0].price}}
-                    </td>
-                    <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
-                    >
-                        {{transaction.items.length}}
+                        {{ transaction.items.length }}
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{transaction.payment_method_id}}
+                        {{ transaction.payment_method_id }}
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
@@ -76,8 +81,6 @@
                 </tr>
             </tbody>
         </table>
-
-        
     </div>
 </template>
 
@@ -88,7 +91,7 @@ import AddItem from '../Components/AddItem.vue'
 
 export default {
     components: { AppLayout, AddItem },
-    props:['transaction'],
+    props: ['transaction'],
     setup () {
         return {}
     }
