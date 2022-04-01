@@ -154,7 +154,7 @@
         </div>
 
         <div
-            class="flex flex-col flex-wrap md:flex-row  my-4 mx-4  py-4 w-full"
+            class="flex flex-col flex-wrap md:flex-row  my-4 mx-4 space-x-4 py-4 w-full"
         >
             <div>
                 <input type="checkbox" name="" id="" class="mx-2" />

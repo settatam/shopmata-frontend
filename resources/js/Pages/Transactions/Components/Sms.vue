@@ -9,9 +9,6 @@
                 lorem ipsum etc
             </div>
 
-            <div class="bg-gray-background p-4">
-                lorem ipsum etc
-            </div>
 
             <div class="mt-3 mx-1">
                 <div class="flex justify-center">
