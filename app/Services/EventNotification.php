@@ -34,38 +34,49 @@ class EventNotification
               throw new InvalidInputException('There is no event');
           }
           if(!isset($data['store_id'], $data['customer_id'])) {
-              throw new InvalidInputException("You must attach a store and customer to an event notification");
+//              throw new InvalidInputException("You must attach a store and customer to an event notification");
           }
+
+          $this->getAndSendMessages();
     }
 
     /**
      * @throws InvalidInputException
      */
     public function getAndSendMessages() {
-        $storeNotificationMessages = StoreNotificationMessage::getAllMessages($this->data['store_id'], $this->event);
+        $storeNotificationMessages = StoreNotificationMessage::getAllMessages($this->data['store']->id, $this->event);
+
         $messageData = [];
 
         if(count($storeNotificationMessages)) {
-            $messageData['store'] = Store::find($this->data['store_id']);
-            if(isset($this->data['customer_id'])) {
-                $messageData['customer'] = Customer::find($this->data['customer_id']);
-            }
-            if(isset($this->data['transaction_id'])) {
-                $messageData['transaction'] = Transaction::find($this->data['transaction_id']);
-            }
-            if(isset($this->data['order_id'])) {
-                $messageData['order'] = Order::find($this->data['order_id']);
-            }
+
+            $messageData['store'] = $this->data['store'];
+            $messageData['user'] = isset($this->data['user']) ? $this->data['user'] : NULL;
+            $messageData['customer'] = isset($this->data['customer']) ? $this->data['customer'] : NULL;
+            $messageData['transaction'] = isset($this->data['transaction']) ? $this->data['transaction'] : NULL;
+            $messageData['order'] = isset($this->data['order']) ? $this->data['order'] : NULL;
 
             foreach($storeNotificationMessages as $storeNotificationMessage) {
+                //Check to see if the message is for customer or for a user ...
+                if($storeNotificationMessage->is_customer && null === $this->data['customer']) {
+                    throw new \Exception('You need a customer object');
+                }
+
+                if(!$storeNotificationMessage->is_customer && null === $this->data['user']) {
+                    throw new \Exception('You need a user object');
+                }
+
+                $messageData['to'] = ($storeNotificationMessage->is_customer) ? $this->data['customer']->email : $this->data['user']->email;
+
                 $template = \Twig::createTemplate($storeNotificationMessage->message);
                 $renderedMessage = \Twig::render($template, $messageData);
+
                 $messageData['parsed_message'] = $renderedMessage;
                 $messageData['subject'] = $storeNotificationMessage->email_subject;
+
                 switch ($storeNotificationMessage->channel) {
                     case 'email':
                         //Get the template
-
                         //Form the
                         $this->sendEmail($messageData);
                         break;
@@ -76,20 +87,23 @@ class EventNotification
                 }
             }
         } else {
-            throw new InvalidInputException('There are no messages for this event in the selected store');
+//            throw new InvalidInputException('There are no messages for this event in the selected store');
         }
 
 
     }
 
     public function sendEmail($data) {
-        Mail::to($data['customer']->email)->send(new EmailSender($data));
+
+        Mail::to($data['to'])->send(new EmailSender($data));
+
         $emailNotificationMessageSent = new EmailNotificationMessageSent();
-        $emailNotificationMessageSent->sent_to = $data['customer']->email;
+
+        $emailNotificationMessageSent->sent_to = $data['to'];
         $emailNotificationMessageSent->store_id = $data['store']->id;
-        $emailNotificationMessageSent->customer_id = $data['customer']->id;
         $emailNotificationMessageSent->subject = $data['subject'];
         $emailNotificationMessageSent->message = $data['parsed_message'];
+
         $emailNotificationMessageSent->save();
     }
 

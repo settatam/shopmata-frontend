@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Http;
+use App\Models\Category;
+use App\Models\Status;
+
 
 
 class TransactionsController extends Controller
@@ -16,7 +20,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {   
-
+        
         $transactions = Transaction::with('items','customer','images')
                                 ->where('store_id',session('store_id'))
                                 ->latest()
@@ -34,6 +38,7 @@ class TransactionsController extends Controller
     {
         //
     }
+
 
     /**
      * Store a newly created resource in storag:wq
@@ -56,8 +61,11 @@ class TransactionsController extends Controller
     public function show($id)
     {   
         $transaction = Transaction::find($id);
-        $transaction->load('customer','customer.state','items','histories','offer','notes');
-        return Inertia::render('Transactions/Show', compact('transaction'));
+        $statuses = Status::all();
+
+        $categories = Category::where('store_id',session('store_id'))->get();
+        $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','items');
+        return Inertia::render('Transactions/Show', compact('transaction','categories','statuses'));
     }
 
     /**

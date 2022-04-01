@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\EventNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -123,5 +124,33 @@ class User extends Authenticatable
             ->latest()
             ->take(1),
         ])->with('lastLogin');
+    }
+
+    public static function createForStore(Store $store, $userData) {
+        //There has to be a store_id
+        //check to see that user doesn't already exist ...
+
+        $checkUser = self::where('email', $data['email'])->first();
+        if(null !== $checkUser) {
+            throw new \Exception('This user already exists');
+        }
+
+        if($user = self::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'store_id' => $store->id,
+            'email' => $data['email'],
+            'password' => bcrypt($data['password'])
+        ])) {
+            //Check new Store User ...
+            StoreUser::createNew($user, $store, $storeGroupId);
+            (new EventNotification('User Registered', [
+                'user' => $user,
+                'store' => $store
+            ]))->getAndSendMessages();
+
+            //Log new email sent ...
+            return $user;
+        }
     }
 }

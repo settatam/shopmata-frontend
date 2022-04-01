@@ -178,6 +178,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     #Settings -> Remittance
     Route::resource('settings/remittance', PayoutSettingsController::class);
     Route::resource('transactions',        TransactionsController::class);
+    Route::resource('transactions',        TransactionsController::class);
+
 
     Route::resource('reports',        ReportsController::class);
 
@@ -298,7 +300,16 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('store/domains', StoreDomainsController::class);
     // Route::resource('store/themes', StoreThemesController::class);
-    Route::resource('settings/store-users', PlansAndPermissionsController::class);
+     Route::get('settings/store-users/response', [PlansAndPermissionsController::class, 'response']);
+     Route::resource('settings/store-users', PlansAndPermissionsController::class);
+
+
+//    Route::get('settings/store-users', [PlansAndPermissionsController::class, 'index'])->name('permissions.list');
+//    Route::get('settings/store-users/{id}', [PlansAndPermissionsController::class, 'show']);
+//    Route::get('settings/store-users/{id}/edit', [PlansAndPermissionsController::class, 'edit']);
+//    Route::post('settings/store-users', [PlansAndPermissionsController::class, 'store']);
+//    Route::delete('settings/store-users/{id}', [PlansAndPermissionsController::class, 'destroy']);
+
     Route::resource('settings/store-locations', StoreLocationController::class);
 });
 

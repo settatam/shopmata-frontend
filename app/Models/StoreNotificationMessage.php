@@ -14,11 +14,15 @@ class StoreNotificationMessage extends Model
     }
 
     public static function getAllMessages($store_id, $event){
-        return self::whereHas('store_notification', function($q) use ($event, $store_id) {
+        return self::with('store_notification')->whereHas('store_notification', function($q) use ($event, $store_id) {
             $q->where('name', $event)
                 ->where(function($query) use($store_id) {
                 $query->where('is_default', 1)->orWhere('store_id', $store_id);
             });
         })->get();
+    }
+
+    public function getIsCustomerAttribute(){
+        return $this->store_notification->is_customer;
     }
 }

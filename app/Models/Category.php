@@ -21,13 +21,12 @@ class Category extends Model
         'description',
         'meta_description',
         'meta_keyword',
-        'meta_title'
+        'meta_title',
+        'id'
     ];
 
     // protected static function booted()
     // {
     //     static::addGlobalScope(new StoreScope);
     // }
-
-
 }

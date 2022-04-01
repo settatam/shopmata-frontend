@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\StoreUser;
 use Illuminate\Support\Facades\Log;
 use Auth;
+use Inertia\Inertia;
 
 class PlansAndPermissionsController extends Controller
 {
@@ -69,7 +70,7 @@ class PlansAndPermissionsController extends Controller
     public function edit($id)
     {
         //
-       
+
     }
 
     /**
@@ -82,6 +83,21 @@ class PlansAndPermissionsController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function response(Request $request)
+    {
+        //
+        $data = $request->all();
+        StoreUser::respondToUserRequest($data);
+
+        Inertia::render('Dashboard');
     }
 
     /**
@@ -98,15 +114,15 @@ class PlansAndPermissionsController extends Controller
             if(null !== $user) {
                 if($user->delete()) {
                     Log::info('User ' . Auth::id() . ' deleted a store user ' . $id);
-                    return response()->json(['success'=>true]);
+                    return redirect()->route('settings.permissions');
                 }else{
                     Log::error('User ' . Auth::id() . ' could not delete store user ' . $id);
-                    return response()->json(['success'=>false], 422);
+                    return redirect()->route('settings.permissions');
                 }
             }else{
                 //
-                return response()->json(['success'=>false], 422);
+                return redirect()->route('settings.permissions');
             }
-        }   
+        }
     }
 }
