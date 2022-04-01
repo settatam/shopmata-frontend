@@ -144,7 +144,8 @@ export default {
     props: {
         notifications: Array,
         transaction: Object,
-        categories: Array
+        categories: Array,
+        statuses: Array
     },
 
     setup (props) {

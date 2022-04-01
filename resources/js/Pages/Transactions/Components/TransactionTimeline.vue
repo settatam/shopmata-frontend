@@ -157,33 +157,33 @@
             class="flex flex-col flex-wrap md:flex-row  my-4 mx-4 space-x-4 py-4 w-full"
         >
             <div>
-                <input type="checkbox" name="" id="" class="mx-2" />
-                <label for="">SP</label>
+                <input type="checkbox" name="SP" id="SP" class="mx-2" />
+                <label for="SP">SP</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2" />
-                <label for="">Message Received</label>
+                <input type="checkbox" name="MessageReceived" id="MessageReceived" class="mx-2" />
+                <label for="MessageReceived">Message Received</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2" />
-                <label for="">MET</label>
+                <input type="checkbox" name="MET" id="MET" class="mx-2" />
+                <label for="MET">MET</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2" />
-                <label for="">MET2</label>
+                <input type="checkbox" name="MET2" id="MET2" class="mx-2" />
+                <label for="MET2">MET2</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2" />
-                <label for="">MET3</label>
+                <input type="checkbox" name="MET3" id="MET3" class="mx-2" />
+                <label for="MET3">MET3</label>
             </div>
 
             <div>
-                <input type="checkbox" name="" id="" class="mx-2" />
-                <label for="">Payment Rejected or Returned</label>
+                <input type="checkbox" name="PaymentRejected" id="PaymentRejected" class="mx-2" />
+                <label for="PaymentRejected">Payment Rejected or Returned</label>
             </div>
         </div>
 
