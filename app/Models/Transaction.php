@@ -64,6 +64,12 @@ class Transaction extends Model
     }
 
 
+    public function transaction_payment_address() 
+    {
+        return $this->hasOne(TransactionPaymentAddress::class);
+    }
+
+
     public function sms()
     {
         return $this->morphMany(Sms::class, 'smsable');

@@ -62,9 +62,9 @@ class TransactionsController extends Controller
     {   
         $transaction = Transaction::find($id);
         $statuses = Status::all();
-
         $categories = Category::where('store_id',session('store_id'))->get();
-        $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','items');
+        $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','items','transaction_payment_address');
+        //dd($transaction);
         return Inertia::render('Transactions/Show', compact('transaction','categories','statuses'));
     }
 
