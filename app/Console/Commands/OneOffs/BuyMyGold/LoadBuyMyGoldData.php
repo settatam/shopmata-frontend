@@ -81,7 +81,7 @@ class LoadBuyMyGoldData extends Command
                     ['transaction_id' => $transaction->id ],
                 );
                 
-                $transaction_payment_address->pay_method              =  $transaction->pay_method;  
+                $transaction_payment_address->pay_method_id           =  $transaction->pay_method;  
                 $transaction_payment_address->check_payable           =  $transaction->check_payable;
                 $transaction_payment_address->check_address           =  $transaction->check_address;
                 $transaction_payment_address->check_city              =  $transaction->check_city;
