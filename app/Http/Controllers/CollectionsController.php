@@ -71,7 +71,6 @@ class CollectionsController extends Controller
 
         $similarCollections = Collection::where('handle', $request->input('handle'))->count();
         $collectionSlug = Str::slug($request->input('name')) . ($similarCollections ? "-$similarCollections" : "");
-
         $storeID = session()->get('store_id');
         $userID = $request->user()->id;
 
