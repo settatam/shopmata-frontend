@@ -19,4 +19,10 @@ class Tag extends Model
     {
         return $this->belongsTo(Page::class);
     }
+
+
+    public function tagable()
+    {
+        return $this->morphTo();
+    }
 }
