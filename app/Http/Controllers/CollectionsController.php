@@ -110,17 +110,17 @@ class CollectionsController extends Controller
                 ['handle', '=', $request->input('handle')],
                 ['id', '<>', $id]
             ])->count();
-            $collectionSlug = Str::slug($request->input('name')) . ($similarCollections ? "-$similarCollections" : "");
-            $collection->title = $request->input('name') ?? $collection->title;
-            $collection->description = $request->input('description') ?? $collection->description;
-            $collection->theme_id = $request->input('theme_id') ?? $collection->theme_id;
-            $collection->image_url = $request->input('image_url');
-            $collection->image_thumb = $request->input('image_thumb');
-            $collection->image_alt = $request->input('image_alt');
-            $collection->handle = $collectionSlug;
-            $collection->page_title = $request->input('seo_title');
-            $collection->conditions = json_encode($request->input('conditions'), JSON_THROW_ON_ERROR);
-            $collection->seo_title = $request->input('seo_title');
+            $collectionSlug              = Str::slug($request->input('name')) . ($similarCollections ? "-$similarCollections" : "");
+            $collection->title           = $request->input('name') ?? $collection->title;
+            $collection->description     = $request->input('description') ?? $collection->description;
+            $collection->theme_id        = $request->input('theme_id') ?? $collection->theme_id;
+            $collection->image_url       = $request->input('image_url');
+            $collection->image_thumb     = $request->input('image_thumb');
+            $collection->image_alt       = $request->input('image_alt');
+            $collection->handle          = $collectionSlug;
+            $collection->page_title      = $request->input('seo_title');
+            $collection->conditions      = json_encode($request->input('conditions'), JSON_THROW_ON_ERROR);
+            $collection->seo_title       = $request->input('seo_title');
             $collection->seo_description = $request->input('seo_description');
             $collection->save();
             return response([
