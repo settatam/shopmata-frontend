@@ -71,8 +71,8 @@ class LoadBuyMyGoldData extends Command
                 $transaction->insurance_value = $order['ship_insurance'];
                 $transaction->payment_method_id = $order['pay_method'];
 //              $transaction->bin_location = $order['bin_location'];
-                $transaction->store_id = 2;
-                //$transaction->store_id = $this->getStore($order['is_jewelry']);
+               // $transaction->store_id = 2;
+                $transaction->store_id = $this->getStore($order['is_jewelry']);
 
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
@@ -97,7 +97,8 @@ class LoadBuyMyGoldData extends Command
                 $transaction_payment_address->venmo_address          =  $order["venmo_address"];             
                 $transaction_payment_address->check_name             =  $order["check_payable"];           
                 $transaction_payment_address->check_address          =  $order["check_address"];              
-                $transaction_payment_address->check_city             =  $order["check_city"];             
+                $transaction_payment_address->check_city             =  $order["check_city"];  
+                $transaction_payment_address->check_zip             =  $order["check_zip"];             
                 $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]); 
                 $transaction_payment_address->save();
 
@@ -112,8 +113,8 @@ class LoadBuyMyGoldData extends Command
                 $customer->address      = $order["customer_address"];
                 $customer->city         = $order["customer_city"];
                 $customer->state_id     = $this->getStateId($order["customer_state"]);
-                $customer->store_id     = 2; //belongs to seth;
-              //$transaction->store_id = $this->getStore($order['is_jewelry']);
+                //$customer->store_id     = 2; //belongs to seth;
+                $transaction->store_id = $this->getStore($order['is_jewelry']);
 
                 $customer->zip          = $order["customer_zip"];
                 $customer->phone_number = $order["customer_phone"];
@@ -229,8 +230,6 @@ class LoadBuyMyGoldData extends Command
                                 $dest = storage_path().'/app/items/'.$img;
                                 copy($file, $dest);
                                 Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public');
-                                
-
                                 $image  = env('DO_URL').'buymygold/images/items/'.$img;
                                 $imgs= new Image(['url' => $image, 'rank' => 1]);
                                 $transaction->images()->save($imgs);
