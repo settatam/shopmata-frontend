@@ -9,6 +9,8 @@ use App\Models\Image;
 use App\Models\Transaction;
 use App\Models\Store;
 use App\Models\State;
+use App\Models\TransactionPaymentAddress;
+
 
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
@@ -51,6 +53,8 @@ class LoadBuyMyGoldData extends Command
     {
         $response = Http::get('https://buymygold.com/api/transactions');
         $data = $response->body();
+        Storage::makeDirectory('items');
+
         if($orders = json_decode($data, true)) {
             $bar = $this->output->createProgressBar(count($orders['orders']));
             foreach ($orders['orders'] as $order) {
@@ -59,16 +63,16 @@ class LoadBuyMyGoldData extends Command
                     ['id' => $order['order_id']]
                 );
                 //Create the customer using the customer details in the endpoint
-                $transaction->id = $order['order_id'];
-                $transaction->status_id = $order['status_id'];
-                $transaction->user_id   = $order['user_id'];//Customer id
-                $transaction->tags = $order['tags'];
-                $transaction->comments = $order['values'];
+                $transaction->id              = $order['order_id'];
+                $transaction->status_id       = $order['status_id'];
+                $transaction->user_id         = $order['user_id'];//Customer id
+                $transaction->tags            = $order['tags'];
+                $transaction->comments        = $order['values'];
                 $transaction->insurance_value = $order['ship_insurance'];
                 $transaction->payment_method_id = $order['pay_method'];
 //              $transaction->bin_location = $order['bin_location'];
-                $transaction->store_id = 2;
-                //$transaction->store_id = $this->getStore($order['is_jewelry']);
+               // $transaction->store_id = 2;
+                $transaction->store_id = $this->getStore($order['is_jewelry']);
 
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
@@ -76,26 +80,26 @@ class LoadBuyMyGoldData extends Command
                 $transaction_payment_address = new TransactionPaymentAddress;
 
                 $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
-                    ['transaction_id' => $transaction->id ],
+                    ['transaction_id' => $transaction->id ]
                 );
                 
-                $transaction_payment_address->pay_method              =  $transaction->pay_method;  
-                $transaction_payment_address->check_payable           =  $transaction->check_payable;
-                $transaction_payment_address->check_address           =  $transaction->check_address;
-                $transaction_payment_address->check_city              =  $transaction->check_city;
-                $transaction_payment_address->check_state             =  $transaction->check_state;
-                $transaction_payment_address->check_zip               =  $transaction->check_zip;
-                $transaction_payment_address->paypal_address          =  $transaction->paypal_address;
-                $transaction_payment_address->ach_bank_name           =  $transaction->ach_bank_name;   
-                $transaction_payment_address->ach_bank_address        =  $transaction->ach_bank_address;
-                $transaction_payment_address->ach_bank_address_city   =  $transaction->ach_bank_address_city;  
-                $transaction_payment_address->ach_bank_address_state  =  $transaction->ach_bank_address_state;
-                $transaction_payment_address->ach_bank_address_zip    =  $transaction->ach_bank_address_zip;
-                $transaction_payment_address->ach_routing_number      =  $transaction->ach_routing_number;
-                $transaction_payment_address->ach_account_number      =  $transaction->ach_account_number;   
-                $transaction_payment_address->ach_account_name        =  $transaction->ach_account_name;  
-                $transaction_payment_address->ach_account_type        =  $transaction->ach_account_type;
-                $transaction_payment_address->venmo_address           =  $transaction->venmo_address;
+                $transaction_payment_address->transaction_id         =  $order['order_id'];                                        
+                $transaction_payment_address->payment_type_id        =  $order["pay_method"];  
+                $transaction_payment_address->paypal_address         =  $order["paypal_address"];             
+                $transaction_payment_address->bank_address           =  $order["ach_bank_address"];             
+                $transaction_payment_address->bank_address_city      =  $order["ach_bank_address_city"];             
+                $transaction_payment_address->bank_address_state_id  =  $this->getStateId($order["ach_bank_address_state"]);             
+                $transaction_payment_address->bank_address_zip       =  $order["ach_bank_address_zip"];             
+                $transaction_payment_address->routing_number         =  $order["ach_routing_number"];           
+                $transaction_payment_address->account_number         =  $order["ach_account_number"];              
+                $transaction_payment_address->account_name           =  $order["ach_account_name"];             
+                $transaction_payment_address->account_type           =  $order["ach_account_type"];             
+                $transaction_payment_address->venmo_address          =  $order["venmo_address"];             
+                $transaction_payment_address->check_name             =  $order["check_payable"];           
+                $transaction_payment_address->check_address          =  $order["check_address"];              
+                $transaction_payment_address->check_city             =  $order["check_city"];  
+                $transaction_payment_address->check_zip             =  $order["check_zip"];             
+                $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]); 
                 $transaction_payment_address->save();
 
                 //add customers
@@ -109,8 +113,8 @@ class LoadBuyMyGoldData extends Command
                 $customer->address      = $order["customer_address"];
                 $customer->city         = $order["customer_city"];
                 $customer->state_id     = $this->getStateId($order["customer_state"]);
-                $customer->store_id     = 2; //belongs to seth;
-              //$transaction->store_id = $this->getStore($order['is_jewelry']);
+                //$customer->store_id     = 2; //belongs to seth;
+                $transaction->store_id = $this->getStore($order['is_jewelry']);
 
                 $customer->zip          = $order["customer_zip"];
                 $customer->phone_number = $order["customer_phone"];
@@ -216,16 +220,16 @@ class LoadBuyMyGoldData extends Command
                 $images = $order['photos'] ?  explode(',', $order['photos']) : null;
 
                 if ( !empty( $images )  > 0 ) {
+
+
                     foreach ( $images  as $image) {
                         try {
                             if ($image) {
                                 $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
                                 $img = $image.'.o.jpg';
-                                $dest = storage_path().'/'.$img;
+                                $dest = storage_path().'/app/items/'.$img;
                                 copy($file, $dest);
-                                if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
-                                    Storage::delete($dest);
-                                }
+                                Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public');
                                 $image  = env('DO_URL').'buymygold/images/items/'.$img;
                                 $imgs= new Image(['url' => $image, 'rank' => 1]);
                                 $transaction->images()->save($imgs);
@@ -239,6 +243,8 @@ class LoadBuyMyGoldData extends Command
                 }
                 $bar->advance();
             }
+
+            Storage::deleteDirectory('items');
 
             $bar->finish();
 
