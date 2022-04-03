@@ -5,10 +5,10 @@
                 Admin Images
             </h1>
 
-            <div id="flexcontainer" class="flex flex-col lg:flex-row space-x-2">
-                <div class="lg:w-5/6 sm:w-full">
+            <div id="flexcontainer" class="flex flex-col lg:flex-row lg:space-x-2 space-x-0">
+                <div class="lg:w-11/12 sm:w-full">
                     <label
-                        class="flex justify-center  h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                        class="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
                     >
                         <span class="flex items-center space-x-2">
                             <svg
@@ -36,24 +36,24 @@
                     </label>
                 </div>
 
-                <div class="flex lg:flex-col sm:justify-around sm:mt-2 lg:space-y-2 w-full lg:w-1/6 lg:full">
-                    <div>
+                <div class="flex lg:flex-col justify-around mt-4 lg:mt-0 lg:space-y-2  lg:w-1/6 space-x-3 lg:space-x-0 ml-8">
+
                         <button
-                            class="bg-purple-darken w-40 px-6 md: py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                            class="bg-purple-darken w-40 px-4 md: py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
                             type="submit"
                         >
                             Return Label
                         </button>
-                    </div>
+                    <!-- </div> -->
 
-                    <div>
+                    <!-- <div class=""> -->
                         <button
-                            class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                            class="bg-purple-darken w-40 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
                             type="submit"
                         >
                             Reject Offer
                         </button>
-                    </div>
+                    <!-- </div>7 -->
                 </div>
             </div>
         </div>

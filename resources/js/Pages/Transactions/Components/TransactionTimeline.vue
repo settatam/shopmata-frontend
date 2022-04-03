@@ -7,9 +7,9 @@
         <div
             class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8"
         >
-            <div class=" my-4 flex flex-row sm">
+            <div class=" my-4 flex flex-row sm" id="statusgroup">
                 <label class="pt-2" for="">Status: </label>
-                <div class="flex flex-col md:flex lg:flex-row space-x-12">
+                <div class="flex flex-col md:flex lg:flex-row sm:space-x-0 lg:space-x-12 space-y-3 lg:space-y-0">
                     <div>
                         <select
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
@@ -18,11 +18,8 @@
                         >
                             <option value="">Kit Received</option>
                         </select>
-                        <!-- <p class="text-xs my-2 mx-2 text-red-600">
-                            Delete transaction
-                        </p> -->
                     </div>
-                    <div>
+                    <div class="ml-6">
                         <button
                             class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
                             type="submit"
@@ -33,25 +30,27 @@
                 </div>
             </div>
 
-            <div class=" my-4 flex flex-row">
+            <div class=" my-4 flex flex-row" id="offergroup">
                 <label class="pt-2" for="">Offer: </label>
-                <div class="flex flex-col lg:flex-row space-x-6">
-                    <div class="flex flex-col">
+                <div class="flex flex-col lg:flex-row space-x-8 lg:space-x-6">
+                    <div class="flex flex-col lg:ml-0 ml-8">
                         <input
                             type="search"
-                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 w-full"
+                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 lg:w-full"
                             placeholder="Kit Received"
                             autocomplete="off"
                         />
-                        <div class="flex flex-row">
+                        <div class="flex flex-row ml-1">
                             <input
                                 type="checkbox"
-                                class="text-xs my-2 mx-2 text-black"
+                                class="text-xs my-2 mx-2"
+                                name="2ndoffer"
+                                id="2ndoffer"
                             />
-                            <label class="mt-1" for="">2nd Offer</label>
+                            <label class="mt-1" for="2ndoffer">2nd Offer</label>
                         </div>
                     </div>
-                    <div>
+                    <div class="">
                         <button
                             class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
                             type="submit"
@@ -156,7 +155,7 @@
         <div
             class="flex flex-col flex-wrap md:flex-row  my-4 mx-4 space-x-4 py-4 w-full"
         >
-            <div>
+            <div class="ml-4 lg:ml-0">
                 <input type="checkbox" name="SP" id="SP" class="mx-2" />
                 <label for="SP">SP</label>
             </div>
