@@ -53,6 +53,8 @@ class LoadBuyMyGoldData extends Command
     {
         $response = Http::get('https://buymygold.com/api/transactions');
         $data = $response->body();
+        Storage::makeDirectory('items');
+
         if($orders = json_decode($data, true)) {
             $bar = $this->output->createProgressBar(count($orders['orders']));
             foreach ($orders['orders'] as $order) {
@@ -99,7 +101,6 @@ class LoadBuyMyGoldData extends Command
                 $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]); 
                 $transaction_payment_address->save();
 
-                    
                 //add customers
 
                 $customer = Customer::firstOrNew(
@@ -218,16 +219,20 @@ class LoadBuyMyGoldData extends Command
                 $images = $order['photos'] ?  explode(',', $order['photos']) : null;
 
                 if ( !empty( $images )  > 0 ) {
+
+
                     foreach ( $images  as $image) {
                         try {
                             if ($image) {
                                 $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
                                 $img = $image.'.o.jpg';
-                                $dest = storage_path().'/'.$img;
+                                $dest = storage_path().'/app/items/'.$img;
                                 copy($file, $dest);
                                 if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
-                                    Storage::delete($dest);
                                 }
+                                Storage::delete($dest);
+
+
                                 $image  = env('DO_URL').'buymygold/images/items/'.$img;
                                 $imgs= new Image(['url' => $image, 'rank' => 1]);
                                 $transaction->images()->save($imgs);
@@ -241,6 +246,8 @@ class LoadBuyMyGoldData extends Command
                 }
                 $bar->advance();
             }
+
+            Storage::deleteDirectory('items');
 
             $bar->finish();
 
