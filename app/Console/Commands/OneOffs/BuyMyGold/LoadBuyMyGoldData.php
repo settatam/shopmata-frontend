@@ -228,7 +228,7 @@ class LoadBuyMyGoldData extends Command
                                 $img = $image.'.o.jpg';
                                 $dest = storage_path().'/app/items/'.$img;
                                 copy($file, $dest);
-                                 Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public');
+                                Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public');
                                 
 
                                 $image  = env('DO_URL').'buymygold/images/items/'.$img;
