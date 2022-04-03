@@ -98,7 +98,7 @@ class LoadBuyMyGoldData extends Command
                 $transaction_payment_address->check_name             =  $order["check_payable"];           
                 $transaction_payment_address->check_address          =  $order["check_address"];              
                 $transaction_payment_address->check_city             =  $order["check_city"];  
-                $transaction_payment_address->check_zip             =  $order["check_zip"];             
+                $transaction_payment_address->check_zip              =  $order["check_zip"];             
                 $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]); 
                 $transaction_payment_address->save();
 
@@ -114,8 +114,7 @@ class LoadBuyMyGoldData extends Command
                 $customer->city         = $order["customer_city"];
                 $customer->state_id     = $this->getStateId($order["customer_state"]);
                 //$customer->store_id     = 2; //belongs to seth;
-                $transaction->store_id = $this->getStore($order['is_jewelry']);
-
+                $transaction->store_id =  $this->getStore($order['is_jewelry']);
                 $customer->zip          = $order["customer_zip"];
                 $customer->phone_number = $order["customer_phone"];
                 $customer->address2     = $order["customer_address2"];
@@ -253,7 +252,17 @@ class LoadBuyMyGoldData extends Command
     }
 
     private function getStore($value) {
-        return ($value) ? $this->stores['SellMyJewelry'] : $this->stores['BuyMyGold'];
+        if ($value) {
+            $store = Store::where('name','SellMyJewelry')->first();
+        } else {
+            $store = Store::where('name','BuyMyGold')->first();
+        }
+
+        if ($store) {
+            return $store->id;
+        }
+        
+        return 2;
     }
 
 
