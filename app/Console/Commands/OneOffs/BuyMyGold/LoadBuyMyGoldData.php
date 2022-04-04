@@ -207,10 +207,8 @@ class LoadBuyMyGoldData extends Command
                         $offer->delete();
                     }
                 }
-                
 
                 $transaction->offers()->create(['offer' => $order['offer_amount']]);
-
 
                 foreach ($transaction->images as $image) {
                     $image->delete();
@@ -244,14 +242,14 @@ class LoadBuyMyGoldData extends Command
             }
 
             Storage::deleteDirectory('items');
-
             $bar->finish();
 
         }
 
     }
 
-    private function getStore($value) {
+    private function getStore($value) 
+    {
         if ($value) {
             $store = Store::where('name','SellMyJewelry')->first();
         } else {
@@ -261,7 +259,7 @@ class LoadBuyMyGoldData extends Command
         if ($store) {
             return $store->id;
         }
-        
+
         return 2;
     }
 
