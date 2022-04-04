@@ -80,7 +80,7 @@ class LoadBuyMyGoldData extends Command
                 $transaction_payment_address = new TransactionPaymentAddress;
 
                 $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
-                    ['transaction_id' => $transaction->id ]
+                    ['transaction_id' => $order['order_id'] ]
                 );
                 
                 $transaction_payment_address->transaction_id         =  $order['order_id'];                                        
@@ -217,8 +217,6 @@ class LoadBuyMyGoldData extends Command
                 $images = $order['photos'] ?  explode(',', $order['photos']) : null;
 
                 if ( !empty( $images )  > 0 ) {
-
-
                     foreach ( $images  as $image) {
                         try {
                             if ($image) {
