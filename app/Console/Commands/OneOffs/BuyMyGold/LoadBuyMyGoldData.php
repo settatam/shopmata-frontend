@@ -73,10 +73,8 @@ class LoadBuyMyGoldData extends Command
             //  $transaction->bin_location = $order['bin_location'];
                //$transaction->store_id = 2;
                 $transaction->store_id = $this->getStore($order['is_jewelry']);
-
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
-
                 $transaction_payment_address = new TransactionPaymentAddress;
 
                 $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
@@ -131,6 +129,7 @@ class LoadBuyMyGoldData extends Command
                 }
 
                 if ($order["date_update"]  !== "0000-00-00 00:00:00"){
+                    
                     $transaction->histories()->create([
                         'event' => "UPDATED" ,
                         'created_at' => $order["date_update"]
