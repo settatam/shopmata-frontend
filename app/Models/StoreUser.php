@@ -85,7 +85,6 @@ class StoreUser extends Model
 
             $storeUser->store_id = $store->id;
             $storeUser->user_id = $user->id;
-            $storeUser->storeGroupId = $storeGroupId;
             $storeUser->status = self::$ACCEPTED;
 
             if($storeUser->save()) {
