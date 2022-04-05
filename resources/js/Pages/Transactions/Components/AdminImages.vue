@@ -5,7 +5,7 @@
                 Admin Images
             </h1>
 
-            <div id="flexcontainer" class="flex flex-col lg:flex-row lg:space-x-2 space-x-0">
+            <div id="flexcontainer" class="flex pb-8 flex-col lg:flex-row lg:space-x-2 space-x-0">
                 <div class="lg:w-10/12 sm:w-full">
                     <label
                         class="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"

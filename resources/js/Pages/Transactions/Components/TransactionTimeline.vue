@@ -190,9 +190,7 @@
             <AdminImages />
         </div>
 
-        <div class="my-4">
-            <Scans />
-        </div>
+        
 
         <!-- add item start -->
 
@@ -206,12 +204,11 @@
 <script>
 import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
-import Scans from './Scans.vue'
 import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
 
 export default {
-    components: { AppLayout, PrintLabel, Scans,AdminImages },
+    components: { AppLayout, PrintLabel,AdminImages },
     props:['transaction'],
     setup () {
         const popUp = ref(false)
