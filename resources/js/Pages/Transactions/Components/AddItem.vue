@@ -239,6 +239,7 @@ import {
 } from '@headlessui/vue'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
+import { XIcon } from '@heroicons/vue/solid'
 import useVuelidate from '@vuelidate/core'
 import { required, helpers, numeric } from '@vuelidate/validators'
 
@@ -250,7 +251,8 @@ export default {
         Dialog,
         DialogOverlay,
         TransitionChild,
-        TransitionRoot
+        TransitionRoot,
+        XIcon
     },
 
     setup (props, ctx) {

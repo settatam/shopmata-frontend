@@ -60,35 +60,35 @@
                             />
                         </div>
                         <div>
-                            <PaymentInformation class="my-4" />
+                            <PaymentInformation class="" />
                         </div>
                         <div>
-                            <TrafficSource  class="my-4 " />
+                            <TrafficSource  class="" />
                         </div>
                     </div>
                 </div>
 
                 <!-- row 3 -->
-                <div class="w-full mt-8">
-                    <ItemTable :transaction="transaction.items" class="" />
+                <div class="w-full mb-12">
+                    <ItemTable :transaction="transaction.items" class="mt-12 lg:mt-16 mb-12" />
                 </div>
                 <!-- row 3 ends -->
 
                 <!-- row 4 -->
                 <div class="w-full">
-                    <TransactionTimeline class="mt-16" :transaction="transaction.notes"/>
+                    <TransactionTimeline class="mb-12" :transaction="transaction.notes"/>
                 </div>
                 <!-- row 4 starts -->
 
                 <!-- row 5 starts -->
                 <div class="w-full">
-                    <TransactionsTable :transaction="transaction" class="mt-16" />
+                    <TransactionsTable :transaction="transaction" class="mb-12" />
                 </div>
                 <!-- row 5 ends -->
 
                 <!-- row 6 starts -->
                 <div class="w-full">
-                    <Actions :transaction="transaction.activities" class="mt-16" />
+                    <Actions :transaction="transaction.activities" class="mb-12" />
                 </div>
                 <!-- row 6 ends -->
             </div>

@@ -5,7 +5,7 @@
         </div>
 
         <div class="p-4 space-y-2">
-            <h1 class="text-purple-darken 2xl font-bold">AMARILIS REYNOSO (ID:4178)</h1>
+            <h1 class="text-purple-darken 2xl font-bold">{{customer.first_name}} (ID {{customer.id}})</h1>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
                 <span class="font-normal">{{customer.address}}</span>

@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md bg-white mt-20 overflow-x-auto lg:mx-2">
+    <div class=" rounded-md bg-white mt-8 overflow-x-auto lg:mx-2">
         <!-- add item start -->
         <div class="flex flex-row justify-start ml-3 mr-3 py-4">
             <div>
@@ -189,7 +189,7 @@
         </div> -->
         <!-- total end -->
 
-        <!-- add item start -->
+        
         <div class="flex flex-row justify-end ml-3 mr-3 py-4">
             <div>
                 <button
@@ -201,7 +201,9 @@
             </div>
         </div>
 
-        <AddItem @close="popUp = false" v-if="popUp" />
+        <!-- add item start -->
+<!-- 
+        <AddItem @close="popUp = false" v-if="popUp" /> -->
 
         <!-- add item end -->
     </div>
