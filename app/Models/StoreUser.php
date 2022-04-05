@@ -81,7 +81,7 @@ class StoreUser extends Model
             $storeUser->status = self::$ACCEPTED;
 
             if($storeUser->save()) {
-                StoreUserInvite::updateInvite($store, $storeUser);
+                StoreUserInvite::updateInviteByToken($token, $data['status']);
                 User::createForStore($store, [
                     'first_name' => $storeUser->first_name,
                     'last_name' => $storeUser->first_name,
