@@ -67,28 +67,28 @@ class StoreUser extends Model
         }
     }
 
-    public static function respondToUserRequest($data) {
+    public static function respondToUserRequest($data, Store $store) {
 
         $storeUser = self::whereHas('invitation', function($query) use ($data) {
             $query->where('token', $data['token'])
                   ->where('status', StoreUserInvite::PENDING);
-        })->get();
+        })->first();
 
         if(null !== $storeUser) {
 
+            $user = User::createForStore($store, [
+                    'first_name' => $storeUser->first_name,
+                    'last_name' => $storeUser->last_name,
+                    'email' => $storeUser->email,
+                    'password' => bcrypt($storeUser->first_name)
+            ]);
+
             $storeUser->store_id = $store->id;
             $storeUser->user_id = $user->id;
-            $storeUser->storeGroupId = $storeGroupId;
             $storeUser->status = self::$ACCEPTED;
 
             if($storeUser->save()) {
-                StoreUserInvite::updateInvite($store, $storeUser);
-                User::createForStore($store, [
-                    'first_name' => $storeUser->first_name,
-                    'last_name' => $storeUser->first_name,
-                    'email' => $storeUser->first_name,
-                    'password' => $storeUser->first_name,
-                ]);
+                StoreUserInvite::updateInviteByToken($data['token'], $data['status']);
             }
         }
 
