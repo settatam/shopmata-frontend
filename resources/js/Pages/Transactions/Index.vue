@@ -125,12 +125,15 @@
                                 <td class="text-black font-medium">
                                     {{ item.customer.first_name }}
                                 </td>
-                                <td v-if="!item.customer.state" class="text-black font-medium">
+                                <td
+                                    v-if="!item.customer.state"
+                                    class="text-black font-medium"
+                                >
                                     {{ item.customer.city }}
                                 </td>
                                 <td v-else class="text-black font-medium">
-                                    {{ item.customer.city }}, {{ item.customer.state.code }}
-
+                                    {{ item.customer.city }},
+                                    {{ item.customer.state.code }}
                                 </td>
 
                                 <td class="flex flex-row space-x-1">

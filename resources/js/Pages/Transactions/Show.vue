@@ -42,7 +42,7 @@
 
                 <!-- nav end -->
                 <!-- container for  containers -->
-                <div class="flex flex-col lg:flex-row w-full h-full">
+                <div class="flex flex-col lg:flex-row w-full h-full mb-12">
                     <div class="w-full lg:w-1/3">
                         <TransactionBox1
                             :transaction="transaction"
@@ -50,7 +50,11 @@
                         />
                     </div>
                     <div class="w-full lg:w-1/3 ">
-                        <KitInformation class="my-4 h-full" :categories="categories" :transaction="transaction"/>
+                        <KitInformation
+                            class="my-4 h-full"
+                            :categories="categories"
+                            :transaction="transaction"
+                        />
                     </div>
                     <div class="w-full lg:w-1/3 h-full">
                         <div>
@@ -60,35 +64,56 @@
                             />
                         </div>
                         <div>
-                            <PaymentInformation class="my-4" />
+                            <PaymentInformation class="" />
                         </div>
                         <div>
-                            <TrafficSource  class="my-4 " />
+                            <TrafficSource class="" />
                         </div>
                     </div>
                 </div>
 
                 <!-- row 3 -->
-                <div class="w-full mt-8">
-                    <ItemTable :transaction="transaction.items" class="" />
+                <div class="w-full">
+                    <ItemTable
+                        :transaction="transaction.items"
+                        class="lg:mt-16 mb-12"
+                    />
                 </div>
                 <!-- row 3 ends -->
 
                 <!-- row 4 -->
                 <div class="w-full">
-                    <TransactionTimeline class="mt-16" :transaction="transaction.notes"/>
+                    <TransactionTimeline
+                        class="mb-12"
+                        :transaction="transaction.notes"
+                    />
                 </div>
                 <!-- row 4 starts -->
 
                 <!-- row 5 starts -->
                 <div class="w-full">
-                    <TransactionsTable :transaction="transaction" class="mt-16" />
+                    <TransactionsTable
+                        :transaction="transaction"
+                        class="mb-12"
+                    />
                 </div>
                 <!-- row 5 ends -->
 
+                <!-- Scan row starts -->
+                <div class="w-full">
+                    <Scans
+                        class="mb-12"
+                    />
+                </div>
+
+                <!-- Scan row ends -->
+
                 <!-- row 6 starts -->
                 <div class="w-full">
-                    <Actions :transaction="transaction.activities" class="mt-16" />
+                    <Actions
+                        :transaction="transaction.activities"
+                        class="mb-12"
+                    />
                 </div>
                 <!-- row 6 ends -->
             </div>
@@ -109,6 +134,7 @@ import ItemTable from './Components/ItemTable.vue'
 import TrafficSource from './Components/TrafficSource.vue'
 import TransactionsTable from './Components/TransactionsTable.vue'
 import Actions from './Components/Actions.vue'
+import Scans from './Components/Scans.vue'
 import { ChevronRightIcon, HomeIcon } from '@heroicons/vue/solid'
 
 const statusStyles = {
@@ -139,7 +165,8 @@ export default {
         ChevronRightIcon,
         HomeIcon,
         TransactionsTable,
-        Actions
+        Actions,
+        Scans,
     },
     props: {
         notifications: Array,

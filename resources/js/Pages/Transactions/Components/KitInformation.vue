@@ -34,6 +34,27 @@
 
             <!-- images start -->
 
+            <div v-if="limitedImages" class="mx-4 my-2">
+                <div class="flex justify-between">
+                    <img
+                        class="rounded-md"
+                        v-for="image in limitedImages"
+                        :key="image.index"
+                        :src="image.url"
+                        alt=""
+                        width="50"
+                        height="40"
+                    />
+                </div>
+            </div>
+
+            <div v-else>
+                <img src="../../../../assets/placeholder.png" alt="" width="50"
+                        height="40" />
+            </div>
+
+            <!-- images end -->
+
             <div class="">
                 <div class="p-4 flex flex-row justify-between">
                     <div class="flex flex-col justify-center items-center">
@@ -90,8 +111,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- images end -->
         </form>
 
         <!-- sms start -->
@@ -116,7 +135,20 @@ export default {
                 return item.slug
             })
         })
-        return { categories, filteredCategory }
+        const images = props.transaction.images
+
+        const limitedImages = computed(() => {
+            let filteredimage = []
+            for (let i = 0; i < 5; i++) {
+                if (images[i] == undefined) {
+                    break
+                }
+                filteredimage.push(images[i])
+            }
+            return filteredimage
+        })
+
+        return { categories, filteredCategory, images, limitedImages }
     }
 }
 </script>

@@ -91,7 +91,7 @@
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                                type="submit"
+                                type="submit" @click="popModal()"
                             >
                                 Print Labels
                             </button>
@@ -190,26 +190,33 @@
             <AdminImages />
         </div>
 
-        <div class="my-4">
-            <Scans />
-        </div>
+        
+
+        <!-- add item start -->
+
+        <PrintLabel :transaction="transaction" @close="popUp = false" v-if="popUp" />
+
+        <!-- add item end -->
+
     </div>
 </template>
 
 <script>
+import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
-import Scans from './Scans.vue'
 import AdminImages from './AdminImages.vue'
+import PrintLabel from '../Components/PrintLabel.vue'
 
 export default {
-    components: { AppLayout },
+    components: { AppLayout, PrintLabel,AdminImages },
     props:['transaction'],
-    components:{
-        Scans,
-        AdminImages
-    },
     setup () {
-        return {}
+        const popUp = ref(false)
+        const popModal = () => {
+            popUp.value = true
+        }
+
+        return {popUp, popModal}
     }
 }
 </script>

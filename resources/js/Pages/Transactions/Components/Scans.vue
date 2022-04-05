@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md bg-white mt-8  px-8 lg:mx-2">
+    <div class=" rounded-md py-8 bg-white px-8 lg:mx-2">
         <div class="my-4">
             <h1 class="font-bold text-2xl">
                 Scans
