@@ -126,7 +126,7 @@ class User extends Authenticatable
         ])->with('lastLogin');
     }
 
-    public static function createForStore(Store $store, $userData) {
+    public static function createForStore(Store $store, $data) {
         //There has to be a store_id
         //check to see that user doesn't already exist ...
 
