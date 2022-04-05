@@ -72,15 +72,15 @@ class StoreUser extends Model
         $storeUser = self::whereHas('invitation', function($query) use ($data) {
             $query->where('token', $data['token'])
                   ->where('status', StoreUserInvite::PENDING);
-        })->get();
+        })->first();
 
         if(null !== $storeUser) {
 
             $user = User::createForStore($store, [
                     'first_name' => $storeUser->first_name,
-                    'last_name' => $storeUser->first_name,
-                    'email' => $storeUser->first_name,
-                    'password' => $storeUser->first_name,
+                    'last_name' => $storeUser->last_name,
+                    'email' => $storeUser->email,
+                    'password' => bcrypt($storeUser->first_name)
             ]);
 
             $storeUser->store_id = $store->id;
@@ -89,7 +89,7 @@ class StoreUser extends Model
             $storeUser->status = self::$ACCEPTED;
 
             if($storeUser->save()) {
-                StoreUserInvite::updateInviteByToken($token, $data['status']);
+                StoreUserInvite::updateInviteByToken($data['token'], $data['status']);
             }
         }
 
