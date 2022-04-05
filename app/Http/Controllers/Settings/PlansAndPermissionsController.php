@@ -8,6 +8,7 @@ use App\Models\StoreUser;
 use Illuminate\Support\Facades\Log;
 use Auth;
 use Inertia\Inertia;
+use App\Models\Store;
 
 class PlansAndPermissionsController extends Controller
 {
