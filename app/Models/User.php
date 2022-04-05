@@ -140,7 +140,8 @@ class User extends Authenticatable
             'last_name' => $data['last_name'],
             'store_id' => $store->id,
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['first_name'])
+//            'password' => bcrypt($data['password'])
         ])) {
             //Check new Store User ...
             if($addStoreUser) {
