@@ -3,6 +3,8 @@
 namespace App\Http\Helpers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use App\Models\Store;
+
 
 
 
@@ -31,6 +33,21 @@ class Helper
             return $data;
         }
         return null;
+    }
+
+    private function getStore($value) 
+    {
+        if ($value) {
+            $store = Store::where('name','SellMyJewelry')->first();
+        } else {
+            $store = Store::where('name','BuyMyGold')->first();
+        }
+
+        if ($store) {
+            return $store->id;
+        }
+
+        return 2;
     }
     
 }

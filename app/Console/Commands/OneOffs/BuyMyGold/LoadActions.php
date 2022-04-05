@@ -48,7 +48,7 @@ class LoadActions extends Command
             foreach ($data['data'] as $action ) {
                 $activity = new Activity;
                 $activity = Activity::firstOrNew(
-                    ['id' => $action['id']]
+                    ['id' => $action['id'] ]
                 );
                 $activity->id                 =  $action['id'];
                 $activity->name               =  $action['name'];

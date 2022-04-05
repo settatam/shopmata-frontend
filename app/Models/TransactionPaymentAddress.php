@@ -33,7 +33,7 @@ class TransactionPaymentAddress extends Model
 
     public function transaction_payment_type() 
     {
-        return $this->belongsTo(TransactionPaymentType::class);
+        return $this->belongsTo(TransactionPaymentType::class,'payment_type_id','id');
     }
 
 }

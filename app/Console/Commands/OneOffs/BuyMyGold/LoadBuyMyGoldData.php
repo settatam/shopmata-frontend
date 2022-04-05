@@ -70,17 +70,15 @@ class LoadBuyMyGoldData extends Command
                 $transaction->comments        = $order['values'];
                 $transaction->insurance_value = $order['ship_insurance'];
                 $transaction->payment_method_id = $order['pay_method'];
-//              $transaction->bin_location = $order['bin_location'];
-               // $transaction->store_id = 2;
+            //  $transaction->bin_location = $order['bin_location'];
+               //$transaction->store_id = 2;
                 $transaction->store_id = $this->getStore($order['is_jewelry']);
-
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
-
                 $transaction_payment_address = new TransactionPaymentAddress;
 
                 $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
-                    ['transaction_id' => $transaction->id ]
+                    ['transaction_id' => $order['order_id'] ]
                 );
 
                 $transaction_payment_address->transaction_id         =  $order['order_id'];
@@ -107,21 +105,20 @@ class LoadBuyMyGoldData extends Command
                 $customer = Customer::firstOrNew(
                     ['id' => $order['user_id']]
                 );
-                $customer->id           = $order['user_id'];
-                $customer->email        = $order["customer_email"];
-                $customer->first_name   = $order["customer_name"];
-                $customer->address      = $order["customer_address"];
-                $customer->city         = $order["customer_city"];
-                $customer->state_id     = $this->getStateId($order["customer_state"]);
-                //$customer->store_id     = 2; //belongs to seth;
-                $customer->store_id    =  $this->getStore($order['is_jewelry']);
-                $customer->zip          = $order["customer_zip"];
-                $customer->phone_number = $order["customer_phone"];
-                $customer->address2     = $order["customer_address2"];
-                $customer->dob          = $order["customer_dob"];
-                $customer->password     = bcrypt($order['order_password']);
-                $customer->accepts_marketing    =   1;
-                $customer->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
+                $customer->id                 = $order['user_id'];
+                $customer->email              = $order["customer_email"];
+                $customer->first_name         = $order["customer_name"];
+                $customer->address            = $order["customer_address"];
+                $customer->city               = $order["customer_city"];
+                $customer->state_id           = $this->getStateId($order["customer_state"]);
+                $customer->store_id           = $this->getStore($order['is_jewelry']);
+                $customer->zip                = $order["customer_zip"];
+                $customer->phone_number       = $order["customer_phone"];
+                $customer->address2           = $order["customer_address2"];
+                $customer->dob                = $order["customer_dob"];
+                $customer->password           = bcrypt($order['order_password']);
+                $customer->accepts_marketing  =   1;
+                $customer->created_at = $order['date_new'];
 
 
                 $customer->save();
@@ -132,6 +129,7 @@ class LoadBuyMyGoldData extends Command
                 }
 
                 if ($order["date_update"]  !== "0000-00-00 00:00:00"){
+                    
                     $transaction->histories()->create([
                         'event' => "UPDATED" ,
                         'created_at' => $order["date_update"]
@@ -217,8 +215,6 @@ class LoadBuyMyGoldData extends Command
                 $images = $order['photos'] ?  explode(',', $order['photos']) : null;
 
                 if ( !empty( $images )  > 0 ) {
-
-
                     foreach ( $images  as $image) {
                         try {
                             if ($image) {

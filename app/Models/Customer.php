@@ -52,6 +52,12 @@ class Customer extends Model
     }
 
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class,'user_id','id');
+    }
+
+
     public function state()
     {
         return $this->belongsTo(State::class);
