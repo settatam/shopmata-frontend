@@ -67,7 +67,7 @@ class StoreUser extends Model
         }
     }
 
-    public static function respondToUserRequest($data) {
+    public static function respondToUserRequest($data, Store $store) {
 
         $storeUser = self::whereHas('invitation', function($query) use ($data) {
             $query->where('token', $data['token'])
