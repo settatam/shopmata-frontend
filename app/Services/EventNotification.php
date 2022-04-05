@@ -36,7 +36,6 @@ class EventNotification
           if(!isset($data['store_id'], $data['customer_id'])) {
 //              throw new InvalidInputException("You must attach a store and customer to an event notification");
           }
-
           $this->getAndSendMessages();
     }
 

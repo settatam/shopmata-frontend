@@ -126,7 +126,7 @@ class User extends Authenticatable
         ])->with('lastLogin');
     }
 
-    public static function createForStore(Store $store, $userData) {
+    public static function createForStore(Store $store, $data, $addStoreUser = false) {
         //There has to be a store_id
         //check to see that user doesn't already exist ...
 
@@ -140,10 +140,14 @@ class User extends Authenticatable
             'last_name' => $data['last_name'],
             'store_id' => $store->id,
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['first_name'])
+//            'password' => bcrypt($data['password'])
         ])) {
             //Check new Store User ...
-            StoreUser::createNew($user, $store, $storeGroupId);
+            if($addStoreUser) {
+                 StoreUser::createNew($user, $store, $data['storeGroupId']);
+            }
+
             (new EventNotification('User Registered', [
                 'user' => $user,
                 'store' => $store

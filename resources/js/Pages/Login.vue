@@ -32,7 +32,7 @@
                                 Sign in with
                             </p>
 
-                            <div class="mt-1 grid grid-cols-3 gap-3">
+                            <!-- <div class="mt-1 grid grid-cols-3 gap-3">
                                 <div>
                                     <a
                                         href="#"
@@ -88,10 +88,10 @@
                                         <LoadingSpinner v-if="loading"/>
                                     </a>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
-                        <div class="mt-6 relative">
+                        <!-- <div class="mt-6 relative">
                             <div
                                 class="absolute inset-0 flex items-center"
                                 aria-hidden="true"
@@ -103,7 +103,7 @@
                                     Or continue with
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="mt-6">

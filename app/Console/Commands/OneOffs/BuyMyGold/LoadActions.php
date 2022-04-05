@@ -59,8 +59,7 @@ class LoadActions extends Command
                 $activity->notes              =  $action['notes'];
                 $activity->created_at         =  $action['created_at'];
                 $activity->is_from_admin      =  true;
-                $activity->store_id           =  2;
-                $activity->save();                      
+                $activity->save();
                 $bar->advance();
             }
 

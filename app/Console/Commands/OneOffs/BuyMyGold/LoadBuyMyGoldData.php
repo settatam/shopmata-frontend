@@ -80,24 +80,24 @@ class LoadBuyMyGoldData extends Command
                 $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                     ['transaction_id' => $order['order_id'] ]
                 );
-                
-                $transaction_payment_address->transaction_id         =  $order['order_id'];                                        
-                $transaction_payment_address->payment_type_id        =  $order["pay_method"];  
-                $transaction_payment_address->paypal_address         =  $order["paypal_address"];             
-                $transaction_payment_address->bank_address           =  $order["ach_bank_address"];             
-                $transaction_payment_address->bank_address_city      =  $order["ach_bank_address_city"];             
-                $transaction_payment_address->bank_address_state_id  =  $this->getStateId($order["ach_bank_address_state"]);             
-                $transaction_payment_address->bank_address_zip       =  $order["ach_bank_address_zip"];             
-                $transaction_payment_address->routing_number         =  $order["ach_routing_number"];           
-                $transaction_payment_address->account_number         =  $order["ach_account_number"];              
-                $transaction_payment_address->account_name           =  $order["ach_account_name"];             
-                $transaction_payment_address->account_type           =  $order["ach_account_type"];             
-                $transaction_payment_address->venmo_address          =  $order["venmo_address"];             
-                $transaction_payment_address->check_name             =  $order["check_payable"];           
-                $transaction_payment_address->check_address          =  $order["check_address"];              
-                $transaction_payment_address->check_city             =  $order["check_city"];  
-                $transaction_payment_address->check_zip              =  $order["check_zip"];             
-                $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]); 
+
+                $transaction_payment_address->transaction_id         =  $order['order_id'];
+                $transaction_payment_address->payment_type_id        =  $order["pay_method"];
+                $transaction_payment_address->paypal_address         =  $order["paypal_address"];
+                $transaction_payment_address->bank_address           =  $order["ach_bank_address"];
+                $transaction_payment_address->bank_address_city      =  $order["ach_bank_address_city"];
+                $transaction_payment_address->bank_address_state_id  =  $this->getStateId($order["ach_bank_address_state"]);
+                $transaction_payment_address->bank_address_zip       =  $order["ach_bank_address_zip"];
+                $transaction_payment_address->routing_number         =  $order["ach_routing_number"];
+                $transaction_payment_address->account_number         =  $order["ach_account_number"];
+                $transaction_payment_address->account_name           =  $order["ach_account_name"];
+                $transaction_payment_address->account_type           =  $order["ach_account_type"];
+                $transaction_payment_address->venmo_address          =  $order["venmo_address"];
+                $transaction_payment_address->check_name             =  $order["check_payable"];
+                $transaction_payment_address->check_address          =  $order["check_address"];
+                $transaction_payment_address->check_city             =  $order["check_city"];
+                $transaction_payment_address->check_zip              =  $order["check_zip"];
+                $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]);
                 $transaction_payment_address->save();
 
                 //add customers
@@ -227,9 +227,9 @@ class LoadBuyMyGoldData extends Command
                                 $imgs= new Image(['url' => $image, 'rank' => 1]);
                                 $transaction->images()->save($imgs);
                             }
-                            
+
                         } catch(\Exception $e) {
-                            dd($e->getMessage());
+                            echo $e->getMessage();
                         }
 
                     }
@@ -244,7 +244,7 @@ class LoadBuyMyGoldData extends Command
 
     }
 
-    private function getStore($value) 
+    private function getStore($value)
     {
         if ($value) {
             $store = Store::where('name','SellMyJewelry')->first();
