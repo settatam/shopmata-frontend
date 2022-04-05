@@ -75,6 +75,14 @@ class StoreUser extends Model
         })->get();
 
         if(null !== $storeUser) {
+
+            $user = User::createForStore($store, [
+                    'first_name' => $storeUser->first_name,
+                    'last_name' => $storeUser->first_name,
+                    'email' => $storeUser->first_name,
+                    'password' => $storeUser->first_name,
+            ]);
+
             $storeUser->store_id = $store->id;
             $storeUser->user_id = $user->id;
             $storeUser->storeGroupId = $storeGroupId;
@@ -82,12 +90,6 @@ class StoreUser extends Model
 
             if($storeUser->save()) {
                 StoreUserInvite::updateInviteByToken($token, $data['status']);
-                User::createForStore($store, [
-                    'first_name' => $storeUser->first_name,
-                    'last_name' => $storeUser->first_name,
-                    'email' => $storeUser->first_name,
-                    'password' => $storeUser->first_name,
-                ]);
             }
         }
 
