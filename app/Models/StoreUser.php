@@ -75,7 +75,6 @@ class StoreUser extends Model
         })->get();
 
         if(null !== $storeUser) {
-
             $storeUser->store_id = $store->id;
             $storeUser->user_id = $user->id;
             $storeUser->storeGroupId = $storeGroupId;

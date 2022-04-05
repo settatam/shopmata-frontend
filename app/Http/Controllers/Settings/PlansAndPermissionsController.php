@@ -96,7 +96,6 @@ class PlansAndPermissionsController extends Controller
         //
         $data = $request->all();
         StoreUser::respondToUserRequest($data);
-
         Inertia::render('Dashboard');
     }
 

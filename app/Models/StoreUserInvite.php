@@ -80,8 +80,7 @@ class StoreUserInvite extends Model
         }
     }
 
-    public static function updateInvite(Store $store, $data) {
-        $invite = self::where();
-        $invite->status = self::CONFIRMED;
+    public static function updateInviteByToken($token, $status) {
+        return self::where('token', $token)->update(['status'=>$status]);
     }
 }

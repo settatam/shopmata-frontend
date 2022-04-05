@@ -301,6 +301,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('store/domains', StoreDomainsController::class);
     // Route::resource('store/themes', StoreThemesController::class);
      Route::get('settings/store-users/response', [PlansAndPermissionsController::class, 'response']);
+
      Route::resource('settings/store-users', PlansAndPermissionsController::class);
 
 
