@@ -11,20 +11,20 @@
             <div class="px-1 space-y-2 h-48 overflow-y-auto">
                 <template
                     class="bg-gray-lightest p-4 "
-                    v-for="sms in transaction"
+                    v-for="(sms, index) in transaction.slice().reverse()"
                     :key="sms.index"
                 >
-
                     <div
                         class="flex items-end justify-end"
                         v-if="sms.is_coming"
                     >
                         <div
-                            class="flex flex-col  max-w-xs mx-2 order-1 items-end"
+                            class="flex flex-col w-1/2 max-w-xs mx-2 order-1 items-end"
                         >
-                            <div>
+                            <div class="px-4 py-2 rounded-lg inline-block p-2 bg-purple-darken text-white ">
+                                <p class="text-xs py-2">{{formattedTimes[index]}}</p>
                                 <span
-                                    class="px-4 py-2 rounded-lg inline-block p-2 bg-purple-darken text-white "
+                                    
                                     >{{ sms.message }}</span
                                 >
                             </div>
@@ -33,8 +33,9 @@
 
                     <div
                         v-else
-                        class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex justify-start"
+                        class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start"
                     >
+                    <p class="text-xs py-2">{{formattedTimes[index]}}</p>
                         <p>{{ sms.message }}</p>
                     </div>
                 </template>
@@ -67,13 +68,42 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 
 export default {
     components: { AppLayout },
     props: ['transaction'],
-    setup () {
-        return {}
+    setup (props) {
+        const smsTimes = props.transaction
+
+        function formatDate (date) {
+            var hours = date.getHours()
+            var minutes = date.getMinutes()
+            var ampm = hours >= 12 ? 'pm' : 'am'
+            hours = hours % 12
+            hours = hours ? hours : 12 // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes
+            var strTime = hours + ':' + minutes + ' ' + ampm
+            return (
+                date.getMonth() +
+                1 +
+                '/' +
+                date.getDate() +
+                '  ' +
+                strTime
+            )
+        }
+
+        const formattedTimes = computed(() => {
+            return smsTimes.map((item)=>{
+                let d = new Date(Date.parse(item.created_at));
+                return formatDate(d)
+            })
+
+            
+        })
+        return {smsTimes, formatDate, formattedTimes }
     }
 }
 </script>
