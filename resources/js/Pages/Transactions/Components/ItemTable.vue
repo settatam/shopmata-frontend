@@ -141,19 +141,19 @@
                 <!-- total ish -->
                 <tr class="bg-gray-background border-4 border-white">
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 "
                     ></td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 "
                     ></td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4"
                     ></td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4"
                     ></td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4"
                     ></td>
                     <td
                         class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
@@ -163,7 +163,7 @@
                     <td
                         class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        
+                        ${{totalDwt}}
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
@@ -173,22 +173,11 @@
                     <td
                         class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        Estimated Profit: $-17.25
+                        Estimated Profit: {{}}
                     </td>
                 </tr>
             </tbody>
         </table>
-
-        <!-- total -->
-        <!-- <div
-            class="flex flex-row ml-6 lg:mx-0 justify-start lg:justify-end w-full space-x-4 my-4 font-bold text-base lg:text-sm"
-        >
-            <p>Total Value: 1</p>
-            <p>$600.00</p>
-            <p class="pr-16">Estimated Profit: $600</p>
-        </div> -->
-        <!-- total end -->
-
         
         <div class="flex flex-row justify-end ml-3 mr-3 py-4">
             <div>
@@ -201,11 +190,6 @@
             </div>
         </div>
 
-        <!-- add item start -->
-<!-- 
-        <AddItem @close="popUp = false" v-if="popUp" /> -->
-
-        <!-- add item end -->
     </div>
 </template>
 
@@ -225,12 +209,22 @@ export default {
         }
 
         const totalDwt = computed(()=>{
-            return transaction.filter((item)=>{
-                return item.dwt
-            })
+            let sum = 0;
+            transaction.forEach(item => {
+                return  sum += parseFloat(item.dwt)
+            });
+            return sum.toFixed(2);
         })
 
-        return { popUp, popModal, totalDwt }
+        const totalPrice = computed(()=>{
+            let sum = 0;
+            transaction.forEach(item => {
+                return  sum += parseFloat(item.price)
+            });
+            return sum.toFixed(2);
+        })
+
+        return { popUp, popModal, totalDwt, totalPrice }
     }
 }
 </script>

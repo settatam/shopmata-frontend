@@ -46,12 +46,12 @@
                     <div class="w-full lg:w-1/3">
                         <TransactionBox1
                             :transaction="transaction"
-                            class="my-4 h-full"
+                            class="mb-4 h-full"
                         />
                     </div>
                     <div class="w-full lg:w-1/3 ">
                         <KitInformation
-                            class="my-4 h-full"
+                            class="mb-4 h-full"
                             :categories="categories"
                             :transaction="transaction"
                         />
@@ -60,14 +60,14 @@
                         <div>
                             <CustomerInformation
                                 :customer="transaction.customer"
-                                class="my-4 "
+                                class="mb-4 "
                             />
                         </div>
                         <div>
-                            <PaymentInformation class="" />
+                            <PaymentInformation class="mb-4" />
                         </div>
                         <div>
-                            <TrafficSource class="" />
+                            <TrafficSource class="mb-4" />
                         </div>
                     </div>
                 </div>

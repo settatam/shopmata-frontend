@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md bg-white mt-4 mb-4 overflow-x-auto lg:mx-2">
+    <div class=" rounded-md bg-white mb-4 overflow-x-auto lg:mx-2">
         <table class="table-fixed">
             <thead class=" border-b bg-purple-darken ">
                 <tr class="break-words">
