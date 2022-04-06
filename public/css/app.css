@@ -3176,9 +3176,6 @@ select {
 .pb-12 {
 	padding-bottom: 3rem;
 }
-.pr-16 {
-	padding-right: 4rem;
-}
 .text-left {
 	text-align: left;
 }
@@ -5363,10 +5360,6 @@ input[type='checkbox']:focus {
 
 	.lg\:items-start {
 		align-items: flex-start;
-	}
-
-	.lg\:justify-end {
-		justify-content: flex-end;
 	}
 
 	.lg\:justify-between {

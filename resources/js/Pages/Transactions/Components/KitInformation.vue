@@ -37,7 +37,7 @@
             <div v-if="limitedImages" class="mx-4 my-2">
                 <div class="flex justify-between flex-wrap">
                     <img
-                        class="rounded-md"
+                        class="rounded-md m-2"
                         v-for="image in limitedImages"
                         :key="image.index"
                         :src="image.url"

@@ -59,22 +59,15 @@
                                     >
                                         Choose Category
                                     </label>
-                                    <input
-                                        :class="{
-                                            'border-red-600': v$.category.$error,
-                                            'border-gray-300': !v$.category.$error
-                                        }"
-                                        type="text"
-                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                        v-model="local_pickup.category"
-                                        required
-                                    />
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.category.$error"
+                                    <select
+                                        name=""
+                                        id=""
+                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                     >
-                                        {{ v$.category.$errors[0].$message }}
-                                    </p>
+                                        <option value="0"
+                                            >Choose Category</option
+                                        >
+                                    </select>
                                 </div>
 
                                 <div class="flex required  mb-4">
@@ -107,7 +100,9 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col lg:flex-row required  mb-4">
+                                <div
+                                    class="flex flex-col lg:flex-row required  mb-4"
+                                >
                                     <div class="mr-2 w-full">
                                         <label
                                             class="block text-gray-600 font-semibold mb-2 bg-transparent"
@@ -118,7 +113,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.city.$error,
-                                                'border-gray-300': !v$.dwt.$error
+                                                'border-gray-300': !v$.dwt
+                                                    .$error
                                             }"
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -145,8 +141,8 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.mprice.$error,
-                                                'border-gray-300': !v$
-                                                    .mprice.$error
+                                                'border-gray-300': !v$.mprice
+                                                    .$error
                                             }"
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -158,9 +154,7 @@
                                             class="text-red-600 text-xs"
                                             v-if="v$.mprice.$error"
                                         >
-                                            {{
-                                                v$.mprice.$errors[0].$message
-                                            }}
+                                            {{ v$.mprice.$errors[0].$message }}
                                         </p>
                                     </div>
                                 </div>
@@ -279,7 +273,10 @@ export default {
                     required: helpers.withMessage('Enter a category', required)
                 },
                 description: {
-                    required: helpers.withMessage('Enter a description', required)
+                    required: helpers.withMessage(
+                        'Enter a description',
+                        required
+                    )
                 },
                 dwt: {
                     required: helpers.withMessage('Enter a DWT', required)
@@ -291,10 +288,7 @@ export default {
                     required: helpers.withMessage('Enter a city name', required)
                 },
                 inote: {
-                    required: helpers.withMessage(
-                        'Enter an inote',
-                        required
-                    ),
+                    required: helpers.withMessage('Enter an inote', required)
                 }
             }
         })
