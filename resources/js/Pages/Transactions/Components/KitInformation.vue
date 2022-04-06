@@ -35,7 +35,7 @@
             <!-- images start -->
 
             <div v-if="limitedImages" class="mx-4 my-2">
-                <div class="flex justify-between">
+                <div class="flex justify-between flex-wrap">
                     <img
                         class="rounded-md"
                         v-for="image in limitedImages"
@@ -147,6 +147,7 @@ export default {
             }
             return filteredimage
         })
+        
 
         return { categories, filteredCategory, images, limitedImages }
     }
