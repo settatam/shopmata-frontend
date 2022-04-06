@@ -45,7 +45,7 @@ class StatusTableSeeder extends Seeder
             'Ready for Melt',
             'Imported List - Kit mailed',
             'Imported List - Received',
-            'Incomin ',
+            'Incomin',
         ];
 
         foreach ($status as $key => $statu) {
