@@ -206,14 +206,12 @@ class CustomersController extends Controller
     {
 
         $customer = Customer::find($id);
-
-        $request->validate([
-            'first_name'   => ['required','string'],
-            'last_name'    => ['required','string'],
-            'email'        => ['required','email','max:75','unique:customers'],
-            'phone_number' => ['required']
-        ]);
-
+        // $request->validate([
+        //     'first_name'   => ['required','string'],
+        //     'last_name'    => ['required','string'],
+        //     'email'        => ['required','email','max:75','unique:customers'],
+        //     'phone_number' => ['required']
+        // ]);
         try {
             $this->createUpdate($request, $customer);
             \Log::info("Customer Updated");
