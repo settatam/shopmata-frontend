@@ -134,7 +134,7 @@
                                     <tbody class="bg-white divide-y divide-gray-200" v-for="user in storeUsers " :key=" user.id">
                                     <tr class="bg-white">
                                         <td class="w-4/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
-                                            <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.first_name + ' ' + user.last_name}}</p>
+                                            <p class="text-indigo-700 text-left text-sm font-semibold "> {{user.user.first_name + ' ' + user.last_name}}</p>
                                         </td>
                                         <td class="w-3/10 px-6 py-4 text-right whitespace-pre-wrap text-sm text-gray-500">
                                             <p class="text-gray-800 text-left ">{{moment(user.last_login).format("LLLL")}}</p>
@@ -148,8 +148,9 @@
 
                                         <td class="px-6 py-4 text-right  text-sm text-gray-500 relative">
                                             <div class="flex">
-                                                    <pencil-icon class="h-8 w-8 p-2 mr-6 text-indigo-600 cursor-pointer" @click="editRow(user)" />
-                                                    <trash-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer" @click="deleteRow(user.id)"/>
+                                                <pencil-icon class="h-8 w-8 p-2 mr-6 text-indigo-600 cursor-pointer" @click="editRow(user)" />
+                                                <trash-icon class="h-8 w-8 p-2 mr-6 text-red-500 cursor-pointer" @click="deleteRow(user.id)"/>
+                                                <thumb-up-icon class="h-8 w-8 p-2 text-red-500 cursor-pointer"   @click="changeStatus(user.id)"  />
                                             </div>
                                         </td>
                                     </tr>
@@ -172,7 +173,7 @@ import Search from '../../Search.vue'
 import Nav from '../Nav';
 import {PlusCircleIcon,DotsVerticalIcon,ChevronRightIcon,PencilAltIcon,} from '@heroicons/vue/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import {TrashIcon,HomeIcon,QuestionMarkCircleIcon,PencilIcon} from '@heroicons/vue/outline'
+import {TrashIcon,HomeIcon,QuestionMarkCircleIcon,PencilIcon,ThumbUpIcon} from '@heroicons/vue/outline'
 import moment from "moment";
 import PermissionModal from './Components/PermissionModal.vue';
 import { ref } from '@vue/reactivity';
@@ -211,7 +212,8 @@ export default {
     MenuButton,
     MenuItem,
     MenuItems,
-    Tooltip
+    Tooltip,
+    ThumbUpIcon
 },
    emits:['close'],
   data(){
@@ -245,10 +247,15 @@ export default {
             this.title = 'Invite Staff'
             this.buttonMsg='Send Invite'
         },
-        /* changeRole(){
-            this.popModal=true
-            this.title = 'Change Role'
-        }, */
+        changeStatus(id){
+            axios.get('/settings/store-users/response',{
+                params: {
+                    id: id
+                }
+            }).then(res => {
+                console.log(res)
+            })
+        },
         editRow(user){
             this.openSub =false
             this.popModal=true

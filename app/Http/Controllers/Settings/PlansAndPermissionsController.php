@@ -94,7 +94,6 @@ class PlansAndPermissionsController extends Controller
      */
     public function response(Request $request)
     {
-        //
         $data = $request->all();
         $store = Store::find(session('store_id'));
         StoreUser::respondToUserRequest($data, $store);

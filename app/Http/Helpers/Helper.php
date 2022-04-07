@@ -35,14 +35,11 @@ class Helper
         return null;
     }
 
-    private function getStore($value) 
+    public static function getStoreByName($value) 
     {
-        if ($value) {
-            $store = Store::where('name','SellMyJewelry')->first();
-        } else {
-            $store = Store::where('name','BuyMyGold')->first();
-        }
-
+        
+        $store = Store::where('name',$value)->first();
+    
         if ($store) {
             return $store->id;
         }

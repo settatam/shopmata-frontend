@@ -48,15 +48,15 @@ class StoreUser extends Model
 
         $storeUser = new static;
 
-        $checkUser = $storeUser->where('email', $data['email'])->first();
+       // $checkUser = $storeUser->where('email', $data['email'])->first();
 
-        if(null !== $checkUser) {
-            throw new \Exception('This user already exists');
-        }
+        // if(null !== $checkUser) {
+        //     throw new \Exception('This user already exists');
+        // }
         $storeUser->store_id = $store->id;
         $storeUser->user_id = Auth::id();
         $storeUser->first_name = $data['first_name'];
-        $storeUser->email = $data['email'];
+        //$storeUser->email = $data['email'];
         $storeUser->last_name = $data['last_name'];
         $storeUser->store_group_id = $data['role_id'];
         $storeUser->status = self::$PENDING;

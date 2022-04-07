@@ -48,23 +48,24 @@ class LoadSms extends Command
             $bar = $this->output->createProgressBar(count($data['data']));
 
             foreach ($data['data'] as $smses ) {
-
                 $sms = new Sms;
-                $sms = Sms::firstOrNew(
-                    ['id' => $smses['id']]
+                $sms = Sms::updateOrCreate(
+                    ['id' => $smses['id']],
+                    [
+                        'id'           =>  $smses['id'],                       
+                        'message'      =>  $smses['message'],                        
+                        'from'         =>  $smses['from'],                        
+                        'to'           =>  $smses['to'],                       
+                        'is_read'      =>  $smses['is_read'],                        
+                        'created_at'   =>  date("H:i:s", strtotime($smses['created_at'])),                        
+                        'user_id'      =>  $smses['user_id'],                        
+                        'smsable_id'   =>  $smses['order_id'], 
+                        'smsable_type' =>  'App\Models\Transaction',                        
+                        'is_coming'    =>  $smses['is_coming'],                        
+                        'payload'      =>  $smses['payload'],  
+                    ]
                 );
-                $sms->id             =  $smses['id'];                        
-                $sms->message        =  $smses['message'];                        
-                $sms->from           =  $smses['from'];                        
-                $sms->to             =  $smses['to'];                         
-                $sms->is_read        =  $smses['is_read'];                        
-                $sms->created_at     =  date("H:i:s", strtotime($smses['created_at']));                        
-                $sms->user_id        =  $smses['user_id'];                        
-                $sms->smsable_id     =  $smses['order_id']; 
-                $sms->smsable_type   =  'App\Models\Transaction';                        
-                $sms->is_coming      =  $smses['is_coming'];                        
-                $sms->payload        =  $smses['payload'];   
-                $sms->save();                      
+                
                 $bar->advance();
             }
 

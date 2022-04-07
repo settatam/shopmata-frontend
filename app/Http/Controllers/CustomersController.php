@@ -187,7 +187,7 @@ class CustomersController extends Controller
         if (null === $customer) {
             throw new HttpException(404);
         }
-        return Inertia::render('Customers/Update', compact('customer'));
+        return Inertia::render('Customers/Edit', compact('customer'));
     }
 
     /**
