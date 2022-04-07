@@ -44,8 +44,8 @@ class TagSeeder extends Seeder
                 DB::table('tags')->insert([
                     'group_id' => $key,
                     'name' => $t,
-                    'tagable_type' => 'App\Models\Transaction',
-                    'store_id' => Helper::getStoreByName('BuyMyGold')
+                    'store_id' => Helper::getStoreByName('BuyMyGold'),
+                    'color' => '#cccccc'
                 ]); 
             }
         }

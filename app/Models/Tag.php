@@ -25,8 +25,7 @@ class Tag extends Model
     }
 
 
-    public function tagable()
-    {
-        return $this->morphTo();
+    public function tags(){
+        return $this->hasMany(Tagg::class);
     }
 }
