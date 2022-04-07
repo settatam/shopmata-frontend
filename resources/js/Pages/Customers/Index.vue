@@ -202,14 +202,6 @@
                                                 {{ customer.last_name }}
                                             </inertia-link>
 
-                                            <span class="mx-2">
-                                                <inertia-link :href="`/customers/${customer.id}/edit`">
-                                                    <PencilIcon
-                                                        class="w-5 h-5 text-indigo-600 cursor-pointer mr-4"
-                                                    />
-                                                </inertia-link>
-                                            </span>
-
                                         </td>
                                         <td
                                             class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
@@ -291,7 +283,7 @@
 <script>
 import { computed, reactive, ref, watch } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
-import { PlusIcon, EyeIcon, PencilIcon, TrashIcon } from "@heroicons/vue/solid";
+import { PlusIcon, EyeIcon, TrashIcon } from "@heroicons/vue/solid";
 import { SearchIcon, ArrowRightIcon } from "@heroicons/vue/outline";
 import Pagination from '../../Components/Pagination.vue'
 // import Search from '../Search.vue'
@@ -411,27 +403,11 @@ export default {
         PlusIcon,
         SearchIcon,
         EyeIcon,
-        PencilIcon,
         TrashIcon,
         ArrowRightIcon,
         Pagination,
         Spinner,
         Customer
-        // SideNav,
-        // ExportIcon,
-        // ImportIcon,
-        // SaveIcon,
-        // SortIcon,
-        // DeleteIcon,
-        // DeleteSolidIcon,
-        // EditIcon,
-        // AngleUpIcon,
-        // ArrowRight,
-        // Pagination,
-        // ArrowDownFilled,
-        // Multiselect,
-        // OrderRow,
-        // Badge
     },
 
     setup({customers}) {

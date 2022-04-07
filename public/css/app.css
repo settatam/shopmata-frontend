@@ -1387,6 +1387,10 @@ select {
 	margin-left: -0.75rem;
 	margin-right: -0.75rem;
 }
+.my-7 {
+	margin-top: 1.75rem;
+	margin-bottom: 1.75rem;
+}
 .my-auto {
 	margin-top: auto;
 	margin-bottom: auto;
@@ -1606,6 +1610,9 @@ select {
 .mb-9 {
 	margin-bottom: 2.25rem;
 }
+.ml-0 {
+	margin-left: 0px;
+}
 .mb-2 {
 	margin-bottom: 0.5rem;
 }
@@ -1657,9 +1664,6 @@ select {
 .mb-4\.5 {
 	margin-bottom: 1.125rem;
 }
-.ml-0 {
-	margin-left: 0px;
-}
 .mb-11 {
 	margin-bottom: 2.75rem;
 }
@@ -1675,8 +1679,8 @@ select {
 .mr-0 {
 	margin-right: 0px;
 }
-.mt-16 {
-	margin-top: 4rem;
+.mb-12 {
+	margin-bottom: 3rem;
 }
 .mt-1\.5 {
 	margin-top: 0.375rem;
@@ -1734,9 +1738,6 @@ select {
 }
 .-mr-5 {
 	margin-right: -1.25rem;
-}
-.mb-12 {
-	margin-bottom: 3rem;
 }
 .block {
 	display: block;
@@ -2448,9 +2449,6 @@ select {
 }
 .break-words {
 	overflow-wrap: break-word;
-}
-.break-all {
-	word-break: break-all;
 }
 .rounded-md {
 	border-radius: 0.375rem;
@@ -5148,6 +5146,14 @@ input[type='checkbox']:focus {
 		margin-right: 0px;
 	}
 
+	.lg\:mt-0 {
+		margin-top: 0px;
+	}
+
+	.lg\:ml-5 {
+		margin-left: 1.25rem;
+	}
+
 	.lg\:mb-0 {
 		margin-bottom: 0px;
 	}
@@ -5180,6 +5186,10 @@ input[type='checkbox']:focus {
 		margin-right: 2rem;
 	}
 
+	.lg\:mt-16 {
+		margin-top: 4rem;
+	}
+
 	.lg\:mr-4 {
 		margin-right: 1rem;
 	}
@@ -5190,10 +5200,6 @@ input[type='checkbox']:focus {
 
 	.lg\:mb-4 {
 		margin-bottom: 1rem;
-	}
-
-	.lg\:mt-0 {
-		margin-top: 0px;
 	}
 
 	.lg\:mt-6 {
@@ -5214,10 +5220,6 @@ input[type='checkbox']:focus {
 
 	.lg\:ml-0 {
 		margin-left: 0px;
-	}
-
-	.lg\:mt-16 {
-		margin-top: 4rem;
 	}
 
 	.lg\:block {

@@ -65,11 +65,12 @@
         </div>
 
         <!-- Main content -->
-        <div class="w-2/3 min-h-screen bg-white mt-7 mb-7 mx-auto rounded-sm">
+        <div class="w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
             <div class="p-8">
                 <h2 class="text-xl font-semibold">Personal Information</h2>
 
-                <div class="flex">
+               <div class="mb-4">
+                    <div class="flex">
                     <div class="required w-full mr-5 mt-4 relative">
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
@@ -153,25 +154,10 @@
                         v-show="phoneError && !personal_info.phone_number.length"
                     />
                 </div>
+               </div>
                 <div class="border-t-2 border-gray-300 mt-6 mb-7 -mx-8"></div>
                 <h2 class="text-xl font-semibold">Address</h2>
 
-                <!-- <div class="required w-full mr-5 mt-4">
-                    <label
-                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                    >
-                        Full Name
-                    </label>
-                    <input
-                        type="text"
-                        id="fullName"
-                        name="fullName"
-                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        placeholder=""
-                        required
-                        v-model="address_info.full_name"
-                    />
-                </div> -->
 
                 <div class="flex mt-4">
                     <div class="required w-full mr-5 relative">
