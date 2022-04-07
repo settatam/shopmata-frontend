@@ -78,6 +78,6 @@ class Transaction extends Model
     
     public function tags()
     {
-        return $this->morphMany(Tagg::class, 'taggable');
+        return $this->morphMany(StoreTag::class, 'taggable');
     } 
 }

@@ -14,7 +14,6 @@ class StoreTag extends Model
         return $this->morphTo();
     }
 
-
     public function tag(){
         return $this->belongsTo(Tag::class);
     }
