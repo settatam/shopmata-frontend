@@ -191,7 +191,7 @@
                                         class="bg-white"
                                     >
                                         <td
-                                            class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
+                                            class="flex flex-row px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
                                         >
                                             <inertia-link
                                                 :href="
@@ -201,6 +201,15 @@
                                                 {{ customer.first_name }}
                                                 {{ customer.last_name }}
                                             </inertia-link>
+
+                                            <span class="mx-2">
+                                                <inertia-link :href="`/customers/${customer.id}/edit`">
+                                                    <PencilIcon
+                                                        class="w-5 h-5 text-indigo-600 cursor-pointer mr-4"
+                                                    />
+                                                </inertia-link>
+                                            </span>
+
                                         </td>
                                         <td
                                             class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"

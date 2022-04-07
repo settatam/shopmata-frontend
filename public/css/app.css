@@ -1391,6 +1391,10 @@ select {
 	margin-top: auto;
 	margin-bottom: auto;
 }
+.mx-2 {
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+}
 .mx-6 {
 	margin-left: 1.5rem;
 	margin-right: 1.5rem;
@@ -1418,10 +1422,6 @@ select {
 .-mx-4 {
 	margin-left: -1rem;
 	margin-right: -1rem;
-}
-.mx-2 {
-	margin-left: 0.5rem;
-	margin-right: 0.5rem;
 }
 .my-12 {
 	margin-top: 3rem;
