@@ -21,12 +21,13 @@
                         <div
                             class="flex flex-col w-1/2 max-w-xs mx-2 order-1 items-end"
                         >
-                            <div class="px-4 py-2 rounded-lg inline-block p-2 bg-blue-600 text-white ">
-                                <p class="text-xs py-2">{{formattedTimes[index]}}</p>
-                                <span
-                                    
-                                    >{{ sms.message }}</span
-                                >
+                            <div
+                                class="px-4 py-2 rounded-lg inline-block p-2 bg-blue-600 text-white "
+                            >
+                                <p class="text-xs py-2">
+                                    {{ formattedTimes[index] }}
+                                </p>
+                                <span>{{ sms.message }}</span>
                             </div>
                         </div>
                     </div>
@@ -35,7 +36,7 @@
                         v-else
                         class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start"
                     >
-                    <p class="text-xs py-2">{{formattedTimes[index]}}</p>
+                        <p class="text-xs py-2">{{ formattedTimes[index] }}</p>
                         <p>{{ sms.message }}</p>
                     </div>
                 </template>
@@ -85,25 +86,16 @@ export default {
             hours = hours ? hours : 12 // the hour '0' should be '12'
             minutes = minutes < 10 ? '0' + minutes : minutes
             var strTime = hours + ':' + minutes + ' ' + ampm
-            return (
-                date.getMonth() +
-                1 +
-                '/' +
-                date.getDate() +
-                '  ' +
-                strTime
-            )
+            return date.getMonth() + 1 + '/' + date.getDate() + '  ' + strTime
         }
 
         const formattedTimes = computed(() => {
-            return smsTimes.map((item)=>{
-                let d = new Date(Date.parse(item.created_at));
+            return smsTimes.map(item => {
+                let d = new Date(Date.parse(item.created_at))
                 return formatDate(d)
             })
-
-            
         })
-        return {smsTimes, formatDate, formattedTimes }
+        return { smsTimes, formatDate, formattedTimes }
     }
 }
 </script>
