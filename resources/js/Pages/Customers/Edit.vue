@@ -777,23 +777,24 @@ export default {
                 return
             }
             loading.value = true
-            axios.put(`/customers/${customer.id}`, customerEdits).then(res => {
-                if (res.status == 200) {
-                    successMessage.value = res.data.message
-                    setTimeout(onClickTop, 2000)
-                } 
-            }).then(
-                Inertia.visit('/customers', { method: 'get' })
-            )
-            .catch(error => { 
-                loading.value = false;
-                if (res.status == 422) {
-                    successMessage.value = res.data.message
-                    setTimeout(onClickBot, 2000)
-                }
+            axios
+                .put(`/customers/${customer.id}`, customerEdits)
+                .then(res => {
+                    if (res.status == 200) {
+                        successMessage.value = res.data.message
+                        setTimeout(onClickTop, 2000)
+                    }
+                })
+                .then(Inertia.visit('/customers', { method: 'get' }))
+                .catch(error => {
+                    loading.value = false
+                    if (res.status == 422) {
+                        successMessage.value = res.data.message
+                        setTimeout(onClickBot, 2000)
+                    }
                     successMessage.value = 'Database Error'
                     setTimeout(onClickBot, 2000)
-            })
+                })
 
             // Inertia.visit('/customers', { method: 'get' })
         }
@@ -809,7 +810,7 @@ export default {
             loading,
             customer,
             customerEdits,
-            countries,
+            countries
         }
     }
 }
