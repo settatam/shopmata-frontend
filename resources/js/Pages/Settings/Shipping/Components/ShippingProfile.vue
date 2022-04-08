@@ -461,7 +461,7 @@ const pages = [
     }
 ]
 export default {
-    props: ['rate_options', 'condition_options', 'store'],
+    props: ['rate_options', 'condition_options', 'store', 'countries'],
     components: {
         Nav,
         AppLayout,
