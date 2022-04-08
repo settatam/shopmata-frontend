@@ -711,13 +711,6 @@ export default {
             zip: customer.zip
         })
 
-        // onBeforeMount(() => {
-        //     axios
-        //         .get(`/api/states?country_id=${props.customer.country_id}`)
-        //         .then(res => {
-        //             states.value = res.data.data
-        //         })
-        // })
 
         const rules = computed(() => {
             return {
@@ -779,6 +772,7 @@ export default {
             }
             loading.value = true
             Inertia.put(`/customers/${customer.id}`, customerEdits)
+            Inertia.visit('/customers', { method: 'get' })
         }
 
         return {

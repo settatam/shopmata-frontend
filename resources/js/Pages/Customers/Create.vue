@@ -789,7 +789,7 @@ export default {
             axios
                 .post('store', CustomerInfo)
                 .then(res => {
-                    Inertia.visit('/dashboard', {
+                    Inertia.visit('/customers', {
                         method: 'get'
                     })
                 })
