@@ -73,91 +73,131 @@
                 <div class="mb-4">
                     <div class="flex flex-col lg:flex-row">
                         <div class="required w-full mr-5 mt-4 relative">
-                            <label
-                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                            >
-                                First Name
-                            </label>
-                            <input
-                            :class="{
-                                    'border-red-600': v$.first_name.$error,
-                                    'border-gray-300': !v$.first_name.$error
-                                        }"
-                                type="text"
-                                id="firstName"
-                                name="firstName"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="customerEdits.first_name"
-                            />
-                            
+                            <div>
+                                <label
+                                    class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                                >
+                                    First Name
+                                </label>
+                                <input
+                                    :class="{
+                                        'border-red-600': v$.first_name.$error,
+                                        'border-gray-300': !v$.first_name.$error
+                                    }"
+                                    type="text"
+                                    id="firstName"
+                                    name="firstName"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    required
+                                    v-model="customerEdits.first_name"
+                                />
+                            </div>
+
+                            <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.first_name.$error"
+                                >
+                                    {{ v$.first_name.$errors[0].$message }}
+                                </p>
+                            </div>
                         </div>
 
                         <div class="required w-full mt-4 relative">
-                            <label
-                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                            >
-                                Last Name
-                            </label>
-                            <input
-                            :class="{
-                                    'border-red-600': v$.last_name.$error,
-                                    'border-gray-300': !v$.last_name.$error
-                                        }"
-                                type="text"
-                                id="lastName"
-                                name="lastName"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="customerEdits.last_name"
-                            />
-                            
+                            <div>
+                                <label
+                                    class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                                >
+                                    Last Name
+                                </label>
+                                <input
+                                    :class="{
+                                        'border-red-600': v$.last_name.$error,
+                                        'border-gray-300': !v$.last_name.$error
+                                    }"
+                                    type="text"
+                                    id="lastName"
+                                    name="lastName"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    required
+                                    v-model="customerEdits.last_name"
+                                />
+                            </div>
+
+                            <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.last_name.$error"
+                                >
+                                    {{ v$.last_name.$errors[0].$message }}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
                     <div class="required w-full mr-5 mt-5 relative">
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Email Address
-                        </label>
-                        <input
-                        :class="{
-                                'border-red-600': v$.email.$error,
-                                'border-gray-300': !v$.email.$error
-                                        }"
-                            type="email"
-                            id="email"
-                            name="email"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="customerEdits.email"
-                        />
-                        
+                        <div>
+                            <label
+                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                            >
+                                Email Address
+                            </label>
+                            <input
+                                :class="{
+                                    'border-red-600': v$.email.$error,
+                                    'border-gray-300': !v$.email.$error
+                                }"
+                                type="email"
+                                id="email"
+                                name="email"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="customerEdits.email"
+                            />
+                        </div>
+
+                        <div class="mt-1">
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.email.$error"
+                            >
+                                {{ v$.email.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
                     <div class="required w-full mr-5 mt-5 relative">
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Phone Number
-                        </label>
-                        <input
-                        :class="{
-                                'border-red-600': v$.phone_number.$error,
-                                'border-gray-300': !v$.phone_number.$error
-                                        }"
-                            type="tel"
-                            id="tel"
-                            name="tel"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="customerEdits.phone_number"
-                        />
-                        
+                        <div>
+                            <label
+                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                            >
+                                Phone Number
+                            </label>
+                            <input
+                                :class="{
+                                    'border-red-600': v$.phone_number.$error,
+                                    'border-gray-300': !v$.phone_number.$error
+                                }"
+                                type="tel"
+                                id="tel"
+                                name="tel"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="customerEdits.phone_number"
+                            />
+                        </div>
+
+                        <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.phone_number.$error"
+                                >
+                                    {{ v$.phone_number.$errors[0].$message }}
+                                </p>
+                            </div>
                     </div>
                 </div>
 
@@ -165,161 +205,224 @@
                 <div class="border-t-2 border-gray-300 my-7 -mx-8"></div>
                 <!-- divider end -->
 
-
                 <!-- address start -->
                 <h2 class="text-xl font-semibold">Address</h2>
 
                 <div class="flex mt-4 flex-col lg:flex-row">
                     <div class="required w-full mr-5 relative">
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Address
-                        </label>
-                        <input
-                        :class="{
-                                'border-red-600': v$.address.$error,
-                                'border-gray-300': !v$.address.$error
-                                        }"
-                            type="text"
-                            id="address"
-                            name="address"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="customerEdits.address"
-                        />
-                        
+                        <div>
+                            <label
+                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                            >
+                                Address
+                            </label>
+                            <input
+                                :class="{
+                                    'border-red-600': v$.address.$error,
+                                    'border-gray-300': !v$.address.$error
+                                }"
+                                type="text"
+                                id="address"
+                                name="address"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="customerEdits.address"
+                            />
+                        </div>
+
+                        <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.address.$error"
+                                >
+                                    {{ v$.address.$errors[0].$message }}
+                                </p>
+                            </div>
                     </div>
-                    <div class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative">
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Apartment/Suite
-                        </label>
-                        <input
-                        :class="{
-                                'border-red-600': v$.apartment.$error,
-                                'border-gray-300': !v$.apartment.$error
-                                        }"
-                            type="text"
-                            id="apartment"
-                            name="apartment"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="customerEdits.apartment"
-                        />
-                        
+                    <div
+                        class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
+                    >
+                        <div>
+                            <label
+                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                            >
+                                Apartment/Suite
+                            </label>
+                            <input
+                                :class="{
+                                    'border-red-600': v$.apartment.$error,
+                                    'border-gray-300': !v$.apartment.$error
+                                }"
+                                type="text"
+                                id="apartment"
+                                name="apartment"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="customerEdits.apartment"
+                            />
+                        </div>
+
+                        <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.apartment.$error"
+                                >
+                                    {{ v$.apartment.$errors[0].$message }}
+                                </p>
+                            </div>
                     </div>
                 </div>
                 <div class="required w-full mr-5 mt-5 relative">
-                    <label
-                        class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                    >
-                        Country
-                    </label>
-                    <select
-                        :class="{
-                            'border-red-600':
-                                v$.country_id
-                                    .$error,
-                            'border-gray-300': !v$
-                                .country_id.$error
-                        }"
-                        id="country"
-                        name="country"
-                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        placeholder=""
-                        required
-                        v-model="customerEdits.country_id"
-                    >
-                        <option value="">Choose a Country</option>
-                        <option
-                            v-for="(country, index) in countries"
-                            :key="index"
-                            :value="country.id"
-                        >
-                            {{ country.name }}
-                        </option>
-                    </select>
-                </div>
-                <div class="flex flex-col lg:flex-row mt-4">
-                    <div class="required w-full">
+                    <div>
                         <label
                             class="block text-gray-600 font-semibold mb-1 bg-transparent"
                         >
-                            State
+                            Country
                         </label>
                         <select
-                            id="state"
-                            name="state"
+                            :class="{
+                                'border-red-600': v$.country_id.$error,
+                                'border-gray-300': !v$.country_id.$error
+                            }"
+                            id="country"
+                            name="country"
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
-                            v-model="customerEdits.state_id"
-                            :class="{
-                                                        'border-red-600':
-                                                            v$.state_id.$error,
-                                                        'border-gray-300': !v$
-                                                            .state_id.$error
-                                                    }"
+                            v-model="customerEdits.country_id"
                         >
-                            <option value="">Choose a State</option>
+                            <option value="">Choose a Country</option>
                             <option
-                                v-for="(state, index) in country_state"
+                                v-for="(country, index) in countries"
                                 :key="index"
-                                :value="state.id"
+                                :value="country.id"
                             >
-                                {{ state.name }}
+                                {{ country.name }}
                             </option>
                         </select>
                     </div>
 
-                    <div class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative">
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            City
-                        </label>
-                        <input
-                        :class="{
-                                            'border-red-600': v$.city.$error,
-                                            'border-gray-300': !v$.city.$error
-                                        }"
-                            type="text"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="customerEdits.city"
-                        />
-                        
+                    <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.country_id.$error"
+                                >
+                                    {{ v$.country_id.$errors[0].$message }}
+                                </p>
+                            </div>
+                </div>
+                <div class="flex flex-col lg:flex-row mt-4">
+                    <div class="required w-full">
+                        <div>
+                            <label
+                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                            >
+                                State
+                            </label>
+                            <select
+                                id="state"
+                                name="state"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="customerEdits.state_id"
+                                :class="{
+                                    'border-red-600': v$.state_id.$error,
+                                    'border-gray-300': !v$.state_id.$error
+                                }"
+                            >
+                                <option value="">Choose a State</option>
+                                <option
+                                    v-for="(state, index) in country_state"
+                                    :key="index"
+                                    :value="state.id"
+                                >
+                                    {{ state.name }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.state_id.$error"
+                                >
+                                    {{ v$.state_id.$errors[0].$message }}
+                                </p>
+                            </div>
                     </div>
 
-                    <div class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative">
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Zip/Postal Code
-                        </label>
-                        <input
-                        :class="{
-                                            'border-red-600': v$.zip.$error,
-                                            'border-gray-300': !v$.zip.$error
-                                        }"
-                            type="text"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="customerEdits.zip"
-                        />
-                        
+                    <div
+                        class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
+                    >
+                        <div>
+                            <label
+                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                            >
+                                City
+                            </label>
+                            <input
+                                :class="{
+                                    'border-red-600': v$.city.$error,
+                                    'border-gray-300': !v$.city.$error
+                                }"
+                                type="text"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="customerEdits.city"
+                            />
+                        </div>
+
+                        <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.city.$error"
+                                >
+                                    {{ v$.city.$errors[0].$message }}
+                                </p>
+                            </div>
+                    </div>
+
+                    <div
+                        class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
+                    >
+                        <div>
+                            <label
+                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                            >
+                                Zip/Postal Code
+                            </label>
+                            <input
+                                :class="{
+                                    'border-red-600': v$.zip.$error,
+                                    'border-gray-300': !v$.zip.$error
+                                }"
+                                type="text"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="customerEdits.zip"
+                            />
+                        </div>
+
+                        <div class="mt-1">
+                                <p
+                                    class="text-red-600 text-xs"
+                                    v-if="v$.zip.$error"
+                                >
+                                    {{ v$.zip.$errors[0].$message }}
+                                </p>
+                            </div>
                     </div>
 
                     <!-- address ends -->
                 </div>
             </div>
         </div>
+
         <div class="flex justify-between w-2/3 mx-auto mb-9">
             <div class="">
                 <inertia-link href="/customers">
@@ -335,7 +438,10 @@
                     v-if="!v$.$error"
                     :disabled="loading"
                     type="submit"
-                    :class="{ disabled: loading, 'opacity-25 cursor-not-allowed': loading }"
+                    :class="{
+                        disabled: loading,
+                        'opacity-25 cursor-not-allowed': loading
+                    }"
                     class="disabled:bg-gray-400  bg-indigo-600 text-white rounded-md px-8 py-3"
                     @click="submit"
                 >
@@ -346,10 +452,10 @@
                 <!-- else -->
                 <button
                     v-else
-                    type="submit"
-                    class="flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    type="button"
+                    class="bg-indigo-600 text-white rounded-md px-8 py-3"
                 >
-                    Enter My Store
+                    Save
                 </button>
 
                 <NotificationGroup group="top" position="top">
@@ -509,9 +615,14 @@ import {
 import { ChevronRightIcon } from '@heroicons/vue/solid'
 import { HomeIcon } from '@heroicons/vue/outline'
 import { Inertia } from '@inertiajs/inertia'
-import ErrorIcon from '../../../assets/ErrorIcon.vue'
 import { notify } from 'notiwind'
-import { required, maxLength, numeric, helpers, email } from '@vuelidate/validators'
+import {
+    required,
+    maxLength,
+    numeric,
+    helpers,
+    email
+} from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 
 const pages = [
@@ -526,7 +637,7 @@ export default {
     props: {
         customer: Object,
         countries: Array,
-        notification: Object,
+        notification: Object
     },
 
     components: {
@@ -537,25 +648,32 @@ export default {
         TransitionRoot,
         ChevronRightIcon,
         HomeIcon,
-        LoadingSpinner,
+        LoadingSpinner
     },
 
     setup (props) {
         const customer = props.customer
         const loading = ref(false)
         const states = ref([])
-        const splitNameFirst = computed(()=>{
-            return  customer.first_name.split(' ').slice(0, -1).join(' ')
-            
+        const splitNameFirst = computed(() => {
+            return customer.first_name
+                .split(' ')
+                .slice(0, -1)
+                .join(' ')
         })
 
-        const splitNameLast = computed(()=>{
-            return customer.first_name.split(' ').slice(-1).join(' ')
+        const splitNameLast = computed(() => {
+            return customer.first_name
+                .split(' ')
+                .slice(-1)
+                .join(' ')
         })
 
         const customerEdits = reactive({
-            first_name: splitNameFirst,
-            last_name: splitNameLast,
+            // first_name: splitNameFirst,
+            // last_name: splitNameLast,
+            first_name: customer.first_name,
+            last_name: customer.last_name,
             email: customer.email,
             phone_number: customer.phone_number,
             address: customer.address,
@@ -563,7 +681,7 @@ export default {
             country_id: customer.country_id,
             state_id: customer.state_id,
             city: customer.city,
-            zip: customer.zip,
+            zip: customer.zip
         })
 
         onBeforeMount(() => {
@@ -583,17 +701,14 @@ export default {
                     )
                 },
                 last_name: {
-                    required: helpers.withMessage(
-                        'Enter a last name',
-                        required
-                    )
+                    required: helpers.withMessage('Enter a last name', required)
                 },
                 email: {
                     required: helpers.withMessage(
-                        "Please enter an email address",
+                        'Please enter an email address',
                         required
                     ),
-                    email,
+                    email
                 },
                 phone_number: {
                     required: helpers.withMessage(
@@ -612,7 +727,7 @@ export default {
                 },
                 country_id: {
                     required: helpers.withMessage(
-                        'Enter a shipping rate description',
+                        'Select a country',
                         required
                     )
                 },
