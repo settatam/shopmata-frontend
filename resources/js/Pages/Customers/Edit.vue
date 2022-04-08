@@ -66,7 +66,7 @@
         </div>
 
         <!-- Main content -->
-        <div class="w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
+        <div class="w-11/12 lg:w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
             <div class="p-8">
                 <h2 class="text-xl font-semibold">Personal Information</h2>
 
@@ -191,13 +191,13 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.phone_number.$error"
-                                >
-                                    {{ v$.phone_number.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.phone_number.$error"
+                            >
+                                {{ v$.phone_number.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -208,38 +208,80 @@
                 <!-- address start -->
                 <h2 class="text-xl font-semibold">Address</h2>
 
+                <div class="required w-full mr-5 mt-5 relative">
+                    <div>
+                        <label
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                        >
+                            Address
+                        </label>
+                        <input
+                            :class="{
+                                'border-red-600': v$.address.$error,
+                                'border-gray-300': !v$.address.$error
+                            }"
+                            type="text"
+                            id="address"
+                            name="address"
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder=""
+                            required
+                            v-model="customerEdits.address"
+                        />
+                    </div>
+
+                    <div class="mt-1">
+                        <p
+                            class="text-red-600 text-xs"
+                            v-if="v$.address.$error"
+                        >
+                            {{ v$.address.$errors[0].$message }}
+                        </p>
+                    </div>
+                </div>
+
                 <div class="flex mt-4 flex-col lg:flex-row">
                     <div class="required w-full mr-5 relative">
+                        <!-- put country here -->
                         <div>
                             <label
                                 class="block text-gray-600 font-semibold mb-1 bg-transparent"
                             >
-                                Address
+                                Country
                             </label>
-                            <input
+                            <select
                                 :class="{
-                                    'border-red-600': v$.address.$error,
-                                    'border-gray-300': !v$.address.$error
+                                    'border-red-600': v$.country_id.$error,
+                                    'border-gray-300': !v$.country_id.$error
                                 }"
-                                type="text"
-                                id="address"
-                                name="address"
+                                id="country"
+                                name="country"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEdits.address"
-                            />
+                                v-model="customerEdits.country_id"
+                            >
+                                <option value="">Choose a Country</option>
+                                <option
+                                    v-for="(country, index) in countries"
+                                    :key="index"
+                                    :value="country.id"
+                                >
+                                    {{ country.name }}
+                                </option>
+                            </select>
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.address.$error"
-                                >
-                                    {{ v$.address.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.country_id.$error"
+                            >
+                                {{ v$.country_id.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
+
                     <div
                         class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
                     >
@@ -265,54 +307,16 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.apartment.$error"
-                                >
-                                    {{ v$.apartment.$errors[0].$message }}
-                                </p>
-                            </div>
-                    </div>
-                </div>
-                <div class="required w-full mr-5 mt-5 relative">
-                    <div>
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Country
-                        </label>
-                        <select
-                            :class="{
-                                'border-red-600': v$.country_id.$error,
-                                'border-gray-300': !v$.country_id.$error
-                            }"
-                            id="country"
-                            name="country"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="customerEdits.country_id"
-                        >
-                            <option value="">Choose a Country</option>
-                            <option
-                                v-for="(country, index) in countries"
-                                :key="index"
-                                :value="country.id"
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.apartment.$error"
                             >
-                                {{ country.name }}
-                            </option>
-                        </select>
+                                {{ v$.apartment.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
-
-                    <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.country_id.$error"
-                                >
-                                    {{ v$.country_id.$errors[0].$message }}
-                                </p>
-                            </div>
                 </div>
+
                 <div class="flex flex-col lg:flex-row mt-4">
                     <div class="required w-full">
                         <div>
@@ -321,37 +325,59 @@
                             >
                                 State
                             </label>
-                            <select
-                                id="state"
-                                name="state"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="customerEdits.state_id"
-                                :class="{
-                                    'border-red-600': v$.state_id.$error,
-                                    'border-gray-300': !v$.state_id.$error
-                                }"
-                            >
-                                <option value="">Choose a State</option>
-                                <option
-                                    v-for="(state, index) in country_state"
-                                    :key="index"
-                                    :value="state.id"
+                            <!-- state v-if start -->
+
+                            <div v-if="states.length">
+                                <select
+                                    id="state"
+                                    name="state"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    required
+                                    v-model="customerEdits.state_id"
+                                    :class="{
+                                        'border-red-600': v$.state_id.$error,
+                                        'border-gray-300': !v$.state_id.$error
+                                    }"
                                 >
-                                    {{ state.name }}
-                                </option>
-                            </select>
+                                    <option value="">Choose a State</option>
+                                    <option
+                                        v-for="(state, index) in states[0]
+                                            .states"
+                                        :key="index"
+                                        :value="state.id"
+                                    >
+                                        {{ state.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- state v-if end -->
+                            <!-- v-else -->
+                            <div v-else>
+                                <select
+                                    :class="{
+                                        'border-red-600': v$.state_id.$error,
+                                        'border-gray-300': !v$.state_id.$error
+                                    }"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    v-model="customerEdits.state_id"
+                                    required
+                                >
+                                    <option value="null">Select State</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.state_id.$error"
-                                >
-                                    {{ v$.state_id.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.state_id.$error"
+                            >
+                                {{ v$.state_id.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
 
                     <div
@@ -377,13 +403,13 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.city.$error"
-                                >
-                                    {{ v$.city.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.city.$error"
+                            >
+                                {{ v$.city.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
 
                     <div
@@ -409,13 +435,13 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.zip.$error"
-                                >
-                                    {{ v$.zip.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.zip.$error"
+                            >
+                                {{ v$.zip.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
 
                     <!-- address ends -->
@@ -442,7 +468,7 @@
                         disabled: loading,
                         'opacity-25 cursor-not-allowed': loading
                     }"
-                    class="disabled:bg-gray-400  bg-indigo-600 text-white rounded-md px-8 py-3"
+                    class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     @click="submit"
                 >
                     <LoadingSpinner v-if="loading" />
@@ -634,11 +660,7 @@ const statusStyles = {
     failed: 'bg-gray-100 text-gray-800'
 }
 export default {
-    props: {
-        customer: Object,
-        countries: Array,
-        notification: Object
-    },
+    props: ['customer', 'countries', 'notification'],
 
     components: {
         AppLayout,
@@ -654,24 +676,15 @@ export default {
     setup (props) {
         const customer = props.customer
         const loading = ref(false)
-        const states = ref([])
-        const splitNameFirst = computed(() => {
-            return customer.first_name
-                .split(' ')
-                .slice(0, -1)
-                .join(' ')
-        })
-
-        const splitNameLast = computed(() => {
-            return customer.first_name
-                .split(' ')
-                .slice(-1)
-                .join(' ')
+        const successMessage = ref('')
+        const countries = props.countries
+        const states = computed(() => {
+            return countries.filter(
+                country => country.id == customerEdits.country_id
+            )
         })
 
         const customerEdits = reactive({
-            // first_name: splitNameFirst,
-            // last_name: splitNameLast,
             first_name: customer.first_name,
             last_name: customer.last_name,
             email: customer.email,
@@ -682,14 +695,6 @@ export default {
             state_id: customer.state_id,
             city: customer.city,
             zip: customer.zip
-        })
-
-        onBeforeMount(() => {
-            axios
-                .get(`/api/states?country_id=${props.customer.country_id}`)
-                .then(res => {
-                    states.value = res.data.data
-                })
         })
 
         const rules = computed(() => {
@@ -726,10 +731,7 @@ export default {
                     )
                 },
                 country_id: {
-                    required: helpers.withMessage(
-                        'Select a country',
-                        required
-                    )
+                    required: helpers.withMessage('Select a country', required)
                 },
                 state_id: {
                     required: helpers.withMessage('Select a state', required)
@@ -741,13 +743,33 @@ export default {
                     required: helpers.withMessage(
                         'Enter a postal code',
                         required
-                    ),
-                    numeric
+                    )
                 }
             }
         })
 
         const v$ = useVuelidate(rules, customerEdits)
+
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
 
         function submit () {
             this.v$.$validate()
@@ -755,21 +777,39 @@ export default {
                 return
             }
             loading.value = true
-            Inertia.patch(`/customers/${customer.id}/`, customerEdits)
+            axios.put(`/customers/${customer.id}`, customerEdits).then(res => {
+                if (res.status == 200) {
+                    successMessage.value = res.data.message
+                    setTimeout(onClickTop, 2000)
+                } 
+            }).then(
+                Inertia.visit('/customers', { method: 'get' })
+            )
+            .catch(error => { 
+                loading.value = false;
+                if (res.status == 422) {
+                    successMessage.value = res.data.message
+                    setTimeout(onClickBot, 2000)
+                }
+                    successMessage.value = 'Database Error'
+                    setTimeout(onClickBot, 2000)
+            })
+
+            // Inertia.visit('/customers', { method: 'get' })
         }
 
         return {
+            onClickTop,
+            onClickBot,
             pages,
             v$,
             statusStyles,
             submit,
             states,
             loading,
-            submit,
             customer,
             customerEdits,
-            splitNameFirst,
-            splitNameLast
+            countries,
         }
     }
 }

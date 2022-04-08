@@ -21,7 +21,7 @@
                         <div
                             class="flex flex-col w-1/2 max-w-xs mx-2 order-1 items-end"
                         >
-                            <div class="px-4 py-2 rounded-lg inline-block p-2 bg-purple-darken text-white ">
+                            <div class="px-4 py-2 rounded-lg inline-block p-2 bg-blue-600 text-white ">
                                 <p class="text-xs py-2">{{formattedTimes[index]}}</p>
                                 <span
                                     

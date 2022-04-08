@@ -69,6 +69,7 @@ class CustomersController extends Controller
     public function create()
     {
         $countries = Country::all();
+        $countries->load('states');
         return Inertia::render('Customers/Create', compact('countries'));
     }
 
@@ -113,26 +114,29 @@ class CustomersController extends Controller
         $customer->phone_number = $request->phone_number;
         $customer->is_active    = 1;
         $customer->accepts_marketing = 1;
-        $customer->password           = Hash::make(Str::random(10));
+        $customer->password   = Hash::make(Str::random(10));
         $customer->save();
 
-        ShippingAddress::updateOrCreate(
-            ['user_id' => $customer->id],
-            [
-                'first_name' => $request->first_name,
-                'last_name'  => $request->last_name,
-                'user_id'    => $customer->id,
-                'country_id' => $request->country_id,
-                'state_id'   => $request->state_id,
-                'city'       => $request->city,
-                'is_default' => 1,
-                'address'    => $request->address,
-                'address2'   => $request->address2,
-                'zip'        => $request->postal_code,
-                'country'    => $request->country,
-                'state'      => $request->state,
-            ]
-        );
+        if ($request->shipping) {
+            ShippingAddress::updateOrCreate(
+                ['user_id' => $customer->id],
+                [
+                    'first_name' => $request->first_name,
+                    'last_name'  => $request->last_name,
+                    'user_id'    => $customer->id,
+                    'country_id' => $request->country_id,
+                    'state_id'   => $request->state_id,
+                    'city'       => $request->city,
+                    'is_default' => 1,
+                    'address'    => $request->address,
+                    'address2'   => $request->address2,
+                    'zip'        => $request->postal_code,
+                    'country'    => $request->country,
+                    'state'      => $request->state,
+                ]
+            );
+        }
+
 
     }
 
@@ -187,7 +191,10 @@ class CustomersController extends Controller
         if (null === $customer) {
             throw new HttpException(404);
         }
-        return Inertia::render('Customers/Edit', compact('customer'));
+
+        $countries = Country::all();
+        $countries->load('states');
+        return Inertia::render('Customers/Edit', compact('customer','countries'));
     }
 
     /**
@@ -201,14 +208,12 @@ class CustomersController extends Controller
     {
 
         $customer = Customer::find($id);
-
-        $request->validate([
-            'first_name'   => ['required','string'],
-            'last_name'    => ['required','string'],
-            'email'        => ['required','email','max:75','unique:users'],
-            'phone_number' => ['required']
-        ]);
-
+        // $request->validate([
+        //     'first_name'   => ['required','string'],
+        //     'last_name'    => ['required','string'],
+        //     'email'        => ['required','email','max:75','unique:customers'],
+        //     'phone_number' => ['required']
+        // ]);
         try {
             $this->createUpdate($request, $customer);
             \Log::info("Customer Updated");

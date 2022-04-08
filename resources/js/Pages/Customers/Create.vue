@@ -65,7 +65,7 @@
         </div>
 
         <!-- Main content -->
-        <div class=" w-10/12 lg:w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
+        <div class=" w-11/12 lg:w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
             <div class="p-8">
                 <h2 class="text-xl font-semibold">Personal Information</h2>
 
@@ -207,38 +207,80 @@
                 <!-- address start -->
                 <h2 class="text-xl font-semibold">Address</h2>
 
+                <div class="required w-full mr-5 mt-5 relative">
+                    <div>
+                        <label
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                        >
+                            Address
+                        </label>
+                        <input
+                            :class="{
+                                'border-red-600': v$.address.$error,
+                                'border-gray-300': !v$.address.$error
+                            }"
+                            type="text"
+                            id="address"
+                            name="address"
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder=""
+                            required
+                            v-model="CustomerInfo.address"
+                        />
+                    </div>
+
+                    <div class="mt-1">
+                        <p
+                            class="text-red-600 text-xs"
+                            v-if="v$.address.$error"
+                        >
+                            {{ v$.address.$errors[0].$message }}
+                        </p>
+                    </div>
+                </div>
+
                 <div class="flex mt-4 flex-col lg:flex-row">
                     <div class="required w-full mr-5 relative">
+                        <!-- put country here -->
                         <div>
                             <label
                                 class="block text-gray-600 font-semibold mb-1 bg-transparent"
                             >
-                                Address
+                                Country
                             </label>
-                            <input
+                            <select
                                 :class="{
-                                    'border-red-600': v$.address.$error,
-                                    'border-gray-300': !v$.address.$error
+                                    'border-red-600': v$.country_id.$error,
+                                    'border-gray-300': !v$.country_id.$error
                                 }"
-                                type="text"
-                                id="address"
-                                name="address"
+                                id="country"
+                                name="country"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="CustomerInfo.address"
-                            />
+                                v-model="CustomerInfo.country_id"
+                            >
+                                <option value="">Choose a Country</option>
+                                <option
+                                    v-for="(country, index) in countries"
+                                    :key="index"
+                                    :value="country.id"
+                                >
+                                    {{ country.name }}
+                                </option>
+                            </select>
                         </div>
 
                         <div class="mt-1">
                             <p
                                 class="text-red-600 text-xs"
-                                v-if="v$.address.$error"
+                                v-if="v$.country_id.$error"
                             >
-                                {{ v$.address.$errors[0].$message }}
+                                {{ v$.country_id.$errors[0].$message }}
                             </p>
                         </div>
                     </div>
+
                     <div
                         class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
                     >
@@ -273,45 +315,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="required w-full mr-5 mt-5 relative">
-                    <div>
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Country
-                        </label>
-                        <select
-                            :class="{
-                                'border-red-600': v$.country_id.$error,
-                                'border-gray-300': !v$.country_id.$error
-                            }"
-                            id="country"
-                            name="country"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="CustomerInfo.country_id"
-                        >
-                            <option value="">Choose a Country</option>
-                            <option
-                                v-for="(country, index) in countries"
-                                :key="index"
-                                :value="country.id"
-                            >
-                                {{ country.name }}
-                            </option>
-                        </select>
-                    </div>
 
-                    <div class="mt-1">
-                        <p
-                            class="text-red-600 text-xs"
-                            v-if="v$.country_id.$error"
-                        >
-                            {{ v$.country_id.$errors[0].$message }}
-                        </p>
-                    </div>
-                </div>
                 <div class="flex flex-col lg:flex-row mt-4">
                     <div class="required w-full">
                         <div>
@@ -320,27 +324,49 @@
                             >
                                 State
                             </label>
-                            <select
-                                id="state"
-                                name="state"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="CustomerInfo.state_id"
-                                :class="{
-                                    'border-red-600': v$.state_id.$error,
-                                    'border-gray-300': !v$.state_id.$error
-                                }"
-                            >
-                                <option value="">Choose a State</option>
-                                <option
-                                    v-for="(state, index) in country_state"
-                                    :key="index"
-                                    :value="state.id"
+                            <!-- state v-if start -->
+
+                            <div v-if="states.length">
+                                <select
+                                    id="state"
+                                    name="state"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    required
+                                    v-model="CustomerInfo.state_id"
+                                    :class="{
+                                        'border-red-600': v$.state_id.$error,
+                                        'border-gray-300': !v$.state_id.$error
+                                    }"
                                 >
-                                    {{ state.name }}
-                                </option>
-                            </select>
+                                    <option value="">Choose a State</option>
+                                    <option
+                                        v-for="(state, index) in states[0]
+                                            .states"
+                                        :key="index"
+                                        :value="state.id"
+                                    >
+                                        {{ state.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- state v-if end -->
+                            <!-- v-else -->
+                            <div v-else>
+                                <select
+                                    :class="{
+                                        'border-red-600': v$.state_id.$error,
+                                        'border-gray-300': !v$.state_id.$error
+                                    }"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    v-model="CustomerInfo.state_id"
+                                    required
+                                >
+                                    <option value="null">Select State</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="mt-1">
@@ -441,7 +467,7 @@
                         disabled: loading,
                         'opacity-25 cursor-not-allowed': loading
                     }"
-                    class="disabled:bg-gray-400  bg-indigo-600 text-white rounded-md px-8 py-3"
+                    class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     @click="submit"
                 >
                     <LoadingSpinner v-if="loading" />
@@ -595,8 +621,6 @@
                         </div>
                     </div>
                 </NotificationGroup>
-
-                
             </div>
         </div>
     </app-layout>
@@ -658,8 +682,7 @@ export default {
         LoadingSpinner
     },
 
-    setup ({ props, customer_notification, notification }) {
-        const country_state = ref({})
+    setup (props) {
         const CustomerInfo = reactive({
             first_name: '',
             last_name: '',
@@ -673,8 +696,14 @@ export default {
             zip: ''
         })
 
+        const countries = props.countries
+        const states = computed(() => {
+            return countries.filter(
+                country => country.id == CustomerInfo.country_id
+            )
+        })
+
         const loading = ref(false)
-        const save = ref('Save')
         const successMessage = ref('')
 
         const rules = computed(() => {
@@ -711,10 +740,7 @@ export default {
                     )
                 },
                 country_id: {
-                    required: helpers.withMessage(
-                        'Select a country',
-                        required
-                    )
+                    required: helpers.withMessage('Select a country', required)
                 },
                 state_id: {
                     required: helpers.withMessage('Select a state', required)
@@ -726,8 +752,7 @@ export default {
                     required: helpers.withMessage(
                         'Enter a postal code',
                         required
-                    ),
-                    numeric
+                    )
                 }
             }
         })
@@ -761,20 +786,38 @@ export default {
                 return
             }
             loading.value = true
-            axios.post('store', customer)
+            axios
+                .post('store', CustomerInfo)
+                .then(res => {
+                    if (res.status == 200) {
+                        successMessage.value = res.data.message
+                        setTimeout(onClickTop, 2000)
+                    }
+                })
+                .then(Inertia.visit('/customers', { method: 'get' }))
+                .catch(error => {
+                    loading.value = false
+                    if (res.status == 422) {
+                        successMessage.value = res.data.message
+                        setTimeout(onClickBot, 2000)
+                    }
+                    successMessage.value = 'Database Error'
+                    setTimeout(onClickBot, 2000)
+                })
         }
 
         return {
             pages,
             statusStyles,
-            customer_notification,
             CustomerInfo,
             submit,
-            save,
             loading,
-            country_state,
             submit,
             v$,
+            states,
+            countries,
+            onClickTop,
+            onClickBot
         }
     }
 }
