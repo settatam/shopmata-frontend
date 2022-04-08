@@ -467,7 +467,7 @@
                         disabled: loading,
                         'opacity-25 cursor-not-allowed': loading
                     }"
-                    class="disabled:bg-gray-400  bg-indigo-600 text-white rounded-md px-8 py-3"
+                    class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     @click="submit"
                 >
                     <LoadingSpinner v-if="loading" />
@@ -789,12 +789,20 @@ export default {
             axios
                 .post('store', CustomerInfo)
                 .then(res => {
-                    Inertia.visit('/customers', {
-                        method: 'get'
-                    })
+                    if (res.status == 200) {
+                        successMessage.value = res.data.message
+                        setTimeout(onClickTop, 2000)
+                    }
                 })
+                .then(Inertia.visit('/customers', { method: 'get' }))
                 .catch(error => {
                     loading.value = false
+                    if (res.status == 422) {
+                        successMessage.value = res.data.message
+                        setTimeout(onClickBot, 2000)
+                    }
+                    successMessage.value = 'Database Error'
+                    setTimeout(onClickBot, 2000)
                 })
         }
 
@@ -807,7 +815,9 @@ export default {
             submit,
             v$,
             states,
-            countries
+            countries,
+            onClickTop,
+            onClickBot
         }
     }
 }

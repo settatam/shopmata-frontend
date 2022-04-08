@@ -468,7 +468,7 @@
                         disabled: loading,
                         'opacity-25 cursor-not-allowed': loading
                     }"
-                    class="disabled:bg-gray-400  bg-indigo-600 text-white rounded-md px-8 py-3"
+                    class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     @click="submit"
                 >
                     <LoadingSpinner v-if="loading" />
@@ -676,29 +676,15 @@ export default {
     setup (props) {
         const customer = props.customer
         const loading = ref(false)
+        const successMessage = ref('')
         const countries = props.countries
         const states = computed(() => {
             return countries.filter(
                 country => country.id == customerEdits.country_id
             )
         })
-        const splitNameFirst = computed(() => {
-            return customer.first_name
-                .split(' ')
-                .slice(0, -1)
-                .join(' ')
-        })
-
-        const splitNameLast = computed(() => {
-            return customer.first_name
-                .split(' ')
-                .slice(-1)
-                .join(' ')
-        })
 
         const customerEdits = reactive({
-            // first_name: splitNameFirst,
-            // last_name: splitNameLast,
             first_name: customer.first_name,
             last_name: customer.last_name,
             email: customer.email,
@@ -710,7 +696,6 @@ export default {
             city: customer.city,
             zip: customer.zip
         })
-
 
         const rules = computed(() => {
             return {
@@ -765,29 +750,66 @@ export default {
 
         const v$ = useVuelidate(rules, customerEdits)
 
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+
         function submit () {
             this.v$.$validate()
             if (this.v$.$error) {
                 return
             }
             loading.value = true
-            Inertia.put(`/customers/${customer.id}`, customerEdits)
-            Inertia.visit('/customers', { method: 'get' })
+            axios.put(`/customers/${customer.id}`, customerEdits).then(res => {
+                if (res.status == 200) {
+                    successMessage.value = res.data.message
+                    setTimeout(onClickTop, 2000)
+                } 
+            }).then(
+                Inertia.visit('/customers', { method: 'get' })
+            )
+            .catch(error => { 
+                loading.value = false;
+                if (res.status == 422) {
+                    successMessage.value = res.data.message
+                    setTimeout(onClickBot, 2000)
+                }
+                    successMessage.value = 'Database Error'
+                    setTimeout(onClickBot, 2000)
+            })
+
+            // Inertia.visit('/customers', { method: 'get' })
         }
 
         return {
+            onClickTop,
+            onClickBot,
             pages,
             v$,
             statusStyles,
             submit,
             states,
             loading,
-            submit,
             customer,
             customerEdits,
-            splitNameFirst,
-            splitNameLast,
-            countries
+            countries,
         }
     }
 }
