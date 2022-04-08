@@ -69,6 +69,7 @@ class CustomersController extends Controller
     public function create()
     {
         $countries = Country::all();
+        $countries->load('states');
         return Inertia::render('Customers/Create', compact('countries'));
     }
 
@@ -113,12 +114,10 @@ class CustomersController extends Controller
         $customer->phone_number = $request->phone_number;
         $customer->is_active    = 1;
         $customer->accepts_marketing = 1;
-        
         $customer->password   = Hash::make(Str::random(10));
         $customer->save();
 
-        if (true) {
-            
+        if ($request->shipping) {
             ShippingAddress::updateOrCreate(
                 ['user_id' => $customer->id],
                 [
@@ -192,7 +191,7 @@ class CustomersController extends Controller
         if (null === $customer) {
             throw new HttpException(404);
         }
-        
+
         $countries = Country::all();
         $countries->load('states');
         return Inertia::render('Customers/Edit', compact('customer','countries'));
