@@ -208,38 +208,80 @@
                 <!-- address start -->
                 <h2 class="text-xl font-semibold">Address</h2>
 
+                <div class="required w-full mr-5 mt-5 relative">
+                    <div>
+                        <label
+                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                        >
+                            Address
+                        </label>
+                        <input
+                            :class="{
+                                'border-red-600': v$.address.$error,
+                                'border-gray-300': !v$.address.$error
+                            }"
+                            type="text"
+                            id="address"
+                            name="address"
+                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder=""
+                            required
+                            v-model="customerEdits.address"
+                        />
+                    </div>
+
+                    <div class="mt-1">
+                        <p
+                            class="text-red-600 text-xs"
+                            v-if="v$.address.$error"
+                        >
+                            {{ v$.address.$errors[0].$message }}
+                        </p>
+                    </div>
+                </div>
+
                 <div class="flex mt-4 flex-col lg:flex-row">
                     <div class="required w-full mr-5 relative">
+                        <!-- put country here -->
                         <div>
                             <label
                                 class="block text-gray-600 font-semibold mb-1 bg-transparent"
                             >
-                                Address
+                                Country
                             </label>
-                            <input
+                            <select
                                 :class="{
-                                    'border-red-600': v$.address.$error,
-                                    'border-gray-300': !v$.address.$error
+                                    'border-red-600': v$.country_id.$error,
+                                    'border-gray-300': !v$.country_id.$error
                                 }"
-                                type="text"
-                                id="address"
-                                name="address"
+                                id="country"
+                                name="country"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEdits.address"
-                            />
+                                v-model="customerEdits.country_id"
+                            >
+                                <option value="">Choose a Country</option>
+                                <option
+                                    v-for="(country, index) in countries"
+                                    :key="index"
+                                    :value="country.id"
+                                >
+                                    {{ country.name }}
+                                </option>
+                            </select>
                         </div>
 
                         <div class="mt-1">
                             <p
                                 class="text-red-600 text-xs"
-                                v-if="v$.address.$error"
+                                v-if="v$.country_id.$error"
                             >
-                                {{ v$.address.$errors[0].$message }}
+                                {{ v$.country_id.$errors[0].$message }}
                             </p>
                         </div>
                     </div>
+
                     <div
                         class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
                     >
@@ -274,45 +316,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="required w-full mr-5 mt-5 relative">
-                    <div>
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Country
-                        </label>
-                        <select
-                            :class="{
-                                'border-red-600': v$.country_id.$error,
-                                'border-gray-300': !v$.country_id.$error
-                            }"
-                            id="country"
-                            name="country"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="customerEdits.country_id"
-                        >
-                            <option value="">Choose a Country</option>
-                            <option
-                                v-for="(country, index) in countries"
-                                :key="index"
-                                :value="country.id"
-                            >
-                                {{ country.name }}
-                            </option>
-                        </select>
-                    </div>
 
-                    <div class="mt-1">
-                        <p
-                            class="text-red-600 text-xs"
-                            v-if="v$.country_id.$error"
-                        >
-                            {{ v$.country_id.$errors[0].$message }}
-                        </p>
-                    </div>
-                </div>
                 <div class="flex flex-col lg:flex-row mt-4">
                     <div class="required w-full">
                         <div>
