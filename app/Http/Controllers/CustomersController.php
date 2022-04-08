@@ -192,7 +192,10 @@ class CustomersController extends Controller
         if (null === $customer) {
             throw new HttpException(404);
         }
-        return Inertia::render('Customers/Edit', compact('customer'));
+        
+        $countries = Country::all();
+        $countries->load('states');
+        return Inertia::render('Customers/Edit', compact('customer','countries'));
     }
 
     /**
