@@ -65,7 +65,7 @@
         </div>
 
         <!-- Main content -->
-        <div class=" w-10/12 lg:w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
+        <div class=" w-11/12 lg:w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
             <div class="p-8">
                 <h2 class="text-xl font-semibold">Personal Information</h2>
 
@@ -320,27 +320,48 @@
                             >
                                 State
                             </label>
-                            <select
-                                id="state"
-                                name="state"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="CustomerInfo.state_id"
-                                :class="{
-                                    'border-red-600': v$.state_id.$error,
-                                    'border-gray-300': !v$.state_id.$error
-                                }"
-                            >
-                                <option value="">Choose a State</option>
-                                <option
-                                    v-for="(state, index) in country_state"
-                                    :key="index"
-                                    :value="state.id"
+                            <!-- state v-if start -->
+
+                            <div v-if="states.length">
+                                <select
+                                    id="state"
+                                    name="state"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    required
+                                    v-model="CustomerInfo.state_id"
+                                    :class="{
+                                        'border-red-600': v$.state_id.$error,
+                                        'border-gray-300': !v$.state_id.$error
+                                    }"
                                 >
-                                    {{ state.name }}
-                                </option>
-                            </select>
+                                    <option value="">Choose a State</option>
+                                    <option
+                                        v-for="(state, index) in states[0].states"
+                                        :key="index"
+                                        :value="state.id"
+                                    >
+                                        {{ state.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- state v-if end -->
+                            <!-- v-else -->
+                            <div v-else>
+                                <select
+                                    :class="{
+                                        'border-red-600': v$.state_id.$error,
+                                        'border-gray-300': !v$.state_id.$error
+                                    }"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    v-model="CustomerInfo.state_id"
+                                    required
+                                >
+                                    <option value="null">Select State</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="mt-1">
@@ -595,8 +616,6 @@
                         </div>
                     </div>
                 </NotificationGroup>
-
-
             </div>
         </div>
     </app-layout>
@@ -658,8 +677,7 @@ export default {
         LoadingSpinner
     },
 
-    setup ({ props, customer_notification, notification }) {
-        const country_state = ref({})
+    setup ( props) {
         const CustomerInfo = reactive({
             first_name: '',
             last_name: '',
@@ -673,8 +691,14 @@ export default {
             zip: ''
         })
 
+        const countries = props.countries
+        const states = computed(() => {
+            return countries.filter(
+                country => country.id == CustomerInfo.country_id
+            )
+        })
+
         const loading = ref(false)
-        const save = ref('Save')
         const successMessage = ref('')
 
         const rules = computed(() => {
@@ -711,10 +735,7 @@ export default {
                     )
                 },
                 country_id: {
-                    required: helpers.withMessage(
-                        'Select a country',
-                        required
-                    )
+                    required: helpers.withMessage('Select a country', required)
                 },
                 state_id: {
                     required: helpers.withMessage('Select a state', required)
@@ -760,20 +781,28 @@ export default {
                 return
             }
             loading.value = true
-            axios.post('store', customer)
+            axios
+                .post('store', CustomerInfo)
+                .then(res => {
+                    Inertia.visit('/dashboard', {
+                        method: 'get'
+                    })
+                })
+                .catch((error) => {
+                    loading.value = false
+                })
         }
 
         return {
             pages,
             statusStyles,
-            customer_notification,
             CustomerInfo,
             submit,
-            save,
             loading,
-            country_state,
             submit,
             v$,
+            states,
+            countries
         }
     }
 }

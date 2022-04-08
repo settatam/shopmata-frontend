@@ -66,7 +66,7 @@
         </div>
 
         <!-- Main content -->
-        <div class="w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
+        <div class="w-11/12 lg:w-2/3 bg-white mt-7 mb-7 mx-auto rounded-md">
             <div class="p-8">
                 <h2 class="text-xl font-semibold">Personal Information</h2>
 
@@ -191,13 +191,13 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.phone_number.$error"
-                                >
-                                    {{ v$.phone_number.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.phone_number.$error"
+                            >
+                                {{ v$.phone_number.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -232,13 +232,13 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.address.$error"
-                                >
-                                    {{ v$.address.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.address.$error"
+                            >
+                                {{ v$.address.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
                     <div
                         class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
@@ -265,13 +265,13 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.apartment.$error"
-                                >
-                                    {{ v$.apartment.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.apartment.$error"
+                            >
+                                {{ v$.apartment.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="required w-full mr-5 mt-5 relative">
@@ -305,13 +305,13 @@
                     </div>
 
                     <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.country_id.$error"
-                                >
-                                    {{ v$.country_id.$errors[0].$message }}
-                                </p>
-                            </div>
+                        <p
+                            class="text-red-600 text-xs"
+                            v-if="v$.country_id.$error"
+                        >
+                            {{ v$.country_id.$errors[0].$message }}
+                        </p>
+                    </div>
                 </div>
                 <div class="flex flex-col lg:flex-row mt-4">
                     <div class="required w-full">
@@ -321,37 +321,59 @@
                             >
                                 State
                             </label>
-                            <select
-                                id="state"
-                                name="state"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="customerEdits.state_id"
-                                :class="{
-                                    'border-red-600': v$.state_id.$error,
-                                    'border-gray-300': !v$.state_id.$error
-                                }"
-                            >
-                                <option value="">Choose a State</option>
-                                <option
-                                    v-for="(state, index) in country_state"
-                                    :key="index"
-                                    :value="state.id"
+                            <!-- state v-if start -->
+
+                            <div v-if="states.length">
+                                <select
+                                    id="state"
+                                    name="state"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    required
+                                    v-model="customerEdits.state_id"
+                                    :class="{
+                                        'border-red-600': v$.state_id.$error,
+                                        'border-gray-300': !v$.state_id.$error
+                                    }"
                                 >
-                                    {{ state.name }}
-                                </option>
-                            </select>
+                                    <option value="">Choose a State</option>
+                                    <option
+                                        v-for="(state, index) in states[0]
+                                            .states"
+                                        :key="index"
+                                        :value="state.id"
+                                    >
+                                        {{ state.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- state v-if end -->
+                            <!-- v-else -->
+                            <div v-else>
+                                <select
+                                    :class="{
+                                        'border-red-600': v$.state_id.$error,
+                                        'border-gray-300': !v$.state_id.$error
+                                    }"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder=""
+                                    v-model="customerEdits.state_id"
+                                    required
+                                >
+                                    <option value="null">Select State</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.state_id.$error"
-                                >
-                                    {{ v$.state_id.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.state_id.$error"
+                            >
+                                {{ v$.state_id.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
 
                     <div
@@ -377,13 +399,13 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.city.$error"
-                                >
-                                    {{ v$.city.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.city.$error"
+                            >
+                                {{ v$.city.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
 
                     <div
@@ -409,13 +431,13 @@
                         </div>
 
                         <div class="mt-1">
-                                <p
-                                    class="text-red-600 text-xs"
-                                    v-if="v$.zip.$error"
-                                >
-                                    {{ v$.zip.$errors[0].$message }}
-                                </p>
-                            </div>
+                            <p
+                                class="text-red-600 text-xs"
+                                v-if="v$.zip.$error"
+                            >
+                                {{ v$.zip.$errors[0].$message }}
+                            </p>
+                        </div>
                     </div>
 
                     <!-- address ends -->
@@ -634,11 +656,7 @@ const statusStyles = {
     failed: 'bg-gray-100 text-gray-800'
 }
 export default {
-    props: {
-        customer: Object,
-        countries: Array,
-        notification: Object
-    },
+    props: ['customer', 'countries', 'notification'],
 
     components: {
         AppLayout,
@@ -654,7 +672,12 @@ export default {
     setup (props) {
         const customer = props.customer
         const loading = ref(false)
-        const states = ref([])
+        const countries = props.countries
+        const states = computed(() => {
+            return countries.filter(
+                country => country.id == customerEdits.country_id
+            )
+        })
         const splitNameFirst = computed(() => {
             return customer.first_name
                 .split(' ')
@@ -684,13 +707,13 @@ export default {
             zip: customer.zip
         })
 
-        onBeforeMount(() => {
-            axios
-                .get(`/api/states?country_id=${props.customer.country_id}`)
-                .then(res => {
-                    states.value = res.data.data
-                })
-        })
+        // onBeforeMount(() => {
+        //     axios
+        //         .get(`/api/states?country_id=${props.customer.country_id}`)
+        //         .then(res => {
+        //             states.value = res.data.data
+        //         })
+        // })
 
         const rules = computed(() => {
             return {
@@ -726,10 +749,7 @@ export default {
                     )
                 },
                 country_id: {
-                    required: helpers.withMessage(
-                        'Select a country',
-                        required
-                    )
+                    required: helpers.withMessage('Select a country', required)
                 },
                 state_id: {
                     required: helpers.withMessage('Select a state', required)
@@ -741,7 +761,7 @@ export default {
                     required: helpers.withMessage(
                         'Enter a postal code',
                         required
-                    ),
+                    )
                 }
             }
         })
@@ -768,7 +788,8 @@ export default {
             customer,
             customerEdits,
             splitNameFirst,
-            splitNameLast
+            splitNameLast,
+            countries
         }
     }
 }

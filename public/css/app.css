@@ -1927,6 +1927,9 @@ select {
 .w-1\/3 {
 	width: 33.333333%;
 }
+.w-10\/12 {
+	width: 83.333333%;
+}
 .w-2\/3 {
 	width: 66.666667%;
 }
@@ -2045,9 +2048,6 @@ select {
 }
 .w-3\/6 {
 	width: 50%;
-}
-.w-10\/12 {
-	width: 83.333333%;
 }
 .min-w-0 {
 	min-width: 0px;
@@ -5278,6 +5278,10 @@ input[type='checkbox']:focus {
 		width: 100vw;
 	}
 
+	.lg\:w-2\/3 {
+		width: 66.666667%;
+	}
+
 	.lg\:w-56 {
 		width: 14rem;
 	}
@@ -5292,10 +5296,6 @@ input[type='checkbox']:focus {
 
 	.lg\:w-2\/4 {
 		width: 50%;
-	}
-
-	.lg\:w-2\/3 {
-		width: 66.666667%;
 	}
 
 	.lg\:w-1\/3 {
