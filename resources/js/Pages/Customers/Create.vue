@@ -596,7 +596,7 @@
                     </div>
                 </NotificationGroup>
 
-                
+
             </div>
         </div>
     </app-layout>
@@ -726,8 +726,7 @@ export default {
                     required: helpers.withMessage(
                         'Enter a postal code',
                         required
-                    ),
-                    numeric
+                    )
                 }
             }
         })

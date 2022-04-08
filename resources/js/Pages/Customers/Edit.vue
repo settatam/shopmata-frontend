@@ -742,7 +742,6 @@ export default {
                         'Enter a postal code',
                         required
                     ),
-                    numeric
                 }
             }
         })
@@ -755,7 +754,7 @@ export default {
                 return
             }
             loading.value = true
-            Inertia.patch(`/customers/${customer.id}/`, customerEdits)
+            Inertia.put(`/customers/${customer.id}`, customerEdits)
         }
 
         return {
