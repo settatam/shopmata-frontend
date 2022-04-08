@@ -12,7 +12,11 @@ class Tag extends Model
 
     protected $fillable = [
     	'page_id',
-    	'name'
+    	'name',
+        'group_id',
+        'name',
+        'tagable_type',
+        'store_id'
     ];
 
     public function page()
@@ -21,8 +25,7 @@ class Tag extends Model
     }
 
 
-    public function tagable()
-    {
-        return $this->morphTo();
+    public function tags(){
+        return $this->hasMany(Tagg::class);
     }
 }

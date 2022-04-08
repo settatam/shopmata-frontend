@@ -648,7 +648,7 @@ export default {
                     numeric
                 },
                 state_id: {
-                    required: helpers.withMessage('* Select a state', required)
+                    required: helpers.withMessage('Select a state', required)
                 },
                 zip: {
                     required: helpers.withMessage(

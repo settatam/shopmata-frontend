@@ -73,11 +73,10 @@
                     <div class="border-b border-gray-200 -mx-5 mb-6.5">
                         <div class="px-5 flex justify-between mb-4">
                             <h2 class="font-bold text-lg">Customer Overview</h2>
-                            <a
-                                href="/customers/edit"
+                            <inertia-link
+                                :href=" `/customers/${customer.id}/edit`"
                                 class="text-indigo-700 font-semibold text-xs"
-                                >Edit Details</a
-                            >
+                                >Edit Details</inertia-link>
                         </div>
 
                         <div class="px-5 mb-6 flex">

@@ -56,7 +56,7 @@ class LoadCategories extends Command
                 $category->dwt_formula = $cat['dwt_formula'];
                 $category->sort_order  = $cat['sort_order'];
                 $category->long_name   = $cat['long_name'];
-                $category->store_id    = Helper::getStore('BuyMyGold');
+                $category->store_id    = Helper::getStoreByName('BuyMyGold');
                 $category->save();                      
                 $bar->advance();
             }

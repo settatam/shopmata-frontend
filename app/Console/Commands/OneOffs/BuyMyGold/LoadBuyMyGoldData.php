@@ -101,7 +101,6 @@ class LoadBuyMyGoldData extends Command
                 $transaction_payment_address->save();
 
                 //add customers
-
                 $customer = Customer::firstOrNew(
                     ['id' => $order['user_id']]
                 );
@@ -119,7 +118,6 @@ class LoadBuyMyGoldData extends Command
                 $customer->password           = bcrypt($order['order_password']);
                 $customer->accepts_marketing  =   1;
                 $customer->created_at = $order['date_new'];
-
 
                 $customer->save();
                 //Create the transaction history

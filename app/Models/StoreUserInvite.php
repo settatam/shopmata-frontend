@@ -67,7 +67,7 @@ class StoreUserInvite extends Model
         }
 
         $invite->store_user_id = $user->id;
-        $invite->token = $invite->generateInviteToken($store->id, $user->email);
+        $invite->token = $this->generateInviteToken($store->id, $user->email);
         $invite->status = self::PENDING;
 
         if($invite->save()) {
