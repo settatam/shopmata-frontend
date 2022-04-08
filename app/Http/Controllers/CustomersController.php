@@ -33,6 +33,7 @@ class CustomersController extends Controller
      */
     public function index(Request $request)
     {
+        
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 20;
         $countries = Country::all();
         $data      = [];
@@ -56,7 +57,6 @@ class CustomersController extends Controller
         if ( $request->ajax() && $request->filter ) {
             return CustomerCollection::collection($customers);
         }
-
 
         return Inertia::render('Customers/Index', compact('customers', 'filters', 'countries'));
     }
