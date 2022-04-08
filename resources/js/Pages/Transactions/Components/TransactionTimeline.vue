@@ -21,7 +21,7 @@
                     </div>
                     <div class="ml-6">
                         <button
-                            class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
+                            class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 md:ml-8 lg:mx-0 px-2"
                             type="submit"
                         >
                             Confirm Status
@@ -36,7 +36,7 @@
                     <div class="flex flex-col lg:ml-0 ml-8">
                         <input
                             type="search"
-                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 lg:w-full"
+                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
                             placeholder="Kit Received"
                             autocomplete="off"
                         />
@@ -63,7 +63,7 @@
         </div>
 
         <div
-            class="flex flex-col md:flex-row text-black text-xs pl-4 md:text-sm"
+            class="flex flex-col lg:flex-row text-black text-xs pl-4 md:text-sm"
         >
             <div class="flex flex-col p-4 space-y-3 lg:w-1/3">
                 <p class="text-green-darker">Kit requested</p>
@@ -153,7 +153,7 @@
         </div>
 
         <div
-            class="flex flex-col flex-wrap md:flex-row  my-4 mx-4 space-x-4 py-4 w-full"
+            class="flex flex-col flex-wrap md:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
         >
             <div class="ml-4 lg:ml-0">
                 <input type="checkbox" name="SP" id="SP" class="mx-2" />
