@@ -43,6 +43,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\TransactionsController;
+
+use App\Http\Controllers\MessagesController;
+
+
 use App\Http\Controllers\NotificationsController as NewNotificationsController;
 
 
@@ -262,6 +266,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('online-store/locations', LocationController::class);
     Route::resource('online-store/store-users', StoreUserController::class);
+    Route::resource('messages', MssagesController::class);
+
 
     Route::resource('order-customer-note', OrderCustomerNoteController::class);
     Route::resource('settings/shipping-rates', ShippingRatesController::class);
