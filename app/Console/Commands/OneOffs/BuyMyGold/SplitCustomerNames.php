@@ -67,8 +67,6 @@ class SplitCustomerNames extends Command
     }
 
     
-
-
     private function getStateId($state_abreviation)
     {
         $state = State::where('code', $state_abreviation)->first();
