@@ -172,7 +172,9 @@ export default {
         notifications: Array,
         transaction: Object,
         categories: Array,
-        statuses: Array
+        statuses: Array,
+        tag1s: Array,
+        tag2s: Array
     },
 
     setup (props) {

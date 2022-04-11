@@ -4,37 +4,37 @@
             <thead class=" border-b bg-purple-darken ">
                 <tr class="break-words">
                     <th
-                        class="text-xs lg:text-sm font-medium w-1/6 text-white px-5 mr-1 py-4 text-left"
+                        class="text-xs lg:text-sm font-medium  text-white px-5 mr-1 py-4 text-left"
                         scope="col"
                     >
                         Action
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-medium w-1/6 text-white px-3 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium  text-white px-3 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Date/Time
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-medium w-1/6 text-white px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium  text-white px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Agent
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-medium text-white px-5 w-1/6 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Communication
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 w-1/6 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1  py-1 text-left"
                         scope="col"
                     >
                         Offer
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1 w-1/6 py-1 text-left"
+                        class="text-xs lg:text-sm font-medium text-white px-5 mr-1  py-1 text-left"
                         scope="col"
                     >
                         Status
