@@ -66,22 +66,7 @@ class SplitCustomerNames extends Command
 
     }
 
-    private function splitName($customer, $f = false)
-    {
-        if ($customer){
-            
-
-            //$first_name  = array_shift($name);
-
-            if ($f){
-                return $name[0];
-            }
-
-            return isset( $name[1] ) ? $name[1] : null;
-        }
-
-        return null;
-    }
+    
 
 
     private function getStateId($state_abreviation)
