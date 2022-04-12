@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterStatusesTableAddStoreId extends Migration
+class AlterSmsTableAddStoreId extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AlterStatusesTableAddStoreId extends Migration
      */
     public function up()
     {
-        Schema::table('statuses', function (Blueprint $table) {
+        Schema::table('sms', function (Blueprint $table) {
             $table->unsignedBigInteger('store_id')->nullable();
         });
     }
@@ -25,10 +25,8 @@ class AlterStatusesTableAddStoreId extends Migration
      */
     public function down()
     {
-        Schema::table('statuses', function (Blueprint $table) {
+        Schema::table('sms', function (Blueprint $table) {
             $table->dropColumn('store_id');
         });
     }
 }
-
-

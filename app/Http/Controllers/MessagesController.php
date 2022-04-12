@@ -17,7 +17,8 @@ class MessagesController extends Controller
     public function index()
     {   
         $store_id     = session('store_id');
-        $messages = Sms::where('store_id', $store_id)->latest()->paginate(50);
+        $messages = Sms::where('store_id', $store_id)->latest()->paginate(25);
+        $messages->load('transaction');
         return Inertia::render('Messages/Index',  compact('messages'));
     }
 
