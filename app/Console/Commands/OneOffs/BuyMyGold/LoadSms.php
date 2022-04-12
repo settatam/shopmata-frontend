@@ -55,11 +55,6 @@ class LoadSms extends Command
         if ($data){
             $bar = $this->output->createProgressBar(count($data['data']));
             Storage::makeDirectory('sms');
-
-
-
-           
-
             foreach ($data['data'] as $sm ) {
                 $sms = new Sms;
                 $sms->id           =  $sm['id'];                       
@@ -88,7 +83,7 @@ class LoadSms extends Command
                                 Storage::disk('DO')->put('buymygold/images/sms/'.$img, fopen($dest, 'r+'), 'public');
                                 $image  = env('DO_URL').'buymygold/images/sms/'.$img;
                                 $imgs= new Image(['url' => $image, 'rank' => 1]);
-                                $transaction->images()->save($imgs);
+                                $sms->images()->save($imgs);
                             }
 
                         } catch(\Exception $e) {

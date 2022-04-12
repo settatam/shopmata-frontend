@@ -29,4 +29,10 @@ class Sms extends Model
         return $this->morphTo();
     }
 
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+	}
+
 }
