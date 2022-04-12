@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Sms;
+use Inertia\Inertia;
+
 
 class MessagesController extends Controller
 {
@@ -13,7 +16,7 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        $messages = Sms::lastest()->pagination(50);
+        $messages = Sms::latest()->paginate(50);
         return Inertia::render('Messages/Index',  compact('messages'));
     }
 
