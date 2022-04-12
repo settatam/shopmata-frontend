@@ -266,7 +266,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::resource('online-store/locations', LocationController::class);
     Route::resource('online-store/store-users', StoreUserController::class);
-    Route::resource('messages', MssagesController::class);
+    Route::resource('messages', MessagesController::class);
 
 
     Route::resource('order-customer-note', OrderCustomerNoteController::class);
