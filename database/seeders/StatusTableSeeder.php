@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\DB;
+use App\Http\Helpers\Helper;
+use App\Models\Status;
+
 
 
 class StatusTableSeeder extends Seeder
@@ -17,7 +20,14 @@ class StatusTableSeeder extends Seeder
      */
     public function run()
     {   
-        $status =  [                   
+
+        $statuses = Status::all();
+
+        foreach ($statuses as $status) {
+            $status->delete();
+        }
+
+        $statuses =  [                   
             'Kit Received'                     ,
             'Pending Kit request',
             'Kit Sent',
@@ -48,9 +58,10 @@ class StatusTableSeeder extends Seeder
             'Incomin',
         ];
 
-        foreach ($status as $key => $statu) {
+        foreach ($statuses as $key => $status) {
             DB::table('statuses')->insert([
-                'name' => $statu,
+                'name' => $status,
+                'store_id' => Helper::getStoreByName('BuyMyGold'),
             ]); 
         }
        
