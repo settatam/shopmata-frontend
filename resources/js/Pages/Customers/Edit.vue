@@ -259,17 +259,40 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEdits.country_id"
+                                v-model="selectedCountry"
                             >
-                                <option value="">Choose a Country</option>
                                 <option
                                     v-for="(country, index) in countries"
                                     :key="index"
                                     :value="country.id"
+                                    
                                 >
                                     {{ country.name }}
                                 </option>
                             </select>
+
+                            <!-- <select
+                            v-else
+                                :class="{
+                                    'border-red-600': v$.country_id.$error,
+                                    'border-gray-300': !v$.country_id.$error
+                                }"
+                                id="country"
+                                name="country"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="selected"
+                            >
+                                <option
+                                    v-for="(country, index) in countries"
+                                    :key="index"
+                                    :value="country.id"
+                                    selected
+                                >
+                                    {{ country.name }}
+                                </option>
+                            </select> -->
                         </div>
 
                         <div class="mt-1">
@@ -334,7 +357,7 @@
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder=""
                                     required
-                                    v-model="customerEdits.state_id"
+                                    v-model="selectedState"
                                     :class="{
                                         'border-red-600': v$.state_id.$error,
                                         'border-gray-300': !v$.state_id.$error
@@ -683,6 +706,8 @@ export default {
                 country => country.id == customerEdits.country_id
             )
         })
+        const selectedCountry = ref(1)
+        const selectedState = ref(1)
 
         const customerEdits = reactive({
             first_name: customer.first_name,
@@ -691,8 +716,8 @@ export default {
             phone_number: customer.phone_number,
             address: customer.address,
             apartment: customer.apartment,
-            country_id: customer.country_id,
-            state_id: customer.state_id,
+            country_id: selectedCountry.value,
+            state_id: selectedState.value,
             city: customer.city,
             zip: customer.zip
         })
@@ -810,7 +835,9 @@ export default {
             loading,
             customer,
             customerEdits,
-            countries
+            countries,
+            selectedCountry,
+            selectedState
         }
     }
 }
