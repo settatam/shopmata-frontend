@@ -5,6 +5,10 @@
             <div>
                 <SearchRow />
             </div>
+
+            <div>
+                <MessagesTable :messages="messages"/>
+            </div>
         </div>
     </app-layout>
 </template>
@@ -15,17 +19,15 @@ import axios from 'axios'
 import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
 import { Inertia } from '@inertiajs/inertia'
 import SearchRow from './Components/SearchRow.vue'
-
+import MessagesTable from './Components/MessagesTable.vue'
 
 export default {
     components: {
         AppLayout,
         SearchIcon,
         SearchRow,
+        MessagesTable
     },
-    props: {
-        notifications: Array,
-        transactions: Object
-    }
+    props: ['messages']
 }
 </script>

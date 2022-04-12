@@ -2046,6 +2046,9 @@ select {
 .w-3\/6 {
 	width: 50%;
 }
+.w-3\/5 {
+	width: 60%;
+}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -3193,6 +3196,9 @@ select {
 }
 .text-right {
 	text-align: right;
+}
+.text-justify {
+	text-align: justify;
 }
 .align-middle {
 	vertical-align: middle;
