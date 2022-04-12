@@ -4,7 +4,7 @@
         <div class="">
             <div class="px- sm:px-6 lg:mx-auto lg:px-">
                 <div
-                    class="py-6 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200"
+                    class="py-6 ml-8 md:flex md:items-center md:justify-between lg:border-t lg:border-gray-200"
                 >
                     <div class="flex-1 min-w-0">
                         <!-- Profile -->
@@ -41,7 +41,7 @@
 
         <div class="mt-6">
             <div
-                class="flex items-center justify-between py-2 px-8 rounded gap-8"
+                class="flex flex-wrap items-center justify-between py-2 px-8 rounded gap-8"
             >
                 <div class="w-full">
                     <label
@@ -67,8 +67,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-full flex gap-3">
-                    <div class="flex">
+                <div class="w-full flex flex-wrap gap-3">
+                    <div class="flex flex-wrap">
                         <div class="">
                             <label
                                 for="date_from"
@@ -137,7 +137,7 @@
                 </h2>
             </div> -->
             <!-- Activity table (small breakpoint and up) -->
-            <div class="hidden sm:block mb-10">
+            <div class="sm:block mb-10">
                 <div class="mx-auto px-4 sm:px-6 lg:px-8 ">
                     <div class="flex flex-col mt-4">
                         <div

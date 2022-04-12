@@ -1,6 +1,6 @@
 <template>
     <div class=" rounded-md bg-white mb-4 overflow-x-auto lg:mx-2">
-        <table class="table-fixed">
+        <table class="table-fixed w-full">
             <thead class=" border-b bg-purple-darken ">
                 <tr class="break-words">
                     <th
@@ -59,7 +59,7 @@
                         {{ item.agent }}
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-normal w-8"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-normal "
                     >
                         {{ item.notes }}
                     </td>
