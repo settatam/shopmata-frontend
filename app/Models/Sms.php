@@ -35,4 +35,12 @@ class Sms extends Model
         return $this->morphMany(Image::class, 'imageable');
 	}
 
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class, 'smsable_id','id');
+	}
+
+
+    
 }
