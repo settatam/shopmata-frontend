@@ -123,7 +123,7 @@
                                     {{ item.created_at }}
                                 </td>
                                 <td class="text-black font-medium">
-                                    {{ item.customer.first_name }}
+                                    {{ item.customer.first_name }} {{ item.customer.last }}
                                 </td>
                                 <td
                                     v-if="!item.customer.state"
@@ -181,7 +181,7 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
 import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
@@ -212,6 +212,7 @@ export default {
         const notifications = notifications
         const pagination = ref(transactions)
         const filterLists = ref(transactions.data)
+
         function success (list, page) {
             filterLists.value = list
             pagination.value = page
@@ -223,7 +224,6 @@ export default {
             pagination,
             filterLists,
             imageExists
-            // notifications
         }
     }
 }

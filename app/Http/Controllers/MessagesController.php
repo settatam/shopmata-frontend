@@ -15,8 +15,10 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $messages = Sms::latest()->paginate(50);
+    {   
+        $store_id     = session('store_id');
+        $messages = Sms::where('store_id', $store_id)->latest()->paginate(25);
+        $messages->load('transaction');
         return Inertia::render('Messages/Index',  compact('messages'));
     }
 

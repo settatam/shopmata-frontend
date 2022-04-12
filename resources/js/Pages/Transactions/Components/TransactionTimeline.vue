@@ -9,14 +9,16 @@
         >
             <div class=" my-4 flex flex-row sm" id="statusgroup">
                 <label class="pt-2" for="">Status: </label>
-                <div class="flex flex-col md:flex lg:flex-row sm:space-x-0 lg:space-x-12 space-y-3 lg:space-y-0">
+                <div
+                    class="flex flex-col md:flex lg:flex-row sm:space-x-0 lg:space-x-12 space-y-3 lg:space-y-0"
+                >
                     <div>
                         <select
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
                             name=""
                             id=""
                         >
-                            <option value="">Kit Received</option>
+                            <option v-for="status in statuses" :key="status.index" value="">{{status.name}}</option>
                         </select>
                     </div>
                     <div class="ml-6">
@@ -72,7 +74,6 @@
                 <p>Offer given</p>
                 <p>Offer accepted</p>
                 <p>Payment processed</p>
-                
             </div>
 
             <div class="flex flex-col lg:w-2/3 mx-4">
@@ -91,7 +92,8 @@
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                                type="submit" @click="popModal()"
+                                type="submit"
+                                @click="popModal()"
                             >
                                 Print Labels
                             </button>
@@ -155,34 +157,14 @@
         <div
             class="flex flex-col flex-wrap md:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
         >
-            <div class="ml-4 lg:ml-0">
-                <input type="checkbox" name="SP" id="SP" class="mx-2" />
-                <label for="SP">SP</label>
-            </div>
-
-            <div>
-                <input type="checkbox" name="MessageReceived" id="MessageReceived" class="mx-2" />
-                <label for="MessageReceived">Message Received</label>
-            </div>
-
-            <div>
-                <input type="checkbox" name="MET" id="MET" class="mx-2" />
-                <label for="MET">MET</label>
-            </div>
-
-            <div>
-                <input type="checkbox" name="MET2" id="MET2" class="mx-2" />
-                <label for="MET2">MET2</label>
-            </div>
-
-            <div>
-                <input type="checkbox" name="MET3" id="MET3" class="mx-2" />
-                <label for="MET3">MET3</label>
-            </div>
-
-            <div>
-                <input type="checkbox" name="PaymentRejected" id="PaymentRejected" class="mx-2" />
-                <label for="PaymentRejected">Payment Rejected or Returned</label>
+            <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
+                <input
+                    type="checkbox"
+                    :id="tag.name"
+                    :name="tag.name"
+                    class="mx-2"
+                />
+                <label :for="tag.name">{{ tag.name }}</label>
             </div>
         </div>
 
@@ -190,14 +172,15 @@
             <AdminImages />
         </div>
 
-        
-
         <!-- add item start -->
 
-        <PrintLabel :transaction="transaction" @close="popUp = false" v-if="popUp" />
+        <PrintLabel
+            :transaction="transaction"
+            @close="popUp = false"
+            v-if="popUp"
+        />
 
         <!-- add item end -->
-
     </div>
 </template>
 
@@ -208,15 +191,15 @@ import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
 
 export default {
-    components: { AppLayout, PrintLabel,AdminImages },
-    props:['transaction'],
+    components: { AppLayout, PrintLabel, AdminImages },
+    props: ['transaction', 'bottom_tags', 'statuses'],
     setup () {
         const popUp = ref(false)
         const popModal = () => {
             popUp.value = true
         }
 
-        return {popUp, popModal}
+        return { popUp, popModal }
     }
 }
 </script>

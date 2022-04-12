@@ -49,68 +49,27 @@
             </div>
 
             <div v-else>
-                <img src="../../../../assets/placeholder.png" alt="" width="50"
-                        height="40" />
+                <img
+                    src="../../../../assets/placeholder.png"
+                    alt=""
+                    width="50"
+                    height="40"
+                />
             </div>
 
             <!-- images end -->
 
             <div class="">
-                <div class="p-4 flex flex-row justify-between">
-                    <div class="flex flex-col justify-center items-center">
-                        <label for="Tyvek" class="text-xs lg:text-sm">
-                            Tyvek</label
+                <div class=" grid grid-cols-3">
+                    <div class="flex flex-col my-2 justify-center items-center" v-for="tag in top_tags" :key="tag.id">
+                        <label :for="tag.name" class="text-xs lg:text-sm">
+                            {{tag.name}}</label
                         >
-                        <input type="checkbox" id="Tyvek" name="Tyvek" />
-                    </div>
-                    <div class="flex flex-col justify-center items-center">
-                        <label for="Fedex" class="text-xs lg:text-sm">
-                            Fedex</label
-                        >
-                        <input
-                            class=""
-                            type="checkbox"
-                            id="Fedex"
-                            name="Fedex"
-                        />
-                    </div>
-                    <div class="flex flex-col justify-center items-center">
-                        <label for="Customer" class="text-xs lg:text-sm">
-                            Customer</label
-                        >
-                        <input type="checkbox" id="Customer" name="Customer" />
-                    </div>
-                    <div class="flex flex-col justify-center items-center">
-                        <label for="Other" class="text-xs lg:text-sm">
-                            Other</label
-                        >
-                        <input type="checkbox" id="Other" name="Other" />
-                    </div>
-                </div>
-
-                <div class="p-4 flex flex-row justify-between">
-                    <div class="flex flex-col justify-center items-center">
-                        <label for="10%" class="text-xs lg:text-sm"> 10%</label>
-                        <input type="checkbox" id="10%" name="10%" />
-                    </div>
-                    <div class="flex flex-col justify-center items-center">
-                        <label for=" FedexGr" class="text-xs lg:text-sm">
-                            Fedex Gr</label
-                        >
-                        <input type="checkbox" id=" FedexGr" name="FedexGr" />
-                    </div>
-                    <div class="flex flex-col justify-center items-center">
-                        <label for="FedexEx" class="text-xs lg:text-sm">
-                            Fedex Ex</label
-                        >
-                        <input type="checkbox" id="FedexEx" name="FedexEx" />
-                    </div>
-                    <div class="flex flex-col justify-center items-center">
-                        <label for="Box" class="text-xs lg:text-sm"> Box</label>
-                        <input type="checkbox" id="Box" name="Box" />
+                        <input type="checkbox" :id="tag.name" :name="tag.name" />
                     </div>
                 </div>
             </div>
+
         </form>
 
         <!-- sms start -->
@@ -127,7 +86,7 @@ import Sms from '../Components/Sms.vue'
 
 export default {
     components: { AppLayout, Sms },
-    props: ['categories', 'transaction'],
+    props: ['categories', 'transaction', 'top_tags'],
     setup (props) {
         const categories = props.categories
         const filteredCategory = computed(() => {
@@ -147,7 +106,6 @@ export default {
             }
             return filteredimage
         })
-        
 
         return { categories, filteredCategory, images, limitedImages }
     }
