@@ -640,6 +640,7 @@ import {
     CogIcon,
     CreditCardIcon,
     DocumentReportIcon,
+    ClipboardListIcon,
     HomeIcon,
     MenuAlt1Icon,
     QuestionMarkCircleIcon,
@@ -701,7 +702,7 @@ const navigation = [
     {
         name: "Transactions",
         href: "/transactions",
-        icon: UserGroupIcon,
+        icon: ClipboardListIcon,
         current: false,
     },
     {
@@ -788,6 +789,7 @@ export default {
         DisclosurePanel,
         DisclosureButton,
         ChartPieIcon,
+        ClipboardListIcon,
     },
     setup() {
         const sidebarOpen = ref(false);

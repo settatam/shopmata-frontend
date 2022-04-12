@@ -1993,6 +1993,9 @@ select {
 .w-8\/10 {
 	width: 80%;
 }
+.w-3\/5 {
+	width: 60%;
+}
 .w-8\.5\/10 {
 	width: 85%;
 }
@@ -2045,9 +2048,6 @@ select {
 }
 .w-3\/6 {
 	width: 50%;
-}
-.w-3\/5 {
-	width: 60%;
 }
 .min-w-0 {
 	min-width: 0px;

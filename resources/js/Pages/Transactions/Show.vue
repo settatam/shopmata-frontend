@@ -173,8 +173,8 @@ export default {
         transaction: Object,
         categories: Array,
         statuses: Array,
-        tag1s: Array,
-        tag2s: Array
+        top_tags: Array,
+        bottom_tags: Array
     },
 
     setup (props) {
