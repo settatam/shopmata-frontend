@@ -18,7 +18,7 @@
                             name=""
                             id=""
                         >
-                            <option value="">Kit Received</option>
+                            <option v-for="status in statuses" :key="status.index" value="">{{status.name}}</option>
                         </select>
                     </div>
                     <div class="ml-6">
@@ -192,7 +192,7 @@ import PrintLabel from '../Components/PrintLabel.vue'
 
 export default {
     components: { AppLayout, PrintLabel, AdminImages },
-    props: ['transaction', 'bottom_tags'],
+    props: ['transaction', 'bottom_tags', 'statuses'],
     setup () {
         const popUp = ref(false)
         const popModal = () => {

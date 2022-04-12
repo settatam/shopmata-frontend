@@ -101,7 +101,8 @@
                     <td
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
                     >
-                        {{ item.id }}
+                        <inertia-link :href=" '/transactions/' + item.id ">{{ item.id }}</inertia-link>
+
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"

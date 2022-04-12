@@ -88,6 +88,7 @@
                         class="mb-12"
                         :transaction="transaction.notes"
                         :bottom_tags="bottom_tags"
+                        :statuses="statuses"
                     />
                 </div>
                 <!-- row 4 starts -->
@@ -176,7 +177,8 @@ export default {
         categories: Array,
         statuses: Array,
         top_tags: Array,
-        bottom_tags: Array
+        bottom_tags: Array,
+        statuses: Array,
     },
 
     setup (props) {
