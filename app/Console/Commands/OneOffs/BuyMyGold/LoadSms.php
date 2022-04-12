@@ -52,7 +52,6 @@ class LoadSms extends Command
     
         if ($data){
             $bar = $this->output->createProgressBar(count($data['data']));
-           // Storage::makeDirectory('sms');
             foreach ($data['data'] as $sm ) {
                 $sms = new Sms;
                 $sms = Sms::firstOrNew(
