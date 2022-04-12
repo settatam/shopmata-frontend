@@ -716,11 +716,13 @@ export default {
             phone_number: customer.phone_number,
             address: customer.address,
             apartment: customer.apartment,
-            country_id: selectedCountry.value,
-            state_id: selectedState.value,
+            country_id: customer.country_id,
+            state_id: customer.state_id,
             city: customer.city,
             zip: customer.zip
         })
+
+        const customerForm = {...customerEdits, }
 
         const rules = computed(() => {
             return {
@@ -835,6 +837,7 @@ export default {
             loading,
             customer,
             customerEdits,
+            customerForm,
             countries,
             selectedCountry,
             selectedState

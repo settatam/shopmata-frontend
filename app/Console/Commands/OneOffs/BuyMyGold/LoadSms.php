@@ -8,6 +8,10 @@ use App\Models\Store;
 use App\Models\Sms;
 use App\Http\Helpers\Helper;
 use Illuminate\Support\Facades\Storage;
+use Image as Img;
+use App\Models\Image;
+
+
 
 
 
@@ -45,16 +49,25 @@ class LoadSms extends Command
     public function handle()
     {
         $data   =  Helper::getApiData('https://buymygold.com/api/sms');
+
+    
         $smses = Sms::all();
-
-
         foreach ($smses as $sms) {
             $sms->delete();
         }
 
+        $context = stream_context_create(
+            array(
+                'http' => array(
+                    'follow_location' => false
+                )
+            )
+        );
+        
+
         if ($data){
             $bar = $this->output->createProgressBar(count($data['data']));
-            Storage::makeDirectory('sms');
+           // Storage::makeDirectory('sms');
             foreach ($data['data'] as $sm ) {
                 $sms = new Sms;
                 $sms->id           =  $sm['id'];                       
@@ -72,36 +85,49 @@ class LoadSms extends Command
 
                 $sms->save();  
                     
-                //$images = $sm['images'] ?  explode(',', $sm['images']) : null;
+                $images = $sm['images'] ?  explode(',', $sm['images']) : null;
 
-                // if ( !empty( $images )  > 0 ) {
-                //     foreach ( $images  as $image) {
-                //         try {
-                //             if ($image) {
-                //                 $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
-                //                 $img = $image.'.o.jpg';
-                //                 $dest = storage_path().'/app/sms/'.$img;
-                //                 copy($file, $dest);
-                //                 Storage::disk('DO')->put('buymygold/images/sms/'.$img, fopen($dest, 'r+'), 'public');
-                //                 $image  = env('DO_URL').'buymygold/images/sms/'.$img;
-                //                 $imgs= new Image(['url' => $image, 'rank' => 1]);
-                //                 $sms->images()->save($imgs);
-                //             }
+                if ( !empty( $images )  > 0 ) {
+                    foreach ( $images  as $image) {
+                        try {
 
-                //         } catch(\Exception $e) {
-                //             echo $e->getMessage();
-                //         }
+                            if ($image) {
+                                // echo $image;
+                                $img = Img::make($this->get_web_page($image));
+                                $img->stream('jpg', 100);
+                                $name = uniqid(true).'.o.jpg';
+                                Storage::disk('DO')->put('buymygold/images/sms/'. $name, $img, 'public');
+                                $image  = env('DO_URL').'buymygold/images/sms/'.$name;
+                                $imgs= new Image(['url' => $image, 'rank' => 1]);
+                                $sms->images()->save($imgs);
+                            }
 
-                //     }
-                // }
+                        } catch(\Exception $e) {
+                            echo $e->getMessage();
+                        }
+
+                    }
+                }
 
                 $bar->advance();
             }
 
-            Storage::deleteDirectory('sms');
             $bar->finish();
         }
     }
+
+
+    public function get_web_page( $url ) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $a = curl_exec($ch);
+        if(preg_match('#Location: (.*)#', $a, $r))
+        return  $l = trim($r[1]);
+        
+    }  
 
     
 
