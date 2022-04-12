@@ -158,8 +158,13 @@
             class="flex flex-col flex-wrap md:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
         >
             <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
-                <input type="checkbox" name="SP" id="SP" class="mx-2" />
-                <label for="SP">{{ tag.name }}</label>
+                <input
+                    type="checkbox"
+                    :id="tag.name"
+                    :name="tag.name"
+                    class="mx-2"
+                />
+                <label :for="tag.name">{{ tag.name }}</label>
             </div>
         </div>
 

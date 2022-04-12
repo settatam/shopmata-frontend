@@ -62,10 +62,10 @@
             <div class="">
                 <div class=" grid grid-cols-3">
                     <div class="flex flex-col my-2 justify-center items-center" v-for="tag in top_tags" :key="tag.id">
-                        <label for="Tyvek" class="text-xs lg:text-sm">
+                        <label :for="tag.name" class="text-xs lg:text-sm">
                             {{tag.name}}</label
                         >
-                        <input type="checkbox" id="Tyvek" name="Tyvek" />
+                        <input type="checkbox" :id="tag.name" :name="tag.name" />
                     </div>
                 </div>
             </div>
