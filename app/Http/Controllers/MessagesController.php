@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sms;
+use Inertia\Inertia;
+
 
 class MessagesController extends Controller
 {
