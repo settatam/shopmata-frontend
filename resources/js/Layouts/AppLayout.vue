@@ -635,6 +635,7 @@ import {
 } from "@headlessui/vue";
 import {
     BellIcon,
+    InboxIcon,
     ChartPieIcon,
     CogIcon,
     CreditCardIcon,
@@ -689,6 +690,12 @@ const navigation = [
         name: "Customers",
         href: "/customers",
         icon: UserGroupIcon,
+        current: false,
+    },
+    {
+        name: "Messages",
+        href: "/messages",
+        icon: InboxIcon,
         current: false,
     },
     {
