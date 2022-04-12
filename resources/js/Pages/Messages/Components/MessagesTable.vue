@@ -94,14 +94,21 @@
             </thead>
             <tbody>
                 <tr
-                    v-for="item in filterLists"
+                    v-for="item in smses"
                     :key="item.index"
                     class="py-3 border-b border-gray-background mr-2"
                 >
-                    <td
+                    <td v-if="item.transaction"
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
                     >
-                        <inertia-link :href=" '/transactions/' + item.id ">{{ item.id }}</inertia-link>
+                        <inertia-link :href=" '/transactions/' + item.transaction.id ">{{ item.id }}</inertia-link>
+
+                    </td>
+
+                    <td v-else
+                        class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
+                    >
+                        <inertia-link :href=" '#'  ">{{ item.id }}</inertia-link>
 
                     </td>
                     <td
@@ -148,7 +155,7 @@ export default {
     props: ['messages'],
     setup ({ messages }) {
         const pagination = ref(messages)
-        const filterLists = ref(messages.data)
+        const smses = ref(messages.data)
         const loading = ref(false)
 
         const filter = reactive({
@@ -159,7 +166,7 @@ export default {
         })
 
         function success (list, page) {
-            filterLists.value = list
+            smses.value = list
             pagination.value = page
             loading.value = false
         }
@@ -187,7 +194,7 @@ export default {
             statusStyles,
             pagination,
             messages,
-            filterLists,
+            smses,
             filter,
             submit,
             success
