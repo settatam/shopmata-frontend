@@ -14,7 +14,7 @@ class MessagesController extends Controller
      */
     public function index()
     {
-        $messages = Sms::latest()->pagination(50);
+        $messages = Sms::latest()->paginate(50);
         return Inertia::render('Messages/Index',  compact('messages'));
     }
 
