@@ -67,31 +67,33 @@ class LoadSms extends Command
                 $sms->smsable_id   =  $sm['order_id']; 
                 $sms->smsable_type =  'App\Models\Transaction';                        
                 $sms->is_coming    =  $sm['is_coming'];                       
-                $sms->payload      =  $sm['payload'];
+                $sms->store_id     =  Helper::getStoreByName('BuyMyGold');
+                $sms->user_id      =  $sm['user_id'];                        
+
                 $sms->save();  
                     
-                $images = $sm['images'] ?  explode(',', $sm['images']) : null;
+                //$images = $sm['images'] ?  explode(',', $sm['images']) : null;
 
-                if ( !empty( $images )  > 0 ) {
-                    foreach ( $images  as $image) {
-                        try {
-                            if ($image) {
-                                $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
-                                $img = $image.'.o.jpg';
-                                $dest = storage_path().'/app/sms/'.$img;
-                                copy($file, $dest);
-                                Storage::disk('DO')->put('buymygold/images/sms/'.$img, fopen($dest, 'r+'), 'public');
-                                $image  = env('DO_URL').'buymygold/images/sms/'.$img;
-                                $imgs= new Image(['url' => $image, 'rank' => 1]);
-                                $sms->images()->save($imgs);
-                            }
+                // if ( !empty( $images )  > 0 ) {
+                //     foreach ( $images  as $image) {
+                //         try {
+                //             if ($image) {
+                //                 $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
+                //                 $img = $image.'.o.jpg';
+                //                 $dest = storage_path().'/app/sms/'.$img;
+                //                 copy($file, $dest);
+                //                 Storage::disk('DO')->put('buymygold/images/sms/'.$img, fopen($dest, 'r+'), 'public');
+                //                 $image  = env('DO_URL').'buymygold/images/sms/'.$img;
+                //                 $imgs= new Image(['url' => $image, 'rank' => 1]);
+                //                 $sms->images()->save($imgs);
+                //             }
 
-                        } catch(\Exception $e) {
-                            echo $e->getMessage();
-                        }
+                //         } catch(\Exception $e) {
+                //             echo $e->getMessage();
+                //         }
 
-                    }
-                }
+                //     }
+                // }
 
                 $bar->advance();
             }
