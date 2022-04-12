@@ -54,6 +54,7 @@
                             class="mb-4 h-full"
                             :categories="categories"
                             :transaction="transaction"
+                            :top_tags="top_tags"
                         />
                     </div>
                     <div class="w-full lg:w-1/3 h-full">
@@ -86,6 +87,7 @@
                     <TransactionTimeline
                         class="mb-12"
                         :transaction="transaction.notes"
+                        :bottom_tags="bottom_tags"
                     />
                 </div>
                 <!-- row 4 starts -->
