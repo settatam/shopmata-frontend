@@ -121,10 +121,20 @@
                     >
                         {{ item.to }}
                     </td>
-                    <td
+                    <td v-if="item.message"
                         class="text-xs lg:text-sm text-black font-light px-6 py-4  whitespace-normal w-3/5 text-justify"
                     >
                         {{ item.message }}
+                    </td>
+                    <td v-else
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4  whitespace-normal w-3/5 text-justify"
+                    >
+                        <img
+                                        :src="item.images[0].url"
+                                        alt=""
+                                        width="100"
+                                        height="100"
+                                    />
                     </td>
                 </tr>
             </tbody>
