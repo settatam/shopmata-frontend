@@ -2,17 +2,21 @@
     <app-layout>
         <!-- Page header -->
         <div id="container" class="flex flex-col mx-3 space-y-1">
-            <div>
+            <div class="mt-4">
+                <TopRow />
+            </div>
+
+            <div class="mx-2">
                 <SearchRow />
             </div>
 
             <div>
-                <TransactionTable />
+                <ReportLayout />
             </div>
 
-            <div>
+            <!-- <div>
                 <TransactionTable />
-            </div>
+            </div> -->
 
             
 
@@ -33,10 +37,12 @@ import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
 import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
 import { Inertia } from '@inertiajs/inertia'
+import TopRow from './Components/TopRow.vue'
 import SearchRow from './Components/SearchRow.vue'
 import TransactionTable from './Components/TransactionTable.vue'
 import FilterBy from './Components/FilterBy.vue'
 import Entries from './Components/Entries.vue'
+import ReportLayout from './Components/ReportLayout.vue'
 
 
 export default {
@@ -46,7 +52,9 @@ export default {
         SearchRow,
         TransactionTable,
         FilterBy,
-        Entries
+        Entries,
+        TopRow,
+        ReportLayout
     },
     props: {
         notifications: Array,
