@@ -9,6 +9,8 @@ class StoreTag extends Model
 {
     use HasFactory;
 
+    public $fillable = ['tag_id'];
+
     public function taggable()
     {
         return $this->morphTo();
