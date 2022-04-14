@@ -58,14 +58,8 @@ class LoadSmsImages extends Command
                         try {
 
                             if ($image) {
-                                // echo $image;
-                                $img = Img::make($this->get_web_page($image));
-                                $img->stream('jpg', 100);
-                                $name = uniqid(true).'.o.jpg';
-                                Storage::disk('DO')->put('buymygold/images/sms/'. $name, $img, 'public');
-                                $image  = env('DO_URL').'buymygold/images/sms/'.$name;
-                                $imgs= new Image(['url' => $image, 'rank' => 1]);
-                                $sm->images()->save($imgs);
+                               $imgs= new Image(['url' => $image, 'rank' => 1]);
+                               $sm->images()->save($imgs);
                             }
 
                         } catch(\Exception $e) {
