@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Category;
 use App\Models\Status;
 use App\Models\Tag;
+use App\Models\StoreTag;
+use Illuminate\Support\Facades\Log;
+
 
 
 
@@ -82,6 +85,45 @@ class TransactionsController extends Controller
     {
         //
     }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addTag(Request $request)
+    {   
+        try {
+            $transaction = Transaction::findOrFail($request->transaction_id);
+            $store_tag   =  StoreTag::where(
+                                [
+                                    'tagable_id' => $request->transaction_id,
+                                    'tag_id'     => $request->tag_id
+                                ]
+                            )->first();
+            if (null !== $store_tag){
+                $store_tag->delete();
+                Log::info("Tag(s) deleted!", );
+                return response(null,200);
+            } else {
+                $tags  = new StoreTag(['tag_id' => $request->tag_id]);
+                if ( $transaction->tags()->save($tags) ) {
+                    Log::info("Tag(s) Added!", );
+                    return response(null,200);
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            \Log::Error("Failed to add or delete  tag  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+        }
+
+
+        return response(null,422);
+    }
+
 
     /**
      * Update the specified resource in storage.

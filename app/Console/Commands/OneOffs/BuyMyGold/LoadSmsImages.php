@@ -51,22 +51,14 @@ class LoadSmsImages extends Command
         if ($sms){
             $bar = $this->output->createProgressBar($sms->count());
             foreach ($sms as $sm ) {
-                $sms = new Sms;
                 $images = $sm->tem_url ?  explode(',', $sm->tem_url) : null;
 
                 if ( !empty( $images )  > 0 ) {
                     foreach ( $images  as $image) {
                         try {
-
                             if ($image) {
-                                // echo $image;
-                                $img = Img::make($this->get_web_page($image));
-                                $img->stream('jpg', 100);
-                                $name = uniqid(true).'.o.jpg';
-                                Storage::disk('DO')->put('buymygold/images/sms/'. $name, $img, 'public');
-                                $image  = env('DO_URL').'buymygold/images/sms/'.$name;
-                                $imgs= new Image(['url' => $image, 'rank' => 1]);
-                                $sms->images()->save($imgs);
+                               $imgs= new Image(['url' => $image, 'rank' => 1]);
+                               $sm->images()->save($imgs);
                             }
 
                         } catch(\Exception $e) {
