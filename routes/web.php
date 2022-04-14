@@ -183,9 +183,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('settings/remittance', PayoutSettingsController::class);
     Route::resource('transactions',        TransactionsController::class);
     Route::resource('transactions',        TransactionsController::class);
-    Route::post('transaction/tag',         TransactionsController::class);
+    Route::post('transaction/tag',        [TransactionsController::class, 'addTag']);
 
-    Route::resource('reports',        [TransactionsController::class, 'addTag']);
 
 
     #Settings -> Shipping and Delivery
