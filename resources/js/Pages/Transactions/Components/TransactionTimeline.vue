@@ -231,7 +231,7 @@ export default {
 
         function saveBottomTags (tag_id) {
             axios
-                .post('transaction/tag', { tag_id, transaction_id })
+                .post('/transaction/tag', { tag_id, transaction_id })
                 .then(res => console.log(res))
                 .catch(error => console.log(error))
         }
