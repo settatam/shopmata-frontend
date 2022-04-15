@@ -56,7 +56,6 @@ class LoadSmsImages extends Command
                 if ( !empty( $images )  > 0 ) {
                     foreach ( $images  as $image) {
                         try {
-
                             if ($image) {
                                $imgs= new Image(['url' => $image, 'rank' => 1]);
                                $sm->images()->save($imgs);
