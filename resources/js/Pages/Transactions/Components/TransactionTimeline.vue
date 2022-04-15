@@ -203,6 +203,7 @@ export default {
     props: ['transaction', 'bottom_tags', 'statuses', 'root'],
     setup (props) {
         const popUp = ref(false)
+        const successMessage = ref('')
         const popModal = () => {
             popUp.value = true
         }
@@ -232,7 +233,20 @@ export default {
         function saveBottomTags (tag_id) {
             axios
                 .post('/transaction/tag', { tag_id, transaction_id })
-                .then(res => console.log(res))
+                .then(res => {
+                    if (res.status == 200) {
+                    successMessage.value = "Tag added"
+                    setTimeout(onClickTop, 2000)
+                } else if (res.status == 422) {
+                    successMessage.value = res.data.notification.message
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
+                } else {
+                    successMessage.value = 'Database Error'
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
+                }
+                })
                 .catch(error => console.log(error))
         }
 
