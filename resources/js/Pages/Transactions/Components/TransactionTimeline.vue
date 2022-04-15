@@ -18,7 +18,12 @@
                             name=""
                             id=""
                         >
-                            <option v-for="status in statuses" :key="status.index" value="">{{status.name}}</option>
+                            <option
+                                v-for="status in statuses"
+                                :key="status.index"
+                                value=""
+                                >{{ status.name }}</option
+                            >
                         </select>
                     </div>
                     <div class="ml-6">
@@ -159,12 +164,14 @@
         >
             <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
                 <input
+                    @change="saveBottomTags(tag.id)"
                     type="checkbox"
-                    :id="tag.name"
+                    :id="tag.id"
                     :name="tag.name"
                     class="mx-2"
+                    :value="tag.id"
                 />
-                <label :for="tag.name">{{ tag.name }}</label>
+                <label :for="tag.id">{{ tag.name }}</label>
             </div>
         </div>
 
@@ -189,17 +196,47 @@ import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
+import { notify } from 'notiwind'
 
 export default {
     components: { AppLayout, PrintLabel, AdminImages },
-    props: ['transaction', 'bottom_tags', 'statuses'],
-    setup () {
+    props: ['transaction', 'bottom_tags', 'statuses', 'root'],
+    setup (props) {
         const popUp = ref(false)
         const popModal = () => {
             popUp.value = true
         }
+        const transaction_id = props.root.id
 
-        return { popUp, popModal }
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+
+        function saveBottomTags (tag_id) {
+            axios
+                .post('transaction/tag', { tag_id, transaction_id })
+                .then(res => console.log(res))
+                .catch(error => console.log(error))
+        }
+
+        return { popUp, popModal, transaction_id, saveBottomTags, onClickTop, onClickBot }
     }
 }
 </script>
