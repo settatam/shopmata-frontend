@@ -84,13 +84,14 @@
             <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
+                        @blur="saveNotesPrivate()"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
                         placeholder="Customer notes"
                         name=""
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="customerNote.public"
+                        v-model="messagePrivate"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full ">
@@ -128,13 +129,14 @@
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
+                        @blur="saveNotesPublic()"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md "
                         placeholder="MET 3-2-22-Incoming via text"
                         name=""
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="customerNote.private"
+                        v-model="messagePublic"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
@@ -229,11 +231,9 @@ export default {
             })
             return myArray
         })
-
-        const customerNote = reactive({
-            public: transaction[0].notes,
-            private: ""
-        })
+        const customer_id = props.root.customer.id
+        const messagePrivate = ref('')
+        const messagePublic = ref('')
 
         // notification
         function onClickTop () {
@@ -259,11 +259,60 @@ export default {
         // notification ends
 
         // save notes
-        function saveNotes () {
-            axios.post('test', customerNote)
-            .then(res => res.data)
-            .catch(error => console.log(error))
+        function saveNotesPrivate () {
+            if (messagePrivate.value != '') {
+                axios
+                    .post('/transaction/notes', {
+                        transaction_id,
+                        message: messagePrivate.value,
+                        customer_id,
+                        type: 'private'
+                    })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Private Note added'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    })
+            }
         }
+
+        function saveNotesPublic () {
+            if (messagePublic.value != '') {
+                axios
+                    .post('/transaction/notes', {
+                        transaction_id,
+                        message: messagePublic.value,
+                        customer_id,
+                        type: 'public'
+                    })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Public Note added'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    })
+            }
+        }
+        // save notes end
 
         // Save tags
         function saveBottomTags (tag_id) {
@@ -278,13 +327,13 @@ export default {
                             successMessage.value = res.data.notification.message
                             setTimeout(onClickBot, 2000)
                             setTimeout(errorFn, 3000)
-                        } else {
-                            successMessage.value = 'Database Error'
-                            setTimeout(onClickBot, 2000)
-                            setTimeout(errorFn, 3000)
                         }
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    })
             } else {
                 axios
                     .post('/transaction/tag', { tag_id, transaction_id })
@@ -296,13 +345,13 @@ export default {
                             successMessage.value = res.data.notification.message
                             setTimeout(onClickBot, 2000)
                             setTimeout(errorFn, 3000)
-                        } else {
-                            successMessage.value = 'Database Error'
-                            setTimeout(onClickBot, 2000)
-                            setTimeout(errorFn, 3000)
                         }
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    })
             }
         }
 
@@ -315,7 +364,10 @@ export default {
             onClickBot,
             pickedTags,
             checkedList,
-            customerNote
+            messagePrivate,
+            messagePublic,
+            saveNotesPrivate,
+            saveNotesPublic
         }
     }
 }
