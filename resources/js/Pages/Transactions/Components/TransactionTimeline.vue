@@ -84,13 +84,14 @@
             <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
+                        @blur="saveNotesPrivate()"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
                         placeholder="Customer notes"
                         name=""
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="transaction[0].notes"
+                        v-model="messagePrivate"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full ">
@@ -128,12 +129,14 @@
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
+                        @blur="saveNotesPublic()"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md "
                         placeholder="MET 3-2-22-Incoming via text"
                         name=""
                         id=""
                         rows="3"
                         cols="150"
+                        v-model="messagePublic"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
@@ -163,8 +166,9 @@
             class="flex flex-col flex-wrap md:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
         >
             <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
-                <input v-if="checkedList.includes(tag.id)"
-                checked
+                <input
+                    v-if="checkedList.includes(tag.id)"
+                    checked
                     @change="saveBottomTags(tag.id)"
                     type="checkbox"
                     :id="tag.id"
@@ -173,7 +177,8 @@
                     :value="tag.id"
                 />
 
-                <input v-else
+                <input
+                    v-else
                     @change="saveBottomTags(tag.id)"
                     type="checkbox"
                     :id="tag.id"
@@ -219,14 +224,18 @@ export default {
         }
         const transaction_id = props.root.id
         const pickedTags = props.root.tags
-        const checkedList = computed(()=>{
+        const checkedList = computed(() => {
             let myArray = []
             pickedTags.forEach(item => {
                 return myArray.push(item.tag_id)
-            });
-            return myArray;
+            })
+            return myArray
         })
+        const customer_id = props.root.customer.id
+        const messagePrivate = ref('')
+        const messagePublic = ref('')
 
+        // notification
         function onClickTop () {
             notify(
                 {
@@ -247,47 +256,103 @@ export default {
                 4000
             )
         }
+        // notification ends
 
+        // save notes
+        function saveNotesPrivate () {
+            if (messagePrivate.value != '') {
+                axios
+                    .post('/transaction/notes', {
+                        transaction_id,
+                        message: messagePrivate.value,
+                        customer_id,
+                        type: 'private'
+                    })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Private Note added'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    })
+            }
+        }
+
+        function saveNotesPublic () {
+            if (messagePublic.value != '') {
+                axios
+                    .post('/transaction/notes', {
+                        transaction_id,
+                        message: messagePublic.value,
+                        customer_id,
+                        type: 'public'
+                    })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Public Note added'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    })
+            }
+        }
+        // save notes end
+
+        // Save tags
         function saveBottomTags (tag_id) {
-            if(this.checkedList.includes(tag_id)){
+            if (this.checkedList.includes(tag_id)) {
                 axios
-                .post('/transaction/tag', { tag_id, transaction_id })
-                .then(res => {
-                    if (res.status == 200) {
-                        successMessage.value = 'Tag removed'
-                        setTimeout(onClickTop, 2000)
-                    } else if (res.status == 422) {
-                        successMessage.value = res.data.notification.message
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    } else {
+                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Tag removed'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
                         successMessage.value = 'Database Error'
                         setTimeout(onClickBot, 2000)
                         setTimeout(errorFn, 3000)
-                    }
-                })
-                .catch(error => console.log(error))
-            }
-            else{
+                    })
+            } else {
                 axios
-                .post('/transaction/tag', { tag_id, transaction_id })
-                .then(res => {
-                    if (res.status == 200) {
-                        successMessage.value = 'Tag added'
-                        setTimeout(onClickTop, 2000)
-                    } else if (res.status == 422) {
-                        successMessage.value = res.data.notification.message
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    } else {
+                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Tag added'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
                         successMessage.value = 'Database Error'
                         setTimeout(onClickBot, 2000)
                         setTimeout(errorFn, 3000)
-                    }
-                })
-                .catch(error => console.log(error))
+                    })
             }
-            
         }
 
         return {
@@ -298,7 +363,11 @@ export default {
             onClickTop,
             onClickBot,
             pickedTags,
-            checkedList
+            checkedList,
+            messagePrivate,
+            messagePublic,
+            saveNotesPrivate,
+            saveNotesPublic
         }
     }
 }

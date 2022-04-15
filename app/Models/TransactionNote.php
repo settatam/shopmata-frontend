@@ -12,7 +12,15 @@ class TransactionNote extends Model
     protected $fillable = [
         'notes',
         'type',
-        'transaction_id'
+        'transaction_id',
+        'user_id'
     ];
+
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+	}
+
 
 }

@@ -160,45 +160,43 @@ export default {
         }
 
         function saveTopTags (tag_id) {
-            if(this.checkedList.includes(tag_id)){
+            if (this.checkedList.includes(tag_id)) {
                 axios
-                .post('/transaction/tag', { tag_id, transaction_id })
-                .then(res => {
-                    if (res.status == 200) {
-                        successMessage.value = 'Tag removed'
-                        setTimeout(onClickTop, 2000)
-                    } else if (res.status == 422) {
-                        successMessage.value = res.data.notification.message
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    } else {
+                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Tag removed'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
                         successMessage.value = 'Database Error'
                         setTimeout(onClickBot, 2000)
                         setTimeout(errorFn, 3000)
-                    }
-                })
-                .catch(error => console.log(error))
-            }
-            else{
+                    })
+            } else {
                 axios
-                .post('/transaction/tag', { tag_id, transaction_id })
-                .then(res => {
-                    if (res.status == 200) {
-                        successMessage.value = 'Tag added'
-                        setTimeout(onClickTop, 2000)
-                    } else if (res.status == 422) {
-                        successMessage.value = res.data.notification.message
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    } else {
+                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Tag added'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
                         successMessage.value = 'Database Error'
                         setTimeout(onClickBot, 2000)
                         setTimeout(errorFn, 3000)
-                    }
-                })
-                .catch(error => console.log(error))
+                    })
             }
-            
         }
 
         return {
