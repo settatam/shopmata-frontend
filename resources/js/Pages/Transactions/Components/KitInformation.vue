@@ -160,7 +160,10 @@ export default {
         }
 
         function saveTopTags (tag_id) {
-            axios
+            if(this.checkedList.includes(tag_id)){
+                tag_id = null
+
+                axios
                 .post('/transaction/tag', { tag_id, transaction_id })
                 .then(res => {
                     if (res.status == 200) {
@@ -177,6 +180,8 @@ export default {
                     }
                 })
                 .catch(error => console.log(error))
+            }
+            
         }
 
         return {
