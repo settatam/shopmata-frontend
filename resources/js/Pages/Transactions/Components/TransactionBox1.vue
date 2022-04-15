@@ -47,8 +47,11 @@
                 Insurance Value:
                 <span class="font-normal">{{transaction.insurance_value}}</span>
             </p>
-            <p class="font-bold text-xs lg:text-sm text-black">
-                Tags: <span class="font-normal">{{transaction.tags}}</span>
+            <p v-if="transaction.tags" class="font-bold text-xs lg:text-sm text-black">
+                Tags: <span v-for="item in transaction.tags" :key="item.index" class="font-normal">{{item.tag_id}}, </span>
+            </p>
+            <p v-else class="font-bold text-xs lg:text-sm text-black">
+                Tags: <span class="font-normal"></span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Total DWT: <span class="font-normal">{{transaction.dwt}}</span>
