@@ -80,14 +80,16 @@
 </template>
 
 <script>
-import { computed, reactive } from '@vue/runtime-core'
+import { computed, reactive, ref } from '@vue/runtime-core'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Sms from '../Components/Sms.vue'
+import { notify } from 'notiwind'
 
 export default {
     components: { AppLayout, Sms },
     props: ['categories', 'transaction', 'top_tags'],
     setup (props) {
+        const successMessage = ref('')
         const transaction_id = props.transaction.id
         const categories = props.categories
         const filteredCategory = computed(() => {
@@ -108,15 +110,47 @@ export default {
             return filteredimage
         })
         
-        
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
 
         function saveTopTags(tag_id){
             axios.post('/transaction/tag', {tag_id, transaction_id},)
-            .then(res=>console.log(res))
+            .then(res => {
+                    if (res.status == 200) {
+                    successMessage.value = "Tag added"
+                    setTimeout(onClickTop, 2000)
+                } else if (res.status == 422) {
+                    successMessage.value = res.data.notification.message
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
+                } else {
+                    successMessage.value = 'Database Error'
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
+                }
+                })
             .catch(error => console.log(error))
         }
 
-        return { categories, filteredCategory, images, limitedImages, saveTopTags }
+        return { categories, filteredCategory, images, limitedImages, saveTopTags, onClickTop, onClickBot }
     }
 }
 </script>

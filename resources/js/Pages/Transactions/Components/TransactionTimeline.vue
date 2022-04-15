@@ -203,6 +203,7 @@ export default {
     props: ['transaction', 'bottom_tags', 'statuses', 'root'],
     setup (props) {
         const popUp = ref(false)
+        const successMessage = ref('')
         const popModal = () => {
             popUp.value = true
         }
@@ -234,10 +235,8 @@ export default {
                 .post('/transaction/tag', { tag_id, transaction_id })
                 .then(res => {
                     if (res.status == 200) {
-                    successMessage.value = res.data.notification.message
+                    successMessage.value = "Tag added"
                     setTimeout(onClickTop, 2000)
-                    save.value = 'Saving'
-                    setTimeout(loadingFn, 3000)
                 } else if (res.status == 422) {
                     successMessage.value = res.data.notification.message
                     setTimeout(onClickBot, 2000)
