@@ -61,15 +61,35 @@
 
             <div class="">
                 <div class=" grid grid-cols-3">
-                    <div class="flex flex-col my-2 justify-center items-center" v-for="tag in top_tags" :key="tag.id">
+                    <div
+                        class="flex flex-col my-2 justify-center items-center"
+                        v-for="tag in top_tags"
+                        :key="tag.id"
+                    >
                         <label :for="tag.id" class="text-xs lg:text-sm">
-                            {{tag.name}}</label
+                            {{ tag.name }}</label
                         >
-                        <input type="checkbox" @change="saveTopTags(tag.id)" :id="tag.id"  :value="tag.id" :name="tag.name"/>
+                        <input
+                            v-if="checkedList.includes(tag.id)"
+                            checked
+                            type="checkbox"
+                            @change="saveTopTags(tag.id)"
+                            :id="tag.id"
+                            :value="tag.id"
+                            :name="tag.name"
+                        />
+
+                        <input
+                            v-else
+                            type="checkbox"
+                            @change="saveTopTags(tag.id)"
+                            :id="tag.id"
+                            :value="tag.id"
+                            :name="tag.name"
+                        />
                     </div>
                 </div>
             </div>
-
         </form>
 
         <!-- sms start -->
@@ -109,7 +129,15 @@ export default {
             }
             return filteredimage
         })
-        
+        const pickedTags = props.transaction.tags
+        const checkedList = computed(() => {
+            let myArray = []
+            pickedTags.forEach(item => {
+                return myArray.push(item.tag_id)
+            })
+            return myArray
+        })
+
         function onClickTop () {
             notify(
                 {
@@ -131,26 +159,36 @@ export default {
             )
         }
 
-        function saveTopTags(tag_id){
-            axios.post('/transaction/tag', {tag_id, transaction_id},)
-            .then(res => {
+        function saveTopTags (tag_id) {
+            axios
+                .post('/transaction/tag', { tag_id, transaction_id })
+                .then(res => {
                     if (res.status == 200) {
-                    successMessage.value = "Tag added"
-                    setTimeout(onClickTop, 2000)
-                } else if (res.status == 422) {
-                    successMessage.value = res.data.notification.message
-                    setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
-                } else {
-                    successMessage.value = 'Database Error'
-                    setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
-                }
+                        successMessage.value = 'Tag added'
+                        setTimeout(onClickTop, 2000)
+                    } else if (res.status == 422) {
+                        successMessage.value = res.data.notification.message
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    } else {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    }
                 })
-            .catch(error => console.log(error))
+                .catch(error => console.log(error))
         }
 
-        return { categories, filteredCategory, images, limitedImages, saveTopTags, onClickTop, onClickBot }
+        return {
+            categories,
+            filteredCategory,
+            images,
+            limitedImages,
+            saveTopTags,
+            onClickTop,
+            onClickBot,
+            checkedList
+        }
     }
 }
 </script>

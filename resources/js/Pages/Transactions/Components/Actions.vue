@@ -44,32 +44,32 @@
             <tbody>
                 <tr v-for="item in transaction" :key="item.index">
                     <td
-                        class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
+                        class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken break-words"
                     >
                         {{ item.name }}
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-normal break-words"
                     >
                         {{ item.created_at }}
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap break-words" 
                     >
                         {{ item.agent }}
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-normal "
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-normal break-words"
                     >
                         {{ item.notes }}
                     </td>
                     <td
-                        class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap break-words"
                     >
                         {{ item.offer }} 
                     </td>
                     <td
-                        class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap break-words"
                     >
                         {{ item.status }}
                     </td>
