@@ -184,6 +184,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('transactions',        TransactionsController::class);
     Route::resource('transactions',        TransactionsController::class);
     Route::post('transaction/tag',         [TransactionsController::class, 'addTag']);
+    Route::post('transaction/notes',         [TransactionsController::class, 'addNote']);
+
 
     Route::resource('reports',        ReportsController::class);
 

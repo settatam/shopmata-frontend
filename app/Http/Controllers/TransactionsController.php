@@ -11,6 +11,8 @@ use App\Models\Status;
 use App\Models\Tag;
 use App\Models\StoreTag;
 use Illuminate\Support\Facades\Log;
+use App\Models\TransactionNote;
+
 
 
 
@@ -118,6 +120,29 @@ class TransactionsController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
             \Log::Error("Failed to add or delete  tag  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+        }
+
+
+        return response(null,422);
+    }
+
+
+    public function addNote(Request $request)
+    {   
+        try {
+            
+            $transaction = TransactionNote::updateOrCreate(
+                ['user_id' => $request->customer_id,'transaction_id' =>  $request->transaction_id, 'type' => $request->type],
+                ['notes' => $request->message, 'user_id' => $request->customer_id, 'type' => $request->type]
+            );
+            
+            if ( $transaction ) {
+                Log::info("Note(s) Updated!", );
+                return response(null,200);
+            }
+            
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to Update  Note" . collect($request->all())  ."  Error: " .$th->getMessage() );
         }
 
 
