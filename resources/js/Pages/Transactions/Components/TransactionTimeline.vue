@@ -196,6 +196,7 @@ import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
+import { notify } from 'notiwind'
 
 export default {
     components: { AppLayout, PrintLabel, AdminImages },
@@ -207,6 +208,27 @@ export default {
         }
         const transaction_id = props.root.id
 
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+
         function saveBottomTags (tag_id) {
             axios
                 .post('transaction/tag', { tag_id, transaction_id })
@@ -214,7 +236,7 @@ export default {
                 .catch(error => console.log(error))
         }
 
-        return { popUp, popModal, transaction_id, saveBottomTags }
+        return { popUp, popModal, transaction_id, saveBottomTags, onClickTop, onClickBot }
     }
 }
 </script>
