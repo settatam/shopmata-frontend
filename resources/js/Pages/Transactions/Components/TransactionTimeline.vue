@@ -250,8 +250,25 @@ export default {
 
         function saveBottomTags (tag_id) {
             if(this.checkedList.includes(tag_id)){
-                tag_id = null
-
+                axios
+                .post('/transaction/tag', { tag_id, transaction_id })
+                .then(res => {
+                    if (res.status == 200) {
+                        successMessage.value = 'Tag removed'
+                        setTimeout(onClickTop, 2000)
+                    } else if (res.status == 422) {
+                        successMessage.value = res.data.notification.message
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    } else {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    }
+                })
+                .catch(error => console.log(error))
+            }
+            else{
                 axios
                 .post('/transaction/tag', { tag_id, transaction_id })
                 .then(res => {
