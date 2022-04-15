@@ -20,8 +20,8 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        
+    {
+
         $transactions = Transaction::with('items','customer','images')
                                 ->where('store_id',session('store_id'))
                                 ->latest()
@@ -60,7 +60,7 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         $transaction  = Transaction::find($id);
         $statuses     = Status::all();
         $store_id     = session('store_id');
@@ -93,6 +93,22 @@ class TransactionsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $transaction = Transaction::find($id);
+        $transaction->fill($request->input());
+        if($transaction->save()){
+
+            foreach($request->input() as $field => $value) {
+                if($value !== $transaction->{$field}) {
+                    //checkForEvent(Transaction::class, $field);
+                }
+            }
+            //if old_transaction status !== new transaction status
+            //Send a notification for status change
+
+            //Check the Event that happened
+            //Send a notification for event if the event exists ...
+            //Was status updated?
+        }
     }
 
     /**
