@@ -218,11 +218,7 @@ class LoadBuyMyGoldData extends Command
                             if ($image) {
                                 $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
                                 $img = $image.'.o.jpg';
-                                $dest = storage_path().'/app/items/'.$img;
-                                copy($file, $dest);
-                                Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public');
-                                $image  = env('DO_URL').'buymygold/images/items/'.$img;
-                                $imgs= new Image(['url' => $image, 'rank' => 1]);
+                                $imgs= new Image(['url' => $img, 'rank' => 1]);
                                 $transaction->images()->save($imgs);
                             }
 
