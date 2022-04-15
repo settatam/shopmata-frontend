@@ -1,7 +1,7 @@
 <template>
     <div class=" rounded-md bg-white lg:mx-2">
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
-            <h1>Transaction #{{transaction.id}}</h1>
+            <h1>Transaction #{{ transaction.id }}</h1>
         </div>
 
         <div class="p-4 space-y-2">
@@ -28,14 +28,17 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Estimated Value:
-                <span class="font-normal">{{transaction.estimated_value}}</span>
+                <span class="font-normal">{{
+                    transaction.estimated_value
+                }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Estimated Profit:
                 <span class="font-normal"></span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Final Offer: <span class="font-normal">{{transaction.final_offer}}</span>
+                Final Offer:
+                <span class="font-normal">{{ transaction.final_offer }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Payment Type: <span class="font-normal"></span>
@@ -45,19 +48,32 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Insurance Value:
-                <span class="font-normal">{{transaction.insurance_value}}</span>
+                <span class="font-normal">{{
+                    transaction.insurance_value
+                }}</span>
             </p>
-            <p v-if="transaction.tags" class="font-bold text-xs lg:text-sm text-black">
-                Tags: <span v-for="item in transaction.tags" :key="item.index" class="font-normal">{{item.tag_id}}, </span>
+            <p
+                v-if="transaction.tags"
+                class="font-bold text-xs lg:text-sm text-black"
+            >
+                Tags:
+                <span
+                    v-for="item in transaction.tags"
+                    :key="item.index"
+                    class="font-normal"
+                    >{{ item.tag_id }},
+                </span>
             </p>
             <p v-else class="font-bold text-xs lg:text-sm text-black">
                 Tags: <span class="font-normal"></span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Total DWT: <span class="font-normal">{{transaction.dwt}}</span>
+                Total DWT:
+                <span class="font-normal">{{ transaction.dwt }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Bin Location: <span class="font-normal">{{transaction.bin_location}}</span>
+                Bin Location:
+                <span class="font-normal">{{ transaction.bin_location }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Outgoing Tracking#:
@@ -81,8 +97,8 @@
 import AppLayout from '../../../Layouts/AppLayout.vue'
 
 export default {
-    components:{AppLayout},
-    props:['transaction'],
+    components: { AppLayout },
+    props: ['transaction'],
     setup () {
         return {}
     }

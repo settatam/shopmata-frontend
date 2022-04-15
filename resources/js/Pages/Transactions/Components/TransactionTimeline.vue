@@ -163,7 +163,17 @@
             class="flex flex-col flex-wrap md:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
         >
             <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
-                <input
+                <input v-if="checkedList.includes(tag.id)"
+                checked
+                    @change="saveBottomTags(tag.id)"
+                    type="checkbox"
+                    :id="tag.id"
+                    :name="tag.name"
+                    class="mx-2"
+                    :value="tag.id"
+                />
+
+                <input v-else
                     @change="saveBottomTags(tag.id)"
                     type="checkbox"
                     :id="tag.id"
@@ -208,6 +218,14 @@ export default {
             popUp.value = true
         }
         const transaction_id = props.root.id
+        const pickedTags = props.root.tags
+        const checkedList = computed(()=>{
+            let myArray = []
+            pickedTags.forEach(item => {
+                return myArray.push(item.tag_id)
+            });
+            return myArray;
+        })
 
         function onClickTop () {
             notify(
@@ -231,26 +249,40 @@ export default {
         }
 
         function saveBottomTags (tag_id) {
-            axios
+            if(this.checkedList.includes(tag_id)){
+                tag_id = null
+
+                axios
                 .post('/transaction/tag', { tag_id, transaction_id })
                 .then(res => {
                     if (res.status == 200) {
-                    successMessage.value = "Tag added"
-                    setTimeout(onClickTop, 2000)
-                } else if (res.status == 422) {
-                    successMessage.value = res.data.notification.message
-                    setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
-                } else {
-                    successMessage.value = 'Database Error'
-                    setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
-                }
+                        successMessage.value = 'Tag added'
+                        setTimeout(onClickTop, 2000)
+                    } else if (res.status == 422) {
+                        successMessage.value = res.data.notification.message
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    } else {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    }
                 })
                 .catch(error => console.log(error))
+            }
+            
         }
 
-        return { popUp, popModal, transaction_id, saveBottomTags, onClickTop, onClickBot }
+        return {
+            popUp,
+            popModal,
+            transaction_id,
+            saveBottomTags,
+            onClickTop,
+            onClickBot,
+            pickedTags,
+            checkedList
+        }
     }
 }
 </script>
