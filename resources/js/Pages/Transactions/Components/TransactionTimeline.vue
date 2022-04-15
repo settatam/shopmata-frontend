@@ -90,7 +90,7 @@
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="transaction[0].notes"
+                        v-model="customerNote.public"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full ">
@@ -134,6 +134,7 @@
                         id=""
                         rows="3"
                         cols="150"
+                        v-model="customerNote.private"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
@@ -163,8 +164,9 @@
             class="flex flex-col flex-wrap md:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
         >
             <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
-                <input v-if="checkedList.includes(tag.id)"
-                checked
+                <input
+                    v-if="checkedList.includes(tag.id)"
+                    checked
                     @change="saveBottomTags(tag.id)"
                     type="checkbox"
                     :id="tag.id"
@@ -173,7 +175,8 @@
                     :value="tag.id"
                 />
 
-                <input v-else
+                <input
+                    v-else
                     @change="saveBottomTags(tag.id)"
                     type="checkbox"
                     :id="tag.id"
@@ -219,14 +222,20 @@ export default {
         }
         const transaction_id = props.root.id
         const pickedTags = props.root.tags
-        const checkedList = computed(()=>{
+        const checkedList = computed(() => {
             let myArray = []
             pickedTags.forEach(item => {
                 return myArray.push(item.tag_id)
-            });
-            return myArray;
+            })
+            return myArray
         })
 
+        const customerNote = reactive({
+            public: transaction[0].notes,
+            private: ""
+        })
+
+        // notification
         function onClickTop () {
             notify(
                 {
@@ -247,47 +256,54 @@ export default {
                 4000
             )
         }
+        // notification ends
 
+        // save notes
+        function saveNotes () {
+            axios.post('test', customerNote)
+            .then(res => res.data)
+            .catch(error => console.log(error))
+        }
+
+        // Save tags
         function saveBottomTags (tag_id) {
-            if(this.checkedList.includes(tag_id)){
+            if (this.checkedList.includes(tag_id)) {
                 axios
-                .post('/transaction/tag', { tag_id, transaction_id })
-                .then(res => {
-                    if (res.status == 200) {
-                        successMessage.value = 'Tag removed'
-                        setTimeout(onClickTop, 2000)
-                    } else if (res.status == 422) {
-                        successMessage.value = res.data.notification.message
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    } else {
-                        successMessage.value = 'Database Error'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    }
-                })
-                .catch(error => console.log(error))
-            }
-            else{
+                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Tag removed'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        } else {
+                            successMessage.value = 'Database Error'
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => console.log(error))
+            } else {
                 axios
-                .post('/transaction/tag', { tag_id, transaction_id })
-                .then(res => {
-                    if (res.status == 200) {
-                        successMessage.value = 'Tag added'
-                        setTimeout(onClickTop, 2000)
-                    } else if (res.status == 422) {
-                        successMessage.value = res.data.notification.message
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    } else {
-                        successMessage.value = 'Database Error'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    }
-                })
-                .catch(error => console.log(error))
+                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Tag added'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        } else {
+                            successMessage.value = 'Database Error'
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => console.log(error))
             }
-            
         }
 
         return {
@@ -298,7 +314,8 @@ export default {
             onClickTop,
             onClickBot,
             pickedTags,
-            checkedList
+            checkedList,
+            customerNote
         }
     }
 }
