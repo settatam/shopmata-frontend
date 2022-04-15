@@ -86,6 +86,7 @@
                 <div class="w-full">
                     <TransactionTimeline
                         class="mb-12"
+                        :root="transaction"
                         :transaction="transaction.notes"
                         :bottom_tags="bottom_tags"
                         :statuses="statuses"
