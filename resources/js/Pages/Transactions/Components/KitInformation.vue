@@ -61,15 +61,35 @@
 
             <div class="">
                 <div class=" grid grid-cols-3">
-                    <div class="flex flex-col my-2 justify-center items-center" v-for="tag in top_tags" :key="tag.id">
-                        <label :for="tag.name" class="text-xs lg:text-sm">
-                            {{tag.name}}</label
+                    <div
+                        class="flex flex-col my-2 justify-center items-center"
+                        v-for="tag in top_tags"
+                        :key="tag.id"
+                    >
+                        <label :for="tag.id" class="text-xs lg:text-sm">
+                            {{ tag.name }}</label
                         >
-                        <input type="checkbox" :id="tag.name" :name="tag.name" />
+                        <input
+                            v-if="checkedList.includes(tag.id)"
+                            checked
+                            type="checkbox"
+                            @change="saveTopTags(tag.id)"
+                            :id="tag.id"
+                            :value="tag.id"
+                            :name="tag.name"
+                        />
+
+                        <input
+                            v-else
+                            type="checkbox"
+                            @change="saveTopTags(tag.id)"
+                            :id="tag.id"
+                            :value="tag.id"
+                            :name="tag.name"
+                        />
                     </div>
                 </div>
             </div>
-
         </form>
 
         <!-- sms start -->
@@ -80,14 +100,17 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed, reactive, ref } from '@vue/runtime-core'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Sms from '../Components/Sms.vue'
+import { notify } from 'notiwind'
 
 export default {
     components: { AppLayout, Sms },
     props: ['categories', 'transaction', 'top_tags'],
     setup (props) {
+        const successMessage = ref('')
+        const transaction_id = props.transaction.id
         const categories = props.categories
         const filteredCategory = computed(() => {
             return categories.filter(item => {
@@ -106,8 +129,86 @@ export default {
             }
             return filteredimage
         })
+        const pickedTags = props.transaction.tags
+        const checkedList = computed(() => {
+            let myArray = []
+            pickedTags.forEach(item => {
+                return myArray.push(item.tag_id)
+            })
+            return myArray
+        })
 
-        return { categories, filteredCategory, images, limitedImages }
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+
+        function saveTopTags (tag_id) {
+            if (this.checkedList.includes(tag_id)) {
+                axios
+                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Tag removed'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    })
+            } else {
+                axios
+                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .then(res => {
+                        if (res.status == 200) {
+                            successMessage.value = 'Tag added'
+                            setTimeout(onClickTop, 2000)
+                        } else if (res.status == 422) {
+                            successMessage.value = res.data.notification.message
+                            setTimeout(onClickBot, 2000)
+                            setTimeout(errorFn, 3000)
+                        }
+                    })
+                    .catch(error => {
+                        successMessage.value = 'Database Error'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    })
+            }
+        }
+
+        return {
+            categories,
+            filteredCategory,
+            images,
+            limitedImages,
+            saveTopTags,
+            onClickTop,
+            onClickBot,
+            checkedList
+        }
     }
 }
 </script>
