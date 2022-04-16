@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EventCondition;
+use App\Services\EventNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Transaction;
@@ -162,21 +164,12 @@ class TransactionsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $input = $request->input();
+        //How do we perform validation here???
+
         $transaction = Transaction::find($id);
-        $transaction->fill($request->input());
-        if($transaction->save()){
-
-            foreach($request->input() as $field => $value) {
-                if($value !== $transaction->{$field}) {
-                    //checkForEvent(Transaction::class, $field);
-                }
-            }
-            //if old_transaction status !== new transaction status
-            //Send a notification for status change
-
-            //Check the Event that happened
-            //Send a notification for event if the event exists ...
-            //Was status updated?
+        if($transaction->doUpdate($input)) {
+            return response()->json($transaction);
         }
     }
 

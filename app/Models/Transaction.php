@@ -12,10 +12,26 @@ class Transaction extends Model
 {
     use HasFactory, SoftDeletes;
     protected $filters = null;
+    protected $input = [];
 
     protected $fillable = [
         'id',
+        'status_id'
     ];
+
+    protected static function booted()
+    {
+        static::updated(function ($transaction) {
+            //
+            $obj = new static;
+            foreach($obj->input as $index => $input) {
+                if(!in_array($index, $obj->fillable)) continue;
+                if($checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated')) {
+                    dd($checkForEvent);
+                }
+            }
+        });
+    }
 
     public function setFilters($filters) {
         $this->filters = $filters;
@@ -170,5 +186,31 @@ class Transaction extends Model
 
     public function getCustomerNameAttribute() {
 //        return $this->customer->first_name  . ' ' . $this->customer->last_name;
+    }
+
+    public function doUpdate($input) {
+        $this->input = $input;
+        //Get the current difference between the model and the input
+        $inputCollection = collect($this->input);
+        $collectionDifference = $inputCollection->diff($this);
+        if($collectionDifference->count()) {
+            //convert back to an array
+            $this->input = $collectionDifference->toArray();
+            if($this->update($this->input)) {
+                //Log the update
+                foreach($this->input as $index => $input) {
+//                    if(!in_array($index, $this->fillable)) continue;
+                    if($checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated')) {
+                        dd($checkForEvent);
+                    }else{
+                        dd('No UPdate');
+                    }
+                }
+                return $this;
+            }else{
+                //Log Failure
+            }
+        }
+        return $this;
     }
 }
