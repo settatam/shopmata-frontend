@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 
 class LoginController extends Controller
-{   
+{
     use AuthenticatesUsers;
 
 
@@ -71,7 +71,13 @@ class LoginController extends Controller
                 return response()->json(['notification' => $notification], 400);
             }
 
-            $user = User::with('store_users')
+            $query = User::query();
+            if($request->session()->has('store_id')) {
+                $query->whereHas('store_users', function($q) use ($request) {
+                    $q->where('store_id', $request->session()->get('store_id'));
+                });
+            }
+            $user = $query->with('store_users')
                 ->where('email', $request->email)->first();
             if ($user === null) {
                 $notification = [
@@ -83,7 +89,7 @@ class LoginController extends Controller
             } else {
                 if (Auth::attempt($credentials)) {
                     Login::create(
-                        ['user_id' => Auth::id(), 
+                        ['user_id' => Auth::id(),
                          'store_id' => $user->store_id,
                         'ip_address' => $request->ip()
                     ]
@@ -107,12 +113,12 @@ class LoginController extends Controller
                     ];
                     return response()->json(['notification' => $notification], 400);
                 }
-                
+
 
                 // if (count($user->store_users) == 1) {
                 //     if (Auth::attempt($credentials)) {
                 //         Login::create(
-                //             ['user_id' => Auth::id(), 
+                //             ['user_id' => Auth::id(),
                 //             'store_id' => $user->store_users[0]->store_id,
                 //             'ip_address' => $request->ip()
                 //         ]
@@ -167,7 +173,7 @@ class LoginController extends Controller
 
                 //         if (Auth::attempt($credentials)) {
                 //             Login::create(
-                //                 ['user_id' => Auth::id(), 
+                //                 ['user_id' => Auth::id(),
                 //                  'store_id' => $selectedStore->store->id,
                 //                  'ip_address'=>$request->ip()
                 //                 ]
@@ -203,7 +209,7 @@ class LoginController extends Controller
                 //     return response()->json(['notification' => $notification, 'storeCount' => count($user->store_users), 'stores' => $user->store_users], 200);
 
                 // }
-                
+
             }
 
             $notification = [
@@ -248,7 +254,7 @@ class LoginController extends Controller
         $request->session()->flush();
 
         $request->session()->regenerate();
-	   
+
         return redirect('/');
     }
 }
