@@ -5,25 +5,47 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use DB;
 
 
 class Transaction extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $filters = null;
 
     protected $fillable = [
         'id',
     ];
 
+    public function setFilters($filters) {
+        $this->filters = $filters;
+    }
+
     static function search($filter) {
-        return self::withDates($filter)
+        return self::query()->withDates($filter)
             ->withCustomer($filter)
-            ->isRepeatCustomer($filter)
+            ->withTransactionCount($filter)
             ->withLead($filter)
+            ->withStore($filter)
+            ->withDayOfWeek($filter)
+            ->withTrafficSource($filter)
             ->with('offers')
             ->orderBy('id', 'desc')
             ->take(20)
             ->get();
+    }
+
+    public function scopeWithStore($query, $filter) {
+        if($store_id = data_get($filter, 'store_id')) {
+            $query->where('store_id', $store_id);
+        }
+    }
+
+    public function scopeWithTransactionCount($query, $filter=null) {
+        $query->selectRaw("transactions.*, COUNT(customer_id) AS `numberOfTransactions`")->groupBy('customer_id');
+        if($repeat = data_get($filter, 'repeat')) {
+            $query->havingRaw('numberOfTransactions > ?', [1]);
+        }
     }
 
     public function scopeWithDates($query, $filter=null)
@@ -40,30 +62,42 @@ class Transaction extends Model
 
     public function scopeWithLead($query, $filter=null)
     {
-        if($lead = data_get($filter, 'lead')) {
-            $query->where('lead_id', $lead);
+        if($leads = data_get($filter, 'lead')) {
+            if(!is_array($leads)) $leads = [$leads];
+            $query->whereIn('lead_id', $leads);
         }
     }
 
-    public function scopeIsRepeatCustomer($query, $filter)
+    public function scopeWithTrafficSource($query, $filter=null)
     {
-        if($repeat = data_get($filter, 'repeat')) {
-            $query->groupBy('customer_id')->havingRaw('COUNT(*) > 1');
+        if($sources = data_get($filter, 'source')) {
+            if(!is_array($sources)) $sources = explode(',', $sources);
+            $query->whereHas('trafficSource', function($q) use ($sources) {
+                $q->whereIn('source', $sources);
+            });
         }
     }
 
-    public function scopeWithCustomer($query, $filter)
+
+    public function scopeWithCustomer($query, $filter=null)
     {
         $query->whereHas('customer', function($q) use ($filter) {
              if($gender = data_get($filter, 'gender')) {
                  $q->where('gender', $gender);
              }
 
+             if($state = data_get($filter, 'state')) {
+                 $q->where('state', $state);
+             }
+
         })->with('customer');
     }
 
-//    public function scopeWithCustomer($query, )
-
+    public function scopeWithDayOfWeek($query, $filter=null) {
+        if($dayOfWeek = data_get($filter, 'dayOfWeek')) {
+            $query->whereRaw("DAYNAME(created_at) = ?", [$dayOfWeek]);
+        }
+    }
 
     public function activities()
     {
@@ -98,6 +132,10 @@ class Transaction extends Model
     public function items()
     {
         return $this->hasMany(TransactionItem::class);
+    }
+
+    public function trafficSource() {
+        return $this->belongsTo(SeoTraffic::class, 'seo_traffic_id', 'id');
     }
 
 
