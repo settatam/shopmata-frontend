@@ -94,6 +94,10 @@ class EventNotification
 
     public function sendEmail($data) {
 
+        if(env('APP_ENV') == 'development') {
+            $data['to'] = 'seth.atam@gmail.com';
+        }
+
         Mail::to($data['to'])->send(new EmailSender($data));
 
         $emailNotificationMessageSent = new EmailNotificationMessageSent();
@@ -107,16 +111,19 @@ class EventNotification
     }
 
     public function sendSMS($data){
-        //
-        //Send Email (Get message template ...
-        //Send SMS
         $renderedMessage = $data['parsed_message'];
         if(strlen($renderedMessage) > 160) {
             throw new InvalidInputException("An SMS has a maximum character length of 160");
         }
+
+        if(env('APP_ENV') == 'development') {
+            $data['customer']->phone_number = '2679809681';
+        }
+
         if(is_null($data['customer']->phone_number)) {
             return;
         }
+
         //Create a class to send the SMS and call the sender statically ...
         $smsSender = new SmsManager();
         try {
@@ -132,8 +139,6 @@ class EventNotification
         $smsMessage->customer_id = $data['customer']->id;
         $smsMessage->message = $renderedMessage;
         $smsMessage->save();
-        //Call the table something like SMS messages.
-        //We should be able to search the messages
 
     }
 }

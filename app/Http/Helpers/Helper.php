@@ -25,28 +25,28 @@ class Helper
     }
 
 
-    public  static function getApiData($url)
+    public static function getApiData($url)
     {
         $response = Http::get($url);
         $data = $response->body();
-        if($data = json_decode($data, true)) { 
+        if($data = json_decode($data, true)) {
             return $data;
         }
         return null;
     }
 
-    public static function getStoreByName($value) 
+    public static function getStoreByName($value)
     {
-        
+
         $store = Store::where('name',$value)->first();
-    
+
         if ($store) {
             return $store->id;
         }
 
         return 2;
     }
-    
+
 }
 
 

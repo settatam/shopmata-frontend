@@ -70,7 +70,8 @@ class LoadBuyMyGoldData extends Command
                 $transaction->comments        = $order['values'];
                 $transaction->insurance_value = $order['ship_insurance'];
                 $transaction->payment_method_id = $order['pay_method'];
-            //  $transaction->bin_location = $order['bin_location'];
+                $transaction->estimated_value = $order[''];
+             //  $transaction->bin_location = $order['bin_location'];
                //$transaction->store_id = 2;
                 $transaction->store_id = $this->getStore($order['is_jewelry']);
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
@@ -127,7 +128,7 @@ class LoadBuyMyGoldData extends Command
                 }
 
                 if ($order["date_update"]  !== "0000-00-00 00:00:00"){
-                    
+
                     $transaction->histories()->create([
                         'event' => "UPDATED" ,
                         'created_at' => $order["date_update"]
@@ -246,7 +247,7 @@ class LoadBuyMyGoldData extends Command
             $store = Store::where('name','BuyMyGold')->first();
         }
 
-        if ($store) {
+        if (null !== $store) {
             return $store->id;
         }
 

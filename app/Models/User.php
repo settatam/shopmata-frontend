@@ -130,31 +130,28 @@ class User extends Authenticatable
         //There has to be a store_id
         //check to see that user doesn't already exist ...
 
-        $checkUser = self::where('email', $data['email'])->first();
-        if(null !== $checkUser) {
-            throw new \Exception('This user already exists');
+        $user = self::where('email', $data['email'])->first();
+        if(null === $user) {
+            self::create([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'store_id' => $store->id,
+                'email' => $data['email'],
+                'password' => bcrypt($data['password'])
+            ]);
         }
 
-        if($user = self::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'store_id' => $store->id,
-            'email' => $data['email'],
-            'password' => bcrypt($data['first_name'])
-//            'password' => bcrypt($data['password'])
-        ])) {
             //Check new Store User ...
-            if($addStoreUser) {
-                 StoreUser::createNew($user, $store, $data['storeGroupId']);
-            }
+        if($addStoreUser) {
+            StoreUser::createNew($user, $store, $data['storeGroupId']);
+        }
 
-            (new EventNotification('User Registered', [
-                'user' => $user,
-                'store' => $store
-            ]))->getAndSendMessages();
+        (new EventNotification('User Registered', [
+            'user' => $user,
+            'store' => $store
+        ]));
 
             //Log new email sent ...
-            return $user;
-        }
+        return $user;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EventCondition;
+use App\Services\EventNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Transaction;
@@ -24,9 +26,11 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {   
-        
+    public function index(Request $request)
+    {
+        $filter = [];
+        Transaction::search($filter);
+
         $transactions = Transaction::with('items','customer','images')
                                 ->where('store_id',session('store_id'))
                                 ->latest()
@@ -65,12 +69,12 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
-        $transaction  = Transaction::find($id);
+    {
+        $transaction  = Transaction::findorFail($id);
         $statuses     = Status::all();
         $store_id     = session('store_id');
         $categories   = Category::where('store_id',$store_id)->get();
-        $transactions = Transaction::where(['user_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
+        $transactions = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags     = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags  = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
         $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','items','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags');
@@ -97,7 +101,7 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addTag(Request $request)
-    {   
+    {
         try {
             $transaction = Transaction::findOrFail($request->transaction_id);
             $store_tag   =  StoreTag::where(
@@ -128,19 +132,19 @@ class TransactionsController extends Controller
 
 
     public function addNote(Request $request)
-    {   
+    {
         try {
-            
+
             $transaction = TransactionNote::updateOrCreate(
                 ['user_id' => $request->customer_id,'transaction_id' =>  $request->transaction_id, 'type' => $request->type],
                 ['notes' => $request->message, 'user_id' => $request->customer_id, 'type' => $request->type, 'transaction_id' =>  $request->transaction_id]
             );
-            
+
             if ( $transaction ) {
                 Log::info("Note(s) Updated!", );
                 return response(null,200);
             }
-            
+
         } catch (\Throwable $th) {
             \Log::Error("Failed to Update  Note" . collect($request->all())  ."  Error: " .$th->getMessage() );
         }
@@ -160,6 +164,13 @@ class TransactionsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $input = $request->input();
+        //How do we perform validation here???
+
+        $transaction = Transaction::find($id);
+        if($transaction->doUpdate($input)) {
+            return response()->json($transaction);
+        }
     }
 
     /**
