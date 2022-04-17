@@ -250,7 +250,7 @@ class LoadBuyMyGoldData extends Command
             return $store->id;
         }
 
-        return 2;
+        return null;
     }
 
 
