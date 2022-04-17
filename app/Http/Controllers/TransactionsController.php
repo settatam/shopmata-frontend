@@ -131,6 +131,34 @@ class TransactionsController extends Controller
     }
 
 
+    public function addImage(Request $request)
+    {
+        try {
+
+            $customer_note = TransactionNote::firstOrNew(
+                ['customer_id' => $request->customer_id, 'type' => 'public']            
+            );
+            $customer_note->transaction_id = $request->transaction_id;
+            $customer_note->customer_id    = $request->customer_id;
+            $customer_note->type           = 'public';
+            $customer_note->save();
+
+            $image  = FileUploader::upload($request);
+            if ( isset($image['thumb']) ){
+                $imgs= new Image(['url' => $image['thumb'], 'rank' => 1]);
+                $customer_note->images()->save($imgs);
+            }
+
+            return response()->json($image,  200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+        }
+
+
+        return response(null,422);
+    }
+
+
     public function addNote(Request $request)
     {
         try {

@@ -31,6 +31,18 @@ class Customer extends Model
         'password'
     ];
 
+    public function public_note()
+    {
+        return $this->hasOne(TransactionNote::class)->where('type','public');
+    }
+
+
+    public function private_note()
+    {
+        return $this->hasOne(TransactionNote::class)->where('type','private');
+    }
+
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
