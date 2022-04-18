@@ -13,6 +13,7 @@ class EventCondition extends Model
         return self::where([
             ['model', '=', $model],
             ['field', '=', $field],
+            ['value', '=', $value],
             ['action', '=', $action],
             ['condition', '==', $condition],
         ])->with('notification')->first();

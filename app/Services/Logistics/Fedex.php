@@ -2,132 +2,245 @@
 
 namespace App\Services\Logistics;
 
-class Fedex
+use App\Models\Customer;
+use App\Models\ShippingAddress;
+use Illuminate\Support\Facades\Http;
+use App\Models\StoreUser;
+use App\Models\ShippingUser;
+
+class Fedex extends Shipping
 {
     protected $mergeLabelDocOption;
     protected $recipients = [];
+    protected $shipper = [];
+    const DEFAULT_PACKAGES_TYPE = 'YOUR_PACKAGING';
+    const DEFAULT_LABEL_OPTION = 'LABEL';
+    protected $accessToken = '';
+
 
     public function verifyAddress() {
 
     }
 
-    public function setRecipient($receiver) {
-        $this->recipients[] = [
+    public function getToken() {
+        $response = Http::withHeaders(
+            ['Content-Type' => 'application/x-www-form-urlencoded'])
+            ->asForm()
+            ->post(config('logistics.fedex.url').'/oauth/token?', [
+                'grant_type' => 'client_credentials',
+                'client_id' => config('logistics.fedex.key'),
+                'client_secret' => config('logistics.fedex.secret'),
+            ]);
+        if($response->successful()) {
+           if($tokenResponse = $response->json()) {
+               $this->accessToken = $tokenResponse['access_token'];
+           }
+           return true;
+        }
+
+        return false;
+    }
+
+    private function getRecipients() {
+        return $this->recipients;
+    }
+
+    public function setShippingUser($user) {
+        $this->setParams('senderCompany', $user->company_name);
+        $this->setParams('senderFirstName', $user->first_name);
+        $this->setParams('senderLastName', $user->first_name);
+        $this->setParams('senderStreetAddress', $user->address);
+        $this->setParams('senderStreetAddress2', $user->address2);
+        $this->setParams('senderState', $user->state);
+        $this->setParams('senderCountry', $user->country);
+        $this->setParams('senderPostalCode', $user->postal_code);
+        $this->setParams('senderCity', $user->city);
+    }
+
+    public function setReceiver($user) {
+        $this->setParams('receiverCompany', $user->company_name);
+        $this->setParams('receiveFirstName', $user->first_name);
+        $this->setParams('receiveLastName', $user->first_name);
+        $this->setParams('receiveStreetAddress', $user->address);
+        $this->setParams('receiveStreetAddress2', $user->address2);
+        $this->setParams('receiveState', $user->state);
+        $this->setParams('receiveCountry', $user->country);
+        $this->setParams('receivePostalCode', $user->postal_code);
+        $this->setParams('receiveCity', $user->city);
+    }
+
+    public function getLabel() {
+//        $this->shipperData
+        $this->setParams('declaredValue',
+            [
+                'currency' => 'USD',
+
+        ]);
+        $d = $this->getShipmentData();
+        //dd($this->getShipmentData());
+        if($this->getToken()) {
+            return Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->accessToken,
+                'X-locale' => 'en_US',
+                'Content-Type' => 'application/json'
+            ])->post(
+                config('logistics.fedex.url').'/ship/v1/shipments',
+                [
+                    'mergeLabelDocOption' => 'LABELS_ONLY',
+                    'labelResponseOptions' => 'LABEL',
+                    'requestedShipment' => [
+                        'shipper' => $this->shipper,
+                        'recipients' => $this->recipients,
+                        'packagingType' => self::DEFAULT_PACKAGES_TYPE,
+                        'shippingChargesPayment' => [
+                            'paymentType' => 'SENDER',
+                            'payor' => [
+                                'accountNumber' => $this->accountNumber()
+                            ]
+                        ],
+                        'pickupType' => $this->getPickUpType(),
+                        'serviceType' => $this->getServiceType(),
+                        'totalPackageCount' => 1,
+//                        'shipmentSpecialServices' => $this->getShipmentSpecialServices(),
+                        'requestedPackageLineItems' => $this->getRequestedPackageLineItems(),
+                        'labelSpecification' => $this->getLabelSpecification()
+                    ],
+                    'accountNumber' => $this->accountNumber(),
+                ]
+//                $this->getShipmentData()
+            );
+        }
+    }
+
+    private function setUserInfo($user) {
+        return [
             'address' => [
-                'streetLines' => $receiver->streetAddress,
-                'city' => $receiver->city,
-                'stateOrProvinceCode' => $receiver->state,
-                'postalCode' => $receiver->postalCode,
-                'countryCode' => $receiver->country ?? 'US',
-                'residential' => $receiver->isResidential ?? false
+                'streetLines' => [
+                    $user->address,
+                    $user->address2
+                ],
+                'city' => $user->city,
+                'stateOrProvinceCode' => $user->state,
+                'postalCode' => $user->postal_code,
+                'countryCode' => $user->country,
+                'residential' => $user->isResidential ?? true
             ],
             'contact' => [
-                'personName' => $receiver->name,
-                'emailAddress' => $receiver->email,
-                'phoneNumber' => $receiver->phone,
-                'phoneExtension' => $receiver->extension ?? '',
-                'companyName' => $receiver->company ?? ''
+                'personName' => $user->first_name . ' ' . $user->last_name,
+                'emailAddress' => $user->email,
+                'phoneNumber' => $user->phone,
+                'phoneExtension' => $user->extension,
+                'companyName' => $user->company_name
             ],
         ];
     }
 
-    private function requestData() {
+    public function setRecipient(ShippingAddress $address) {
+        $this->recipients[] = $this->setUserInfo($address);
+    }
+
+    public function setShipper($user) {
+        $this->shipper =  [
+            'address' => [
+                'streetLines' => [
+                    $user->address,
+                    $user->address2
+                ],
+                'city' => $user->city,
+                'stateOrProvinceCode' => $user->state,
+                'postalCode' => $user->postal_code,
+                'countryCode' => $user->country,
+                'residential' => $user->isResidential ?? false
+            ],
+            'contact' => [
+                'personName' => $user->first_name . ' ' . $user->last_name,
+//                'emailAddress' => $user->email,
+                'phoneNumber' => $user->phone,
+//                'phoneExtension' => $user->extension,
+                'companyName' => $user->company_name
+            ],
+        ];
+    }
+
+    public function getShipmentData() {
         return [
-            'mergeLabelDocOption' =>  '', //"NONE" "LABELS_AND_DOCS" "LABELS_ONLY"
+            'mergeLabelDocOption' =>  'LABELS_ONLY', //"NONE" "LABELS_AND_DOCS" "LABELS_ONLY"
             'requestedShipment' => [
-                'shipDatestamp' => '', //Date
+                'shipDatestamp' => date('Y-m-d H:i:s'), //Date
                 'totalDeclaredValue' => [
                     'amount' => $this->getDeclaredValue(),
                     'currency' => $this->getCurrency(),
                 ],
-                'shipper' => [
-                    'address' => [
-                        'streetLines' => $this->getSenderFullStreetAddress(),
-                        'city' => $this->getSenderCity(),
-                        'stateOrProvinceCode' => $this->getSenderState(),
-                        'postalCode' => $this->getSenderpostalCode(),
-                        'countryCode' => $this->getSenderCountryCode(),
-                        'residential' => $this->isSenderResidential()
-                    ],
-                    'contact' => [
-                        'personName' => $this->getSenderName(),
-                        'emailAddress' => $this->getSenderEmail(),
-                        'phoneNumber' => '',
-                        'phoneExtension' => '',
-                        'companyName' => ''
-                    ],
-                    'tins' => [
-                        [
-                            'number' => '',
-                            'tinType' => '', //"PERSONAL_NATIONAL" "PERSONAL_STATE" "FEDERAL" "BUSINESS_NATIONAL" "BUSINESS_STATE" "BUSINESS_UNION"
-                            'usage' => '',
-                            'effectiveDate' => '',
-                            'expirationDate' => ''
-                        ],
-                    ],
-                ],
-
-            ],
-            'labelResponseOptions' => '', //"URL_ONLY" "LABEL"
-            'soldTo' => [
-                'address' => [
-                        'streetLines' => $this->getFullStreetAddress(),
-                        'city' => $this->getCity(),
-                        'stateOrProvinceCode' => $this->getState(),
-                        'postalCode' => $this->postalCode(),
-                        'countryCode' => $this->getCountryCode(),
-                        'residential' => $this->isResidential()
-                    ],
-                    'contact' => [
-                        'personName' => $this->getContactName(),
-                        'emailAddress' => $this->getEmail(),
-                        'phoneNumber' => '',
-                        'phoneExtension' => '',
-                        'companyName' => ''
-                    ],
-                    'tins' => [
-                        [
-                            'number' => '',
-                            'tinType' => '', //"PERSONAL_NATIONAL" "PERSONAL_STATE" "FEDERAL" "BUSINESS_NATIONAL" "BUSINESS_STATE" "BUSINESS_UNION"
-                            'usage' => '',
-                            'effectiveDate' => '',
-                            'expirationDate' => ''
-                        ],
+                'shipper' => $this->shipper,
+                'recipients' => $this->recipients,
+                'packagingType' => self::DEFAULT_PACKAGES_TYPE,
+                'serviceType' => $this->getServiceType(),
+                'pickupType' => $this->getPickUpType(),
+                'totalWeight' => $this->totalWeight,
+                'shippingChargesPayment' => [
+                    'paymentType' => 'SENDER',
+                    'payor' => [
+                        'accountNumber' => $this->accountNumber()
                     ]
-            ],
-            'recipients' => [
-                [
-                    'address' => [
-                        'streetLines' => $this->getFullStreetAddress(),
-                        'city' => $this->getCity(),
-                        'stateOrProvinceCode' => $this->getState(),
-                        'postalCode' => $this->postalCode(),
-                        'countryCode' => $this->getCountryCode(),
-                        'residential' => $this->isResidential()
-                    ],
-                    'contact' => [
-                        'personName' => $this->getContactName(),
-                        'emailAddress' => $this->getEmail(),
-                        'phoneNumber' => '',
-                        'phoneExtension' => '',
-                        'companyName' => ''
-                    ],
-                    'tins' => [
-                        [
-                            'number' => '',
-                            'tinType' => '', //"PERSONAL_NATIONAL" "PERSONAL_STATE" "FEDERAL" "BUSINESS_NATIONAL" "BUSINESS_STATE" "BUSINESS_UNION"
-                            'usage' => '',
-                            'effectiveDate' => '',
-                            'expirationDate' => ''
-                        ],
-                    ],
-                    'deliveryInstructions' => ''
-
                 ],
-                'pickupType' => 'DROPOFF_AT_FEDEX_LOCATION' //CONTACT_FEDEX_TO_SCHEDULE, DROPOFF_AT_FEDEX_LOCATION, 	USE_SCHEDULED_PICKUP, ON_CALL, TAG, PACKAGE_RETURN_PROGRAM, REGULAR_STOP
-                'serviceType' => '',
+                'labelSpecification' => $this->getLabelSpecification(),
+                'shipmentSpecialServices' => $this->getShipmentSpecialServices(),
+                'requestedPackageLineItems' => $this->getRequestedPackageLineItems(),
+            ],
+
+            'labelResponseOptions' => self::DEFAULT_LABEL_OPTION, //"URL_ONLY" "LABEL"
+            'accountNumber' => $this->accountNumber(),
+            'shipAction' => 'CONFIRM',
+            'processingOptionType' => "ALLOW_ASYNCHRONOUS",
+            'oneLabelAtATime' => true
+
+        ];
+    }
+
+    protected function getRequestedPackageLineItems() {
+        return [
+                    [
+                        'sequenceNumber' => 1,
+                            'weight' => [
+                                'units' => 'LB',
+                                'value' => 1
+                            ]
+                    ]
+            ];
+    }
+
+    protected function getLabelSpecification() {
+        return [
+				'labelFormatType' => 'COMMON2D', // valid values COMMON2D, LABEL_DATA_ONLY
+				'imageType' => 'PNG',  // valid values DPL, EPL2, PDF, ZPLII and PNG
+				'labelStockType' => 'PAPER_4X6'
+        ];
+    }
+
+    protected function getShipmentSpecialServices() {
+        return [
+            'specialServiceTypes' => 'FEDEX_ONE_RATE'
+        ];
+    }
+
+    protected function accountNumber() {
+        return ['value' => config('logistics.fedex.account')];
+    }
+
+    protected function getShippingChargesPayment() {
+        return [
+            'paymentType' => 'SENDER',
+            'payor' => [
+                'accountNumber' => $this->accountNumber()
             ]
         ];
+    }
+
+    protected function getPickUpType() {
+        return $this->pickupType ?? 'DROPOFF_AT_FEDEX_LOCATION';
+    }
+    protected function getServiceType() {
+        return $this->serviceType ?? config('logistics.fedex.serviceType');
     }
 
     //$label_size='PAPER_8.5X11_TOP_HALF_LABEL',$label_type='PDF',$ship_type='FEDEX_GROUND'
@@ -173,7 +286,7 @@ class Fedex
     }
 
     //FEDEX SERVICE TYPES
-    FedEx 2Day®	FEDEX_2_DAY
+//    FedEx 2Day®	FEDEX_2_DAY
 //FedEx 2Day® A.M.	FEDEX_2_DAY_AM
 //FedEx Custom Critical Air	FEDEX_CUSTOM_CRITICAL_CHARTER_AIR
 //FedEx Custom Critical Air Expedite	FEDEX_CUSTOM_CRITICAL_AIR_EXPEDITE

@@ -1,20 +1,19 @@
 <template>
-    <div class=" my-3 md:px-0 bg-white rounded">
+    <div class=" my-3 md:px-0 rounded">
         <div class="pt-3 pl-3">
             <h2 class="text-xs">FILTER BY:</h2>
         </div>
 
-        <div
-            class="myGrid
-"
-        >
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div
-                class="w-full my-2 border"
+                class="w-full my-2 border bg-white"
                 v-for="item in filterLists"
                 :key="item.index"
             >
                 <div class="">
-                    <div class="bg-purple-darken text-white font-bold px-2 py-2">
+                    <div
+                        class="bg-purple-darken text-white font-bold px-2 py-2"
+                    >
                         <h1>{{ item.header }}</h1>
                     </div>
                     <div class="pl-3 py-3 bg-white">
@@ -26,15 +25,12 @@
                             >
                                 <input
                                     type="checkbox"
-                                    id="vehicle1"
-                                    name="Tyvek"
+                                    :id="filter"
+                                    :name="filter"
                                 />
-                                <label
-                                    for="vehicle1"
-                                    class="text-xs lg:text-xs"
-                                >
-                                    {{ filter }} </label
-                                >
+                                <label :for="filter" class="text-xs lg:text-xs">
+                                    {{ filter }}
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -48,7 +44,6 @@
 import { reactive } from '@vue/reactivity'
 export default {
     setup () {
-
         const filterLists = reactive([
             {
                 header: 'Statuses',
@@ -124,7 +119,12 @@ export default {
 
             {
                 header: 'Age',
-                filters: ['18 - 25 (0)', '26 - 40 (0)', '41 - 60 (0)', '60+ (0)']
+                filters: [
+                    '18 - 25 (0)',
+                    '26 - 40 (0)',
+                    '41 - 60 (0)',
+                    '60+ (0)'
+                ]
             },
 
             {
@@ -189,8 +189,8 @@ export default {
 </script>
 
 <style scoped>
-.myGrid {
+/* .myGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
+} */
 </style>

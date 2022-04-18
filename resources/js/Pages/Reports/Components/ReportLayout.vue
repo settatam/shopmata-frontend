@@ -1,12 +1,21 @@
 <template>
     <div class=" rounded-md bg-white mt-4  lg:mx-2">
-        <div class="grid grid-cols-3">
-            <div v-for="data in storeData" :key="data.index" class="mx-auto ">
-                <div class="flex flex-col py-12 justify-around">
-                    <p class="text-gray-background text-xs">{{ data.tag }}</p>
-                    <p class="text-3xl">
-                        ${{ data.cost }}
-                    </p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 ">
+            <div v-for="data in storeData" :key="data.index" class="gap-3 border">
+                <div class="flex flex-col py-12 justify-around text-center px-2">
+                    <p class="text-gray-400 text-xs">{{ data.tag }}</p>
+                    <p class="text-3xl">${{ data.cost }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-5 px-2 border">
+            <div v-for="data in avgData" :key="data.index" class="mx-auto">
+                <div class="flex flex-col py-6 justify-around">
+                    <div class="">
+                        <p class="text-gray-400 text-xs">{{ data.tag }}</p>
+                        <p class="text-xl text-center pt-4">{{ data.cost }}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,15 +49,23 @@ export default {
             },
             {
                 tag: 'TOTAL VALUE',
-                cost: '70,896'
+                cost: '95,061'
             },
             {
                 tag: 'PROFIT',
-                cost: '70,896'
+                cost: '24,165'
             }
         ])
 
-        return { items, storeData }
+        const avgData = reactive([
+            { tag: 'AVG. KIT VALUES (USD)', cost: '20.00' },
+            { tag: 'AVG. PROFIT (%)', cost: '35.00' },
+            { tag: 'KITS RECEIVED (%)', cost: '20.00' },
+            { tag: 'KITS DECLINED (%)', cost: '20.00' },
+            { tag: 'KITS REJECTED (%)', cost: '20.00' }
+        ])
+
+        return { items, storeData, avgData }
     }
 }
 </script>

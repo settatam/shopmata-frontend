@@ -29,7 +29,7 @@ class TransactionsController extends Controller
     public function index(Request $request)
     {
         $filter = [];
-        Transaction::search($filter);
+//        Transaction::search($filter);
 
         $transactions = Transaction::with('items','customer','images')
                                 ->where('store_id',session('store_id'))
@@ -104,6 +104,7 @@ class TransactionsController extends Controller
     {
         try {
             $transaction = Transaction::findOrFail($request->transaction_id);
+            //This will become a problem if we don't have a store ....
             $store_tag   =  StoreTag::where(
                                 [
                                     'tagable_id' => $request->transaction_id,
@@ -162,7 +163,6 @@ class TransactionsController extends Controller
     public function addNote(Request $request)
     {
         try {
-
             $transaction = TransactionNote::updateOrCreate(
                 ['user_id' => $request->customer_id,'transaction_id' =>  $request->transaction_id, 'type' => $request->type],
                 ['notes' => $request->message, 'user_id' => $request->customer_id, 'type' => $request->type, 'transaction_id' =>  $request->transaction_id]
