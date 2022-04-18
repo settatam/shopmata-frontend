@@ -6,7 +6,7 @@
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div
-                class="w-full my-2 border"
+                class="w-full my-2 border bg-white"
                 v-for="item in filterLists"
                 :key="item.index"
             >

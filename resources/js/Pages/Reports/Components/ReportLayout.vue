@@ -1,6 +1,6 @@
 <template>
     <div class=" rounded-md bg-white mt-4  lg:mx-2">
-        <div class="grid grid-cols-3 ">
+        <div class="grid grid-cols-1 lg:grid-cols-3 ">
             <div v-for="data in storeData" :key="data.index" class="gap-3 border">
                 <div class="flex flex-col py-12 justify-around text-center px-2">
                     <p class="text-gray-400 text-xs">{{ data.tag }}</p>
