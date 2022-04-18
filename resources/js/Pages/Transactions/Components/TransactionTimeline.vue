@@ -84,14 +84,14 @@
             <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        @blur="saveNotesPrivate()"
+                        @blur="saveNotesPublic()"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
                         placeholder="Customer notes"
                         name=""
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="messagePrivate"
+                        v-model="messagePublic"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full ">
@@ -129,14 +129,14 @@
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        @blur="saveNotesPublic()"
+                        @blur="saveNotesPrivate()"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md "
                         placeholder="MET 3-2-22-Incoming via text"
                         name=""
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="messagePublic"
+                        v-model="messagePrivate"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
