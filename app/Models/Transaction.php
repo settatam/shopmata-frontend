@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\EventNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,20 +17,21 @@ class Transaction extends Model
 
     protected $fillable = [
         'id',
-        'status_id'
+        'status_id',
+
     ];
 
     protected static function booted()
     {
         static::updated(function ($transaction) {
             //
-            $obj = new static;
-            foreach($obj->input as $index => $input) {
-                if(!in_array($index, $obj->fillable)) continue;
-                if($checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated')) {
-                    dd($checkForEvent);
-                }
-            }
+//            $obj = new static;
+//            foreach($obj->input as $index => $input) {
+//                if(!in_array($index, $obj->fillable)) continue;
+//                if($checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated')) {
+//                    dd($checkForEvent);
+//                }
+//            }
         });
     }
 
@@ -188,29 +190,35 @@ class Transaction extends Model
 //        return $this->customer->first_name  . ' ' . $this->customer->last_name;
     }
 
+    public function store() {
+        return $this->belongsTo(Store::class, 'store_id', 'id');
+    }
+
     public function doUpdate($input) {
         $this->input = $input;
         //Get the current difference between the model and the input
-        $inputCollection = collect($this->input);
-        $collectionDifference = $inputCollection->diff($this);
-        if($collectionDifference->count()) {
+        $inputCollection = $this->input;
             //convert back to an array
-            $this->input = $collectionDifference->toArray();
             if($this->update($this->input)) {
                 //Log the update
-                foreach($this->input as $index => $input) {
-//                    if(!in_array($index, $this->fillable)) continue;
-                    if($checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated')) {
-                        dd($checkForEvent);
-                    }else{
-                        dd('No UPdate');
+                foreach($this->getChanges() as $index => $input) {
+                    $checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated');
+                    $checkForEvent = EventCondition::check(get_class(), TransactionOffer::class, TransactionOffer::FINAL_OFFER, 'added');
+                    if(null !== $checkForEvent) {
+                        if(null !== $checkForEvent->notification) {
+                            $sendNotice = new EventNotification(
+                                $checkForEvent->notification->name,
+                                [
+                                    'customer' => $this->customer,
+                                    'store' => $this->store
+                                ]
+                            );
+                        }
                     }
                 }
-                return $this;
             }else{
                 //Log Failure
             }
-        }
         return $this;
     }
 }

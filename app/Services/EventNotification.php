@@ -9,6 +9,7 @@ use App\Models\SMSMessage;
 use App\Models\StoreNotificationMessage;
 use App\Mail\EmailSender;
 use App\Models\Store;
+use App\Models\ThemeFile;
 use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\User;
@@ -62,24 +63,20 @@ class EventNotification
                 }
 
                 if(!$storeNotificationMessage->is_customer && null === $this->data['user']) {
-                    throw new \Exception('You need a user object');
+                    throw new \Exception('You need a user or customer object');
                 }
-
-                $messageData['to'] = ($storeNotificationMessage->is_customer) ? $this->data['customer']->email : $this->data['user']->email;
-
-                $template = \Twig::createTemplate($storeNotificationMessage->message);
-                $renderedMessage = \Twig::render($template, $messageData);
-
-                $messageData['parsed_message'] = $renderedMessage;
-                $messageData['subject'] = $storeNotificationMessage->email_subject;
 
                 switch ($storeNotificationMessage->channel) {
                     case 'email':
-                        //Get the template
-                        //Form the
+                        $messageData['to'] = ($storeNotificationMessage->is_customer) ? $this->data['customer']->email : $this->data['user']->email;
+                        $messageData['subject'] = ThemeFile::generateParsedContent($storeNotificationMessage->email_subject, $messageData);
+                        $messageData['content_for_email'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
+                        $emailTemplate = ThemeFile::getTemplateFor($this->data['store'], 'email');
+                        $messageData['parsed_message'] = ThemeFile::generateParsedContent($emailTemplate->content, $messageData);
                         $this->sendEmail($messageData);
                         break;
                     case 'sms':
+                        $messageData['parsed_message'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
                         $this->sendSMS($messageData);
                         break;
                     default:
@@ -94,8 +91,8 @@ class EventNotification
 
     public function sendEmail($data) {
 
-        if(env('APP_ENV') == 'development') {
-            $data['to'] = 'seth.atam@gmail.com';
+        if(env('APP_ENV') != 'production') {
+            $data['to'] = env('DEVELOPER_EMAIL', 'jacob@enkoded.com');
         }
 
         Mail::to($data['to'])->send(new EmailSender($data));
@@ -113,10 +110,10 @@ class EventNotification
     public function sendSMS($data){
         $renderedMessage = $data['parsed_message'];
         if(strlen($renderedMessage) > 160) {
-            throw new InvalidInputException("An SMS has a maximum character length of 160");
+//            throw new InvalidInputException("An SMS has a maximum character length of 160");
         }
 
-        if(env('APP_ENV') == 'development') {
+        if(env('APP_ENV') != 'production') {
             $data['customer']->phone_number = '2679809681';
         }
 
@@ -127,7 +124,7 @@ class EventNotification
         //Create a class to send the SMS and call the sender statically ...
         $smsSender = new SmsManager();
         try {
-            $smsSender->sendSMS($renderedMessage, $data['customer']->phone_number);
+            $smsSender->sendSMSForStore($data['store'], $renderedMessage, $data['customer']->phone_number);
         } catch(SMSException $e) {
             throw new InvalidInputException($e);
         }

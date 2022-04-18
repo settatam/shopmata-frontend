@@ -197,12 +197,16 @@ class Shipping
         return $this->totalWeight;
     }
 
-    public function setParameter($field, $value) {
+    public function setParams($field, $value) {
         $this->{$field} = $value;
     }
 
-    public function getParameter($field) {
+    public function getParams($field) {
         return $this->{$field} ?? '';
+    }
+
+    public function getCurrency() {
+        return 'USD';
     }
 
 }

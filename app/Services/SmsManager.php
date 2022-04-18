@@ -7,6 +7,7 @@ use App\Exceptions\SMSException;
 use App\Models\Verification;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
+use App\Models\Store;
 
 class SmsManager
 {
@@ -40,5 +41,15 @@ class SmsManager
             throw new SMSException($exception);
         }
 
+    }
+
+    /**
+     * @throws SMSException
+     */
+    public function sendSMSForStore(Store $store, $message, $to): void
+    {
+        $this->from = $store->sms_send_from;
+        //We will change the SID and token here and check if the store has SMS enabled
+        $this->sendSMS($message, $to);
     }
 }

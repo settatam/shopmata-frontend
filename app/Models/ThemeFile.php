@@ -13,6 +13,7 @@ use Auth;
 
 class ThemeFile extends Model
 {
+    const DEFAULT_THEME_ID = 1;
     use HasFactory;
     use FileUploader;
 
@@ -22,16 +23,16 @@ class ThemeFile extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(new StoreScope);
+//        static::addGlobalScope(new StoreScope);
     }
 
     public function theme() {
     	return $this->belongsTo(Theme::class, 'theme_id', 'id');
     }
-    
+
     public function uploadToCloud() {
     	//We are only going to be doing this for css and js files
-    	
+
     	$fs = new Filesystem();
         $data = array();
         $fs->put(public_path()."/exercise.html", View::make('home.index', compact('layout','content')));
@@ -40,7 +41,7 @@ class ThemeFile extends Model
 
     public static function getForStore(){
         $files = self::distinct('title')->get(['title', 'type_id', 'type', 'content', 'id']);
-        
+
         $theme_files = [];
 
         $layout_files = [];
@@ -49,10 +50,10 @@ class ThemeFile extends Model
         $layout = '';
 
         foreach ($files as $file) {
-            $theme_files[$file->type_id][] = 
-                ['title' => $file['title'], 
+            $theme_files[$file->type_id][] =
+                ['title' => $file['title'],
                  'content' => $file['content'],
-                 'type' => $file['type'], 
+                 'type' => $file['type'],
                  'id' => $file->id
              ];
         }
@@ -61,6 +62,20 @@ class ThemeFile extends Model
 
         return $theme_files;
 
+    }
+
+    public static function getTemplateFor(Store $store, $page) {
+        $page .= '.twig';
+        $themeId = $store->theme_id ?? self::DEFAULT_THEME_ID;
+        return self::where('store_id', $store->id)
+            ->where('title', $page)
+            ->where('theme_id', $themeId)
+            ->first();
+    }
+
+    static function generateParsedContent($content, $data) {
+        $message = \Twig::createTemplate($content);
+        return \Twig::render($message, $data);
     }
 
 }
