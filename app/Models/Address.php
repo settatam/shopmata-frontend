@@ -13,9 +13,23 @@ class Address extends Model
     const BILLING_ADDRESS_TYPE = 'billing';
     const LOCATION_ADDRESS_TYPE = 'location';
 
+    protected $fillable = [
+        'user_id',
+        'country_id',
+        'state_id',
+        'city',
+        'is_default',
+        'address',
+        'address2',
+        'zip',
+        'country',
+        'state',
+        'first_name',
+        'last_name',
+    ];
+
     public function addressable()
     {
         return $this->morphTo();
     }
-
 }

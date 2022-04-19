@@ -71,8 +71,7 @@ class LoadBuyMyGoldData extends Command
                 $transaction->insurance_value = $order['ship_insurance'];
                 $transaction->payment_method_id = $order['pay_method'];
                 $transaction->estimated_value = $order[''];
-             //  $transaction->bin_location = $order['bin_location'];
-               //$transaction->store_id = 2;
+                //$transaction->bin_location = $order['bin_location'];
                 $transaction->store_id = $this->getStore($order['is_jewelry']);
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
@@ -119,7 +118,6 @@ class LoadBuyMyGoldData extends Command
                 $customer->password           = bcrypt($order['order_password']);
                 $customer->accepts_marketing  =   1;
                 $customer->created_at = $order['date_new'];
-
                 $customer->save();
                 //Create the transaction history
 
@@ -251,7 +249,7 @@ class LoadBuyMyGoldData extends Command
             return $store->id;
         }
 
-        return 2;
+        return null;
     }
 
 

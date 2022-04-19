@@ -46,7 +46,9 @@
                                     <p class="text-2xl font-bold">
                                         Kit Assembly Checklist
                                         <span class="text-purple-darken"
-                                            >Order #{{transaction[0].id}}</span
+                                            >Order #{{
+                                                transaction[0].id
+                                            }}</span
                                         >
                                     </p>
                                 </div>
@@ -60,18 +62,20 @@
                                 <div
                                     class="flex flex-row w-full mb-4 space-x-2"
                                 >
-                                    <label class="py-1" for="ground"
-                                        >Print Label:</label
-                                    >
+                                    <p class="py-1">Print Label:</p>
                                     <input
                                         class="mt-2 py-1"
                                         type="checkbox"
                                         name="ground"
                                         id="ground"
                                     />
-                                    <span class="py-1">Ground?</span>
+                                    <label class="py-1" for="ground"
+                                        >Ground?</label
+                                    >
 
-                                    <div class="space-x-2 flex flex-col lg:flex-row">
+                                    <div
+                                        class="space-x-2 flex flex-col lg:flex-row"
+                                    >
                                         <button
                                             class="bg-gray-background px-2 py-1"
                                         >
@@ -107,7 +111,9 @@
 
                                 <h2 class="mb-4 font-bold">
                                     Check off each item as you complete it:
-                                    <span class="text-purple-darken"
+                                    <span
+                                        class="text-purple-darken cursor-pointer"
+                                        @click="checkAll()"
                                         >Check All</span
                                     >
                                 </h2>
@@ -119,12 +125,15 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
-                                            name="toseller"
-                                            id="toseller"
+                                            name="fromseller"
+                                            id="fromseller"
                                         />
-                                        <label class="py-1 px-2" for="toseller"
+                                        <label
+                                            class="py-1 px-2"
+                                            for="fromseller"
                                             >From Seller Label printed &
                                             attached to kit return
                                             package</label
@@ -135,6 +144,7 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
                                             name="toseller"
@@ -150,12 +160,15 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
-                                            name="toseller"
-                                            id="toseller"
+                                            name="barcodesprinted"
+                                            id="barcodesprinted"
                                         />
-                                        <label class="py-1 px-2" for="toseller"
+                                        <label
+                                            class="py-1 px-2"
+                                            for="barcodesprinted"
                                             >Barcodes printed & attached to kit
                                             envelopes</label
                                         >
@@ -165,12 +178,15 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
-                                            name="toseller"
-                                            id="toseller"
+                                            name="packagecontent"
+                                            id="packagecontent"
                                         />
-                                        <label class="py-1 px-2" for="toseller"
+                                        <label
+                                            class="py-1 px-2"
+                                            for="packagecontent"
                                             >Package Contents Verified &
                                             Assembled</label
                                         >
@@ -180,12 +196,13 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
-                                            name="toseller"
-                                            id="toseller"
+                                            name="kitsent"
+                                            id="kitsent"
                                         />
-                                        <label class="py-1 px-2" for="toseller"
+                                        <label class="py-1 px-2" for="kitsent"
                                             >Shipping kit sent to shipping
                                             carrier</label
                                         >
@@ -231,7 +248,7 @@ import {
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
 import useVuelidate from '@vuelidate/core'
-import { required, helpers, } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 
 export default {
     emits: ['close'],
@@ -248,7 +265,7 @@ export default {
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
-
+        const isChecked = ref(false)
         const local_pickup = reactive({
             category: '',
             description: '',
@@ -256,6 +273,10 @@ export default {
             mprice: '',
             inote: ''
         })
+
+        function checkAll () {
+            isChecked.value = true
+        }
 
         const closeModal = () => {
             open.value = false
@@ -312,7 +333,9 @@ export default {
             v$,
             closeModal,
             countries,
-            states
+            states,
+            isChecked,
+            checkAll
         }
     }
 }

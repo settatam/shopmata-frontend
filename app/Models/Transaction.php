@@ -23,6 +23,8 @@ class Transaction extends Model
 
     ];
 
+
+
     protected static function booted()
     {
         static::updated(function ($transaction) {
@@ -36,6 +38,13 @@ class Transaction extends Model
 //            }
         });
     }
+
+
+    public function address()
+    {
+        return $this->morphOne(Address::class, 'addressable');
+    }
+
 
     public function setFilters($filters) {
         $this->filters = $filters;
@@ -139,7 +148,7 @@ class Transaction extends Model
 
     public function customer()
     {
-    	return $this->belongsTo(Customer::class);
+    	return $this->belongsTo(Customer::class,'customer_id','id');
     }
 
 
