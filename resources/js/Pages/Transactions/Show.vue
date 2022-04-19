@@ -52,7 +52,7 @@
                     <div class="w-full lg:w-1/3 ">
                         <KitInformation
                             class="mb-4 h-full"
-                            :categories="categories"
+                            :categories="transaction_categories"
                             :transaction="transaction"
                             :top_tags="top_tags"
                         />
@@ -77,6 +77,7 @@
                 <div class="w-full">
                     <ItemTable
                         :transaction="transaction.items"
+                        :categories="transaction_item_categories"
                         class="lg:mt-16 mb-12"
                     />
                 </div>
@@ -311,11 +312,13 @@ export default {
     props: {
         notifications: Array,
         transaction: Object,
-        categories: Array,
+        transaction_categories: Array,
+        transaction_item_categories: Array,
         statuses: Array,
         top_tags: Array,
         bottom_tags: Array,
         statuses: Array,
+
     },
 
     setup (props) {
