@@ -97,11 +97,7 @@ class Customer extends Model
             ->where('customer_id', $customer_id)
         ]);
     }
-    
-    public function addresses()
-    {
-        return $this->morphMany(Address::class, 'addressable');
-    }
+
 
     public function shippingAddress() {
         return $this->addresses()->first();
