@@ -56,12 +56,12 @@
                     name=""
                     id=""
                 >
-                    <option value="shippingto">Create Shipping label to</option>
-                    <option value="shippingfrom"
+                    <option value="label_to">Create Shipping label to</option>
+                    <option value="label_from"
                         >Create Shipping label from</option
                     >
+                    <option value="barcode">Create barcode</option>             
                     <option value="delete">Delete</option>
-                    <option value="reatebarcode">Create barcode</option>
                 </select>
                 </div>
                 <!-- mass action dropdown end -->

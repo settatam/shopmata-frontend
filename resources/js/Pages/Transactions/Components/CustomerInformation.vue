@@ -5,12 +5,9 @@
         </div>
 
         <div class="p-4 space-y-2">
-            <h1 class="text-purple-darken 2xl font-bold">
-                {{ customer.first_name }} {{ customer.last_name }}
-                <inertia-link :href="'/customers/' + customer.id"
-                    >(ID {{ customer.id }})</inertia-link
+                <inertia-link class="text-purple-darken 2xl font-bold" :href="'/customers/' + customer.id"
+                    >{{ customer.first_name }} {{ customer.last_name }} (ID {{ customer.id }})</inertia-link
                 >
-            </h1>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
                 <span class="font-normal">{{ customer.address }}</span>

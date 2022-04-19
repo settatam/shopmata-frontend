@@ -56,6 +56,7 @@ class LoadCategories extends Command
                 $category->dwt_formula = $cat['dwt_formula'];
                 $category->sort_order  = $cat['sort_order'];
                 $category->long_name   = $cat['long_name'];
+                $category->type        = 'transaction_item_category';
                 $category->store_id    = Helper::getStoreByName('BuyMyGold');
                 $category->save();                      
                 $bar->advance();
@@ -63,6 +64,30 @@ class LoadCategories extends Command
 
             $bar->finish();
         }
+
+        $categories = [
+            "HANDBAGS",
+            "MULTIPLE ITEM",
+            "WATCH",
+            "JEWELRY",
+            "DIAMOND",
+            "COIN",
+            "SCRAP",
+            "VARIOUS",
+            "GOLD SCRAP"
+        ];
+
+        foreach($categories as $cat ) {
+            $category = new Category;
+            $category = Category::firstOrNew(
+                [ 'name' => $cat ]
+            );
+            $category->name        = $cat;
+            $category->type        = 'transaction_category';
+            $category->store_id    = Helper::getStoreByName('BuyMyGold');
+            $category->save();
+        }
+
 
     }
 
