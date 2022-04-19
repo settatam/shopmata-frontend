@@ -31,6 +31,11 @@ class Customer extends Model
         'password'
     ];
 
+    public function addresses()
+    {
+        return $this->morphMany(Address::class, 'addressable');
+    }
+
     public function public_note()
     {
         return $this->hasOne(TransactionNote::class)->where('type','public');
@@ -92,7 +97,7 @@ class Customer extends Model
             ->where('customer_id', $customer_id)
         ]);
     }
-
+    
     public function addresses()
     {
         return $this->morphMany(Address::class, 'addressable');

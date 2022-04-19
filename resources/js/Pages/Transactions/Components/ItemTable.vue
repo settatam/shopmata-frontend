@@ -201,7 +201,7 @@ import AddItem from '../Components/AddItem.vue'
 
 export default {
     components: { AppLayout, AddItem },
-    props: ['transaction', 'categories'],
+    props: ['transaction','categories'],
     setup (props) {
         const transaction = reactive(props.transaction)
         const popUp = ref(false)
