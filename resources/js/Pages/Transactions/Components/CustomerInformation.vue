@@ -5,39 +5,55 @@
         </div>
 
         <div class="p-4 space-y-2">
-            <h1 class="text-purple-darken 2xl font-bold">{{customer.first_name}} (ID {{customer.id}})</h1>
+            <h1 class="text-purple-darken 2xl font-bold">
+                {{ customer.first_name }} {{ customer.last_name }}
+                <inertia-link :href="'/customers/' + customer.id"
+                    >(ID {{ customer.id }})</inertia-link
+                >
+            </h1>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
-                <span class="font-normal">{{customer.address}}</span>
+                <span class="font-normal">{{ customer.address }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 2:
-                <span class="font-normal">{{customer.address2}}</span>
+                <span class="font-normal">{{ customer.address2 }}</span>
             </p>
-            <p v-if="customer.state" class="font-bold text-xs lg:text-sm text-black">
+            <p
+                v-if="customer.state"
+                class="font-bold text-xs lg:text-sm text-black"
+            >
                 City, State, Zip:
-                <span class="font-normal ">{{customer.city}}, {{customer.state.code}}, {{customer.zip}}</span>
+                <span class="font-normal "
+                    >{{ customer.city }}, {{ customer.state.code }},
+                    {{ customer.zip }}</span
+                >
             </p>
             <p v-else class="font-bold text-xs lg:text-sm text-black">
                 City, State, Zip:
-                <span class="font-normal ">{{customer.zip}}, {{customer.zip}}</span>
+                <span class="font-normal "
+                    >{{ customer.zip }}, {{ customer.zip }}</span
+                >
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Phone:
-                <span class="font-normal">{{customer.phone_number}}</span>
+                <span class="font-normal">{{ customer.phone_number }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Home/Work:
                 <span class="font-normal">{{}}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Email: <span class="font-normal text-purple-darken">{{customer.email}}</span>
+                Email:
+                <span class="font-normal text-purple-darken">{{
+                    customer.email
+                }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Lead: <span class="font-normal">{{}}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                DOB: <span class="font-normal">{{customer.dob}}</span>
+                DOB: <span class="font-normal">{{ customer.dob }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Gender:
@@ -46,7 +62,6 @@
             <p class="font-bold text-xs lg:text-sm text-black">
                 IP Address: <span class="font-normal">{{}}</span>
             </p>
-            
         </div>
     </div>
 </template>
@@ -55,7 +70,7 @@
 import AppLayout from '../../../Layouts/AppLayout.vue'
 
 export default {
-    props:['customer'],
+    props: ['customer'],
     components: { AppLayout },
     setup () {
         return {}

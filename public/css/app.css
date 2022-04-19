@@ -2450,9 +2450,6 @@ select {
 .break-words {
 	overflow-wrap: break-word;
 }
-.break-all {
-	word-break: break-all;
-}
 .rounded-md {
 	border-radius: 0.375rem;
 }
@@ -5372,12 +5369,12 @@ input[type='checkbox']:focus {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
 
-	.lg\:grid-cols-5 {
-		grid-template-columns: repeat(5, minmax(0, 1fr));
-	}
-
 	.lg\:grid-cols-4 {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.lg\:grid-cols-5 {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
 	}
 
 	.lg\:flex-row {

@@ -123,7 +123,7 @@
                                     {{ item.created_at }}
                                 </td>
                                 <td class="text-black font-medium">
-                                    {{ item.customer.first_name }} {{ item.customer.last }}
+                                    {{ item.customer.first_name }} {{ item.customer.last_name }}
                                 </td>
                                 <td
                                     v-if="!item.customer.state"
