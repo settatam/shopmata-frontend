@@ -81,10 +81,6 @@ class Customer extends Model
     }
 
 
-    public function shipping_addresses()
-    {
-        return $this->hasMany(ShippingAddress::class, 'user_id', 'id');
-    }
 
 
     public function orders()
