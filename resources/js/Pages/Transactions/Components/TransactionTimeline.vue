@@ -17,11 +17,12 @@
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
                             name=""
                             id=""
+                            v-model="transactionStatus"
                         >
                             <option
                                 v-for="status in statuses"
                                 :key="status.index"
-                                value=""
+                                :value="status.name"
                                 >{{ status.name }}</option
                             >
                         </select>
@@ -46,6 +47,7 @@
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
                             placeholder="Kit Received"
                             autocomplete="off"
+                            v-model="transactionOffer.offer"
                         />
                         <div class="flex flex-row ml-1">
                             <input
@@ -53,6 +55,7 @@
                                 class="text-xs my-2 mx-2"
                                 name="2ndoffer"
                                 id="2ndoffer"
+                                v-model="transactionOffer.secondOffer"
                             />
                             <label class="mt-1" for="2ndoffer">2nd Offer</label>
                         </div>
@@ -234,6 +237,11 @@ export default {
         const customer_id = props.root.customer.id
         const messagePrivate = ref('')
         const messagePublic = ref('')
+        const transactionStatus = ref('')
+        const transactionOffer = reactive({
+            secondOffer: '',
+            offer: ''
+        })
 
         // notification
         function onClickTop () {
@@ -367,7 +375,9 @@ export default {
             messagePrivate,
             messagePublic,
             saveNotesPrivate,
-            saveNotesPublic
+            saveNotesPublic,
+            transactionStatus,
+            transactionOffer
         }
     }
 }

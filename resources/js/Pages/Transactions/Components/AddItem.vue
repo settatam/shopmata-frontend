@@ -62,11 +62,11 @@
                                     <select
                                         name=""
                                         id=""
+                                        v-model="local_pickup.category"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                     >
-                                        <option value="0"
-                                            >Choose Category</option
-                                        >
+                                        <option value="0">Choose Category</option>
+                                        <option :value="category.name" v-for="category in categories" :key="category.index">{{category.name}}</option>
                                     </select>
                                 </div>
 
@@ -239,7 +239,7 @@ import { required, helpers, numeric } from '@vuelidate/validators'
 
 export default {
     emits: ['close'],
-    props: ['store', 'countries'],
+    props: ['store', 'countries', 'categories'],
 
     components: {
         Dialog,

@@ -25,6 +25,13 @@ class Category extends Model
         'id'
     ];
 
+    public $types = [
+        'transaction_category',
+        'transaction_item_category',
+    ];
+
+    
+
     // protected static function booted()
     // {
     //     static::addGlobalScope(new StoreScope);
