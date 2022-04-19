@@ -165,7 +165,7 @@ class TransactionsController extends Controller
     {
         try {
             $transaction = TransactionNote::updateOrCreate(
-                ['user_id' => $request->customer_id,'transaction_id' =>  $request->transaction_id, 'type' => $request->type],
+                ['customer_id' => $request->customer_id,'transaction_id' =>  $request->transaction_id, 'type' => $request->type],
                 ['notes' => $request->message, 'user_id' => $request->customer_id, 'type' => $request->type, 'transaction_id' =>  $request->transaction_id]
             );
 
