@@ -14,7 +14,7 @@ class AlterTransactionsTableRenameUserId extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->renameColumn('user_id', 'customer_id');
+//            $table->renameColumn('user_id', 'customer_id');
         });
     }
 
@@ -26,7 +26,7 @@ class AlterTransactionsTableRenameUserId extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->renameColumn('customer_id', 'user_id');
+//            $table->renameColumn('customer_id', 'user_id');
         });
     }
 }
