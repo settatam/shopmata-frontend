@@ -167,7 +167,7 @@ class CustomersController extends Controller
             $months[$stat->month] = $stat->total_sale;
         }
 
-        $customer = Customer::with(['orders.items','shipping_addresses'])->withTotalOrders($id)->find($id);
+        $customer = Customer::with(['orders.items','addresses'])->withTotalOrders($id)->find($id);
 
         if (null === $customer) {
             throw new HttpException(404);
