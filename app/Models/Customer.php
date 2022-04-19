@@ -31,6 +31,18 @@ class Customer extends Model
         'password'
     ];
 
+    public function public_note()
+    {
+        return $this->hasOne(TransactionNote::class)->where('type','public');
+    }
+
+
+    public function private_note()
+    {
+        return $this->hasOne(TransactionNote::class)->where('type','private');
+    }
+
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
@@ -79,5 +91,11 @@ class Customer extends Model
         return $query->addSelect(['total_orders'=>Order::selectRaw('sum(total) as total_orders')
             ->where('customer_id', $customer_id)
         ]);
+    }
+
+
+    public function addresses()
+    {
+        return $this->morphMany(Address::class, 'addressable');
     }
 }
