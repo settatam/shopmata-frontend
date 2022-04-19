@@ -5,6 +5,8 @@
             <div class="flex flex-row justify-between">
                 <div class="flex flex-col justify-start m-3">
                     <h1 class="mt-4 font-bold">Transactions</h1>
+                    <label for="Search" class="text-xs text-black font-medium py-2">Search</label>
+
                 </div>
 
                 <div class="lg:hidden flex flex-row justify-start mr-3 py-4">
@@ -18,38 +20,69 @@
                 </div>
             </div>
 
-            <!-- Search start -->
-            <div class="mx-3">
-                <label for="Search" class="text-xs text-black font-medium py-2"
-                    >Search</label
-                >
-                <div
-                    class="relative text-gray-600 focus-within:text-gray-background "
-                >
-                    <span
-                        class="absolute inset-y-0 left-0 flex items-center pl-2"
+            <div class="mx-3 flex justify-between space-x-2">
+                <!-- Search start -->
+                <div class="">
+                    
+                    <div
+                        class="relative text-gray-600 focus-within:text-gray-background "
                     >
-                        <button
-                            type="submit"
-                            class="p-1 focus:outline-none focus:shadow-outline"
+                        <span
+                            class="absolute inset-y-0 left-0 flex items-center pl-2"
                         >
-                            <SearchIcon class="h-5 w-5 text-gray-background" />
-                        </button>
-                    </span>
-                    <input
-                        type="search"
-                        class="py-2 text-sm text-black rounded-md pl-10 focus:outline-none focus:bg-white w-full lg:w-2/4"
-                        placeholder="Search by name, email....."
-                        autocomplete="off"
-                    />
+                            <button
+                                type="submit"
+                                class="p-1 focus:outline-none focus:shadow-outline"
+                            >
+                                <SearchIcon
+                                    class="h-5 w-5 text-gray-background"
+                                />
+                            </button>
+                        </span>
+                        <input
+                            type="search"
+                            class="py-2 text-sm text-black rounded-md pl-10 focus:outline-none focus:bg-white w-full lg:w-full"
+                            placeholder="Search by name, email....."
+                            autocomplete="off"
+                        />
+                    </div>
                 </div>
+                <!-- Search end -->
+
+                <!-- mass action dropdown start -->
+                <div>
+                    <select
+                    class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white "
+                    name=""
+                    id=""
+                >
+                    <option value="shippingto">Create Shipping label to</option>
+                    <option value="shippingfrom"
+                        >Create Shipping label from</option
+                    >
+                    <option value="delete">Delete</option>
+                    <option value="reatebarcode">Create barcode</option>
+                </select>
+                </div>
+                <!-- mass action dropdown end -->
             </div>
-            <!-- Search end -->
 
             <!-- transaction items -->
             <table class="my-4 mx-3 bg-white rounded-md">
                 <thead class="border-b table-auto">
                     <tr class="font-semibold tracking-wide text-left">
+                        <th
+                            class="text-sm font-medium text-gray-600 px-5 mr-1 py-1"
+                            scope="col"
+                        >
+                            <input
+                                @click="checkAll()"
+                                type="checkbox"
+                                name=""
+                                id=""
+                            />
+                        </th>
+
                         <th
                             class="text-sm font-medium text-gray-600 px-5 mr-1 py-1"
                             scope="col"
@@ -77,6 +110,16 @@
                         :key="item.index"
                         class="py-3 border-b border-gray-background mr-2"
                     >
+                        <td class=" lg:table-cell  px-5">
+                            <label :for="item.id"></label>
+                            <input
+                                :checked="isChecked"
+                                type="checkbox"
+                                :name="item.id"
+                                :id="item.id"
+                            />
+                        </td>
+
                         <td class=" w-auto md:w-2/4 lg:w-2/3">
                             <div
                                 class="py-4 px-6 flex  flex-col lg:flex-row items-center lg:space-x-2 space-y-1"
@@ -123,7 +166,8 @@
                                     {{ item.created_at }}
                                 </td>
                                 <td class="text-black font-medium">
-                                    {{ item.customer.first_name }} {{ item.customer.last_name }}
+                                    {{ item.customer.first_name }}
+                                    {{ item.customer.last_name }}
                                 </td>
                                 <td
                                     v-if="!item.customer.state"
@@ -209,6 +253,7 @@ export default {
     setup ({ transactions }) {
         const imageExists = ref(true)
         const open = ref(false)
+        const isChecked = ref(false)
         const notifications = notifications
         const pagination = ref(transactions)
         const filterLists = ref(transactions.data)
@@ -218,12 +263,19 @@ export default {
             pagination.value = page
             loading.value = false
         }
+
+        function checkAll () {
+            isChecked.value = !isChecked.value
+        }
+
         return {
             transactions,
             statusStyles,
             pagination,
             filterLists,
-            imageExists
+            imageExists,
+            isChecked,
+            checkAll
         }
     }
 }

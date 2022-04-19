@@ -69,7 +69,9 @@
                                         name="ground"
                                         id="ground"
                                     />
-                                    <label class="py-1" for="ground">Ground?</label>
+                                    <label class="py-1" for="ground"
+                                        >Ground?</label
+                                    >
 
                                     <div
                                         class="space-x-2 flex flex-col lg:flex-row"
@@ -109,7 +111,9 @@
 
                                 <h2 class="mb-4 font-bold">
                                     Check off each item as you complete it:
-                                    <span class="text-purple-darken" @click="checkAll()"
+                                    <span
+                                        class="text-purple-darken cursor-pointer"
+                                        @click="checkAll()"
                                         >Check All</span
                                     >
                                 </h2>
@@ -140,7 +144,7 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
-                                        :checked="isChecked"
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
                                             name="toseller"
@@ -156,7 +160,7 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
-                                        :checked="isChecked"
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
                                             name="barcodesprinted"
@@ -174,7 +178,7 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
-                                        :checked="isChecked"
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
                                             name="packagecontent"
@@ -192,7 +196,7 @@
                                         class="flex flex-row w-full mb-2 p-2 bg-gray-background"
                                     >
                                         <input
-                                        :checked="isChecked"
+                                            :checked="isChecked"
                                             class="mt-2 py-1"
                                             type="checkbox"
                                             name="kitsent"
@@ -270,8 +274,8 @@ export default {
             inote: ''
         })
 
-        function checkAll(){
-            isChecked.value = true;
+        function checkAll () {
+            isChecked.value = true
         }
 
         const closeModal = () => {
