@@ -73,12 +73,13 @@ class TransactionsController extends Controller
         $transaction  = Transaction::findorFail($id);
         $statuses     = Status::all();
         $store_id     = session('store_id');
-        $categories   = Category::where('store_id',$store_id)->get();
-        $transactions = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
+        $transaction_item_categories   = Category::where('store_id',$store_id)->get();
+        $transaction_categories   = Category::where('store_id',$store_id)->get();
+        $transaction = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags     = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags  = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
         $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','items','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags');
-        return Inertia::render('Transactions/Show', compact('transaction','categories','statuses','transactions','top_tags','bottom_tags'));
+        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags'));
     }
 
     /**
