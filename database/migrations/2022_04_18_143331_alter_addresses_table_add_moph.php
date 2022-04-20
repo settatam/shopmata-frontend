@@ -13,11 +13,11 @@ class AlterAddressesTableAddMoph extends Migration
      */
     public function up()
     {
-        Schema::table('addresses', function (Blueprint $table) {
-            $table->string('addressable_type')->nullable();
-            $table->integer('addressable_id')->nullable();
-            $table->string('type')->nullable();
-        });
+//        Schema::table('addresses', function (Blueprint $table) {
+//            $table->string('addressable_type')->nullable();
+//            $table->integer('addressable_id')->nullable();
+//            $table->string('type')->nullable();
+//        });
     }
 
     /**

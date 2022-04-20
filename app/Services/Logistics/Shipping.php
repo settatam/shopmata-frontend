@@ -4,6 +4,9 @@ namespace App\Services\Logistics;
 
 class Shipping
 {
+    const SHIPPING_TYPE_FROM = 'from';
+    const SHIPPING_TYPE_TO = 'to';
+
     protected $senderName;
     protected $senderCompany;
     protected $senderStreetAddress;

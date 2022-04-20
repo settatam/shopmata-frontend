@@ -3,7 +3,7 @@
 namespace App\Services\Logistics;
 
 use App\Models\Customer;
-use App\Models\ShippingAddress;
+use App\Models\Address;
 use Illuminate\Support\Facades\Http;
 use App\Models\StoreUser;
 use App\Models\ShippingUser;
@@ -16,6 +16,11 @@ class Fedex extends Shipping
     const DEFAULT_PACKAGES_TYPE = 'YOUR_PACKAGING';
     const DEFAULT_LABEL_OPTION = 'LABEL';
     protected $accessToken = '';
+    protected $trackingNumber;
+    protected $base64Label;
+    protected $packagingType = '';
+    protected $specialServices = [];
+    public $errors = [];
 
 
     public function verifyAddress() {
@@ -79,7 +84,7 @@ class Fedex extends Shipping
         $d = $this->getShipmentData();
         //dd($this->getShipmentData());
         if($this->getToken()) {
-            return Http::withHeaders([
+            $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->accessToken,
                 'X-locale' => 'en_US',
                 'Content-Type' => 'application/json'
@@ -91,7 +96,7 @@ class Fedex extends Shipping
                     'requestedShipment' => [
                         'shipper' => $this->shipper,
                         'recipients' => $this->recipients,
-                        'packagingType' => self::DEFAULT_PACKAGES_TYPE,
+                        'packagingType' => $this->getPackagingType(),
                         'shippingChargesPayment' => [
                             'paymentType' => 'SENDER',
                             'payor' => [
@@ -101,7 +106,7 @@ class Fedex extends Shipping
                         'pickupType' => $this->getPickUpType(),
                         'serviceType' => $this->getServiceType(),
                         'totalPackageCount' => 1,
-//                        'shipmentSpecialServices' => $this->getShipmentSpecialServices(),
+                        'shipmentSpecialServices' => $this->getShipmentSpecialServices(),
                         'requestedPackageLineItems' => $this->getRequestedPackageLineItems(),
                         'labelSpecification' => $this->getLabelSpecification()
                     ],
@@ -109,7 +114,45 @@ class Fedex extends Shipping
                 ]
 //                $this->getShipmentData()
             );
+
+            if($response->successful()) {
+                $responseData = $response->json();
+                $pieceResponses = $responseData['output']['transactionShipments'][0]['pieceResponses'];
+                $this->trackingNumber = $pieceResponses[0]['trackingNumber'];
+                $this->base64Label = $pieceResponses[0]['packageDocuments'][0]['encodedLabel'];
+                return $this;
+            }else{
+                $this->errors = $response->json();
+                return $this;
+            }
         }
+
+        return false;
+
+    }
+
+    public function getPackagingType() {
+        if(in_array('FEDEX_ONE_RATE', $this->specialServices)) {
+            return 'FEDEX_SMALL_BOX';
+        }
+
+        if(!$this->packageType) return self::DEFAULT_PACKAGES_TYPE;
+        return $this->packageType;
+    }
+
+    public function getTrackingNumber() {
+        return $this->trackingNumber;
+    }
+
+    public function getBase64Label() {
+        return $this->base64Label;
+    }
+
+    public function trackPackage() {
+        if($this->trackingNumber) {
+
+        }
+        return false;
     }
 
     private function setUserInfo($user) {
@@ -135,7 +178,7 @@ class Fedex extends Shipping
         ];
     }
 
-    public function setRecipient(ShippingAddress $address) {
+    public function setRecipient(Address $address) {
         $this->recipients[] = $this->setUserInfo($address);
     }
 
@@ -173,7 +216,7 @@ class Fedex extends Shipping
                 ],
                 'shipper' => $this->shipper,
                 'recipients' => $this->recipients,
-                'packagingType' => self::DEFAULT_PACKAGES_TYPE,
+                //'packagingType' => self::DEFAULT_PACKAGES_TYPE,
                 'serviceType' => $this->getServiceType(),
                 'pickupType' => $this->getPickUpType(),
                 'totalWeight' => $this->totalWeight,
@@ -217,9 +260,9 @@ class Fedex extends Shipping
         ];
     }
 
-    protected function getShipmentSpecialServices() {
+    public function getShipmentSpecialServices() : array {
         return [
-            'specialServiceTypes' => 'FEDEX_ONE_RATE'
+            'specialServiceTypes' => $this->specialServices
         ];
     }
 
@@ -276,14 +319,8 @@ class Fedex extends Shipping
 			)
 		);
 
-
-
-
     }
 
-    public function trackPackage() {
-
-    }
 
     //FEDEX SERVICE TYPES
 //    FedEx 2Day®	FEDEX_2_DAY
