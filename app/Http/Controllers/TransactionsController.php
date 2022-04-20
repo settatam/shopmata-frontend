@@ -175,7 +175,7 @@ class TransactionsController extends Controller
 
 
             if ( $transaction ) {
-                Log::info("Note(s) Updated!", );
+                Log::info("Note(s) Updated!" );
                 return response($transaction->load('public_note','private_note'),200);
             }
 
