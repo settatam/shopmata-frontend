@@ -60,26 +60,7 @@
                     </label> -->
                 </div>
 
-                <div
-                    class="flex lg:flex-col justify-around mt-4 lg:mt-0 lg:space-y-2  lg:w-1/6 space-x-3 lg:space-x-0 ml-8"
-                >
-                    <button
-                        class="bg-purple-darken w-40 px-4 md: py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                        type="submit"
-                    >
-                        Return Label
-                    </button>
-                    <!-- </div> -->
-
-                    <!-- <div class=""> -->
-                    <button
-                        class="bg-purple-darken w-40 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                        type="submit"
-                    >
-                        Reject Offer
-                    </button>
-                    <!-- </div>7 -->
-                </div>
+                
             </div>
         </div>
     </div>
