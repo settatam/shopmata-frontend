@@ -3,7 +3,7 @@
         <!-- Page header -->
         <div id="container" class="flex flex-col mx-3">
             <div class="flex flex-row justify-between">
-                <div class="flex flex-col justify-start m-3">
+                <div class="flex flex-col justify-start my-3 mx-3">
                     <h1 class="mt-4 font-bold">Transactions</h1>
                     <label
                         for="Search"
@@ -70,7 +70,7 @@
                     <div class="">
                         <select
                             class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white w-72 lg:w-full"
-                            name=""
+                            name="massaction"
                             id=""
                         >
                             <option value="label_to"
@@ -123,7 +123,7 @@
                             Customers
                         </th>
                         <th
-                            class="text-sm font-medium text-gray-600  py-1 px-5 hidden"
+                            class="text-sm font-medium text-gray-600 py-1 px-5 hidden"
                             scope="col"
                         >
                             Options
@@ -137,7 +137,7 @@
                         :key="item.index"
                         class="py-3 border-b border-gray-background mr-2"
                     >
-                        <td class=" lg:table-cell  px-5">
+                        <td class=" lg:table-cell px-5">
                             <label :for="item.id"></label>
                             <input
                                 :checked="isChecked"
