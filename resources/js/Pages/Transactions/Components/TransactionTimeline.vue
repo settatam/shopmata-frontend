@@ -227,6 +227,7 @@ export default {
         const popModal = () => {
             popUp.value = true
         }
+        const notes = props.transaction
         const transaction_id = props.root.id
         const pickedTags = props.root.tags
         const checkedList = computed(() => {
@@ -245,8 +246,30 @@ export default {
             offer: ''
         })
 
+<<<<<<< HEAD
         messagePublic.value = props.root.public_note.notes
         messagePrivate.value = props.root.private_note.notes
+=======
+        const filteredPrivateLast = computed(() => {
+            let filteredNotes = notes.filter(note => {
+                if (note.type == 'private') {
+                    return note
+                }
+            })
+
+            return filteredNotes[filteredNotes.length - 1].notes
+        })
+
+        const filteredPublicLast = computed(() => {
+            let filteredNotes = notes.filter(note => {
+                if (note.type == 'public') {
+                    return note
+                }
+            })
+
+            return filteredNotes[filteredNotes.length - 1].notes
+        })
+>>>>>>> 9cf68db95e3ddb1b026543751e6ca9d1a2571ba2
 
         // notification
         function onClickTop () {
@@ -350,7 +373,10 @@ export default {
             messagePublic,
             saveNote,
             transactionStatus,
-            transactionOffer
+            transactionOffer,
+            filteredPrivateLast,
+            filteredPublicLast,
+            notes
         }
     }
 }
