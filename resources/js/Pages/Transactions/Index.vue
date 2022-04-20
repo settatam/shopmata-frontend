@@ -3,7 +3,7 @@
         <!-- Page header -->
         <div id="container" class="flex flex-col mx-3">
             <div class="flex flex-row justify-between">
-                <div class="flex flex-col justify-start m-3">
+                <div class="flex flex-col justify-start my-3 mx-3">
                     <h1 class="mt-4 font-bold">Transactions</h1>
                     <label
                         for="Search"
@@ -12,7 +12,7 @@
                     >
                 </div>
 
-                <div class="lg:hidden flex flex-row justify-start mr-3 py-4">
+                <!-- <div class="lg:hidden flex flex-row justify-start mr-3 py-4">
                     <button
                         class="bg-purple-darken px-2 py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
                         type="submit"
@@ -20,36 +20,15 @@
                         <PlusIcon class="h-4 w-5 inline-flex items-center" />
                         <span class="pl-2">Add Customer</span>
                     </button>
-                </div>
+                </div> -->
             </div>
 
-            <div class="mx-3 flex flex-col md:flex-row justify-center md:justify-between  space-y-4 lg:space-x-0">
+            <div
+                class="mx-3 flex flex-col lg:flex-row justify-center md:justify-between  space-y-4 lg:space-y-0 lg:space-x-0"
+            >
                 <!-- Search start -->
-                <div class="flex flex-row space-x-2">
-                    <div
-                        class="relative text-gray-600 focus-within:text-gray-background "
-                    >
-                        <span
-                            class="absolute inset-y-0 left-0 flex items-center pl-2"
-                        >
-                            <button
-                                type="submit"
-                                class="p-1 focus:outline-none focus:shadow-outline"
-                            >
-                                <SearchIcon
-                                    class="h-5 w-5 text-gray-background"
-                                />
-                            </button>
-                        </span>
-                        <input
-                            type="search"
-                            class="py-2 text-sm text-black rounded-md pl-10 focus:outline-none focus:bg-white w-full lg:w-full"
-                            placeholder="Search by name, email....."
-                            autocomplete="off"
-                        />
-                    </div>
-
-                    <div>
+                <div class="flex flex-row space-x-2 w-auto">
+                    <div class="">
                         <select
                             class="rounded text-black bg-white text-xm md:text-base w-20 "
                             name=""
@@ -62,22 +41,44 @@
                             <option value="50">50</option>
                         </select>
                     </div>
+                    <div
+                        class="relative text-gray-600 focus-within:text-gray-background w-96"
+                    >
+                        <span
+                            class="absolute inset-y-0 left-0 flex items-center pl-2"
+                        >
+                            <button
+                                type="submit"
+                                class="p-1 focus:outline-none focus:shadow-outline"
+                            >
+                                <SearchIcon
+                                    class="h-5 w-5 text-gray-background "
+                                />
+                            </button>
+                        </span>
+                        <input
+                            type="search"
+                            class="py-2 text-sm text-black rounded-md pl-10 focus:outline-none focus:bg-white w-full lg:w-full"
+                            placeholder="Search by name, email....."
+                            autocomplete="off"
+                        />
+                    </div>
                 </div>
                 <!-- Search end -->
 
                 <div class="flex flex-row space-x-2">
                     <!-- mass action dropdown start -->
-                    <div>
+                    <div class="">
                         <select
-                            class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white "
-                            name=""
+                            class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white w-72 lg:w-full"
+                            name="massaction"
                             id=""
                         >
                             <option value="label_to"
-                                >Create Shipping label to</option
+                                >Create Shipping label to customer</option
                             >
                             <option value="label_from"
-                                >Create Shipping label from</option
+                                >Create Shipping label from customer</option
                             >
                             <option value="barcode">Create barcode</option>
                             <option value="delete">Delete</option>
@@ -124,7 +125,7 @@
                             Customers
                         </th>
                         <th
-                            class="text-sm font-medium text-gray-600  py-1 hidden lg:table-cell "
+                            class="text-sm font-medium text-gray-600 py-1 px-5 hidden"
                             scope="col"
                         >
                             Options
@@ -138,7 +139,7 @@
                         :key="item.index"
                         class="py-3 border-b border-gray-background mr-2"
                     >
-                        <td class=" lg:table-cell  px-5">
+                        <td class=" lg:table-cell px-5">
                             <label :for="item.id"></label>
                             <input
                                 :checked="isChecked"
@@ -148,7 +149,7 @@
                             />
                         </td>
 
-                        <td class=" w-auto md:w-2/4 lg:w-2/3">
+                        <td class=" w-auto md:w-2/5 lg:w-2/3">
                             <div
                                 class="py-4 px-6 flex  flex-col lg:flex-row items-center lg:space-x-2 space-y-1"
                             >
@@ -228,7 +229,7 @@
 
                         <!-- options column start-->
                         <td class="hidden lg:table-cell">
-                            <div class="py-4 w-24 flex flex-col">
+                            <div class="py-4 mr-8 w-24 flex flex-col">
                                 <button
                                     class="bg-purple-darken py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                     type="submit"

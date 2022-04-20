@@ -419,7 +419,7 @@ export default {
                         onClickBot()
                         setTimeout(errorFn, 3000)
                     } else {
-                        successMessage.value = 'Database Error'
+                        successMessage.value = 'Error processing your request'
                         onClickBot()
                         setTimeout(errorFn, 3000)
                     }
