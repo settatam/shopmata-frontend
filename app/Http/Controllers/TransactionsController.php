@@ -172,7 +172,7 @@ class TransactionsController extends Controller
 
             if ( $transaction ) {
                 Log::info("Note(s) Updated!", );
-                return response(null,200);
+                return response($transaction->load('public_note','private_note'),200);
             }
 
         } catch (\Throwable $th) {
