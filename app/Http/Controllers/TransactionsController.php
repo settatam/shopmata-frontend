@@ -14,13 +14,18 @@ use App\Models\Tag;
 use App\Models\StoreTag;
 use Illuminate\Support\Facades\Log;
 use App\Models\TransactionNote;
+use App\Traits\FileUploader;
+
 
 
 
 
 
 class TransactionsController extends Controller
-{
+{   
+
+    use FileUploader;
+
     /**
      * Display a listing of the resource.
      *
