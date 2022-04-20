@@ -79,7 +79,8 @@ class TransactionsController extends Controller
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
         $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','items','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags');
-        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags'));
+        $timeline = $transaction->historyTimeline();
+        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags', 'timeline'));
     }
 
     /**
@@ -138,7 +139,7 @@ class TransactionsController extends Controller
         try {
 
             $customer_note = TransactionNote::firstOrNew(
-                ['customer_id' => $request->customer_id, 'type' => 'public']            
+                ['customer_id' => $request->customer_id, 'type' => 'public']
             );
             $customer_note->transaction_id = $request->transaction_id;
             $customer_note->customer_id    = $request->customer_id;

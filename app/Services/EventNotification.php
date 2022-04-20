@@ -5,6 +5,7 @@ use App\Exceptions\InvalidInputException;
 use App\Exceptions\SMSException;
 use App\Models\EmailNotificationMessageSent;
 use App\Models\Order;
+use App\Models\Sms;
 use App\Models\SMSMessage;
 use App\Models\StoreNotificationMessage;
 use App\Mail\EmailSender;
@@ -68,6 +69,7 @@ class EventNotification
 
                 switch ($storeNotificationMessage->channel) {
                     case 'email':
+                        $messageData['notification_id'] = $storeNotificationMessage->id;
                         $messageData['to'] = ($storeNotificationMessage->is_customer) ? $this->data['customer']->email : $this->data['user']->email;
                         $messageData['subject'] = ThemeFile::generateParsedContent($storeNotificationMessage->email_subject, $messageData);
                         $messageData['content_for_email'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
@@ -77,6 +79,7 @@ class EventNotification
                         break;
                     case 'sms':
                         $messageData['parsed_message'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
+                        $messageData['notification_id'] = $storeNotificationMessage->id;
                         $this->sendSMS($messageData);
                         break;
                     default:
@@ -126,9 +129,18 @@ class EventNotification
         try {
             $smsSender->sendSMSForStore($data['store'], $renderedMessage, $data['customer']->phone_number);
         } catch(SMSException $e) {
-            throw new InvalidInputException($e);
+           // throw new InvalidInputException($e);
         }
+
+
         //Save the sent message in a database ..
+        if(Sms::create([
+            'from' => $smsSender->from,
+            'to' => $data['customer']->phone_number,
+            ''
+        ])){
+
+        };
         $smsMessage = new SMSMessage();
         $smsMessage->from = $smsSender->from;
         $smsMessage->to = $data['customer']->phone_number;
