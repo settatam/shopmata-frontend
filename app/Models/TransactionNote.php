@@ -13,11 +13,11 @@ class TransactionNote extends Model
     const PRIVATE_TYPE = 'private';
 
 
-    protected $fillable = [
+    public $fillable = [
         'notes',
         'type',
         'transaction_id',
-        'user_id'
+        'customer_id'
     ];
 
 
