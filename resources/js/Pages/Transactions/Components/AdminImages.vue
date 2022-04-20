@@ -10,8 +10,25 @@
                 class="flex pb-8 px-8 flex-col lg:flex-row lg:space-x-2 space-x-0"
             >
                 <div class="lg:w-10/12 sm:w-full">
-                    <div class="">
-                        <images-list @delete_img="delete_img" />
+                    <div
+                        class="border-b border-gray-300"
+                        v-if="transaction.images.length && media_open"
+                    >
+                        <li class="flex text-gray-700 justify-between">
+                            <p class="w-3/10">Image</p>
+                            <p
+                                class="w-5/10 border-r border-l border-gray-300 px-6"
+                            >
+                                Description
+                            </p>
+                            <p class="w-2/10 px-2">Thumbnail</p>
+                        </li>
+                    </div>
+                    <div class="" v-if="media_open">
+                        <images-list 
+                        :images="transaction.images"
+                        v-if="transaction.images.length"
+                        @delete_img="delete_img" />
                         <Dropzone @add-image="onAddImage" class="" />
                     </div>
                     <!-- <label
@@ -72,25 +89,39 @@
 import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Dropzone from './Dropzone'
-import ImagesList from "./ImagesList"
+import ImagesList from './ImagesList'
+import { notify } from 'notiwind'
 
 export default {
     components: { AppLayout, Dropzone, ImagesList },
     setup () {
+        const media_open = ref(true)
+        const transaction = reactive({
+            images: []
+            })
         function delete_img (image) {
-            // this.product.images = image;
+            transaction.images = image;
         }
 
         function onAddImage (response) {
+            console.log(response)
             // for (let i = 0; i < response.data.length; i++) {
-            //     this.product.images.push({
+            //     transaction.images.push({
             //         ...response.data[i],
             //         alt: '',
             //         is_default: false
             //     })
             // }
+            response.data.map(item=>{
+                transaction.images.push({
+                    ...item,
+                    alt: '',
+                    is_default: false
+                })
+            })
+
         }
-        return { delete_img, onAddImage }
+        return { delete_img, onAddImage, media_open, transaction }
     }
 }
 </script>

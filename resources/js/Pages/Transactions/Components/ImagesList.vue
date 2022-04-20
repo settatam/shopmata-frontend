@@ -51,13 +51,11 @@ export default {
         const imagesList = ref(images);
         const list = ref([]);
         const delete_image = (num) => {
-            //console.log("image_list", imagesList.value)
             list.value = imagesList.value.filter((img) => num !== img.id);
             imagesList.value = list.value;
             emit("delete_img", imagesList.value);
         };
         return {
-            //people,
             imagesList,
             delete_image,
             list,

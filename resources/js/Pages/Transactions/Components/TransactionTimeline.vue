@@ -168,7 +168,7 @@
         </div>
 
         <div
-            class="flex flex-col flex-wrap md:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
+            class="flex flex-col flex-wrap lg:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
         >
             <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
                 <input
