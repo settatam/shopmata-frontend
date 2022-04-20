@@ -5,8 +5,11 @@
             <div class="flex flex-row justify-between">
                 <div class="flex flex-col justify-start m-3">
                     <h1 class="mt-4 font-bold">Transactions</h1>
-                    <label for="Search" class="text-xs text-black font-medium py-2">Search</label>
-
+                    <label
+                        for="Search"
+                        class="text-xs text-black font-medium py-2"
+                        >Search</label
+                    >
                 </div>
 
                 <div class="lg:hidden flex flex-row justify-start mr-3 py-4">
@@ -20,10 +23,9 @@
                 </div>
             </div>
 
-            <div class="mx-3 flex justify-between space-x-2">
+            <div class="mx-3 flex flex-col md:flex-row justify-center md:justify-between  space-y-4 lg:space-x-0">
                 <!-- Search start -->
-                <div class="">
-                    
+                <div class="flex flex-row space-x-2">
                     <div
                         class="relative text-gray-600 focus-within:text-gray-background "
                     >
@@ -46,25 +48,51 @@
                             autocomplete="off"
                         />
                     </div>
+
+                    <div>
+                        <select
+                            class="rounded text-black bg-white text-xm md:text-base w-20 "
+                            name=""
+                            id=""
+                        >
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
                 <!-- Search end -->
 
-                <!-- mass action dropdown start -->
-                <div>
-                    <select
-                    class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white "
-                    name=""
-                    id=""
-                >
-                    <option value="label_to">Create Shipping label to</option>
-                    <option value="label_from"
-                        >Create Shipping label from</option
-                    >
-                    <option value="barcode">Create barcode</option>             
-                    <option value="delete">Delete</option>
-                </select>
+                <div class="flex flex-row space-x-2">
+                    <!-- mass action dropdown start -->
+                    <div>
+                        <select
+                            class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white "
+                            name=""
+                            id=""
+                        >
+                            <option value="label_to"
+                                >Create Shipping label to</option
+                            >
+                            <option value="label_from"
+                                >Create Shipping label from</option
+                            >
+                            <option value="barcode">Create barcode</option>
+                            <option value="delete">Delete</option>
+                        </select>
+                    </div>
+                    <!-- mass action dropdown end -->
+
+                    <div>
+                        <button
+                            class="inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                        >
+                            Send
+                        </button>
+                    </div>
                 </div>
-                <!-- mass action dropdown end -->
             </div>
 
             <!-- transaction items -->
