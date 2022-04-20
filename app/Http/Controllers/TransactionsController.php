@@ -175,6 +175,7 @@ class TransactionsController extends Controller
 
 
             if ( $transaction ) {
+                $transaction  = Transaction::findorFail($request->transaction_id);
                 Log::info("Note(s) Updated!" );
                 return response($transaction->load('public_note','private_note'),200);
             }
