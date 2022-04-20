@@ -165,7 +165,7 @@ class TransactionsController extends Controller
     public function addNote(Request $request)
     {
         try {
-
+            TransactionNote::truncate();
             $transaction = new TransactionNote;
             $transaction->notes          =   $request->message;
             $transaction->customer_id    =   $request->customer_id;
