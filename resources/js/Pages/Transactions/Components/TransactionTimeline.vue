@@ -214,7 +214,7 @@
         </div>
 
         <div class="my-4">
-            <AdminImages />
+            <AdminImages :root="transaction"/>
         </div>
 
         <!-- add item start -->
@@ -328,10 +328,7 @@ export default {
                     setTimeout(onClickBot, 2000)
                     setTimeout(errorFn, 3000)
                 })
-
         }
-
-
         
         // save notes end
 
