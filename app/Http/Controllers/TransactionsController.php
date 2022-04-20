@@ -167,7 +167,7 @@ class TransactionsController extends Controller
         try {
 
             $transaction = new TransactionNote;
-            $transaction->notes =   $request->message;
+            $transaction->notes          =   $request->message;
             $transaction->customer_id    =   $request->customer_id;
             $transaction->type           =   $request->type;
             $transaction->transaction_id =   $request->transaction_id;
@@ -175,7 +175,7 @@ class TransactionsController extends Controller
 
 
             if ( $transaction ) {
-                Log::info("Note(s) Updated!", );
+                Log::info("Note(s) Updated!" );
                 return response($transaction->load('public_note','private_note'),200);
             }
 
