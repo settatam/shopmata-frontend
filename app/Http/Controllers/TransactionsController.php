@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Http;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Status;
 use App\Models\Tag;
 use App\Models\StoreTag;
@@ -152,8 +153,9 @@ class TransactionsController extends Controller
             $customer_note->save();
 
             $image  = FileUploader::upload($request);
-            if ( isset($image['thumb']) ){
-                $imgs= new Image(['url' => $image['thumb'], 'rank' => 1]);
+            if ( isset($image[0]['thumb']) ){
+                $l_image = $image[0]['thumb'];
+                $imgs= new Image(['url' => $l_image, 'rank' => 1]);
                 $customer_note->images()->save($imgs);
             }
 
