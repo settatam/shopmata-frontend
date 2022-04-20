@@ -9,8 +9,12 @@ class Address extends Model
 {
     use HasFactory;
 
+    const SHIPPING_ADDRESS_TYPE = 'shipping';
+    const BILLING_ADDRESS_TYPE = 'billing';
+    const LOCATION_ADDRESS_TYPE = 'location';
+
     protected $fillable = [
-        'user_id'   ,
+        'user_id',
         'country_id',
         'state_id',
         'city',
@@ -28,7 +32,4 @@ class Address extends Model
     {
         return $this->morphTo();
     }
-
-
-    
 }

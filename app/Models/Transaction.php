@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Services\EventNotification;
+use App\Services\Logistics\Fedex;
+use App\Services\Logistics\Shipping;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -229,5 +231,59 @@ class Transaction extends Model
                 //Log Failure
             }
         return $this;
+    }
+
+    public function shippingAddress() {
+        return $this->hasOne(Address::class)->where('type', Address::SHIPPING_ADDRESS_TYPE);
+    }
+
+    public function shippingLabels() {
+        return $this->morphMany(ShippingLabel::class, 'shippable');
+    }
+
+    public function shippingLabelFrom() {
+        return $this->hasOne(ShippingLabel::class)->where('type', Shipping::SHIPPING_TYPE_FROM);
+    }
+
+    public function shippingLabelTo() {
+        return $this->hasOne(ShippingLabel::class)->where('type',  Shipping::SHIPPING_TYPE_TO);
+    }
+
+    public function getOrSetShippingLabel($type, $cache=false) {
+
+    }
+
+    public function generateBarcode(){
+
+    }
+
+    public function createLabel($type)
+    {
+        $shipperAddress = null;
+        $recipientAddress = null;
+        //Check to see if both shipping addresses exist
+        if ($type == Shipping::SHIPPING_TYPE_FROM){
+            $shipperAddress = $this->customer->shippingAddress();
+            $recipientAddress = $this->store->shippingAddress();
+        }else if($type == Shipping::SHIPPING_TYPE_TO) {
+            $shipperAddress = $this->customer->shippingAddress();
+            $recipientAddress = $this->store->shippingAddress();
+        }
+
+        if(null !== $shipperAddress && null !== $recipientAddress) {
+            $fedex = new Fedex();
+            $fedex->setShipper($shipperAddress);
+            $fedex->setRecipient($recipientAddress);
+
+            //We can set weight, amount and all the other properties ...
+            try{
+                $fedexLabel =  $fedex->getLabel();
+                return $fedexLabel;
+            }catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+        }
+
+        return false;
     }
 }

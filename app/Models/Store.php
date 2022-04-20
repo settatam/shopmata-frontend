@@ -12,10 +12,10 @@ class Store extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 
-    						'name', 
-    						'slug', 
-    						'name', 
+    protected $fillable = ['user_id',
+    						'name',
+    						'slug',
+    						'name',
     						'account_email',
     						'customer_email',
     						'business_name',
@@ -157,5 +157,14 @@ class Store extends Model
 
         return $dashboard_notifications;
     }
-    
+
+    public function addresses()
+    {
+        return $this->morphMany(Address::class, 'addressable');
+    }
+
+    public function shippingAddress() {
+        return $this->addresses()->first();
+    }
+
 }

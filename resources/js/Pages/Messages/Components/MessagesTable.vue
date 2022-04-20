@@ -102,7 +102,6 @@
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
                     >
                         <inertia-link :href=" '/transactions/' + item.transaction.id ">{{ item.id }}</inertia-link>
-
                     </td>
 
                     <td v-else

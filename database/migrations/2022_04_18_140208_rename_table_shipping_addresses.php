@@ -13,7 +13,7 @@ class RenameTableShippingAddresses extends Migration
      */
     public function up()
     {
-        Schema::rename('shipping_addresses', 'addresses');
+//        Schema::rename('shipping_addresses', 'addresses');
     }
 
     /**

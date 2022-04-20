@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ShippingLabel extends Model
 {
     use HasFactory;
+
+    public function shippable()
+    {
+        return $this->morphTo();
+    }
 }
