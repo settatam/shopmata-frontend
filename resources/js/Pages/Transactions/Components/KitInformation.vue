@@ -174,7 +174,7 @@ export default {
                         }
                     })
                     .catch(error => {
-                        successMessage.value = 'Database Error'
+                        successMessage.value = 'Error processing your request'
                         setTimeout(onClickBot, 2000)
                         setTimeout(errorFn, 3000)
                     })
@@ -192,7 +192,7 @@ export default {
                         }
                     })
                     .catch(error => {
-                        successMessage.value = 'Database Error'
+                        successMessage.value = 'Error processing your request'
                         setTimeout(onClickBot, 2000)
                         setTimeout(errorFn, 3000)
                     })

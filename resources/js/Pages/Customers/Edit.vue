@@ -897,7 +897,7 @@ export default {
                         successMessage.value = res.data.message
                         setTimeout(onClickBot, 2000)
                     }
-                    successMessage.value = 'Database Error'
+                    successMessage.value = 'Error processing your request'
                     setTimeout(onClickBot, 2000)
                 })
 

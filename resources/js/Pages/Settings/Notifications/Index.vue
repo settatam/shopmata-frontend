@@ -67,7 +67,10 @@
                                 </button>
                             </div>
 
-                            <CreateNotification @close="popUp = false" v-if="popUp" />
+                            <CreateNotification
+                                @close="popUp = false"
+                                v-if="popUp"
+                            />
 
                             <p class="text-gray-500 mb-4">
                                 Click on any option to select an editable
@@ -374,7 +377,7 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Search from '../../Search.vue'
 import Nav from '../Nav'
 import axios from 'axios'
-import CreateNotification from "./Components/CreateNotification.vue"
+import CreateNotification from './Components/CreateNotification.vue'
 
 import {
     Dialog,
@@ -528,7 +531,7 @@ export default {
                     successMessage.value = res.data.message
                     onClickBot()
                 } else {
-                    successMessage.value = 'Database Error'
+                    successMessage.value = 'Error processing your request'
                     onClickBot()
                 }
             })
