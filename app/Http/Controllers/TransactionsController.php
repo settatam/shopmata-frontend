@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Http;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Status;
 use App\Models\Tag;
 use App\Models\StoreTag;
@@ -80,10 +81,10 @@ class TransactionsController extends Controller
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
         $transaction_categories      = Category::where(['store_id' => $store_id, 'type' => 'transaction_category' ])->get();
-        $transactions                 = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
+        $transactions                = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
-        $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note');
+        $transaction->load('customer','customer.state','items','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note');
         $timeline = $transaction->historyTimeline();
         return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags', 'timeline'));
     }
@@ -152,8 +153,9 @@ class TransactionsController extends Controller
             $customer_note->save();
 
             $image  = FileUploader::upload($request);
-            if ( isset($image['thumb']) ){
-                $imgs= new Image(['url' => $image['thumb'], 'rank' => 1]);
+            if ( isset($image[0]['thumb']) ){
+                $l_image = $image[0]['thumb'];
+                $imgs= new Image(['url' => $l_image, 'rank' => 1]);
                 $customer_note->images()->save($imgs);
             }
 
