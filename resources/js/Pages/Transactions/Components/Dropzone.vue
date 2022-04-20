@@ -27,7 +27,7 @@ export default {
   name: "UseDropzone",
   emits: ['add-image'],
   setup(_, {emit}) {
-    const url = "/transactions/image"; // Your url on the server side
+    const url = "/transaction/image"; // Your url on the server side
     const saveFiles = (files) => {
       const formData = new FormData(); // pass data as a form
       for (var x = 0; x < files.length; x++) {
