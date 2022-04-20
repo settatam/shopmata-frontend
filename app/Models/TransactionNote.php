@@ -17,7 +17,7 @@ class TransactionNote extends Model
         'notes',
         'type',
         'transaction_id',
-        'user_id'
+        'customer_id'
     ];
 
 

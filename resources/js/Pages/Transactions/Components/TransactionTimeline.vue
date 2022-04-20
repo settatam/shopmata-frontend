@@ -248,6 +248,7 @@ export default {
 
         messagePublic.value = props.root.public_note.notes
         messagePrivate.value = props.root.private_note.notes
+        
         const filteredPrivateLast = computed(() => {
             let filteredNotes = notes.filter(note => {
                 if (note.type == 'private') {
