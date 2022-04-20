@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class SMSMessage extends Model
 {
     use HasFactory;
-    protected $table = "sms_messages";
+    protected $table = "sms";
 }

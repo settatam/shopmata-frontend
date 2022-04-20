@@ -39,7 +39,6 @@ class Transaction extends Model
         });
     }
 
-
     public function address()
     {
         return $this->morphOne(Address::class, 'addressable');
@@ -138,6 +137,18 @@ class Transaction extends Model
     {
         return $this->morphMany(Image::class, 'imageable');
 	}
+
+
+    public function public_note()
+    {
+        return $this->hasOne(TransactionNote::class)->where('type', TransactionNote::PUBLIC_TYPE);
+    }
+
+
+    public function private_note()
+    {
+        return $this->hasMany(TransactionNote::class)->where('type', TransactionNote::PRIVATE_TYPE);
+    }
 
 
     public function notes()
@@ -286,4 +297,197 @@ class Transaction extends Model
 
         return false;
     }
+
+    public function hasHistory($value) {
+        return $this->histories()->where('event', $value)->first();
+    }
+
+    public function historyTimeline() {
+        //Is updated
+        $response = [];
+        if($history = $this->hasHistory(TransactionHistory::UPDATED)) {
+            $response[] = [
+                'date' => $history->created_at,
+                'success' => 1,
+                'default' => 1,
+                'name' => 'Kit Requested',
+            ];
+        }
+        if($history = $this->hasHistory(TransactionHistory::FULFILLED)) {
+            $response[] = [
+                'date' => $history->created_at,
+                'success' => 1,
+                'default'=>1,
+                'name'=>'Kit Sent',
+                'class'=>1
+	        ];
+        }else{
+            $response[] = [
+                'date' => '',
+                'success' => 1,
+                'default'=>1,
+                'name'=>'Kit Sent',
+                'class'=>1
+	        ];
+        }
+
+        if($history = $this->hasHistory(TransactionHistory::SHIPMENT_DECLINED)) {
+
+            $response[] = [
+                'date' => $history->created_at,
+                'success' =>1,
+                'default'=>1,
+                'name'=>'Shipment Rejected',
+                'class'=>0
+            ];
+
+            if($history = $this->hasHistory(TransactionHistory::SHIPMENT_RETURNED)) {
+                $response[] = [
+                    'date' => $history->created_at,
+                    'success' =>1,
+                    'default'=>1,
+                    'name'=>'Item Returned',
+                    'class'=>1
+                ];
+            }else{
+                $response[] = [
+                    'date' => '',
+                    'success' =>0,
+                    'default'=>1,
+                    'name'=>'Item Returned',
+                    'class'=>1
+                ];
+            }
+        }
+
+        if($history = $this->hasHistory(TransactionHistory::OFFER_GIVEN)) {
+
+            $response[] = [
+                'date' => $history->created_at,
+                'success' => 1,
+                'default'=>1,
+                'name'=>'Offer Given',
+                'class'=>1
+            ];
+
+//            if(in_array('Offer #2 Given', $attributes)) {
+//                    $response[] = [
+//                    'date' => IO::formatDate(array_search('Offer #2 Given', $attributes)),
+//                    'success' => 1,
+//                    'default'=>1,
+//                    'name'=>'Offer #2 Given',
+//                    'class'=>1
+//                ];
+//            }
+
+//            if(in_array('Offer Given (Cnotes & Picture)', $attributes)) {
+//                    $response[] = [
+//                    'date' => IO::formatDate(array_search('Offer Given (Cnotes & Picture)', $attributes)),
+//                    'success' => 1,
+//                    'default'=>1,
+//                    'name'=>'Offer Given (Cnotes & Picture)',
+//                    'class'=>1
+//                ];
+//            }
+
+            if($history = $this->hasHistory(TransactionHistory::OFFER_ACCEPTED)) {
+                $response[] = [
+                    'date' => $history->created_at,
+                    'success' => 1,
+                    'default'=>1,
+                    'name'=>'Offer Accepted',
+                    'class'=>1
+                ];
+            }else{
+                if (!$this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
+                    $response[] = [
+                        'date' => '',
+                        'success' => 0,
+                        'default' => 1,
+                        'name' => 'Offer Accepted',
+                        'class' => 1
+                    ];
+                }
+            }
+
+            if($history = $this->hasHistory(TransactionHistory::OFFER_PAID)) {
+                $response[] = [
+                    'date' => $history->created_at,
+                    'success' => 1,
+                    'default'=>1,
+                    'name'=>'Payment Sent',
+                    'class'=>1
+                ];
+            }else{
+//                $response[] = [
+//                    'date' => '',
+//                    'success' => 0,
+//                    'default'=>1,
+//                    'name'=>'Payment Processed',
+//                    'class'=>1
+//                ];
+            }
+
+            if($history = $this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
+                $response[] = [
+                    'date' => $history->created_at,
+                    'success' => 1,
+                    'default'=>1,
+                    'name'=>'Offer Declined',
+                    'class'=>0
+                ];
+
+                if($history = $this->hasHistory(TransactionHistory::SHIPMENT_RETURNED)) {
+                    $response[] = [
+                        'date' => $history->created_at,
+                        'success' =>1,
+                        'default'=>1,
+                        'name'=>'Item Returned',
+                        'class'=>1
+                    ];
+                }else{
+                    $response[] = [
+                        'date' => '',
+                        'success' =>0,
+                        'default'=>1,
+                        'name'=>'Item Returned',
+                        'class'=>1
+                    ];
+                }
+            }
+        }
+
+        if ($this->hasHistory(TransactionHistory::SHIPMENT_DECLINED) && $this->hasHistory(TransactionHistory::OFFER_GIVEN)) {
+            $response[] = [
+                'date' => '',
+                'success' => 0,
+                'default'=>1,
+                'name'=>'Offer Given',
+                'class'=>1
+            ];
+
+            $response[] = [
+                'date' => '',
+                'success' => 0,
+                'default'=>1,
+                'name'=>'Offer Accepted',
+                'class'=>1
+            ];
+
+            $response[] = [
+                    'date' => '',
+                    'success' => 0,
+                    'default'=>1,
+                    'name'=>'Payment Processed',
+                    'class'=>1
+            ];
+        }
+
+        return $response;
+    }
+
+//    public function sendSMS($message) {
+//        $to =
+//    }
+
 }

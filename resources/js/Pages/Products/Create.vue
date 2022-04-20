@@ -60,7 +60,7 @@
                                 :class="{
                                     disabled: v$.$error || submitting,
                                     'opacity-25 cursor-not-allowed':
-                                        v$.$error || submitting
+                                        v$.$error || submitting,
                                 }"
                             >
                                 <svg
@@ -747,7 +747,7 @@
                                                 70
                                                     ? 'focus:ring-red-500 focus:border-red-500'
                                                     : 'focus:ring-indigo-500 focus:border-indigo-500',
-                                                'shadow-sm block w-full sm:text-sm border-gray-300 rounded-md'
+                                                'shadow-sm block w-full sm:text-sm border-gray-300 rounded-md',
                                             ]"
                                             type="text"
                                             placeholder="Short sleeve t-shirt"
@@ -788,7 +788,7 @@
                                                 320
                                                     ? 'focus:ring-red-500 focus:border-red-500'
                                                     : 'focus:ring-indigo-500 focus:border-indigo-500',
-                                                'block w-full shadow-sm py-3 px-4 placeholder-gray-500  border border-gray-300 rounded-md'
+                                                'block w-full shadow-sm py-3 px-4 placeholder-gray-500  border border-gray-300 rounded-md',
                                             ]"
                                             placeholder=""
                                             v-model="product.seo_description"
@@ -832,15 +832,15 @@
                                                     {{
                                                         store.domains.length
                                                             ? store.domains[0]
-                                                                  .name + '/'
-                                                            : ''
+                                                                  .name + "/"
+                                                            : ""
                                                     }}
                                                 </span>
                                             </div>
                                             <input
                                                 type="text"
                                                 :style="{
-                                                    paddingLeft: domainWidth
+                                                    paddingLeft: domainWidth,
                                                 }"
                                                 name="handle"
                                                 id="handle"
@@ -880,7 +880,7 @@
                                     :class="{
                                         disabled: v$.$error || submitting,
                                         'opacity-25 cursor-not-allowed':
-                                            v$.$error || submitting
+                                            v$.$error || submitting,
                                     }"
                                 >
                                     <svg
@@ -931,12 +931,11 @@
                                             Select Product Type
                                         </option>
                                         <option
-                                            v-for="(product_type,
-                                            index) in product_types"
+                                            v-for="(
+                                                product_type, index
+                                            ) in product_types"
                                             :value="product_type.id"
-                                            :key="
-                                                `product_type-${product_type.id}`
-                                            "
+                                            :key="`product_type-${product_type.id}`"
                                         >
                                             {{ product_type.name }}
                                         </option>
@@ -1057,45 +1056,45 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import AppLayout from '../../Layouts/AppLayout.vue'
+import { ref } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
 // import Search from "../Search.vue";
-import Nav from './Components/Nav'
-import axios from 'axios'
+import Nav from "./Components/Nav";
+import axios from "axios";
 
 import {
     Dialog,
     DialogOverlay,
     TransitionChild,
-    TransitionRoot
-} from '@headlessui/vue'
+    TransitionRoot,
+} from "@headlessui/vue";
 import {
     ChevronLeftIcon,
     ChevronRightIcon,
     ChevronDownIcon,
     ChevronUpIcon,
-    PlusIcon
-} from '@heroicons/vue/solid'
+    PlusIcon,
+} from "@heroicons/vue/solid";
 import {
     ChartPieIcon,
     InformationCircleIcon,
     HomeIcon,
-    QuestionMarkCircleIcon
-} from '@heroicons/vue/outline'
-import hljs from 'highlight.js'
-import InventoryForm from './Components/InventoryForm'
-import ShippingForm from './Components/ShippingForm'
-import VariantsForm from './Components/VariantsForm'
-import MediaUrlModal from './Components/MediaUrlModal'
-import Dropzone from './Components/Dropzone'
-import ImagesList from './Components/ImagesList'
-import UploadIcon from '../../../assets/UploadIcon'
-import AngleUpIcon from '../../../assets/AngleUpIcon'
-import Multiselect from '@vueform/multiselect'
-import Tooltip from '../../Components/Tooltip/Components/Tooltip.vue'
-import { Inertia } from '@inertiajs/inertia'
-import useVuelidate from '@vuelidate/core'
-import { computed } from 'vue'
+    QuestionMarkCircleIcon,
+} from "@heroicons/vue/outline";
+import hljs from "highlight.js";
+import InventoryForm from "./Components/InventoryForm";
+import ShippingForm from "./Components/ShippingForm";
+import VariantsForm from "./Components/VariantsForm";
+import MediaUrlModal from "./Components/MediaUrlModal";
+import Dropzone from "./Components/Dropzone";
+import ImagesList from "./Components/ImagesList";
+import UploadIcon from "../../../assets/UploadIcon";
+import AngleUpIcon from "../../../assets/AngleUpIcon";
+import Multiselect from "@vueform/multiselect";
+import Tooltip from "../../Components/Tooltip/Components/Tooltip.vue";
+import { Inertia } from "@inertiajs/inertia";
+import useVuelidate from "@vuelidate/core";
+import { computed } from "vue";
 import {
     email,
     numeric,
@@ -1103,24 +1102,24 @@ import {
     helpers,
     required,
     requiredIf,
-    sameAs
-} from '@vuelidate/validators'
-import { notify } from 'notiwind'
-import SuccessNotif from '@/Pages/Products/Components/SuccessNotif.vue'
-import ErrorNotif from '@/Pages/Products/Components/ErrorNotif.vue'
+    sameAs,
+} from "@vuelidate/validators";
+import { notify } from "notiwind";
+import SuccessNotif from "@/Pages/Products/Components/SuccessNotif.vue";
+import ErrorNotif from "@/Pages/Products/Components/ErrorNotif.vue";
 
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
 const statusStyles = {
-    success: 'bg-green-100 text-green-800',
-    processing: 'bg-yellow-100 text-yellow-800',
-    failed: 'bg-gray-100 text-gray-800'
-}
+    success: "bg-green-100 text-green-800",
+    processing: "bg-yellow-100 text-yellow-800",
+    failed: "bg-gray-100 text-gray-800",
+};
 
 const pages = [
-    { name: 'All Product', href: '/products', current: false },
-    { name: 'Create New Product', href: '/products/create', current: true }
-]
+    { name: "All Product", href: "/products", current: false },
+    { name: "Create New Product", href: "/products/create", current: true },
+];
 
 export default {
     props: {
@@ -1129,7 +1128,7 @@ export default {
         brands: Array,
         categories: Array,
         store: Object,
-        product_types: Array
+        product_types: Array,
     },
 
     components: {
@@ -1160,19 +1159,19 @@ export default {
         ChartPieIcon,
         Tooltip,
         QuestionMarkCircleIcon,
-        PlusIcon
+        PlusIcon,
     },
 
-    data () {
+    data() {
         return {
             submitting: false,
             filteredProducts: [],
-            valueContent: '',
-            new_brand: '',
+            valueContent: "",
+            new_brand: "",
             variantList: [],
             expand: true,
             expandMedia: true,
-            content: '',
+            content: "",
             seo_open: true,
             inventory_open: true,
             link_open: true,
@@ -1181,485 +1180,484 @@ export default {
             product_open: true,
             pageTitleLength: 0,
             searchEngDescLength: 0,
-            domainWidth: '0',
+            domainWidth: "0",
             show_brand_input: false,
             product_tooltip:
-                'A product type is a categorization that identifies a product and helps users to organize the products in their store.',
+                "A product type is a categorization that identifies a product and helps users to organize the products in their store.",
             collection_tooltip:
-                'A product type is a categorization that identifies a product and helps users to organize the products in their store.',
+                "A product type is a categorization that identifies a product and helps users to organize the products in their store.",
             editorOption: {
                 modules: {
                     toolbar: [
                         [{ color: [] }, { background: [] }],
-                        ['bold', 'italic', 'underline'],
-                        [{ list: 'ordered' }, { list: 'bullet' }],
-                        ['link', 'image', 'video'],
-                        ['clean']
+                        ["bold", "italic", "underline"],
+                        [{ list: "ordered" }, { list: "bullet" }],
+                        ["link", "image", "video"],
+                        ["clean"],
                     ],
                     syntax: {
-                        highlight: text => hljs.highlightAuto(text).value
-                    }
-                }
+                        highlight: (text) => hljs.highlightAuto(text).value,
+                    },
+                },
             },
             product: {
-                title: '',
-                description: '',
-                brand: '',
+                title: "",
+                description: "",
+                brand: "",
                 images: [],
-                price: '',
-                compare_at_price: '',
+                price: "",
+                compare_at_price: "",
                 margin: null,
                 profit: null,
-                cost_per_item: '',
-                handle: '',
-                sku: '',
-                barcode: '',
-                quantity: '',
+                cost_per_item: "",
+                handle: "",
+                sku: "",
+                barcode: "",
+                quantity: "",
                 track_quantity: false,
                 sell_out_of_stock: false,
                 has_variants: false,
-                min_quantity: '1',
-                seo_description: '',
-                seo_page_title: '',
+                min_quantity: "1",
+                seo_description: "",
+                seo_page_title: "",
                 charge_taxes: false,
-                product_type_id: '',
-                brand_id: ''
+                product_type_id: "",
+                brand_id: "",
             },
             shipping: {
-                weight: '',
-                physical_product: false
+                weight: "",
+                physical_product: false,
             },
             link: {
-                filters: '',
-                related_products: '',
-                manufacture: '',
-                collection: ''
+                filters: "",
+                related_products: "",
+                manufacture: "",
+                collection: "",
             },
             variants: {
                 has_variants: true,
                 is_active: 0,
                 options: [
                     {
-                        type: '',
+                        type: "",
                         values: [],
-                        price: '',
-                        quantity: '',
-                        sku: ''
-                    }
-                ]
+                        price: "",
+                        quantity: "",
+                        sku: "",
+                    },
+                ],
             },
             files: [],
             showUrlModal: false,
             media: {
-                url: ''
-            }
-        }
+                url: "",
+            },
+        };
     },
-    validations () {
+    validations() {
         return {
             product: {
                 title: {
                     required: helpers.withMessage(
-                        'Please enter a title',
+                        "Please enter a title",
                         required
-                    )
+                    ),
                 },
                 description: {
                     required: helpers.withMessage(
-                        'Please enter a description',
+                        "Please enter a description",
                         required
-                    )
+                    ),
                 },
                 price: {
                     required_if: helpers.withMessage(
-                        'Please enter a price',
+                        "Please enter a price",
                         requiredIf(!this.has_variants)
                     ),
-                    numeric
+                    numeric,
                 },
                 compare_at_price: {
-                    numeric
+                    numeric,
                 },
                 quantity: {
-                    numeric
+                    numeric,
                 },
                 min_quantity: {
-                    numeric
+                    numeric,
                 },
                 handle: {
-                    alphaNum
-                }
-            }
-        }
+                    alphaNum,
+                },
+            },
+        };
     },
     computed: {
-        activeDomain () {},
-        editor () {
-            return this.$refs.description?.quill
+        activeDomain() {},
+        editor() {
+            return this.$refs.description?.quill;
         },
-        editorContent () {
-            return this.$refs.description.$refs.editor.innerHTML
+        editorContent() {
+            return this.$refs.description.$refs.editor.innerHTML;
         },
-        variantDetails () {
+        variantDetails() {
             return {
                 ...this.variants,
-                is_active: this.variants.has_variants ? 1 : 0
-            }
+                is_active: this.variants.has_variants ? 1 : 0,
+            };
         },
         computedQuantity: {
-            get () {
+            get() {
                 return this.product.has_variants
                     ? this.variantList.reduce(
                           (prev, curr) => prev + parseInt(curr.quantity),
                           0
                       )
-                    : this.product.quantity
+                    : this.product.quantity;
             },
-            set (val) {
-                this.product.quantity = val
-            }
-        }
+            set(val) {
+                this.product.quantity = val;
+            },
+        },
     },
-    mounted () {
-        this.domainWidth = this.$refs.domain_name.clientWidth + 10 + 'px'
+    mounted() {
+        this.domainWidth = this.$refs.domain_name.clientWidth + 10 + "px";
     },
     methods: {
-        cancelCreation () {
-            Inertia.visit('/products', {
-                method: 'get'
-            })
+        cancelCreation() {
+            Inertia.visit("/products", {
+                method: "get",
+            });
         },
-        initiateCreation (e) {
-            if (e.key === 'Enter') {
-                this.createCustomBrand()
+        initiateCreation(e) {
+            if (e.key === "Enter") {
+                this.createCustomBrand();
             }
-            if (e.key === 'Escape') {
-                this.new_brand = ''
-                this.show_brand_input = false
+            if (e.key === "Escape") {
+                this.new_brand = "";
+                this.show_brand_input = false;
             }
         },
-        submitNewProduct () {
-            this.v$.$validate()
+        submitNewProduct() {
+            this.v$.$validate();
             if (this.v$.$error) {
-                document.getElementById('createContentContainer').scrollTo({
+                document.getElementById("createContentContainer").scrollTo({
                     top: 0,
-                    behavior: 'smooth'
-                })
-                return
+                    behavior: "smooth",
+                });
+                return;
             }
 
             if (this.product.has_variants) {
-                this.product.variants = []
-                this.product.available_variant_attributes = this.variants.options.map(
-                    option => option.type
-                )
-                this.variantList.forEach(variant => {
+                this.product.variants = [];
+                this.product.available_variant_attributes =
+                    this.variants.options.map((option) => option.type);
+                this.variantList.forEach((variant) => {
                     this.product.variants.push({
                         price: variant.price,
                         sku: variant.sku,
                         quantity: variant.quantity,
-                        attributes: variant.property
-                    })
-                })
+                        attributes: variant.property,
+                    });
+                });
             }
-            const productsRequest = {}
-            productsRequest.assets = []
-            this.product.images.map(image => {
+            const productsRequest = {};
+            productsRequest.assets = [];
+            this.product.images.map((image) => {
                 productsRequest.assets.push({
                     url: image.large,
                     thumb: image.thumb,
                     description: image.alt,
                     is_default: image.is_default
-                })
-            })
-            productsRequest.store_id = this.store.id
+                });
+            });
+            productsRequest.store_id = this.store.id;
 
-            Object.keys(this.product).map(key => {
-                productsRequest[key] = this.product[key]
-            })
-            this.submitting = true
+            Object.keys(this.product).map((key) => {
+                productsRequest[key] = this.product[key];
+            });
+            this.submitting = true;
             axios
-                .post('/products', productsRequest)
-                .then(response => {
-                    Inertia.visit('/products', {
-                        method: 'get'
-                    })
+                .post("/products", productsRequest)
+                .then((response) => {
+                    Inertia.visit("/products", {
+                        method: "get",
+                    });
                     notify(
                         {
-                            group: 'success',
-                            title: 'Success',
-                            text: `Product created successfully`
+                            group: "success",
+                            title: "Success",
+                            text: `Product created successfully`,
                         },
                         4000
-                    )
+                    );
                 })
-                .catch(error => {
+                .catch((error) => {
                     if (error.response.status === 400) {
                         notify(
                             {
-                                group: 'error',
-                                title: 'Error',
-                                text: error.response.data.message
+                                group: "error",
+                                title: "Error",
+                                text: error.response.data.message,
                             },
                             4000
-                        )
+                        );
                     } else {
                         notify(
                             {
-                                group: 'error',
-                                title: 'Error',
-                                text:
-                                    'Something went wrong, please try again later.'
+                                group: "error",
+                                title: "Error",
+                                text: "Something went wrong, please try again later.",
                             },
                             4000
-                        )
+                        );
                     }
-                    console.log(error.response.data)
+                    console.log(error.response.data);
                     if (error.response.data.errors) {
-                        errors.value = error.response.data.errors
+                        errors.value = error.response.data.errors;
                     }
                 })
                 .finally(() => {
-                    this.submitting = false
-                })
+                    this.submitting = false;
+                });
         },
-        createCustomBrand () {
+        createCustomBrand() {
             if (!this.show_brand_input) {
-                this.show_brand_input = true
+                this.show_brand_input = true;
             } else {
                 axios
-                    .post('/brands', {
-                        name: this.new_brand
+                    .post("/brands", {
+                        name: this.new_brand,
                     })
-                    .then(res => {
+                    .then((res) => {
                         notify(
                             {
-                                group: 'success',
-                                title: 'Success',
-                                text: `Your brand "${this.new_brand}" was created successfully.`
+                                group: "success",
+                                title: "Success",
+                                text: `Your brand "${this.new_brand}" was created successfully.`,
                             },
                             4000
-                        )
+                        );
                         Inertia.reload({
-                            only: ['brands']
-                        })
-                        this.new_brand = ''
-                        this.show_brand_input = false
+                            only: ["brands"],
+                        });
+                        this.new_brand = "";
+                        this.show_brand_input = false;
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         if (err.response.status === 400) {
                             notify(
                                 {
-                                    group: 'error',
-                                    title: 'Error',
-                                    text: err.response.data.message
+                                    group: "error",
+                                    title: "Error",
+                                    text: err.response.data.message,
                                 },
                                 4000
-                            )
+                            );
                         } else {
                             notify(
                                 {
-                                    group: 'error',
-                                    title: 'Error',
-                                    text:
-                                        'Something went wrong, please try again later.'
+                                    group: "error",
+                                    title: "Error",
+                                    text: "Something went wrong, please try again later.",
                                 },
                                 4000
-                            )
-                            console.log(err)
+                            );
+                            console.log(err);
                         }
-                    })
+                    });
             }
         },
-        showFormFields () {
-            console.log(this.formData)
+        showFormFields() {
+            console.log(this.formData);
         },
-        addOption (e) {
+        addOption(e) {
             this.variants.options.push({
-                type: '',
+                type: "",
                 values: [],
-                price: '',
-                quantity: '',
-                sku: ''
-            })
+                price: "",
+                quantity: "",
+                sku: "",
+            });
         },
-        addVariantName (e) {
-            let index = e.target.getAttribute('data-index')
-            this.variants.options[index].name = e.target.value
+        addVariantName(e) {
+            let index = e.target.getAttribute("data-index");
+            this.variants.options[index].name = e.target.value;
             //console.log(e)
         },
-        addVariantValue (e) {
-            if (!e) return false
-            let index = e[1]
-            let name = e[0]
-            this.variants.options[index].values.push(name)
-            this.displayVariants()
+        addVariantValue(e) {
+            if (!e) return false;
+            let index = e[1];
+            let name = e[0];
+            this.variants.options[index].values.push(name);
+            this.displayVariants();
         },
-        removeVariantValue (e) {
-            if (!e.e) return false
-            let index = parseInt(e.index)
-            let text = e.e[0]
-            let indice = this.variants.options[index].values.indexOf(text)
-            this.variants.options[index].values.splice(indice, 1)
-            this.displayVariants()
+        removeVariantValue(e) {
+            if (!e.e) return false;
+            let index = parseInt(e.index);
+            let text = e.e[0];
+            let indice = this.variants.options[index].values.indexOf(text);
+            this.variants.options[index].values.splice(indice, 1);
+            this.displayVariants();
         },
-        addCategory () {
+        addCategory() {
             this.inventory.category.push({
-                type: '',
-                value: ''
-            })
+                type: "",
+                value: "",
+            });
         },
-        onAddImage (response) {
+        onAddImage(response) {
             for (let i = 0; i < response.data.length; i++) {
                 this.product.images.push({
                     ...response.data[i],
-                    alt: '',
-                    is_default: false
-                })
+                    alt: "",
+                    is_default: false,
+                });
             }
         },
-        handleFileDrop (e) {
-            let droppedFiles = e.dataTransfer.files
-            if (!droppedFiles) return
-            ;[...droppedFiles].forEach(f => {
-                this.files.push(f)
-            })
+        handleFileDrop(e) {
+            let droppedFiles = e.dataTransfer.files;
+            if (!droppedFiles) return;
+            [...droppedFiles].forEach((f) => {
+                this.files.push(f);
+            });
         },
-        handleFileInput (e) {
-            let files = e.target.files
-            files = e.target.files
-            if (!files) return
-            ;[...files].forEach(f => {
-                this.files.push(f)
-            })
+        handleFileInput(e) {
+            let files = e.target.files;
+            files = e.target.files;
+            if (!files) return;
+            [...files].forEach((f) => {
+                this.files.push(f);
+            });
         },
-        removeFile (fileKey) {
-            this.files.splice(fileKey, 1)
+        removeFile(fileKey) {
+            this.files.splice(fileKey, 1);
         },
-        onEditorChange (editor) {
-            console.log(editor)
+        onEditorChange(editor) {
+            console.log(editor);
             // console.log(this.$refs.description.$refs.editor.innerHTML);
         },
-        onEditorBlur (editor) {
+        onEditorBlur(editor) {
             // console.log("editor blur!", editor);
         },
-        onEditorFocus (editor) {
+        onEditorFocus(editor) {
             // console.log("editor focus!", editor);
         },
-        onEditorReady (editor) {
+        onEditorReady(editor) {
             // console.log("editor ready!", editor);
         },
-        showContent () {
+        showContent() {
             // console.log(this.editorContent);
         },
-        upload () {
+        upload() {
             // console.log(this.formData);
         },
-        delete_img (image) {
-            this.product.images = image
+        delete_img(image) {
+            this.product.images = image;
         },
-        submit () {
+        submit() {
             // this.sending = true
-            this.product.description = this.$refs.description.$refs.editor.innerHTML
-            this.product.variants = this.variantList
-            this.product.variant_options = this.variants.options
-            console.log(this.product)
-            if (this.product.description == '' || this.product.variants == '') {
-                alert('Imcomplete Form. Kindly fill')
+            this.product.description =
+                this.$refs.description.$refs.editor.innerHTML;
+            this.product.variants = this.variantList;
+            this.product.variant_options = this.variants.options;
+            console.log(this.product);
+            if (this.product.description == "" || this.product.variants == "") {
+                alert("Imcomplete Form. Kindly fill");
             } else {
-                axios.post('/products', this.product)
+                axios.post("/products", this.product);
             }
 
             // this.$inertia.post("/products", this.formData);
         },
-        afterComplete (file) {
+        afterComplete(file) {
             // console.log(file);
         },
-        expandMediaForm () {
-            this.expandMedia = !this.expandMedia
+        expandMediaForm() {
+            this.expandMedia = !this.expandMedia;
         },
-        expandForm () {
-            this.expand = !this.expand
+        expandForm() {
+            this.expand = !this.expand;
         },
-        newDisplayVariants () {},
-        displayVariants () {
-            let attributes = this.variants.options
-            let total_count = 1
+        newDisplayVariants() {},
+        displayVariants() {
+            let attributes = this.variants.options;
+            let total_count = 1;
 
             // return false
 
             // a loop can do this
             if (attributes.length == 1) {
-                total_count = attributes[0].values.length
+                total_count = attributes[0].values.length;
             } else if (attributes.length == 2) {
                 total_count =
-                    attributes[0].values.length * attributes[1].values.length
+                    attributes[0].values.length * attributes[1].values.length;
             } else if (attributes.length == 3) {
                 total_count =
                     attributes[0].values.length *
                     attributes[1].values.length *
-                    attributes[2].values.length
+                    attributes[2].values.length;
             }
 
-            let g = []
-            let a = 0
+            let g = [];
+            let a = 0;
 
-            let base_attribute = attributes[0]
+            let base_attribute = attributes[0];
 
-            let z = []
+            let z = [];
 
             //initialize variables first
 
             for (let j = 0; j < total_count; j++) {
-                z[j] = []
+                z[j] = [];
             }
 
-            let q = 0
+            let q = 0;
 
             //first phase
             let first_attribute =
                 attributes.length == 1
                     ? 1
-                    : total_count / attributes[0].values.length
+                    : total_count / attributes[0].values.length;
 
             for (let i = 0; i < base_attribute.values.length; i++) {
                 for (let k = 0; k < first_attribute; k++) {
-                    console.log(base_attribute)
+                    console.log(base_attribute);
                     z[q].push({
                         attribute: base_attribute.type,
-                        value: base_attribute.values[i]
-                    })
-                    q++
+                        value: base_attribute.values[i],
+                    });
+                    q++;
                 }
             }
 
             if (attributes.length > 1) {
                 let second_attributes =
-                    total_count / attributes[1].values.length
-                q = 0
+                    total_count / attributes[1].values.length;
+                q = 0;
                 for (let k = 0; k < second_attributes; k++) {
                     for (let i = 0; i < attributes[1].values.length; i++) {
-                        console.log(attributes[1])
+                        console.log(attributes[1]);
                         z[q].push({
                             attribute: attributes[1].type,
-                            value: attributes[1].values[i]
-                        })
-                        q++
+                            value: attributes[1].values[i],
+                        });
+                        q++;
                     }
                 }
             }
 
             if (attributes.length == 3) {
-                let third_attributes = total_count / attributes[2].values.length
-                q = 0
+                let third_attributes =
+                    total_count / attributes[2].values.length;
+                q = 0;
                 for (let k = 0; k < third_attributes; k++) {
                     for (let i = 0; i < attributes[2].values.length; i++) {
-                        console.log(attributes[2])
+                        console.log(attributes[2]);
                         z[q].push({
                             attribute: attributes[2].type,
-                            value: attributes[2].values[i]
-                        })
-                        q++
+                            value: attributes[2].values[i],
+                        });
+                        q++;
                     }
                 }
             }
@@ -1668,59 +1666,65 @@ export default {
                 // We are adding
                 // Check if we are adding new variant property
 
-                console.log('adding', z, this.variantList)
+                console.log("adding", z, this.variantList);
                 for (let l = 0; l < z.length; l++) {
-                    let filteredVariantLists = this.variantList.filter(item => {
-                        // let exists = true;
-                        // // JSON.stringify(item.property) ===
-                        // // JSON.stringify(z[l])
-                        // Object.keys(item.property).forEach((prop) => {
-                        //     if (item.property[prop] != z[l][prop]) {
-                        //         exists = false;
-                        //     }
-                        // });
-                        // return exists;
-                        let exists = true
-                        z[l].forEach(singleObj => {
-                            let correspondingSingleObj = item.property.filter(
-                                prop => prop.attribute === singleObj.attribute
-                            )[0]
-                            if (
-                                correspondingSingleObj.value !== singleObj.value
-                            ) {
-                                exists = false
-                            }
-                        })
-                        return exists
-                    })
+                    let filteredVariantLists = this.variantList.filter(
+                        (item) => {
+                            // let exists = true;
+                            // // JSON.stringify(item.property) ===
+                            // // JSON.stringify(z[l])
+                            // Object.keys(item.property).forEach((prop) => {
+                            //     if (item.property[prop] != z[l][prop]) {
+                            //         exists = false;
+                            //     }
+                            // });
+                            // return exists;
+                            let exists = true;
+                            z[l].forEach((singleObj) => {
+                                let correspondingSingleObj =
+                                    item.property.filter(
+                                        (prop) =>
+                                            prop.attribute ===
+                                            singleObj.attribute
+                                    )[0];
+                                if (
+                                    correspondingSingleObj.value !==
+                                    singleObj.value
+                                ) {
+                                    exists = false;
+                                }
+                            });
+                            return exists;
+                        }
+                    );
                     if (!filteredVariantLists.length) {
                         this.variantList.push({
                             property: z[l],
-                            price: this.product.price || '',
+                            price: this.product.price || "",
                             quantity: 1,
                             sku: this.product.sku
                                 ? `${this.product.sku}-${this.variantList.length}`
-                                : ''
-                        })
+                                : "",
+                        });
                     }
                 }
             } else {
                 // I don't believe we should ever get here, but this is just in case.
-                this.variantList = []
+                this.variantList = [];
                 for (let l = 0; l < z.length; l++) {
-                    console.log(z[l])
+                    console.log(z[l]);
                     // Determine if we are adding or removing
                     // If we are adding, check if the value of the current z already exists in the variant list, when we find one that doesn't, we add it
                     // If we are removing, loop through the varia
 
                     this.variantList.push({
                         property: z[l],
-                        price: this.product.price || '',
+                        price: this.product.price || "",
                         quantity: 1,
                         sku: this.product.sku
                             ? `${this.product.sku}-${l + 1}`
-                            : ''
-                    })
+                            : "",
+                    });
                 }
             }
 
@@ -1738,24 +1742,24 @@ export default {
             // }
             //
             // this.variantList = variantList;
-        }
+        },
     },
 
-    setup () {
-        const open = ref(false)
+    setup() {
+        const open = ref(false);
 
-        const v$ = useVuelidate()
+        const v$ = useVuelidate();
 
         return {
             statusStyles,
             pages,
-            v$
-        }
-    }
-}
+            v$,
+        };
+    },
+};
 </script>
 <style scoped>
-@import 'style.css';
+@import "style.css";
 .quill {
     display: flex;
     flex-direction: column;
@@ -1764,7 +1768,7 @@ export default {
 <style>
 .quill *,
 .quill .ql-container {
-    font-family: 'Nunito', sans-serif !important;
+    font-family: "Nunito", sans-serif !important;
     font-size: 0.985rem;
 }
 </style>

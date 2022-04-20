@@ -9,6 +9,10 @@ class TransactionNote extends Model
 {
     use HasFactory;
 
+    const PUBLIC_TYPE = 'public';
+    const PRIVATE_TYPE = 'private';
+
+
     protected $fillable = [
         'notes',
         'type',

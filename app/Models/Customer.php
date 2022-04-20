@@ -94,7 +94,6 @@ class Customer extends Model
         ]);
     }
 
-
     public function shippingAddress() {
         return $this->addresses()->first();
     }
