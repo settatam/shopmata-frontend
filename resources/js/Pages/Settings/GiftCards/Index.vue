@@ -310,31 +310,31 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted } from "vue";
-import AppLayout from "../../../Layouts/AppLayout.vue";
-import Search from "../../Search.vue";
-import Nav from "../Nav";
-import axios from "axios";
+import { reactive, ref, onMounted } from 'vue'
+import AppLayout from '../../../Layouts/AppLayout.vue'
+import Search from '../../Search.vue'
+import Nav from '../Nav'
+import axios from 'axios'
 const pages = [
-    { name: "Settings", href: "/settings", current: false },
-    { name: "Gift Cards", href: "/settings/gift-cards", current: true },
-];
-import Success from "../../../Components/Success.vue";
-import Error from "../../../Components/Error.vue";
+    { name: 'Settings', href: '/settings', current: false },
+    { name: 'Gift Cards', href: '/settings/gift-cards', current: true }
+]
+import Success from '../../../Components/Success.vue'
+import Error from '../../../Components/Error.vue'
 import {
     Dialog,
     DialogOverlay,
     TransitionChild,
-    TransitionRoot,
-} from "@headlessui/vue";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/vue/solid";
-import { HomeIcon } from "@heroicons/vue/outline";
-import { notify } from "notiwind";
+    TransitionRoot
+} from '@headlessui/vue'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/solid'
+import { HomeIcon } from '@heroicons/vue/outline'
+import { notify } from 'notiwind'
 const statusStyles = {
-    success: "bg-green-100 text-green-800",
-    processing: "bg-yellow-100 text-yellow-800",
-    failed: "bg-gray-100 text-gray-800",
-};
+    success: 'bg-green-100 text-green-800',
+    processing: 'bg-yellow-100 text-yellow-800',
+    failed: 'bg-gray-100 text-gray-800'
+}
 export default {
     components: {
         Nav,
@@ -346,88 +346,88 @@ export default {
         ChevronRightIcon,
         HomeIcon,
         Success,
-        Error,
+        Error
     },
     props: {
-        store: Object,
+        store: Object
     },
 
-    setup(props) {
-        const store = props.store;
-        const open = ref(false);
+    setup (props) {
+        const store = props.store
+        const open = ref(false)
         const gift = reactive({
             duration: store.gift_card_expiry_duration,
             period: store.gift_card_expire_after,
-            expire: store.gift_card_should_expire,
-        });
-        const loading = ref(false);
-        const save = ref("Save");
-        const success = ref(false);
-        const error = ref(false);
-        const successMessage = ref("Sucessfully Saved");
+            expire: store.gift_card_should_expire
+        })
+        const loading = ref(false)
+        const save = ref('Save')
+        const success = ref(false)
+        const error = ref(false)
+        const successMessage = ref('Sucessfully Saved')
 
         const reset_gift = () => {
-            gift.duration = "";
-            gift.period = "";
-            gift.expire = 1;
-        };
-        const loadingFn = () => {
-            loading.value = false;
-            success.value = false;
-            save.value = "Save";
-        };
-        const errorFn = () => {
-            loading.value = false;
-            error.value = false;
-            save.value = "Save";
-        };
-        function onClickTop() {
-            notify(
-                {
-                    group: "top",
-                    title: "Success",
-                    text: successMessage.value,
-                },
-                4000
-            );
+            gift.duration = ''
+            gift.period = ''
+            gift.expire = 1
         }
-        function onClickBot() {
+        const loadingFn = () => {
+            loading.value = false
+            success.value = false
+            save.value = 'Save'
+        }
+        const errorFn = () => {
+            loading.value = false
+            error.value = false
+            save.value = 'Save'
+        }
+        function onClickTop () {
             notify(
                 {
-                    group: "bottom",
-                    title: "Error",
-                    text: successMessage.value,
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
                 },
                 4000
-            );
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
         }
         const submit = () => {
             axios
-                .post("gift-cards", gift)
-                .then((res) => {
-                    loading.value = true;
+                .post('gift-cards', gift)
+                .then(res => {
+                    loading.value = true
                     if (res.status == 200) {
-                        successMessage.value = res.data.notification.message;
-                        setTimeout(onClickTop, 2000);
-                        save.value = "Saving";
-                        setTimeout(loadingFn, 3000);
+                        successMessage.value = res.data.notification.message
+                        setTimeout(onClickTop, 2000)
+                        save.value = 'Saving'
+                        setTimeout(loadingFn, 3000)
                     } else if (res.status == 400) {
-                        successMessage.value = res.data.notification.message;
-                        setTimeout(onClickBot, 2000);
-                        setTimeout(errorFn, 3000);
+                        successMessage.value = res.data.notification.message
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
                     } else {
-                        successMessage.value = "Database Error";
-                        setTimeout(onClickBot, 2000);
-                        setTimeout(errorFn, 3000);
+                        successMessage.value = 'Error processing your request'
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
                     }
                 })
-                .catch((error) => {
+                .catch(error => {
                     successMessage.value =
-                        "Sorry, we could not process your request at the moment";
-                    setTimeout(onClickBot, 2000);
-                    setTimeout(errorFn, 3000);
-                });
-        };
+                        'Sorry, we could not process your request at the moment'
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
+                })
+        }
         return {
             statusStyles,
             pages,
@@ -443,8 +443,8 @@ export default {
             onClickTop,
             onClickBot,
             gift,
-            store,
-        };
-    },
-};
+            store
+        }
+    }
+}
 </script>

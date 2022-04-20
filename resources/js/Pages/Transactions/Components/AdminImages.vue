@@ -7,7 +7,7 @@
 
             <div id="flexcontainer" class="flex pb-8 px-8 flex-col lg:flex-row lg:space-x-2 space-x-0">
                 <div class="lg:w-10/12 sm:w-full">
-                    <label
+                    <!-- <label
                         class="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
                     >
                         <span class="flex items-center space-x-2">
@@ -33,7 +33,7 @@
                             </span>
                         </span>
                         <input type="file" name="file_upload" class="hidden" />
-                    </label>
+                    </label> -->
                 </div>
 
                 <div class="flex lg:flex-col justify-around mt-4 lg:mt-0 lg:space-y-2  lg:w-1/6 space-x-3 lg:space-x-0 ml-8">
@@ -63,6 +63,7 @@
 <script>
 import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
+
 
 export default {
     components: { AppLayout }
