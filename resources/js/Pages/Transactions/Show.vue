@@ -88,7 +88,7 @@
                     <TransactionTimeline
                         class="mb-12"
                         :root="transaction"
-                        :transaction="transaction.notes"
+                        :transaction="transaction"
                         :bottom_tags="bottom_tags"
                         :statuses="statuses"
                     />

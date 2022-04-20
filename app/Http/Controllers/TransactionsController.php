@@ -78,7 +78,7 @@ class TransactionsController extends Controller
         $transactions                 = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
-        $transaction->load('customer','customer.state','items','items.images','histories','offers','notes','sms','images', 'activities','items','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags');
+        $transaction->load('customer','customer.state','items','items.images','histories','offers','public_note','private_note','sms','images', 'activities','items','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags');
         return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags'));
     }
 

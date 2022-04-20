@@ -87,15 +87,17 @@
             <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        @blur="saveNotesPublic()"
+                        @blur="saveNote($event)"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
                         placeholder="Customer notes"
-                        name=""
+                        name="public"
                         id=""
                         rows="3"
                         cols="150"
                         v-model="messagePublic"
-                    ></textarea>
+                    >
+                    </textarea>
+
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full ">
                         <div>
@@ -132,10 +134,10 @@
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        @blur="saveNotesPrivate()"
+                        @blur="saveNote($event)"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md "
                         placeholder="MET 3-2-22-Incoming via text"
-                        name=""
+                        name="private"
                         id=""
                         rows="3"
                         cols="150"
@@ -243,6 +245,9 @@ export default {
             offer: ''
         })
 
+        messagePublic.value = props.root.public_note.notes
+        messagePrivate.value = props.root.private_note.notes
+
         // notification
         function onClickTop () {
             notify(
@@ -266,60 +271,29 @@ export default {
         }
         // notification ends
 
-        // save notes
-        function saveNotesPrivate () {
-            if (messagePrivate.value != '') {
-                axios
-                    .post('/transaction/notes', {
-                        transaction_id,
-                        message: messagePrivate.value,
-                        customer_id,
-                        type: 'private'
-                    })
-                    .then(res => {
-                        if (res.status == 200) {
-                            successMessage.value = 'Private Note added'
-                            setTimeout(onClickTop, 2000)
-                        } else if (res.status == 422) {
-                            successMessage.value = res.data.notification.message
-                            setTimeout(onClickBot, 2000)
-                            setTimeout(errorFn, 3000)
-                        }
-                    })
-                    .catch(error => {
-                        successMessage.value = 'Database Error'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    })
-            }
+        function saveNote (e) {
+            let type = e.target.name
+            axios
+                .post('/transaction/notes', {
+                    transaction_id,
+                    message: type == 'public' ?  messagePublic.value : messagePrivate.value,
+                    customer_id,
+                    type: type
+                })
+                .then(res => {
+                    successMessage.value = 'Note updated'
+                    setTimeout(onClickTop, 2000)
+                })
+                .catch(error => {
+                    successMessage.value = 'Something went wrong.'
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
+                })
+
         }
 
-        function saveNotesPublic () {
-            if (messagePublic.value != '') {
-                axios
-                    .post('/transaction/notes', {
-                        transaction_id,
-                        message: messagePublic.value,
-                        customer_id,
-                        type: 'public'
-                    })
-                    .then(res => {
-                        if (res.status == 200) {
-                            successMessage.value = 'Public Note added'
-                            setTimeout(onClickTop, 2000)
-                        } else if (res.status == 422) {
-                            successMessage.value = res.data.notification.message
-                            setTimeout(onClickBot, 2000)
-                            setTimeout(errorFn, 3000)
-                        }
-                    })
-                    .catch(error => {
-                        successMessage.value = 'Database Error'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    })
-            }
-        }
+
+        
         // save notes end
 
         // Save tags
@@ -374,8 +348,7 @@ export default {
             checkedList,
             messagePrivate,
             messagePublic,
-            saveNotesPrivate,
-            saveNotesPublic,
+            saveNote,
             transactionStatus,
             transactionOffer
         }
