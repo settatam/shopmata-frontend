@@ -14,13 +14,18 @@ use App\Models\Tag;
 use App\Models\StoreTag;
 use Illuminate\Support\Facades\Log;
 use App\Models\TransactionNote;
+use App\Traits\FileUploader;
+
 
 
 
 
 
 class TransactionsController extends Controller
-{
+{   
+
+    use FileUploader;
+
     /**
      * Display a listing of the resource.
      *
@@ -155,28 +160,26 @@ class TransactionsController extends Controller
             return response()->json($image,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response($th->getMessage() ,422);
+
         }
 
 
-        return response(null,422);
+        return response($th->getMessage() ,422);
     }
 
 
     public function addNote(Request $request)
     {
         try {
-            TransactionNote::truncate();
-            $transaction = new TransactionNote;
-            $transaction->notes          =   $request->message;
-            $transaction->customer_id    =   $request->customer_id;
-            $transaction->type           =   $request->type;
-            $transaction->transaction_id =   $request->transaction_id;
-            $transaction->save();
-
+            $transaction = TransactionNote::updateOrCreate(
+                ['customer_id' => $request->customer_id,'transaction_id' =>  $request->transaction_id, 'type' => $request->type],
+                ['notes' => $request->message, 'customer_id' => $request->customer_id, 'type' => $request->type, 'transaction_id' =>  $request->transaction_id]
+            );
 
             if ( $transaction ) {
                 $transaction  = Transaction::findorFail($request->transaction_id);
-                Log::info("Note(s) Updated!" );
+                Log::info("Note(s) Updated!", );
                 return response($transaction->load('public_note','private_note'),200);
             }
 
