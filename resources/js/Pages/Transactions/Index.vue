@@ -23,9 +23,24 @@
                 </div> -->
             </div>
 
-            <div class="mx-3 flex flex-col lg:flex-row justify-center md:justify-between  space-y-4 lg:space-y-0 lg:space-x-0">
+            <div
+                class="mx-3 flex flex-col lg:flex-row justify-center md:justify-between  space-y-4 lg:space-y-0 lg:space-x-0"
+            >
                 <!-- Search start -->
                 <div class="flex flex-row space-x-2 w-auto">
+                    <div class="">
+                        <select
+                            class="rounded text-black bg-white text-xm md:text-base w-20 "
+                            name=""
+                            id=""
+                        >
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                     <div
                         class="relative text-gray-600 focus-within:text-gray-background w-96"
                     >
@@ -48,20 +63,6 @@
                             autocomplete="off"
                         />
                     </div>
-
-                    <div class="">
-                        <select
-                            class="rounded text-black bg-white text-xm md:text-base w-20 "
-                            name=""
-                            id=""
-                        >
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
-                            <option value="50">50</option>
-                        </select>
-                    </div>
                 </div>
                 <!-- Search end -->
 
@@ -77,7 +78,8 @@
                                 >Create Shipping label to customer</option
                             >
                             <option value="label_from"
-                                >Create Shipping label from customer</option>
+                                >Create Shipping label from customer</option
+                            >
                             <option value="barcode">Create barcode</option>
                             <option value="delete">Delete</option>
                         </select>
