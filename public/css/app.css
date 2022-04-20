@@ -2367,6 +2367,11 @@ select {
 	margin-right: calc(1.5rem * var(--tw-space-x-reverse));
 	margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-y-reverse: 0;
+	margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+	margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+}
 .-space-y-px > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-y-reverse: 0;
 	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
@@ -5393,6 +5398,12 @@ input[type='checkbox']:focus {
 		gap: 6rem;
 	}
 
+	.lg\:space-x-0 > :not([hidden]) ~ :not([hidden]) {
+		--tw-space-x-reverse: 0;
+		margin-right: calc(0px * var(--tw-space-x-reverse));
+		margin-left: calc(0px * calc(1 - var(--tw-space-x-reverse)));
+	}
+
 	.lg\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
 		--tw-space-x-reverse: 0;
 		margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -5409,12 +5420,6 @@ input[type='checkbox']:focus {
 		--tw-space-x-reverse: 0;
 		margin-right: calc(0.25rem * var(--tw-space-x-reverse));
 		margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
-	}
-
-	.lg\:space-x-0 > :not([hidden]) ~ :not([hidden]) {
-		--tw-space-x-reverse: 0;
-		margin-right: calc(0px * var(--tw-space-x-reverse));
-		margin-left: calc(0px * calc(1 - var(--tw-space-x-reverse)));
 	}
 
 	.lg\:space-x-12 > :not([hidden]) ~ :not([hidden]) {
