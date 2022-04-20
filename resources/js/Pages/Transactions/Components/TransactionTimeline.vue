@@ -246,10 +246,8 @@ export default {
             offer: ''
         })
 
-<<<<<<< HEAD
         messagePublic.value = props.root.public_note.notes
         messagePrivate.value = props.root.private_note.notes
-=======
         const filteredPrivateLast = computed(() => {
             let filteredNotes = notes.filter(note => {
                 if (note.type == 'private') {
@@ -269,7 +267,6 @@ export default {
 
             return filteredNotes[filteredNotes.length - 1].notes
         })
->>>>>>> 9cf68db95e3ddb1b026543751e6ca9d1a2571ba2
 
         // notification
         function onClickTop () {
