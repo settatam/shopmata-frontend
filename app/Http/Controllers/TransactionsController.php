@@ -215,6 +215,3 @@ class TransactionsController extends Controller
 }
 
 
-
-
-We are working on the 
