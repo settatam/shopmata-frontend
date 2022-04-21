@@ -180,12 +180,14 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
     #Settings -> Remittance
-    Route::resource('settings/remittance', PayoutSettingsController::class);
-    Route::resource('transactions',        TransactionsController::class);
-    Route::resource('transactions',        TransactionsController::class);
-    Route::post('transaction/tag',         [TransactionsController::class, 'addTag']);
-    Route::post('transaction/notes',         [TransactionsController::class, 'addNote']);
-    Route::post('transaction/image',         [TransactionsController::class, 'addImage']);
+    Route::resource('settings/remittance',  PayoutSettingsController::class);
+    Route::resource('transactions',         TransactionsController::class);
+    Route::resource('transactions',         TransactionsController::class);
+    Route::post('transaction/tag',          [TransactionsController::class, 'addTag']);
+    Route::post('transaction/notes',        [TransactionsController::class, 'addNote']);
+    Route::post('transaction/image',        [TransactionsController::class, 'addImage']);
+    Route::post('transaction/image/delete', [TransactionsController::class, 'deleteTransactionNoteImage']);
+
 
 
 
