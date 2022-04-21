@@ -1,8 +1,9 @@
 <template>
     <ul role="list" class="divide-y divide-gray-200 w-100">
         <!-- existing -->
-        <li
-            v-for="image in existingImages"
+        <div v-if="existingImages">
+            <li
+            v-for="image in existingImages.images"
             :key="image.id"
             class="flex justify-between border-b border-gray-300"
         >
@@ -35,7 +36,7 @@
                 />
             </div>
         </li>
-
+        </div>
         <!-- existing ends -->
         <li
             v-for="image in imagesList"

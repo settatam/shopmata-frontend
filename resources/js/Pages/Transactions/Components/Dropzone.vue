@@ -114,6 +114,7 @@ export default {
                     setTimeout(onClickTop, 2000)
                 })
                 .catch(err => {
+                  loading.value = false
                     successMessage.value = 'Error processing request'
                     setTimeout(onClickBot, 2000)
                     setTimeout(errorFn, 3000)

@@ -27,7 +27,7 @@
                     <div class="" v-if="display ? transaction.public_note.images.length : media_open">
                         <images-list 
                         :images="transaction.images"
-                        :existingImages = "root.public_note.images"
+                        :existingImages = "root.public_note"
                         v-if="display ? transaction.public_note.images.length : true"
                         @delete_img="delete_img" />
                         <Dropzone @add-image="onAddImage" class="" :root="root"/>
