@@ -145,7 +145,7 @@ class TransactionsController extends Controller
         try {
 
             $customer_note = TransactionNote::firstOrNew(
-                ['customer_id' => $request->customer_id,'transaction_id' =>  $request->transaction_id, 'type' => 'public'],
+                ['id' => $request->transaction_note_id],
             );
             $customer_note->transaction_id = $request->transaction_id;
             $customer_note->customer_id    = $request->customer_id;
@@ -167,8 +167,7 @@ class TransactionsController extends Controller
 
         }
 
-
-        return response($th->getMessage() ,422);
+        return response("Something went wongr" ,422);
     }
 
 
