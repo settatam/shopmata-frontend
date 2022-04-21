@@ -57,6 +57,7 @@
                             :top_tags="top_tags"
                         />
                     </div>
+
                     <div class="w-full lg:w-1/3 h-full">
                         <div>
                             <CustomerInformation
