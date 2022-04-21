@@ -13,10 +13,10 @@
                 >
                     <option value="0">Choose Category</option>
                     <option
-                        v-for="category in filteredCategory"
+                        v-for="category in categories"
                         :key="category.index"
-                        value=""
-                        >{{ category.slug }}</option
+                        :value="category.id"
+                        >{{ category.name }}</option
                     >
                 </select>
             </div>
@@ -111,12 +111,11 @@ export default {
     setup (props) {
         const successMessage = ref('')
         const transaction_id = props.transaction.id
-        const categories = props.categories
-        const filteredCategory = computed(() => {
-            return categories.filter(item => {
-                return item.slug
-            })
-        })
+        // const filteredCategory = computed(() => {
+        //     return categories.filter(item => {
+        //         return item.slug
+        //     })
+        // })
         const images = props.transaction.images
 
         const limitedImages = computed(() => {
@@ -200,8 +199,6 @@ export default {
         }
 
         return {
-            categories,
-            filteredCategory,
             images,
             limitedImages,
             saveTopTags,

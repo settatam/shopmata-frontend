@@ -264,7 +264,7 @@ export default {
             offer: ''
         })
 
-        messagePublic.value = props.root.public_note.notes
+        messagePublic.value  = props.root.public_note.notes
         messagePrivate.value = props.root.private_note.notes
         
         const filteredPrivateLast = computed(() => {

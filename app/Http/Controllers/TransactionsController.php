@@ -145,7 +145,7 @@ class TransactionsController extends Controller
         try {
 
             $customer_note = TransactionNote::firstOrNew(
-                ['customer_id' => $request->customer_id, 'type' => 'public']
+                ['id' => $request->transaction_note_id],
             );
             $customer_note->transaction_id = $request->transaction_id;
             $customer_note->customer_id    = $request->customer_id;
@@ -155,19 +155,19 @@ class TransactionsController extends Controller
             $image  = FileUploader::upload($request);
             if ( isset($image[0]['thumb']) ){
                 $l_image = $image[0]['thumb'];
-                $imgs= new Image(['url' => $l_image, 'rank' => 1]);
+                $tn_image = $image[0]['large'];
+                $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
                 $customer_note->images()->save($imgs);
             }
 
-            return response()->json($image,  200);
+            return response()->json($customer_note->images,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response($th->getMessage() ,422);
 
         }
 
-
-        return response($th->getMessage() ,422);
+        return response("Something went wongr" ,422);
     }
 
 

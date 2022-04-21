@@ -14,6 +14,7 @@ class TransactionNote extends Model
 
 
     public $fillable = [
+        'id',
         'notes',
         'type',
         'transaction_id',

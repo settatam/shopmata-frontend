@@ -30,10 +30,5 @@ class Category extends Model
         'transaction_item_category',
     ];
 
-    
 
-    // protected static function booted()
-    // {
-    //     static::addGlobalScope(new StoreScope);
-    // }
 }

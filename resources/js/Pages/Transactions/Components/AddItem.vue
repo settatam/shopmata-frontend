@@ -70,6 +70,7 @@
                                     </select>
                                 </div>
 
+
                                 <div class="flex required  mb-4">
                                     <div class="mr-2 w-full">
                                         <label
@@ -261,6 +262,8 @@ export default {
             mprice: '',
             inote: ''
         })
+
+        console.log(props.categories)
 
         const closeModal = () => {
             open.value = false
