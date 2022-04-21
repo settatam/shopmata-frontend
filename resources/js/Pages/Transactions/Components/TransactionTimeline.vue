@@ -162,6 +162,24 @@
                                 Email (Offer, Cnotes & Pictures)
                             </button>
                         </div>
+
+                        <div>
+                            <button
+                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                                type="submit"
+                            >
+                                Return Label
+                            </button>
+                        </div>
+
+                        <div>
+                            <button
+                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                                type="submit"
+                            >
+                                Reject Offer
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -246,7 +264,7 @@ export default {
             offer: ''
         })
 
-        messagePublic.value = props.root.public_note.notes
+        messagePublic.value  = props.root.public_note.notes
         messagePrivate.value = props.root.private_note.notes
         
         const filteredPrivateLast = computed(() => {
