@@ -5315,10 +5315,6 @@ input[type='checkbox']:focus {
 		width: 1.75rem;
 	}
 
-	.lg\:w-10\/12 {
-		width: 83.333333%;
-	}
-
 	.lg\:w-3\/10 {
 		width: 30%;
 	}

@@ -9,7 +9,7 @@
                 id="flexcontainer"
                 class="flex pb-8 px-8 flex-col lg:flex-row lg:space-x-2 space-x-0"
             >
-                <div class="lg:w-10/12 sm:w-full">
+                <div class="w-full">
                     <div
                         class="border-b border-gray-300"
                         v-if="transaction.images.length && media_open"
@@ -78,12 +78,17 @@ export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ['root'],
     setup () {
+        const display = ref("")
         const media_open = ref(true)
         const transaction = reactive({
             images: []
             })
         function delete_img (image) {
             transaction.images = image;
+        }
+
+        function deleteExisting(){
+
         }
 
         function onAddImage (response) {
@@ -97,7 +102,7 @@ export default {
             })
 
         }
-        return { delete_img, onAddImage, media_open, transaction }
+        return { delete_img, onAddImage, media_open, transaction, display }
     }
 }
 </script>
