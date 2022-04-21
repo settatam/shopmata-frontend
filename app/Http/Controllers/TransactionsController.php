@@ -16,6 +16,8 @@ use App\Models\StoreTag;
 use Illuminate\Support\Facades\Log;
 use App\Models\TransactionNote;
 use App\Traits\FileUploader;
+use Illuminate\Support\Facades\Storage;
+
 
 
 
@@ -143,7 +145,6 @@ class TransactionsController extends Controller
     public function addImage(Request $request)
     {
         try {
-
             $customer_note = TransactionNote::firstOrNew(
                 ['id' => $request->transaction_note_id],
             );
@@ -164,7 +165,6 @@ class TransactionsController extends Controller
         } catch (\Throwable $th) {
             \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response($th->getMessage() ,422);
-
         }
 
         return response("Something went wongr" ,422);
@@ -190,6 +190,29 @@ class TransactionsController extends Controller
         }
 
 
+        return response(null,422);
+    }
+
+
+    public function deleteTransactionNoteImage(Request $request)
+    {
+        try {
+            $image  = Image::findorFail($request->image_id);
+
+            if ($image->url){
+                Storage::disk('DO')->delete($image->url); 
+            }
+
+            if ($image->thumb){
+                Storage::disk('DO')->delete($image->thumb); 
+            }
+
+            $image->delete();
+            Log::info("Image(s) Delete!", );
+            return response("Image deleted ",200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to delete  image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+        }
         return response(null,422);
     }
 
