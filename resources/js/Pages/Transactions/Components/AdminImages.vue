@@ -24,10 +24,11 @@
                             <p class="w-2/10 px-2">Thumbnail</p>
                         </li>
                     </div>
-                    <div class="" v-if="media_open">
+                    <div class="" v-if="display ? transaction.public_note.images.length : media_open">
                         <images-list 
                         :images="transaction.images"
-                        v-if="transaction.images.length"
+                        :existingImages = "root.public_note.images"
+                        v-if="display ? transaction.public_note.images.length : true"
                         @delete_img="delete_img" />
                         <Dropzone @add-image="onAddImage" class="" :root="root"/>
                     </div>

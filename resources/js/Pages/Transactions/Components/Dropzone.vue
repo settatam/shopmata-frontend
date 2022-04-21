@@ -95,7 +95,7 @@ export default {
                 formData.append('files[]', file)
                 formData.append('transaction_id', transaction.id)
                 formData.append('customer_id', transaction.customer.id)
-                formData.append('transaction_note_id', transaction.public_note.id)
+                formData.append('transaction_note_id', "" ? transaction.public_note.id : null)
 
                 return formData
             })
