@@ -37,10 +37,9 @@
                 <button
                     class="text-white bg-indigo-600 active:bg-indigo-600 border border-transparent text-center px-8  py-3 rounded flex mx-auto justify-center"
                 >
-                <LoadingSpinner v-if="loading" />
+                    <LoadingSpinner v-if="loading" />
 
                     <span>Choose File </span>
-                    
                 </button>
             </div>
         </div>
@@ -58,12 +57,14 @@ export default {
     components: {
         LoadingSpinner
     },
+    props: ['root'],
     name: 'UseDropzone',
     emits: ['add-image'],
-    setup (_, { emit }) {
+    setup (props, { emit }) {
         const url = '/transaction/image'
         const successMessage = ref('')
-        const loading = ref(false);
+        const loading = ref(false)
+        const transaction = props.root
 
         // notification
         function onClickTop () {
@@ -91,7 +92,12 @@ export default {
         const saveFiles = files => {
             const formData = new FormData()
             files.map(file => {
-                return formData.append('files[]', file)
+                formData.append('files[]', file)
+                formData.append('transaction_id', transaction.id)
+                formData.append('customer_id', transaction.customer.id)
+                formData.append('transaction_note_id', transaction.public_note.id)
+
+                return formData
             })
             loading.value = true
 
@@ -126,7 +132,8 @@ export default {
             getRootProps,
             getInputProps,
             ...rest,
-            loading
+            loading,
+            transaction
         }
     }
 }

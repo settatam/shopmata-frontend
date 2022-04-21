@@ -29,7 +29,7 @@
                         :images="transaction.images"
                         v-if="transaction.images.length"
                         @delete_img="delete_img" />
-                        <Dropzone @add-image="onAddImage" class="" />
+                        <Dropzone @add-image="onAddImage" class="" :root="root"/>
                     </div>
                     <!-- <label
                         class="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
@@ -75,6 +75,7 @@ import { notify } from 'notiwind'
 
 export default {
     components: { AppLayout, Dropzone, ImagesList },
+    props: ['root'],
     setup () {
         const media_open = ref(true)
         const transaction = reactive({
@@ -86,13 +87,6 @@ export default {
 
         function onAddImage (response) {
             console.log(response)
-            // for (let i = 0; i < response.data.length; i++) {
-            //     transaction.images.push({
-            //         ...response.data[i],
-            //         alt: '',
-            //         is_default: false
-            //     })
-            // }
             response.data.map(item=>{
                 transaction.images.push({
                     ...item,
