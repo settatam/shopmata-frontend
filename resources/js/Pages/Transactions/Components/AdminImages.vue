@@ -92,7 +92,6 @@ export default {
         }
 
         function onAddImage (response) {
-            console.log(response)
             response.data.map(item=>{
                 transaction.images.push({
                     ...item,

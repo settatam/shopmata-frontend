@@ -1,4 +1,5 @@
 <template>
+    
     <div class="mt-1 sm:mt-0 sm:col-span-2" v-bind="getRootProps()">
         <input v-bind="getInputProps()" />
         <div
@@ -95,7 +96,6 @@ export default {
                 formData.append('files[]', file)
                 formData.append('transaction_id', transaction.id)
                 formData.append('customer_id', transaction.customer.id)
-                formData.append('transaction_note_id', "" ? transaction.public_note.id : null)
 
                 return formData
             })
