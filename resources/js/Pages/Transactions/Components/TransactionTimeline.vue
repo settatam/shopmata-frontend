@@ -279,8 +279,6 @@ export default {
 
         messagePublic.value = props.root.public_note.notes
         messagePrivate.value = props.root.private_note.notes
-        
-        
 
         // notification
         function onClickTop () {
