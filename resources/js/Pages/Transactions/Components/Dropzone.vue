@@ -61,7 +61,7 @@ export default {
     name: 'UseDropzone',
     emits: ['add-image'],
     setup (props, { emit }) {
-        const url = '/transaction/image'
+        const url = '';
         const successMessage = ref('')
         const loading = ref(false)
         const transaction = props.root
@@ -93,16 +93,14 @@ export default {
             const formData = new FormData()
             files.map(file => {
                 formData.append('files[]', file)
-                formData.append('transaction_id', transaction.id)
-                formData.append('customer_id', transaction.customer.id)
-                formData.append('transaction_note_id', transaction.public_note.id)
+                formData.append('type', image)
 
                 return formData
             })
             loading.value = true
 
             axios
-                .post(url, formData, {
+                .post('/transactions/'+transaction.id+'/images', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

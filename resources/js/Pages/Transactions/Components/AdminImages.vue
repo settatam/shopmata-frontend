@@ -25,7 +25,7 @@
                         </li>
                     </div>
                     <div class="" v-if="media_open">
-                        <images-list 
+                        <images-list
                         :images="transaction.images"
                         v-if="transaction.images.length"
                         @delete_img="delete_img" />
@@ -60,7 +60,7 @@
                     </label> -->
                 </div>
 
-                
+
             </div>
         </div>
     </div>
@@ -86,7 +86,6 @@ export default {
         }
 
         function onAddImage (response) {
-            console.log(response)
             response.data.map(item=>{
                 transaction.images.push({
                     ...item,

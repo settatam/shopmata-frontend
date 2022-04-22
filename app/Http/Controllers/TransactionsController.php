@@ -23,7 +23,7 @@ use App\Traits\FileUploader;
 
 
 class TransactionsController extends Controller
-{   
+{
 
     use FileUploader;
 
@@ -214,6 +214,40 @@ class TransactionsController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function extra(Request $request, $id, $action)
+    {
+        //
+        $input = $request->input();
+
+        //How do we perform validation here???
+
+        switch ($action) {
+            case 'images':
+                $this->addImage();
+                break;
+            case 'sms':
+                $this->sendSms($input);
+                break;
+            case 'status':
+                $this->updateStatus($input);
+                break;
+//            case:
+
+        }
+
+        $transaction = Transaction::find($id);
+        if($transaction->doUpdate($input)) {
+            return response()->json($transaction);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -224,5 +258,3 @@ class TransactionsController extends Controller
         //
     }
 }
-
-

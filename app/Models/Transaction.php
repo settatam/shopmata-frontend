@@ -486,8 +486,8 @@ class Transaction extends Model
         return $response;
     }
 
-//    public function sendSMS($message) {
-//        $to =
-//    }
+    public function sendSMS($message) {
+
+    }
 
 }
