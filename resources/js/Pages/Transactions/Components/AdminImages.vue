@@ -12,7 +12,7 @@
                 <div class="w-full">
                     <div
                         class="border-b border-gray-300"
-                        v-if="transaction.images.length && media_open"
+                        v-if="images.length && media_open"
                     >
                         <li class="flex text-gray-700 justify-between">
                             <p class="w-3/10">Image</p>
@@ -24,12 +24,18 @@
                             <p class="w-2/10 px-2">Thumbnail</p>
                         </li>
                     </div>
-                    <div class="" v-if="display ? transaction.public_note.images.length : media_open">
-                        <images-list 
-                        :images="transaction.images"
-                        v-if="display ? transaction.public_note.images.length : true"
-                        @delete_img="delete_img" />
-                        <Dropzone @add-image="onAddImage" class="" :root="root"/>
+
+                    <div class="" v-if="display ? images.length : media_open">
+                        <images-list
+                            :images="images"
+                            v-if="display ? images.length : true"
+                            @delete_img="delete_img"
+                        />
+                        <Dropzone
+                            @add-image="onAddImage"
+                            class=""
+                            :root="root"
+                        />
                     </div>
                     <!-- <label
                         class="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
@@ -59,8 +65,6 @@
                         <input type="file" name="file_upload" class="hidden" />
                     </label> -->
                 </div>
-
-                
             </div>
         </div>
     </div>
@@ -72,25 +76,24 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Dropzone from './Dropzone'
 import ImagesList from './ImagesList'
 import { notify } from 'notiwind'
+import { onMounted } from '@vue/runtime-core'
 
 export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ['root'],
     setup (props) {
-        const display = ref("")
+        const display = ref('')
         const media_open = ref(true)
-        const transaction = reactive({
-            images: props.root.public_note.images
-            })
+        const images = ref(props.root.public_note.images)
+
         function delete_img (image) {
-            transaction.images = image;
+            images = image
         }
 
         function onAddImage (response) {
-            transaction.images = response.data
-            
+            images.value = response.data
         }
-        return { delete_img, onAddImage, media_open, transaction, display }
+        return { delete_img, onAddImage, media_open, images, display }
     }
 }
 </script>
