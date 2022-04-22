@@ -92,6 +92,7 @@
                         :transaction="transaction"
                         :bottom_tags="bottom_tags"
                         :statuses="statuses"
+                        :timeline="timeline"
                     />
                 </div>
                 <!-- row 4 starts -->
@@ -319,6 +320,7 @@ export default {
         top_tags: Array,
         bottom_tags: Array,
         statuses: Array,
+        timeline: Array
 
     },
 

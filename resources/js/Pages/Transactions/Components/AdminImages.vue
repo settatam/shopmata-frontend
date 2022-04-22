@@ -88,7 +88,6 @@ export default {
 
         function onAddImage (response) {
             transaction.images = response.data
-            
         }
         return { delete_img, onAddImage, media_open, transaction, display }
     }
