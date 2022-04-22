@@ -27,7 +27,6 @@
                     <div class="" v-if="display ? transaction.public_note.images.length : media_open">
                         <images-list 
                         :images="transaction.images"
-                        :existingImages = "root.public_note"
                         v-if="display ? transaction.public_note.images.length : true"
                         @delete_img="delete_img" />
                         <Dropzone @add-image="onAddImage" class="" :root="root"/>
@@ -77,29 +76,19 @@ import { notify } from 'notiwind'
 export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ['root'],
-    setup () {
+    setup (props) {
         const display = ref("")
         const media_open = ref(true)
         const transaction = reactive({
-            images: []
+            images: props.root.public_note.images
             })
         function delete_img (image) {
             transaction.images = image;
         }
 
-        function deleteExisting(){
-
-        }
-
         function onAddImage (response) {
-            response.data.map(item=>{
-                transaction.images.push({
-                    ...item,
-                    alt: '',
-                    is_default: false
-                })
-            })
-
+            transaction.images = response.data
+            
         }
         return { delete_img, onAddImage, media_open, transaction, display }
     }

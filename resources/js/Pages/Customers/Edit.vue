@@ -90,7 +90,7 @@
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder=""
                                     required
-                                    v-model="customerEditIfNull.first_name"
+                                    v-model="customerEdit.first_name"
                                 />
                             </div>
 
@@ -122,7 +122,7 @@
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder=""
                                     required
-                                    v-model="customerEditIfNull.last_name"
+                                    v-model="customerEdit.last_name"
                                 />
                             </div>
 
@@ -155,7 +155,7 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEditIfNull.email"
+                                v-model="customerEdit.email"
                             />
                         </div>
 
@@ -186,7 +186,7 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEditIfNull.phone_number"
+                                v-model="customerEdit.phone_number"
                             />
                         </div>
 
@@ -226,7 +226,7 @@
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
-                            v-model="customerEditIfNull.address"
+                            v-model="customerEdit.address"
                         />
                     </div>
 
@@ -243,7 +243,7 @@
                 <div class="flex mt-4 flex-col lg:flex-row">
                     <div class="required w-full mr-5 relative">
                         <!-- put country here if null -->
-                        <div v-if="!customer.country_id">
+                        <div>
                             <label
                                 class="block text-gray-600 font-semibold mb-1 bg-transparent"
                             >
@@ -259,36 +259,7 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEditIfNull.country_id"
-                            >
-                                <option
-                                    v-for="(country, index) in countries"
-                                    :key="index"
-                                    :value="country.id"
-                                >
-                                    {{ country.name }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <!-- v-else -->
-                        <div v-else>
-                            <label
-                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                            >
-                                Country
-                            </label>
-                            <select
-                                :class="{
-                                    'border-red-600': v$.country_id.$error,
-                                    'border-gray-300': !v$.country_id.$error
-                                }"
-                                id="country"
-                                name="country"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="customerEditIfNotNull.country_id"
+                                v-model="customerEdit.country_id"
                             >
                                 <option
                                     v-for="(country, index) in countries"
@@ -322,27 +293,14 @@
                                 Apartment/Suite
                             </label>
                             <input
-                                :class="{
-                                    'border-red-600': v$.apartment.$error,
-                                    'border-gray-300': !v$.apartment.$error
-                                }"
                                 type="text"
                                 id="apartment"
                                 name="apartment"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEditIfNull.apartment"
+                                v-model="customerEdit.apartment"
                             />
-                        </div>
-
-                        <div class="mt-1">
-                            <p
-                                class="text-red-600 text-xs"
-                                v-if="v$.apartment.$error"
-                            >
-                                {{ v$.apartment.$errors[0].$message }}
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -358,14 +316,14 @@
                             </label>
                             <!-- state v-if start -->
 
-                            <div v-if="statesIfNull.length">
+                            <div v-if="states.length">
                                 <select
                                     id="state"
                                     name="state"
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder=""
                                     required
-                                    v-model="customerEditIfNull.state_id"
+                                    v-model="customerEdit.state_id"
                                     :class="{
                                         'border-red-600': v$.state_id.$error,
                                         'border-gray-300': !v$.state_id.$error
@@ -373,7 +331,7 @@
                                 >
                                     <option value="">Choose a State</option>
                                     <option
-                                        v-for="(state, index) in statesIfNull[0]
+                                        v-for="(state, index) in states[0]
                                             .states"
                                         :key="index"
                                         :value="state.id"
@@ -393,7 +351,7 @@
                                     }"
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder=""
-                                    v-model="customerEditIfNull.state_id"
+                                    v-model="customerEdit.state_id"
                                     required
                                 >
                                     <option value="null">Select State</option>
@@ -401,59 +359,6 @@
                             </div>
                         </div>
                         <!-- v-if end -->
-
-                        <!-- v-else start -->
-                        <div v-else>
-                            <label
-                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                            >
-                                State
-                            </label>
-                            <!-- state v-if start -->
-
-                            <div v-if="statesIfNull.length">
-                                <select
-                                    id="state"
-                                    name="state"
-                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                    placeholder=""
-                                    required
-                                    v-model="customerEditIfNull.state_id"
-                                    :class="{
-                                        'border-red-600': v$.state_id.$error,
-                                        'border-gray-300': !v$.state_id.$error
-                                    }"
-                                >
-                                    <option value="">Choose a State</option>
-                                    <option
-                                        v-for="(state, index) in statesIfNull[0]
-                                            .states"
-                                        :key="index"
-                                        :value="state.id"
-                                    >
-                                        {{ state.name }}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <!-- state v-if end -->
-                            <!-- v-else -->
-                            <div v-else>
-                                <select
-                                    :class="{
-                                        'border-red-600': v$.state_id.$error,
-                                        'border-gray-300': !v$.state_id.$error
-                                    }"
-                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                    placeholder=""
-                                    v-model="customerEditIfNull.state_id"
-                                    required
-                                >
-                                    <option value="null">Select State</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- v-else end -->
 
                         <div class="mt-1">
                             <p
@@ -483,7 +388,7 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEditIfNull.city"
+                                v-model="customerEdit.city"
                             />
                         </div>
 
@@ -515,7 +420,7 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="customerEditIfNull.zip"
+                                v-model="customerEdit.zip"
                             />
                         </div>
 
@@ -763,41 +668,23 @@ export default {
         const loading = ref(false)
         const successMessage = ref('')
         const countries = props.countries
-        const statesIfNull = computed(() => {
+        const states = computed(() => {
             return countries.filter(
-                country => country.id == customerEditIfNull.country_id
+                country => country.id == customerEdit.country_id
             )
         })
-        const statesIfNotNull = computed(() => {
-            return countries.filter(
-                country => country.id == customerEditIfNull.country_id
-            )
-        })
-        const selectedCountry = ref(1)
-        const selectedState = ref(1)
 
-        const customerEditIfNull = reactive({
+        const selectedCountry = ref( customer.country_id)
+        const selectedState = ref(customer.state_id)
+        const customerEdit = reactive({
             first_name: customer.first_name,
             last_name: customer.last_name,
             email: customer.email,
             phone_number: customer.phone_number,
             address: customer.address,
             apartment: customer.apartment,
-            country_id: 1,
-            state_id: 1,
-            city: customer.city,
-            zip: customer.zip
-        })
-
-        const customerEditIfNotNull = reactive({
-            first_name: customer.first_name,
-            last_name: customer.last_name,
-            email: customer.email,
-            phone_number: customer.phone_number,
-            address: customer.address,
-            apartment: customer.apartment,
-            country_id: customer.country_id,
-            state_id: customer.state_id,
+            country_id: selectedCountry.value ?  customer.country_id :  1,
+            state_id: selectedState.value ? customer.state_id : 1 ,
             city: customer.city,
             zip: customer.zip
         })
@@ -829,12 +716,6 @@ export default {
                 address: {
                     required: helpers.withMessage('Enter an address', required)
                 },
-                apartment: {
-                    required: helpers.withMessage(
-                        'Enter an apartment',
-                        required
-                    )
-                },
                 country_id: {
                     required: helpers.withMessage('Select a country', required)
                 },
@@ -853,7 +734,7 @@ export default {
             }
         })
 
-        const v$ = useVuelidate(rules, customerEditIfNull)
+        const v$ = useVuelidate(rules, customerEdit)
 
         function onClickTop () {
             notify(
@@ -883,7 +764,7 @@ export default {
             }
             loading.value = true
             axios
-                .put(`/customers/${customer.id}`, customerEditIfNull)
+                .put(`/customers/${customer.id}`, customerEdit)
                 .then(res => {
                     if (res.status == 200) {
                         successMessage.value = res.data.message
@@ -913,10 +794,8 @@ export default {
             submit,
             loading,
             customer,
-            customerEditIfNull,
-            customerEditIfNotNull,
-            statesIfNull,
-            statesIfNotNull,
+            customerEdit,
+            states,
             countries,
             selectedCountry,
             selectedState
