@@ -259,7 +259,6 @@
                     </div>
                 </div>
             </NotificationGroup>
-
         </div>
     </app-layout>
 </template>
@@ -327,7 +326,6 @@ export default {
     setup (props) {
         const open = ref(false)
         const notifications = props.notifications
-
         return {
             statusStyles,
             pages

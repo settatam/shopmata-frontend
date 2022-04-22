@@ -145,8 +145,9 @@ class TransactionsController extends Controller
     public function addImage(Request $request)
     {
         try {
+            $transaction = Transaction::find($request->transaction_id);
             $customer_note = TransactionNote::firstOrNew(
-                ['id' => $request->transaction_note_id],
+                ['id' => optional($transaction->public_note)->id],
             );
             $customer_note->transaction_id = $request->transaction_id;
             $customer_note->customer_id    = $request->customer_id;

@@ -279,26 +279,8 @@ export default {
 
         messagePublic.value = props.root.public_note.notes
         messagePrivate.value = props.root.private_note.notes
-
-        const filteredPrivateLast = computed(() => {
-            let filteredNotes = notes.filter(note => {
-                if (note.type == 'private') {
-                    return note
-                }
-            })
-
-            return filteredNotes[filteredNotes.length - 1].notes
-        })
-
-        const filteredPublicLast = computed(() => {
-            let filteredNotes = notes.filter(note => {
-                if (note.type == 'public') {
-                    return note
-                }
-            })
-
-            return filteredNotes[filteredNotes.length - 1].notes
-        })
+        
+        
 
         // notification
         function onClickTop () {
@@ -403,8 +385,6 @@ export default {
             saveNote,
             transactionStatus,
             transactionOffer,
-            filteredPrivateLast,
-            filteredPublicLast,
             notes
         }
     }
