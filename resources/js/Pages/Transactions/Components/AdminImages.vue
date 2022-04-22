@@ -12,7 +12,7 @@
                 <div class="w-full">
                     <div
                         class="border-b border-gray-300"
-                        v-if="transaction.images.length && media_open"
+                        v-if="images.length && media_open"
                     >
                         <li class="flex text-gray-700 justify-between">
                             <p class="w-3/10">Image</p>
@@ -24,10 +24,11 @@
                             <p class="w-2/10 px-2">Thumbnail</p>
                         </li>
                     </div>
-                    <div class="" v-if="display ? transaction.public_note.images.length : media_open">
+
+                    <div class="" v-if="display ? images.length : media_open">
                         <images-list 
-                        :images="transaction.images"
-                        v-if="display ? transaction.public_note.images.length : true"
+                        :images="images"
+                        v-if="display ? images.length : true"
                         @delete_img="delete_img" />
                         <Dropzone @add-image="onAddImage" class="" :root="root"/>
                     </div>
@@ -72,6 +73,7 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import Dropzone from './Dropzone'
 import ImagesList from './ImagesList'
 import { notify } from 'notiwind'
+import { onMounted } from '@vue/runtime-core'
 
 export default {
     components: { AppLayout, Dropzone, ImagesList },
@@ -79,18 +81,16 @@ export default {
     setup (props) {
         const display = ref("")
         const media_open = ref(true)
-        const transaction = reactive({
-            images: props.root.public_note.images
-            })
+        const images  = ref(props.root.public_note.images)
+
         function delete_img (image) {
-            transaction.images = image;
+            images = image;
         }
 
         function onAddImage (response) {
-            transaction.images = response.data
-            
+            images.value = response.data
         }
-        return { delete_img, onAddImage, media_open, transaction, display }
+        return { delete_img, onAddImage, media_open, images, display }
     }
 }
 </script>

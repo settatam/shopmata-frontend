@@ -40,7 +40,7 @@
                 >
                     <LoadingSpinner v-if="loading" />
 
-                    <span>Choose File </span>
+                    <span>{{ text }} </span>
                 </button>
             </div>
         </div>
@@ -65,6 +65,7 @@ export default {
         const url = '/transaction/image'
         const successMessage = ref('')
         const loading = ref(false)
+        const text  = ref("Choose file")
         const transaction = props.root
 
         // notification
@@ -102,6 +103,7 @@ export default {
                 return formData
             })
             loading.value = true
+            text.value = "Uploading...."
 
             axios
                 .post(url, formData, {
@@ -113,13 +115,17 @@ export default {
                     emit('add-image', response)
                     loading.value = false
                     successMessage.value = 'Image uploaded successfully'
+                    text.value = "Choose file"
                     setTimeout(onClickTop, 2000)
                 })
                 .catch(err => {
+                    console.log(err)
                   loading.value = false
                     successMessage.value = 'Error processing request'
                     setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
+                    text.value = "Choose file"
+
+                   // setTimeout(errorFn, 3000)
                 })
         }
 
@@ -136,7 +142,8 @@ export default {
             getInputProps,
             ...rest,
             loading,
-            transaction
+            transaction,
+            text
         }
     }
 }

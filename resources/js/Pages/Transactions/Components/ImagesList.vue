@@ -1,9 +1,10 @@
 <template>
     <ul role="list" class="divide-y divide-gray-200 w-100">
         <li
-            v-for="(image, index) in imagesList"
+            v-for="(image, index) in images"
             :key="image.id"
             class="flex justify-between border-b border-gray-300"
+            :id="'image_'+image.id"
         >
             <div class="w-3/10 py-3">
                 <img class="h-10 w-10" :src="image.url" alt="" />
@@ -36,6 +37,7 @@
                 <TrashIcon
                     v-else
                     class="w-6 h-6 text-red-500"
+                    :id="image.id"
                     @click="deleteExisting(image.id, index)"
                 />
             </div>
@@ -59,31 +61,27 @@ export default {
     },
     emits: ['delete_img'],
     setup (props, { emit }) {
-        const imagesList = props.images
         const loading = ref(null)
         const successMessage = ref('')
 
         function deleteExisting (id, index) {
             loading.value = index
+            
             axios
                 .post('/transaction/image/delete', { image_id: id })
                 .then(res => {
-                    if (res.status == 200) {
-                        loading.value = null
-                        successMessage.value = 'Image deleted'
-                        setTimeout(onClickTop, 2000)
-                    } else if (res.status == 422) {
-                        loading.value = null
-                        successMessage.value = res.data.notification.message
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    }
+                    document.getElementById('image_'+ id).remove()
+                    loading.value = null
+                    successMessage.value = 'Image deleted'
+                    setTimeout(onClickTop, 2000)
+                     
                 })
                 .catch(error => {
+                    console.log(error)
                     loading.value = false
                     successMessage.value = 'Error processing your request'
                     setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
+                    //setTimeout(errorFn, 3000)
                 })
         }
 
@@ -112,7 +110,6 @@ export default {
         // notification ends
 
         return {
-            imagesList,
             deleteExisting,
             onClickTop,
             onClickBot,
