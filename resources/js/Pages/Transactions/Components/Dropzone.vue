@@ -124,7 +124,6 @@ export default {
                     successMessage.value = 'Error processing request'
                     setTimeout(onClickBot, 2000)
                     text.value = "Choose file"
-
                    // setTimeout(errorFn, 3000)
                 })
         }

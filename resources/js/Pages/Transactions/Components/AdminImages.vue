@@ -84,20 +84,16 @@ export default {
     setup (props) {
         const display = ref('')
         const media_open = ref(true)
-        const transaction = reactive({
-            images: null !== props.root.public_note ? props.root.public_note.images : ''
-        })
-
+        
         const images = ref(props.root.public_note.images)
         function delete_img (image) {
             images = image
         }
 
         function onAddImage (response) {
-
-        return { delete_img, onAddImage, media_open, transaction, display }
             images.value = response.data
         }
+        
         return { delete_img, onAddImage, media_open, images, display }
     }
 }
