@@ -49,6 +49,10 @@ use App\Http\Controllers\MessagesController;
 
 use App\Http\Controllers\NotificationsController as NewNotificationsController;
 
+//Client
+
+use App\Http\Controllers\Client\HomeController as ClientHomeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -67,11 +71,7 @@ Route::get('test', function () {
 
 
 Route::domain('{account}.'.env('APP_URL'))->group(function () {
-    Route::get('/', function ($account) {
-        //
-        echo 'Welcome to your account ' . $account;
-        exit;
-    });
+    Route::get('/', [ClientHomeController::class, 'index']);
 });
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
