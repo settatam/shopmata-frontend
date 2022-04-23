@@ -22,6 +22,7 @@ class StoreInit
     {
         if(env('APP_ENV') !== 'development') {
             if($subdomain = Route::input('subdomain')) {
+                dd($subdomain);
                 $storeDomain = StoreDomain::where('name', $subdomain)->where('is_active', 1)->first();
                 if(null !== $storeDomain) {
                     session()->put('store_id', $storeDomain->store_id);
