@@ -318,7 +318,6 @@ export default {
         statuses: Array,
         top_tags: Array,
         bottom_tags: Array,
-        statuses: Array,
         timeline: Array,
         navigation: Array
     },
