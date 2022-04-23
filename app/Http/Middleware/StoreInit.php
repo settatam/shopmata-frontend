@@ -32,11 +32,10 @@ class StoreInit
             });
 
             if($subdomain = $request->subdomain()) {
-                dd($subdomain);
                 if(in_array($subdomain, $protectedUrls)) return $next($request);
-                $storeDomain = StoreDomain::where('name', $subdomain)->where('is_active', 1)->first();
+                $storeDomain = Store::where('slug', $subdomain)->first();
                 if(null !== $storeDomain) {
-                    session()->put('store_id', $storeDomain->store_id);
+                    session()->put('store_id', $storeDomain->id);
                 }else{
                     abort(404);
                 }
