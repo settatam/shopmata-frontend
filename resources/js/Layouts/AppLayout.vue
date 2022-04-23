@@ -736,7 +736,7 @@ export default {
         const open = ref(false);
 
         function doLogout() {
-            Inertia.post("logout");
+            Inertia.post("/logout");
         }
 
         return {
