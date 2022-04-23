@@ -187,11 +187,11 @@ class Store extends Model
 //        }
 
         if($template) {
-            $data['content_for_page'] =  ThemeFile::generateParsedContent($template, $data);
+            $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($template, $data));
         }
 
         if($theme) {
-            $pageContent = ThemeFile::generateParsedContent($theme, $data);
+            $pageContent = html_entity_decode(ThemeFile::generateParsedContent($theme, $data));
         }
 
         return $pageContent;
