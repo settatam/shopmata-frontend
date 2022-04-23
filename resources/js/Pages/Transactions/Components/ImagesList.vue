@@ -68,7 +68,7 @@ export default {
             loading.value = index
 
             axios
-                .post('/transaction/image/delete', { image_id: id })
+                .post('/admin/transaction/image/delete', { image_id: id })
                 .then(res => {
                     document.getElementById('image_' + id).remove()
                     loading.value = null

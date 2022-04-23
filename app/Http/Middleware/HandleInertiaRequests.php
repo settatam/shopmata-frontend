@@ -48,36 +48,36 @@ class HandleInertiaRequests extends Middleware
                      'href' => '/admin/dashboard',
                      'current' => true
                 ],
-                [
-                    'name' => 'Orders',
-                    'icon' => 'ShoppingBagIcon',
-                    'href' => '/admin/orders',
-                    'current' => false,
-                ],
-                [
-                    'name' => 'Products',
-                    'icon' => 'ChartPieIcon',
-                    'href' => '/admin/products',
-                    'current' => false,
-                    'children' => [
-                        [
-                            'name' => 'All Products',
-                            'href' => '/admin/products'
-                        ],
-                        [
-                            'name' => 'New Product',
-                            'href' => '/admin/products/create'
-                        ],
-                        [
-                            'name' => 'All Collections',
-                            'href' => '/admin/categories'
-                        ],
-                        [
-                            'name' => 'New Collection',
-                            'href' => '/admin/categories/create'
-                        ],
-                    ],
-                ],
+//                [
+//                    'name' => 'Orders',
+//                    'icon' => 'ShoppingBagIcon',
+//                    'href' => '/admin/orders',
+//                    'current' => false,
+//                ],
+//                [
+//                    'name' => 'Products',
+//                    'icon' => 'ChartPieIcon',
+//                    'href' => '/admin/products',
+//                    'current' => false,
+//                    'children' => [
+//                        [
+//                            'name' => 'All Products',
+//                            'href' => '/admin/products'
+//                        ],
+//                        [
+//                            'name' => 'New Product',
+//                            'href' => '/admin/products/create'
+//                        ],
+//                        [
+//                            'name' => 'All Collections',
+//                            'href' => '/admin/categories'
+//                        ],
+//                        [
+//                            'name' => 'New Collection',
+//                            'href' => '/admin/categories/create'
+//                        ],
+//                    ],
+//                ],
                 [
                     'name' => 'Customers',
                     'icon' => 'UserGroupIcon',
@@ -102,18 +102,18 @@ class HandleInertiaRequests extends Middleware
                     'href' => '/admin/reports',
                     'current' => false,
                 ],
-                [
-                    'name' => 'Analytics',
-                    'icon' => 'ChartBarIcon',
-                    'href' => '/admin/analytics',
-                    'current' => false
-                ],
-                [
-                    'name' => 'Discounts',
-                    'icon' => 'CashIcon',
-                    'href' => '/admin/discounts',
-                    'current' => false
-                ],
+//                [
+//                    'name' => 'Analytics',
+//                    'icon' => 'ChartBarIcon',
+//                    'href' => '/admin/analytics',
+//                    'current' => false
+//                ],
+//                [
+//                    'name' => 'Discounts',
+//                    'icon' => 'CashIcon',
+//                    'href' => '/admin/discounts',
+//                    'current' => false
+//                ],
                 [
                     'name' => 'Online Store',
                     'icon' => 'OfficeBuildingIcon',
