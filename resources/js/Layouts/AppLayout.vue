@@ -665,10 +665,9 @@ import {
 } from "@heroicons/vue/solid";
 
 const secondaryNavigation = [
-    { name: "Settings", href: "/settings", icon: CogIcon },
-    { name: "Help", href: "#", icon: QuestionMarkCircleIcon },
-    { name: "Privacy", href: "#", icon: ShieldCheckIcon },
+    { name: "Settings", href: "/admin/settings", icon: CogIcon },
 ];
+
 const cards = [
     {
         name: "Account balance",
