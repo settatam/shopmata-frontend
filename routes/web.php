@@ -69,6 +69,11 @@ Route::get('test', function () {
     return view('emails.sender');
 })->name('landing');
 
+
+Route::domain('{username}.' . env('APP_URL'))->group(function () {
+    echo 'Welcome to your website ' . $username;
+});
+
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 // 	return Inertia\Inertia::render('Dashboard');
 // })->name('dashboard');

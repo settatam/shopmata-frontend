@@ -7,7 +7,7 @@
         crossorigin="anonymous"
     />
     <!-- FONT AWESOME LINK -->
-    <app-layout>
+    <app-layout :navigation="navigation">
         <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
             <!-- Breadcrumb -->
             <div class="flex-shrink-0 mb-3 px:3 md:px-6 flex items-center">
@@ -18,7 +18,7 @@
                     <li>
                         <div>
                             <a
-                                href="/dashboard"
+                                href="/admin/dashboard"
                                 class="text-gray-400 hover:text-gray-500"
                             >
                                 <HomeIcon
@@ -60,7 +60,7 @@
                             class="flex justify-between items-center mb-2 lg:mb-0 "
                         >
                             <div class="flex font-semibold items-center">
-                                <inertia-link href="/settings/notifications">
+                                <inertia-link href="/admin/settings/notifications">
                                     <arrow-left-icon class="w-5 h-5 mr-5" />
                                 </inertia-link>
                                 <p class="text-base lg:text-2xl">
@@ -334,12 +334,16 @@ import { onBeforeMount } from '@vue/runtime-core'
 import { notify } from 'notiwind'
 
 const pages = [
-    { name: 'Settings', href: '/settings', current: false },
+    { name: 'Settings', href: '/admin/settings', current: false },
     { name: 'Notifications', href: '/settings/notifications', current: false }
 ]
 
 export default {
-    props: { store_notification: Object, notification: Object },
+    props: {
+        store_notification: Object,
+        notification: Object,
+        navigation: Array
+    },
     components: {
         AppLayout,
         ChevronRightIcon,
@@ -392,7 +396,7 @@ export default {
         const loadingFn = () => {
             loading.value = false
             save.value = 'Save'
-            window.location.href = '/settings/notifications/'
+            window.location.href = '/admin/settings/notifications/'
         }
         const errorFn = () => {
             loading.value = false

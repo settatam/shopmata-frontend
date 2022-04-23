@@ -7,7 +7,7 @@
         crossorigin="anonymous"
     />
     <!-- FONT AWESOME LINK -->
-    <app-layout>
+    <app-layout :navigation="navigation">
         <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
             <!-- Breadcrumb -->
             <div class="flex-shrink-0 mb-3 px-6 flex items-center">
@@ -18,7 +18,7 @@
                     <li>
                         <div>
                             <a
-                                href="/dashboard"
+                                href="/admin/dashboard"
                                 class="text-gray-400 hover:text-gray-500"
                             >
                                 <HomeIcon
@@ -605,7 +605,8 @@ export default {
         industries: Array,
         timezones: Array,
         errors: Object,
-        states: Array
+        states: Array,
+        navigation: Array
     },
     components: {
         Nav,

@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
             <!-- Breadcrumb -->
             <div class="flex-shrink-0 mb-3 px-6 flex items-center">
@@ -118,7 +118,7 @@
                                 class="w-full z-30"
                             />
 
-                            <!-- 
+                            <!--
                             <h1 class="text-2xl font-semibold">
                                 Staff order notifications
                             </h1>
@@ -415,7 +415,8 @@ const statusStyles = {
 export default {
     props: {
         notifications: Object,
-        email_marketing_settings: Array
+        email_marketing_settings: Array,
+        navigation: Array
     },
     emits: ['close'],
     components: {

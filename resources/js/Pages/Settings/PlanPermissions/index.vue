@@ -1,5 +1,5 @@
 <template>
-  <app-layout>
+  <app-layout :navigation="navigation">
     <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden" >
          <div class="flex-shrink-0 mb-3 px-6 flex items-center">
               <p class="text-2xl font-semibold text-gray-900">Settings</p>
@@ -194,7 +194,7 @@ const plans = [
   // More people...
 ]
 export default {
-  props: ['user', 'storeUsers', 'groups','login'],
+  props: ['user', 'storeUsers', 'groups','login', 'navigation'],
   components: {
     AppLayout,
     Nav,

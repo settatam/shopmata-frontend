@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
             <!-- Breadcrumb -->
             <div class="flex-shrink-0 mb-3 px-6 flex items-center">
@@ -71,7 +71,7 @@
                                         more
                                         <a
                                             class="text-indigo-700 underline cursor-pointer"
-                                            href="/settings/shipping-rate"
+                                            href="/admin/settings/shipping-rate"
                                             >about shipping rates</a
                                         >
                                     </p>
@@ -91,7 +91,7 @@
                                             </p>
                                         </div>
                                         <inertia-link
-                                            href="/settings/shipping-rates/create"
+                                            href="/admin/settings/shipping-rates/create"
                                         >
                                             <button
                                                 class="text-indigo-700 mr-5 cursor-pointer"
@@ -203,7 +203,7 @@
                                                                 >
                                                                     <inertia-link
                                                                         :href="
-                                                                            `/settings/shipping-rates/${shipping.id}/edit`
+                                                                            `/admin/settings/shipping-rates/${shipping.id}/edit`
                                                                         "
                                                                     >
                                                                         <PencilIcon
@@ -591,7 +591,7 @@ const statusStyles = {
     failed: 'bg-gray-100 text-gray-800'
 }
 const pages = [
-    { name: 'Settings', href: '/settings', current: false },
+    { name: 'Settings', href: '/admin/settings', current: false },
     {
         name: 'Shipping and Delivery',
         href: '/settings/shipping-and-delivery',
@@ -599,7 +599,7 @@ const pages = [
     }
 ]
 export default {
-    props: ['locations', 'countries'],
+    props: ['locations', 'countries', 'navigation'],
     components: {
         Nav,
         AppLayout,

@@ -64,7 +64,7 @@ export default {
   props: {
     page: String
   },
-  
+
   components: {
     AppLayout,
     BellIcon,
@@ -86,56 +86,56 @@ export default {
     MenuAlt1Icon,
     Dialog, DialogOverlay, TransitionChild, TransitionRoot
   },
-  
+
   data() {
     return {
         subNavigation: [
         {
           name: 'General',
           description: 'View and update store details.',
-          href: '/settings/general',
+          href: '/admin/settings/general',
           icon: CogIcon,
           current: this.page == 'General' ? true : false,
         },
         {
           name: 'Plans and Permissions',
           description: 'View plan information and manage what staff can see or do in your store.',
-          href: '/settings/plan-and-permissions',
+          href: '/admin/settings/plan-and-permissions',
           icon: CashIcon,
           current: this.page == 'Plans' ? true : false,
         },
         {
           name: 'Payments',
           description: 'Enable and manage your store’s payment providers.',
-          href: '/settings/payments',
+          href: '/admin/settings/payments',
           icon: KeyIcon,
           current: this.page == 'Payments' ? true : false,
         },
         {
           name: 'Remittance',
           description: 'To receive your remittance via transfer.',
-          href: '/settings/remittance',
+          href: '/admin/settings/remittance',
           icon: InboxInIcon,
           current: this.page == 'Remittance' ? true : false,
         },
         {
           name: 'Shipping and Delivery',
           description: 'Manage how you ship orders to customers.',
-          href: '/settings/shipping-and-delivery',
+          href: '/admin/settings/shipping-and-delivery',
           icon: PhotographIcon,
           current: this.page == 'Shipping' ? true : false,
         },
         {
           name: 'Notifications',
           description: 'Manage Notifications sent to you.',
-          href: '/settings/notifications',
+          href: '/admin/settings/notifications',
           icon: BellIcon,
           current: this.page == 'Notifications' ? true : false,
         },
         {
           name: 'Gift Cards',
           description: 'Enable Apple Wallet passes and set gift card expiry dates.',
-          href: '/settings/gift-cards',
+          href: '/admin/settings/gift-cards',
           icon: CashIcon,
           current: this.page == 'GiftCards' ? true : false,
         },
