@@ -29,7 +29,8 @@
                         <images-list 
                         :images="images"
                         v-if="display ? images.length : true"
-                        @delete_img="delete_img" />
+                        @delete_img="delete_img" 
+                        />
                         <Dropzone @add-image="onAddImage" class="" :root="root"/>
                     </div>
                     <!-- <label
