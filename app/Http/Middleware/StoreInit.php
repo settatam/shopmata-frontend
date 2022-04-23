@@ -20,15 +20,19 @@ class StoreInit
      */
     public function handle(Request $request, Closure $next)
     {
-        Request::macro('subdomain', function () {
-            return current(explode('.', $this->getHost()));
-        });
-
-        dd($request->subdomain());
-        
+        $protected $urls = [
+            'www',
+            'seth',
+            'me'
+        ];
         if(env('APP_ENV') !== 'development') {
-            if($subdomain = Route::input('subdomain')) {
-                dd($subdomain);
+
+            Request::macro('subdomain', function () {
+                return current(explode('.', $this->getHost()));
+            });
+
+            if($subdomain = $request->subdomain()) {
+                if(in_array($subdomain, $urls)) return $next($request);
                 $storeDomain = StoreDomain::where('name', $subdomain)->where('is_active', 1)->first();
                 if(null !== $storeDomain) {
                     session()->put('store_id', $storeDomain->store_id);
