@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <div id="container">
             <div
                 class="bg-gray-background w-full flex flex-col lg:space-y-2 px-4"
@@ -319,8 +319,8 @@ export default {
         top_tags: Array,
         bottom_tags: Array,
         statuses: Array,
-        timeline: Array
-
+        timeline: Array,
+        navigation: Array
     },
 
     setup (props) {

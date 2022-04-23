@@ -107,7 +107,7 @@ export default {
             text.value = "Uploading...."
 
             axios
-                .post('/transactions/'+transaction.id+'/images', formData, {
+                .post('/admin/transactions/'+transaction.id+'/images', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -120,7 +120,6 @@ export default {
                     setTimeout(onClickTop, 2000)
                 })
                 .catch(err => {
-                    console.log(err)
                   loading.value = false
                     successMessage.value = 'Error processing request'
                     setTimeout(onClickBot, 2000)
