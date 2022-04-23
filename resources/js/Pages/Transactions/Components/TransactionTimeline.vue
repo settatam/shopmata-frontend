@@ -76,12 +76,22 @@
             class="flex flex-col lg:flex-row text-black text-xs pl-4 md:text-sm"
         >
             <div class="flex flex-col p-4 space-y-3 lg:w-1/3">
-                <p class="text-green-darker">Kit requested</p>
-                <p class="text-green-darker">Kit sent</p>
-                <p class="text-green-darker">Package Received</p>
-                <p>Offer given</p>
-                <p>Offer accepted</p>
-                <p>Payment processed</p>
+                <div v-for="status in timeline" :key="status.index">
+                    <p
+                        :class="{
+                            'text-red-600': !status.date,
+                            'text-green-darker': status.date
+                        }"
+                    >
+                        {{ status.name }}:
+                        <span v-if="status.date">
+                            {{ moment(status.date).format('YYYY-MM-DD') }}
+                        </span>
+                        <span v-else>
+                            {{}}
+                        </span>
+                    </p>
+                </div>
             </div>
 
             <div class="flex flex-col lg:w-2/3 mx-4">
@@ -97,7 +107,6 @@
                         v-model="messagePublic"
                     >
                     </textarea>
-
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full ">
                         <div>
@@ -214,7 +223,7 @@
         </div>
 
         <div class="my-4">
-            <AdminImages :root="transaction"/>
+            <AdminImages :root="transaction" />
         </div>
 
         <!-- add item start -->
@@ -235,10 +244,14 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
 import { notify } from 'notiwind'
+import moment from 'moment'
 
 export default {
     components: { AppLayout, PrintLabel, AdminImages },
-    props: ['transaction', 'bottom_tags', 'statuses', 'root'],
+    props: ['transaction', 'bottom_tags', 'statuses', 'root', 'timeline'],
+    created: function () {
+        this.moment = moment
+    },
     setup (props) {
         const popUp = ref(false)
         const successMessage = ref('')
@@ -253,6 +266,7 @@ export default {
             pickedTags.forEach(item => {
                 return myArray.push(item.tag_id)
             })
+
             return myArray
         })
         const customer_id = props.root.customer.id
@@ -315,7 +329,10 @@ export default {
             axios
                 .post('/transaction/notes', {
                     transaction_id,
-                    message: type == 'public' ?  messagePublic.value : messagePrivate.value,
+                    message:
+                        type == 'public'
+                            ? messagePublic.value
+                            : messagePrivate.value,
                     customer_id,
                     type: type
                 })
@@ -387,8 +404,6 @@ export default {
             saveNote,
             transactionStatus,
             transactionOffer,
-            filteredPrivateLast,
-            filteredPublicLast,
             notes
         }
     }

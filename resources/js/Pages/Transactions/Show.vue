@@ -92,6 +92,7 @@
                         :transaction="transaction"
                         :bottom_tags="bottom_tags"
                         :statuses="statuses"
+                        :timeline="timeline"
                     />
                 </div>
                 <!-- row 4 starts -->
@@ -258,7 +259,6 @@
                     </div>
                 </div>
             </NotificationGroup>
-
         </div>
     </app-layout>
 </template>
@@ -319,13 +319,13 @@ export default {
         top_tags: Array,
         bottom_tags: Array,
         statuses: Array,
+        timeline: Array
 
     },
 
     setup (props) {
         const open = ref(false)
         const notifications = props.notifications
-
         return {
             statusStyles,
             pages
