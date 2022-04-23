@@ -20,7 +20,12 @@ class StoreInit
      */
     public function handle(Request $request, Closure $next)
     {
-        dd(Route::input('subdomain'));
+        Request::macro('subdomain', function () {
+            return current(explode('.', $this->getHost()));
+        });
+
+        dd($request->subdomain());
+        
         if(env('APP_ENV') !== 'development') {
             if($subdomain = Route::input('subdomain')) {
                 dd($subdomain);
