@@ -119,12 +119,10 @@ export default {
                     setTimeout(onClickTop, 2000)
                 })
                 .catch(err => {
-                    console.log(err)
-                  loading.value = false
+                    loading.value = false
                     successMessage.value = 'Error processing request'
                     setTimeout(onClickBot, 2000)
                     text.value = "Choose file"
-
                    // setTimeout(errorFn, 3000)
                 })
         }

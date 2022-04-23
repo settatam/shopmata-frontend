@@ -8,7 +8,7 @@ use App\Models\Order;
 use App\Models\Store;
 use App\Models\Country;
 use App\Models\Customer;
-use App\Models\ShippingAddress;
+use App\Models\Address;
 use App\Http\Helpers\Helper;
 
 use Illuminate\Support\Str;
@@ -114,11 +114,9 @@ class CustomersController extends Controller
         $customer->phone_number = $request->phone_number;
         $customer->is_active    = 1;
         $customer->accepts_marketing = 1;
-        $customer->password   = Hash::make(Str::random(10));
         $customer->save();
 
-        if ($request->shipping) {
-            ShippingAddress::updateOrCreate(
+            Address::updateOrCreate(
                 ['user_id' => $customer->id],
                 [
                     'first_name' => $request->first_name,
@@ -131,11 +129,9 @@ class CustomersController extends Controller
                     'address'    => $request->address,
                     'address2'   => $request->address2,
                     'zip'        => $request->postal_code,
-                    'country'    => $request->country,
-                    'state'      => $request->state,
                 ]
             );
-        }
+        
 
 
     }
