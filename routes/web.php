@@ -70,7 +70,7 @@ Route::get('test', function () {
 })->name('landing');
 
 
-Route::domain('{account}.'.env('APP_URL'))->group(function () {
+Route::domain('{account}.shopmata-staging.com')->group(function () {
     Route::get('/', function ($account) {
         //
         echo 'Welcome to your account ' . $account;
