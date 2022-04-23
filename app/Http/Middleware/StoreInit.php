@@ -20,6 +20,7 @@ class StoreInit
      */
     public function handle(Request $request, Closure $next)
     {
+        dd(Route::input('subdomain'));
         if(env('APP_ENV') !== 'development') {
             if($subdomain = Route::input('subdomain')) {
                 dd($subdomain);
