@@ -70,8 +70,12 @@ Route::get('test', function () {
 })->name('landing');
 
 
-Route::domain('{username}.' . env('APP_URL'))->group(function () {
-    echo 'Welcome to your website ' . $username;
+Route::domain('{account}.'.env('APP_URL'))->group(function () {
+    Route::get('/', function ($account) {
+        //
+        echo 'Welcome to your account ' . $account;
+        exit;
+    });
 });
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
