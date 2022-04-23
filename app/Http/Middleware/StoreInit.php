@@ -20,7 +20,7 @@ class StoreInit
      */
     public function handle(Request $request, Closure $next)
     {
-        $protected $urls = [
+        $protectedUrls = [
             'www',
             'seth',
             'me'
@@ -32,7 +32,7 @@ class StoreInit
             });
 
             if($subdomain = $request->subdomain()) {
-                if(in_array($subdomain, $urls)) return $next($request);
+                if(in_array($subdomain, $protectedUrls)) return $next($request);
                 $storeDomain = StoreDomain::where('name', $subdomain)->where('is_active', 1)->first();
                 if(null !== $storeDomain) {
                     session()->put('store_id', $storeDomain->store_id);
