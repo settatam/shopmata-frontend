@@ -61,16 +61,12 @@ use App\Http\Controllers\NotificationsController as NewNotificationsController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia\Inertia::render('Landing');
-})->name('landing');
-
 Route::get('test', function () {
     return view('emails.sender');
 })->name('landing');
 
 
-Route::domain('{account}.shopmata-staging.com')->group(function () {
+Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('/', function ($account) {
         //
         echo 'Welcome to your account ' . $account;
