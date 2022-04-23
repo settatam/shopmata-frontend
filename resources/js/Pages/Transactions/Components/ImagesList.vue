@@ -4,7 +4,7 @@
             v-for="(image, index) in images"
             :key="image.id"
             class="flex justify-between border-b border-gray-300"
-            :id="'image_'+image.id"
+            :id="'image_' + image.id"
         >
             <div class="w-3/10 py-3">
                 <img class="h-10 w-10" :src="image.url" alt="" />
@@ -66,15 +66,14 @@ export default {
 
         function deleteExisting (id, index) {
             loading.value = index
-            
+
             axios
-                .post('/transaction/image/delete', { image_id: id })
+                .post('/admin/transaction/image/delete', { image_id: id })
                 .then(res => {
-                    document.getElementById('image_'+ id).remove()
+                    document.getElementById('image_' + id).remove()
                     loading.value = null
                     successMessage.value = 'Image deleted'
                     setTimeout(onClickTop, 2000)
-                     
                 })
                 .catch(error => {
                     loading.value = false
@@ -84,7 +83,6 @@ export default {
                 })
         }
 
-        
         // notification
         function onClickTop () {
             notify(

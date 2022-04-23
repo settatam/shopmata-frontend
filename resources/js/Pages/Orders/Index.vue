@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <!-- Page header -->
         <div class="">
             <div class="px- sm:px-6 lg:mx-auto lg:px-">
@@ -75,7 +75,7 @@
                                 font-semibold
                                 mb-2
                                 bg-transparent
-                                
+
                             "
                             >What are you looking for?</label
                         >
@@ -246,7 +246,7 @@
                                     <th
                                         scope="col"
                                         class="
-                                            
+
                                             px-2
                                             text-left
                                             font-medium
@@ -295,7 +295,7 @@
                                             whitespace-nowrap
                                             px-3
                                             py-3
-                                            text-left 
+                                            text-left
                                             font-medium
                                             text-gray-500
                                             uppercase
@@ -311,7 +311,7 @@
                                             whitespace-nowrap
                                             px-3
                                             py-3
-                                            text-left 
+                                            text-left
                                             font-medium
                                             text-gray-500
                                             uppercase
@@ -430,12 +430,12 @@
                                             "
                                         />
                                     </td> -->
-                                    
+
                                         <td
                                             class="
                                                 px-3
                                                 pt-2.5
-                                                text-left 
+                                                text-left
                                                 font-medium
                                                 text-indigo-600
                                                 tracking-wider
@@ -447,7 +447,7 @@
                                     <td
                                         class="
                                             px-3
-                                            text-left 
+                                            text-left
                                             tracking-wider
                                             hidden md:table-cell
                                         "
@@ -472,8 +472,8 @@
                                     </td>
                                     <td
                                         class="
-                                            
-                                            
+
+
                                             text-center
                                             tracking-wider
                                             hidden md:table-cell
@@ -488,7 +488,7 @@
                                     <td
                                         class="
                                             px-3
-                                            
+
                                             tracking-wider
                                             hidden md:table-cell
                                         "
@@ -498,7 +498,7 @@
                                     <td
                                         class="
                                             px-3
-                                            text-left 
+                                            text-left
                                             tracking-wider
                                         "
                                     >
@@ -509,7 +509,7 @@
                                                 py-3
                                                 text-left
                                                 leading-4
-                                                
+
                                                 tracking-wide
                                             "
                                         >
@@ -531,7 +531,7 @@
                                         v-if="order.tags.length > 0"
                                         class="
                                             px-3
-                                            text-left 
+                                            text-left
                                             tracking-wider hidden md:table-cell
                                         "
                                     >
@@ -670,6 +670,7 @@ export default {
     props: {
         orders: Object,
         filters: Object,
+        navigation: Array
     },
     data() {
         return {

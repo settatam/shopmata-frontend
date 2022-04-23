@@ -101,7 +101,7 @@
                     <td v-if="item.transaction"
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
                     >
-                        <inertia-link :href=" '/transactions/' + item.transaction.id ">{{ item.id }}</inertia-link>
+                        <inertia-link :href=" '/admin/transactions/' + item.transaction.id ">{{ item.id }}</inertia-link>
                     </td>
 
                     <td v-else
@@ -129,11 +129,11 @@
                         class="text-xs lg:text-sm text-black font-light px-6 py-4  whitespace-normal w-3/5 text-justify"
                     >
                         <img
-                                        :src="item.images[0].url"
-                                        alt=""
-                                        width="100"
-                                        height="100"
-                                    />
+                            :src="item.images[0].url"
+                            alt=""
+                            width="100"
+                            height="100"
+                        />
                     </td>
                 </tr>
             </tbody>
@@ -153,11 +153,6 @@ import { reactive, ref } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Pagination from '../../../Components/Pagination.vue'
 import { SearchIcon } from '@heroicons/vue/outline'
-const statusStyles = {
-    success: 'bg-green-100 text-green-800',
-    processing: 'bg-yellow-100 text-yellow-800',
-    failed: 'bg-gray-100 text-gray-800'
-}
 
 export default {
     components: { AppLayout, Pagination, SearchIcon },
@@ -181,7 +176,6 @@ export default {
         }
 
         function submit () {
-            console.log('sent')
             loading.value = true
             axios
                 .get('/messages', {
@@ -200,7 +194,6 @@ export default {
         }
 
         return {
-            statusStyles,
             pagination,
             messages,
             smses,

@@ -7,7 +7,7 @@
         crossorigin="anonymous"
     />
 
-    <app-layout>
+    <app-layout :navigation="navigation">
         <!-- Breadcrumb -->
         <nav class="flex px-8 mt-8" aria-label="Breadcrumb">
             <ol role="list" class="flex items-center space-x-4">
@@ -650,7 +650,7 @@ const statusStyles = {
     failed: 'bg-gray-100 text-gray-800'
 }
 export default {
-    props: ['customer', 'countries', 'notification'],
+    props: ['customer', 'countries', 'notification', 'navigation'],
 
     components: {
         AppLayout,

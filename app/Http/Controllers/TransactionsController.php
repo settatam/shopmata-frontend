@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Storage;
 
 
 class TransactionsController extends Controller
-{   
+{
 
     use FileUploader;
 
@@ -168,7 +168,7 @@ class TransactionsController extends Controller
             return response($th->getMessage() ,422);
         }
 
-        return response("Something went wongr" ,422);
+        return response("Something went wrong" ,422);
     }
 
 
@@ -201,11 +201,11 @@ class TransactionsController extends Controller
             $image  = Image::findorFail($request->image_id);
 
             if ($image->url){
-                Storage::disk('DO')->delete($image->url); 
+                Storage::disk('DO')->delete($image->url);
             }
 
             if ($image->thumb){
-                Storage::disk('DO')->delete($image->thumb); 
+                Storage::disk('DO')->delete($image->thumb);
             }
 
             $image->delete();
@@ -238,6 +238,64 @@ class TransactionsController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function extras(Request $request, $id, $action)
+    {
+        //
+        $input = $request->input();
+
+        //How do we perform validation here???
+
+        switch ($action) {
+            case 'images':
+                try {
+                    $transaction = Transaction::find($request->transaction_id);
+                    $customer_note = TransactionNote::firstOrNew(
+                        ['id' => optional($transaction->public_note)->id],
+                    );
+                    $customer_note->transaction_id = $request->transaction_id;
+                    $customer_note->customer_id    = $request->customer_id;
+                    $customer_note->type           = TransactionNote::PUBLIC_TYPE;
+                    $customer_note->save();
+
+                    $image  = FileUploader::upload($request);
+                    if ( isset($image[0]['thumb']) ){
+                        $l_image = $image[0]['thumb'];
+                        $tn_image = $image[0]['large'];
+                        $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
+                        $customer_note->images()->save($imgs);
+                    }
+
+                    return response()->json($customer_note->images,  200);
+                } catch (\Throwable $th) {
+                    \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+                    return response($th->getMessage() ,422);
+                }
+
+                return response("Something went wrong" ,422);
+                break;
+            case 'sms':
+                $this->sendSms($input);
+                break;
+            case 'status':
+                $this->updateStatus($input);
+                break;
+//            case:
+
+        }
+
+        $transaction = Transaction::find($id);
+        if($transaction->doUpdate($input)) {
+            return response()->json($transaction);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -248,5 +306,3 @@ class TransactionsController extends Controller
         //
     }
 }
-
-

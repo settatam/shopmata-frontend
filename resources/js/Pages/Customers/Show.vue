@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <div class="flex-1 flex flex-col mt-4 min-h-screen">
             <nav class="flex px-8 mb-4" aria-label="Breadcrumb">
                 <ol role="list" class="flex items-center space-x-4">
@@ -148,7 +148,7 @@
                             <h2 class="mb-1">{{customer.address==null?"Address not available":customer.address }}</h2>
                             <h2 class="mb-1"></h2>
                             <h2 class="mb-1">
-                                {{ customer?.city }} 
+                                {{ customer?.city }}
                                 {{ customer?.state }}
                             </h2>
                             <h2 class="mb-6">
@@ -314,7 +314,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-gray-200" v-if="customer.orders.length>0">
-                                            <tr 
+                                            <tr
                                                 class=""
                                                 v-for="order in customer.orders"
                                                 :key="order.id"
@@ -508,7 +508,7 @@
                                                 "YYYY-MM-DD"
                                             )
                                         }}
-                                        
+
                                     </p>
                                 </div>
                             </div>
@@ -591,6 +591,7 @@ export default {
         orders: Object,
         store: Object,
         data: Object,
+        navigation: Array
     },
 
     components: {

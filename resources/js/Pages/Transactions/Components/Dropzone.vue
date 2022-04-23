@@ -1,5 +1,5 @@
 <template>
-    
+
     <div class="mt-1 sm:mt-0 sm:col-span-2" v-bind="getRootProps()">
         <input v-bind="getInputProps()" />
         <div
@@ -62,7 +62,7 @@ export default {
     name: 'UseDropzone',
     emits: ['add-image'],
     setup (props, { emit }) {
-        const url = '/transaction/image'
+        const url = '';
         const successMessage = ref('')
         const loading = ref(false)
         const text  = ref("Choose file")
@@ -91,12 +91,13 @@ export default {
         }
         // notification ends
         const sentTransId = ref('')
-        let transId = ref(transaction.public_note.id) 
+        let transId = ref(transaction.public_note.id)
 
         const saveFiles = files => {
             const formData = new FormData()
             files.map(file => {
                 formData.append('files[]', file)
+                formData.append('type', 'image')
                 formData.append('transaction_id', transaction.id)
                 formData.append('customer_id', transaction.customer.id)
                 formData.append('transaction_note_id', sentTransId.value == "" ? transId.value : "null");
@@ -106,7 +107,7 @@ export default {
             text.value = "Uploading...."
 
             axios
-                .post(url, formData, {
+                .post('/admin/transactions/'+transaction.id+'/images', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -119,7 +120,7 @@ export default {
                     setTimeout(onClickTop, 2000)
                 })
                 .catch(err => {
-                    loading.value = false
+                  loading.value = false
                     successMessage.value = 'Error processing request'
                     setTimeout(onClickBot, 2000)
                     text.value = "Choose file"

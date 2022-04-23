@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <!-- Page header -->
         <div class="">
             <div class="px-4 sm:px-6 lg:mx-auto lg:px-8">
@@ -21,7 +21,7 @@
                   <trash-icon class="w-4 h-4  text-red-500"/>
                 </div> -->
                         <inertia-link
-                            href="/products/create"
+                            href="/admin/products/create"
                             type="button"
                             class="inline-flex items-center px-2 py-1 text-xs md:text-base md:px-4 md:py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                         >
@@ -309,7 +309,7 @@
                                                 </div>
                                                 <inertia-link
                                                     :href="
-                                                        'products/' +
+                                                        '/admin/products/' +
                                                         product.id +
                                                         '/'
                                                     "
@@ -418,7 +418,7 @@
                                     No product has been created
                                 </p>
                                 <inertia-link
-                                    href="/products/create"
+                                    href="/admin/products/create"
                                     type="button"
                                     class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                                 >
@@ -441,7 +441,7 @@
                         />
                         <p class="mb-4 text-lg">No product has been created</p>
                         <inertia-link
-                            href="/products/create"
+                            href="/admin/products/create"
                             type="button"
                             class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm cursor-pointer rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                         >
@@ -484,7 +484,7 @@
                                         <div>
                                             <inertia-link
                                                 :href="
-                                                    'products/' +
+                                                    '/admin/products/' +
                                                     product.id +
                                                     '/'
                                                 "
@@ -694,6 +694,7 @@ export default {
         categories: Array,
         store: Object,
         product_types: Array,
+        navigation: Array
     },
     components: {
         AppLayout,

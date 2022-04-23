@@ -13,6 +13,7 @@ import "./index.css"
 import "../js/Components/Tooltip/Styles/main.css";
 import directives from "../js/Components/Tooltip/Directives/index";
 import Notifications from 'notiwind';
+import AppLayout from "./Layouts/AppLayout";
 
 
 const el = document.getElementById("app");
@@ -21,6 +22,7 @@ const test = createApp(InertiaApp);
 directives(test);
 
 // Vue.use(Chartkick.use(Chart));
+
 
 createApp({
     render: () =>

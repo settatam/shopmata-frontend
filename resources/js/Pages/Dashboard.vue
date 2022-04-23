@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <!-- Page header -->
         <div>
             <!-- 3 column wrapper -->
@@ -563,7 +563,8 @@ export default {
         StarIcon
     },
     props: {
-        notifications: Array
+        notifications: Array,
+        navigation: Array
     },
     data () {
         return {

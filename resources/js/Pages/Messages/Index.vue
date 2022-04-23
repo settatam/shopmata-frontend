@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <!-- Page header -->
         <div id="container" class="flex flex-col mx-3 space-y-1">
             <!-- <div>
@@ -28,6 +28,6 @@ export default {
         // SearchRow,
         MessagesTable
     },
-    props: ['messages']
+    props: ['messages', 'navigation']
 }
 </script>

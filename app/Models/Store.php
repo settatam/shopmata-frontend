@@ -167,4 +167,34 @@ class Store extends Model
         return $this->addresses()->first();
     }
 
+    public function pages() {
+        return $this->hasMany(StorePage::class);
+    }
+
+    public function pageContent($name) {
+        $page = $this->pages()->where('name', $name)->first();
+        $theme = $page->theme->content;
+        $template = $page->template->content;
+        $content = $page->content;
+
+        $data = [];
+        $pageContent = '';
+
+        $content_for_page = '';
+
+//        if($content) {
+//            $pageContent .= ThemeFile::generateParsedContent($content, $data);
+//        }
+
+        if($template) {
+            $data['content_for_page'] =  ThemeFile::generateParsedContent($template, $data);
+        }
+
+        if($theme) {
+            $pageContent = ThemeFile::generateParsedContent($theme, $data);
+        }
+
+        return $pageContent;
+
+    }
 }

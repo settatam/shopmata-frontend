@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <div id="container">
             <div
                 class="bg-gray-background w-full flex flex-col lg:space-y-2 px-4"
@@ -10,7 +10,7 @@
                         <li>
                             <div>
                                 <a
-                                    href="/dashboard"
+                                    href="/admin/dashboard"
                                     class="text-gray-400 hover:text-gray-500"
                                 >
                                     <HomeIcon
@@ -92,6 +92,7 @@
                         :transaction="transaction"
                         :bottom_tags="bottom_tags"
                         :statuses="statuses"
+                        :timeline="timeline"
                     />
                 </div>
                 <!-- row 4 starts -->
@@ -285,7 +286,7 @@ const statusStyles = {
 }
 
 const pages = [
-    { name: 'Transactions', href: '/transactions', current: false },
+    { name: 'Transactions', href: '/admin/transactions', current: false },
     {
         name: 'Transaction Report',
         href: '',
@@ -317,8 +318,8 @@ export default {
         statuses: Array,
         top_tags: Array,
         bottom_tags: Array,
-        statuses: Array,
-
+        timeline: Array,
+        navigation: Array
     },
 
     setup (props) {

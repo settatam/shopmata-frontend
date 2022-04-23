@@ -26,11 +26,16 @@
                     </div>
 
                     <div class="" v-if="display ? images.length : media_open">
-                        <images-list 
-                        :images="images"
-                        v-if="display ? images.length : true"
-                        @delete_img="delete_img" />
-                        <Dropzone @add-image="onAddImage" class="" :root="root"/>
+                        <images-list
+                            :images="images"
+                            v-if="display ? images.length : true"
+                            @delete_img="delete_img"
+                        />
+                        <Dropzone
+                            @add-image="onAddImage"
+                            class=""
+                            :root="root"
+                        />
                     </div>
                     <!-- <label
                         class="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
@@ -60,8 +65,6 @@
                         <input type="file" name="file_upload" class="hidden" />
                     </label> -->
                 </div>
-
-                
             </div>
         </div>
     </div>
@@ -79,17 +82,18 @@ export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ['root'],
     setup (props) {
-        const display = ref("")
+        const display = ref('')
         const media_open = ref(true)
-        const images  = ref(props.root.public_note.images)
-
+        
+        const images = ref(props.root.public_note.images)
         function delete_img (image) {
-            images = image;
+            images = image
         }
 
         function onAddImage (response) {
             images.value = response.data
         }
+        
         return { delete_img, onAddImage, media_open, images, display }
     }
 }
