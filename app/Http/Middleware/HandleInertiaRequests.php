@@ -40,7 +40,106 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             //
             'appName' => config('app.name'),
-            'store'=>Store::with('domains')->with('payment_gateways')->with('currency')->with('weight')->where('id', session()->get('store_id'))->first()
+            'store' => Store::with('domains')->with('payment_gateways')->with('currency')->with('weight')->where('id', session()->get('store_id'))->first(),
+            'navigation' => [
+                 [
+                    'name' => 'Dashboard',
+                    'icon' => 'HomeIcon',
+                     'href' => '/admin/dashboard',
+                     'current' => true
+                ],
+                [
+                    'name' => 'Orders',
+                    'icon' => 'ShoppingBagIcon',
+                    'href' => '/admin/orders',
+                    'current' => false,
+                ],
+                [
+                    'name' => 'Products',
+                    'icon' => 'ChartPieIcon',
+                    'href' => '/admin/products',
+                    'current' => false,
+                    'children' => [
+                        [
+                            'name' => 'All Products',
+                            'href' => '/admin/products'
+                        ],
+                        [
+                            'name' => 'New Product',
+                            'href' => '/admin/products/create'
+                        ],
+                        [
+                            'name' => 'All Collections',
+                            'href' => '/admin/categories'
+                        ],
+                        [
+                            'name' => 'New Collection',
+                            'href' => '/admin/categories/create'
+                        ],
+                    ],
+                ],
+                [
+                    'name' => 'Customers',
+                    'icon' => 'UserGroupIcon',
+                    'href' => '/admin/customers',
+                    'current' => false
+                ],
+                [
+                    'name' => 'Messages',
+                    'icon' => 'InboxIcon',
+                    'href' => '/admin/messages',
+                    'current' => false
+                ],
+                [
+                    'name' => 'Transactions',
+                    'icon' => 'ClipboardListIcon',
+                    'href' => '/admin/transactions',
+                    'current' => false
+                ],
+                [
+                    'name' => 'Reports',
+                    'icon' => 'DocumentReportIcon',
+                    'href' => '/admin/reports',
+                    'current' => false,
+                ],
+                [
+                    'name' => 'Analytics',
+                    'icon' => 'ChartBarIcon',
+                    'href' => '/admin/analytics',
+                    'current' => false
+                ],
+                [
+                    'name' => 'Discounts',
+                    'icon' => 'CashIcon',
+                    'href' => '/admin/discounts',
+                    'current' => false
+                ],
+                [
+                    'name' => 'Online Store',
+                    'icon' => 'OfficeBuildingIcon',
+                    'href' => '/admin/online-store',
+                    'current' => false,
+                    'children' => [
+                        [
+                            'name' => 'My Themes',
+                            'href' => 'admin/online-store/themes'
+                        ],
+                        [
+                            'name' => 'Pages',
+                            'href' => '/admin/store/pages',
+                        ],
+                        [
+                            'name' => 'Navigation',
+                            'href' => '/admin/online-store/navigation',
+                        ],
+                        [
+                            'name' => 'Preferences',
+                            'href' => '/admin/store/preferences'
+                        ]
+                    ]
+                ],
+            ]
         ]);
     }
 }
+

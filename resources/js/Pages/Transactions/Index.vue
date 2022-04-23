@@ -1,6 +1,6 @@
 <template>
-    <app-layout>
         <!-- Page header -->
+    <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3">
             <div class="flex flex-row justify-between">
                 <div class="flex flex-col justify-start my-3 mx-3">
@@ -183,7 +183,7 @@
                             <div class="pb-4 pt-6 px-6 flex flex-col">
                                 <td class="text-purple-darken font-bold">
                                     <inertia-link
-                                        :href="`/transactions/${item.id}`"
+                                        :href="`/admin/transactions/${item.id}`"
                                     >
                                         <span
                                             class="text-indigo-700 cursor-pointer"
@@ -254,7 +254,7 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
 import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
@@ -277,15 +277,22 @@ export default {
     },
     props: {
         notifications: Array,
-        transactions: Object
+        transactions: Object,
+        navigation: Array
     },
-    setup ({ transactions }) {
+    setup ({ navigation, transactions }) {
         const imageExists = ref(true)
         const open = ref(false)
         const isChecked = ref(false)
         const notifications = notifications
         const pagination = ref(transactions)
         const filterLists = ref(transactions.data)
+
+        const el = ref()
+
+        onMounted(() => {
+          // this.$emit('doNavigation', navigation)
+        })
 
         function success (list, page) {
             filterLists.value = list

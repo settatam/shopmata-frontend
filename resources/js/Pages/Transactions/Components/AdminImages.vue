@@ -9,7 +9,7 @@
                 id="flexcontainer"
                 class="flex pb-8 px-8 flex-col lg:flex-row lg:space-x-2 space-x-0"
             >
-                <div class="lg:w-10/12 sm:w-full">
+                <div class="w-full">
                     <div
                         class="border-b border-gray-300"
                         v-if="transaction.images.length && media_open"
@@ -24,10 +24,10 @@
                             <p class="w-2/10 px-2">Thumbnail</p>
                         </li>
                     </div>
-                    <div class="" v-if="media_open">
+                    <div class="" v-if="display ? transaction.public_note.images.length : media_open">
                         <images-list
                         :images="transaction.images"
-                        v-if="transaction.images.length"
+                        v-if="display ? transaction.public_note.images.length : true"
                         @delete_img="delete_img" />
                         <Dropzone @add-image="onAddImage" class="" :root="root"/>
                     </div>
@@ -76,26 +76,22 @@ import { notify } from 'notiwind'
 export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ['root'],
-    setup () {
+    setup (props) {
+        const display = ref("")
         const media_open = ref(true)
         const transaction = reactive({
-            images: []
-            })
+            images: null !== props.root.public_note ? props.root.public_note.images : ''
+        })
+
         function delete_img (image) {
             transaction.images = image;
         }
 
         function onAddImage (response) {
-            response.data.map(item=>{
-                transaction.images.push({
-                    ...item,
-                    alt: '',
-                    is_default: false
-                })
-            })
-
+            transaction.images = response.data
         }
-        return { delete_img, onAddImage, media_open, transaction }
+
+        return { delete_img, onAddImage, media_open, transaction, display }
     }
 }
 </script>

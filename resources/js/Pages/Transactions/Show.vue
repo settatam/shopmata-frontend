@@ -10,7 +10,7 @@
                         <li>
                             <div>
                                 <a
-                                    href="/dashboard"
+                                    href="/admin/dashboard"
                                     class="text-gray-400 hover:text-gray-500"
                                 >
                                     <HomeIcon
@@ -57,6 +57,7 @@
                             :top_tags="top_tags"
                         />
                     </div>
+
                     <div class="w-full lg:w-1/3 h-full">
                         <div>
                             <CustomerInformation
@@ -285,7 +286,7 @@ const statusStyles = {
 }
 
 const pages = [
-    { name: 'Transactions', href: '/transactions', current: false },
+    { name: 'Transactions', href: '/admin/transactions', current: false },
     {
         name: 'Transaction Report',
         href: '',

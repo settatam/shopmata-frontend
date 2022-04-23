@@ -264,9 +264,9 @@ export default {
             offer: ''
         })
 
-        messagePublic.value = props.root.public_note.notes
-        messagePrivate.value = props.root.private_note.notes
-        
+        messagePublic.value = null !== props.root.public_note ? props.root.public_note.notes : '';
+        messagePrivate.value = null !== props.root.private_note ? props.root.private_note.notes : '';
+
         const filteredPrivateLast = computed(() => {
             let filteredNotes = notes.filter(note => {
                 if (note.type == 'private') {
@@ -329,7 +329,7 @@ export default {
                     setTimeout(errorFn, 3000)
                 })
         }
-        
+
         // save notes end
 
         // Save tags

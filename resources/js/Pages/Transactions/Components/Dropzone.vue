@@ -88,12 +88,17 @@ export default {
             )
         }
         // notification ends
+        const sentTransId = ref('')
+        let transId = ref(transaction.public_note.id)
 
         const saveFiles = files => {
             const formData = new FormData()
             files.map(file => {
                 formData.append('files[]', file)
-                formData.append('type', image)
+                formData.append('type', 'image')
+                formData.append('transaction_id', transaction.id)
+                formData.append('customer_id', transaction.customer.id)
+                formData.append('transaction_note_id', sentTransId.value == "" ? transId.value : "null")
 
                 return formData
             })
@@ -112,6 +117,7 @@ export default {
                     setTimeout(onClickTop, 2000)
                 })
                 .catch(err => {
+                  loading.value = false
                     successMessage.value = 'Error processing request'
                     setTimeout(onClickBot, 2000)
                     setTimeout(errorFn, 3000)

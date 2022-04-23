@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <div
             id="createContentContainer"
             class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden"
@@ -1129,6 +1129,7 @@ export default {
         categories: Array,
         store: Object,
         product_types: Array,
+        navigation: Array
     },
 
     components: {

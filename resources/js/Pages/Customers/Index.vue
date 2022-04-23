@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
         <!-- Page header -->
         <div class="">
             <div class="px- sm:px-6 lg:mx-auto lg:px-">
@@ -21,8 +21,8 @@
                         </div>
                     </div>
                     <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
-                        <inertia-link href="customers/create">
-                            <button 
+                        <inertia-link href="/admin/customers/create">
+                            <button
                                 class="inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                             >
                                 <!-- <p
@@ -148,7 +148,7 @@
                             >
                                 <thead class="bg-white">
                                     <tr>
-                                        
+
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
@@ -195,7 +195,7 @@
                                         >
                                             <inertia-link
                                                 :href="
-                                                    '/customers/' + customer.id
+                                                    '/admin/customers/' + customer.id
                                                 "
                                             >
                                                 {{ customer.first_name }}
@@ -230,7 +230,7 @@
                         </div>
                         <!-- Pagination -->
                          <pagination :meta="pagination" v-if="pagination.total > pagination.per_page"/>
-                         
+
                         <!-- <nav
                             class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
                             aria-label="Pagination"
@@ -274,7 +274,7 @@
                         <customer @close="openCustomer=false" v-if="openCustomer" :countries="countries" />
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </app-layout>
@@ -300,8 +300,7 @@ export default {
         //data: Object,
         store: Object,
         countries: Array,
-        store: Object,
-        countries: Array,
+        navigation: Array
     },
     data() {
         return {
@@ -368,7 +367,7 @@ export default {
             this.selected = !this.selectAll ? [...this.customers.data] : [];
             console.log(this.selectAll, this.customers);
         },
-        
+
         getAllCustomers() {
             this.tab = "tab-0";
         },
@@ -444,7 +443,7 @@ export default {
             filter.to_date=""
         }
         function submit(){
-            loading.value = true 
+            loading.value = true
             axios.get('/customers',{
                 params:{
                     from_date:filter.from_date,

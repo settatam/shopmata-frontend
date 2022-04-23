@@ -1,12 +1,12 @@
 <template>
     <ul role="list" class="divide-y divide-gray-200 w-100">
         <li
-            v-for="image in imagesList"
+            v-for="(image, index) in imagesList"
             :key="image.id"
             class="flex justify-between border-b border-gray-300"
         >
             <div class="w-3/10 py-3">
-                <img class="h-10 w-10" :src="image.thumb" alt="" />
+                <img class="h-10 w-10" :src="image.url" alt="" />
             </div>
             <div class="flex-grow w-5/10">
                 <div class="border-r border-l px-6 py-3 border-gray-300">
@@ -20,16 +20,23 @@
             </div>
             <div class="flex items-center px-2 py-3 justify-around w-2/10">
                 <input
-                    type="radio"
-                    v-model="image.is_default"
+                    type="checkbox"
+                    v-model="image.id"
                     name="image"
                     id=""
                     class="w-5 h-5"
                     value="true"
                 />
+
+                <LoadingSpinner
+                    v-if="loading == index"
+                    class="w-6 h-6 ml-8 text-purple-background"
+                />
+
                 <TrashIcon
-                    class="w-6 h-6 text-gray-500"
-                    @click="delete_image(image.id)"
+                    v-else
+                    class="w-6 h-6 text-red-500"
+                    @click="deleteExisting(image.id, index)"
                 />
             </div>
         </li>
@@ -37,29 +44,80 @@
 </template>
 
 <script>
-import { TrashIcon } from "@heroicons/vue/outline";
-import { ref } from "vue";
+import { TrashIcon } from '@heroicons/vue/outline'
+import { notify } from 'notiwind'
+import { ref, reactive } from 'vue'
+import axios from 'axios'
+import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 export default {
     components: {
         TrashIcon,
+        LoadingSpinner
     },
     props: {
-        images: Array,
+        images: Array
     },
-    emits: ["delete_img"],
-    setup({ images }, { emit }) {
-        const imagesList = ref(images);
-        const list = ref([]);
-        const delete_image = (num) => {
-            list.value = imagesList.value.filter((img) => num !== img.id);
-            imagesList.value = list.value;
-            emit("delete_img", imagesList.value);
-        };
+    emits: ['delete_img'],
+    setup (props, { emit }) {
+        const imagesList = props.images
+        const loading = ref(null)
+        const successMessage = ref('')
+
+        function deleteExisting (id, index) {
+            loading.value = index
+            axios
+                .post('/transaction/image/delete', { image_id: id })
+                .then(res => {
+                    if (res.status == 200) {
+                        loading.value = null
+                        successMessage.value = 'Image deleted'
+                        setTimeout(onClickTop, 2000)
+                    } else if (res.status == 422) {
+                        loading.value = null
+                        successMessage.value = res.data.notification.message
+                        setTimeout(onClickBot, 2000)
+                        setTimeout(errorFn, 3000)
+                    }
+                })
+                .catch(error => {
+                    loading.value = false
+                    successMessage.value = 'Error processing your request'
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
+                })
+        }
+
+        
+        // notification
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        // notification ends
+
         return {
             imagesList,
-            delete_image,
-            list,
-        };
-    },
-};
+            deleteExisting,
+            onClickTop,
+            onClickBot,
+            loading
+        }
+    }
+}
 </script>

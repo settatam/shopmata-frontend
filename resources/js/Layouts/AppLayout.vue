@@ -104,8 +104,7 @@
                                             flex-shrink-0
                                             h-6
                                             w-6
-                                            text-cyan-200
-                                        "
+                                            text-cyan-200"
                                         aria-hidden="true"
                                     />
                                     {{ item.name }}
@@ -611,6 +610,11 @@
             <main>
                 <slot></slot>
             </main>
+            <footer class="grid grid-cols-2 gap-2 my-4 w-full md:grid-cols-5">
+                <div class="px-4">
+                    <p> This is the path for the footer </p>
+                </div>
+            </footer>
 
             <!-- End Page Content -->
         </div>
@@ -660,78 +664,6 @@ import {
     SearchIcon,
 } from "@heroicons/vue/solid";
 
-const navigation = [
-    { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
-    {
-        name: "Orders",
-        href: "/orders",
-        icon: ShoppingBagIcon,
-        current: false,
-        children: [
-            { name: "Orders", href: "/orders" },
-            { name: "Gift Vouchers", href: "#" },
-            { name: "Vector Themes", href: "#" },
-        ],
-    },
-    {
-        name: "Products",
-        href: "/products",
-        icon: ChartPieIcon,
-        current: false,
-        children: [
-            { name: "All Products", href: "/products" },
-            { name: "Add Product", href: "/products/create" },
-            /* { name: "All Brands", href: "/brands" },
-            { name: "Add Brand", href: "/brands/create" }, */
-            { name: "All Collections", href: "/categories" },
-            { name: "New Collection", href: "/categories/create" },
-        ],
-    },
-    {
-        name: "Customers",
-        href: "/customers",
-        icon: UserGroupIcon,
-        current: false,
-    },
-    {
-        name: "Messages",
-        href: "/messages",
-        icon: InboxIcon,
-        current: false,
-    },
-    {
-        name: "Transactions",
-        href: "/transactions",
-        icon: ClipboardListIcon,
-        current: false,
-    },
-    {
-        name: "Reports",
-        href: "/reports",
-        icon: DocumentReportIcon,
-        current: false,
-    },
-    {
-        name: "Analytics",
-        href: "analytics",
-        icon: ChartBarIcon,
-        current: false,
-    },
-    { name: "Discounts", href: "/discounts", icon: CashIcon, current: false },
-    {
-        name: "Online Store",
-        href: "#",
-        icon: OfficeBuildingIcon,
-        current: false,
-        children: [
-            { name: "My Themes", href: "store/themes" },
-            { name: "All Themes", href: "/online-store/themes" },
-            { name: "Pages", href: "/store/pages" },
-            { name: "Navigation", href: "/online-store/navigation" },
-            { name: "Preferences", href: "/store/preferences" },
-        ],
-    },
-];
 const secondaryNavigation = [
     { name: "Settings", href: "/settings", icon: CogIcon },
     { name: "Help", href: "#", icon: QuestionMarkCircleIcon },
@@ -757,7 +689,6 @@ const transactions = [
         date: "July 11, 2020",
         datetime: "2020-07-11",
     },
-    // More transactions...
 ];
 const statusStyles = {
     success: "bg-green-100 text-green-800",
@@ -766,6 +697,10 @@ const statusStyles = {
 };
 
 export default {
+    props: {
+       navigation: Array,
+    },
+    emits: [],
     components: {
         Dialog,
         DialogOverlay,
@@ -790,8 +725,13 @@ export default {
         DisclosureButton,
         ChartPieIcon,
         ClipboardListIcon,
+        HomeIcon,
+        ShoppingBagIcon,
+        InboxIcon,
+        DocumentReportIcon,
+        UserGroupIcon
     },
-    setup() {
+    setup(props) {
         const sidebarOpen = ref(false);
         const open = ref(false);
 
@@ -800,7 +740,6 @@ export default {
         }
 
         return {
-            navigation,
             secondaryNavigation,
             cards,
             transactions,
