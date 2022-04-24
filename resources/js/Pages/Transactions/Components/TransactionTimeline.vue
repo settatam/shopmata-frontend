@@ -410,7 +410,7 @@ export default {
             checkedList,
             messagePrivate,
             messagePublic,
-            saveNote,
+            //saveNote,
             transactionStatus,
             transactionOffer,
             notes
