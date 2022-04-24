@@ -100,7 +100,6 @@
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
                         placeholder="Customer notes"
                         name="public"
-                        @input="saveNote($event)"
                         id=""
                         rows="3"
                         cols="150"
@@ -286,25 +285,25 @@ export default {
         messagePublic.value  = null !== props.root.public_note ? props.root.public_note.notes : '';
         messagePrivate.value = null !== props.root.private_note ? props.root.private_note.notes : '';
 
-    //    //watch(messagePublic, debounce(function (value) {
-    //        let type = e.target.name
-    //         axios
-    //             .post('/admin/transaction/notes', {
-    //                 transaction_id,
-    //                 message: messagePublic.value,
-    //                 customer_id,
-    //                 type: "public"
-    //             })
-    //             .then(res => {
-    //                 successMessage.value = 'Note updated'
-    //                 setTimeout(onClickTop, 2000)
-    //             })
-    //             .catch(error => {
-    //                 successMessage.value = 'Something went wrong.'
-    //                 setTimeout(onClickBot, 2000)
-    //                 //setTimeout(errorFn, 3000)
-    //             })
-    //    }, 700));
+       watch(messagePublic, debounce(function (value) {
+           let type = e.target.name
+            axios
+                .post('/admin/transaction/notes', {
+                    transaction_id,
+                    message: messagePublic.value,
+                    customer_id,
+                    type: "public"
+                })
+                .then(res => {
+                    successMessage.value = 'Note updated'
+                    setTimeout(onClickTop, 2000)
+                })
+                .catch(error => {
+                    successMessage.value = 'Something went wrong.'
+                    setTimeout(onClickBot, 2000)
+                    //setTimeout(errorFn, 3000)
+                })
+       }, 7000));
 
         
 
@@ -333,30 +332,30 @@ export default {
 
 
 
-        function saveNote (e) {
-            setTimeout(() => {
-                let type = e.target.name
-                axios
-                    .post('/admin/transaction/notes', {
-                        transaction_id,
-                        message:
-                            type == 'public'
-                                ? messagePublic.value
-                                : messagePrivate.value,
-                        customer_id,
-                        type: type
-                    })
-                    .then(res => {
-                        successMessage.value = 'Note updated'
-                        setTimeout(onClickTop, 2000)
-                    })
-                    .catch(error => {
-                        successMessage.value = 'Something went wrong.'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    })
-            }, 5000);
-        }
+        // function saveNote (e) {
+        //     setTimeout(() => {
+        //         let type = e.target.name
+        //         axios
+        //             .post('/admin/transaction/notes', {
+        //                 transaction_id,
+        //                 message:
+        //                     type == 'public'
+        //                         ? messagePublic.value
+        //                         : messagePrivate.value,
+        //                 customer_id,
+        //                 type: type
+        //             })
+        //             .then(res => {
+        //                 successMessage.value = 'Note updated'
+        //                 setTimeout(onClickTop, 2000)
+        //             })
+        //             .catch(error => {
+        //                 successMessage.value = 'Something went wrong.'
+        //                 setTimeout(onClickBot, 2000)
+        //                 setTimeout(errorFn, 3000)
+        //             })
+        //     }, 5000);
+        // }
 
         // save notes end
 
