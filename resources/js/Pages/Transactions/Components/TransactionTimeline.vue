@@ -142,7 +142,6 @@
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        @blur="saveNote($event)"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md "
                         placeholder="MET 3-2-22-Incoming via text"
                         name="private"
@@ -411,7 +410,7 @@ export default {
             checkedList,
             messagePrivate,
             messagePublic,
-            saveNote,
+            //saveNote,
             transactionStatus,
             transactionOffer,
             notes
