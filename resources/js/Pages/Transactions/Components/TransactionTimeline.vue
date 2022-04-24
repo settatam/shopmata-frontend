@@ -355,7 +355,7 @@ export default {
                         setTimeout(onClickBot, 2000)
                         setTimeout(errorFn, 3000)
                     })
-            }, 500);
+            }, 5000);
         }
 
         // save notes end
