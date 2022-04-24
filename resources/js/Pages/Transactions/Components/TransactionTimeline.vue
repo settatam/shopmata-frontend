@@ -285,14 +285,13 @@ export default {
         messagePrivate.value = null !== props.root.private_note ? props.root.private_note.notes : '';
 
         watch([messagePublic, messagePrivate],    debounce(function (value) {
-           //let type = e.target.name
-           console.log(value)
+           let type = typeof value[0] != "undefined" ? 'public' : 'private';
             axios
                 .post('/admin/transaction/notes', {
                     transaction_id,
                     message: messagePublic.value,
                     customer_id,
-                    type: "public"
+                    type: type
                 })
                 .then(res => {
                     successMessage.value = 'Note updated'
@@ -304,29 +303,6 @@ export default {
                     //setTimeout(errorFn, 3000)
                 })
        }, 5000));
-
-
-    //    watch(messagePublic, debounce(function (value) {
-    //        //let type = e.target.name
-    //         axios
-    //             .post('/admin/transaction/notes', {
-    //                 transaction_id,
-    //                 message: messagePublic.value,
-    //                 customer_id,
-    //                 type: "public"
-    //             })
-    //             .then(res => {
-    //                 successMessage.value = 'Note updated'
-    //                 setTimeout(onClickTop, 2000)
-    //             })
-    //             .catch(error => {
-    //                 successMessage.value = 'Something went wrong.'
-    //                 setTimeout(onClickBot, 2000)
-    //                 //setTimeout(errorFn, 3000)
-    //             })
-    //    }, 5000));
-
-        
 
         // notification
         function onClickTop () {
