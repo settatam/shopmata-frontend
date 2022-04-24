@@ -284,8 +284,9 @@ export default {
         messagePublic.value  = null !== props.root.public_note ? props.root.public_note.notes : '';
         messagePrivate.value = null !== props.root.private_note ? props.root.private_note.notes : '';
 
-       watch(messagePublic, debounce(function (value) {
+        watch([messagePublic, messagePrivate],  [newA, newB],  debounce(function (value) {
            //let type = e.target.name
+           console.log(newA, newB)
             axios
                 .post('/admin/transaction/notes', {
                     transaction_id,
@@ -302,7 +303,28 @@ export default {
                     setTimeout(onClickBot, 2000)
                     //setTimeout(errorFn, 3000)
                 })
-       }, 7000));
+       }, 5000));
+
+
+    //    watch(messagePublic, debounce(function (value) {
+    //        //let type = e.target.name
+    //         axios
+    //             .post('/admin/transaction/notes', {
+    //                 transaction_id,
+    //                 message: messagePublic.value,
+    //                 customer_id,
+    //                 type: "public"
+    //             })
+    //             .then(res => {
+    //                 successMessage.value = 'Note updated'
+    //                 setTimeout(onClickTop, 2000)
+    //             })
+    //             .catch(error => {
+    //                 successMessage.value = 'Something went wrong.'
+    //                 setTimeout(onClickBot, 2000)
+    //                 //setTimeout(errorFn, 3000)
+    //             })
+    //    }, 5000));
 
         
 
