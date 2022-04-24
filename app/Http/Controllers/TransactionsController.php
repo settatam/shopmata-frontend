@@ -78,7 +78,7 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        $transaction                 = Transaction::findorFail($id);
+        $transaction                 = Transaction::with('public_note')->with('private_note')->findorFail($id);
         $statuses                    = Status::all();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
@@ -86,6 +86,13 @@ class TransactionsController extends Controller
         $transactions                = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
+        if(null === $transaction->public_note) {
+            $transaction->createNote(TransactionNote::PUBLIC_TYPE);
+        }
+
+        if(null === $transaction->private_note) {
+          $transaction->createNote(TransactionNote::PRIVATE_TYPE);
+        }
         $transaction->load('customer','customer.state','items','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note');
         $timeline = $transaction->historyTimeline();
         return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags', 'timeline'));

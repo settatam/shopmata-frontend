@@ -20,7 +20,11 @@ class Transaction extends Model
     protected $fillable = [
         'id',
         'status_id',
+    ];
 
+    protected $appends = [
+        'est_value',
+        'total_dwt'
     ];
 
 
@@ -168,6 +172,13 @@ class Transaction extends Model
     	return \Carbon\Carbon::parse($value)->diffForHumans();
 	}
 
+    public function getEstValueAttribute() {
+        return $this->items->sum('price');
+    }
+
+    public function getTotalDwtAttribute() {
+        return $this->items->sum('dwt');
+    }
 
     public function items()
     {
@@ -259,6 +270,10 @@ class Transaction extends Model
     public function shippingLabelTo() {
         return $this->hasOne(ShippingLabel::class)->where('type',  Shipping::SHIPPING_TYPE_TO);
     }
+
+//    public function address() {
+//        return $this->morphOne(Address::class, 'addressable');
+//    }
 
     public function getOrSetShippingLabel($type, $cache=false) {
 
@@ -488,6 +503,14 @@ class Transaction extends Model
 
     public function sendSMS($message) {
 
+    }
+
+    public function createNote($type, $note=''){
+        return TransactionNote::create([
+            'type' => $type,
+            'transaction_id' => $this->id,
+            'notes' => $note
+        ]);
     }
 
 }

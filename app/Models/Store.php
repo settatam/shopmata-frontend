@@ -177,14 +177,16 @@ class Store extends Model
         $template = $page->template->content;
         $content = $page->content;
 
+        //We should have a content_for_header ..
+        //Content for styling
+        //Content for js
+
+        //get javascript assets
+
         $data = [];
         $pageContent = '';
 
         $content_for_page = '';
-
-//        if($content) {
-//            $pageContent .= ThemeFile::generateParsedContent($content, $data);
-//        }
 
         if($template) {
             $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($template, $data));

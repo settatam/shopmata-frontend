@@ -49,27 +49,27 @@ class LoadItems extends Command
 
         if ($data){
             $bar = $this->output->createProgressBar(count($data['data']));
-            
+
             foreach ($data['data'] as $transaction_item ) {
 
                 $transactionItem = new TransactionItem;
                 $transactionItem = $transactionItem::firstOrNew(
                     ['id' => $transaction_item['id']]
                 );
-               
+
                 $transactionItem->id              =  $transaction_item['id'];
                 $transactionItem->transaction_id  =  $transaction_item['order_id'];
                 $transactionItem->description     =  $transaction_item['description'];
                 $transactionItem->price           =  $transaction_item['price'];
-                $transactionItem->dwt             =  $transaction_item['dwt']  ?? 0;
+                $transactionItem->dwt             =  $transaction_item['dwt'] ?? 0;
                 $transactionItem->created_at      =  $transaction_item['created_at'];
-                $transactionItem->inotes          =  $transaction_item['inotes'];
+                $transactionItem->inotes          =  $transaction_item['inotes']; // This should be a note morphed to a transaction item.
                 $transactionItem->category_id     =  $transaction_item['type_id'];
                 $transactionItem->category        =  $transaction_item['type'];
                 $transactionItem->override        =  $transaction_item['override'];
                 $transactionItem->quantity        =  $transaction_item['quantity'];
                 $transactionItem->override_price  =  $transaction_item['override_price'];
-                $transactionItem->save();  
+                $transactionItem->save();
                 $images = $transactionItem['pictures'] ?  explode(',', $order['pictures']) : null;
 
                 if ( !empty( $images )  > 0 ) {
@@ -77,15 +77,7 @@ class LoadItems extends Command
                         try {
                             $image = str_replace('\"', '', $image);
                             $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
-                            $img = $image.'.o.jpg';
-                            $dest = storage_path().'/'.$img;
-                            copy($file, $dest);
-                            if ( Storage::disk('DO')->put('buymygold/images/items/'.$img, fopen($dest, 'r+'), 'public')) {
-                                Storage::delete($dest);
-                            }
-                            $image  = env('DO_URL').'buymygold/images/items/'.$img;
-                            $imgs= new Image(['url' => $image, 'rank' => 1]);
-                            $transactionItem->images()->save($imgs);
+                            $transactionItem->images()->save($file);
                         } catch(\Exception $e) {
 
                         }

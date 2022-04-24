@@ -53,6 +53,9 @@ use App\Http\Controllers\NotificationsController as NewNotificationsController;
 
 use App\Http\Controllers\Client\HomeController as ClientHomeController;
 
+//Shopmata Routes
+
+use App\Http\Controllers\Shopmata\HomeController as ShopmataHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +71,14 @@ use App\Http\Controllers\Client\HomeController as ClientHomeController;
 Route::get('test', function () {
     return view('emails.sender');
 })->name('landing');
+
+
+//$shopmataRoutes = function() {
+//    Route::domain('{account}.'.env('APP_URL')) {
+//        Route::get('/', [ShopmataHomeController::class, 'index']);
+//    };
+//
+//};
 
 
 

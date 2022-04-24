@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\OneOffs\BuyMyGold;
 
+use App\Models\Address;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
 use App\Models\Customer;
@@ -65,18 +66,16 @@ class LoadBuyMyGoldData extends Command
                 //Create the customer using the customer details in the endpoint
                 $transaction->id              = $order['order_id'];
                 $transaction->status_id       = $order['status_id'];
-                $transaction->user_id         = $order['user_id'];//Customer id
+                $transaction->customer_id         = $order['user_id'];//Customer id
                 $transaction->tags            = $order['tags'];
                 $transaction->comments        = $order['values'];
                 $transaction->insurance_value = $order['ship_insurance'];
                 $transaction->payment_method_id = $order['pay_method'];
-                $transaction->estimated_value = $order[''];
                 //$transaction->bin_location = $order['bin_location'];
                 $transaction->store_id = $this->getStore($order['is_jewelry']);
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
                 $transaction_payment_address = new TransactionPaymentAddress;
-
                 $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                     ['transaction_id' => $order['order_id'] ]
                 );
@@ -104,9 +103,13 @@ class LoadBuyMyGoldData extends Command
                 $customer = Customer::firstOrNew(
                     ['id' => $order['user_id']]
                 );
+
+                $names = explode(' ', $order["customer_name"], 2);
+
                 $customer->id                 = $order['user_id'];
                 $customer->email              = $order["customer_email"];
-                $customer->first_name         = $order["customer_name"];
+                $customer->first_name         = data_get($names, 0);
+                $customer->last_name         = data_get($names, 1);
                 $customer->address            = $order["customer_address"];
                 $customer->city               = $order["customer_city"];
                 $customer->state_id           = $this->getStateId($order["customer_state"]);
@@ -120,6 +123,26 @@ class LoadBuyMyGoldData extends Command
                 $customer->created_at = $order['date_new'];
                 $customer->save();
                 //Create the transaction history
+
+                $transAddress = Address::firstOrNew([
+                    'addressable_id' => $transaction->id,
+                    'addressable_type' => Transaction::class
+                ]);
+
+                $address = [
+                    'address' => $order["customer_address"],
+                    'address' => $order["customer_address2"],
+                    'city' => $order["customer_city"],
+                    'state' => $order["customer_state"],
+                    'store_id' => $customer->store_id,
+                    'first_name' => $customer->first_name,
+                    'last_name' => $customer->last_name,
+                    'country' => 'US',
+                    'postal_code' => $order["customer_zip"]
+                ];
+
+                $transAddress->fill($address);
+                $transAddress->save();
 
                 foreach ($transaction->histories as $history) {
                     $history->delete();
@@ -203,7 +226,11 @@ class LoadBuyMyGoldData extends Command
                     }
                 }
 
-                $transaction->offers()->create(['offer' => $order['offer_amount']]);
+                $transaction->offers()->create(
+                    [
+                        'offer' => $order['offer_amount']
+                    ]
+                );
 
                 foreach ($transaction->images as $image) {
                     $image->delete();

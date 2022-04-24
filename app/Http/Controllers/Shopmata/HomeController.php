@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Shopmata;
 
 use App\Http\Controllers\Controller;
-use App\Models\Store;
 use Illuminate\Http\Request;
-use Auth;
 
 class HomeController extends Controller
 {
@@ -14,24 +12,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($account)
+    public function index()
     {
         //
-        if(session()->has('store_id')) {
-            //This is probably a store page
-            $store_id = session()->get('store_id');
-            $store = Store::find($store_id);
-            if(null !== $store) {
-                $page = $store->pageContent('home');
-                $customer = null;
-                if(Auth::check()) {
-                    $customer = Auth::user();
-                }
-            }
-        }
-        $store = Store::where('slug', $account)->first();
-
-        return view('pages.index', compact('page'));
     }
 
     /**
