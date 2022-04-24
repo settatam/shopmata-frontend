@@ -91,7 +91,8 @@ export default {
         }
         // notification ends
         const sentTransId = ref('')
-        let transId = ref(transaction.public_note.id)
+        let id = transaction.public_note ? transaction.public_note.id : null;
+        let transId = ref(id)
 
         const saveFiles = files => {
             const formData = new FormData()
