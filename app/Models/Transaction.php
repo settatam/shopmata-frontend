@@ -24,7 +24,8 @@ class Transaction extends Model
 
     protected $appends = [
         'est_value',
-        'total_dwt'
+        'total_dwt',
+        'final_offer'
     ];
 
 
@@ -178,6 +179,10 @@ class Transaction extends Model
 
     public function getTotalDwtAttribute() {
         return $this->items->sum('dwt');
+    }
+
+    public function getFinalOfferAttribute() {
+        return optional($this->offers()->orderBy('id', 'desc')->first())->offer;
     }
 
     public function items()

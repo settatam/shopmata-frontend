@@ -71,7 +71,7 @@ class Customer extends Model
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class,'user_id','id');
+        return $this->hasMany(Transaction::class,'customer_id','id');
     }
 
 

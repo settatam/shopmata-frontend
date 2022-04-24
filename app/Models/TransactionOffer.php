@@ -13,9 +13,14 @@ class TransactionOffer extends Model
     const FINAL_OFFER = 'FINAL_OFFER';
     const SECOND_OFFER = 'SECOND_OFFER';
 
+    const OFFER_STATUS_SENT = 'sent';
+    const OFFER_STATUS_ACCEPTED = 'accepted';
+    const OFFER_STATUS_DECLINED = 'declined';
+
     protected $fillable = [
         'offer',
-        'type'
+        'type',
+        'status'
     ];
 
     public function transaction() {
