@@ -285,7 +285,7 @@ export default {
         messagePrivate.value = null !== props.root.private_note ? props.root.private_note.notes : '';
 
        watch(messagePublic, debounce(function (value) {
-           let type = e.target.name
+           //let type = e.target.name
             axios
                 .post('/admin/transaction/notes', {
                     transaction_id,
