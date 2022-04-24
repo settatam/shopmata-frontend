@@ -80,9 +80,10 @@ export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ['root'],
     setup (props) {
+        let note_images = props.root.public_note ? props.root.public_note.images : [];
         const display = ref("")
         const media_open = ref(true)
-        const images  = ref(props.root.public_note.images)
+        const images  = ref(note_images)
 
         function delete_img (image) {
             images = image;

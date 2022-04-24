@@ -26,7 +26,6 @@ class BrandsController extends Controller
 
         // \Log::info("brand request".print_r($request->all(), true));
         $brands = Brand::orderBy('name', 'desc')->where('name', 'like', '%' . $request->search . '%')->paginate(50);
-
         $filters = $request->all('search');
         return Inertia::render('Brands/Index', compact('brands', 'filters'));
     }

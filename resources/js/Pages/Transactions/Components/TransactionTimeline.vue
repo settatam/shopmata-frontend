@@ -271,27 +271,40 @@ export default {
 
             return myArray
         })
-        const customer_id = props.root.customer.id
-        const messagePrivate = ref('')
-        const messagePublic = ref('')
+        const customer_id       = props.root.customer.id
+        const messagePrivate    = ref('')
+        const messagePublic     = ref('')
+        let message      = null;
+        let tmPrivate      = null;
+        let tmPublic       = null;
+        let type = null;
+       
         const transactionStatus = ref('')
-        const transactionOffer = reactive({
+        const transactionOffer  = reactive({
             secondOffer: '',
             offer: ''
         })
         
-
-        messagePublic.value  = null !== props.root.public_note ? props.root.public_note.notes : '';
-        messagePrivate.value = null !== props.root.private_note ? props.root.private_note.notes : '';
-
+        tmPublic  = null !== props.root.public_note ? props.root.public_note.notes : '';
+        tmPrivate = null !== props.root.private_note ? props.root.private_note.notes : '';    
+        messagePublic.value  = tmPublic;
+        messagePrivate.value = tmPrivate;
+        
         watch([messagePublic, messagePrivate],    debounce(function (value) {
-            console.log(value[0])
-            console.log(value[1])
-           let type = typeof value[0] != "undefined" ? 'public' : 'private';
+
+            if (typeof value[0] !== "undefined"  && tmPublic == value[0]){
+                type = "private";
+                message = messagePrivate.value;
+            }  else {
+                type = "public";
+                message = messagePublic.value;
+            }
+
+
             axios
                 .post('/admin/transaction/notes', {
                     transaction_id,
-                    message: messagePublic.value,
+                    message: message,
                     customer_id,
                     type: type
                 })
@@ -302,9 +315,8 @@ export default {
                 .catch(error => {
                     successMessage.value = 'Something went wrong.'
                     setTimeout(onClickBot, 2000)
-                    //setTimeout(errorFn, 3000)
                 })
-       }, 5000));
+       }, 3000));
 
         // notification
         function onClickTop () {
