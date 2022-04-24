@@ -288,7 +288,7 @@ export default {
        watch(messagePublic, debounce(function (value) {
            //let type = e.target.name
             axios
-                .post('/transaction/notes', {
+                .post('/admin/transaction/notes', {
                     transaction_id,
                     message: messagePublic.value,
                     customer_id,
@@ -301,7 +301,7 @@ export default {
                 .catch(error => {
                     successMessage.value = 'Something went wrong.'
                     setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
+                    //setTimeout(errorFn, 3000)
                 })
        }, 300));
 
