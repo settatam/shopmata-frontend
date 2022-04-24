@@ -341,33 +341,6 @@ export default {
         }
         // notification ends
 
-
-
-        // function saveNote (e) {
-        //     setTimeout(() => {
-        //         let type = e.target.name
-        //         axios
-        //             .post('/admin/transaction/notes', {
-        //                 transaction_id,
-        //                 message:
-        //                     type == 'public'
-        //                         ? messagePublic.value
-        //                         : messagePrivate.value,
-        //                 customer_id,
-        //                 type: type
-        //             })
-        //             .then(res => {
-        //                 successMessage.value = 'Note updated'
-        //                 setTimeout(onClickTop, 2000)
-        //             })
-        //             .catch(error => {
-        //                 successMessage.value = 'Something went wrong.'
-        //                 setTimeout(onClickBot, 2000)
-        //                 setTimeout(errorFn, 3000)
-        //             })
-        //     }, 5000);
-        // }
-
         // save notes end
 
         // Save tags
