@@ -151,7 +151,7 @@ class Transaction extends Model
 
     public function private_note()
     {
-        return $this->hasMany(TransactionNote::class)->where('type', TransactionNote::PRIVATE_TYPE);
+        return $this->hasOne(TransactionNote::class)->where('type', TransactionNote::PRIVATE_TYPE);
     }
 
 

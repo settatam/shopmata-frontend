@@ -97,7 +97,6 @@
             <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        @blur="saveNote($event)"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
                         placeholder="Customer notes"
                         name="public"
@@ -143,7 +142,6 @@
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        @blur="saveNote($event)"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md "
                         placeholder="MET 3-2-22-Incoming via text"
                         name="private"
@@ -240,6 +238,10 @@
 
 <script>
 import { reactive, ref, computed } from '@vue/reactivity'
+import { watch } from 'vue';
+
+import debounce from "lodash/debounce";
+
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
@@ -269,37 +271,52 @@ export default {
 
             return myArray
         })
-        const customer_id = props.root.customer.id
-        const messagePrivate = ref('')
-        const messagePublic = ref('')
+        const customer_id       = props.root.customer.id
+        const messagePrivate    = ref('')
+        const messagePublic     = ref('')
+        let message      = null;
+        let tmPrivate      = null;
+        let tmPublic       = null;
+        let type = null;
+       
         const transactionStatus = ref('')
-        const transactionOffer = reactive({
+        const transactionOffer  = reactive({
             secondOffer: '',
             offer: ''
         })
+        
+        tmPublic  = null !== props.root.public_note ? props.root.public_note.notes : '';
+        tmPrivate = null !== props.root.private_note ? props.root.private_note.notes : '';    
+        messagePublic.value  = tmPublic;
+        messagePrivate.value = tmPrivate;
+        
+        watch([messagePublic, messagePrivate],    debounce(function (value) {
 
-        messagePublic.value = null !== props.root.public_note ? props.root.public_note.notes : '';
-        messagePrivate.value = null !== props.root.private_note ? props.root.private_note.notes : '';
+            if (typeof value[0] !== "undefined"  && tmPublic == value[0]){
+                type = "private";
+                message = messagePrivate.value;
+            }  else {
+                type = "public";
+                message = messagePublic.value;
+            }
 
-        const filteredPrivateLast = computed(() => {
-            let filteredNotes = notes.filter(note => {
-                if (note.type == 'private') {
-                    return note
-                }
-            })
 
-            return filteredNotes[filteredNotes.length - 1].notes
-        })
-
-        const filteredPublicLast = computed(() => {
-            let filteredNotes = notes.filter(note => {
-                if (note.type == 'public') {
-                    return note
-                }
-            })
-
-            return filteredNotes[filteredNotes.length - 1].notes
-        })
+            axios
+                .post('/admin/transaction/notes', {
+                    transaction_id,
+                    message: message,
+                    customer_id,
+                    type: type
+                })
+                .then(res => {
+                    successMessage.value = 'Note updated'
+                    setTimeout(onClickTop, 2000)
+                })
+                .catch(error => {
+                    successMessage.value = 'Something went wrong.'
+                    setTimeout(onClickBot, 2000)
+                })
+       }, 3000));
 
         // notification
         function onClickTop () {
@@ -323,29 +340,6 @@ export default {
             )
         }
         // notification ends
-
-        function saveNote (e) {
-            let type = e.target.name
-            axios
-                .post('/transaction/notes', {
-                    transaction_id,
-                    message:
-                        type == 'public'
-                            ? messagePublic.value
-                            : messagePrivate.value,
-                    customer_id,
-                    type: type
-                })
-                .then(res => {
-                    successMessage.value = 'Note updated'
-                    setTimeout(onClickTop, 2000)
-                })
-                .catch(error => {
-                    successMessage.value = 'Something went wrong.'
-                    setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
-                })
-        }
 
         // save notes end
 
@@ -401,7 +395,7 @@ export default {
             checkedList,
             messagePrivate,
             messagePublic,
-            saveNote,
+            //saveNote,
             transactionStatus,
             transactionOffer,
             notes

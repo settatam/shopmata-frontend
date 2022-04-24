@@ -29,7 +29,8 @@
                         <images-list 
                         :images="images"
                         v-if="display ? images.length : true"
-                        @delete_img="delete_img" />
+                        @delete_img="delete_img" 
+                        />
                         <Dropzone @add-image="onAddImage" class="" :root="root"/>
                     </div>
                     <!-- <label
@@ -79,9 +80,10 @@ export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ['root'],
     setup (props) {
+        let note_images = props.root.public_note ? props.root.public_note.images : [];
         const display = ref("")
         const media_open = ref(true)
-        const images  = ref(props.root.public_note.images)
+        const images  = ref(note_images)
 
         function delete_img (image) {
             images = image;
