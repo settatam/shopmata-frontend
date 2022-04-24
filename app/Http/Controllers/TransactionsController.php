@@ -90,13 +90,14 @@ class TransactionsController extends Controller
         $transactions                = $transaction->customer->transactions;
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
-        if(null === $transaction->public_note) {
-            $transaction->createNote(TransactionNote::PUBLIC_TYPE);
-        }
 
-        if(null === $transaction->private_note) {
-          $transaction->createNote(TransactionNote::PRIVATE_TYPE);
-        }
+//        if(null === $transaction->public_note) {
+//            $transaction->createNote(TransactionNote::PUBLIC_TYPE);
+//        }
+//
+//        if(null === $transaction->private_note) {
+//          $transaction->createNote(TransactionNote::PRIVATE_TYPE);
+//        }
 
         $transaction->load('customer','customer.state','items','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note');
         $timeline = $transaction->historyTimeline();
