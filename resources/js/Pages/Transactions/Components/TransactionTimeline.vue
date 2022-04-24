@@ -97,7 +97,6 @@
             <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        @blur="saveNote($event)"
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
                         placeholder="Customer notes"
                         name="public"
@@ -240,6 +239,10 @@
 
 <script>
 import { reactive, ref, computed } from '@vue/reactivity'
+import { watch } from 'vue';
+
+import debounce from "lodash/debounce";
+
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
@@ -277,29 +280,32 @@ export default {
             secondOffer: '',
             offer: ''
         })
+        
 
-        messagePublic.value = null !== props.root.public_note ? props.root.public_note.notes : '';
+        messagePublic.value  = null !== props.root.public_note ? props.root.public_note.notes : '';
         messagePrivate.value = null !== props.root.private_note ? props.root.private_note.notes : '';
 
-        const filteredPrivateLast = computed(() => {
-            let filteredNotes = notes.filter(note => {
-                if (note.type == 'private') {
-                    return note
-                }
-            })
+       watch(messagePublic, debounce(function (value) {
+           let type = e.target.name
+            axios
+                .post('/transaction/notes', {
+                    transaction_id,
+                    message: messagePublic.value,
+                    customer_id,
+                    type: "public"
+                })
+                .then(res => {
+                    successMessage.value = 'Note updated'
+                    setTimeout(onClickTop, 2000)
+                })
+                .catch(error => {
+                    successMessage.value = 'Something went wrong.'
+                    setTimeout(onClickBot, 2000)
+                    setTimeout(errorFn, 3000)
+                })
+       }, 300));
 
-            return filteredNotes[filteredNotes.length - 1].notes
-        })
-
-        const filteredPublicLast = computed(() => {
-            let filteredNotes = notes.filter(note => {
-                if (note.type == 'public') {
-                    return note
-                }
-            })
-
-            return filteredNotes[filteredNotes.length - 1].notes
-        })
+        
 
         // notification
         function onClickTop () {
