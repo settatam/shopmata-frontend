@@ -435,7 +435,8 @@ class Transaction extends Model
                     'success' => 1,
                     'default'=>1,
                     'name'=>'Offer Accepted',
-                    'class'=>1
+                    'class'=>1,
+                    'color' => 'green';
                 ];
             }else{
                 if (!$this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
@@ -444,7 +445,8 @@ class Transaction extends Model
                         'success' => 0,
                         'default' => 1,
                         'name' => 'Offer Accepted',
-                        'class' => 1
+                        'class' => 1,
+                        'color' => 'black'
                     ];
                 }
             }
@@ -473,7 +475,8 @@ class Transaction extends Model
                     'success' => 1,
                     'default'=>1,
                     'name'=>'Offer Declined',
-                    'class'=>0
+                    'class' => 0,
+                    'color' => 'red'
                 ];
 
                 if($history = $this->hasHistory(TransactionHistory::SHIPMENT_RETURNED)) {
