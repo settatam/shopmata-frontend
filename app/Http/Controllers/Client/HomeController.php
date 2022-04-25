@@ -22,7 +22,7 @@ class HomeController extends Controller
             //This is probably a store page
             $store_id = session()->get('store_id');
             $store = Store::find($store_id);
-            $path = request()->basePath();
+            $path = request()->getPathInfo();
             $pageToFind = StorePage::nameFromPath($path);
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind);
