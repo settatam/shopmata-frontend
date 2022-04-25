@@ -21,6 +21,9 @@ class Theme extends Model
     	return $this->hasOne(Store::class);
     }
 
+    public function files() {
+    	return $this->hasMany(ThemeFile::class)->where('title', 'theme.twig');
+    }
 
 
     public function themeContent() {
