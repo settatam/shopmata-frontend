@@ -78,27 +78,14 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        $transaction = Transaction::with('public_note')
-            ->with('private_note')
-            ->with('offers')
-            ->with('customer')
-            ->findorFail($id);
-        $statuses                    = $transaction->statuses();
+        $transaction                 = Transaction::findorFail($id);
+        $statuses                    = Status::all();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
         $transaction_categories      = Category::where(['store_id' => $store_id, 'type' => 'transaction_category' ])->get();
-        $transactions                = $transaction->customer->transactions;
+        $transactions                = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
-
-//        if(null === $transaction->public_note) {
-//            $transaction->createNote(TransactionNote::PUBLIC_TYPE);
-//        }
-//
-//        if(null === $transaction->private_note) {
-//          $transaction->createNote(TransactionNote::PRIVATE_TYPE);
-//        }
-
         $transaction->load('customer','customer.state','items','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note');
         $timeline = $transaction->historyTimeline();
         return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags', 'timeline'));
@@ -155,6 +142,20 @@ class TransactionsController extends Controller
     }
 
 
+
+    public function addItem(Request $request)
+    {
+        try {
+            TransactionItem::addItem($request);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response($th->getMessage() ,422);
+        }
+
+        return response("Something went wrong" ,422);
+    }
+
+
     public function addImage(Request $request)
     {
         try {
@@ -169,8 +170,8 @@ class TransactionsController extends Controller
 
             $image  = FileUploader::upload($request);
             if ( isset($image[0]['thumb']) ){
-                $l_image = $image[0]['thumb'];
-                $tn_image = $image[0]['large'];
+                $l_image = $image[0]['large'];
+                $tn_image = $image[0]['thumb'];
                 $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
                 $customer_note->images()->save($imgs);
             }
