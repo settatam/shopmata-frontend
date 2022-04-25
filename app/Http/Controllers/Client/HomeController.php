@@ -26,7 +26,6 @@ class HomeController extends Controller
             $pageToFind = StorePage::nameFromPath($path);
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind);
-                dd($page);
                 $customer = null;
                 if(Auth::check()) {
                     $customer = Auth::user();
