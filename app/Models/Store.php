@@ -177,15 +177,16 @@ class Store extends Model
 
     public function pageContent($name) {
         $page = $this->pages()->where('name', $name)->first();
-        $theme = $page->theme->content;
-        $template = $page->template->content;
-        $content = $page->content;
 
-        //We should have a content_for_header ..
-        //Content for styling
-        //Content for js
+        $content = '<p> This page could not be found!</p>';
+        $template = '';
 
-        //get javascript assets
+        if(null !== $page) {
+            $theme = $store->theme->content;
+            $template = $page->template->content;
+            $content = $page->content;
+        }
+
 
         $data = [];
         $pageContent = '';
@@ -194,6 +195,8 @@ class Store extends Model
 
         if($template) {
             $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($template, $data));
+        }else{
+            $data['content_for_page'] = '<p> This page could not be found!</p>';
         }
 
         if($theme) {
