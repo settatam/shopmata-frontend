@@ -180,12 +180,13 @@ class Store extends Model
 
         $content = '<p> This page could not be found!</p>';
         $template = '';
-        $theme = $this->theme;
 
-        dd($theme);
 
         if(null !== $page) {
             $template = $page->template->content;
+            $theme  = $page->theme->content;
+        }else{
+            $theme = $this->theme->files()->where('name', 'theme.twig')->first();
         }
 
         $data = [];
