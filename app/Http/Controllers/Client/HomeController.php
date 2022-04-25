@@ -24,7 +24,7 @@ class HomeController extends Controller
             $store = Store::find($store_id);
             $path = request()->getPathInfo();
             $pageToFind = StorePage::nameFromPath($path);
-            dd($path);
+            $pageToFind = ltrim($pageToFind, $pageToFind[0]);
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind);
                 $customer = null;
