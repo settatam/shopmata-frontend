@@ -186,7 +186,7 @@ class Store extends Model
             $template = $page->template->content;
             $theme  = $page->theme->content;
         }else{
-            $theme = $this->theme->files()->where('name', 'theme.twig')->first();
+            $theme = $this->theme->files()->where('title', 'theme.twig')->first();
         }
 
         $data = [];

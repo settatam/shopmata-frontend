@@ -22,7 +22,7 @@ class Theme extends Model
     }
 
     public function files() {
-    	return $this->hasMany(ThemeFile::class)->where('title', 'theme.twig');
+    	return $this->hasMany(ThemeFile::class);
     }
 
 
