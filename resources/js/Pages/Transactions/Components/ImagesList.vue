@@ -1,8 +1,12 @@
 <template>
+    <!-- image modal start -->
+    <ImageModal
+        :enlargedImage="images[selected].url"
+        @close="popUp = false"
+        v-if="popUp"
+    />
+    <!-- image modal ends -->
     <ul role="list" class="divide-y divide-gray-200 w-100">
-        <!-- image modal start -->
-            <ImageModal :enlargedImage="images[selected].url" @close="popUp = false" v-if="popUp" />
-            <!-- image modal ends -->
         <li
             v-for="(image, index) in images"
             :key="image.id"
@@ -49,7 +53,6 @@
                     @click="deleteExisting(image.id, index)"
                 />
             </div>
-            
         </li>
     </ul>
 </template>
@@ -75,10 +78,9 @@ export default {
         const popUp = ref(false)
         const selected = ref(null)
         const successMessage = ref('')
-        const popModal = (index) => {
+        const popModal = index => {
             selected.value = index
             popUp.value = true
-            
         }
 
         const loading = ref(null)

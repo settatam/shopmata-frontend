@@ -2,11 +2,11 @@
     <TransitionRoot as="template" :show="open">
         <Dialog
             as="div"
-            class="fixed z-10 inset-0 overflow-y-auto "
+            class="fixed z-10 inset-0 overflow-y-auto"
             @close="closeModal"
         >
             <div
-                class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+                class="flex items-end justify-center min-h-screen pt-4 px-4 pb-96 text-center sm:block sm:p-0"
             >
                 <TransitionChild
                     as="template"
@@ -40,7 +40,7 @@
                     <div
                         class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6"
                     >
-                        <img class="mx-auto"  :src="enlargedImage" alt="">
+                        <img class="mx-auto w-full h-full"  :src="enlargedImage" alt="">
                     </div>
                 </TransitionChild>
             </div>
