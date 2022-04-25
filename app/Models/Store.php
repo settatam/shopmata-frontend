@@ -180,9 +180,9 @@ class Store extends Model
 
         $content = '<p> This page could not be found!</p>';
         $template = '';
+        $theme = $store->theme->content;
 
         if(null !== $page) {
-            $theme = $store->theme->content;
             $template = $page->template->content;
             $content = $page->content;
         }
