@@ -44,9 +44,11 @@ class Page extends Model
         }
         return $slug;
     }
-    
+
     public function tags()
     {
         return $this->hasMany(Tag::class);
     }
+
+
 }

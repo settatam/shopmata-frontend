@@ -36,7 +36,6 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = [];
 //        Transaction::search($filter);
 
         $transactions = Transaction::with('items','customer','images')

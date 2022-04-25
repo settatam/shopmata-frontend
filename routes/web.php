@@ -80,10 +80,11 @@ Route::get('test', function () {
 //
 //};
 
-
-
 Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('/', [ClientHomeController::class, 'index']);
+    Route::get('transactions', [ClientHomeController::class, 'index']);
+    Route::get('customer/account', [ClientHomeController::class, 'index']);
+    Route::get('thank-you', [ClientHomeController::class, 'index']);
 });
 
 
