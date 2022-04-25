@@ -8,7 +8,7 @@
     />
     <!-- FONT AWESOME LINK -->
 
-    <app-layout id="top">
+    <app-layout id="top" :navigation="navigation">
         <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
             <!-- Breadcrumb -->
 
@@ -86,7 +86,7 @@
                                 </p>
                                 <i class="far fa-plus-square mx-0 my-auto"></i>
                             </div>
-                            <div v-for="file in all_files[1]" :key="file.id">
+                            <div v-for="file in all_files" :key="file.id">
                                 <li
                                     class="text-lg pt-4 cursor-pointer"
                                     @click="getContent(file)"
@@ -141,7 +141,7 @@
                                 </p>
                                 <i class="far fa-plus-square mx-0 my-auto"></i>
                             </div>
-                            <div v-for="file in all_files[2]" :key="file.id">
+                            <div v-for="file in all_files" :key="file.id">
                                 <li
                                     class="text-lg pt-4 cursor-pointer"
                                     @click="getContent(file)"
@@ -193,7 +193,7 @@
                             <p class="font-semibold text-lg">Add a new Asset</p>
                             <i class="far fa-plus-square mx-0 my-auto"></i>
                         </div>
-                        <div v-for="file in all_files[3]" :key="file.id">
+                        <div v-for="file in all_files" :key="file.id">
                             <li
                                 class="text-lg pt-4 cursor-pointer"
                                 @click="getContent(file)"
@@ -332,7 +332,7 @@
                                     ></i>
                                 </div>
                                 <div
-                                    v-for="file in all_files[2]"
+                                    v-for="file in all_files"
                                     :key="file.id"
                                 >
                                     <li
@@ -393,7 +393,7 @@
                                     ></i>
                                 </div>
                                 <div
-                                    v-for="file in all_files[3]"
+                                    v-for="file in all_files"
                                     :key="file.id"
                                 >
                                     <li
@@ -710,7 +710,7 @@ export default {
     computed: {
         layout_files() {
             // return this.theme.filter()
-            if (this.theme_files.hasOwnProperty("1")) {
+            if (this.theme_files.hasOwnProperty("2")) {
                 return this.theme_files["2"];
             }
 
@@ -718,7 +718,7 @@ export default {
         },
         asset_files() {
             // return this.theme.filter()
-            if (this.theme_files.hasOwnProperty("1")) {
+            if (this.theme_files.hasOwnProperty("3")) {
                 return this.theme_files["3"];
             }
 
@@ -726,7 +726,7 @@ export default {
         },
         snippet_files() {
             // return this.theme.filter()
-            if (this.theme_files.hasOwnProperty("1")) {
+            if (this.theme_files.hasOwnProperty("4")) {
                 return this.theme_files["4"];
             }
 
@@ -770,7 +770,7 @@ export default {
             window.scrollTo({ top: 0, behavior: "smooth" });
             try {
                 const res = await axios.post(
-                    "/online-store/code-editor",
+                    "/admin/online-store/code-editor",
                     this.creatingContent
                 );
                 const { notification } = res.data;
@@ -793,7 +793,7 @@ export default {
         async removeFileFrom(file) {
             try {
                 await axios
-                    .delete("/online-store/editor-pages/" + file.id)
+                    .delete("/admin/online-store/editor-pages/" + file.id)
                     .then((res) => {});
             } catch (error) {
                 alert("An Unknown error occurred");
@@ -810,7 +810,7 @@ export default {
         async getContent(file) {
             try {
                 await axios
-                    .get("/online-store/code-editor/" + file.id)
+                    .get("/admin/online-store/code-editor/" + file.id)
                     .then((res) => {
                         //CHECKS IF THE CLICKED FILE IS AN OPEN TAB
                         this.content = res.data.content;

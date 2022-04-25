@@ -25,7 +25,8 @@ class Transaction extends Model
     protected $appends = [
         'est_value',
         'total_dwt',
-        'final_offer'
+        'final_offer',
+        'payment_type'
     ];
 
 
@@ -183,6 +184,24 @@ class Transaction extends Model
 
     public function getFinalOfferAttribute() {
         return optional($this->offers()->orderBy('id', 'desc')->first())->offer;
+    }
+
+    public function getPaymentTypeAttribute() {
+        return optional($this->paymentTy)->name;
+    }
+
+    public function getEstimatedProfitAttribute() {
+        if($this->est_value && $this->final_offer) {
+
+        }
+    }
+
+    public function paymentTy() {
+        return $this->belongsTo(PaymentType::class, 'payment_method_id', 'id');
+    }
+
+    public function statuses() {
+        return $this->store->transactionStatuses;
     }
 
     public function items()

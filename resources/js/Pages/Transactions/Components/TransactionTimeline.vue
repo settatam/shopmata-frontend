@@ -17,12 +17,12 @@
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
                             name=""
                             id=""
-                            v-model="transactionStatus"
+                            v-model="transaction.status_id"
                         >
                             <option
                                 v-for="status in statuses"
                                 :key="status.index"
-                                :value="status.name"
+                                :value="status.status_id"
                                 >{{ status.name }}</option
                             >
                         </select>
@@ -45,9 +45,9 @@
                         <input
                             type="search"
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
-                            placeholder="Kit Received"
+                            placeholder="Offer"
                             autocomplete="off"
-                            v-model="transactionOffer.offer"
+                            v-model="transaction.final_offer"
                         />
                         <div class="flex flex-row ml-1">
                             <input
@@ -55,7 +55,7 @@
                                 class="text-xs my-2 mx-2"
                                 name="2ndoffer"
                                 id="2ndoffer"
-                                v-model="transactionOffer.secondOffer"
+                                v-model="transaction.offers.length"
                             />
                             <label class="mt-1" for="2ndoffer">2nd Offer</label>
                         </div>
@@ -278,18 +278,18 @@ export default {
         let tmPrivate      = null;
         let tmPublic       = null;
         let type = null;
-       
+
         const transactionStatus = ref('')
         const transactionOffer  = reactive({
             secondOffer: '',
             offer: ''
         })
-        
+
         tmPublic  = null !== props.root.public_note ? props.root.public_note.notes : '';
-        tmPrivate = null !== props.root.private_note ? props.root.private_note.notes : '';    
+        tmPrivate = null !== props.root.private_note ? props.root.private_note.notes : '';
         messagePublic.value  = tmPublic;
         messagePrivate.value = tmPrivate;
-        
+
         watch([messagePublic, messagePrivate],    debounce(function (value) {
 
             if (typeof value[0] !== "undefined"  && tmPublic == value[0]){

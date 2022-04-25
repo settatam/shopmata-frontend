@@ -83,7 +83,7 @@ class TransactionsController extends Controller
             ->with('offers')
             ->with('customer')
             ->findorFail($id);
-        $statuses                    = Status::all();
+        $statuses                    = $transaction->statuses();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
         $transaction_categories      = Category::where(['store_id' => $store_id, 'type' => 'transaction_category' ])->get();

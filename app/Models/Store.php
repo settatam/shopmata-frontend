@@ -171,6 +171,10 @@ class Store extends Model
         return $this->hasMany(StorePage::class);
     }
 
+    public function transactionStatuses() {
+        return $this->hasMany(Status::class);
+    }
+
     public function pageContent($name) {
         $page = $this->pages()->where('name', $name)->first();
         $theme = $page->theme->content;

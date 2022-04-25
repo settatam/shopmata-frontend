@@ -46,6 +46,7 @@
                     <div class="w-full lg:w-1/3">
                         <TransactionBox1
                             :transaction="transaction"
+                            :store="store"
                             class="mb-4 h-full"
                         />
                     </div>
@@ -319,7 +320,8 @@ export default {
         top_tags: Array,
         bottom_tags: Array,
         timeline: Array,
-        navigation: Array
+        navigation: Array,
+        store: Object
     },
 
     setup (props) {
