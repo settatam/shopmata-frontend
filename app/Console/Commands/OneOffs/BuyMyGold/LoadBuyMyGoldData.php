@@ -138,7 +138,10 @@ class LoadBuyMyGoldData extends Command
                     'first_name' => $customer->first_name,
                     'last_name' => $customer->last_name,
                     'country' => 'US',
-                    'postal_code' => $order["customer_zip"]
+                    'postal_code' => $order["customer_zip"],
+                    'addressable_id' => $transaction->id,
+                    'addressable_type' => Transaction::class
+
                 ];
 
                 $transAddress->fill($address);

@@ -15,18 +15,24 @@ class Address extends Model
 
     protected $fillable = [
         'user_id',
-        'country_id',
-        'state_id',
+        'country',
+        'state',
         'city',
         'is_default',
         'address',
         'address2',
-        'zip',
+        'postal_code',
         'country',
         'state',
         'first_name',
         'last_name',
+        'addressable_type',
+        'addressable_id',
+        'nickname',
+        'extension',
+        'store_id'
     ];
+
 
     public function addressable()
     {
