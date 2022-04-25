@@ -75,13 +75,14 @@
         <div
             class="flex flex-col lg:flex-row text-black text-xs pl-4 md:text-sm"
         >
-            <div class="flex flex-col p-4 space-y-3 lg:w-1/3">
+            <div class="flex flex-col p-4  lg:w-1/3">
                 <div v-for="status in timeline" :key="status.index">
                     <p
                         :class="{
-                            'text-red-600': !status.date,
+                            'text-black': !status.date,
                             'text-green-darker': status.date
                         }"
+                    class=""
                     >
                         {{ status.name }}:
                         <span v-if="status.date">
