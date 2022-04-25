@@ -3,6 +3,7 @@
 namespace App\Console\Commands\OneOffs\BuyMyGold;
 
 use App\Models\Address;
+use App\Models\TransactionNote;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
 use App\Models\Customer;
@@ -217,11 +218,21 @@ class LoadBuyMyGoldData extends Command
                     $note->delete();
                 }
 
-                //Create eh transaction notes
-                $transaction->notes()->create([
-                    'notes' => $order['notes'],
-                    'type' => $order['notes_private'] ? 'private' : 'public'
-                ]);
+                if($order['notes_private']) {
+                    TransactionNote::create([
+                        'transaction_id' => $transaction->id,
+                        'type' => TransactionNote::PRIVATE_TYPE,
+                        'notes' => $order['notes_private']
+                    ]);
+                }
+
+                if($order['notes_private']) {
+                    TransactionNote::create([
+                        'transaction_id' => $transaction->id,
+                        'type' => TransactionNote::PUBLIC_TYPE,
+                        'notes' => $order['notes_public']
+                    ]);
+                }
 
                 if ($transaction->offers->count()) {
                     foreach ($transaction->offers as $offer) {

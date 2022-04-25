@@ -26,7 +26,10 @@ class Transaction extends Model
         'est_value',
         'total_dwt',
         'final_offer',
-        'payment_type'
+        'payment_type',
+        'lead',
+        'status',
+        'estimated_profit'
     ];
 
 
@@ -192,8 +195,18 @@ class Transaction extends Model
 
     public function getEstimatedProfitAttribute() {
         if($this->est_value && $this->final_offer) {
-
+            return round(($this->value - $this->final_offer), 2);
         }
+        return '';
+    }
+
+    public function getStatusAttribute() {
+        return optional($this->trStatus)->name;
+    }
+
+    public function getLeadAttribute() {
+        return 'google';
+//        return optional($this->trLead)->name;
     }
 
     public function paymentTy() {
@@ -202,6 +215,14 @@ class Transaction extends Model
 
     public function statuses() {
         return $this->store->transactionStatuses;
+    }
+
+    public function trStatus() {
+        return $this->belongsTo(Status::class, 'status_id', 'id');
+    }
+
+    public function trLead() {
+//        return $this->belongsTo(Lead::class, 'lead_id', 'id');
     }
 
     public function items()
