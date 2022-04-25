@@ -94,6 +94,7 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
 // })->name('dashboard');
 
 Route::get('login', [LoginController::class, 'getLogin'])->name('login');
+Route::get('logout', [LoginController::class, 'logout']);
 Route::post('logout', [LoginController::class, 'logout']);
 
 Route::get('register/step-2', [RegisterController::class, 'registerStep2'])->name('register-step-2');
