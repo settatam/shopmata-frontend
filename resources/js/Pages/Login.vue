@@ -314,7 +314,7 @@ export default {
             axios
                 .post("/login", user)
                 .then((res) => {
-                    Inertia.visit("/dashboard", {
+                    Inertia.visit("/admin/dashboard", {
                         method: "get",
                     });
                 })

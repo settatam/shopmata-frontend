@@ -18,7 +18,7 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
 
-    protected $redirectTo = '/dashboard';
+    protected $redirectTo = '/admin/dashboard';
 
     /**
      * Create a new controller instance.
@@ -88,12 +88,11 @@ class LoginController extends Controller
                 return response()->json(['notification' => $notification], 422);
             } else {
                 if (Auth::attempt($credentials)) {
-                    Login::create(
-                        ['user_id' => Auth::id(),
+                    Login::create([
+                        'user_id' => Auth::id(),
                          'store_id' => $user->store_id,
                         'ip_address' => $request->ip()
-                    ]
-                    );
+                    ]);
 
                     //Log the user ..
                     session(['store_id' => $user->store_id]);
