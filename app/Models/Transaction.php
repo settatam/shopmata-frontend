@@ -436,7 +436,7 @@ class Transaction extends Model
                     'default'=>1,
                     'name'=>'Offer Accepted',
                     'class'=>1,
-                    'color' => 'green';
+                    'color' => 'green'
                 ];
             }else{
                 if (!$this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
