@@ -42,7 +42,7 @@
                     >
                         <div class="flex justify-end">
                             <x-icon
-                            class="h-6 w-6 cursor-pointer text-right"
+                            class="h-6 w-6 cursor-pointer text-right border-black" style="border-radius:50%"
                             @click="closeModal"
                         />
                         </div>
