@@ -4,6 +4,10 @@
             <h1 class="text-white">Transaction Timeline</h1>
         </div>
 
+        <!-- image modal start -->
+            <AddItem :categories="categories" @close="popUp = false" v-if="popUp" />
+        <!-- image modal ends -->
+
         <div
             class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8"
         >

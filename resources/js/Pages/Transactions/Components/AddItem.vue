@@ -249,7 +249,6 @@ export default {
         TransitionRoot,
         XIcon
     },
-
     setup (props, ctx) {
         const open = ref(true)
         const countries = reactive([{}])
@@ -262,8 +261,6 @@ export default {
             mprice: '',
             inote: ''
         })
-
-        console.log(props.categories)
 
         const closeModal = () => {
             open.value = false

@@ -1,5 +1,8 @@
 <template>
     <ul role="list" class="divide-y divide-gray-200 w-100">
+        <!-- image modal start -->
+            <ImageModal :enlargedImage="images[selected].url" @close="popUp = false" v-if="popUp" />
+            <!-- image modal ends -->
         <li
             v-for="(image, index) in images"
             :key="image.id"
@@ -7,7 +10,12 @@
             :id="'image_' + image.id"
         >
             <div class="w-3/10 py-3">
-                <img class="h-10 w-10" :src="image.url" alt="" />
+                <img
+                    @click="popModal(index)"
+                    class="h-10 w-10"
+                    :src="image.url"
+                    alt=""
+                />
             </div>
             <div class="flex-grow w-5/10">
                 <div class="border-r border-l px-6 py-3 border-gray-300">
@@ -41,6 +49,7 @@
                     @click="deleteExisting(image.id, index)"
                 />
             </div>
+            
         </li>
     </ul>
 </template>
@@ -51,18 +60,28 @@ import { notify } from 'notiwind'
 import { ref, reactive } from 'vue'
 import axios from 'axios'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
+import ImageModal from './ImageModal.vue'
 export default {
     components: {
         TrashIcon,
-        LoadingSpinner
+        LoadingSpinner,
+        ImageModal
     },
     props: {
         images: Array
     },
     emits: ['delete_img'],
     setup (props, { emit }) {
-        const loading = ref(null)
+        const popUp = ref(false)
+        const selected = ref(null)
         const successMessage = ref('')
+        const popModal = (index) => {
+            selected.value = index
+            popUp.value = true
+            
+        }
+
+        const loading = ref(null)
 
         function deleteExisting (id, index) {
             loading.value = index
@@ -110,7 +129,10 @@ export default {
             deleteExisting,
             onClickTop,
             onClickBot,
-            loading
+            loading,
+            popUp,
+            popModal,
+            selected
         }
     }
 }
