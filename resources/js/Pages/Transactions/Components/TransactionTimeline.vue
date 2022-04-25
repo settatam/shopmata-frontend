@@ -4,6 +4,10 @@
             <h1 class="text-white">Transaction Timeline</h1>
         </div>
 
+        <!-- image modal start -->
+            <AddItem :categories="categories" @close="popUp = false" v-if="popUp" />
+        <!-- image modal ends -->
+
         <div
             class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8"
         >
@@ -75,13 +79,14 @@
         <div
             class="flex flex-col lg:flex-row text-black text-xs pl-4 md:text-sm"
         >
-            <div class="flex flex-col p-4 space-y-3 lg:w-1/3">
+            <div class="flex flex-col p-4  lg:w-1/3">
                 <div v-for="status in timeline" :key="status.index">
                     <p
                         :class="{
-                            'text-red-600': !status.date,
+                            'text-black': !status.date,
                             'text-green-darker': status.date
                         }"
+                    class=""
                     >
                         {{ status.name }}:
                         <span v-if="status.date">

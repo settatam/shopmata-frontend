@@ -1329,6 +1329,10 @@ select {
 	margin-top: -0.25rem;
 	margin-bottom: -0.25rem;
 }
+.my-4 {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
 .my-5 {
 	margin-top: 1.25rem;
 	margin-bottom: 1.25rem;
@@ -1393,10 +1397,6 @@ select {
 	margin-left: 1.5rem;
 	margin-right: 1.5rem;
 }
-.my-4 {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-}
 .mx-5 {
 	margin-left: 1.25rem;
 	margin-right: 1.25rem;
@@ -1428,6 +1428,10 @@ select {
 .mx-1 {
 	margin-left: 0.25rem;
 	margin-right: 0.25rem;
+}
+.my-0 {
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 .my-2\.5 {
 	margin-top: 0.625rem;
@@ -1897,9 +1901,6 @@ select {
 .w-14 {
 	width: 3.5rem;
 }
-.w-64 {
-	width: 16rem;
-}
 .w-96 {
 	width: 24rem;
 }
@@ -2216,11 +2217,11 @@ select {
 .grid-cols-1 {
 	grid-template-columns: repeat(1, minmax(0, 1fr));
 }
-.grid-cols-3 {
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-}
 .grid-cols-2 {
 	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-3 {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .grid-cols-5 {
 	grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2282,6 +2283,9 @@ select {
 .gap-1 {
 	gap: 0.25rem;
 }
+.gap-2 {
+	gap: 0.5rem;
+}
 .gap-5 {
 	gap: 1.25rem;
 }
@@ -2290,9 +2294,6 @@ select {
 }
 .gap-8 {
 	gap: 2rem;
-}
-.gap-2 {
-	gap: 0.5rem;
 }
 .gap-y-4 {
 	row-gap: 1rem;
@@ -2378,11 +2379,6 @@ select {
 	--tw-space-x-reverse: 0;
 	margin-right: calc(0px * var(--tw-space-x-reverse));
 	margin-left: calc(0px * calc(1 - var(--tw-space-x-reverse)));
-}
-.space-y-8 > :not([hidden]) ~ :not([hidden]) {
-	--tw-space-y-reverse: 0;
-	margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
-	margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
@@ -3194,6 +3190,9 @@ select {
 }
 .pb-12 {
 	padding-bottom: 3rem;
+}
+.pb-96 {
+	padding-bottom: 24rem;
 }
 .text-left {
 	text-align: left;
@@ -4919,10 +4918,6 @@ input[type='checkbox']:focus {
 		gap: 1rem;
 	}
 
-	.md\:gap-8 {
-		gap: 2rem;
-	}
-
 	.md\:border-t-0 {
 		border-top-width: 0px;
 	}
@@ -5533,11 +5528,6 @@ input[type='checkbox']:focus {
 		padding-bottom: 0.75rem;
 	}
 
-	.lg\:py-16 {
-		padding-top: 4rem;
-		padding-bottom: 4rem;
-	}
-
 	.lg\:pl-8 {
 		padding-left: 2rem;
 	}
@@ -5585,14 +5575,6 @@ input[type='checkbox']:focus {
 }
 @media (min-width: 1280px) {
 
-	.xl\:col-span-1 {
-		grid-column: span 1 / span 1;
-	}
-
-	.xl\:col-span-2 {
-		grid-column: span 2 / span 2;
-	}
-
 	.xl\:my-8 {
 		margin-top: 2rem;
 		margin-bottom: 2rem;
@@ -5610,20 +5592,12 @@ input[type='checkbox']:focus {
 		margin-left: 1.75rem;
 	}
 
-	.xl\:mt-0 {
-		margin-top: 0px;
-	}
-
 	.xl\:block {
 		display: block;
 	}
 
 	.xl\:flex {
 		display: flex;
-	}
-
-	.xl\:grid {
-		display: grid;
 	}
 
 	.xl\:hidden {
@@ -5658,16 +5632,8 @@ input[type='checkbox']:focus {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
 
-	.xl\:grid-cols-3 {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-
 	.xl\:flex-col {
 		flex-direction: column;
-	}
-
-	.xl\:gap-8 {
-		gap: 2rem;
 	}
 
 	.xl\:overflow-auto {
@@ -5708,10 +5674,6 @@ input[type='checkbox']:focus {
 
 	.xl\:pr-0 {
 		padding-right: 0px;
-	}
-
-	.xl\:text-center {
-		text-align: center;
 	}
 }
 
