@@ -32,7 +32,6 @@ class HomeController extends Controller
                 }
             }
         }
-        $store = Store::where('slug', $account)->first();
 
         return view('pages.index', compact('page'));
     }

@@ -187,7 +187,6 @@ class Store extends Model
             $content = $page->content;
         }
 
-
         $data = [];
         $pageContent = '';
 
