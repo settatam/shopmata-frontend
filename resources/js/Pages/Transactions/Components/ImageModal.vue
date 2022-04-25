@@ -40,7 +40,17 @@
                     <div
                         class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6"
                     >
-                        <img class="mx-auto w-full h-full"  :src="enlargedImage" alt="">
+                        <div class="flex justify-end">
+                            <x-icon
+                            class="h-6 w-6 cursor-pointer text-right"
+                            @click="closeModal"
+                        />
+                        </div>
+                        <img
+                            class="mx-auto w-full h-full"
+                            :src="enlargedImage"
+                            alt=""
+                        />
                     </div>
                 </TransitionChild>
             </div>

@@ -16,7 +16,7 @@
             <div class="w-3/10 py-3">
                 <img
                     @click="popModal(index)"
-                    class="h-10 w-10"
+                    class="h-10 w-10 cursor-pointer"
                     :src="image.url"
                     alt=""
                 />
@@ -32,14 +32,6 @@
                 </div>
             </div>
             <div class="flex items-center px-2 py-3 justify-around w-2/10">
-                <input
-                    type="checkbox"
-                    v-model="image.id"
-                    name="image"
-                    id=""
-                    class="w-5 h-5"
-                    value="true"
-                />
 
                 <LoadingSpinner
                     v-if="loading == index"
@@ -48,7 +40,7 @@
 
                 <TrashIcon
                     v-else
-                    class="w-6 h-6 text-red-500"
+                    class="w-6 h-6 text-red-500 cursor-pointer"
                     :id="image.id"
                     @click="deleteExisting(image.id, index)"
                 />

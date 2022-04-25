@@ -1837,9 +1837,6 @@ select {
 .h-32 {
 	height: 8rem;
 }
-.h-2\/3 {
-	height: 66.666667%;
-}
 .h-48 {
 	height: 12rem;
 }
@@ -2036,9 +2033,6 @@ select {
 }
 .w-7 {
 	width: 1.75rem;
-}
-.w-4\/6 {
-	width: 66.666667%;
 }
 .w-28 {
 	width: 7rem;
@@ -3192,9 +3186,6 @@ select {
 }
 .pb-12 {
 	padding-bottom: 3rem;
-}
-.pb-40 {
-	padding-bottom: 10rem;
 }
 .pb-96 {
 	padding-bottom: 24rem;
