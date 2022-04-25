@@ -57,7 +57,7 @@ trait FileUploader {
                 }
                 
                 $image_normal = $image_normal->stream();
-                $image_thumb = $image_thumb->stream();
+                $image_thumb  = $image_thumb->stream();
 
                 Storage::disk('DO')->put($slug.'/'.$filename, $image_normal->__toString(), 'public');
                 Storage::disk('DO')->put($slug.'/'.$filename_thumb, $image_thumb->__toString(), 'public');
