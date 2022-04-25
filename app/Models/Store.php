@@ -182,9 +182,10 @@ class Store extends Model
         $template = '';
         $theme = $this->theme->content;
 
+        dd($theme);
+
         if(null !== $page) {
             $template = $page->template->content;
-            $content = $page->content;
         }
 
         $data = [];
