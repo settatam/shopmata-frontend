@@ -1329,6 +1329,10 @@ select {
 	margin-top: -0.25rem;
 	margin-bottom: -0.25rem;
 }
+.my-4 {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
 .my-5 {
 	margin-top: 1.25rem;
 	margin-bottom: 1.25rem;
@@ -1393,10 +1397,6 @@ select {
 	margin-left: 1.5rem;
 	margin-right: 1.5rem;
 }
-.my-4 {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-}
 .mx-5 {
 	margin-left: 1.25rem;
 	margin-right: 1.25rem;
@@ -1460,6 +1460,9 @@ select {
 .mt-1 {
 	margin-top: 0.25rem;
 }
+.ml-2 {
+	margin-left: 0.5rem;
+}
 .mb-6 {
 	margin-bottom: 1.5rem;
 }
@@ -1477,9 +1480,6 @@ select {
 }
 .ml-1 {
 	margin-left: 0.25rem;
-}
-.ml-2 {
-	margin-left: 0.5rem;
 }
 .-mr-0\.5 {
 	margin-right: -0.125rem;
@@ -1501,9 +1501,6 @@ select {
 }
 .mb-4 {
 	margin-bottom: 1rem;
-}
-.-mt-px {
-	margin-top: -1px;
 }
 .mr-4 {
 	margin-right: 1rem;
@@ -1897,9 +1894,6 @@ select {
 .w-14 {
 	width: 3.5rem;
 }
-.w-64 {
-	width: 16rem;
-}
 .w-96 {
 	width: 24rem;
 }
@@ -2061,9 +2055,6 @@ select {
 .max-w-xl {
 	max-width: 36rem;
 }
-.max-w-6xl {
-	max-width: 72rem;
-}
 .max-w-2xl {
 	max-width: 42rem;
 }
@@ -2216,11 +2207,11 @@ select {
 .grid-cols-1 {
 	grid-template-columns: repeat(1, minmax(0, 1fr));
 }
-.grid-cols-3 {
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-}
 .grid-cols-2 {
 	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-3 {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .grid-cols-5 {
 	grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2282,6 +2273,9 @@ select {
 .gap-1 {
 	gap: 0.25rem;
 }
+.gap-2 {
+	gap: 0.5rem;
+}
 .gap-5 {
 	gap: 1.25rem;
 }
@@ -2290,9 +2284,6 @@ select {
 }
 .gap-8 {
 	gap: 2rem;
-}
-.gap-2 {
-	gap: 0.5rem;
 }
 .gap-y-4 {
 	row-gap: 1rem;
@@ -2378,11 +2369,6 @@ select {
 	--tw-space-x-reverse: 0;
 	margin-right: calc(0px * var(--tw-space-x-reverse));
 	margin-left: calc(0px * calc(1 - var(--tw-space-x-reverse)));
-}
-.space-y-8 > :not([hidden]) ~ :not([hidden]) {
-	--tw-space-y-reverse: 0;
-	margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
-	margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
@@ -2595,10 +2581,6 @@ select {
 	--tw-border-opacity: 1;
 	border-color: rgba(243, 244, 246, var(--tw-border-opacity));
 }
-.border-gray-400 {
-	--tw-border-opacity: 1;
-	border-color: rgba(156, 163, 175, var(--tw-border-opacity));
-}
 .border-green-400 {
 	--tw-border-opacity: 1;
 	border-color: rgba(52, 211, 153, var(--tw-border-opacity));
@@ -2622,6 +2604,10 @@ select {
 .border-gray-darken {
 	--tw-border-opacity: 1;
 	border-color: rgba(138, 138, 153, var(--tw-border-opacity));
+}
+.border-gray-400 {
+	--tw-border-opacity: 1;
+	border-color: rgba(156, 163, 175, var(--tw-border-opacity));
 }
 .border-purple-darker {
 	--tw-border-opacity: 1;
@@ -2687,10 +2673,6 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
 }
-.bg-gray-500 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(107, 114, 128, var(--tw-bg-opacity));
-}
 .bg-indigo-600 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
@@ -2710,6 +2692,10 @@ select {
 .bg-gray-50 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
+}
+.bg-gray-500 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(107, 114, 128, var(--tw-bg-opacity));
 }
 .bg-indigo-50 {
 	--tw-bg-opacity: 1;
@@ -2849,15 +2835,6 @@ select {
 }
 .bg-opacity-20 {
 	--tw-bg-opacity: 0.2;
-}
-.bg-cover {
-	background-size: cover;
-}
-.bg-center {
-	background-position: center;
-}
-.bg-no-repeat {
-	background-repeat: no-repeat;
 }
 .fill-current {
 	fill: currentColor;
@@ -3060,9 +3037,6 @@ select {
 .pb-1 {
 	padding-bottom: 0.25rem;
 }
-.pt-8 {
-	padding-top: 2rem;
-}
 .pb-20 {
 	padding-bottom: 5rem;
 }
@@ -3125,6 +3099,9 @@ select {
 }
 .pl-10 {
 	padding-left: 2.5rem;
+}
+.pt-8 {
+	padding-top: 2rem;
 }
 .pl-5 {
 	padding-left: 1.25rem;
@@ -3300,14 +3277,14 @@ select {
 .tracking-widest {
 	letter-spacing: 0.1em;
 }
-.tracking-wider {
-	letter-spacing: 0.05em;
-}
 .tracking-wide {
 	letter-spacing: 0.025em;
 }
 .tracking-tight {
 	letter-spacing: -0.025em;
+}
+.tracking-wider {
+	letter-spacing: 0.05em;
 }
 .text-gray-500 {
 	--tw-text-opacity: 1;
@@ -3369,14 +3346,6 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(16, 185, 129, var(--tw-text-opacity));
 }
-.text-gray-200 {
-	--tw-text-opacity: 1;
-	color: rgba(229, 231, 235, var(--tw-text-opacity));
-}
-.text-gray-300 {
-	--tw-text-opacity: 1;
-	color: rgba(209, 213, 219, var(--tw-text-opacity));
-}
 .text-green-900 {
 	--tw-text-opacity: 1;
 	color: rgba(6, 78, 59, var(--tw-text-opacity));
@@ -3388,6 +3357,10 @@ select {
 .text-red-700 {
 	--tw-text-opacity: 1;
 	color: rgba(185, 28, 28, var(--tw-text-opacity));
+}
+.text-gray-200 {
+	--tw-text-opacity: 1;
+	color: rgba(229, 231, 235, var(--tw-text-opacity));
 }
 .text-green-800 {
 	--tw-text-opacity: 1;
@@ -3424,6 +3397,10 @@ select {
 .text-yellow-300 {
 	--tw-text-opacity: 1;
 	color: rgba(252, 211, 77, var(--tw-text-opacity));
+}
+.text-gray-300 {
+	--tw-text-opacity: 1;
+	color: rgba(209, 213, 219, var(--tw-text-opacity));
 }
 .text-purple-light {
 	--tw-text-opacity: 1;
@@ -4379,10 +4356,6 @@ input[type='checkbox']:focus {
 		align-items: center;
 	}
 
-	.sm\:justify-start {
-		justify-content: flex-start;
-	}
-
 	.sm\:justify-end {
 		justify-content: flex-end;
 	}
@@ -4917,10 +4890,6 @@ input[type='checkbox']:focus {
 
 	.md\:gap-4 {
 		gap: 1rem;
-	}
-
-	.md\:gap-8 {
-		gap: 2rem;
 	}
 
 	.md\:border-t-0 {
@@ -5533,11 +5502,6 @@ input[type='checkbox']:focus {
 		padding-bottom: 0.75rem;
 	}
 
-	.lg\:py-16 {
-		padding-top: 4rem;
-		padding-bottom: 4rem;
-	}
-
 	.lg\:pl-8 {
 		padding-left: 2rem;
 	}
@@ -5585,14 +5549,6 @@ input[type='checkbox']:focus {
 }
 @media (min-width: 1280px) {
 
-	.xl\:col-span-1 {
-		grid-column: span 1 / span 1;
-	}
-
-	.xl\:col-span-2 {
-		grid-column: span 2 / span 2;
-	}
-
 	.xl\:my-8 {
 		margin-top: 2rem;
 		margin-bottom: 2rem;
@@ -5610,20 +5566,12 @@ input[type='checkbox']:focus {
 		margin-left: 1.75rem;
 	}
 
-	.xl\:mt-0 {
-		margin-top: 0px;
-	}
-
 	.xl\:block {
 		display: block;
 	}
 
 	.xl\:flex {
 		display: flex;
-	}
-
-	.xl\:grid {
-		display: grid;
 	}
 
 	.xl\:hidden {
@@ -5658,16 +5606,8 @@ input[type='checkbox']:focus {
 		grid-template-columns: repeat(10, minmax(0, 1fr));
 	}
 
-	.xl\:grid-cols-3 {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
-
 	.xl\:flex-col {
 		flex-direction: column;
-	}
-
-	.xl\:gap-8 {
-		gap: 2rem;
 	}
 
 	.xl\:overflow-auto {
@@ -5708,10 +5648,6 @@ input[type='checkbox']:focus {
 
 	.xl\:pr-0 {
 		padding-right: 0px;
-	}
-
-	.xl\:text-center {
-		text-align: center;
 	}
 }
 
