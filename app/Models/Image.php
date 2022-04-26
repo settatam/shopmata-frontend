@@ -11,7 +11,7 @@ class Image extends Model
 
     protected $table = "images";
 
-    protected $fillable = ['url', 'rank', 'image','imageable_type','imageable_id'];
+    protected $fillable = ['url', 'rank', 'image','imageable_type','imageable_id','thumbnail'];
 
     public function imageable()
     {
