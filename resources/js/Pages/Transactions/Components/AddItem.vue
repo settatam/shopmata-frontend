@@ -60,16 +60,35 @@
                                         Choose Category
                                     </label>
                                     <select
+                                        :class="{
+                                            'border-red-600':
+                                                v$.category_id.$error,
+                                            'border-gray-300': !v$.category_id
+                                                .$error
+                                        }"
                                         name=""
                                         id=""
-                                        v-model="local_pickup.category"
+                                        v-model="itemPayload.category_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                     >
-                                        <option value="0">Choose Category</option>
-                                        <option :value="category.name" v-for="category in categories" :key="category.index">{{category.name}}</option>
+                                        <option default value="0"
+                                            >Choose Category</option
+                                        >
+                                        <option
+                                            :value="category.id"
+                                            v-for="category in categories"
+                                            :key="category.index"
+                                            >{{ category.name }}</option
+                                        >
                                     </select>
-                                </div>
 
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="v$.category_id.$error"
+                                    >
+                                        {{ v$.category_id.$errors[0].$message }}
+                                    </p>
+                                </div>
 
                                 <div class="flex required  mb-4">
                                     <div class="mr-2 w-full">
@@ -81,7 +100,7 @@
                                         </label>
                                         <textarea
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            v-model="local_pickup.description"
+                                            v-model="itemPayload.description"
                                             required
                                             name=""
                                             id=""
@@ -112,15 +131,14 @@
                                         </label>
                                         <input
                                             :class="{
-                                                'border-red-600':
-                                                    v$.city.$error,
+                                                'border-red-600': v$.dwt.$error,
                                                 'border-gray-300': !v$.dwt
                                                     .$error
                                             }"
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                             placeholder=""
-                                            v-model="local_pickup.dwt"
+                                            v-model="itemPayload.dwt"
                                             required
                                         />
 
@@ -142,20 +160,20 @@
                                             :class="{
                                                 'border-red-600':
                                                     v$.mprice.$error,
-                                                'border-gray-300': !v$.mprice
+                                                'border-gray-300': !v$.price
                                                     .$error
                                             }"
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                             placeholder=""
-                                            v-model="local_pickup.mprice"
+                                            v-model="itemPayload.price"
                                             required
                                         />
                                         <p
                                             class="text-red-600 text-xs"
-                                            v-if="v$.mprice.$error"
+                                            v-if="v$.price.$error"
                                         >
-                                            {{ v$.mprice.$errors[0].$message }}
+                                            {{ v$.price.$errors[0].$message }}
                                         </p>
                                     </div>
                                 </div>
@@ -172,7 +190,7 @@
                                         }"
                                         type="text"
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                        v-model="local_pickup.inote"
+                                        v-model="itemPayload.inote"
                                         required
                                     />
                                     <p
@@ -240,7 +258,7 @@ import { required, helpers, numeric } from '@vuelidate/validators'
 
 export default {
     emits: ['close'],
-    props: ['store', 'countries', 'categories'],
+    props: ['store', 'countries', 'categories', 'root'],
 
     components: {
         Dialog,
@@ -253,13 +271,16 @@ export default {
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
+        const transaction_id = root.id
 
-        const local_pickup = reactive({
-            category: '',
+        const itemPayload = reactive({
+            category_id: '',
             description: '',
             dwt: '',
-            mprice: '',
-            inote: ''
+            price: '',
+            inote: '',
+            images: [],
+            transaction_id: transaction_id
         })
 
         const closeModal = () => {
@@ -269,8 +290,8 @@ export default {
 
         const rules = computed(() => {
             return {
-                category: {
-                    required: helpers.withMessage('Enter a category', required)
+                category_id: {
+                    required: helpers.withMessage('Select a category', required)
                 },
                 description: {
                     required: helpers.withMessage(
@@ -281,11 +302,8 @@ export default {
                 dwt: {
                     required: helpers.withMessage('Enter a DWT', required)
                 },
-                mprice: {
+                price: {
                     required: helpers.withMessage('Enter an mprice', required)
-                },
-                city: {
-                    required: helpers.withMessage('Enter a city name', required)
                 },
                 inote: {
                     required: helpers.withMessage('Enter an inote', required)
@@ -293,17 +311,20 @@ export default {
             }
         })
 
-        const v$ = useVuelidate(rules, local_pickup)
+        const v$ = useVuelidate(rules, itemPayload)
 
         function submit () {
             this.v$.$validate()
-            if (local_pickup.address.length < 1) {
+            if (itemPayload.address.length < 1) {
                 return
             } else {
                 axios
-                    .post('/settings/store-locations', local_pickup)
+                    .post(
+                        'shopmata.test/admin/transactions/9038/item',
+                        itemPayload
+                    )
                     .then(res => {
-                        //console.log(res.data)
+                        console.log(res.data)
                         this.open = false
                         Inertia.visit('/settings/shipping-and-delivery')
                     })
@@ -312,7 +333,7 @@ export default {
 
         return {
             open,
-            local_pickup,
+            itemPayload,
             submit,
             v$,
             closeModal,
