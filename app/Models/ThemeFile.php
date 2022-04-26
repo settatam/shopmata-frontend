@@ -14,6 +14,12 @@ use Auth;
 class ThemeFile extends Model
 {
     const DEFAULT_THEME_ID = 1;
+
+    const TYPE_LAYOUT = 'layout';
+    const TYPE_TEMPLATE = 'template';
+    const TYPE_SNIPPET = 'snippet';
+    const TYPE_ASSET = 'asset';
+
     use HasFactory;
     use FileUploader;
 

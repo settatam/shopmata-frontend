@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\OpenEditorPage;
 use Illuminate\Support\Facades\Log;
+use App\Models\Theme;
 
 class CodeEditorController extends Controller
 {
@@ -20,14 +21,22 @@ class CodeEditorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
         //
         // $store = Store::with('theme')->find(session()->get('store_id'));
-    
 
-        $theme_files =ThemeFile::getForStore();
-        
+
+        $theme_files = [];
+        $theme = Theme::with('layout')
+            ->with('assets')
+            ->with('snippets')
+            ->with('templates')
+            ->whereHas('store', function($query) use ($request) {
+            $query->where('id', $request->session()->get('store_id'));
+        })->first();
+
+
         $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();
 
         for($i=0; $i<sizeof($open_files); $i++) {
@@ -40,7 +49,7 @@ class CodeEditorController extends Controller
         // count($open_files) === 0 ? $open_files = (object)[] : "";
         // $layout = $store->theme->layout[count($store->theme->layout)-1]->content;
 
-        return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files'));
+        return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files', 'theme'));
     }
 
     /**
@@ -92,7 +101,7 @@ class CodeEditorController extends Controller
                 //TODO -- Make this dry
 
                 OpenEditorPage::where('store_id', session('store_id'))->where('user_id', Auth::id())->update(['is_open'=>0]);
-                
+
                 $data = [
                     'store_id'=>session()->get('store_id'),
                     'user_id'=>Auth::id(),
@@ -159,7 +168,7 @@ class CodeEditorController extends Controller
         //
         $theme_file = ThemeFile::find($id);
         if(null !== $theme_file) {
-            
+
             $data = [
                 'store_id'=>session()->get('store_id'),
                 'user_id'=>Auth::id(),
@@ -265,7 +274,7 @@ class CodeEditorController extends Controller
 
                 return response()->json(['notification' => $notification], 400);
             }
-        
+
 
         // } catch (\Exception $e) {
         //     $exceptionDetails = [
