@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
      <!-- Breadcrumb -->
        <div class="flex-shrink-0 px-8 py-4 flex items-center">
           <p class="text-2xl font-semibold text-gray-900">Online Store</p>
@@ -8,7 +8,7 @@
           <ol role="list" class="flex items-center space-x-4">
             <li>
               <div>
-                <a href="/dashboard" class="text-gray-400 hover:text-gray-500">
+                <a href="/admin/dashboard" class="text-gray-400 hover:text-gray-500">
                   <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                   <span class="sr-only">Online Store</span>
                 </a>
@@ -24,7 +24,7 @@
         </nav>
 
         <div class="flex justify-between items-center mx-8 mt-8">
-          <a href="/online-store/navigation/" class="hover:text-gray-700">
+          <a href="/admin/online-store/navigation/" class="hover:text-gray-700">
             <div class="flex items-center">
               <ArrowLeftIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
               <h1 class="ml-4 text-2xl font-semibold">{{ menu.name }}</h1>
@@ -58,7 +58,7 @@
                         <ul role="list" class="">
                           <li v-for="m in menu.items" :key="m.id">
                           <div class="flex items-center justify-between mt-1 mb-2 p-2 bg-white border sm:rounded-sm">
-                            <inertia-link :href="'online-store/navigation/'+menu.id" class="block hover:bg-gray-50">
+                            <inertia-link :href="'/admin/online-store/navigation/'+menu.id" class="block hover:bg-gray-50">
                               <div class="flex justify-between truncate">
                                 <div class="flex text-sm">
                                   <p class="text-indigo-600 text-sm truncate">{{ m.name }}</p>
