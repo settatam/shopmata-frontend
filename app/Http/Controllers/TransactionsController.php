@@ -292,7 +292,7 @@ class TransactionsController extends Controller
                 try {
                     $transaction = Transaction::find($request->transaction_id);
                     TransactionItem::addItem($request);
-                    return response()->json($$transaction->items,  200);
+                    return response()->json($transaction->items,  200);
                 } catch (\Throwable $th) {
                     \Log::Error("Failed to Add item" . collect($request->all())  ."  Error: " .$th->getMessage() );
                     return response($th->getMessage() ,422);
