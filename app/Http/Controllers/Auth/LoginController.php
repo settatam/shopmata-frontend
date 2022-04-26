@@ -28,6 +28,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => ['logout']]);
+        $this->middleware('guest:customer', ['except' => ['logout']]);
     }
 
 
@@ -42,6 +43,37 @@ class LoginController extends Controller
         return \Inertia\Inertia::render('Auth/ForgotPassword');
     }
 
+    /**
+     * Handle an authentication attempt for a customer.
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return Response
+     */
+
+    public function customerLogin(Request $request) {
+        $credentials = $request->only('email', 'password');
+        $storeId = request('storeId');
+        $validator = Validator::make($credentials, [
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+
+        $customer = Customer::where('email', $request->email)
+            ->where('store_id', $request->session()->get('store_id'))
+            ->first();
+
+        if(null !== $customer) {
+            if(Auth::guard('customer')->attempt($credentials)) {
+                //
+                dd('We are authenticated');
+            }else{
+                dd('We are not authenticated');
+            }
+        }
+
+        dd('The user was not found');
+    }
 
     /**
      * Handle an authentication attempt.
