@@ -40,9 +40,9 @@ class CodeEditorController extends Controller
         $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();
 
         for($i=0; $i<sizeof($open_files); $i++) {
-            $open_files[$i]->content = $open_files[$i]->theme_file->content;
-            $open_files[$i]->name = $open_files[$i]->theme_file->title;
-            $open_files[$i]->edited_content = $open_files[$i]->theme_file->content;
+//            $open_files[$i]->content = $open_files[$i]->theme_file->content;
+//            $open_files[$i]->name = $open_files[$i]->theme_file->title;
+//            $open_files[$i]->edited_content = $open_files[$i]->theme_file->content;
         }
 
         count($theme_files) === 0 ? $theme_files = (object)[] : "";
