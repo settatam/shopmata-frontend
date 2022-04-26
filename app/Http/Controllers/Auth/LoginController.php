@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\Customer;
 
 
 class LoginController extends Controller
