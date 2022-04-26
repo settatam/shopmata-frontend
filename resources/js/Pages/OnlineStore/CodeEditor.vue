@@ -121,7 +121,7 @@
                 <p class="font-semibold text-lg">Add a new Layout</p>
                 <i class="far fa-plus-square mx-0 my-auto"></i>
               </div>
-              <div v-for="file in theme.template" :key="file.id">
+              <div v-for="file in theme.templates" :key="file.id">
                 <li
                   class="text-lg pt-4 cursor-pointer"
                   @click="getContent(file)"
