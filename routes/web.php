@@ -273,7 +273,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::put('customers/{id}', [CustomersController::class, 'update']);
         Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
         Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
-        Route::post('product-images', [ImagesController::class, 'store']);
+        Route::post('images', [ImagesController::class, 'store']);
         Route::get('product-images', [ImagesController::class, 'index']);
 
         ## Store Preferences
