@@ -159,7 +159,7 @@
                                         <input
                                             :class="{
                                                 'border-red-600':
-                                                    v$.mprice.$error,
+                                                    v$.price.$error,
                                                 'border-gray-300': !v$.price
                                                     .$error
                                             }"
