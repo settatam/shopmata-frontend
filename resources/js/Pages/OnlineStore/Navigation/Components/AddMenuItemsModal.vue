@@ -28,7 +28,7 @@
                   </div>
                   <div class="w-full mb-4 mt-6">
                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
-                      Link 
+                      Link
                     </label>
                     <div class="relative">
                     <input type="text"  class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="" v-model="list.handle" required/>
@@ -61,7 +61,7 @@ import { Inertia } from '@inertiajs/inertia';
 export default {
     emits:['close'],
     props:['title','buttonMsg', 'menu'],
-  
+
   components: {
     Dialog,
     DialogOverlay,
@@ -88,12 +88,12 @@ export default {
     function submit() {
       const m = props.menu;
       try {
-        Inertia.post(`/online-store/navigation/${m.id}`, list)
+        Inertia.post(`/admin/online-store/navigation/${m.id}`, list)
         context.emit('close')
-        
+
       } catch (error) {
         console.log(error)
-        
+
       }
 
     }

@@ -10,7 +10,19 @@ class Theme extends Model
     use HasFactory;
 
     public function layout() {
-    	return $this->hasMany(ThemeFile::class)->where('title', 'theme.twig');
+    	return $this->hasMany(ThemeFile::class)->where('type', ThemeFile::TYPE_LAYOUT);
+    }
+
+    public function assets() {
+    	return $this->hasMany(ThemeFile::class)->where('type', ThemeFile::TYPE_ASSET);
+    }
+
+    public function snippets() {
+    	return $this->hasMany(ThemeFile::class)->where('type', ThemeFile::TYPE_SNIPPET);
+    }
+
+    public function templates() {
+    	return $this->hasMany(ThemeFile::class)->where('title', ThemeFile::TYPE_TEMPLATE);
     }
 
     public function images() {

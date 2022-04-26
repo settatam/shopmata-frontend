@@ -7,6 +7,7 @@ use App\Models\Store;
 use App\Models\StorePage;
 use Illuminate\Http\Request;
 use Auth;
+use App\Models\Transaction;
 
 class HomeController extends Controller
 {

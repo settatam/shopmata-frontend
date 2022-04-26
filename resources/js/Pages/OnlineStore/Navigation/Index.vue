@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
       <!-- Breadcrumb -->
        <div class="flex-shrink-0 px-8 py-4 flex items-center">
           <p class="text-2xl font-semibold text-gray-900">Online Store</p>
@@ -9,7 +9,7 @@
                 <li>
                     <div>
                         <a
-                            href="/dashboard"
+                            href="/admin/dashboard"
                             class="text-gray-400 hover:text-gray-500"
                         >
                             <HomeIcon
@@ -125,7 +125,7 @@
                                     >
                                         <inertia-link
                                             :href="
-                                                '/online-store/navigation/' +
+                                                '/admin/online-store/navigation/' +
                                                 m.id
                                             "
                                             class=""
@@ -297,13 +297,14 @@ import { HomeIcon } from "@heroicons/vue/outline";
 import { Inertia } from "@inertiajs/inertia";
 
 const pages = [
-    { name: "Online Store", href: "/online-store", current: false },
-    { name: "Navigation", href: "/online-store/navigation", current: true },
+    { name: "Online Store", href: "/admin/online-store", current: false },
+    { name: "Navigation", href: "/admin/online-store/navigation", current: true },
 ];
 
 export default {
     props: {
         menu: Array,
+        navigation: Array
     },
     components: {
         AppLayout,
@@ -373,7 +374,7 @@ export default {
         }
 
         function submit() {
-            Inertia.post("/online-store/navigation", menu);
+            Inertia.post("/admin/online-store/navigation", menu);
         }
 
         return {

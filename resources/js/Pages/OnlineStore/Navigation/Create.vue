@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
       <div class="flex-1 flex flex-col overflow-y-auto xl:overflow-hidden">
           <!-- Breadcrumb -->
           <nav aria-label="Breadcrumb" class="bg-white border-b border-blue-gray-200 xl:hidden">
@@ -63,14 +63,14 @@ const statusStyles = {
 }
 export default {
    props: {
-
+    navigation: Array
   },
-  
+
   components: {
     AppLayout,
     Dialog, DialogOverlay, TransitionChild, TransitionRoot
   },
-  
+
   setup(props) {
     const open = ref(false)
     const menu = {

@@ -3503,6 +3503,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(37, 99, 235, var(--tw-text-opacity));
 }
+.text-indigo-400 {
+	--tw-text-opacity: 1;
+	color: rgba(129, 140, 248, var(--tw-text-opacity));
+}
 .text-opacity-40 {
 	--tw-text-opacity: 0.4;
 }
@@ -3840,6 +3844,10 @@ input[type='checkbox']:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(224, 231, 255, var(--tw-bg-opacity));
 }
+.hover\:bg-indigo-200:hover {
+	--tw-bg-opacity: 1;
+	background-color: rgba(199, 210, 254, var(--tw-bg-opacity));
+}
 .hover\:bg-opacity-50:hover {
 	--tw-bg-opacity: 0.5;
 }
@@ -3964,6 +3972,10 @@ input[type='checkbox']:focus {
 .focus\:bg-white:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+}
+.focus\:bg-indigo-500:focus {
+	--tw-bg-opacity: 1;
+	background-color: rgba(99, 102, 241, var(--tw-bg-opacity));
 }
 .focus\:text-gray-700:focus {
 	--tw-text-opacity: 1;

@@ -104,8 +104,8 @@ import { Inertia } from '@inertiajs/inertia'
 import AddMenuItemsModal from './Components/AddMenuItemsModal.vue'
 
 const pages = [
-  { name: 'Online Store', href: '/online-store', current: false },
-  { name: 'Navigation', href: '/online-store/navigation', current: false },
+  { name: 'Online Store', href: '/admin/online-store', current: false },
+  { name: 'Navigation', href: '/admin/online-store/navigation', current: false },
 ];
 
 const statusStyles = {
@@ -115,16 +115,17 @@ const statusStyles = {
 }
 export default {
    props: {
-    menu: Object
+       menu: Object,
+       navigation: Array
   },
-  
+
   components: {
     AddMenuItemsModal,
     AppLayout,
-    Dialog, 
-    DialogOverlay, 
-    TransitionChild, 
-    TransitionRoot, 
+    Dialog,
+    DialogOverlay,
+    TransitionChild,
+    TransitionRoot,
     ArrowLeftIcon,
     ChevronRightIcon,
     DotsHorizontalIcon,
@@ -133,7 +134,7 @@ export default {
   },
 
   emits:['close'],
-  
+
   data(){
       return{
         pages,
@@ -181,12 +182,12 @@ export default {
     const m = props.menu;
 
     pages.push(
-      { name: m.name, href: (`/online-store/navigation/${m.name}`), current: true },
+      { name: m.name, href: (`/admin/online-store/navigation/${m.name}`), current: true },
     )
 
     function submit() {
       console.log("jnn")
-      Inertia.post(`/online-store/navigation/${m.id}`, list);
+      Inertia.post(`/admin/online-store/navigation/${m.id}`, list);
     }
 
     return {
