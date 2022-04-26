@@ -320,7 +320,7 @@ export default {
                 .then(res => {
                     console.log(res.data)
                     this.open = false
-                    Inertia.visit(`/admin/transactions/${transaction_id}`)
+                    // Inertia.visit(`/admin/transactions/${transaction_id}`)
                 })
         }
 
