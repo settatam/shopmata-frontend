@@ -85,6 +85,7 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('transactions', [ClientHomeController::class, 'index']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
     Route::get('customer/login', [ClientHomeController::class, 'index']);
+    Route::post('customer/login', [LoginController::class, 'customerLogin']);
     Route::get('thank-you', [ClientHomeController::class, 'index']);
 });
 
