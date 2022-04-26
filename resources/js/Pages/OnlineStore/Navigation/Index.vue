@@ -1,5 +1,5 @@
 <template>
-    <app-layout>
+    <app-layout :navigation="navigation">
       <!-- Breadcrumb -->
        <div class="flex-shrink-0 px-8 py-4 flex items-center">
           <p class="text-2xl font-semibold text-gray-900">Online Store</p>
