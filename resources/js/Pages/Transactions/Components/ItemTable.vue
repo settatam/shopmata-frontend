@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <AddItem :categories="categories" @close="popUp = false" v-if="popUp" />
+        <AddItem :root="root" :categories="categories" @close="popUp = false" v-if="popUp" />
 
         <!-- add item end -->
 
@@ -201,7 +201,7 @@ import AddItem from '../Components/AddItem.vue'
 
 export default {
     components: { AppLayout, AddItem },
-    props: ['transaction','categories'],
+    props: ['transaction','categories', 'root'],
     setup (props) {
         const transaction = reactive(props.transaction)
         const popUp = ref(false)
