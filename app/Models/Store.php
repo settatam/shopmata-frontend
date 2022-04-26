@@ -193,6 +193,7 @@ class Store extends Model
         $pageContent = '';
 
         $content_for_page = '';
+        $data['transactions'] = Transaction::take(10)->get();
 
         if($template) {
             $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($template, $data));
