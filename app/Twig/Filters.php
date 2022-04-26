@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
@@ -14,13 +14,17 @@ class Filters extends AbstractExtension
             new TwigFilter('asset_url', [$this, 'assetUrl']),
         ];
     }
- 
+
     public static function countWords($sentence)
     {
       return count(explode(' ', $sentence));
     }
 
     public static function assetUrl($asset) {
-        return 'https://fashionerize.nyc3.digitaloceanspaces.com/teheelar/'.$asset;
+        if(session()-has('store_id')) {
+            $store = Store::find(session()->get('store_id'));
+            return 'https://fashionerize.nyc3.digitaloceanspaces.com/'.$store->slug.'/'.$asset;
+        }
+        return $asset;
     }
 }
