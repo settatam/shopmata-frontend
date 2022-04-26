@@ -287,6 +287,18 @@ class TransactionsController extends Controller
 
                 return response("Something went wrong" ,422);
                 break;
+            case 'items':
+
+                try {
+                    $transaction = Transaction::find($request->transaction_id);
+                    TransactionItem::addItem($request);
+                    return response()->json($$transaction->items,  200);
+                } catch (\Throwable $th) {
+                    \Log::Error("Failed to Add item" . collect($request->all())  ."  Error: " .$th->getMessage() );
+                    return response($th->getMessage() ,422);
+                }
+
+                break;
             case 'sms':
                 $this->sendSms($input);
                 break;

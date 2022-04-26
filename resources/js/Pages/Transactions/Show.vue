@@ -78,6 +78,7 @@
                 <!-- row 3 -->
                 <div class="w-full">
                     <ItemTable
+                        :root="transaction"
                         :transaction="transaction.items"
                         :categories="transaction_item_categories"
                         class="lg:mt-16 mb-12"
