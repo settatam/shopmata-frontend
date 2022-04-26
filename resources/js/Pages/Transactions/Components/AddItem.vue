@@ -271,7 +271,7 @@ export default {
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
-        const transaction_id = root.id
+        const transaction_id = props.root.id
 
         const itemPayload = reactive({
             category_id: '',
@@ -315,20 +315,13 @@ export default {
 
         function submit () {
             this.v$.$validate()
-            if (itemPayload.address.length < 1) {
-                return
-            } else {
-                axios
-                    .post(
-                        'shopmata.test/admin/transactions/9038/item',
-                        itemPayload
-                    )
-                    .then(res => {
-                        console.log(res.data)
-                        this.open = false
-                        Inertia.visit('/settings/shipping-and-delivery')
-                    })
-            }
+            axios
+                .post(`/admin/transactions/${transaction_id}/item`, itemPayload)
+                .then(res => {
+                    console.log(res.data)
+                    this.open = false
+                    Inertia.visit(`/admin/transactions/${transaction_id}`)
+                })
         }
 
         return {
