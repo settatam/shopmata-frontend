@@ -255,6 +255,7 @@ import { Inertia } from '@inertiajs/inertia'
 import { XIcon } from '@heroicons/vue/solid'
 import useVuelidate from '@vuelidate/core'
 import { required, helpers, numeric } from '@vuelidate/validators'
+import Dropzone from '../Components/Dropzone.vue'
 
 export default {
     emits: ['close'],
@@ -265,7 +266,8 @@ export default {
         DialogOverlay,
         TransitionChild,
         TransitionRoot,
-        XIcon
+        XIcon,
+        Dropzone
     },
     setup (props, ctx) {
         const open = ref(true)
@@ -319,7 +321,7 @@ export default {
                 .post(`/admin/transactions/${transaction_id}/item`, itemPayload)
                 .then(res => {
                     console.log(res.data)
-                    this.open = false
+                    open.value = false
                     // Inertia.visit(`/admin/transactions/${transaction_id}`)
                 })
         }
