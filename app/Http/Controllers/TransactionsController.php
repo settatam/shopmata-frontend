@@ -307,6 +307,7 @@ class TransactionsController extends Controller
                     try {
                         $metal = Category::find($request->category_id);
                         $price =  MetalPrice::calcSpotPrice($metal->name, $request->dwt);
+                        $price = ['price' => $price];
                         return response()->json($price,  200);
                     } catch (\Throwable $th) {
                         \Log::Error("Failed to create price " . collect($request->all())  ."  Error: " .$th->getMessage() );
