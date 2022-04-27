@@ -91,6 +91,8 @@ class TransactionsController extends Controller
         return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags', 'timeline'));
     }
 
+
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -299,8 +301,17 @@ class TransactionsController extends Controller
                     \Log::Error("Failed to Add item" . collect($request->all())  ."  Error: " .$th->getMessage() );
                     return response("Something went wrong" ,422);
                 }
-
                 break;
+            case 'dwt':
+                    try {
+                        $metal = Category::find($request->category_id);
+                        $price =  MetalPrice::calcSpotPrice($metal->name, $request->dwt);
+                        return response()->json($price,  200);
+                    } catch (\Throwable $th) {
+                        \Log::Error("Failed to create price " . collect($request->all())  ."  Error: " .$th->getMessage() );
+                        return response($th->getMessage() ,422);
+                    }
+                    break;
             case 'sms':
                 $this->sendSms($input);
                 break;
