@@ -87,8 +87,6 @@ export default {
             )
         }
         // notification ends
-        let id = transaction.public_note ? transaction.public_note.id : null
-        let transId = ref(id)
 
         const saveFiles = files => {
             const formData = new FormData()
@@ -141,7 +139,6 @@ export default {
             getInputProps,
             ...rest,
             loading,
-            transaction,
             text
         }
     }
