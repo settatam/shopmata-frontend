@@ -73,9 +73,6 @@ export default {
 
         console.log(transaction.public_note)
         // notification ends
-        let note_id = null !== transaction.public_note ? transaction.public_note.id : null;
-        const sentTransId = ref('')
-        let transId = ref(note_id)
 
         const saveFiles = files => {
             const formData = new FormData()
@@ -84,7 +81,6 @@ export default {
                 formData.append('type', 'image')
                 formData.append('transaction_id', transaction.id)
                 formData.append('customer_id', transaction.customer.id)
-                formData.append('transaction_note_id', sentTransId.value == "" ? transId.value : "null");
                 return formData
             })
             loading.value = true
