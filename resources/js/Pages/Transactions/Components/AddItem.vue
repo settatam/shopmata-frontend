@@ -204,7 +204,7 @@
                                 <div
                                     class="required w-full mb-4 flex justify-center"
                                 >
-                                    <button
+                                    <!-- <button
                                         class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                                     >
                                         <span class="ml-2"
@@ -215,6 +215,11 @@
                                         class="cursor-pointer absolute block opacity-0 pin-r pin-t"
                                         type="file"
                                         multiple
+                                    /> -->
+
+                                    <AddItemDropzone
+                                        @add-image="onAddImage"
+                                        class=""
                                     />
                                 </div>
                             </div>
@@ -257,7 +262,7 @@ import useVuelidate from '@vuelidate/core'
 import { required, helpers, numeric } from '@vuelidate/validators'
 import debounce from 'lodash/debounce'
 
-import Dropzone from '../Components/Dropzone.vue'
+import AddItemDropzone from '../Components/AddItemDropzone.vue'
 
 export default {
     emits: ['close'],
@@ -269,7 +274,7 @@ export default {
         TransitionChild,
         TransitionRoot,
         XIcon,
-        Dropzone
+        AddItemDropzone
     },
     setup (props, ctx) {
         const open = ref(true)
@@ -278,6 +283,7 @@ export default {
         const transaction_id = props.root.id
         const dwt = ref('')
         const category_id = ref('')
+        const images = ref([])
 
         const itemPayload = reactive({
             // category_id: '',
@@ -289,17 +295,12 @@ export default {
             transaction_id: transaction_id
         })
 
-        
-
         watch(
             [dwt, category_id],
-            debounce(function() {
-                if (
-                    dwt != '' &&
-                    category_id != ''
-                ) {
+            debounce(function () {
+                if (dwt != '' && category_id != '') {
                     axios.post(`/admin/transactions/${transaction_id}/dwt`, {
-                        dwt:dwt.value,
+                        dwt: dwt.value,
                         category_id: category_id.value
                     })
                 }
@@ -336,6 +337,11 @@ export default {
 
         const v$ = useVuelidate(rules, itemPayload)
 
+        function onAddImage (response) {
+            images.value = response.data
+            console.log(response.data)
+        }
+
         function submit () {
             this.v$.$validate()
             axios
@@ -356,7 +362,9 @@ export default {
             countries,
             states,
             dwt,
-            category_id
+            category_id,
+            onAddImage
+
         }
     }
 }
