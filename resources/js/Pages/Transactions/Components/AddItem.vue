@@ -68,7 +68,7 @@
                                         }"
                                         name=""
                                         id=""
-                                        v-model="itemPayload.category_id"
+                                        v-model="category_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                     >
                                         <option default value="0"
@@ -138,7 +138,7 @@
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                             placeholder=""
-                                            v-model="itemPayload.dwt"
+                                            v-model="dwt"
                                             required
                                         />
 
@@ -243,7 +243,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import {
     Dialog,
     DialogOverlay,
@@ -255,6 +255,9 @@ import { Inertia } from '@inertiajs/inertia'
 import { XIcon } from '@heroicons/vue/solid'
 import useVuelidate from '@vuelidate/core'
 import { required, helpers, numeric } from '@vuelidate/validators'
+import debounce from 'lodash/debounce'
+
+import Dropzone from '../Components/Dropzone.vue'
 
 export default {
     emits: ['close'],
@@ -265,23 +268,43 @@ export default {
         DialogOverlay,
         TransitionChild,
         TransitionRoot,
-        XIcon
+        XIcon,
+        Dropzone
     },
     setup (props, ctx) {
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
         const transaction_id = props.root.id
+        const dwt = ref('')
+        const category_id = ref('')
 
         const itemPayload = reactive({
-            category_id: '',
+            // category_id: '',
             description: '',
-            dwt: '',
+            // dwt: dwt.value,
             price: '',
             inote: '',
             images: [],
             transaction_id: transaction_id
         })
+
+        
+
+        watch(
+            [dwt, category_id],
+            debounce(function() {
+                if (
+                    dwt != '' &&
+                    category_id != ''
+                ) {
+                    axios.post(`/admin/transactions/${transaction_id}/dwt`, {
+                        dwt:dwt.value,
+                        category_id: category_id.value
+                    })
+                }
+            }, 3000)
+        )
 
         const closeModal = () => {
             open.value = false
@@ -319,7 +342,7 @@ export default {
                 .post(`/admin/transactions/${transaction_id}/item`, itemPayload)
                 .then(res => {
                     console.log(res.data)
-                    this.open = false
+                    open.value = false
                     // Inertia.visit(`/admin/transactions/${transaction_id}`)
                 })
         }
@@ -331,7 +354,9 @@ export default {
             v$,
             closeModal,
             countries,
-            states
+            states,
+            dwt,
+            category_id
         }
     }
 }
