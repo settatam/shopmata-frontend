@@ -291,7 +291,7 @@ export default {
             // dwt: dwt.value,
             price: '',
             inote: '',
-            images: [],
+            // images: [],
             transaction_id: transaction_id
         })
 
@@ -345,7 +345,7 @@ export default {
         function submit () {
             this.v$.$validate()
             axios
-                .post(`/admin/transactions/${transaction_id}/item`, itemPayload)
+                .post(`/admin/transactions/${transaction_id}/items`, itemPayload)
                 .then(res => {
                     console.log(res.data)
                     open.value = false
@@ -363,7 +363,8 @@ export default {
             states,
             dwt,
             category_id,
-            onAddImage
+            onAddImage,
+            images
 
         }
     }

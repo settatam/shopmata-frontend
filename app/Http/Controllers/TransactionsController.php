@@ -286,7 +286,7 @@ class TransactionsController extends Controller
                     return response()->json($customer_note->images,  200);
                 } catch (\Throwable $th) {
                     \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
-                    return response($th->getMessage() ,422);
+                    return response("Something went wrong" ,422);
                 }
 
                 return response("Something went wrong" ,422);
