@@ -304,7 +304,8 @@ class TransactionsController extends Controller
                 break;
             case 'dwt':
                     try {
-                        $price =  MetalPrice::calcSpotPrice($request->category_id, $request->dwt);
+                        $metal = Category::find($request->category_id);
+                        $price =  MetalPrice::calcSpotPrice($metal->name, $request->dwt);
                         return response()->json($price,  200);
                     } catch (\Throwable $th) {
                         \Log::Error("Failed to create price " . collect($request->all())  ."  Error: " .$th->getMessage() );
