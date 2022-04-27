@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\TransactionNote;
 use App\Traits\FileUploader;
 use Illuminate\Support\Facades\Storage;
+use App\Models\MetalPrice;
 
 
 
