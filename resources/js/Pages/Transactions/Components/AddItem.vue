@@ -291,7 +291,7 @@ export default {
             // dwt: dwt.value,
             price: '',
             inote: '',
-            images: [],
+            // images: [],
             transaction_id: transaction_id
         })
 
@@ -363,7 +363,8 @@ export default {
             states,
             dwt,
             category_id,
-            onAddImage
+            onAddImage,
+            images
 
         }
     }
