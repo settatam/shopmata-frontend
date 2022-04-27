@@ -202,7 +202,7 @@
                                 </div>
 
                                 <div
-                                    class="required w-full mb-4 flex justify-center"
+                                    class="required w-full mb-4"
                                 >
                                     <!-- <button
                                         class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
@@ -286,9 +286,9 @@ export default {
         const images = ref([])
 
         const itemPayload = reactive({
-            category_id: '',
+            category_id: category_id,
             description: '',
-            // dwt: dwt.value,
+            dwt: dwt,
             price: '',
             inote: '',
             // images: [],
@@ -303,8 +303,9 @@ export default {
                         dwt: dwt.value,
                         category_id: category_id.value
                     })
+                    .then(res => itemPayload.price = res.data)
                 }
-            }, 3000)
+            }, 2000)
         )
 
         const closeModal = () => {
@@ -346,7 +347,7 @@ export default {
         function submit () {
             this.v$.$validate()
             axios
-                .post(`/admin/transactions/${transaction_id}/item`, {itemPayload, dwt:dwt.value, category_id:category.value})
+                .post(`/admin/transactions/${transaction_id}/item`, itemPayload)
                 .then(res => {
                     console.log(res.data)
                     open.value = false
