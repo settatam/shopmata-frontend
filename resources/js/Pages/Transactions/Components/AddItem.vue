@@ -303,7 +303,7 @@ export default {
                         dwt: dwt.value,
                         category_id: category_id.value
                     })
-                    .then(res => itemPayload.price = res.data)
+                    .then(res => itemPayload.price = res.data.price)
                 }
             }, 2000)
         )
