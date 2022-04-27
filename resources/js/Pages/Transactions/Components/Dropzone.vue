@@ -69,30 +69,10 @@ export default {
         const transaction = props.root
 
         // notification
-        function onClickTop () {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot () {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
+        
+
+        console.log(transaction.public_note)
         // notification ends
-        const sentTransId = ref('')
-        let id = transaction.public_note ? transaction.public_note.id : null;
-        let transId = ref(id)
 
         const saveFiles = files => {
             const formData = new FormData()
@@ -101,7 +81,6 @@ export default {
                 formData.append('type', 'image')
                 formData.append('transaction_id', transaction.id)
                 formData.append('customer_id', transaction.customer.id)
-                formData.append('transaction_note_id', sentTransId.value == "" ? transId.value : "null");
                 return formData
             })
             loading.value = true
@@ -129,6 +108,27 @@ export default {
                     text.value = "Choose file"
                    // setTimeout(errorFn, 3000)
                 })
+        }
+
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
         }
 
         function onDrop (acceptFiles, rejectReasons) {
