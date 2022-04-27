@@ -13,7 +13,14 @@
             </div>
         </div>
 
-        <AddItem :root="root" :categories="categories" @close="popUp = false" v-if="popUp" />
+        <AddItem
+            @return-response="pushResponse"
+            @close-modal="pushValue"
+            :root="root"
+            :categories="categories"
+            @close="popUp = false"
+            v-if="popUp"
+        />
 
         <!-- add item end -->
 
@@ -89,7 +96,7 @@
             </tr>
             <!-- </thead> -->
             <tbody>
-                <tr v-for="item in transaction" :key="item.index">
+                <tr v-for="item in transactionItems" :key="item.index">
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
@@ -201,9 +208,10 @@ import AddItem from '../Components/AddItem.vue'
 
 export default {
     components: { AppLayout, AddItem },
-    props: ['transaction','categories', 'root'],
+    props: ['transaction', 'categories', 'root'],
     setup (props) {
-        const transaction = reactive(props.transaction)
+        let transaction = props.transaction
+        const transactionItems = ref(transaction)
         const popUp = ref(false)
         const popModal = () => {
             popUp.value = true
@@ -225,7 +233,23 @@ export default {
             return sum.toFixed(2)
         })
 
-        return { popUp, popModal, totalDwt, totalPrice }
+        function pushValue (res) {
+            popUp.value = false
+        }
+
+        function pushResponse (res) {
+            transactionItems.value = res.data.items
+        }
+
+        return {
+            popUp,
+            popModal,
+            totalDwt,
+            totalPrice,
+            pushResponse,
+            pushValue,
+            transactionItems
+        }
     }
 }
 </script>

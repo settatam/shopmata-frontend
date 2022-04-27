@@ -275,8 +275,8 @@ export default {
         TransitionRoot,
         XIcon,
         AddItemDropzone
-    },
-    setup (props, ctx) {
+    },emits: ['return-response','close-modal'],
+    setup (props, { emit }) {
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
@@ -291,7 +291,7 @@ export default {
             dwt: dwt,
             price: '',
             inote: '',
-            // images: [],
+            images: images,
             transaction_id: transaction_id
         })
 
@@ -309,8 +309,9 @@ export default {
         )
 
         const closeModal = () => {
-            open.value = false
-            ctx.emit('close')
+            open.value = false;
+            emit('close-modal', open.value)
+            // ctx.emit('close')
         }
 
         const rules = computed(() => {
@@ -340,8 +341,6 @@ export default {
 
         function onAddImage (response) {
             images.value = response.data
-            console.log(response.data)
-            console.log(images.value)
         }
 
         function submit () {
@@ -349,7 +348,8 @@ export default {
             axios
                 .post(`/admin/transactions/${transaction_id}/items`, itemPayload)
                 .then(res => {
-                    console.log(res.data)
+                    // console.log(res)
+                    emit('return-response', res)
                     open.value = false
                     // Inertia.visit(`/admin/transactions/${transaction_id}`)
                 })
