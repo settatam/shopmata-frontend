@@ -94,7 +94,7 @@ export default {
                 })
                 .then(response => {
                     emit('add-image', response)
-                    console.log(response.data)
+                    // console.log(response.data)
 
                     loading.value = false
                     successMessage.value = 'Image uploaded successfully'

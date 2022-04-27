@@ -91,7 +91,6 @@ export default {
 
         function onAddImage (response) {
             images.value = response.data
-            console.log(response.data)
         }
         return { delete_img, onAddImage, media_open, images, display }
     }
