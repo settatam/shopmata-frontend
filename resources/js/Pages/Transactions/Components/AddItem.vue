@@ -68,7 +68,7 @@
                                         }"
                                         name=""
                                         id=""
-                                        v-model="itemPayload.category_id"
+                                        v-model="category_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                     >
                                         <option default value="0"
@@ -277,9 +277,10 @@ export default {
         const states = reactive([{}])
         const transaction_id = props.root.id
         const dwt = ref('')
+        const category_id = ref('')
 
         const itemPayload = reactive({
-            category_id: '',
+            // category_id: '',
             description: '',
             // dwt: dwt.value,
             price: '',
@@ -291,15 +292,15 @@ export default {
         
 
         watch(
-            [dwt],
+            [dwt, category_id],
             debounce(function() {
                 if (
-                    itemPayload.dwt != '' &&
-                    itemPayload.category_id != ''
+                    dwt != '' &&
+                    category_id != ''
                 ) {
                     axios.post(`/admin/transactions/${transaction_id}/dwt`, {
                         dwt:dwt.value,
-                        category_id: itemPayload.category_id
+                        category_id: category_id.value
                     })
                 }
             }, 3000)
@@ -354,7 +355,8 @@ export default {
             closeModal,
             countries,
             states,
-            dwt
+            dwt,
+            category_id
         }
     }
 }
