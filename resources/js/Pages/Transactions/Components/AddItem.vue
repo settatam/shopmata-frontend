@@ -286,7 +286,7 @@ export default {
         const images = ref([])
 
         const itemPayload = reactive({
-            // category_id: '',
+            category_id: '',
             description: '',
             // dwt: dwt.value,
             price: '',
@@ -340,12 +340,13 @@ export default {
         function onAddImage (response) {
             images.value = response.data
             console.log(response.data)
+            console.log(images.value)
         }
 
         function submit () {
             this.v$.$validate()
             axios
-                .post(`/admin/transactions/${transaction_id}/item`, itemPayload)
+                .post(`/admin/transactions/${transaction_id}/item`, {itemPayload, dwt:dwt.value, category_id:category.value})
                 .then(res => {
                     console.log(res.data)
                     open.value = false
