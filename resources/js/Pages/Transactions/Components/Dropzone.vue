@@ -69,30 +69,13 @@ export default {
         const transaction = props.root
 
         // notification
-        function onClickTop () {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot () {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
+        
+
+        console.log(transaction.public_note)
         // notification ends
+        let note_id = null !== transaction.public_note ? transaction.public_note.id : null;
         const sentTransId = ref('')
-        let id = transaction.public_note ? transaction.public_note.id : null;
-        let transId = ref(id)
+        let transId = ref(note_id)
 
         const saveFiles = files => {
             const formData = new FormData()
@@ -129,6 +112,27 @@ export default {
                     text.value = "Choose file"
                    // setTimeout(errorFn, 3000)
                 })
+        }
+
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
         }
 
         function onDrop (acceptFiles, rejectReasons) {
