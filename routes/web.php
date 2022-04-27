@@ -212,6 +212,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('transaction/image/delete', [TransactionsController::class, 'deleteTransactionNoteImage']);
 
 
+
         Route::resource('reports', ReportsController::class);
 
 
