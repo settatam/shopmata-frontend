@@ -138,7 +138,7 @@
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                             placeholder=""
-                                            v-model="itemPayload.dwt"
+                                            v-model="dwt"
                                             required
                                         />
 
@@ -243,7 +243,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import {
     Dialog,
     DialogOverlay,
@@ -255,6 +255,8 @@ import { Inertia } from '@inertiajs/inertia'
 import { XIcon } from '@heroicons/vue/solid'
 import useVuelidate from '@vuelidate/core'
 import { required, helpers, numeric } from '@vuelidate/validators'
+import debounce from 'lodash/debounce'
+
 import Dropzone from '../Components/Dropzone.vue'
 
 export default {
@@ -274,16 +276,34 @@ export default {
         const countries = reactive([{}])
         const states = reactive([{}])
         const transaction_id = props.root.id
+        const dwt = ref('')
 
         const itemPayload = reactive({
             category_id: '',
             description: '',
-            dwt: '',
+            // dwt: dwt.value,
             price: '',
             inote: '',
             images: [],
             transaction_id: transaction_id
         })
+
+        
+
+        watch(
+            [dwt],
+            debounce(function() {
+                if (
+                    itemPayload.dwt != '' &&
+                    itemPayload.category_id != ''
+                ) {
+                    axios.post(`/admin/transactions/${transaction_id}/dwt`, {
+                        dwt:dwt.value,
+                        category_id: itemPayload.category_id
+                    })
+                }
+            }, 3000)
+        )
 
         const closeModal = () => {
             open.value = false
@@ -333,7 +353,8 @@ export default {
             v$,
             closeModal,
             countries,
-            states
+            states,
+            dwt
         }
     }
 }
