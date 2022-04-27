@@ -347,7 +347,7 @@ export default {
         function submit () {
             this.v$.$validate()
             axios
-                .post(`/admin/transactions/${transaction_id}/item`, itemPayload)
+                .post(`/admin/transactions/${transaction_id}/items`, itemPayload)
                 .then(res => {
                     console.log(res.data)
                     open.value = false
