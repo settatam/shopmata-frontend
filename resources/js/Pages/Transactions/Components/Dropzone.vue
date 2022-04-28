@@ -1,5 +1,4 @@
 <template>
-
     <div class="mt-1 sm:mt-0 sm:col-span-2" v-bind="getRootProps()">
         <input v-bind="getInputProps()" />
         <div
@@ -62,10 +61,10 @@ export default {
     name: 'UseDropzone',
     emits: ['add-image'],
     setup (props, { emit }) {
-        const url = '';
+        const url = ''
         const successMessage = ref('')
         const loading = ref(false)
-        const text  = ref("Choose file")
+        const text = ref('Choose file')
         const transaction = props.root
 
         const saveFiles = files => {
@@ -78,28 +77,32 @@ export default {
                 return formData
             })
             loading.value = true
-            text.value = "Uploading...."
+            text.value = 'Uploading....'
 
             axios
-                .post('/admin/transactions/'+transaction.id+'/images', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
+                .post(
+                    '/admin/transactions/' + transaction.id + '/images',
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
                     }
-                })
+                )
                 .then(response => {
                     emit('add-image', response)
 
                     loading.value = false
                     successMessage.value = 'Image uploaded successfully'
-                    text.value = "Choose file"
+                    text.value = 'Choose file'
                     setTimeout(onClickTop, 2000)
                 })
                 .catch(err => {
-                  loading.value = false
+                    loading.value = false
                     successMessage.value = 'Error processing request'
                     setTimeout(onClickBot, 2000)
-                    text.value = "Choose file"
-                   // setTimeout(errorFn, 3000)
+                    text.value = 'Choose file'
+                    // setTimeout(errorFn, 3000)
                 })
         }
 

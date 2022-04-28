@@ -216,6 +216,7 @@
                                     /> -->
                                     <images-list
                                         :images="images"
+                                        @delete_img="delete_img" 
                                         v-if="display ? images.length : true"
                                     />
 
@@ -349,9 +350,12 @@ export default {
         const v$ = useVuelidate(rules, itemPayload)
 
         function onAddImage (response) {
-            console.log(response)
-            images.value.push(response.data)
-            console.log(images.value)
+            images.value.push(response)
+        }
+
+        function delete_img(index){
+            images.value.splice(index,1)
+
         }
 
         function submit () {
@@ -386,7 +390,8 @@ export default {
             images,
             loading,
             text,
-            display
+            display,
+            delete_img
         }
     }
 }
