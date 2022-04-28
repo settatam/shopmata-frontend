@@ -68,12 +68,6 @@ export default {
         const text  = ref("Choose file")
         const transaction = props.root
 
-        // notification
-        
-
-        console.log(transaction.public_note)
-        // notification ends
-
         const saveFiles = files => {
             const formData = new FormData()
             files.map(file => {
@@ -94,7 +88,6 @@ export default {
                 })
                 .then(response => {
                     emit('add-image', response)
-                    // console.log(response.data)
 
                     loading.value = false
                     successMessage.value = 'Image uploaded successfully'
@@ -133,7 +126,6 @@ export default {
 
         function onDrop (acceptFiles, rejectReasons) {
             saveFiles(acceptFiles) // saveFiles as callback
-            // console.log(rejectReasons);
             return rejectReasons
         }
 
