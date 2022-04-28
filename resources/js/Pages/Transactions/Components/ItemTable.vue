@@ -143,8 +143,8 @@
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         <p>
-                            <span class="text-purple-darken">edit</span> /
-                            delete
+                            <span class="text-purple-darken">Edit</span> /
+                            Delete
                         </p>
                     </td>
                 </tr>

@@ -3,16 +3,14 @@
         <li
             v-for="image in images"
             :key="image.id"
-            class="flex justify-between border-b border-gray-300"
+            class="flex justify-between "
             :id="'image_' + image.id"
         >
-            <div class="flex justify-center flex-row flex-wrap py-3">
                 <img
                     class="h-10 w-10 cursor-pointer"
                     :src="image.thumb"
                     alt=""
                 />
-            </div>
         </li>
     </ul>
 </template>
