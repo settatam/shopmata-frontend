@@ -103,10 +103,10 @@
                         {{ item.category_id }}
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap" 
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         <div v-for="image in item.images" :key="image.index">
-                            <img :src="image.thumb" alt="">
+                            <img :src="image.thumb" alt="" />
                         </div>
                     </td>
                     <td
@@ -142,9 +142,25 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        <p>
+                        <!-- <p>
                             <span class="text-purple-darken">Edit</span> /
                             Delete
+                        </p> -->
+
+                        <p>
+                            <inertia-link
+                                href=""
+                                class="font-medium text-indigo-600 hover:text-purple-darken"
+                            >
+                                Edit
+                            </inertia-link>
+                            /
+                            <inertia-link
+                                href=""
+                                class="font-medium text-black hover:text-purple-darken"
+                            >
+                                Delete
+                            </inertia-link>
                         </p>
                     </td>
                 </tr>
@@ -207,6 +223,8 @@
 import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AddItem from '../Components/AddItem.vue'
+import { Inertia } from '@inertiajs/inertia'
+import { Link } from '@inertiajs/inertia-vue3'
 
 export default {
     components: { AppLayout, AddItem },

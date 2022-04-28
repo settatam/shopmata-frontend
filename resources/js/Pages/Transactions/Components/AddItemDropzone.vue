@@ -109,7 +109,7 @@ export default {
                     }
                 )
                 .then(response => {
-                    emit('add-image', response)
+                    emit('add-image', response.data)
 
                     loading.value = false
                     successMessage.value = 'Image uploaded successfully'
