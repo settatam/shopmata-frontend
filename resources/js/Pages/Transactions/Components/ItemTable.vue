@@ -103,9 +103,11 @@
                         {{ item.category_id }}
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap" v-for="image in item.images" :key="image.index"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap" 
                     >
-                        {{item.images}}
+                        <div v-for="image in item.images" :key="image.index">
+                            <img :src="image" alt="">
+                        </div>
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap w-8"

@@ -201,9 +201,7 @@
                                     </p>
                                 </div>
 
-                                <div
-                                    class="required w-full mb-4"
-                                >
+                                <div class="required w-full mb-4">
                                     <!-- <button
                                         class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                                     >
@@ -234,10 +232,11 @@
                             </button>
                             <button
                                 type="button"
-                                class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm flex"
                                 @click="submit"
                             >
-                                Save
+                                <LoadingSpinner v-if="loading" />
+                                <span>{{ text }} </span>
                             </button>
                         </div>
                     </div>
@@ -261,7 +260,7 @@ import { XIcon } from '@heroicons/vue/solid'
 import useVuelidate from '@vuelidate/core'
 import { required, helpers, numeric } from '@vuelidate/validators'
 import debounce from 'lodash/debounce'
-
+import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 import AddItemDropzone from '../Components/AddItemDropzone.vue'
 
 export default {
@@ -273,8 +272,10 @@ export default {
         TransitionChild,
         TransitionRoot,
         XIcon,
-        AddItemDropzone
-    },emits: ['return-response','close-modal'],
+        AddItemDropzone,
+        LoadingSpinner
+    },
+    emits: ['return-response', 'close-modal'],
     setup (props, { emit }) {
         const open = ref(true)
         const countries = reactive([{}])
@@ -283,6 +284,8 @@ export default {
         const dwt = ref('')
         const category_id = ref('')
         const images = ref([])
+        const text = ref('Save')
+        const loading = ref(false)
 
         const itemPayload = reactive({
             category_id: category_id,
@@ -298,17 +301,18 @@ export default {
             [dwt, category_id],
             debounce(function () {
                 if (dwt != '' && category_id != '') {
-                    axios.post(`/admin/transactions/${transaction_id}/dwt`, {
-                        dwt: dwt.value,
-                        category_id: category_id.value
-                    })
-                    .then(res => itemPayload.price = res.data.price)
+                    axios
+                        .post(`/admin/transactions/${transaction_id}/dwt`, {
+                            dwt: dwt.value,
+                            category_id: category_id.value
+                        })
+                        .then(res => (itemPayload.price = res.data.price))
                 }
             }, 2000)
         )
 
         const closeModal = () => {
-            open.value = false;
+            open.value = false
             emit('close-modal', open.value)
             // ctx.emit('close')
         }
@@ -344,15 +348,21 @@ export default {
 
         function submit () {
             this.v$.$validate()
+            loading.value = true
+            text.value = 'Saving'
             axios
-                .post(`/admin/transactions/${transaction_id}/items`, itemPayload)
+                .post(
+                    `/admin/transactions/${transaction_id}/items`,
+                    itemPayload
+                )
                 .then(res => {
-                    // console.log(res)
+                    loading.value = true
                     emit('return-response', res)
                     open.value = false
                     emit('close-modal', open.value)
                     // Inertia.visit(`/admin/transactions/${transaction_id}`)
                 })
+                .catch(err => (loading.value = true))
         }
 
         return {
@@ -366,8 +376,9 @@ export default {
             dwt,
             category_id,
             onAddImage,
-            images
-
+            images,
+            loading,
+            text
         }
     }
 }
