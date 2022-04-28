@@ -321,7 +321,6 @@ export default {
         const closeModal = () => {
             open.value = false
             emit('close-modal', open.value)
-            // ctx.emit('close')
         }
 
         const rules = computed(() => {
@@ -367,7 +366,6 @@ export default {
                     emit('return-response', res)
                     open.value = false
                     emit('close-modal', open.value)
-                    // Inertia.visit(`/admin/transactions/${transaction_id}`)
                 })
                 .catch(err => (loading.value = true))
         }
