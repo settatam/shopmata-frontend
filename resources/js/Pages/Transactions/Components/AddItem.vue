@@ -214,6 +214,10 @@
                                         type="file"
                                         multiple
                                     /> -->
+                                    <images-list
+                                        :images="images"
+                                        v-if="display ? images.length : true"
+                                    />
 
                                     <AddItemDropzone
                                         @add-image="onAddImage"
@@ -262,6 +266,7 @@ import { required, helpers, numeric } from '@vuelidate/validators'
 import debounce from 'lodash/debounce'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 import AddItemDropzone from '../Components/AddItemDropzone.vue'
+import ImagesList from '../Components/AddItemsImagesList.vue'
 
 export default {
     props: ['store', 'countries', 'categories', 'root'],
@@ -273,7 +278,8 @@ export default {
         TransitionRoot,
         XIcon,
         AddItemDropzone,
-        LoadingSpinner
+        LoadingSpinner,
+        ImagesList
     },
     emits: ['return-response', 'close-modal'],
     setup (props, { emit }) {
@@ -286,6 +292,7 @@ export default {
         const images = ref([])
         const text = ref('Save')
         const loading = ref(false)
+        const display = ref("")
 
         const itemPayload = reactive({
             category_id: category_id,
@@ -348,7 +355,7 @@ export default {
 
         function submit () {
             this.v$.$validate()
-            loading.value = true
+            loading.value = false
             text.value = 'Saving'
             axios
                 .post(
@@ -356,7 +363,7 @@ export default {
                     itemPayload
                 )
                 .then(res => {
-                    loading.value = true
+                    loading.value = false
                     emit('return-response', res)
                     open.value = false
                     emit('close-modal', open.value)
@@ -378,7 +385,8 @@ export default {
             onAddImage,
             images,
             loading,
-            text
+            text,
+            display
         }
     }
 }
