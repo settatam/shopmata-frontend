@@ -60,8 +60,6 @@ export default {
         return {
             onClickTop,
             onClickBot,
-            loading,
-            selected
         }
     }
 }
