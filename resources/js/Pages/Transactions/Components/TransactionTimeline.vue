@@ -246,7 +246,7 @@ import { reactive, ref, computed } from '@vue/reactivity'
 import { watch } from 'vue'
 
 import debounce from 'lodash/debounce'
-
+import AddItem from '../Components/AddItem.vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
@@ -254,7 +254,7 @@ import { notify } from 'notiwind'
 import moment from 'moment'
 
 export default {
-    components: { AppLayout, PrintLabel, AdminImages },
+    components: { AppLayout, PrintLabel, AdminImages, AddItem },
     props: ['transaction', 'bottom_tags', 'statuses', 'root', 'timeline'],
     created: function () {
         this.moment = moment
