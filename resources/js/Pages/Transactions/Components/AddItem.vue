@@ -185,19 +185,19 @@
                                     </label>
                                     <input
                                         :class="{
-                                            'border-red-600': v$.inote.$error,
-                                            'border-gray-300': !v$.inote.$error
+                                            'border-red-600': v$.inotes.$error,
+                                            'border-gray-300': !v$.inotes.$error
                                         }"
                                         type="text"
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                        v-model="itemPayload.inote"
+                                        v-model="itemPayload.inotes"
                                         required
                                     />
                                     <p
                                         class="text-red-600 text-xs"
-                                        v-if="v$.inote.$error"
+                                        v-if="v$.inotes.$error"
                                     >
-                                        {{ v$.inote.$errors[0].$message }}
+                                        {{ v$.inotes.$errors[0].$message }}
                                     </p>
                                 </div>
 
@@ -290,7 +290,7 @@ export default {
             description: '',
             dwt: dwt,
             price: '',
-            inote: '',
+            inotes: '',
             images: images,
             transaction_id: transaction_id
         })
@@ -331,7 +331,7 @@ export default {
                 price: {
                     required: helpers.withMessage('Enter an mprice', required)
                 },
-                inote: {
+                inotes: {
                     required: helpers.withMessage('Enter an inote', required)
                 }
             }
