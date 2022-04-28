@@ -3903,6 +3903,10 @@ input[type='checkbox']:focus {
 	--tw-text-opacity: 1;
 	color: rgba(245, 158, 11, var(--tw-text-opacity));
 }
+.hover\:text-purple-darken:hover {
+	--tw-text-opacity: 1;
+	color: rgba(67, 56, 202, var(--tw-text-opacity));
+}
 .focus\:z-10:focus {
 	z-index: 10;
 }
