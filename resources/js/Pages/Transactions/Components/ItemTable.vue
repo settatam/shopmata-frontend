@@ -240,7 +240,7 @@ export default {
         }
 
         function pushResponse (res) {
-            transactionItems.value = res.data.items
+            transactionItems.value.push(res.data.items)
         }
 
         return {
