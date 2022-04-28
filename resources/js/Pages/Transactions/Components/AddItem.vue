@@ -349,7 +349,9 @@ export default {
         const v$ = useVuelidate(rules, itemPayload)
 
         function onAddImage (response) {
+            console.log(response)
             images.value.push(response.data)
+            console.log(images.value)
         }
 
         function submit () {
