@@ -265,7 +265,6 @@ import debounce from 'lodash/debounce'
 import AddItemDropzone from '../Components/AddItemDropzone.vue'
 
 export default {
-    emits: ['close'],
     props: ['store', 'countries', 'categories', 'root'],
 
     components: {
@@ -351,6 +350,7 @@ export default {
                     // console.log(res)
                     emit('return-response', res)
                     open.value = false
+                    emit('close-modal', open.value)
                     // Inertia.visit(`/admin/transactions/${transaction_id}`)
                 })
         }

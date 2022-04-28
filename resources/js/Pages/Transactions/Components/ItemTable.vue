@@ -103,9 +103,9 @@
                         {{ item.category_id }}
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap" v-for="image in item.images" :key="image.index"
                     >
-                        {{}}
+                        {{item.images}}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap w-8"
@@ -234,7 +234,7 @@ export default {
         })
 
         function pushValue (res) {
-            popUp.value = false
+            popUp.value = res.data
         }
 
         function pushResponse (res) {
