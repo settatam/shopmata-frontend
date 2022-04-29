@@ -301,7 +301,7 @@ export default {
             dwt: dwt,
             price: '',
             inotes: '',
-            images: images,
+            images: images.value,
             transaction_id: transaction_id
         })
 
@@ -350,7 +350,10 @@ export default {
         const v$ = useVuelidate(rules, itemPayload)
 
         function onAddImage (response) {
-            images.value.push(response)
+            // console.log(response)
+            response.map((item)=>{
+                images.value.push(item)
+            })
         }
 
         function delete_img(index){

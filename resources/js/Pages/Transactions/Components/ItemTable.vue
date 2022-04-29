@@ -106,7 +106,7 @@
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         <div v-for="image in item.images" :key="image.index">
-                            <img :src="image.thumb" alt="" />
+                            <img :src="image.url" alt="" />
                         </div>
                     </td>
                     <td
