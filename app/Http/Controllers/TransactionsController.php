@@ -38,7 +38,6 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-//        Transaction::search($filter);
 
         $transactions = Transaction::with('items','customer','images')
                                 ->where('store_id',session('store_id'))
