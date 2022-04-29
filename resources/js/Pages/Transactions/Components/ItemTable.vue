@@ -151,7 +151,7 @@
                             <inertia-link
                                 href=""
                                 class="font-medium text-indigo-600 hover:text-purple-darken"
-                            >it 
+                            >
                                 Edit
                             </inertia-link>
                             /
