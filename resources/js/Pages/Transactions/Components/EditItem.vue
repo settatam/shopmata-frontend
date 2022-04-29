@@ -270,7 +270,7 @@ import AddItemDropzone from '../Components/AddItemDropzone.vue'
 import ImagesList from '../Components/AddItemsImagesList.vue'
 
 export default {
-    props: ['categories', 'root', 'editIndex', 'transaction'],
+    props: ['categories', 'root', 'editIndex', 'item'],
 
     components: {
         Dialog,
@@ -294,14 +294,14 @@ export default {
         const text = ref('Save')
         const loading = ref(false)
         const display = ref('')
-        const transaction = props.transaction
+        const item = props.item
 
         const itemPayload = reactive({
             category_id: category_id,
-            description: transaction.description,
+            description: item.description,
             dwt: dwt,
-            price: transaction.price,
-            inotes: transaction.inotes,
+            price: item.price,
+            inotes: item.inotes,
             images: images.value,
             transaction_id: transaction_id
         })
@@ -366,8 +366,8 @@ export default {
             loading.value = false
             text.value = 'Saving'
             axios
-                .post(
-                    `/admin/transactions/${transaction_id}/items`,
+                .put(
+                    `/admin/items/${transaction_id}`,
                     itemPayload
                 )
                 .then(res => {
@@ -395,7 +395,7 @@ export default {
             text,
             display,
             delete_img,
-            transaction
+            item
         }
     }
 }

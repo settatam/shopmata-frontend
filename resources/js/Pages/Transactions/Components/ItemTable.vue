@@ -31,7 +31,7 @@
             :categories="categories"
             @close="EditPopUp = false"
             v-if="EditPopUp"
-            :transaction="transactionItems[editIndex]"
+            :item="transactionItems[editIndex]"
         />
 
         <table class="min-w-full">
