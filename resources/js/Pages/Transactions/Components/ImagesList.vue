@@ -32,7 +32,6 @@
                 </div>
             </div>
             <div class="flex items-center px-2 py-3 justify-around w-2/10">
-
                 <LoadingSpinner
                     v-if="loading == index"
                     class="w-6 h-6 ml-8 text-purple-background"
