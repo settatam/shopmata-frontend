@@ -300,7 +300,7 @@ class TransactionsController extends Controller
                     return response()->json($transaction,  200);
                 } catch (\Throwable $th) {
                     \Log::Error("Failed to Add item" . collect($request->all())  ."  Error: " .$th->getMessage() );
-                    return response("Something went wrong" ,422);
+                    return response($th->getMessage() ,422);
                 }
                 break;
             case 'dwt':
