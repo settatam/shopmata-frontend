@@ -18,7 +18,7 @@ class Navigation extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(new StoreScope);
+//        static::addGlobalScope(new StoreScope);
     }
 
     public function items() {
