@@ -82,12 +82,12 @@ export default {
         XIcon
     },
 
-    setup (props, ctx) {
+    setup (props, {emit}) {
         const open = ref(true)
 
         const closeModal = () => {
             open.value = false
-            ctx.emit('close')
+            emit('close', open.value)
         }
 
         return {
