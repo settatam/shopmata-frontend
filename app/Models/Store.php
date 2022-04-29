@@ -175,6 +175,14 @@ class Store extends Model
         return $this->hasMany(Status::class);
     }
 
+    public function navLists(){
+        return $this->hasMany(Navigation::class, 'store_id', 'id');
+    }
+
+    public function getNavigationLists() {
+        return Navigation::with('items')->where('store_id', $this->id)->get();
+    }
+
     public function pageContent($name) {
         $page = $this->pages()->where('name', $name)->first();
 
