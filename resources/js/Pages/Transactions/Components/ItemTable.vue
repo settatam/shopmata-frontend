@@ -28,10 +28,10 @@
             @return-response="pushResponse"
             @close-modal="pushEditValue"
             :root="root"
-            :editIndex ="editIndex"
             :categories="categories"
             @close="EditPopUp = false"
             v-if="EditPopUp"
+            :transaction="transactionItems[editIndex]"
         />
 
         <table class="min-w-full">
