@@ -367,7 +367,7 @@ export default {
             text.value = 'Saving'
             axios
                 .put(
-                    `/admin/items/${transaction_id}`,
+                    `/admin/items/${item.id}`,
                     itemPayload
                 )
                 .then(res => {
