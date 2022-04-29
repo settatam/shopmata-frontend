@@ -43,7 +43,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\TransactionsController;
-use App\Http\Controllers\TransactionsItemsController;
+use App\Http\Controllers\TransactionItemsController;
 
 
 
@@ -214,7 +214,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('transaction/image', [TransactionsController::class, 'addImage']);
         Route::post('transaction/image/delete', [TransactionsController::class, 'deleteTransactionNoteImage']);
 
-        Route::resource('items', TransactionsItemsController::class);
+        Route::resource('items', TransactionItemsController::class);
 
 
         Route::resource('reports', ReportsController::class);
