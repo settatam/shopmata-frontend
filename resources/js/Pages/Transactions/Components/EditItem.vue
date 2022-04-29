@@ -44,7 +44,7 @@
                             <div class="flex justify-between ">
                                 <div>
                                     <p class="text-2xl font-bold">
-                                        Add Items
+                                        Edit Item
                                     </p>
                                 </div>
                                 <x-icon
@@ -270,7 +270,7 @@ import AddItemDropzone from '../Components/AddItemDropzone.vue'
 import ImagesList from '../Components/AddItemsImagesList.vue'
 
 export default {
-    props: ['store', 'countries', 'categories', 'root'],
+    props: ['store', 'countries', 'categories', 'root', 'editIndex'],
 
     components: {
         Dialog,

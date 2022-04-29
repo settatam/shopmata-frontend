@@ -21,8 +21,18 @@
             @close="popUp = false"
             v-if="popUp"
         />
-
         <!-- add item end -->
+
+        <!-- Edit modal -->
+        <EditItem
+            @return-response="pushResponse"
+            @close-modal="pushEditValue"
+            :root="root"
+            :editIndex ="editIndex"
+            :categories="categories"
+            @close="EditPopUp = false"
+            v-if="EditPopUp"
+        />
 
         <table class="min-w-full">
             <colgroup>
@@ -164,6 +174,7 @@
                             <span
                                 href=" "
                                 class="font-medium text-indigo-600 hover:text-purple-darken cursor-pointer"
+                                @click="EditPopModal(index)"
                             >
                                 Edit
                             </span>
@@ -238,10 +249,11 @@ import AddItem from '../Components/AddItem.vue'
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 import ImageModal from './ImageModal.vue'
+import EditItem from './EditItem.vue'
 import { notify } from 'notiwind'
 
 export default {
-    components: { AppLayout, AddItem, ImageModal },
+    components: { AppLayout, AddItem, ImageModal, EditItem },
     props: ['transaction', 'categories', 'root'],
     setup (props) {
         let transaction = props.transaction
@@ -252,6 +264,7 @@ export default {
             popUp.value = true
         }
         const loading = ref(false)
+        const editIndex = ref(0)
 
         // enlarge
         const imagePopUp = ref(false)
@@ -260,6 +273,12 @@ export default {
             selected.value = index
             console.log(selected.value)
             imagePopUp.value = true
+        }
+        // Edit modal pop up
+        const EditPopUp = ref(false)
+        const EditPopModal = (index) => {
+            editIndex.value = index
+            EditPopUp.value = true
         }
 
         const totalDwt = computed(() => {
@@ -304,6 +323,11 @@ export default {
         function pushValue (res) {
             popUp.value = res.data
         }
+        
+        function pushEditValue (res) {
+            EditPopUp.value = res.data
+        }
+
 
         function pushResponse (res) {
             transactionItems.value = res.data.items
@@ -328,6 +352,8 @@ export default {
         return {
             popUp,
             popModal,
+            EditPopUp,
+            EditPopModal,
             totalDwt,
             totalPrice,
             pushResponse,
@@ -338,7 +364,9 @@ export default {
             popImageModal,
             deleteItem,
             onClickTop,
-            onClickBot
+            onClickBot,
+            pushEditValue,
+            editIndex
         }
     }
 }
