@@ -41,7 +41,7 @@ class TransactionItemsController extends Controller
     public function destroy($id)
     {
         try {
-            $item = TransactionItem::find($request->item_id);
+            $item = TransactionItem::find($id);
             $transaction = Transaction::find($item->transaction_id);
             $item->delete();
             $transaction->load('items','items.images');
