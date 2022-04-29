@@ -22,9 +22,12 @@ class TransactionItem extends Model
 	}
 
 
-    public static function addItem($request)
-    {  
-        $transactionItem =  new self;
+    public static function createUpdateItem($request, $transactionItem = null)
+    {   
+        if (!$transactionItem){        
+            $transactionItem =  new self;
+        }
+        
         $transactionItem->transaction_id  = $request->transaction_id;
         $transactionItem->category_id     = $request->category_id;
         $transactionItem->price           = $request->price;
@@ -39,8 +42,8 @@ class TransactionItem extends Model
                 $imgs= new Image(['url' => $image, 'rank' => 1]);
                 $transactionItem->images()->save($imgs);
             }
-
         }
+
         return $transactionItem;
 	}
 }

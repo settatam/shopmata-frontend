@@ -295,7 +295,7 @@ class TransactionsController extends Controller
 
                 try {
                     $transaction = Transaction::find($request->transaction_id);
-                    TransactionItem::addItem($request);
+                    TransactionItem::createUpdateItem($request);
                     $transaction->load('items','items.images');
                     return response()->json($transaction,  200);
                 } catch (\Throwable $th) {
@@ -341,3 +341,5 @@ class TransactionsController extends Controller
         //
     }
 }
+
+
