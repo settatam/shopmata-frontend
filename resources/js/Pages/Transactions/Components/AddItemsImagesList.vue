@@ -17,14 +17,14 @@
     <ul role="list" class="divide-y divide-gray-200 w-100">
         <li
             v-for="(image, index) in images"
-            :key="image.id"
+            :key="image.index"
             class="flex justify-between border-b border-gray-300"
-            :id="'image_' + image.id"
+            :id="'image_' + image.index"
         >
             <div class="w-3/10 py-3">
                 <img
                     class="h-10 w-10 cursor-pointer"
-                    :src="image[0].thumb"
+                    :src="image"
                     alt=""
                 />
             </div>
@@ -38,7 +38,7 @@
                 <TrashIcon
                     v-else
                     class="w-6 h-6 text-red-500 cursor-pointer"
-                    :id="image.id"
+                    :id="image.index"
                     @click="deleteExisting(index)"
                 />
             </div>
