@@ -160,19 +160,18 @@
                         </p> -->
 
                         <p>
-                            <inertia-link
+                            <span
                                 href=" "
                                 class="font-medium text-indigo-600 hover:text-purple-darken"
                             >
                                 Edit
-                            </inertia-link>
+                            </span>
                             /
-                            <inertia-link
-                                :href=" '/admin/items/' + item.id "
+                            <span
                                 class="font-medium text-black hover:text-purple-darken"
-                            >
+                            @click="deleteItem(item.id, item.index)">
                                 Delete
-                            </inertia-link>
+                            </span>
                         </p>
                     </td>
                 </tr>
@@ -238,12 +237,14 @@ import AddItem from '../Components/AddItem.vue'
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 import ImageModal from './ImageModal.vue'
+import { notify } from 'notiwind'
 
 export default {
     components: { AppLayout, AddItem, ImageModal },
     props: ['transaction', 'categories', 'root'],
     setup (props) {
         let transaction = props.transaction
+        const successMessage = ref('')
         const transactionItems = ref(transaction)
         const popUp = ref(false)
         const popModal = () => {
@@ -274,6 +275,29 @@ export default {
             return sum.toFixed(2)
         })
 
+        // notification
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        // notification ends
+
         function pushValue (res) {
             popUp.value = res.data
         }
@@ -282,12 +306,20 @@ export default {
             transactionItems.value = res.data.items
         }
 
-        function deleteItem(id){
-            axios.delete(` /admin/items/${id}`)
-            .then(res => {
-
-            })
-
+        function deleteItem (id, index) {
+            axios
+                .delete(`/admin/items/${id}`)
+                .then(res => {
+                    loading.value = false
+                    transactionItems.value.splice(index,1)
+                    successMessage.value = 'Item deleted'
+                    setTimeout(onClickTop, 2000)
+                })
+                .catch(error => {
+                    loading.value = false
+                    successMessage.value = 'Error processing your request'
+                    setTimeout(onClickBot, 2000)
+                })
         }
 
         return {
@@ -301,7 +333,9 @@ export default {
             imagePopUp,
             selected,
             popImageModal,
-            deleteItem
+            deleteItem,
+            onClickTop,
+            onClickBot
         }
     }
 }
