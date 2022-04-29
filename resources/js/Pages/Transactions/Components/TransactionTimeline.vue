@@ -5,7 +5,7 @@
         </div>
 
         <!-- image modal start -->
-            <AddItem :categories="categories" @close="popUp = false" v-if="popUp" />
+        <AddItem :categories="categories" @close="popUp = false" v-if="popUp" />
         <!-- image modal ends -->
 
         <div
@@ -86,7 +86,7 @@
                             'text-black': !status.date,
                             'text-green-darker': status.date
                         }"
-                    class=""
+                        class=""
                     >
                         {{ status.name }}:
                         <span v-if="status.date">
@@ -243,10 +243,10 @@
 
 <script>
 import { reactive, ref, computed } from '@vue/reactivity'
-import { watch } from 'vue';
+import { watch } from 'vue'
 
-import debounce from "lodash/debounce";
-
+import debounce from 'lodash/debounce'
+import AddItem from '../Components/AddItem.vue'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
@@ -254,7 +254,7 @@ import { notify } from 'notiwind'
 import moment from 'moment'
 
 export default {
-    components: { AppLayout, PrintLabel, AdminImages },
+    components: { AppLayout, PrintLabel, AdminImages, AddItem },
     props: ['transaction', 'bottom_tags', 'statuses', 'root', 'timeline'],
     created: function () {
         this.moment = moment
@@ -276,52 +276,57 @@ export default {
 
             return myArray
         })
-        const customer_id       = props.root.customer.id
-        const messagePrivate    = ref('')
-        const messagePublic     = ref('')
-        let message      = null;
-        let tmPrivate      = null;
-        let tmPublic       = null;
-        let type = null;
+        const customer_id = props.root.customer.id
+        const messagePrivate = ref('')
+        const messagePublic = ref('')
+        let message = null
+        let tmPrivate = null
+        let tmPublic = null
+        let type = null
 
         const transactionStatus = ref('')
-        const transactionOffer  = reactive({
+        const transactionOffer = reactive({
             secondOffer: '',
             offer: ''
         })
 
-        tmPublic  = null !== props.root.public_note ? props.root.public_note.notes : '';
-        tmPrivate = null !== props.root.private_note ? props.root.private_note.notes : '';
-        messagePublic.value  = tmPublic;
-        messagePrivate.value = tmPrivate;
+        tmPublic =
+            null !== props.root.public_note ? props.root.public_note.notes : ''
+        tmPrivate =
+            null !== props.root.private_note
+                ? props.root.private_note.notes
+                : ''
+        messagePublic.value = tmPublic
+        messagePrivate.value = tmPrivate
 
-        watch([messagePublic, messagePrivate],    debounce(function (value) {
+        watch(
+            [messagePublic, messagePrivate],
+            debounce(function (value) {
+                if (typeof value[0] !== 'undefined' && tmPublic == value[0]) {
+                    type = 'private'
+                    message = messagePrivate.value
+                } else {
+                    type = 'public'
+                    message = messagePublic.value
+                }
 
-            if (typeof value[0] !== "undefined"  && tmPublic == value[0]){
-                type = "private";
-                message = messagePrivate.value;
-            }  else {
-                type = "public";
-                message = messagePublic.value;
-            }
-
-
-            axios
-                .post('/admin/transaction/notes', {
-                    transaction_id,
-                    message: message,
-                    customer_id,
-                    type: type
-                })
-                .then(res => {
-                    successMessage.value = 'Note updated'
-                    setTimeout(onClickTop, 2000)
-                })
-                .catch(error => {
-                    successMessage.value = 'Something went wrong.'
-                    setTimeout(onClickBot, 2000)
-                })
-       }, 3000));
+                axios
+                    .post('/admin/transaction/notes', {
+                        transaction_id,
+                        message: message,
+                        customer_id,
+                        type: type
+                    })
+                    .then(res => {
+                        successMessage.value = 'Note updated'
+                        setTimeout(onClickTop, 2000)
+                    })
+                    .catch(error => {
+                        successMessage.value = 'Something went wrong.'
+                        setTimeout(onClickBot, 2000)
+                    })
+            }, 3000)
+        )
 
         // notification
         function onClickTop () {

@@ -68,7 +68,7 @@
                                         }"
                                         name=""
                                         id=""
-                                        v-model="itemPayload.category_id"
+                                        v-model="category_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                     >
                                         <option default value="0"
@@ -138,7 +138,7 @@
                                             type="text"
                                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                             placeholder=""
-                                            v-model="itemPayload.dwt"
+                                            v-model="dwt"
                                             required
                                         />
 
@@ -185,26 +185,24 @@
                                     </label>
                                     <input
                                         :class="{
-                                            'border-red-600': v$.inote.$error,
-                                            'border-gray-300': !v$.inote.$error
+                                            'border-red-600': v$.inotes.$error,
+                                            'border-gray-300': !v$.inotes.$error
                                         }"
                                         type="text"
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                        v-model="itemPayload.inote"
+                                        v-model="itemPayload.inotes"
                                         required
                                     />
                                     <p
                                         class="text-red-600 text-xs"
-                                        v-if="v$.inote.$error"
+                                        v-if="v$.inotes.$error"
                                     >
-                                        {{ v$.inote.$errors[0].$message }}
+                                        {{ v$.inotes.$errors[0].$message }}
                                     </p>
                                 </div>
 
-                                <div
-                                    class="required w-full mb-4 flex justify-center"
-                                >
-                                    <button
+                                <div class="required w-full mb-4">
+                                    <!-- <button
                                         class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                                     >
                                         <span class="ml-2"
@@ -215,6 +213,16 @@
                                         class="cursor-pointer absolute block opacity-0 pin-r pin-t"
                                         type="file"
                                         multiple
+                                    /> -->
+                                    <images-list
+                                        :images="images"
+                                        @delete_img="delete_img" 
+                                        v-if="display ? images.length : true"
+                                    />
+
+                                    <AddItemDropzone
+                                        @add-image="onAddImage"
+                                        class=""
                                     />
                                 </div>
                             </div>
@@ -229,10 +237,11 @@
                             </button>
                             <button
                                 type="button"
-                                class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm flex"
                                 @click="submit"
                             >
-                                Save
+                                <LoadingSpinner v-if="loading" />
+                                <span>{{ text }} </span>
                             </button>
                         </div>
                     </div>
@@ -243,7 +252,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import {
     Dialog,
     DialogOverlay,
@@ -255,9 +264,12 @@ import { Inertia } from '@inertiajs/inertia'
 import { XIcon } from '@heroicons/vue/solid'
 import useVuelidate from '@vuelidate/core'
 import { required, helpers, numeric } from '@vuelidate/validators'
+import debounce from 'lodash/debounce'
+import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
+import AddItemDropzone from '../Components/AddItemDropzone.vue'
+import ImagesList from '../Components/AddItemsImagesList.vue'
 
 export default {
-    emits: ['close'],
     props: ['store', 'countries', 'categories', 'root'],
 
     components: {
@@ -265,27 +277,51 @@ export default {
         DialogOverlay,
         TransitionChild,
         TransitionRoot,
-        XIcon
+        XIcon,
+        AddItemDropzone,
+        LoadingSpinner,
+        ImagesList
     },
-    setup (props, ctx) {
+    emits: ['return-response', 'close-modal'],
+    setup (props, { emit }) {
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
         const transaction_id = props.root.id
+        const dwt = ref('')
+        const category_id = ref('')
+        const images = ref([])
+        const text = ref('Save')
+        const loading = ref(false)
+        const display = ref("")
 
         const itemPayload = reactive({
-            category_id: '',
+            category_id: category_id,
             description: '',
-            dwt: '',
+            dwt: dwt,
             price: '',
-            inote: '',
-            images: [],
+            inotes: '',
+            images: images.value,
             transaction_id: transaction_id
         })
 
+        watch(
+            [dwt, category_id],
+            debounce(function () {
+                if (dwt != '' && category_id != '') {
+                    axios
+                        .post(`/admin/transactions/${transaction_id}/dwt`, {
+                            dwt: dwt.value,
+                            category_id: category_id.value
+                        })
+                        .then(res => (itemPayload.price = res.data.price))
+                }
+            }, 2000)
+        )
+
         const closeModal = () => {
             open.value = false
-            ctx.emit('close')
+            emit('close-modal', open.value)
         }
 
         const rules = computed(() => {
@@ -305,7 +341,7 @@ export default {
                 price: {
                     required: helpers.withMessage('Enter an mprice', required)
                 },
-                inote: {
+                inotes: {
                     required: helpers.withMessage('Enter an inote', required)
                 }
             }
@@ -313,15 +349,34 @@ export default {
 
         const v$ = useVuelidate(rules, itemPayload)
 
+        function onAddImage (response) {
+            // console.log(response)
+            response.map((item)=>{
+                images.value.push(item)
+            })
+        }
+
+        function delete_img(index){
+            images.value.splice(index,1)
+
+        }
+
         function submit () {
             this.v$.$validate()
+            loading.value = false
+            text.value = 'Saving'
             axios
-                .post(`/admin/transactions/${transaction_id}/item`, itemPayload)
+                .post(
+                    `/admin/transactions/${transaction_id}/items`,
+                    itemPayload
+                )
                 .then(res => {
-                    console.log(res.data)
-                    this.open = false
-                    // Inertia.visit(`/admin/transactions/${transaction_id}`)
+                    loading.value = false
+                    emit('return-response', res)
+                    open.value = false
+                    emit('close-modal', open.value)
                 })
+                .catch(err => (loading.value = true))
         }
 
         return {
@@ -331,7 +386,15 @@ export default {
             v$,
             closeModal,
             countries,
-            states
+            states,
+            dwt,
+            category_id,
+            onAddImage,
+            images,
+            loading,
+            text,
+            display,
+            delete_img
         }
     }
 }

@@ -13,7 +13,14 @@
             </div>
         </div>
 
-        <AddItem :root="root" :categories="categories" @close="popUp = false" v-if="popUp" />
+        <AddItem
+            @return-response="pushResponse"
+            @close-modal="pushValue"
+            :root="root"
+            :categories="categories"
+            @close="popUp = false"
+            v-if="popUp"
+        />
 
         <!-- add item end -->
 
@@ -89,16 +96,30 @@
             </tr>
             <!-- </thead> -->
             <tbody>
-                <tr v-for="item in transaction" :key="item.index">
+                <tr v-for="item in transactionItems" :key="item.index">
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.category }}
+                        {{ item.category_id }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{}}
+                        <div
+                            v-for="(image, index) in item.images"
+                            :key="image.index"
+                        >
+                            <ImageModal
+                                :enlargedImage="item.images[selected].url"
+                                @close="imagePopUp = false"
+                                v-if="imagePopUp"
+                            />
+                            <img
+                                @click="popImageModal(index)"
+                                :src="image.url"
+                                alt=""
+                            />
+                        </div>
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap w-8"
@@ -133,9 +154,24 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
+                        <!-- <p>
+                            <span class="text-purple-darken">Edit</span> /
+                            Delete
+                        </p> -->
+
                         <p>
-                            <span class="text-purple-darken">edit</span> /
-                            delete
+                            <span
+                                href=" "
+                                class="font-medium text-indigo-600 hover:text-purple-darken"
+                            >
+                                Edit
+                            </span>
+                            /
+                            <span
+                                class="font-medium text-black hover:text-purple-darken"
+                            @click="deleteItem(item.id, item.index)">
+                                Delete
+                            </span>
                         </p>
                     </td>
                 </tr>
@@ -198,15 +234,29 @@
 import { reactive, ref, computed } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import AddItem from '../Components/AddItem.vue'
+import { Inertia } from '@inertiajs/inertia'
+import { Link } from '@inertiajs/inertia-vue3'
+import ImageModal from './ImageModal.vue'
+import { notify } from 'notiwind'
 
 export default {
-    components: { AppLayout, AddItem },
-    props: ['transaction','categories', 'root'],
+    components: { AppLayout, AddItem, ImageModal },
+    props: ['transaction', 'categories', 'root'],
     setup (props) {
-        const transaction = reactive(props.transaction)
+        let transaction = props.transaction
+        const successMessage = ref('')
+        const transactionItems = ref(transaction)
         const popUp = ref(false)
         const popModal = () => {
             popUp.value = true
+        }
+
+        // enlarge
+        const imagePopUp = ref(false)
+        const selected = ref(null)
+        const popImageModal = index => {
+            selected.value = index
+            imagePopUp.value = true
         }
 
         const totalDwt = computed(() => {
@@ -225,7 +275,68 @@ export default {
             return sum.toFixed(2)
         })
 
-        return { popUp, popModal, totalDwt, totalPrice }
+        // notification
+        function onClickTop () {
+            notify(
+                {
+                    group: 'top',
+                    title: 'Success',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        function onClickBot () {
+            notify(
+                {
+                    group: 'bottom',
+                    title: 'Error',
+                    text: successMessage.value
+                },
+                4000
+            )
+        }
+        // notification ends
+
+        function pushValue (res) {
+            popUp.value = res.data
+        }
+
+        function pushResponse (res) {
+            transactionItems.value = res.data.items
+        }
+
+        function deleteItem (id, index) {
+            axios
+                .delete(`/admin/items/${id}`)
+                .then(res => {
+                    loading.value = false
+                    transactionItems.value.splice(index,1)
+                    successMessage.value = 'Item deleted'
+                    setTimeout(onClickTop, 2000)
+                })
+                .catch(error => {
+                    loading.value = false
+                    successMessage.value = 'Error processing your request'
+                    setTimeout(onClickBot, 2000)
+                })
+        }
+
+        return {
+            popUp,
+            popModal,
+            totalDwt,
+            totalPrice,
+            pushResponse,
+            pushValue,
+            transactionItems,
+            imagePopUp,
+            selected,
+            popImageModal,
+            deleteItem,
+            onClickTop,
+            onClickBot
+        }
     }
 }
 </script>

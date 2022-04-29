@@ -44,7 +44,7 @@ class Helper
             return $store->id;
         }
 
-        return 2;
+        return null;
     }
 
 }

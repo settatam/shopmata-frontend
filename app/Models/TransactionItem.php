@@ -22,9 +22,12 @@ class TransactionItem extends Model
 	}
 
 
-    public static function addItem($request)
-    {
-        $transactionItem =  new TransactionItem;
+    public static function createUpdateItem($request, $transactionItem = null)
+    {   
+        if (!$transactionItem){        
+            $transactionItem =  new self;
+        }
+        
         $transactionItem->transaction_id  = $request->transaction_id;
         $transactionItem->category_id     = $request->category_id;
         $transactionItem->price           = $request->price;
@@ -34,13 +37,13 @@ class TransactionItem extends Model
         $transactionItem->override_price  = $request->override_price;
         $transactionItem->item            = $request->item;
         $transactionItem->save();
-        if ( $request->images){
-            // foreach ($request->images as $key => $image) {
-            //     $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
-            //     $transactionItem->images()->save($imgs);
-            // }
-
+        if ( !empty($request->images) ){
+            foreach ($request->images as $key => $image) {
+                $imgs= new Image(['url' => $image, 'rank' => 1]);
+                $transactionItem->images()->save($imgs);
+            }
         }
+
         return $transactionItem;
 	}
 }

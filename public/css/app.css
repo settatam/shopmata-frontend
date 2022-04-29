@@ -2453,6 +2453,9 @@ select {
 .break-words {
 	overflow-wrap: break-word;
 }
+.break-all {
+	word-break: break-all;
+}
 .rounded-md {
 	border-radius: 0.375rem;
 }
@@ -3902,6 +3905,10 @@ input[type='checkbox']:focus {
 .hover\:text-yellow-500:hover {
 	--tw-text-opacity: 1;
 	color: rgba(245, 158, 11, var(--tw-text-opacity));
+}
+.hover\:text-purple-darken:hover {
+	--tw-text-opacity: 1;
+	color: rgba(67, 56, 202, var(--tw-text-opacity));
 }
 .focus\:z-10:focus {
 	z-index: 10;
