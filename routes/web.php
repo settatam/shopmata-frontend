@@ -43,6 +43,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\TransactionsItemsController;
+
+
 
 use App\Http\Controllers\MessagesController;
 
