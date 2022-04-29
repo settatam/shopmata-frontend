@@ -250,6 +250,7 @@ export default {
         const popModal = () => {
             popUp.value = true
         }
+        const loading = ref(false)
 
         // enlarge
         const imagePopUp = ref(false)
