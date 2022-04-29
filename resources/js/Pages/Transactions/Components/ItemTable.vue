@@ -163,13 +163,13 @@
                         <p>
                             <span
                                 href=" "
-                                class="font-medium text-indigo-600 hover:text-purple-darken"
+                                class="font-medium text-indigo-600 hover:text-purple-darken cursor-pointer"
                             >
                                 Edit
                             </span>
                             /
                             <span
-                                class="font-medium text-black hover:text-purple-darken"
+                                class="cursor-pointer font-medium text-black hover:text-purple-darken"
                             @click="deleteItem(item.id, item.index)">
                                 Delete
                             </span>
