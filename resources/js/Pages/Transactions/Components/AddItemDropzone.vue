@@ -87,6 +87,7 @@ export default {
             )
         }
         // notification ends
+        const urlList = ref([])
 
         const saveFiles = files => {
             const formData = new FormData()
@@ -109,7 +110,10 @@ export default {
                     }
                 )
                 .then(response => {
-                    emit('add-image', response.data)
+                    response.data.map((item) => {
+                        urlList.value.push(item.large)
+                    })
+                    emit('add-image', urlList.value)
 
                     loading.value = false
                     successMessage.value = 'Image uploaded successfully'
