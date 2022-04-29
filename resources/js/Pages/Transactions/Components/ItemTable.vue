@@ -96,7 +96,7 @@
             </tr>
             <!-- </thead> -->
             <tbody>
-                <tr v-for="item in transactionItems" :key="item.index">
+                <tr v-for="(item, index) in transactionItems" :key="item.index">
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
@@ -170,7 +170,7 @@
                             /
                             <span
                                 class="cursor-pointer font-medium text-black hover:text-purple-darken"
-                            @click="deleteItem(item.id, item.index)">
+                            @click="deleteItem(item.id, index)">
                                 Delete
                             </span>
                         </p>
@@ -258,6 +258,7 @@ export default {
         const selected = ref(null)
         const popImageModal = index => {
             selected.value = index
+            console.log(selected.value)
             imagePopUp.value = true
         }
 
