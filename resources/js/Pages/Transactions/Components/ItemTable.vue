@@ -118,6 +118,7 @@
                                 @click="popImageModal(index)"
                                 :src="image.url"
                                 alt=""
+                                class="cursor-pointer"
                             />
                         </div>
                     </td>
