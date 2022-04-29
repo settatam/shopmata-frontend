@@ -105,8 +105,20 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        <div v-for="image in item.images" :key="image.index">
-                            <img :src="image.url" alt="" />
+                        <div
+                            v-for="(image, index) in item.images"
+                            :key="image.index"
+                        >
+                            <ImageModal
+                                :enlargedImage="item.images[selected].url"
+                                @close="imagePopUp = false"
+                                v-if="imagePopUp"
+                            />
+                            <img
+                                @click="popImageModal(index)"
+                                :src="image.url"
+                                alt=""
+                            />
                         </div>
                     </td>
                     <td
@@ -149,14 +161,14 @@
 
                         <p>
                             <inertia-link
-                                href=""
+                                href=" "
                                 class="font-medium text-indigo-600 hover:text-purple-darken"
                             >
                                 Edit
                             </inertia-link>
                             /
                             <inertia-link
-                                href=""
+                                :href=" '/admin/items/' + item.id "
                                 class="font-medium text-black hover:text-purple-darken"
                             >
                                 Delete
@@ -225,9 +237,10 @@ import AppLayout from '../../../Layouts/AppLayout.vue'
 import AddItem from '../Components/AddItem.vue'
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
+import ImageModal from './ImageModal.vue'
 
 export default {
-    components: { AppLayout, AddItem },
+    components: { AppLayout, AddItem, ImageModal },
     props: ['transaction', 'categories', 'root'],
     setup (props) {
         let transaction = props.transaction
@@ -235,6 +248,14 @@ export default {
         const popUp = ref(false)
         const popModal = () => {
             popUp.value = true
+        }
+
+        // enlarge
+        const imagePopUp = ref(false)
+        const selected = ref(null)
+        const popImageModal = index => {
+            selected.value = index
+            imagePopUp.value = true
         }
 
         const totalDwt = computed(() => {
@@ -261,6 +282,14 @@ export default {
             transactionItems.value = res.data.items
         }
 
+        function deleteItem(id){
+            axios.delete(` /admin/items/${id}`)
+            .then(res => {
+
+            })
+
+        }
+
         return {
             popUp,
             popModal,
@@ -268,7 +297,11 @@ export default {
             totalPrice,
             pushResponse,
             pushValue,
-            transactionItems
+            transactionItems,
+            imagePopUp,
+            selected,
+            popImageModal,
+            deleteItem
         }
     }
 }
