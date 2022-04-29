@@ -161,14 +161,14 @@
 
                         <p>
                             <inertia-link
-                                href=""
+                                href=" "
                                 class="font-medium text-indigo-600 hover:text-purple-darken"
                             >
                                 Edit
                             </inertia-link>
                             /
                             <inertia-link
-                                href=""
+                                :href=" '/admin/items/' + item.id "
                                 class="font-medium text-black hover:text-purple-darken"
                             >
                                 Delete
@@ -282,6 +282,14 @@ export default {
             transactionItems.value = res.data.items
         }
 
+        function deleteItem(id){
+            axios.delete(` /admin/items/${id}`)
+            .then(res => {
+
+            })
+
+        }
+
         return {
             popUp,
             popModal,
@@ -292,7 +300,8 @@ export default {
             transactionItems,
             imagePopUp,
             selected,
-            popImageModal
+            popImageModal,
+            deleteItem
         }
     }
 }
