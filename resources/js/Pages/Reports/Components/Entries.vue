@@ -21,7 +21,7 @@
             <div class="my-2 ">
                 <button
                     class="bg-purple-darken px-6 py-2 border border-transparent rounded shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
-                    type="submit" 
+                    type="submit"
                 >
                     Export
                 </button>
@@ -134,11 +134,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in sortedValues" :key="item.index">
+                <tr v-for="item in transactions" :key="item.id">
                     <td
                         class="text-xs text-purple-darken lg:text-sm font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.txId }}
+                        {{ item.id }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
@@ -200,6 +200,9 @@ import { SwitchVerticalIcon } from '@heroicons/vue/solid'
 export default {
     components: {
         SwitchVerticalIcon
+    },
+    props: {
+        transactions: Array
     },
     setup () {
         const tableData = reactive([

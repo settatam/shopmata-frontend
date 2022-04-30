@@ -11,7 +11,10 @@ class Customer extends Model
     use HasFactory;
 
     protected $table = 'customers';
-    protected $appends = ['activation_status'];
+    protected $appends = [
+        'activation_status',
+        'timezone'
+    ];
 
     protected $fillable = [
         'user_id',
@@ -41,6 +44,11 @@ class Customer extends Model
         return $this->hasOne(TransactionNote::class)->where('type','public');
     }
 
+    function getTimezoneAttribute()
+    {
+      // TODO: make it configurable
+      return 'America/New_York';
+    }
 
     public function private_note()
     {

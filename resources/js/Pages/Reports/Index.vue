@@ -23,7 +23,7 @@
             </div>
 
             <div>
-                <Entries />
+                <Entries :transactions="transactions.data"/>
             </div>
 
             <NotificationGroup group="top" position="top">

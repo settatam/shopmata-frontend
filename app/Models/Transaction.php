@@ -17,6 +17,8 @@ class Transaction extends Model
     protected $filters = null;
     protected $input = [];
 
+    const KIT_TYPE = 'Kit';
+
     protected $fillable = [
         'id',
         'status_id',
@@ -29,9 +31,11 @@ class Transaction extends Model
         'payment_type',
         'lead',
         'status',
-        'estimated_profit'
+        'estimated_profit',
+        'incoming_tracking',
+        'outgoing_tracking',
+        'kit_type'
     ];
-
 
 
     protected static function booted()
@@ -53,28 +57,27 @@ class Transaction extends Model
         return $this->morphOne(Address::class, 'addressable');
     }
 
-
     public function setFilters($filters) {
         $this->filters = $filters;
     }
 
     static function search($filter) {
-        return self::query()->withDates($filter)
+        return self::query()
+            ->withDates($filter)
             ->withCustomer($filter)
             ->withTransactionCount($filter)
             ->withLead($filter)
-            ->withStore($filter)
+            ->withStores($filter)
             ->withDayOfWeek($filter)
             ->withTrafficSource($filter)
             ->with('offers')
-            ->orderBy('id', 'desc')
-            ->take(20)
-            ->get();
+            ->orderBy('id', 'desc');
     }
 
-    public function scopeWithStore($query, $filter) {
-        if($store_id = data_get($filter, 'store_id')) {
-            $query->where('store_id', $store_id);
+    public function scopeWithStores($query, $filter) {
+        if($stores = data_get($filter, 'stores')) {
+            if(!is_array($stores)) $stores = [$stores];
+            $query->whereIn('store_id', $stores);
         }
     }
 
@@ -141,6 +144,20 @@ class Transaction extends Model
         return $this->morphMany(Activity::class, 'activityable');
 	}
 
+    public function shippingLabel() {
+        return $this->morphMany(ShippingLabel::class, 'shippable');
+    }
+
+    public function getIncomingTrackingAttribute() {
+        return $this->shippingLabels()->where('to_customer', true)->get()
+            ->implode('tracking_number', ',');
+    }
+
+    public function getOutgoingTrackingAttribute() {
+        return $this->shippingLabels()->where('to_customer', false)->get()
+            ->implode('tracking_number', ',');
+    }
+
 
     public function images()
     {
@@ -183,6 +200,10 @@ class Transaction extends Model
 
     public function getTotalDwtAttribute() {
         return $this->items->sum('dwt');
+    }
+
+    public function getKitTypeAttribute() {
+        return self::KIT_TYPE;
     }
 
     public function getFinalOfferAttribute() {
@@ -364,26 +385,64 @@ class Transaction extends Model
 
     public function historyTimeline() {
         //Is updated
-        $response = [];
+        $response = [
+            'kit_requested' => [
+                'date' => '',
+                'name' => 'Kit Requested',
+                'icon' => 'MinusCircle',
+                'color' => 'black'
+            ],
+            'kit_sent' => [
+                'date' => '',
+                'name' => 'Kit Sent',
+                'icon' => 'MinusCircle',
+                'color' => 'black'
+            ],
+            'package_received' => [
+                'date' => '',
+                'name' => 'Package Received',
+                'icon' => 'MinusCircle',
+                'color' => 'black'
+            ],
+            'offer_given' => [
+                'date' => '',
+                'name' => 'Offer Given',
+                'icon' => 'MinusCircle',
+                'color' => 'black'
+            ],
+            'offer_accepted' => [
+                'date' => '',
+                'name' => 'Offer Accepted',
+                'icon' => 'MinusCircle',
+                'color' => 'black'
+            ],
+            'payment_processed' => [
+                'date' => '',
+                'name' => 'Payment Processed',
+                'icon' => 'MinusCircle',
+                'color' => 'black'
+            ],
+            'shipment_declined' => [
+                'date' => '',
+                'name' => 'Shipment Declined',
+                'icon' => 'XCircle',
+                'color' => 'red'
+            ],
+
+        ];
         if($history = $this->hasHistory(TransactionHistory::UPDATED)) {
-            $response[] = [
+            $response['kit_requested'] = [
                 'date' => $history->created_at,
                 'success' => 1,
-                'default' => 1,
+                'color' => 'green',
+                'icon' => 'CheckCircle',
                 'name' => 'Kit Requested',
             ];
         }
+
         if($history = $this->hasHistory(TransactionHistory::FULFILLED)) {
-            $response[] = [
+            $response['kit_sent'] = [
                 'date' => $history->created_at,
-                'success' => 1,
-                'default'=>1,
-                'name'=>'Kit Sent',
-                'class'=>1
-	        ];
-        }else{
-            $response[] = [
-                'date' => '',
                 'success' => 1,
                 'default'=>1,
                 'name'=>'Kit Sent',
@@ -422,7 +481,7 @@ class Transaction extends Model
 
         if($history = $this->hasHistory(TransactionHistory::OFFER_GIVEN)) {
 
-            $response[] = [
+            $response['offer_given'] = [
                 'date' => $history->created_at,
                 'success' => 1,
                 'default'=>1,

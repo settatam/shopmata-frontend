@@ -24,7 +24,7 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Incoming Tracking#:
-                <span class="font-normal text-purple-darken"> {{ transaction.incoming_tracking_numbers }}</span>
+                <span class="font-normal text-purple-darken"> {{ transaction.incoming_tracking }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Estimated Value:

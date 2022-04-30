@@ -44,6 +44,7 @@ use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\OnlineStore\EditorController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\TransactionsItemsController;
+use App\Http\Controllers\SearchController;
 
 
 
@@ -150,6 +151,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('products/delete', [ProductsController::class, 'deleteProduct']);
         Route::post('products/delete-multiple', [ProductsController::class, 'deleteMultipleProducts']);
         Route::get('products/search', [ProductsController::class, 'tableSearch']);
+
+        //Search
+        Route::get('search', [SearchController::class, 'index']);
 
         #Collections
         Route::prefix('collections')->group(function () {

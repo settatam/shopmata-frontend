@@ -414,11 +414,7 @@
                     "
                 >
                     <div class="flex-1 flex">
-                        <form
-                            class="w-full flex md:ml-0"
-                            action="#"
-                            method="GET"
-                        >
+                        <form class="w-full flex md:ml-0" @submit.prevent="doSearch">
                             <label for="search-field" class="sr-only"
                                 >Search</label
                             >
@@ -449,6 +445,7 @@
                                 <input
                                     id="search-field"
                                     name="search-field"
+                                    v-model="term"
                                     class="
                                         block
                                         w-full
@@ -464,7 +461,7 @@
                                         focus:border-transparent
                                         sm:text-sm
                                     "
-                                    placeholder="search for products, customers, orders............."
+                                    placeholder="search for products, customers, transactions............."
                                     type="search"
                                 />
                             </div>
@@ -733,9 +730,19 @@ export default {
     setup(props) {
         const sidebarOpen = ref(false);
         const open = ref(false);
+        const term = '';
 
         function doLogout() {
             Inertia.post("/logout");
+        }
+
+        function doSearch() {
+            Inertia.visit('/admin/search', {
+              method: 'get',
+              data: {
+                term: this.term,
+              },
+            })
         }
 
         return {
@@ -745,6 +752,8 @@ export default {
             statusStyles,
             sidebarOpen,
             doLogout,
+            term,
+            doSearch
         };
     },
     methods: {
