@@ -44,7 +44,7 @@
                             <div class="flex justify-between ">
                                 <div>
                                     <p class="text-2xl font-bold">
-                                        Add Items
+                                        Edit Item
                                     </p>
                                 </div>
                                 <x-icon
@@ -270,7 +270,7 @@ import AddItemDropzone from '../Components/AddItemDropzone.vue'
 import ImagesList from '../Components/AddItemsImagesList.vue'
 
 export default {
-    props: ['store', 'countries', 'categories', 'root'],
+    props: ['categories', 'root', 'editIndex', 'item'],
 
     components: {
         Dialog,
@@ -294,13 +294,14 @@ export default {
         const text = ref('Save')
         const loading = ref(false)
         const display = ref('')
+        const item = props.item
 
         const itemPayload = reactive({
             category_id: category_id,
-            description: '',
+            description: item.description,
             dwt: dwt,
-            price: '',
-            inotes: '',
+            price: item.price,
+            inotes: item.inotes,
             images: images.value,
             transaction_id: transaction_id
         })
@@ -308,7 +309,7 @@ export default {
         watch(
             [dwt, category_id],
             debounce(function () {
-                if (dwt != '' && category_id != '') {
+                if (dwt.value != '' && category_id.value != '') {
                     axios
                         .post(`/admin/transactions/${transaction_id}/dwt`, {
                             dwt: dwt.value,
@@ -365,8 +366,8 @@ export default {
             loading.value = false
             text.value = 'Saving'
             axios
-                .post(
-                    `/admin/transactions/${transaction_id}/items`,
+                .put(
+                    `/admin/items/${item.id}`,
                     itemPayload
                 )
                 .then(res => {
@@ -393,7 +394,8 @@ export default {
             loading,
             text,
             display,
-            delete_img
+            delete_img,
+            item
         }
     }
 }

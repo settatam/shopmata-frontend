@@ -41,13 +41,13 @@ class TransactionItemsController extends Controller
     public function destroy($id)
     {
         try {
-            $item = TransactionItem::find($request->item_id);
+            $item = TransactionItem::find($id);
             $transaction = Transaction::find($item->transaction_id);
             $item->delete();
             $transaction->load('items','items.images');
             return response()->json($transaction,  200);
         } catch (\Throwable $th) {
-            \Log::Error("Failed to delete item" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            \Log::Error("Failed to delete item"  ."  Error: " .$th->getMessage() );
             return response("Something went wrong", 422);
         }
     }

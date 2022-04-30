@@ -21,8 +21,18 @@
             @close="popUp = false"
             v-if="popUp"
         />
-
         <!-- add item end -->
+
+        <!-- Edit modal -->
+        <EditItem
+            @return-response="pushResponse"
+            @close-modal="pushEditValue"
+            :root="root"
+            :categories="categories"
+            @close="EditPopUp = false"
+            v-if="EditPopUp"
+            :item="transactionItems[editIndex]"
+        />
 
         <table class="min-w-full">
             <colgroup>
@@ -96,7 +106,7 @@
             </tr>
             <!-- </thead> -->
             <tbody>
-                <tr v-for="item in transactionItems" :key="item.index">
+                <tr v-for="(item, index) in transactionItems" :key="item.index">
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
@@ -118,6 +128,7 @@
                                 @click="popImageModal(index)"
                                 :src="image.url"
                                 alt=""
+                                class="cursor-pointer"
                             />
                         </div>
                     </td>
@@ -162,14 +173,15 @@
                         <p>
                             <span
                                 href=" "
-                                class="font-medium text-indigo-600 hover:text-purple-darken"
+                                class="font-medium text-indigo-600 hover:text-purple-darken cursor-pointer"
+                                @click="EditPopModal(index)"
                             >
                                 Edit
                             </span>
                             /
                             <span
-                                class="font-medium text-black hover:text-purple-darken"
-                            @click="deleteItem(item.id, item.index)">
+                                class="cursor-pointer font-medium text-black hover:text-purple-darken"
+                            @click="deleteItem(item.id, index)">
                                 Delete
                             </span>
                         </p>
@@ -237,10 +249,11 @@ import AddItem from '../Components/AddItem.vue'
 import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 import ImageModal from './ImageModal.vue'
+import EditItem from './EditItem.vue'
 import { notify } from 'notiwind'
 
 export default {
-    components: { AppLayout, AddItem, ImageModal },
+    components: { AppLayout, AddItem, ImageModal, EditItem },
     props: ['transaction', 'categories', 'root'],
     setup (props) {
         let transaction = props.transaction
@@ -250,13 +263,22 @@ export default {
         const popModal = () => {
             popUp.value = true
         }
+        const loading = ref(false)
+        const editIndex = ref(0)
 
         // enlarge
         const imagePopUp = ref(false)
         const selected = ref(null)
         const popImageModal = index => {
             selected.value = index
+            console.log(selected.value)
             imagePopUp.value = true
+        }
+        // Edit modal pop up
+        const EditPopUp = ref(false)
+        const EditPopModal = (index) => {
+            editIndex.value = index
+            EditPopUp.value = true
         }
 
         const totalDwt = computed(() => {
@@ -301,6 +323,11 @@ export default {
         function pushValue (res) {
             popUp.value = res.data
         }
+        
+        function pushEditValue (res) {
+            EditPopUp.value = res.data
+        }
+
 
         function pushResponse (res) {
             transactionItems.value = res.data.items
@@ -325,6 +352,8 @@ export default {
         return {
             popUp,
             popModal,
+            EditPopUp,
+            EditPopModal,
             totalDwt,
             totalPrice,
             pushResponse,
@@ -335,7 +364,9 @@ export default {
             popImageModal,
             deleteItem,
             onClickTop,
-            onClickBot
+            onClickBot,
+            pushEditValue,
+            editIndex
         }
     }
 }
