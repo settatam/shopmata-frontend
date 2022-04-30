@@ -255,18 +255,15 @@ class Transaction extends Model
         return $this->belongsTo(SeoTraffic::class, 'seo_traffic_id', 'id');
     }
 
-
     public function histories()
     {
         return $this->hasMany(TransactionHistory::class);
     }
 
-
     public function offers()
     {
         return $this->hasMany(TransactionOffer::class);
     }
-
 
     public function transaction_payment_address()
     {
@@ -389,79 +386,81 @@ class Transaction extends Model
             'kit_requested' => [
                 'date' => '',
                 'name' => 'Kit Requested',
-                'icon' => 'MinusCircle',
+                'icon' => TransactionHistory::OUTSTANDING_ICON,
                 'color' => 'black'
             ],
             'kit_sent' => [
                 'date' => '',
                 'name' => 'Kit Sent',
-                'icon' => 'MinusCircle',
+                'icon' => TransactionHistory::OUTSTANDING_ICON,
                 'color' => 'black'
             ],
             'package_received' => [
                 'date' => '',
                 'name' => 'Package Received',
-                'icon' => 'MinusCircle',
+                'icon' => TransactionHistory::OUTSTANDING_ICON,
                 'color' => 'black'
             ],
             'offer_given' => [
                 'date' => '',
                 'name' => 'Offer Given',
-                'icon' => 'MinusCircle',
+                'icon' => TransactionHistory::OUTSTANDING_ICON,
                 'color' => 'black'
             ],
             'offer_accepted' => [
                 'date' => '',
                 'name' => 'Offer Accepted',
-                'icon' => 'MinusCircle',
+                'icon' => TransactionHistory::OUTSTANDING_ICON,
                 'color' => 'black'
             ],
             'payment_processed' => [
                 'date' => '',
                 'name' => 'Payment Processed',
-                'icon' => 'MinusCircle',
+                'icon' => TransactionHistory::OUTSTANDING_ICON,
                 'color' => 'black'
             ],
-            'shipment_declined' => [
-                'date' => '',
-                'name' => 'Shipment Declined',
-                'icon' => 'XCircle',
-                'color' => 'red'
-            ],
+//            'shipment_declined' => [
+//                'date' => '',
+//                'name' => 'Shipment Declined',
+//                'icon' => TransactionHistory::DECLINED_ICON,
+//                'color' => 'red'
+//            ],
+//            'shipment_returned' => [
+//                'date' => '',
+//                'name' => 'Shipment Declined',
+//                'icon' => TransactionHistory::DECLINED_ICON,
+//                'color' => 'red'
+//            ],
+//            'offer_declined' => [
+//                'date' => '',
+//                'name' => 'Offer Declined',
+//                'icon' => TransactionHistory::DECLINED_ICON,
+//                'color' => 'red'
+//            ],
 
         ];
         if($history = $this->hasHistory(TransactionHistory::UPDATED)) {
-            $response['kit_requested'] = [
-                'date' => $history->created_at,
-                'success' => 1,
-                'color' => 'green',
-                'icon' => 'CheckCircle',
-                'name' => 'Kit Requested',
-            ];
+            $response['kit_requested']['date'] = $history->created_at;
+            $response['kit_requested']['color'] = 'green';
+            $response['kit_requested']['icon'] = TransactionHistory::SUCCESS_ICON;
         }
 
         if($history = $this->hasHistory(TransactionHistory::FULFILLED)) {
-            $response['kit_sent'] = [
-                'date' => $history->created_at,
-                'success' => 1,
-                'default'=>1,
-                'name'=>'Kit Sent',
-                'class'=>1
-	        ];
+            $response['kit_sent']['date'] = $history->created_at;
+            $response['kit_sent']['color'] = 'green';
+            $response['kit_sent']['icon'] = TransactionHistory::SUCCESS_ICON;
         }
 
         if($history = $this->hasHistory(TransactionHistory::SHIPMENT_DECLINED)) {
-
-            $response[] = [
+            $response['shipment_declined'] = [
                 'date' => $history->created_at,
-                'success' =>1,
-                'default'=>1,
+                'icon' => 'XCircle',
                 'name'=>'Shipment Rejected',
-                'class'=>0
+                'color' => 'red'
             ];
 
             if($history = $this->hasHistory(TransactionHistory::SHIPMENT_RETURNED)) {
-                $response[] = [
+                $response['shipment_returned'] = [
                     'date' => $history->created_at,
                     'success' =>1,
                     'default'=>1,
@@ -520,13 +519,8 @@ class Transaction extends Model
                 ];
             }else{
                 if (!$this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
-                    $response[] = [
+                    $response['offer_declined'] = [
                         'date' => '',
-                        'success' => 0,
-                        'default' => 1,
-                        'name' => 'Offer Accepted',
-                        'class' => 1,
-                        'color' => 'black'
                     ];
                 }
             }
@@ -605,7 +599,7 @@ class Transaction extends Model
             ];
         }
 
-        return $response;
+        return array_values($response);
     }
 
     public function sendSMS($message) {

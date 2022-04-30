@@ -86,11 +86,14 @@
                             'text-black': !status.date,
                             'text-green-darker': status.date
                         }"
-                        class=""
-                    >
+                        class="">
                         {{ status.name }}:
+                        <component
+                            :is="status.icon"
+                            class="mx-2 flex-shrink-0 inline-flex h-6 w-6"  aria-hidden="true"
+                        />
                         <span v-if="status.date">
-                            {{ moment(status.date).format('YYYY-MM-DD') }}
+                            {{ moment(status.date).format('MM-DD-YYYY') }}
                         </span>
                         <span v-else>
                             {{}}
@@ -252,9 +255,18 @@ import AdminImages from './AdminImages.vue'
 import PrintLabel from '../Components/PrintLabel.vue'
 import { notify } from 'notiwind'
 import moment from 'moment'
+import {XCircleIcon, MinusCircleIcon, CheckCircleIcon} from "@heroicons/vue/outline";
 
 export default {
-    components: { AppLayout, PrintLabel, AdminImages, AddItem },
+    components: {
+        AppLayout,
+        PrintLabel,
+        AdminImages,
+        AddItem,
+        CheckCircleIcon,
+        XCircleIcon,
+        MinusCircleIcon
+    },
     props: ['transaction', 'bottom_tags', 'statuses', 'root', 'timeline'],
     created: function () {
         this.moment = moment

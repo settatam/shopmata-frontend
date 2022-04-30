@@ -28,7 +28,12 @@ class TransactionHistory extends Model
     const OFFER_2_GIVEN = 'OFFER #2 GIVEN';
     const EMAIL_NOTES_PICTURES = 'EMAIL, NOTES AND PICTURES';
     const EMAIL_NOTES_PICTURES_OFFER = 'EMAIL, NOTES, PICTURES AND OFFER';
-
+    const SUCCESS_ICON = 'CheckCircleIcon';
+    const DECLINED_ICON = 'XCircleIcon';
+    const OUTSTANDING_ICON = 'MinusCircleIcon';
+    const SUCCESS_COLOR = 'CheckCircleIcon';
+    const DECLINED_COLOR = 'XCircleIcon';
+    const OUTSTANDING_COLOR = 'MinusCircleIcon';
 }
 
 
