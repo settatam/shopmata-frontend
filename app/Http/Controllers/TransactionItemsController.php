@@ -47,7 +47,7 @@ class TransactionItemsController extends Controller
             $transaction->load('items','items.images');
             return response()->json($transaction,  200);
         } catch (\Throwable $th) {
-            \Log::Error("Failed to delete item" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            \Log::Error("Failed to delete item"  ."  Error: " .$th->getMessage() );
             return response("Something went wrong", 422);
         }
     }
