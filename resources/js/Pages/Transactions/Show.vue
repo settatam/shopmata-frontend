@@ -95,6 +95,7 @@
                         :bottom_tags="bottom_tags"
                         :statuses="statuses"
                         :timeline="timeline"
+                        @transactionUpdated="updateTransaction"
                     />
                 </div>
                 <!-- row 4 starts -->
@@ -281,12 +282,6 @@ import Actions from './Components/Actions.vue'
 import Scans from './Components/Scans.vue'
 import { ChevronRightIcon, HomeIcon } from '@heroicons/vue/solid'
 
-const statusStyles = {
-    success: 'bg-green-100 text-green-800',
-    processing: 'bg-yellow-100 text-yellow-800',
-    failed: 'bg-gray-100 text-gray-800'
-}
-
 const pages = [
     { name: 'Transactions', href: '/admin/transactions', current: false },
     {
@@ -328,9 +323,13 @@ export default {
     setup (props) {
         const open = ref(false)
         const notifications = props.notifications
+
+        function updateTransaction(data){
+            console.log('Transaction is about to be updated', data)
+        }
         return {
-            statusStyles,
-            pages
+            pages,
+            updateTransaction
         }
     }
 }

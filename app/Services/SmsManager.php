@@ -25,13 +25,13 @@ class SmsManager
     /**
      * @throws SMSException
      */
-    public function sendSMS($message, $to): void
+    public function sendSMS($message, $to): array
     {
-        if(env('APP_ENV') !== 'production') $to = '2679809681';
+        if(env('APP_ENV') !== 'production') $to = '299679809681';
 
         try {
             $client = new Client($this->sid, $this->token);
-            $client->messages->create(
+            $sender =  $client->messages->create(
                 $to,
                 [
                     'from' => $this->from,
@@ -39,9 +39,17 @@ class SmsManager
                 ]
             );
 
+            return [
+                'error' => false,
+                'message' => 'Message sent successfully'
+            ];
+
         } catch (TwilioException $exception) {
             //We want to know why the mesaage was not sent. Store in DB???
-            throw new SMSException($exception);
+            return [
+                'error' => true,
+                'message' => $exception->getMessage()
+            ];
         }
 
     }

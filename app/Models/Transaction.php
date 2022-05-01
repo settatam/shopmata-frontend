@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\EventNotification;
 use App\Services\Logistics\Fedex;
 use App\Services\Logistics\Shipping;
+use App\Services\SmsManager;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,7 +35,9 @@ class Transaction extends Model
         'estimated_profit',
         'incoming_tracking',
         'outgoing_tracking',
-        'kit_type'
+        'kit_type',
+        'public_message',
+        'private_message'
     ];
 
 
@@ -192,6 +195,16 @@ class Transaction extends Model
     public function getCreatedAtAttribute($value)
     {
     	return \Carbon\Carbon::parse($value)->diffForHumans();
+	}
+
+    public function getPrivateMessageAttribute($value)
+    {
+    	return optional($this->private_note)->notes;
+	}
+
+    public function getPublicMessageAttribute($value)
+    {
+    	return optional($this->public_note)->notes;
 	}
 
     public function getEstValueAttribute() {
@@ -452,6 +465,7 @@ class Transaction extends Model
         }
 
         if($history = $this->hasHistory(TransactionHistory::SHIPMENT_DECLINED)) {
+
             $response['shipment_declined'] = [
                 'date' => $history->created_at,
                 'icon' => 'XCircle',
@@ -460,33 +474,30 @@ class Transaction extends Model
             ];
 
             if($history = $this->hasHistory(TransactionHistory::SHIPMENT_RETURNED)) {
+
                 $response['shipment_returned'] = [
                     'date' => $history->created_at,
-                    'success' =>1,
-                    'default'=>1,
+                    'color' => TransactionHistory::DECLINED_COLOR,
                     'name'=>'Item Returned',
-                    'class'=>1
+                    'icon' => TransactionHistory::DECLINED_ICON,
                 ];
+
             }else{
-                $response[] = [
+
+                $response['shipment_returned'] = [
                     'date' => '',
-                    'success' =>0,
-                    'default'=>1,
-                    'name'=>'Item Returned',
-                    'class'=>1
+                    'color' => TransactionHistory::DECLINED_COLOR,
+                    'icon' => TransactionHistory::DECLINED_ICON,
+                    'name' => 'Item Returned'
                 ];
             }
         }
 
         if($history = $this->hasHistory(TransactionHistory::OFFER_GIVEN)) {
 
-            $response['offer_given'] = [
-                'date' => $history->created_at,
-                'success' => 1,
-                'default'=>1,
-                'name'=>'Offer Given',
-                'class'=>1
-            ];
+            $response['offer_given']['date'] = $history->created_at;
+            $response['offer_given']['icon'] = TransactionHistory::SUCCESS_ICON;
+            $response['offer_given']['color'] = TransactionHistory::SUCCESS_COLOR;
 
 //            if(in_array('Offer #2 Given', $attributes)) {
 //                    $response[] = [
@@ -509,65 +520,53 @@ class Transaction extends Model
 //            }
 
             if($history = $this->hasHistory(TransactionHistory::OFFER_ACCEPTED)) {
-                $response[] = [
+                $response['offer_accepted'] = [
                     'date' => $history->created_at,
-                    'success' => 1,
-                    'default'=>1,
                     'name'=>'Offer Accepted',
-                    'class'=>1,
-                    'color' => 'green'
+                    'color' => TransactionHistory::SUCCESS_COLOR,
+                    'icon' => TransactionHistory::SUCCESS_ICON,
                 ];
-            }else{
-                if (!$this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
-                    $response['offer_declined'] = [
-                        'date' => '',
-                    ];
-                }
+            }
+            if (!$this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
+                $response['offer_declined'] = [
+                    'date' => $history->created_at,
+                    'name'=>'Offer Declined',
+                    'color' => TransactionHistory::DECLINED_ICON,
+                    'icon' => TransactionHistory::DECLINED_COLOR,
+                ];
             }
 
             if($history = $this->hasHistory(TransactionHistory::OFFER_PAID)) {
-                $response[] = [
+                $response['payment_processed'] = [
                     'date' => $history->created_at,
-                    'success' => 1,
-                    'default'=>1,
-                    'name'=>'Payment Sent',
-                    'class'=>1
+                    'name'=>'Payment Processed',
+                    'color' => TransactionHistory::SUCCESS_COLOR,
+                    'icon' => TransactionHistory::SUCCESS_ICON,
                 ];
-            }else{
-//                $response[] = [
-//                    'date' => '',
-//                    'success' => 0,
-//                    'default'=>1,
-//                    'name'=>'Payment Processed',
-//                    'class'=>1
-//                ];
             }
 
             if($history = $this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
-                $response[] = [
+
+                $response['offer_declined'] = [
                     'date' => $history->created_at,
-                    'success' => 1,
-                    'default'=>1,
                     'name'=>'Offer Declined',
-                    'class' => 0,
-                    'color' => 'red'
+                    'color' => TransactionHistory::DECLINED_COLOR,
+                    'icon' => TransactionHistory::DECLINED_ICON,
                 ];
 
                 if($history = $this->hasHistory(TransactionHistory::SHIPMENT_RETURNED)) {
-                    $response[] = [
+                    $response['shipment_returned'] = [
                         'date' => $history->created_at,
-                        'success' =>1,
-                        'default'=>1,
-                        'name'=>'Item Returned',
-                        'class'=>1
+                        'name'=>'Shipment Returned',
+                        'color' => TransactionHistory::DECLINED_COLOR,
+                        'icon' => TransactionHistory::DECLINED_ICON,
                     ];
                 }else{
-                    $response[] = [
+                    $response['shipment_returned'] = [
                         'date' => '',
-                        'success' =>0,
-                        'default'=>1,
-                        'name'=>'Item Returned',
-                        'class'=>1
+                        'name'=>'Shipment Returned',
+                        'color' => TransactionHistory::OUTSTANDING_COLOR,
+                        'icon' => TransactionHistory::OUTSTANDING_ICON,
                     ];
                 }
             }
@@ -603,7 +602,8 @@ class Transaction extends Model
     }
 
     public function sendSMS($message) {
-
+        $smsMessage = new SmsManager();
+//        if($smsMessage->
     }
 
     public function createNote($type, $note=''){
@@ -612,6 +612,10 @@ class Transaction extends Model
             'transaction_id' => $this->id,
             'notes' => $note
         ]);
+    }
+
+    public function sendMessageAndPictures() {
+
     }
 
 }

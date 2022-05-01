@@ -94,10 +94,7 @@
 </template>
 
 <script>
-import AppLayout from '../../../Layouts/AppLayout.vue'
-
 export default {
-    components: { AppLayout },
     props: ['transaction', 'store'],
     setup () {
         return {}

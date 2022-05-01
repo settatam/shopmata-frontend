@@ -19,9 +19,9 @@
                     <div>
                         <select
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
-                            name=""
-                            id=""
-                            v-model="transaction.status_id"
+                            name="transaction_status"
+                            v-model="currentTransaction.status_id"
+                            @change="onChange($event)"
                         >
                             <option
                                 v-for="status in statuses"
@@ -32,11 +32,8 @@
                         </select>
                     </div>
                     <div class="ml-6">
-                        <button
-                            class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 md:ml-8 lg:mx-0 px-2"
-                            type="submit"
-                        >
-                            Confirm Status
+                        <button @click="updateTransaction('status')" class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 md:ml-8 lg:mx-0 px-2"
+                            type="button">Confirm Status
                         </button>
                     </div>
                 </div>
@@ -51,7 +48,7 @@
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
                             placeholder="Offer"
                             autocomplete="off"
-                            v-model="transaction.final_offer"
+                            v-model="currentTransaction.final_offer"
                         />
                         <div class="flex flex-row ml-1">
                             <input
@@ -67,7 +64,8 @@
                     <div class="">
                         <button
                             class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
-                            type="submit"
+                            type="button"
+                            @click="updateTransaction('offer')"
                         >
                             Send Offer
                         </button>
@@ -111,7 +109,7 @@
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="messagePublic"
+                        v-model="currentTransaction.public_message"
                     >
                     </textarea>
 
@@ -136,12 +134,12 @@
                         </div>
 
                         <div>
-                            <button
+                            <buttonb
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
                                 type="submit"
                             >
                                 Send New Kit
-                            </button>
+                            </buttonb>
                         </div>
                     </div>
                 </div>
@@ -156,25 +154,27 @@
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="messagePrivate"
+                        v-model="currentTransaction.private_message"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                                type="submit"
+                                type="button"
+                                @click="updateTransaction('message')"
                             >
-                                Email (Pictures & Cnotes)
+                                Email (Pictures &amp; Cnotes)
                             </button>
                         </div>
 
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                                type="submit"
+                                type="button"
+                                @click="updateTransaction('status_id', 50)"
                             >
-                                Email (Offer, Cnotes & Pictures)
+                                Email (Offer, Cnotes &amp; Pictures)
                             </button>
                         </div>
 
@@ -268,10 +268,11 @@ export default {
         MinusCircleIcon
     },
     props: ['transaction', 'bottom_tags', 'statuses', 'root', 'timeline'],
+    emits: ['transactionUpdated'],
     created: function () {
         this.moment = moment
     },
-    setup (props) {
+    setup (props, { emit }) {
         const popUp = ref(false)
         const successMessage = ref('')
         const popModal = () => {
@@ -301,6 +302,8 @@ export default {
             secondOffer: '',
             offer: ''
         })
+
+        const currentTransaction = ref(props.transaction);
 
         tmPublic =
             null !== props.root.public_note ? props.root.public_note.notes : ''
@@ -340,6 +343,38 @@ export default {
             }, 3000)
         )
 
+        function updateTransaction(event, status_id=null) {
+            let data = {};
+            switch(event) {
+                case 'status':
+                    data = {
+                        field: 'status_id',
+                        value: this.currentTransaction.status_id
+                    }
+                    break;
+                case 'message':
+                      data = {
+                        field: 'message',
+                        value: this.currentTransaction.status_id
+                      }
+                    break;
+                case 'offer':
+                    data = {
+                        field: 'offer',
+                        value: this.currentTransaction.final_offer
+                      }
+                    break;
+                case 'sms':
+                    data = {
+                        field: 'sms',
+                        value: this.currentTransaction.final_offer
+                      }
+                    break;
+            }
+
+            emit('transaction-updated', data)
+        }
+
         // notification
         function onClickTop () {
             notify(
@@ -351,6 +386,11 @@ export default {
                 4000
             )
         }
+
+        function onChange(event){
+            console.log(event.target.value);
+        }
+
         function onClickBot () {
             notify(
                 {
@@ -420,7 +460,10 @@ export default {
             //saveNote,
             transactionStatus,
             transactionOffer,
-            notes
+            notes,
+            updateTransaction,
+            onChange,
+            currentTransaction
         }
     }
 }
