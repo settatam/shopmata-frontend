@@ -252,7 +252,7 @@ class Transaction extends Model
     }
 
     public function trStatus() {
-        return $this->belongsTo(Status::class, 'status_id', 'id');
+        return $this->belongsTo(Status::class, 'status_id', 'status_id');
     }
 
     public function trLead() {
@@ -329,6 +329,20 @@ class Transaction extends Model
                 //Log Failure
             }
         return $this;
+    }
+
+    public function addOffer($amount) {
+        if($this->offers()->create([
+            'offer' => $amount
+        ])) {
+            $isSecondOffer = $this->offers()->count() > 1;
+            if($isSecondOffer) {
+                $this->doUpdate(['status_id'=>15]);
+            }else{
+                $this->doUpdate(['status_id'=>4]);
+            }
+            //Send Email about offer ...
+        }
     }
 
     public function shippingAddress() {
@@ -604,6 +618,22 @@ class Transaction extends Model
     public function sendSMS($message) {
         $smsMessage = new SmsManager();
 //        if($smsMessage->
+        $to = $this->customer->phone_number;
+        $from = $this->store->sms_send_from;
+        $sender = $smsMessage->sendSMS($message, $to);
+        if(!$sender['error']) {
+            $data = [
+                'message' => $message,
+                'from' => $from,
+                'to' => $to,
+//                'smsable_id' => $this->id,
+//                'smsable_type' => get_class($this),
+            ];
+            $this->sms()->create($data);
+        }else{
+            //Insert to failed messages
+            //Tag transaction
+        }
     }
 
     public function createNote($type, $note=''){

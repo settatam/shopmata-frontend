@@ -323,13 +323,44 @@ export default {
     setup (props) {
         const open = ref(false)
         const notifications = props.notifications
+        const transaction = props.transaction
 
-        function updateTransaction(data){
-            console.log('Transaction is about to be updated', data)
+        function updateTransaction(data) {
+            let currentData = {};
+            currentData[data.field] = data['value'];
+            let url = '';
+            let method = 'put';
+            switch(data.field) {
+                case 'offer':
+                    url = '/admin/transactions/'+props.transaction.id+'/offer';
+                    method = 'post';
+                    break;
+                case 'message':
+                     url = '/admin/transactions/'+props.transaction.id+'/message';
+                     method = 'post';
+                     break;
+                default:
+                    method = 'put';
+                    url = '/admin/transactions/'+props.transaction.id
+            }
+
+            if(method == 'put') {
+                axios.put(url, currentData).then(res => {
+                // props.transaction.value = res.data
+                })
+            }else{
+                axios.post(url, currentData).then(res => {
+                // props.transaction.value = res.data
+                })
+            }
+
         }
+
+
         return {
             pages,
-            updateTransaction
+            updateTransaction,
+            transaction
         }
     }
 }

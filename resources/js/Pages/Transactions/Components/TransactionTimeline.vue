@@ -125,12 +125,12 @@
                         </div>
 
                         <div>
-                            <button
-                                class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                                type="submit"
+                            <a
+                                class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                                :href="'/admin/transactions/'+transaction.id+'/barcode'" target="_blank"
                             >
                                 Print Barcodes
-                            </button>
+                            </a>
                         </div>
 
                         <div>
@@ -268,7 +268,7 @@ export default {
         MinusCircleIcon
     },
     props: ['transaction', 'bottom_tags', 'statuses', 'root', 'timeline'],
-    emits: ['transactionUpdated'],
+    emits: ['transaction-updated'],
     created: function () {
         this.moment = moment
     },
