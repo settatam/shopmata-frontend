@@ -8,7 +8,7 @@
             img {
                 page-break-after: always;
                 display: block;
-                height: 100%;
+                height: 100vh;
                 width: 100%;
                 /*height: 90px;*/
                 /*width: 390px;*/
