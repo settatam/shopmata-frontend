@@ -5,7 +5,7 @@
                 margin: 0;
                 padding: 0;
             }
-            div {
+            img {
                 page-break-after: always;
                 /*height: 90px;*/
                 /*width: 390px;*/
@@ -22,9 +22,7 @@
     <body>
         @foreach($printables as $printable)
             @for($i=0; $i<2; $i++)
-                <div>
-                    <img src="data:image/png;base64, {{ $printable->raw_data }}" />
-                </div>
+                <img src="data:image/png;base64, {{ $printable->raw_data }}" />
             @endfor
         @endforeach
 
