@@ -8,8 +8,8 @@
             img {
                 page-break-after: always;
                 display: block;
-                height: 6mm;
-                width: 4mm;
+                height: 6in;
+                width: 4in;
                 /*height: 90px;*/
                 /*width: 390px;*/
                 /*border: 1px solid #000;*/
@@ -17,7 +17,7 @@
 
             @media print {
               @page {
-                size: 6mm 4mm;
+                size: 4in 6in;
               }
             }
         </style>
