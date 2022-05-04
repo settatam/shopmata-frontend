@@ -7,7 +7,7 @@ class Barcode
     public static function generate($transaction) {
         $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
 
-		$barcode_data = $generator->getBarcode($transaction->id, $generator::TYPE_CODE_128,1.5,70);
+		$barcode_data = $generator->getBarcode($transaction->id, $generator::TYPE_CODE_128,1.5,65);
 
 		$i = imagecreatetruecolor(390, 88);
 		$x = imagecreatefromstring($barcode_data);
@@ -25,7 +25,7 @@ class Barcode
 		$t = imagecolorallocatealpha($x, 255, 255, 255, 127);
 		imagecolortransparent($x,$t);
 
-		imagecopy($i, $x, 0, 0, 0, 0, imagesx($x), imagesy($x));
+		imagecopy($i, $x, 10, 5, 0, 0, imagesx($x), imagesy($x));
 
 		$text = imagecolorallocate($i, 0, 0, 0);
 		$font = public_path().'/fonts/arial.ttf';
@@ -33,7 +33,7 @@ class Barcode
 		$line_height = $font_size + 5;
 		$y = $line_height;
 
-		imagettftext($i, 10, 0, 1, 85, $text, $font, '#'.$transaction->id);
+		imagettftext($i, 10, 0, 10, 85, $text, $font, '#'.$transaction->id);
 
 		imagettftext($i, $font_size, 0, 150, $y, $text, $font, $transaction->customer->name); $y += $line_height;
 		$y += 5;
@@ -43,6 +43,11 @@ class Barcode
 		/* remove phone number from label requested July 2019 *//* if (!empty($order_info['customer_phone'])) { imagettftext($i, $font_size, 0, 150, $y, $text, $font, $order_info['customer_phone']); $y += $line_height; } */
 		// imagettftext($i, $font_size, 0, 150, $y, $text, $font, $order_info['customer_email']); $y += $line_height;
 
-        return $i;
+        ob_start();
+		imagepng($i);
+        $image_data = ob_get_contents();
+        ob_end_clean();
+
+        return base64_encode($image_data);
     }
  }

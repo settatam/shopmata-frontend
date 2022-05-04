@@ -33,12 +33,11 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-
         $transactions = Transaction::with('items','customer','images')
-                                ->where('store_id',session('store_id'))
+//                                ->where('store_id',session('store_id'))
                                 ->latest()
                                 ->paginate(10);
-        $transactions->load('customer.state');
+//        $transactions->load('customer.state');
         return Inertia::render('Transactions/Index',compact('transactions'));
     }
 
@@ -73,7 +72,7 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        $transaction                 = Transaction::findorFail($id);
+        $transaction                 = Transaction::with('shippingLabels')->findorFail($id);
         $statuses                    = Status::all();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
@@ -250,14 +249,18 @@ class TransactionsController extends Controller
        $transaction = Transaction::find($id);
        switch($printable) {
            case 'barcode':
-               Barcode::generate($transaction);
+               $printables = [Barcode::generate($transaction)];
                break;
            case 'label':
-               echo 'yes';
+//               $transaction->getShippingLabel();
+               $printables = $transaction->shippingLabels;
+               return view('pages.label', compact('printables'));
                break;
            default:
                echo 'no';
        }
+
+       return view('pages.barcode', compact('printables'));
     }
 
     /**
@@ -330,7 +333,7 @@ class TransactionsController extends Controller
                 $transaction->addOffer($input['offer']);
                 break;
             case 'status':
-                $this->updateStatus($input);
+                $transaction->doUpdate($input);
                 break;
 //            case:
 

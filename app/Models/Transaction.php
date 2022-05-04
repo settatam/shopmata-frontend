@@ -26,18 +26,18 @@ class Transaction extends Model
     ];
 
     protected $appends = [
-        'est_value',
-        'total_dwt',
-        'final_offer',
-        'payment_type',
-        'lead',
-        'status',
-        'estimated_profit',
-        'incoming_tracking',
-        'outgoing_tracking',
-        'kit_type',
-        'public_message',
-        'private_message'
+//        'est_value',
+//        'total_dwt',
+//        'final_offer',
+//        'payment_type',
+//        'lead',
+//        'status',
+//        'estimated_profit',
+//        'incoming_tracking',
+//        'outgoing_tracking',
+//        'kit_type',
+//        'public_message',
+//        'private_message'
     ];
 
 
@@ -346,7 +346,7 @@ class Transaction extends Model
     }
 
     public function shippingAddress() {
-        return $this->hasOne(Address::class)->where('type', Address::SHIPPING_ADDRESS_TYPE);
+        return $this->morphOne(Address::class, 'addressable');
     }
 
     public function shippingLabels() {
@@ -359,6 +359,14 @@ class Transaction extends Model
 
     public function shippingLabelTo() {
         return $this->hasOne(ShippingLabel::class)->where('type',  Shipping::SHIPPING_TYPE_TO);
+    }
+
+    public function getShippingLabel() {
+//        if($labelObj)
+        $shipping = new Fedex();
+        $shipping->setRecipient($this->customer->shippingAddress);
+        $shipping->setShipper($this->store->shippingAddress);
+        $shipping->getLabel();
     }
 
 //    public function address() {
@@ -379,11 +387,11 @@ class Transaction extends Model
         $recipientAddress = null;
         //Check to see if both shipping addresses exist
         if ($type == Shipping::SHIPPING_TYPE_FROM){
-            $shipperAddress = $this->customer->shippingAddress();
-            $recipientAddress = $this->store->shippingAddress();
+            $shipperAddress = $this->shippingAddress;
+            $recipientAddress = $this->store->shippingAddress;
         }else if($type == Shipping::SHIPPING_TYPE_TO) {
-            $shipperAddress = $this->customer->shippingAddress();
-            $recipientAddress = $this->store->shippingAddress();
+            $recipientAddress = $this->shippingAddress;
+            $shipperAddress = $this->store->shippingAddress;
         }
 
         if(null !== $shipperAddress && null !== $recipientAddress) {

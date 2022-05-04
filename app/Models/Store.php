@@ -164,7 +164,7 @@ class Store extends Model
     }
 
     public function shippingAddress() {
-        return $this->addresses()->first();
+        return $this->morphOne(Address::class, 'addressable');
     }
 
     public function pages() {
