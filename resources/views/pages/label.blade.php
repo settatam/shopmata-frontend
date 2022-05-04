@@ -14,7 +14,7 @@
 
             @media print {
               @page {
-                /*size: auto*/
+                size: 4mm 6mm;
               }
             }
         </style>
