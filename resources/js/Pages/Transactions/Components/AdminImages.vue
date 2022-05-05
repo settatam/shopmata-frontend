@@ -16,50 +16,21 @@
                     >
                         <li class="flex text-gray-700 justify-between">
                             <p class="w-3/10">Image</p>
-                            <p
-                                class="w-5/10 border-r border-l border-gray-300 px-6"
-                            >
-                                Description
-                            </p>
+                          
                             <p class="w-2/10 px-2">Thumbnail</p>
                         </li>
                     </div>
 
-                    <div class="" v-if="display ? images.length : media_open">
+                    <div class="" >
                         <images-list 
-                        :images="images"
-                        v-if="display ? images.length : true"
-                        @delete_img="delete_img" 
+                            :images="images"
+                            v-if="images.length"
+                            @image-deleted="delete_img" 
                         />
-                        <Dropzone @add-image="onAddImage" class="" :root="root"/>
+
+                        <Dropzone :transaction="root" @add-image="onAddImage" class="" />
                     </div>
-                    <!-- <label
-                        class="flex justify-center h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
-                    >
-                        <span class="flex items-center space-x-2">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="w-6 h-6 text-gray-600"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                />
-                            </svg>
-                            <span class="font-medium text-gray-600">
-                                Drop files to Attach, or
-                                <span class="text-blue-600 underline"
-                                    >browse</span
-                                >
-                            </span>
-                        </span>
-                        <input type="file" name="file_upload" class="hidden" />
-                    </label> -->
+                    
                 </div>
 
                 
@@ -69,24 +40,23 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from '@vue/reactivity'
+import {  ref } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import Dropzone from './Dropzone'
 import ImagesList from './ImagesList'
-import { notify } from 'notiwind'
-import { onMounted } from '@vue/runtime-core'
 
 export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ['root'],
     setup (props) {
         let note_images = props.root.public_note ? props.root.public_note.images : [];
+        console.log(props.root)
         const display = ref("")
         const media_open = ref(true)
         const images  = ref(note_images)
 
-        function delete_img (image) {
-            images = image;
+        function delete_img (index) {
+            images.value.splice(index)
         }
 
         function onAddImage (response) {

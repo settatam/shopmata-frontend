@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use App\Models\Image;
 
 
 class TransactionItemsController extends Controller
@@ -28,7 +29,37 @@ class TransactionItemsController extends Controller
             return response()->json($transaction,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to update item" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response("Something went wrong", 422);
+            return response($th->getMessage(), 422);
+        }
+    }
+
+
+
+    public function updateImage(Request $request, $id)
+    {
+        try {
+            $item = TransactionItem::find($id);
+            TransactionItem::addImages($request, $id);
+            $item->load('images');
+            return response()->json($item,  200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response($th->getMessage(), 422);
+        }
+    }
+
+
+    public function deleteImage(Request $request, $id)
+    {
+        try {
+            $item = TransactionItem::find($id);
+            $transaction = Transaction::find($item->transaction_id);
+            $item->delete();
+            $transaction->load('items','items.images');
+            return response()->json($transaction,  200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to delete image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response($th->getMessage(), 422);
         }
     }
 
@@ -36,7 +67,7 @@ class TransactionItemsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @ret==[]p-;l9orn \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -52,3 +83,5 @@ class TransactionItemsController extends Controller
         }
     }
 }
+
+

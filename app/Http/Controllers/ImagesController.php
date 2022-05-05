@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
+use App\Models\Image;
 
 
 class ImagesController extends Controller
@@ -82,8 +83,14 @@ class ImagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            Image::deleteImage($request);
+            return response()->json(null,  200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to delete image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response($th->getMessage(), 422);
+        }
     }
 }

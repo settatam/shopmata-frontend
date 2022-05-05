@@ -1,25 +1,9 @@
 <template>
-    <!-- <ul role="list" class="divide-y divide-gray-200 w-100">
-        <li
-            v-for="image in images"
-            :key="image.id"
-            class="flex justify-between "
-            :id="'image_' + image.id"
-        >
-                <img
-                    class="h-10 w-10 cursor-pointer"
-                    :src="image[0].thumb"
-                    alt=""
-                /> 
-        </li>
-    </ul> -->
-
     <ul role="list" class="divide-y divide-gray-200 w-100">
         <li
-            v-for="(image, index) in images"
             :key="image.index"
             class="flex justify-between border-b border-gray-300"
-            :id="'image_' + image.index"
+            :id="'image_' + index"
         >
             <div class="w-3/10 py-3">
                 <img
@@ -39,7 +23,7 @@
                     v-else
                     class="w-6 h-6 text-red-500 cursor-pointer"
                     :id="image.index"
-                    @click="deleteExisting(index)"
+                    @click="deleteImg(image, index)"
                 />
             </div>
         </li>
@@ -48,56 +32,41 @@
 
 <script>
 import { TrashIcon } from '@heroicons/vue/outline'
-import { notify } from 'notiwind'
-import { ref, reactive } from 'vue'
-import axios from 'axios'
+import { ref } from 'vue'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
+import fileUploader from '../../../Utils/fileUploader'
+
 export default {
     components: {
         TrashIcon,
         LoadingSpinner
     },
-    props: {
-        images: Array
-    },
-    emits: ['delete_img'],
+    props: [
+        'image',
+        'index'
+    ],
+    emits: ['image-delete'],
     setup (props, { emit }) {
-        const successMessage = ref('')
         const loading = ref(null)
+        const  { deleteImage } = fileUploader();
+        const  message = ref('')
 
-        function deleteExisting (index) {
-            loading.value = index
-            emit('delete_img', index)
+        function deleteImg (image, index) {
+            let image_id = null;
+            let image_url = image
+            let images = []
+            const url = `/admin/images/delete`;
+            deleteImage({
+              image_id, image_url, index, loading, url , message, images
+            }).then( () => {
+                emit('image-delete', index);
+                document.getElementById('image_' + index).remove()
+            })
         }
-
-        // notification
-        function onClickTop () {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot () {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        // notification ends
 
         return {
-            deleteExisting,
-            onClickTop,
-            onClickBot,
-            loading
+            deleteImg,
+            loading,
         }
     }
 }
