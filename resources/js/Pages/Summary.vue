@@ -6,14 +6,14 @@
                 <h1 class="my-3 font-bold text-xl">{{ index }}</h1>
             </div>
 
-            <div class="m-3 grid grid-cols-2 gap-4">
+            <div class="m-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Kits start -->
-                <div class=" rounded-md bg-white lg:mx-2">
+                <div class=" rounded-md bg-white lg:mx-2 max-h-min">
                     <!-- header -->
                     <div
                         class="rounded-t-md w-full bg-purple-darken p-4 text-white"
                     >
-                        <h1>Kits</h1>
+                        <h1 class="text-xl">Kits</h1>
                     </div>
 
                     <!-- list -->
@@ -21,7 +21,7 @@
                         <p
                             v-for="counter in item.kit"
                             :key="counter.index"
-                            class="py-1 px-3 flex justify-between"
+                            class="py-1 my-1 px-3 flex justify-between bg-gray-grayer"
                         >
                             <span>{{ counter.counter }}</span>
                             <span>{{ counter.val }}</span>
@@ -37,7 +37,7 @@
                         <div
                             class="rounded-t-md w-full bg-purple-darken p-4 text-white"
                         >
-                            <h1>Fedex</h1>
+                            <h1 class="text-xl">Fedex</h1>
                         </div>
 
                         <!-- list -->
@@ -45,7 +45,7 @@
                             <p
                                 v-for="counter in item.fedex"
                                 :key="counter.index"
-                                class="py-1 px-3 flex justify-between"
+                                class="py-1 px-3 flex justify-between my-1 bg-gray-grayer"
                             >
                                 <span>{{ counter.counter }}</span>
                                 <span>{{ counter.val }}</span>
@@ -60,7 +60,7 @@
                         <div
                             class="rounded-t-md w-full bg-purple-darken p-4 text-white"
                         >
-                            <h1>Import</h1>
+                            <h1 class="text-xl">Import</h1>
                         </div>
 
                         <!-- list -->
@@ -68,7 +68,7 @@
                             <p
                                 v-for="counter in item.import"
                                 :key="counter.index"
-                                class="py-1 px-3 flex justify-between"
+                                class="py-1 px-3 flex justify-between my-1 bg-gray-grayer"
                             >
                                 <span>{{ counter.counter }}</span>
                                 <span>{{ counter.val }}</span>
@@ -83,7 +83,7 @@
                         <div
                             class="rounded-t-md w-full bg-purple-darken p-4 text-white"
                         >
-                            <h1>MISC</h1>
+                            <h1 class="text-xl">MISC</h1>
                         </div>
 
                         <!-- list -->
@@ -91,7 +91,7 @@
                             <p
                                 v-for="counter in item.misc"
                                 :key="counter.index"
-                                class="py-1 px-3 flex justify-between"
+                                class="py-1 px-3 flex justify-between my-1 bg-gray-grayer"
                             >
                                 <span>{{ counter.counter }}</span>
                                 <span>{{ counter.val }}</span>
@@ -111,16 +111,7 @@
 import { ref } from 'vue'
 import AppLayout from '../Layouts/AppLayout.vue'
 import axios from 'axios'
-import {
-    BadgeCheckIcon,
-    ChevronDownIcon,
-    ChevronRightIcon,
-    CollectionIcon,
-    SearchIcon,
-    SortAscendingIcon,
-    StarIcon,
-    ShoppingBagIcon
-} from '@heroicons/vue/solid'
+import { BadgeCheckIcon, SearchIcon } from '@heroicons/vue/solid'
 import { ScaleIcon } from '@heroicons/vue/outline'
 
 const statusStyles = {
@@ -132,15 +123,8 @@ const statusStyles = {
 export default {
     components: {
         AppLayout,
-        ScaleIcon,
         BadgeCheckIcon,
-        ChevronDownIcon,
-        ChevronRightIcon,
-        CollectionIcon,
-        SearchIcon,
-        SortAscendingIcon,
-        ShoppingBagIcon,
-        StarIcon
+        SearchIcon
     },
     props: {
         notifications: Array,
