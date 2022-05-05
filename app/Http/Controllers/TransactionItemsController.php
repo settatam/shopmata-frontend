@@ -25,7 +25,7 @@ class TransactionItemsController extends Controller
             $item = TransactionItem::find($request->item_id);
             $transaction = Transaction::find($item->transaction_id);
             TransactionItem::createUpdateItem($request, $item);
-            $transaction->load('items','items.images');
+            $transaction->load('items','items.images','items.category');
             return response()->json($transaction,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to update item" . collect($request->all())  ."  Error: " .$th->getMessage() );
