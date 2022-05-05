@@ -281,10 +281,10 @@ class TransactionsController extends Controller
                         $l_image = $image[0]['large'];
                         $tn_image = $image[0]['thumb'];
                         $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
-                        $transaction_note->images()->save($imgs);
+                        $customer_note->images()->save($imgs);
                     }
 
-                    return response()->json($transaction_note->images,  200);
+                    return response()->json($customer_note->images,  200);
                 } catch (\Throwable $th) {
                     \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
                     return response($th->getMessage() ,422);
