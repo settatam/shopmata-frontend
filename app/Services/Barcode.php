@@ -9,7 +9,7 @@ class Barcode
 
 		$barcode_data = $generator->getBarcode($transaction->id, $generator::TYPE_CODE_128,1.5,65);
 
-		$i = imagecreatetruecolor(390, 88);
+		$i = imagecreatetruecolor(390, 78);
 		$x = imagecreatefromstring($barcode_data);
 
 		$w = imagecolorallocate($i, 255, 255, 255);
