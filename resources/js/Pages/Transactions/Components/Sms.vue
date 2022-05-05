@@ -53,6 +53,7 @@
                     name=""
                     id=""
                     rows="10"
+                    v-model="smsMessage"
                 ></textarea>
             </div>
 
@@ -60,6 +61,7 @@
                 <button
                     class="bg-purple-darken px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken lg:w-1/2"
                     type="submit"
+                    @click="addMessage"
                 >
                     Send Message
                 </button>
@@ -71,12 +73,14 @@
 <script>
 import { computed } from '@vue/runtime-core'
 import AppLayout from '../../../Layouts/AppLayout.vue'
+import { ref, reactive } from 'vue'
 
 export default {
     components: { AppLayout },
-    props: ['transaction'],
+    props: ['transaction', 'id'],
     setup (props) {
         const smsTimes = props.transaction
+        let smsMessage = ref('');
 
         function formatDate (date) {
             var hours = date.getHours()
@@ -89,13 +93,21 @@ export default {
             return date.getMonth() + 1 + '/' + date.getDate() + '  ' + strTime
         }
 
+        function addMessage() {
+            axios.post('/admin/transactions/'+props.id+'/sms', {
+                message: smsMessage.value
+            }).then(res => {
+                console.log(res);
+            })
+        }
+
         const formattedTimes = computed(() => {
             return smsTimes.map(item => {
                 let d = new Date(Date.parse(item.created_at))
                 return formatDate(d)
             })
         })
-        return { smsTimes, formatDate, formattedTimes }
+        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage }
     }
 }
 </script>
