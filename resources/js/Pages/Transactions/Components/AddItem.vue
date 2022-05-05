@@ -71,7 +71,7 @@
                                         v-model="category_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                     >
-                                        <option default value="0"
+                                        <option  value="0"
                                             >Choose Category</option
                                         >
                                         <option
@@ -202,23 +202,15 @@
                                 </div>
 
                                 <div class="required w-full mb-4">
-                                    <!-- <button
-                                        class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                                    >
-                                        <span class="ml-2"
-                                            >Click to upload files</span
-                                        >
-                                    </button>
-                                    <input
-                                        class="cursor-pointer absolute block opacity-0 pin-r pin-t"
-                                        type="file"
-                                        multiple
-                                    /> -->
-                                    <images-list
-                                        :images="images"
-                                        @delete_img="delete_img" 
-                                        v-if="display ? images.length : true"
-                                    />
+                                    <template  v-if="images.length">
+                                        <images-list
+                                            @image-delete="delete_img"
+                                            v-for="(image, index) in images"
+                                            :image="image"
+                                            :index="index"
+                                            :key="index"
+                                        />
+                                    </template>
 
                                     <AddItemDropzone
                                         @add-image="onAddImage"
@@ -267,6 +259,8 @@ import { required, helpers, numeric } from '@vuelidate/validators'
 import debounce from 'lodash/debounce'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 import AddItemDropzone from '../Components/AddItemDropzone.vue'
+import AddItemsImagesList from '../Components/AddItemsImagesList.vue'
+
 import ImagesList from '../Components/AddItemsImagesList.vue'
 
 export default {
@@ -282,14 +276,14 @@ export default {
         LoadingSpinner,
         ImagesList
     },
-    emits: ['return-response', 'close-modal'],
+    emits: ['it-added', 'close-modal'],
     setup (props, { emit }) {
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
         const transaction_id = props.root.id
         const dwt = ref('')
-        const category_id = ref('')
+        const category_id = ref(0)
         const images = ref([])
         const text = ref('Save')
         const loading = ref(false)
@@ -350,21 +344,20 @@ export default {
         const v$ = useVuelidate(rules, itemPayload)
 
         function onAddImage (response) {
-            // console.log(response)
-            response.map((item)=>{
-                images.value.push(item)
+            response.data.map((image)=>{
+                images.value.push(image.large)
             })
         }
 
         function delete_img(index){
             images.value.splice(index,1)
-
+            console.log(images)
         }
 
         function submit () {
             this.v$.$validate()
             loading.value = false
-            text.value = 'Saving'
+            text.value    = 'Saving'
             axios
                 .post(
                     `/admin/transactions/${transaction_id}/items`,
@@ -372,7 +365,7 @@ export default {
                 )
                 .then(res => {
                     loading.value = false
-                    emit('return-response', res)
+                    emit('it-added', res)
                     open.value = false
                     emit('close-modal', open.value)
                 })

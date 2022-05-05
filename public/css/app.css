@@ -2954,6 +2954,10 @@ select {
 	padding-top: 2.5rem;
 	padding-bottom: 2.5rem;
 }
+.px-8 {
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
 .py-2\.5 {
 	padding-top: 0.625rem;
 	padding-bottom: 0.625rem;
@@ -2981,10 +2985,6 @@ select {
 .px-2\.5 {
 	padding-left: 0.625rem;
 	padding-right: 0.625rem;
-}
-.px-8 {
-	padding-left: 2rem;
-	padding-right: 2rem;
 }
 .py-0\.5 {
 	padding-top: 0.125rem;
@@ -3061,6 +3061,12 @@ select {
 }
 .pb-20 {
 	padding-bottom: 5rem;
+}
+.pb-6 {
+	padding-bottom: 1.5rem;
+}
+.pl-1 {
+	padding-left: 0.25rem;
 }
 .pl-2 {
 	padding-left: 0.5rem;
@@ -3161,9 +3167,6 @@ select {
 .pt-2\.5 {
 	padding-top: 0.625rem;
 }
-.pb-6 {
-	padding-bottom: 1.5rem;
-}
 .pl-9 {
 	padding-left: 2.25rem;
 }
@@ -3184,9 +3187,6 @@ select {
 }
 .pl-4\.5 {
 	padding-left: 1.125rem;
-}
-.pl-1 {
-	padding-left: 0.25rem;
 }
 .pb-12 {
 	padding-bottom: 3rem;
@@ -3503,10 +3503,6 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(127, 29, 29, var(--tw-text-opacity));
 }
-.text-blue-600 {
-	--tw-text-opacity: 1;
-	color: rgba(37, 99, 235, var(--tw-text-opacity));
-}
 .text-opacity-40 {
 	--tw-text-opacity: 0.4;
 }
@@ -3763,10 +3759,6 @@ input[type='checkbox']:focus {
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity));
-}
-.hover\:border-gray-400:hover {
-	--tw-border-opacity: 1;
-	border-color: rgba(156, 163, 175, var(--tw-border-opacity));
 }
 .hover\:bg-indigo-600:hover {
 	--tw-bg-opacity: 1;
@@ -4095,16 +4087,16 @@ input[type='checkbox']:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
 }
+.active\:bg-indigo-600:active {
+	--tw-bg-opacity: 1;
+	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
+}
 .active\:bg-purple-darker:active {
 	--tw-bg-opacity: 1;
 	background-color: rgba(99, 42, 109, var(--tw-bg-opacity));
 }
 .active\:bg-transparent:active {
 	background-color: transparent;
-}
-.active\:bg-indigo-600:active {
-	--tw-bg-opacity: 1;
-	background-color: rgba(79, 70, 229, var(--tw-bg-opacity));
 }
 .active\:bg-cyan-600:active {
 	--tw-bg-opacity: 1;
