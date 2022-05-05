@@ -7,9 +7,9 @@ class Barcode
     public static function generate($transaction) {
         $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
 
-		$barcode_data = $generator->getBarcode($transaction->id, $generator::TYPE_CODE_128,1.5,55);
+		$barcode_data = $generator->getBarcode($transaction->id, $generator::TYPE_CODE_128,1.5,45);
 
-		$i = imagecreatetruecolor(390, 68);
+		$i = imagecreatetruecolor(390, 78);
 		$x = imagecreatefromstring($barcode_data);
 
 		$w = imagecolorallocate($i, 255, 255, 255);
