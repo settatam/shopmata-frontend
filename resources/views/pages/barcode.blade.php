@@ -10,7 +10,6 @@
                 display: block;
                 height: 1.125in;
                 width: 3.5in;
-                margin: .5in;
             }
 
             @media print {
