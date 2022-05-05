@@ -8,8 +8,8 @@
             img {
                 page-break-after: always;
                 display: block;
-                width: 1.125in;
-                height: 3.5in;
+                height: 1.125in;
+                width: 3.5in;
                 margin: .5in;
             }
 
@@ -31,6 +31,7 @@
         @endforeach
 
         <script type="text/javascript">
+
               window.onload = function() { window.print(); }
          </script>
     </body>
