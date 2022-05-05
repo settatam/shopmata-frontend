@@ -25,6 +25,12 @@ class TransactionItem extends Model
 	}
 
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+	}
+
+
     public static function createUpdateItem($request, $transactionItem, $update=false)
     {   
          

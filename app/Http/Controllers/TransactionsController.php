@@ -80,7 +80,7 @@ class TransactionsController extends Controller
         $transactions                = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
-        $transaction->load('customer','customer.state','items','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note');
+        $transaction->load('customer','customer.state','items','items.category','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note');
         $timeline = $transaction->historyTimeline();
         return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags', 'timeline'));
     }
@@ -294,8 +294,11 @@ class TransactionsController extends Controller
                 break;
             case 'items':
                 try {
-                    TransactionItem::createUpdateItem($request);
-                    $transaction->load('items','items.images');
+                    
+                    $transaction = Transaction::find($request->transaction_id);
+                    $item = new TransactionItem;
+                    TransactionItem::createUpdateItem($request, $item);
+                    $transaction->load('items','items.images','items.category');
                     return response()->json($transaction,  200);
 
                 } catch (\Throwable $th) {
