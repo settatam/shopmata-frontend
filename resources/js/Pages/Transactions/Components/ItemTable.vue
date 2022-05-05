@@ -215,7 +215,7 @@
                     <td
                         class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        $600.00
+                        
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
