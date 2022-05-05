@@ -5,28 +5,25 @@
                 margin: 0;
                 padding: 0;
             }
-            @page {
-                size: A4;
-                margin: 0;
-                padding: 0;
-            }
-            div {
+            img {
                 page-break-after: always;
-                height: 90px;
-                width: 390px;
-                border: 1px solid #000;
+                display: block;
+                height: 1.125in;
+                width: 3.5in;
+                margin: .5in;
             }
 
             @media print {
               @page {
-                size: auto
+                  size: auto;
+                  margin: 0;
               }
             }
         </style>
     </head>
     <body>
         @foreach($printables as $printable)
-            @for($i=0; $i<5; $i++)
+            @for($i=0; $i<2; $i++)
                 <div>
                     <img src="data:image/png;base64, {{ $printable }}" />
                 </div>
