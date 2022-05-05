@@ -9,7 +9,8 @@
                 page-break-after: always;
                 display: block;
                 height: 108px;
-                width: 390px;
+                /*width: 390px;*/
+                max-width: 100%;
             }
 
             @media print {
