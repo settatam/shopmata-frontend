@@ -27,7 +27,7 @@ class SmsManager
      */
     public function sendSMS($message, $to): array
     {
-        if(env('APP_ENV') !== 'production') $to = '299679809681';
+        if(env('APP_ENV') !== 'production') $to = '2679809681';
 
         try {
             $client = new Client($this->sid, $this->token);

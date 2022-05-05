@@ -213,6 +213,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::resource('settings/remittance', PayoutSettingsController::class);
         Route::resource('transactions', TransactionsController::class);
+        Route::get('transactions/{id}/{printable}', [TransactionsController::class, 'printable']);
         Route::post('transactions/{id}/{extra}', [TransactionsController::class, 'extras']);
         Route::post('transaction/tag', [TransactionsController::class, 'addTag']);
         Route::post('transaction/notes', [TransactionsController::class, 'addNote']);
