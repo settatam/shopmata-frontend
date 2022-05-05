@@ -7,9 +7,9 @@ class Barcode
     public static function generate($transaction) {
         $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
 
-		$barcode_data = $generator->getBarcode($transaction->id, $generator::TYPE_CODE_128,1.5,65);
+		$barcode_data = $generator->getBarcode($transaction->id, $generator::TYPE_CODE_128,2.0,45);
 
-		$i = imagecreatetruecolor(390, 88);
+		$i = imagecreatetruecolor(390, 78);
 		$x = imagecreatefromstring($barcode_data);
 
 		$w = imagecolorallocate($i, 255, 255, 255);
@@ -33,13 +33,13 @@ class Barcode
 		$line_height = $font_size + 5;
 		$y = $line_height;
 
-		imagettftext($i, 10, 0, 10, 85, $text, $font, '#'.$transaction->id);
+		imagettftext($i, 10, 0, 10, 65, $text, $font, '#'.$transaction->id);
 
-		imagettftext($i, $font_size, 0, 150, $y, $text, $font, $transaction->customer->name); $y += $line_height;
+		imagettftext($i, $font_size, 0, 185, $y, $text, $font, $transaction->customer->first_name .' '. $transaction->customer->last_name); $y += $line_height;
 		$y += 5;
 		$font_size = 8;
-		imagettftext($i, $font_size, 0, 150, $y, $text, $font, $transaction->customer->address); $y += $line_height;
-		imagettftext($i, $font_size, 0, 150, $y, $text, $font, $transaction->customer->city.', '.$transaction->customer->state->code .', '.$transaction->customer->zip); $y += $line_height;
+		imagettftext($i, $font_size, 0, 185, $y, $text, $font, $transaction->customer->address); $y += $line_height;
+		imagettftext($i, $font_size, 0, 185, $y, $text, $font, $transaction->customer->city.', '.$transaction->customer->state->code .', '.$transaction->customer->zip); $y += $line_height;
 		/* remove phone number from label requested July 2019 *//* if (!empty($order_info['customer_phone'])) { imagettftext($i, $font_size, 0, 150, $y, $text, $font, $order_info['customer_phone']); $y += $line_height; } */
 		// imagettftext($i, $font_size, 0, 150, $y, $text, $font, $order_info['customer_email']); $y += $line_height;
 

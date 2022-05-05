@@ -240,6 +240,7 @@ class TransactionsController extends Controller
        switch($printable) {
            case 'barcode':
                $printables = [Barcode::generate($transaction)];
+               return view('pages.barcode', compact('printables'));
                break;
            case 'label':
 //               $transaction->getShippingLabel();
@@ -250,7 +251,7 @@ class TransactionsController extends Controller
                echo 'no';
        }
 
-       return view('pages.barcode', compact('printables'));
+//       return view('pages.barcode', compact('printables'));
     }
 
     /**
@@ -276,7 +277,7 @@ class TransactionsController extends Controller
                     );
 
                     $image  = FileUploader::upload($request);
-                
+
                     if ( isset($image[0]['thumb']) ){
                         $l_image = $image[0]['large'];
                         $tn_image = $image[0]['thumb'];
@@ -294,7 +295,7 @@ class TransactionsController extends Controller
                 break;
             case 'items':
                 try {
-                    
+
                     $transaction = Transaction::find($request->transaction_id);
                     $item = new TransactionItem;
                     TransactionItem::createUpdateItem($request, $item);

@@ -171,7 +171,8 @@ class Fedex extends Shipping
             'contact' => [
                 'personName' => $user->first_name . ' ' . $user->last_name,
                 'emailAddress' => $user->email,
-                'phoneNumber' => $user->phone,
+                //'phoneNumber' => $user->phone,
+                'phoneNumber' => '2679809681',
                 'phoneExtension' => $user->extension,
                 'companyName' => $user->company_name
             ],
@@ -198,7 +199,8 @@ class Fedex extends Shipping
             'contact' => [
                 'personName' => $user->first_name . ' ' . $user->last_name,
 //                'emailAddress' => $user->email,
-                'phoneNumber' => $user->phone,
+                //'phoneNumber' => $user->phone,
+                'phoneNumber' => '2679809681',
 //                'phoneExtension' => $user->extension,
                 'companyName' => $user->company_name
             ],
@@ -209,7 +211,7 @@ class Fedex extends Shipping
         return [
             'mergeLabelDocOption' =>  'LABELS_ONLY', //"NONE" "LABELS_AND_DOCS" "LABELS_ONLY"
             'requestedShipment' => [
-                'shipDatestamp' => date('Y-m-d H:i:s'), //Date
+                'shipDatestamp' => date('2022-05-06 10:10:10'), //Date
                 'totalDeclaredValue' => [
                     'amount' => $this->getDeclaredValue(),
                     'currency' => $this->getCurrency(),
