@@ -111,23 +111,22 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ transactionItem.category_id }}
+                        {{ transactionItem.category.name }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         <div
-                            v-for="(image, index) in transactionItem.images"
-                            :key="image.index"
+                            
                         >
                             <ImageModal
-                                :enlargedImage="transactionItem.images[selected].url"
+                                :enlargedImage="transactionItem.images[0].url"
                                 @close="imagePopUp = false"
                                 v-if="imagePopUp"
                             />
                             <img
                                 @click="popImageModal(index)"
-                                :src="image.url"
+                                :src="transactionItem.images[0].url"
                                 alt=""
                                 class="cursor-pointer"
                             />

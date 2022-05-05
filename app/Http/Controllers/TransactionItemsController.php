@@ -55,7 +55,7 @@ class TransactionItemsController extends Controller
             $item = TransactionItem::find($id);
             $transaction = Transaction::find($item->transaction_id);
             $item->delete();
-            $transaction->load('items','items.images');
+            $transaction->load('items','items.images','items.category');
             return response()->json($transaction,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to delete image" . collect($request->all())  ."  Error: " .$th->getMessage() );
@@ -75,7 +75,7 @@ class TransactionItemsController extends Controller
             $item = TransactionItem::find($id);
             $transaction = Transaction::find($item->transaction_id);
             $item->delete();
-            $transaction->load('items','items.images');
+            $transaction->load('items','items.images','items.category');
             return response()->json($transaction,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to delete item"  ."  Error: " .$th->getMessage() );
