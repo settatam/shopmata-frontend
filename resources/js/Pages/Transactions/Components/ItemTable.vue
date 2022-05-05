@@ -14,7 +14,7 @@
         </div>
 
         <AddItem
-            @return-response="pushResponse"
+            @it-added="pushEditValue"
             @close-modal="pushValue"
             :root="root"
             :categories="categories"
@@ -25,13 +25,14 @@
 
         <!-- Edit modal -->
         <EditItem
-            @return-response="pushResponse"
-            @close-modal="pushEditValue"
+            @close-modal="pushResponse"
             :root="root"
             :categories="categories"
             @close="EditPopUp = false"
             v-if="EditPopUp"
-            :item="transactionItems[editIndex]"
+            :item="item"
+            @it-edited="pushEditValue"
+
         />
 
         <table class="min-w-full">
@@ -106,21 +107,21 @@
             </tr>
             <!-- </thead> -->
             <tbody>
-                <tr v-for="(item, index) in transactionItems" :key="item.index">
+                <tr v-for="(transactionItem, index) in transactionItems" :key="transactionItem.id">
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.category_id }}
+                        {{ transactionItem.category_id }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         <div
-                            v-for="(image, index) in item.images"
+                            v-for="(image, index) in transactionItem.images"
                             :key="image.index"
                         >
                             <ImageModal
-                                :enlargedImage="item.images[selected].url"
+                                :enlargedImage="transactionItem.images[selected].url"
                                 @close="imagePopUp = false"
                                 v-if="imagePopUp"
                             />
@@ -135,53 +136,49 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap w-8"
                     >
-                        {{ item.description }}
+                        {{ transactionItem.description }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.quantity }}
+                        {{ transactionItem.quantity }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.override }}
+                        {{ transactionItem.override }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.dwt }}
+                        {{ transactionItem.dwt }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.price }}
+                        {{ transactionItem.price }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ item.inotes }}
+                        {{ transactionItem.inotes }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        <!-- <p>
-                            <span class="text-purple-darken">Edit</span> /
-                            Delete
-                        </p> -->
-
+                     
                         <p>
                             <span
                                 href=" "
                                 class="font-medium text-indigo-600 hover:text-purple-darken cursor-pointer"
-                                @click="EditPopModal(index)"
+                                @click="EditPopModal(transactionItem)"
                             >
                                 Edit
                             </span>
                             /
                             <span
                                 class="cursor-pointer font-medium text-black hover:text-purple-darken"
-                            @click="deleteItem(item.id, index)">
+                                @click="deleteItem(transactionItem.id, index)">
                                 Delete
                             </span>
                         </p>
@@ -208,7 +205,7 @@
                     <td
                         class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        Total Value: {{ transaction.length }}
+                        Total Value: {{ transactionItems.length }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
@@ -250,40 +247,45 @@ import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 import ImageModal from './ImageModal.vue'
 import EditItem from './EditItem.vue'
-import { notify } from 'notiwind'
+import  notification from '../../../Utils/notification'
 
 export default {
+
     components: { AppLayout, AddItem, ImageModal, EditItem },
-    props: ['transaction', 'categories', 'root'],
+    props: ['items', 'categories', 'root'],
+
     setup (props) {
-        let transaction = props.transaction
+        const  { onClickTop, onClickBot } = notification();
+        let items = props.items
+
         const successMessage = ref('')
-        const transactionItems = ref(transaction)
+        const transactionItems = ref(items)
+        console.log(transactionItems)
+
         const popUp = ref(false)
         const popModal = () => {
             popUp.value = true
         }
         const loading = ref(false)
-        const editIndex = ref(0)
+        const item = ref(null)
 
         // enlarge
         const imagePopUp = ref(false)
         const selected = ref(null)
         const popImageModal = index => {
             selected.value = index
-            console.log(selected.value)
             imagePopUp.value = true
         }
         // Edit modal pop up
         const EditPopUp = ref(false)
-        const EditPopModal = (index) => {
-            editIndex.value = index
+        const EditPopModal = (i) => {
+            item.value = i
             EditPopUp.value = true
         }
 
         const totalDwt = computed(() => {
             let sum = 0
-            transaction.forEach(item => {
+            items.forEach(item => {
                 return (sum += parseFloat(item.dwt))
             })
             return sum.toFixed(2)
@@ -291,46 +293,27 @@ export default {
 
         const totalPrice = computed(() => {
             let sum = 0
-            transaction.forEach(item => {
+            items.forEach(item => {
                 return (sum += parseFloat(item.price))
             })
             return sum.toFixed(2)
         })
-
-        // notification
-        function onClickTop () {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot () {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        // notification ends
 
         function pushValue (res) {
             popUp.value = res.data
         }
         
         function pushEditValue (res) {
-            EditPopUp.value = res.data
+            transactionItems.value = res.data.items
+            console.log(res)
+        }
+        
+        function Edited (res){
+            cosole.log(res)
         }
 
-
         function pushResponse (res) {
-            transactionItems.value = res.data.items
+            EditPopUp.value = false
         }
 
         function deleteItem (id, index) {
@@ -338,14 +321,14 @@ export default {
                 .delete(`/admin/items/${id}`)
                 .then(res => {
                     loading.value = false
-                    transactionItems.value.splice(index,1)
+                    transactionItems.value = res.data.items
                     successMessage.value = 'Item deleted'
-                    setTimeout(onClickTop, 2000)
+                    setTimeout(onClickTop(successMessage.value), 2000)
                 })
                 .catch(error => {
                     loading.value = false
                     successMessage.value = 'Error processing your request'
-                    setTimeout(onClickBot, 2000)
+                    setTimeout(onClickBot(successMessage.value), 2000)
                 })
         }
 
@@ -363,10 +346,9 @@ export default {
             selected,
             popImageModal,
             deleteItem,
-            onClickTop,
-            onClickBot,
             pushEditValue,
-            editIndex
+            item,
+            Edited
         }
     }
 }

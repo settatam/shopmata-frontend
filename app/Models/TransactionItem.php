@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\FileUploader;
+use App\Models\Image;
+
 
 class TransactionItem extends Model
 {
@@ -22,12 +25,9 @@ class TransactionItem extends Model
 	}
 
 
-    public static function createUpdateItem($request, $transactionItem = null)
+    public static function createUpdateItem($request, $transactionItem, $update=false)
     {   
-        if (!$transactionItem){        
-            $transactionItem =  new self;
-        }
-        
+         
         $transactionItem->transaction_id  = $request->transaction_id;
         $transactionItem->category_id     = $request->category_id;
         $transactionItem->price           = $request->price;
@@ -43,7 +43,24 @@ class TransactionItem extends Model
                 $transactionItem->images()->save($imgs);
             }
         }
+        
+        
 
         return $transactionItem;
+	}
+
+
+    public static function addImages($request, $id)
+    {   
+        $image  = FileUploader::upload($request);
+        $item  = self::find($id);
+        if ( isset($image[0]['thumb']) ){
+            $l_image = $image[0]['large'];
+            $tn_image = $image[0]['thumb'];
+            $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
+            $item->images()->save($imgs);
+        }
+
+        return $item;
 	}
 }

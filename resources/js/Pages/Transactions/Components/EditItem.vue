@@ -52,6 +52,7 @@
                                     @click="closeModal"
                                 />
                             </div>
+
                             <div class="mt-3 sm:mt-5">
                                 <div class=" required w-full mb-4">
                                     <label
@@ -60,6 +61,7 @@
                                         Choose Category
                                     </label>
                                     <select
+                                        @change="doSelect($event)"
                                         :class="{
                                             'border-red-600':
                                                 v$.category_id.$error,
@@ -68,7 +70,7 @@
                                         }"
                                         name=""
                                         id=""
-                                        v-model="category_id"
+                                        v-model="itemPayload.category_id"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                     >
                                         <option default value="0"
@@ -202,25 +204,44 @@
                                 </div>
 
                                 <div class="required w-full mb-4">
-                                    <!-- <button
-                                        class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                                    >
-                                        <span class="ml-2"
-                                            >Click to upload files</span
-                                        >
-                                    </button>
-                                    <input
-                                        class="cursor-pointer absolute block opacity-0 pin-r pin-t"
-                                        type="file"
-                                        multiple
-                                    /> -->
-                                    <images-list
-                                        :images="images"
-                                        @delete_img="delete_img"
-                                        v-if="display ? images.length : true"
-                                    />
+                                                                          
+                                <template  v-if="images.length">
 
-                                    <AddItemDropzone
+                                    <!-- image modal ends -->
+                                    <ul  role="list" class="divide-y divide-gray-200 w-100">
+                                        <li
+                                            v-for="(image, index) in images"
+                                            :key="image.id"
+                                            class="flex justify-between border-b border-gray-300"
+                                            :id="'image_' + image.id"
+                                        >
+                                            <div class="w-3/10 py-3">
+                                                <img
+                                                    @click="popModal(index)"
+                                                    class="h-10 w-10 cursor-pointer"
+                                                    :src="image.url"
+                                                    alt=""
+                                                />
+                                            </div>
+                                           
+                                            <div class="flex items-center px-2 py-3 justify-around w-2/10">
+                                                <LoadingSpinner
+                                                    v-if="loading && loading == index"
+                                                    class="w-6 h-6 ml-8 text-purple-background"
+                                                />
+
+                                                <TrashIcon
+                                                    v-else
+                                                    class="w-6 h-6 text-red-500 cursor-pointer"
+                                                    :id="image.id"
+                                                    @click="deleteImg(image, index)"
+                                                />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </template>
+                                    <EditItemImages
+                                        :item_id="item.id" 
                                         @add-image="onAddImage"
                                         class=""
                                     />
@@ -266,8 +287,13 @@ import useVuelidate from '@vuelidate/core'
 import { required, helpers, numeric } from '@vuelidate/validators'
 import debounce from 'lodash/debounce'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
-import AddItemDropzone from '../Components/AddItemDropzone.vue'
+import EditItemImages from '../Components/EditItemImages.vue'
 import ImagesList from '../Components/AddItemsImagesList.vue'
+import  fileUploader from '../../../Utils/fileUploader'
+
+import { TrashIcon } from '@heroicons/vue/outline'
+
+
 
 export default {
     props: ['categories', 'root', 'editIndex', 'item'],
@@ -278,42 +304,46 @@ export default {
         TransitionChild,
         TransitionRoot,
         XIcon,
-        AddItemDropzone,
         LoadingSpinner,
-        ImagesList
+        ImagesList,
+        EditItemImages,
+        TrashIcon
     },
-    emits: ['return-response', 'close-modal'],
+    emits: ['it-edited', 'close-modal'],
     setup (props, { emit }) {
+        const  { deleteImage } = fileUploader();
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
-        const transaction_id = props.root.id
-        const dwt = ref('')
-        const category_id = ref('')
-        const images = ref([])
+        const transaction_id = props.item.transaction_id
+        const dwt = ref(props.item.dwt)
+        const images = ref(props.item.images)
         const text = ref('Save')
-        const loading = ref(false)
+        const loading = ref(null)
         const display = ref('')
         const item = props.item
+        const item_id = props.item.id
+        const message = ref('')
 
+        
         const itemPayload = reactive({
-            category_id: category_id,
+            category_id: item.category_id,
             description: item.description,
             dwt: dwt,
             price: item.price,
             inotes: item.inotes,
-            images: images.value,
-            transaction_id: transaction_id
+            transaction_id: transaction_id,
+            item_id: item.id
         })
 
         watch(
-            [dwt, category_id],
+            [dwt, itemPayload.category_id],
             debounce(function () {
-                if (dwt.value != '' && category_id.value != '') {
+                if (dwt.value != '' && itemPayload.category_id != '') {
                     axios
                         .post(`/admin/transactions/${transaction_id}/dwt`, {
                             dwt: dwt.value,
-                            category_id: category_id.value
+                            category_id: itemPayload.category_id
                         })
                         .then(res => (itemPayload.price = res.data.price))
                 }
@@ -350,15 +380,23 @@ export default {
 
         const v$ = useVuelidate(rules, itemPayload)
 
-        function onAddImage (response) {
-            // console.log(response)
-            response.map(item => {
-                images.value.push(item)
-            })
+        function onAddImage (response) {            
+            images.value =  response.data.images  
         }
 
-        function delete_img (index) {
-            images.value.splice(index, 1)
+
+        function doSelect (e){
+            itemPayload.category_id = e.target.value
+        }
+
+
+        function deleteImg (image, index) {
+            let image_id = image.id;
+            let image_url = image.url
+            const url = `/admin/item/${item_id}/image/delete`;
+            deleteImage({
+              image_id, image_url, index, loading, url , message, images
+            })
         }
 
         function submit () {
@@ -372,8 +410,7 @@ export default {
                 )
                 .then(res => {
                     loading.value = false
-                    emit('return-response', res)
-                    open.value = false
+                    emit('it-edited', res)
                     emit('close-modal', open.value)
                 })
                 .catch(err => (loading.value = true))
@@ -388,14 +425,17 @@ export default {
             countries,
             states,
             dwt,
-            category_id,
             onAddImage,
             images,
             loading,
             text,
             display,
-            delete_img,
-            item
+            deleteImg,
+            item,
+            doSelect
+            
+
+
         }
     }
 }

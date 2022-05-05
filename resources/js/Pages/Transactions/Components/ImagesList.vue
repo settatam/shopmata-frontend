@@ -1,6 +1,6 @@
 <template>
     <!-- image modal start -->
-    <ImageModal
+   <ImageModal
         :enlargedImage="images[selected].url"
         @close="popUp = false"
         v-if="popUp"
@@ -13,6 +13,7 @@
             class="flex justify-between border-b border-gray-300"
             :id="'image_' + image.id"
         >
+          
             <div class="w-3/10 py-3">
                 <img
                     @click="popModal(index)"
@@ -22,14 +23,14 @@
                 />
             </div>
             <div class="flex-grow w-5/10">
-                <div class="border-r border-l px-6 py-3 border-gray-300">
+                <!-- <div class="border-r border-l px-6 py-3 border-gray-300">
                     <input
                         type="text"
                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md px-2"
                         placeholder="Write a description"
                         v-model="image.alt"
                     />
-                </div>
+                </div> -->
             </div>
             <div class="flex items-center px-2 py-3 justify-around w-2/10">
                 <LoadingSpinner
@@ -41,7 +42,7 @@
                     v-else
                     class="w-6 h-6 text-red-500 cursor-pointer"
                     :id="image.id"
-                    @click="deleteExisting(image.id, index)"
+                    @click="deleteImg(image.id, index)"
                 />
             </div>
         </li>
@@ -50,25 +51,27 @@
 
 <script>
 import { TrashIcon } from '@heroicons/vue/outline'
-import { notify } from 'notiwind'
 import { ref, reactive } from 'vue'
 import axios from 'axios'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 import ImageModal from './ImageModal.vue'
+import  notification from '../../../Utils/notification'
+
 export default {
     components: {
         TrashIcon,
         LoadingSpinner,
         ImageModal
     },
-    props: {
-        images: Array
-    },
-    emits: ['delete_img'],
+    props: [
+        'images',
+    ],
+    emits: ['image-deleted'],
     setup (props, { emit }) {
+        const  { onClickTop, onClickBot } = notification();
         const popUp = ref(false)
         const selected = ref(null)
-        const successMessage = ref('')
+        const message = ref('')
         const popModal = index => {
             selected.value = index
             popUp.value = true
@@ -76,52 +79,29 @@ export default {
 
         const loading = ref(null)
 
-        function deleteExisting (id, index) {
+        function deleteImg (id, index) {
             loading.value = index
-
             axios
                 .post('/admin/transaction/image/delete', { image_id: id })
                 .then(res => {
-                    document.getElementById('image_' + id).remove()
+                    emit('image-deleted', index)
                     loading.value = null
-                    successMessage.value = 'Image deleted'
+                    message.value = 'Image deleted'
                     setTimeout(onClickTop, 2000)
                 })
                 .catch(error => {
+                    console.log(error)
                     loading.value = false
-                    successMessage.value = 'Error processing your request'
+                    message.value = 'Error processing your request'
                     setTimeout(onClickBot, 2000)
                     //setTimeout(errorFn, 3000)
                 })
         }
 
-        // notification
-        function onClickTop () {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot () {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        // notification ends
+    
 
         return {
-            deleteExisting,
-            onClickTop,
-            onClickBot,
+            deleteImg,
             loading,
             popUp,
             popModal,

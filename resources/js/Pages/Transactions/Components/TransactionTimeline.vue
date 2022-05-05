@@ -109,7 +109,7 @@
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="currentTransaction.public_message"
+                        v-model="messagePublic"
                     >
                     </textarea>
 
@@ -134,12 +134,12 @@
                         </div>
 
                         <div>
-                            <buttonb
+                            <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
                                 type="submit"
                             >
                                 Send New Kit
-                            </buttonb>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                         id=""
                         rows="3"
                         cols="150"
-                        v-model="currentTransaction.private_message"
+                        v-model="messagePrivate"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
@@ -305,6 +305,9 @@ export default {
 
         const currentTransaction = ref(props.transaction);
 
+
+        console.log(currentTransaction)
+
         tmPublic =
             null !== props.root.public_note ? props.root.public_note.notes : ''
         tmPrivate =
@@ -317,6 +320,7 @@ export default {
         watch(
             [messagePublic, messagePrivate],
             debounce(function (value) {
+
                 if (typeof value[0] !== 'undefined' && tmPublic == value[0]) {
                     type = 'private'
                     message = messagePrivate.value

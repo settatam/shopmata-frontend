@@ -50,7 +50,6 @@
 import { ref } from '@vue/reactivity'
 import { useDropzone } from 'vue3-dropzone'
 import axios from 'axios'
-import { notify } from 'notiwind'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 
 export default {
@@ -65,27 +64,7 @@ export default {
         const loading = ref(false)
         const text = ref('Choose file')
 
-        // notification
-        function onClickTop () {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot () {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
+
         // notification ends
         const urlList = ref([])
 
@@ -110,28 +89,22 @@ export default {
                     }
                 )
                 .then(response => {
-                    response.data.map((item) => {
-                        urlList.value.push(item.large)
-                    })
-                    emit('add-image', urlList.value)
+                   
+                    emit('add-image', response)
 
                     loading.value = false
                     successMessage.value = 'Image uploaded successfully'
                     text.value = 'Choose file'
-                    setTimeout(onClickTop, 2000)
                 })
                 .catch(err => {
                     loading.value = false
                     successMessage.value = 'Error processing request'
-                    setTimeout(onClickBot, 2000)
                     text.value = 'Choose file'
-                    // setTimeout(errorFn, 3000)
                 })
         }
 
         function onDrop (acceptFiles, rejectReasons) {
             saveFiles(acceptFiles) // saveFiles as callback
-            // console.log(rejectReasons);
             return rejectReasons
         }
 

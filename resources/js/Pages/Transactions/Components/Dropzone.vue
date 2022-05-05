@@ -47,88 +47,53 @@
 </template>
 
 <script>
+
 import { ref } from '@vue/reactivity'
 import { useDropzone } from 'vue3-dropzone'
 import axios from 'axios'
-import { notify } from 'notiwind'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
+import notification from '../../../Utils/notification'
+import fileUploader from '../../../Utils/fileUploader'
+
+
 
 export default {
     components: {
         LoadingSpinner
     },
-    props: ['root'],
+    props: ['transaction'],
     name: 'UseDropzone',
     emits: ['add-image'],
     setup (props, { emit }) {
-        const url = ''
-        const successMessage = ref('')
-        const loading = ref(false)
-        const text = ref('Choose file')
-        const transaction = props.root
+        const  message = ref('')
+        const  loading = ref(false)
+        const  text = ref('Choose file')
+        const  transaction = props.transaction
+        const  { onClickTop, onClickBot } = notification();
+        const  { saveFiles } = fileUploader();
 
-        const saveFiles = files => {
-            const formData = new FormData()
-            files.map(file => {
-                formData.append('files[]', file)
-                formData.append('type', 'image')
-                formData.append('transaction_id', transaction.id)
-                formData.append('customer_id', transaction.customer.id)
-                return formData
-            })
-            loading.value = true
-            text.value = 'Uploading....'
-
-            axios
-                .post(
-                    '/admin/transactions/' + transaction.id + '/images',
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    }
-                )
-                .then(response => {
-                    emit('add-image', response)
-
-                    loading.value = false
-                    successMessage.value = 'Image uploaded successfully'
-                    text.value = 'Choose file'
-                    setTimeout(onClickTop, 2000)
-                })
-                .catch(err => {
-                    loading.value = false
-                    successMessage.value = 'Error processing request'
-                    setTimeout(onClickBot, 2000)
-                    text.value = 'Choose file'
-                    // setTimeout(errorFn, 3000)
-                })
-        }
-
-        function onClickTop () {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot () {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
+        const url = '/admin/transactions/'+ transaction.id +'/images'
 
         function onDrop (acceptFiles, rejectReasons) {
-            saveFiles(acceptFiles) // saveFiles as callback
+            loading.value = true
+            text.value = 'Uploading....'
+            saveFiles(
+                       acceptFiles, 
+                       { url },  
+                    {})
+                    .then( (res) => {
+                        emit('add-image', res)
+                        loading.value = false
+                        message.value = 'Image uploaded successfully'
+                        text.value = 'Choose file'
+                        setTimeout(onClickTop, 2000)
+                    }).catch(err => {
+                        loading.value = false
+                        message.value = 'Error processing request'
+                        setTimeout(onClickBot, 2000)
+                        text.value = 'Choose file'
+                    })
+
             return rejectReasons
         }
 
@@ -139,7 +104,6 @@ export default {
             getInputProps,
             ...rest,
             loading,
-            transaction,
             text
         }
     }

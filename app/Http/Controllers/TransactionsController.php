@@ -38,7 +38,7 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-
+        
         $transactions = Transaction::with('items','customer','images')
                                 ->where('store_id',session('store_id'))
                                 ->latest()
@@ -169,10 +169,6 @@ class TransactionsController extends Controller
             $customer_note->customer_id    = $request->customer_id;
             $customer_note->type           = 'public';
             $customer_note->save();
-
-            
-
-            //return response()->json($customer_note->images,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response($th->getMessage() ,422);
@@ -209,17 +205,7 @@ class TransactionsController extends Controller
     public function deleteTransactionNoteImage(Request $request)
     {
         try {
-            $image  = Image::findorFail($request->image_id);
-
-            if ($image->url){
-                Storage::disk('DO')->delete($image->url);
-            }
-
-            if ($image->thumb){
-                Storage::disk('DO')->delete($image->thumb);
-            }
-
-            $image->delete();
+            Image::deleteImage($request);
             Log::info("Image(s) Delete!", );
             return response("Image deleted ",200);
         } catch (\Throwable $th) {
@@ -265,24 +251,23 @@ class TransactionsController extends Controller
         switch ($action) {
             case 'images':
                 try {
-                    $transaction = Transaction::find($request->transaction_id);
-                    $customer_note = TransactionNote::firstOrNew(
-                        ['id' => optional($transaction->public_note)->id],
+
+                    $transaction = Transaction::find($id);
+                    $transaction_note =  TransactionNote::updateOrCreate(
+                        ['id' => optional($transaction->public_note)->id,  'type' => TransactionNote::PUBLIC_TYPE],
+                        ['customer_id' => $transaction->customer_id, 'type' => TransactionNote::PUBLIC_TYPE, 'transaction_id' =>  $transaction->id]
                     );
-                    $customer_note->transaction_id = $request->transaction_id;
-                    $customer_note->customer_id    = $request->customer_id;
-                    $customer_note->type           = TransactionNote::PUBLIC_TYPE;
-                    $customer_note->save();
 
                     $image  = FileUploader::upload($request);
+                
                     if ( isset($image[0]['thumb']) ){
                         $l_image = $image[0]['large'];
                         $tn_image = $image[0]['thumb'];
                         $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
-                        $customer_note->images()->save($imgs);
+                        $transaction_note->images()->save($imgs);
                     }
 
-                    return response()->json($customer_note->images,  200);
+                    return response()->json($transaction_note->images,  200);
                 } catch (\Throwable $th) {
                     \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
                     return response($th->getMessage() ,422);
@@ -293,10 +278,13 @@ class TransactionsController extends Controller
             case 'items':
 
                 try {
+                    
                     $transaction = Transaction::find($request->transaction_id);
-                    TransactionItem::createUpdateItem($request);
+                    $item = new TransactionItem;
+                    TransactionItem::createUpdateItem($request, $item);
                     $transaction->load('items','items.images');
                     return response()->json($transaction,  200);
+
                 } catch (\Throwable $th) {
                     \Log::Error("Failed to Add item" . collect($request->all())  ."  Error: " .$th->getMessage() );
                     return response($th->getMessage() ,422);
