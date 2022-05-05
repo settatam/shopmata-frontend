@@ -8,8 +8,8 @@
             img {
                 page-break-after: always;
                 display: block;
-                height: 1.125in;
-                width: 3.5in;
+                width: 1.125in;
+                height: 3.5in;
                 margin: .5in;
             }
 
