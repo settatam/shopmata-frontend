@@ -31,7 +31,6 @@
         @endforeach
 
         <script type="text/javascript">
-            alert('yes');
               window.onload = function() { window.print(); }
          </script>
     </body>
