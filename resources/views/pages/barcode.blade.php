@@ -13,10 +13,10 @@
             }
 
             @media print {
-              @page {
-                  size: auto;
-                  margin: 0;
-              }
+              /*@page {*/
+              /*    size: auto;*/
+              /*    margin: 0;*/
+              /*}*/
             }
         </style>
     </head>
