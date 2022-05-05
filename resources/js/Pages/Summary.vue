@@ -1,26 +1,104 @@
 <template>
     <app-layout :navigation="navigation">
         <!-- Page header -->
-        <div v-for="(item, index) in summary" :key="item.index">
-            <div>
+        <div class="m-3" v-for="(item, index) in summary" :key="item.index">
+            <div class="mx-6 mt-8">
                 <h1 class="my-3 font-bold text-xl">{{ index }}</h1>
             </div>
 
             <div class="m-3 grid grid-cols-2 gap-4">
-                <div>
-                    <p>{{ item.fedex }}</p>
-                </div>
+                <!-- Kits start -->
+                <div class=" rounded-md bg-white lg:mx-2">
+                    <!-- header -->
+                    <div
+                        class="rounded-t-md w-full bg-purple-darken p-4 text-white"
+                    >
+                        <h1>Kits</h1>
+                    </div>
 
-                <div>
-                    <p>{{ item.import }}</p>
+                    <!-- list -->
+                    <div class="p-3">
+                        <p
+                            v-for="counter in item.kit"
+                            :key="counter.index"
+                            class="py-1 px-3 flex justify-between"
+                        >
+                            <span>{{ counter.counter }}</span>
+                            <span>{{ counter.val }}</span>
+                        </p>
+                    </div>
                 </div>
+                <!-- Kits end -->
 
-                <div>
-                    <p>{{ item.kit }}</p>
-                </div>
+                <div class="space-y-5">
+                    <!-- Fedex start -->
+                    <div class=" rounded-md bg-white lg:mx-2">
+                        <!-- header -->
+                        <div
+                            class="rounded-t-md w-full bg-purple-darken p-4 text-white"
+                        >
+                            <h1>Fedex</h1>
+                        </div>
 
-                <div>
-                    <p>{{ item.misc }}</p>
+                        <!-- list -->
+                        <div class="p-3">
+                            <p
+                                v-for="counter in item.fedex"
+                                :key="counter.index"
+                                class="py-1 px-3 flex justify-between"
+                            >
+                                <span>{{ counter.counter }}</span>
+                                <span>{{ counter.val }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Fedex end -->
+
+                    <!-- Import start -->
+                    <div class=" rounded-md bg-white lg:mx-2">
+                        <!-- header -->
+                        <div
+                            class="rounded-t-md w-full bg-purple-darken p-4 text-white"
+                        >
+                            <h1>Import</h1>
+                        </div>
+
+                        <!-- list -->
+                        <div class="p-3">
+                            <p
+                                v-for="counter in item.import"
+                                :key="counter.index"
+                                class="py-1 px-3 flex justify-between"
+                            >
+                                <span>{{ counter.counter }}</span>
+                                <span>{{ counter.val }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Import end -->
+
+                    <!-- MISC start -->
+                    <div class=" rounded-md bg-white lg:mx-2">
+                        <!-- header -->
+                        <div
+                            class="rounded-t-md w-full bg-purple-darken p-4 text-white"
+                        >
+                            <h1>MISC</h1>
+                        </div>
+
+                        <!-- list -->
+                        <div class="p-3">
+                            <p
+                                v-for="counter in item.misc"
+                                :key="counter.index"
+                                class="py-1 px-3 flex justify-between"
+                            >
+                                <span>{{ counter.counter }}</span>
+                                <span>{{ counter.val }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- MISC end -->
                 </div>
             </div>
 
