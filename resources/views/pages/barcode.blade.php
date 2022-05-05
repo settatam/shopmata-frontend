@@ -24,9 +24,7 @@
     <body>
         @foreach($printables as $printable)
             @for($i=0; $i<2; $i++)
-                <div>
-                    <img src="data:image/png;base64, {{ $printable }}" />
-                </div>
+                <img src="data:image/png;base64, {{ $printable }}" />
             @endfor
         @endforeach
 
