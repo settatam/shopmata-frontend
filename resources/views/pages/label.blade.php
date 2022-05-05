@@ -10,15 +10,13 @@
                 display: block;
                 height: 6in;
                 width: 4in;
-                margin: auto;
-                /*height: 90px;*/
-                /*width: 390px;*/
-                /*border: 1px solid #000;*/
+                margin: .5in;
             }
 
             @media print {
               @page {
-                size: 4in 6in;
+                  size: auto;
+                  margin: 0;
               }
             }
         </style>
@@ -31,7 +29,6 @@
         @endforeach
 
         <script type="text/javascript">
-            alert('yes');
               window.onload = function() { window.print(); }
          </script>
     </body>

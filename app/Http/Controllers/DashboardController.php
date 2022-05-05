@@ -25,7 +25,8 @@ class DashboardController extends Controller
                 if($store->step == 4) {
                     $notifications = $store->getDashBoardNotifications();
                     $summary = DashBoard::summary();
-                    return \Inertia\Inertia::render('Dashboard', compact('notifications', 'summary'));
+                    //return \Inertia\Inertia::render('Dashboard', compact('notifications', 'summary'));
+                    return \Inertia\Inertia::render('Summary', compact('summary'));
                 }else if($store->step == 3){
                     return \Redirect::route('register-step-3');
                 }else if($store->step == 2){
