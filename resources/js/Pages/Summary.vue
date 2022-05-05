@@ -101,43 +101,28 @@
                     <!-- MISC end -->
                 </div>
             </div>
-
-            <div></div>
         </div>
     </app-layout>
 </template>
 
 <script>
-import { ref } from 'vue'
 import AppLayout from '../Layouts/AppLayout.vue'
-import axios from 'axios'
-import { BadgeCheckIcon, SearchIcon } from '@heroicons/vue/solid'
-import { ScaleIcon } from '@heroicons/vue/outline'
-
-const statusStyles = {
-    success: 'bg-green-100 text-green-800',
-    processing: 'bg-yellow-100 text-yellow-800',
-    failed: 'bg-gray-100 text-gray-800'
-}
+import {  SearchIcon } from '@heroicons/vue/solid'
 
 export default {
     components: {
         AppLayout,
-        BadgeCheckIcon,
         SearchIcon
     },
     props: {
-        notifications: Array,
         navigation: Array,
         summary: Object
     },
     data () {},
     setup (props) {
-        const notifications = props.notifications
         const summary = props.summary
 
         return {
-            statusStyles,
             summary
         }
     }
