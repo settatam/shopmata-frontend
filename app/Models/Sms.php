@@ -43,5 +43,4 @@ class Sms extends Model
 	}
 
 
-
 }

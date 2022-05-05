@@ -19,12 +19,7 @@ use App\Models\TransactionNote;
 use App\Traits\FileUploader;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MetalPrice;
-
-
-
-
-
-
+use App\Services\Barcode;
 
 class TransactionsController extends Controller
 {
@@ -38,12 +33,11 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        
         $transactions = Transaction::with('items','customer','images')
-                                ->where('store_id',session('store_id'))
+//                                ->where('store_id',session('store_id'))
                                 ->latest()
                                 ->paginate(10);
-        $transactions->load('customer.state');
+//        $transactions->load('customer.state');
         return Inertia::render('Transactions/Index',compact('transactions'));
     }
 
@@ -78,7 +72,7 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        $transaction                 = Transaction::findorFail($id);
+        $transaction                 = Transaction::with('shippingLabels')->findorFail($id);
         $statuses                    = Status::all();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
@@ -169,6 +163,10 @@ class TransactionsController extends Controller
             $customer_note->customer_id    = $request->customer_id;
             $customer_note->type           = 'public';
             $customer_note->save();
+
+
+
+            //return response()->json($customer_note->images,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response($th->getMessage() ,422);
@@ -179,8 +177,8 @@ class TransactionsController extends Controller
 
 
     public function addNote(Request $request)
-    {    
-        
+    {
+
         try {
             $transaction = TransactionNote::updateOrCreate(
                 ['transaction_id' =>  $request->transaction_id, 'type' => $request->type],
@@ -234,6 +232,27 @@ class TransactionsController extends Controller
         }
     }
 
+    public function printable(Request $request, $id, $printable) {
+//        if($printable !== 'barcode' || $printable !== 'label') {
+//            abort(404);
+//        }
+       $transaction = Transaction::find($id);
+       switch($printable) {
+           case 'barcode':
+               $printables = [Barcode::generate($transaction)];
+               break;
+           case 'label':
+//               $transaction->getShippingLabel();
+               $printables = $transaction->shippingLabels;
+               return view('pages.label', compact('printables'));
+               break;
+           default:
+               echo 'no';
+       }
+
+       return view('pages.barcode', compact('printables'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -245,17 +264,15 @@ class TransactionsController extends Controller
     {
         //
         $input = $request->input();
+        $transaction = Transaction::find($id);
 
         //How do we perform validation here???
 
         switch ($action) {
             case 'images':
                 try {
-
-                    $transaction = Transaction::find($id);
-                    $transaction_note =  TransactionNote::updateOrCreate(
-                        ['id' => optional($transaction->public_note)->id,  'type' => TransactionNote::PUBLIC_TYPE],
-                        ['customer_id' => $transaction->customer_id, 'type' => TransactionNote::PUBLIC_TYPE, 'transaction_id' =>  $transaction->id]
+                    $customer_note = TransactionNote::firstOrNew(
+                        ['id' => optional($transaction->public_note)->id],
                     );
 
                     $image  = FileUploader::upload($request);
@@ -276,7 +293,6 @@ class TransactionsController extends Controller
                 return response("Something went wrong" ,422);
                 break;
             case 'items':
-
                 try {
                     
                     $transaction = Transaction::find($request->transaction_id);
@@ -302,19 +318,20 @@ class TransactionsController extends Controller
                     }
                     break;
             case 'sms':
-                $this->sendSms($input);
+                $transaction->sendSms($input['message']);
+                break;
+            case 'offer':
+                $transaction->addOffer($input['offer']);
                 break;
             case 'status':
-                $this->updateStatus($input);
+                $transaction->doUpdate($input);
                 break;
 //            case:
 
         }
 
         $transaction = Transaction::find($id);
-        if($transaction->doUpdate($input)) {
-            return response()->json($transaction);
-        }
+        return response()->json($transaction);
     }
 
     /**
