@@ -8,7 +8,7 @@
 
             <div class="m-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Kits start -->
-                <div class=" rounded-md bg-white lg:mx-2 max-h-min">
+                <div class=" rounded-md bg-white lg:mx-2 max-h-screen">
                     <!-- header -->
                     <div
                         class="rounded-t-md w-full bg-purple-darken p-4 text-white"
