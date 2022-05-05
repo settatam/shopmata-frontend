@@ -35,7 +35,7 @@ class Barcode
 
 		imagettftext($i, 10, 0, 10, 65, $text, $font, '#'.$transaction->id);
 
-		imagettftext($i, $font_size, 0, 150, $y, $text, $font, $transaction->customer->first_name .' '. $transaction->customer->last_name); $y += $line_height;
+		imagettftext($i, $font_size, 0, 200, $y, $text, $font, $transaction->customer->first_name .' '. $transaction->customer->last_name); $y += $line_height;
 		$y += 5;
 		$font_size = 8;
 		imagettftext($i, $font_size, 0, 150, $y, $text, $font, $transaction->customer->address); $y += $line_height;
