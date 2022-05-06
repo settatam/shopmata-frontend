@@ -55,6 +55,30 @@ class Transaction extends Model
         });
     }
 
+    public static function addtag($tag_id, $id) {
+        
+        $transaction = self::findOrFail($id);
+        //This will become a problem if we don't have a store ....
+        $store_tag   =  StoreTag::where(
+                            [
+                                'tagable_id' => $id,
+                                'tag_id'     => $tag_id
+                            ]
+                        )->first();
+        if (null !== $store_tag){
+            $store_tag->delete();
+            Log::info("Tag(s) deleted!", );
+            return true;
+        } else {
+            $tags  = new StoreTag(['tag_id' => $tag_id]);
+            if ( $transaction->tags()->save($tags) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function address()
     {
         return $this->morphOne(Address::class, 'addressable');
@@ -643,6 +667,9 @@ class Transaction extends Model
             //Tag transaction
         }
     }
+
+
+    
 
     public function createNote($type, $note=''){
         return TransactionNote::create([
