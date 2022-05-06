@@ -119,10 +119,10 @@
                     >
                     </textarea>
 
-                    <div class="flex flex-col space-y-2 w-1/2 lg:full">
+                    <div class="flex flex-col space-y-6 w-1/2 lg:full">
                         <div>
                             <button
-                                class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                                class="bg-purple-darken w-40 px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
                                 @click="popModal()"
                             >
@@ -132,7 +132,7 @@
 
                         <div>
                             <a
-                                class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                                class="bg-purple-darken w-40 px-2 md:px-7 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 :href="
                                     '/admin/transactions/' +
                                     transaction.id +
