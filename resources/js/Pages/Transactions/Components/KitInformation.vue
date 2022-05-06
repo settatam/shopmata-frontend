@@ -161,7 +161,7 @@ export default {
         function saveTopTags (tag_id) {
             if (this.checkedList.includes(tag_id)) {
                 axios
-                    .post('/transaction/tag', { tag_id, transaction_id })
+                    .post(`/admin/tag + ${transaction_id}`, { tag_id })
                     .then(res => {
                         if (res.status == 200) {
                             successMessage.value = 'Tag removed'

@@ -429,7 +429,7 @@ export default {
         function saveBottomTags(tag_id) {
             if (this.checkedList.includes(tag_id)) {
                 axios
-                    .post("/transaction/tag", { tag_id, transaction_id })
+                    .post(`/admin/transactions/${transaction_id}/tags`, { tag_id })
                     .then((res) => {
                         if (res.status == 200) {
                             successMessage.value = "Tag removed";
