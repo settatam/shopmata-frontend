@@ -430,6 +430,7 @@ export default {
             if (this.checkedList.includes(tag_id)) {
                 axios
                     .post(`/admin/transactions/${transaction_id}/tags`, { tag_id })
+
                     .then((res) => {
                         if (res.status == 200) {
                             successMessage.value = "Tag removed";
@@ -448,7 +449,7 @@ export default {
                     });
             } else {
                 axios
-                    .post("/transaction/tag", { tag_id, transaction_id })
+                    .post(`/admin/transactions/${transaction_id}/tags`, { tag_id })
                     .then((res) => {
                         if (res.status == 200) {
                             successMessage.value = "Tag added";
