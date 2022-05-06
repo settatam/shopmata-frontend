@@ -1850,12 +1850,6 @@ select {
 .max-h-screen {
 	max-height: 100vh;
 }
-.max-h-full {
-	max-height: 100%;
-}
-.max-h-72 {
-	max-height: 18rem;
-}
 .min-h-screen {
 	min-height: 100vh;
 }
@@ -2796,10 +2790,6 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
 }
-.bg-gray-background {
-	--tw-bg-opacity: 1;
-	background-color: rgba(229, 229, 229, var(--tw-bg-opacity));
-}
 .bg-gray-900 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(17, 24, 39, var(--tw-bg-opacity));
@@ -2831,6 +2821,10 @@ select {
 .bg-gray-300 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
+}
+.bg-gray-background {
+	--tw-bg-opacity: 1;
+	background-color: rgba(229, 229, 229, var(--tw-bg-opacity));
 }
 .bg-red-darker {
 	--tw-bg-opacity: 1;

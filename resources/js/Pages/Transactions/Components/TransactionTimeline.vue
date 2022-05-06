@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md mt-18 bg-white lg:mx-2">
+    <div class="rounded-md mt-18 bg-white lg:mx-2">
         <div class="rounded-t-md w-full bg-purple-darken py-4 pl-4 text-white">
             <h1 class="text-white">Transaction Timeline</h1>
         </div>
@@ -11,7 +11,7 @@
         <div
             class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8"
         >
-            <div class=" my-4 flex flex-row sm" id="statusgroup">
+            <div class="my-4 flex flex-row sm" id="statusgroup">
                 <label class="pt-2" for="">Status: </label>
                 <div
                     class="flex flex-col md:flex lg:flex-row sm:space-x-0 lg:space-x-12 space-y-3 lg:space-y-0"
@@ -27,19 +27,24 @@
                                 v-for="status in statuses"
                                 :key="status.index"
                                 :value="status.status_id"
-                                >{{ status.name }}</option
                             >
+                                {{ status.name }}
+                            </option>
                         </select>
                     </div>
                     <div class="ml-6">
-                        <button @click="updateTransaction('status')" class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 md:ml-8 lg:mx-0 px-2"
-                            type="button">Confirm Status
+                        <button
+                            @click="updateTransaction('status')"
+                            class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 md:ml-8 lg:mx-0 px-2"
+                            type="button"
+                        >
+                            Confirm Status
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class=" my-4 flex flex-row" id="offergroup">
+            <div class="my-4 flex flex-row" id="offergroup">
                 <label class="pt-2" for="">Offer: </label>
                 <div class="flex flex-col lg:flex-row space-x-8 lg:space-x-6">
                     <div class="flex flex-col lg:ml-0 ml-8">
@@ -77,25 +82,25 @@
         <div
             class="flex flex-col lg:flex-row text-black text-xs pl-4 md:text-sm"
         >
-            <div class="flex flex-col p-4  lg:w-1/3">
+            <div class="flex flex-col p-4 lg:w-1/3">
                 <div v-for="status in timeline" :key="status.index">
                     <p
                         :class="{
                             'text-black': !status.date,
-                            'text-green-darker': status.date
+                            'text-green-darker': status.date,
                         }"
-                        class="">
+                        class=""
+                    >
                         {{ status.name }}:
                         <component
                             :is="status.icon"
-                            class="mx-2 flex-shrink-0 inline-flex h-6 w-6"  aria-hidden="true"
+                            class="mx-2 flex-shrink-0 inline-flex h-6 w-6"
+                            aria-hidden="true"
                         />
                         <span v-if="status.date">
-                            {{ moment(status.date).format('MM-DD-YYYY') }}
+                            {{ moment(status.date).format("MM-DD-YYYY") }}
                         </span>
-                        <span v-else>
-                            {{}}
-                        </span>
+                        <span v-else> {{}} </span>
                     </p>
                 </div>
             </div>
@@ -109,14 +114,15 @@
                         id=""
                         rows="3"
                         cols="150"
+                        @input="saveNote"
                         v-model="messagePublic"
                     >
                     </textarea>
 
-                    <div class="flex flex-col space-y-2 w-1/2 lg:full ">
+                    <div class="flex flex-col space-y-6 w-1/2 lg:full">
                         <div>
                             <button
-                                class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                                class="bg-purple-darken w-40 px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
                                 @click="popModal()"
                             >
@@ -126,8 +132,13 @@
 
                         <div>
                             <a
-                                class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                :href="'/admin/transactions/'+transaction.id+'/barcode'" target="_blank"
+                                class="bg-purple-darken w-40 px-2 md:px-7 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                                :href="
+                                    '/admin/transactions/' +
+                                    transaction.id +
+                                    '/barcode'
+                                "
+                                target="_blank"
                             >
                                 Print Barcodes
                             </a>
@@ -135,7 +146,7 @@
 
                         <div>
                             <button
-                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
                             >
                                 Send New Kit
@@ -148,19 +159,20 @@
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
                     <textarea
-                        class="shadow-sm block sm:text-sm border-gray-300 rounded-md "
+                        class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
                         placeholder="MET 3-2-22-Incoming via text"
                         name="private"
                         id=""
                         rows="3"
                         cols="150"
                         v-model="messagePrivate"
+                        @input="saveNote"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
                         <div>
                             <button
-                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="button"
                                 @click="updateTransaction('message')"
                             >
@@ -170,7 +182,7 @@
 
                         <div>
                             <button
-                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="button"
                                 @click="updateTransaction('status_id', 50)"
                             >
@@ -180,7 +192,7 @@
 
                         <div>
                             <button
-                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
                             >
                                 Return Label
@@ -189,7 +201,7 @@
 
                         <div>
                             <button
-                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
+                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
                             >
                                 Reject Offer
@@ -201,7 +213,7 @@
         </div>
 
         <div
-            class="flex flex-col flex-wrap lg:flex-row  my-4 mx-8 space-x-4 py-4 w-full"
+            class="flex flex-col flex-wrap lg:flex-row my-4 mx-8 space-x-4 py-4 w-full"
         >
             <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
                 <input
@@ -245,17 +257,21 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from '@vue/reactivity'
-import { watch } from 'vue'
+import { reactive, ref, computed } from "@vue/reactivity";
+import { watch } from "vue";
 
-import debounce from 'lodash/debounce'
-import AddItem from '../Components/AddItem.vue'
-import AppLayout from '../../../Layouts/AppLayout.vue'
-import AdminImages from './AdminImages.vue'
-import PrintLabel from '../Components/PrintLabel.vue'
-import { notify } from 'notiwind'
-import moment from 'moment'
-import {XCircleIcon, MinusCircleIcon, CheckCircleIcon} from "@heroicons/vue/outline";
+import debounce from "lodash/debounce";
+import AddItem from "../Components/AddItem.vue";
+import AppLayout from "../../../Layouts/AppLayout.vue";
+import AdminImages from "./AdminImages.vue";
+import PrintLabel from "../Components/PrintLabel.vue";
+import { notify } from "notiwind";
+import moment from "moment";
+import {
+    XCircleIcon,
+    MinusCircleIcon,
+    CheckCircleIcon,
+} from "@heroicons/vue/outline";
 
 export default {
     components: {
@@ -265,188 +281,190 @@ export default {
         AddItem,
         CheckCircleIcon,
         XCircleIcon,
-        MinusCircleIcon
+        MinusCircleIcon,
     },
-    props: ['transaction', 'bottom_tags', 'statuses', 'root', 'timeline'],
-    emits: ['transaction-updated'],
+    props: ["transaction", "bottom_tags", "statuses", "root", "timeline"],
+    emits: ["transaction-updated"],
     created: function () {
-        this.moment = moment
+        this.moment = moment;
     },
-    setup (props, { emit }) {
-        const popUp = ref(false)
-        const successMessage = ref('')
+    setup(props, { emit }) {
+        const popUp = ref(false);
+        const successMessage = ref("");
         const popModal = () => {
-            popUp.value = true
-        }
-        const notes = props.transaction
-        const transaction_id = props.root.id
-        const pickedTags = props.root.tags
+            popUp.value = true;
+        };
+        const notes = props.transaction;
+        const transaction_id = props.root.id;
+        const pickedTags = props.root.tags;
         const checkedList = computed(() => {
-            let myArray = []
-            pickedTags.forEach(item => {
-                return myArray.push(item.tag_id)
-            })
+            let myArray = [];
+            pickedTags.forEach((item) => {
+                return myArray.push(item.tag_id);
+            });
 
-            return myArray
-        })
-        const customer_id = props.root.customer.id
-        const messagePrivate = ref('')
-        const messagePublic = ref('')
-        let message = null
-        let tmPrivate = null
-        let tmPublic = null
-        let type = null
+            return myArray;
+        });
+        const customer_id = props.root.customer.id;
+        const messagePrivate = ref("");
+        const messagePublic = ref("");
+        let message = null;
+        let tmPrivate = null;
+        let tmPublic = null;
+        let type = null;
 
-        const transactionStatus = ref('')
+        const transactionStatus = ref("");
         const transactionOffer = reactive({
-            secondOffer: '',
-            offer: ''
-        })
+            secondOffer: "",
+            offer: "",
+        });
 
         const currentTransaction = ref(props.transaction);
 
-
-        console.log(currentTransaction)
-
         tmPublic =
-            null !== props.root.public_note ? props.root.public_note.notes : ''
+            null !== props.root.public_note ? props.root.public_note.notes : "";
         tmPrivate =
             null !== props.root.private_note
                 ? props.root.private_note.notes
-                : ''
-        messagePublic.value = tmPublic
-        messagePrivate.value = tmPrivate
+                : "";
+        messagePublic.value = tmPublic;
+        messagePrivate.value = tmPrivate;
+
+        function saveNote(e) {
+            if (e.target.name == "private") {
+                type = "private";
+                message = messagePrivate.value;
+            }
+
+            if (e.target.name == "public") {
+                type = "public";
+                message = messagePublic.value;
+            }
+        }
 
         watch(
             [messagePublic, messagePrivate],
             debounce(function (value) {
-
-                if (typeof value[0] !== 'undefined' && tmPublic == value[0]) {
-                    type = 'private'
-                    message = messagePrivate.value
-                } else {
-                    type = 'public'
-                    message = messagePublic.value
-                }
-
                 axios
-                    .post('/admin/transaction/notes', {
+                    .post("/admin/transaction/notes", {
                         transaction_id,
                         message: message,
                         customer_id,
-                        type: type
+                        type: type,
                     })
-                    .then(res => {
-                        successMessage.value = 'Note updated'
-                        setTimeout(onClickTop, 2000)
+                    .then((res) => {
+                        successMessage.value = "Note updated";
+                        setTimeout(onClickTop, 2000);
                     })
-                    .catch(error => {
-                        successMessage.value = 'Something went wrong.'
-                        setTimeout(onClickBot, 2000)
-                    })
-            }, 3000)
-        )
+                    .catch((error) => {
+                        successMessage.value = "Something went wrong.";
+                        setTimeout(onClickBot, 2000);
+                    });
+            }, 1000)
+        );
 
-        function updateTransaction(event, status_id=null) {
+        function updateTransaction(event, status_id = null) {
             let data = {};
-            switch(event) {
-                case 'status':
+            switch (event) {
+                case "status":
                     data = {
-                        field: 'status_id',
-                        value: this.currentTransaction.status_id
-                    }
+                        field: "status_id",
+                        value: this.currentTransaction.status_id,
+                    };
                     break;
-                case 'message':
-                      data = {
-                        field: 'message',
-                        value: this.currentTransaction.status_id
-                      }
-                    break;
-                case 'offer':
+                case "message":
                     data = {
-                        field: 'offer',
-                        value: this.currentTransaction.final_offer
-                      }
+                        field: "message",
+                        value: this.currentTransaction.status_id,
+                    };
                     break;
-                case 'sms':
+                case "offer":
                     data = {
-                        field: 'sms',
-                        value: this.currentTransaction.final_offer
-                      }
+                        field: "offer",
+                        value: this.currentTransaction.final_offer,
+                    };
+                    break;
+                case "sms":
+                    data = {
+                        field: "sms",
+                        value: this.currentTransaction.final_offer,
+                    };
                     break;
             }
 
-            emit('transaction-updated', data)
+            emit("transaction-updated", data);
         }
 
         // notification
-        function onClickTop () {
+        function onClickTop() {
             notify(
                 {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
+                    group: "top",
+                    title: "Success",
+                    text: successMessage.value,
                 },
                 4000
-            )
+            );
         }
 
-        function onChange(event){
+        function onChange(event) {
             console.log(event.target.value);
         }
 
-        function onClickBot () {
+        function onClickBot() {
             notify(
                 {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
+                    group: "bottom",
+                    title: "Error",
+                    text: successMessage.value,
                 },
                 4000
-            )
+            );
         }
         // notification ends
 
         // save notes end
 
         // Save tags
-        function saveBottomTags (tag_id) {
+        function saveBottomTags(tag_id) {
             if (this.checkedList.includes(tag_id)) {
                 axios
-                    .post('/transaction/tag', { tag_id, transaction_id })
-                    .then(res => {
+                    .post("/transaction/tag", { tag_id, transaction_id })
+                    .then((res) => {
                         if (res.status == 200) {
-                            successMessage.value = 'Tag removed'
-                            setTimeout(onClickTop, 2000)
+                            successMessage.value = "Tag removed";
+                            setTimeout(onClickTop, 2000);
                         } else if (res.status == 422) {
-                            successMessage.value = res.data.notification.message
-                            setTimeout(onClickBot, 2000)
-                            setTimeout(errorFn, 3000)
+                            successMessage.value =
+                                res.data.notification.message;
+                            setTimeout(onClickBot, 2000);
+                            setTimeout(errorFn, 3000);
                         }
                     })
-                    .catch(error => {
-                        successMessage.value = 'Error processing your request'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    })
+                    .catch((error) => {
+                        successMessage.value = "Error processing your request";
+                        setTimeout(onClickBot, 2000);
+                        setTimeout(errorFn, 3000);
+                    });
             } else {
                 axios
-                    .post('/transaction/tag', { tag_id, transaction_id })
-                    .then(res => {
+                    .post("/transaction/tag", { tag_id, transaction_id })
+                    .then((res) => {
                         if (res.status == 200) {
-                            successMessage.value = 'Tag added'
-                            setTimeout(onClickTop, 2000)
+                            successMessage.value = "Tag added";
+                            setTimeout(onClickTop, 2000);
                         } else if (res.status == 422) {
-                            successMessage.value = res.data.notification.message
-                            setTimeout(onClickBot, 2000)
-                            setTimeout(errorFn, 3000)
+                            successMessage.value =
+                                res.data.notification.message;
+                            setTimeout(onClickBot, 2000);
+                            setTimeout(errorFn, 3000);
                         }
                     })
-                    .catch(error => {
-                        successMessage.value = 'Error processing your request'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    })
+                    .catch((error) => {
+                        successMessage.value = "Error processing your request";
+                        setTimeout(onClickBot, 2000);
+                        setTimeout(errorFn, 3000);
+                    });
             }
         }
 
@@ -461,14 +479,14 @@ export default {
             checkedList,
             messagePrivate,
             messagePublic,
-            //saveNote,
+            saveNote,
             transactionStatus,
             transactionOffer,
             notes,
             updateTransaction,
             onChange,
-            currentTransaction
-        }
-    }
-}
+            currentTransaction,
+        };
+    },
+};
 </script>
