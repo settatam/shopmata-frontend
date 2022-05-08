@@ -106,34 +106,16 @@ class TransactionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function addTag(Request $request)
+    public function addTag(Request $request, $id)
     {
         try {
-            $transaction = Transaction::findOrFail($request->transaction_id);
-            //This will become a problem if we don't have a store ....
-            $store_tag   =  StoreTag::where(
-                                [
-                                    'tagable_id' => $request->transaction_id,
-                                    'tag_id'     => $request->tag_id
-                                ]
-                            )->first();
-            if (null !== $store_tag){
-                $store_tag->delete();
-                Log::info("Tag(s) deleted!", );
-                return response(null,200);
-            } else {
-                $tags  = new StoreTag(['tag_id' => $request->tag_id]);
-                if ( $transaction->tags()->save($tags) ) {
-                    Log::info("Tag(s) Added!", );
-                    return response(null,200);
-                }
-            }
+            Transaction::addTag($request->tag_id, $id);
+            return response(null, 200);
         } catch (\Throwable $th) {
             //throw $th;
             \Log::Error("Failed to add or delete  tag  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response(null, 422);
         }
-
-
         return response(null,422);
     }
 
@@ -323,6 +305,9 @@ class TransactionsController extends Controller
                 break;
             case 'offer':
                 $transaction->addOffer($input['offer']);
+                break;
+            case 'tags':
+                $this->addTag($request, $id);
                 break;
             case 'status':
                 $transaction->doUpdate($input);
