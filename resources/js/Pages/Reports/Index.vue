@@ -2,28 +2,37 @@
     <app-layout :navigation="navigation">
         <!-- Page header -->
         <div id="container" class="flex flex-col mx-3 space-y-1">
-            <div class="mt-4">
-                <TopRow />
-            </div>
-
             <div class="mx-2">
                 <SearchRow />
             </div>
 
-            <div>
-                <ReportLayout />
+            <div class="">
+                <TopRow class="mt-8"/>
             </div>
 
             <!-- <div>
-                <TransactionTable />
+                <ReportLayout />
             </div> -->
+
+            <div>
+                <TransactionTable v-for="item in 4" :key="item.index" />
+                <!-- button -->
+                <div class="flex justify-end mx-2 mt-6">
+                    <button
+                        class="text-center bg-purple-darken px-6 py-2 border border-transparent rounded shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
+                        type="submit"
+                    >
+                        Download CSV
+                    </button>
+                </div>
+            </div>
 
             <div>
                 <FilterBy />
             </div>
 
             <div>
-                <Entries :transactions="transactions.data"/>
+                <Entries :transactions="transactions.data" />
             </div>
 
             <NotificationGroup group="top" position="top">
@@ -191,6 +200,7 @@ export default {
         notifications: Array,
         transactions: Object,
         navigation: Array
-    }
+    },
+    setup () {}
 }
 </script>

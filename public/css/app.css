@@ -5431,12 +5431,6 @@ input[type='checkbox']:focus {
 		margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 	}
 
-	.lg\:space-x-1 > :not([hidden]) ~ :not([hidden]) {
-		--tw-space-x-reverse: 0;
-		margin-right: calc(0.25rem * var(--tw-space-x-reverse));
-		margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
-	}
-
 	.lg\:space-x-12 > :not([hidden]) ~ :not([hidden]) {
 		--tw-space-x-reverse: 0;
 		margin-right: calc(3rem * var(--tw-space-x-reverse));
