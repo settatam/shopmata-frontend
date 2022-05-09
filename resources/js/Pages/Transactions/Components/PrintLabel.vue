@@ -44,7 +44,12 @@
                             <div class="flex justify-between ">
                                 <div>
                                     <p class="text-2xl font-bold">
-                                        Add Items
+                                        Kit Assembly Checklist
+                                        <span class="text-purple-darken"
+                                            >Order #{{
+                                                transaction.id
+                                            }}</span
+                                        >
                                     </p>
                                 </div>
                                 <x-icon
@@ -53,169 +58,176 @@
                                 />
                             </div>
                             <div class="mt-3 sm:mt-5">
-                                <div class=" required w-full mb-4">
-                                    <label
-                                        class="block text-gray-600 font-semibold mb-2 bg-transparent"
+                                <!-- print label -->
+                                <div
+                                    class="flex flex-row w-full mb-4 space-x-2"
+                                >
+                                    <p class="py-1">Print Label:</p>
+                                    <input
+                                        class="mt-2 py-1"
+                                        type="checkbox"
+                                        name="ground"
+                                        id="ground"
+                                    />
+                                    <label class="py-1" for="ground"
+                                        >Ground?</label
                                     >
-                                        Choose Category
-                                    </label>
-                                    <select
-                                        name=""
-                                        id=""
-                                        v-model="local_pickup.category"
-                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+
+                                    <div
+                                        class="space-x-2 flex flex-col lg:flex-row"
                                     >
-                                        <option value="0">Choose Category</option>
-                                        <option :value="category.name" v-for="category in categories" :key="category.index">{{category.name}}</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="flex required  mb-4">
-                                    <div class="mr-2 w-full">
-                                        <label
-                                            class="block text-gray-600 font-semibold mb-2 bg-transparent"
-                                            for="country_id"
+                                        <button
+                                            class="bg-gray-background px-2 py-1"
                                         >
-                                            Description
-                                        </label>
-                                        <textarea
-                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            v-model="local_pickup.description"
-                                            required
-                                            name=""
-                                            id=""
-                                            cols="30"
-                                            rows="3"
-                                        ></textarea>
-
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.description.$error"
+                                            From Seller
+                                        </button>
+                                        <button
+                                            class="bg-gray-background lg:mt-0 mt-2 px-2 py-1"
                                         >
-                                            {{
-                                                v$.description.$errors[0]
-                                                    .$message
-                                            }}
-                                        </p>
+                                            To Seller
+                                        </button>
                                     </div>
                                 </div>
+
+                                <!-- print label ends -->
+
+                                <!-- print barcode start -->
 
                                 <div
-                                    class="flex flex-col lg:flex-row required  mb-4"
+                                    class="flex flex-row w-full mb-4 space-x-2"
                                 >
-                                    <div class="mr-2 w-full">
-                                        <label
-                                            class="block text-gray-600 font-semibold mb-2 bg-transparent"
-                                        >
-                                            DWT
-                                        </label>
-                                        <input
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.city.$error,
-                                                'border-gray-300': !v$.dwt
-                                                    .$error
-                                            }"
-                                            type="text"
-                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            placeholder=""
-                                            v-model="local_pickup.dwt"
-                                            required
-                                        />
+                                    <label class="py-1" for="ground"
+                                        >Print Barcode:</label
+                                    >
 
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.dwt.$error"
+                                    <button
+                                        class="bg-gray-background px-2 py-1"
+                                    >
+                                        To Seller
+                                    </button>
+                                </div>
+
+                                <!-- proint barcode ends -->
+
+                                <h2 class="mb-4 font-bold">
+                                    Check off each item as you complete it:
+                                    <span
+                                        class="text-purple-darken cursor-pointer"
+                                        @click="checkAll()"
+                                        >Check All</span
+                                    >
+                                </h2>
+
+                                <!-- checkboxes-->
+
+                                <div class="mb-4 w-full">
+                                    <div
+                                        class="flex flex-row w-full mb-2 p-2 bg-gray-background"
+                                    >
+                                        <input
+                                            :checked="isChecked"
+                                            class="mt-2 py-1"
+                                            type="checkbox"
+                                            name="fromseller"
+                                            id="fromseller"
+                                        />
+                                        <label
+                                            class="py-1 px-2"
+                                            for="fromseller"
+                                            >From Seller Label printed &
+                                            attached to kit return
+                                            package</label
                                         >
-                                            {{ v$.dwt.$errors[0].$message }}
-                                        </p>
                                     </div>
 
-                                    <div class="lg:ml-2 w-full lg:mt-0 mt-4">
-                                        <label
-                                            class="block text-gray-600 font-semibold mb-2 bg-transparent"
-                                        >
-                                            m-pRICE
-                                        </label>
+                                    <div
+                                        class="flex flex-row w-full mb-2 p-2 bg-gray-background"
+                                    >
                                         <input
-                                            :class="{
-                                                'border-red-600':
-                                                    v$.mprice.$error,
-                                                'border-gray-300': !v$.mprice
-                                                    .$error
-                                            }"
-                                            type="text"
-                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            placeholder=""
-                                            v-model="local_pickup.mprice"
-                                            required
+                                            :checked="isChecked"
+                                            class="mt-2 py-1"
+                                            type="checkbox"
+                                            name="toseller"
+                                            id="toseller"
                                         />
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.mprice.$error"
+                                        <label class="py-1 px-2" for="toseller"
+                                            >To Seller Label printed & attached
+                                            to shipping kit package</label
                                         >
-                                            {{ v$.mprice.$errors[0].$message }}
-                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="flex flex-row w-full mb-2 p-2 bg-gray-background"
+                                    >
+                                        <input
+                                            :checked="isChecked"
+                                            class="mt-2 py-1"
+                                            type="checkbox"
+                                            name="barcodesprinted"
+                                            id="barcodesprinted"
+                                        />
+                                        <label
+                                            class="py-1 px-2"
+                                            for="barcodesprinted"
+                                            >Barcodes printed & attached to kit
+                                            envelopes</label
+                                        >
+                                    </div>
+
+                                    <div
+                                        class="flex flex-row w-full mb-2 p-2 bg-gray-background"
+                                    >
+                                        <input
+                                            :checked="isChecked"
+                                            class="mt-2 py-1"
+                                            type="checkbox"
+                                            name="packagecontent"
+                                            id="packagecontent"
+                                        />
+                                        <label
+                                            class="py-1 px-2"
+                                            for="packagecontent"
+                                            >Package Contents Verified &
+                                            Assembled</label
+                                        >
+                                    </div>
+
+                                    <div
+                                        class="flex flex-row w-full mb-2 p-2 bg-gray-background"
+                                    >
+                                        <input
+                                            :checked="isChecked"
+                                            class="mt-2 py-1"
+                                            type="checkbox"
+                                            name="kitsent"
+                                            id="kitsent"
+                                        />
+                                        <label class="py-1 px-2" for="kitsent"
+                                            >Shipping kit sent to shipping
+                                            carrier</label
+                                        >
                                     </div>
                                 </div>
-                                <div class=" required w-full mb-4">
-                                    <label
-                                        class="block text-gray-600 font-semibold mb-2 bg-transparent"
-                                    >
-                                        iNote
-                                    </label>
-                                    <input
-                                        :class="{
-                                            'border-red-600': v$.inote.$error,
-                                            'border-gray-300': !v$.inote.$error
-                                        }"
-                                        type="text"
-                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                        v-model="local_pickup.inote"
-                                        required
-                                    />
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.inote.$error"
-                                    >
-                                        {{ v$.inote.$errors[0].$message }}
+                                <!-- checkboxes ends -->
+
+                                <div class="w-full mb-4">
+                                    <p class="font-bold">
+                                        You must check off each item on this
+                                        checklist before the order can be marked
+                                        as shipped.
                                     </p>
                                 </div>
 
                                 <div
-                                    class="required w-full mb-4 flex justify-center"
+                                    class="required w-full mb-4 flex justify-start"
                                 >
                                     <button
                                         class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                                     >
-                                        <span class="ml-2"
-                                            >Click to upload files</span
-                                        >
+                                        <span class="">Mark as shipped</span>
                                     </button>
-                                    <input
-                                        class="cursor-pointer absolute block opacity-0 pin-r pin-t"
-                                        type="file"
-                                        multiple
-                                    />
                                 </div>
                             </div>
-                        </div>
-                        <div class=" flex justify-between">
-                            <button
-                                type="file"
-                                @click="closeModal"
-                                class=" rounded-md border border-gray-500 mr-4 shadow-sm px-10 py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="button"
-                                class=" rounded-md border border-transparent shadow-sm px-10 py-3 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                                @click="submit"
-                            >
-                                Save
-                            </button>
                         </div>
                     </div>
                 </TransitionChild>
@@ -226,6 +238,7 @@
 
 <script>
 import { ref, reactive, computed } from 'vue'
+import { XIcon } from '@heroicons/vue/solid'
 import {
     Dialog,
     DialogOverlay,
@@ -234,14 +247,11 @@ import {
 } from '@headlessui/vue'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
-import { XIcon } from '@heroicons/vue/solid'
 import useVuelidate from '@vuelidate/core'
-import { required, helpers, numeric } from '@vuelidate/validators'
-
+import { required, helpers } from '@vuelidate/validators'
 export default {
     emits: ['close'],
-    props: ['store', 'countries', 'categories'],
-
+    props: ['transaction'],
     components: {
         Dialog,
         DialogOverlay,
@@ -253,7 +263,7 @@ export default {
         const open = ref(true)
         const countries = reactive([{}])
         const states = reactive([{}])
-
+        const isChecked = ref(false)
         const local_pickup = reactive({
             category: '',
             description: '',
@@ -261,12 +271,13 @@ export default {
             mprice: '',
             inote: ''
         })
-
+        function checkAll () {
+            isChecked.value = true
+        }
         const closeModal = () => {
             open.value = false
             ctx.emit('close')
         }
-
         const rules = computed(() => {
             return {
                 category: {
@@ -292,16 +303,14 @@ export default {
                 }
             }
         })
-
         const v$ = useVuelidate(rules, local_pickup)
-
         function submit () {
             this.v$.$validate()
             if (local_pickup.address.length < 1) {
                 return
             } else {
                 axios
-                    .post('/settings/store-locations', local_pickup)
+                    .post('/', local_pickup)
                     .then(res => {
                         //console.log(res.data)
                         this.open = false
@@ -309,7 +318,6 @@ export default {
                     })
             }
         }
-
         return {
             open,
             local_pickup,
@@ -317,7 +325,9 @@ export default {
             v$,
             closeModal,
             countries,
-            states
+            states,
+            isChecked,
+            checkAll
         }
     }
 }
