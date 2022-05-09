@@ -272,7 +272,7 @@ export default {
             inote: ''
         })
         function checkAll () {
-            isChecked.value = true
+            isChecked.value = !isChecked.value
         }
         const closeModal = () => {
             open.value = false
