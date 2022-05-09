@@ -1,7 +1,7 @@
 <template>
     <div class=" my-3 md:px-0 rounded">
-        <div class="pt-3 pl-3">
-            <h2 class="text-xs">FILTER BY:</h2>
+        <div class="pt-3 ">
+            <h2 class="text-xl text-purple-darken">FILTER BY:</h2>
         </div>
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">

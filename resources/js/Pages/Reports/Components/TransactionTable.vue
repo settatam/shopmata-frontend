@@ -1,7 +1,7 @@
 <template>
-    <div class=" rounded-md bg-white mt-4 overflow-scroll lg:mx-2">
+    <div class=" rounded-md bg-white mt-4 overflow-x-auto overflow-y-auto overflow-scroll lg:mx-2">
         <table class="min-w-full">
-            <thead class="Kev table-auto border-b bg-gray-lightest ">
+            <thead class=" border-b bg-white ">
                 <tr>
                     <th
                         class="text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"

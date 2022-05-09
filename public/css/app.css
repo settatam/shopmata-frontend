@@ -1467,9 +1467,6 @@ select {
 .mt-1 {
 	margin-top: 0.25rem;
 }
-.ml-2 {
-	margin-left: 0.5rem;
-}
 .mb-6 {
 	margin-bottom: 1.5rem;
 }
@@ -1487,6 +1484,9 @@ select {
 }
 .ml-1 {
 	margin-left: 0.25rem;
+}
+.ml-2 {
+	margin-left: 0.5rem;
 }
 .-mr-0\.5 {
 	margin-right: -0.125rem;
@@ -2460,9 +2460,6 @@ select {
 }
 .break-words {
 	overflow-wrap: break-word;
-}
-.break-all {
-	word-break: break-all;
 }
 .rounded-md {
 	border-radius: 0.375rem;
@@ -5432,12 +5429,6 @@ input[type='checkbox']:focus {
 		--tw-space-y-reverse: 0;
 		margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
 		margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
-	}
-
-	.lg\:space-x-1 > :not([hidden]) ~ :not([hidden]) {
-		--tw-space-x-reverse: 0;
-		margin-right: calc(0.25rem * var(--tw-space-x-reverse));
-		margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
 	}
 
 	.lg\:space-x-12 > :not([hidden]) ~ :not([hidden]) {
