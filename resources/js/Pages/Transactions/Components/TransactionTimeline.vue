@@ -4,10 +4,6 @@
             <h1 class="text-white">Transaction Timeline</h1>
         </div>
 
-        <!-- image modal start -->
-        <AddItem :categories="categories" @close="popUp = false" v-if="popUp" />
-        <!-- image modal ends -->
-
         <div
             class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8"
         >
@@ -261,7 +257,7 @@ import { reactive, ref, computed } from "@vue/reactivity";
 import { watch } from "vue";
 
 import debounce from "lodash/debounce";
-import AddItem from "../Components/AddItem.vue";
+// import AddItem from "../Components/AddItem.vue";
 import AppLayout from "../../../Layouts/AppLayout.vue";
 import AdminImages from "./AdminImages.vue";
 import PrintLabel from "../Components/PrintLabel.vue";
@@ -278,7 +274,7 @@ export default {
         AppLayout,
         PrintLabel,
         AdminImages,
-        AddItem,
+        // AddItem,
         CheckCircleIcon,
         XCircleIcon,
         MinusCircleIcon,
