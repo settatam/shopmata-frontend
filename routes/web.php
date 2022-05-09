@@ -219,6 +219,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('transaction/notes', [TransactionsController::class, 'addNote']);
         Route::post('transaction/image', [TransactionsController::class, 'addImage']);
         Route::post('transaction/image/delete', [TransactionsController::class, 'deleteTransactionNoteImage']);
+        Route::post('transactions/delete', TransactionsController::class, 'destroy');
 
         Route::resource('items', TransactionItemsController::class);
         Route::post('item/{id}/images', [TransactionItemsController::class, 'UpdateImage']);
