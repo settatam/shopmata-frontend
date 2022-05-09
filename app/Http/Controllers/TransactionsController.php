@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Filter;
 use App\Models\EventCondition;
 use App\Services\EventNotification;
 use Illuminate\Http\Request;
@@ -33,11 +34,11 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        $transactions = Transaction::with('items','customer','images')
-//                                ->where('store_id',session('store_id'))
-                                ->latest()
-                                ->paginate(10);
-//        $transactions->load('customer.state');
+        $filter = $request->input();
+        $perPage = Filter::perPage($filter);
+        $transactions = Transaction::search($filter)
+                        ->with('items','customer','images', 'customer.state')
+                        ->paginate($perPage);
         return Inertia::render('Transactions/Index',compact('transactions'));
     }
 
@@ -72,7 +73,16 @@ class TransactionsController extends Controller
      */
     public function show($id)
     {
-        $transaction                 = Transaction::with('shippingLabels')->findorFail($id);
+        $filter = [];
+        $transaction = Transaction::search([])
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note')
+            ->find($id);
+//        $transaction                 = Transaction::with('shippingLabels')->findorFail($id);
         $statuses                    = Status::all();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
@@ -80,7 +90,6 @@ class TransactionsController extends Controller
         $transactions                = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
-        $transaction->load('customer','customer.state','items','items.category','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note');
         $timeline = $transaction->historyTimeline();
         return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags', 'timeline'));
     }
@@ -214,11 +223,37 @@ class TransactionsController extends Controller
         }
     }
 
+    public function bulkPrint(Request $request, $printable) {
+
+        if($printable !== 'barcode' && $printable !== 'label') {
+            abort(404);
+        }
+
+        $transaction = Transaction::find($id);
+
+        switch($printable) {
+           case 'barcode':
+               $printables = [Barcode::generate($transaction)];
+               return view('pages.barcode', compact('printables'));
+               break;
+           case 'label':
+//               $transaction->getShippingLabel();
+               $printables = $transaction->shippingLabels;
+               return view('pages.label', compact('printables'));
+               break;
+           default:
+               echo 'no';
+        }
+
+    }
+
     public function printable(Request $request, $id, $printable) {
-//        if($printable !== 'barcode' || $printable !== 'label') {
-//            abort(404);
-//        }
-       $transaction = Transaction::find($id);
+
+        if($printable !== 'barcode' && $printable !== 'label') {
+            abort(404);
+        }
+
+        $transaction = Transaction::find($id);
        switch($printable) {
            case 'barcode':
                $printables = [Barcode::generate($transaction)];
@@ -233,7 +268,6 @@ class TransactionsController extends Controller
                echo 'no';
        }
 
-//       return view('pages.barcode', compact('printables'));
     }
 
     /**

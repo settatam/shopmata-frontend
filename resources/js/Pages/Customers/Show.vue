@@ -6,7 +6,7 @@
                     <li>
                         <div>
                             <a
-                                href="/dashboard"
+                                href="/admin/dashboard"
                                 class="text-gray-400 hover:text-gray-500"
                             >
                                 <HomeIcon
@@ -40,7 +40,7 @@
                                 aria-hidden="true"
                             />
                             <a
-                                href="/customers"
+                                href="/admin/customers"
                                 class="ml-4 text-base font-medium text-gray-500 hover:text-gray-700 mt-1"
                                 >{{ customer?.first_name }}
                                 {{ customer?.last_name }}
@@ -74,7 +74,7 @@
                         <div class="px-5 flex justify-between mb-4">
                             <h2 class="font-bold text-lg">Customer Overview</h2>
                             <inertia-link
-                                :href=" `/customers/${customer.id}/edit`"
+                                :href=" `/admin/customers/${customer.id}/edit`"
                                 class="text-indigo-700 font-semibold text-xs"
                                 >Edit Details</inertia-link>
                         </div>
@@ -89,7 +89,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <inertia-link
-                                    :href="'/customers/' + customer.id"
+                                    :href="'/admin/customers/' + customer.id"
                                     >{{ customer.first_name }}
                                     </inertia-link
                                 >
@@ -130,7 +130,7 @@
                                 {{ customer?.country }}
                             </h2>
                             <!-- <a
-                                    href="/order/address"
+                                    href="/admin/order/address"
                                     class="font-semibold text-indigo-700"
                                     >Add new address</a
                                 > -->
@@ -155,7 +155,7 @@
                                 {{ customer.country ==null?"Country not available":customer.country }}
                             </h2>
                             <!-- <a
-                                    href="/order/address"
+                                    href="/admin/order/address"
                                     class="font-semibold text-indigo-700"
                                     >Add new address</a
                                 > -->
@@ -321,7 +321,7 @@
                                             >
                                                 <inertia-link
                                                     :href="
-                                                        '/orders/' + order.id
+                                                        '/admin/orders/' + order.id
                                                     "
                                                     class=""
                                                 >
@@ -569,7 +569,7 @@ import OrdersPlaced from "../../../assets/OrdersPlaced.vue";
 import moment from "moment";
 // import "vue-multiselect/dist/vue-multiselect.min.css";
 
-const pages = [{ name: "All Customers", href: "/customers", current: false }];
+const pages = [{ name: "All Customers", href: "/admin/customers", current: false }];
 
 const statusStyles = {
     received: "bg-green-100 text-green-800",
