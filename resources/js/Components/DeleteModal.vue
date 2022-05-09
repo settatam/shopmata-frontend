@@ -70,7 +70,7 @@
                                 type="button"
                                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                                 @click="deleteTransactions()"
-                            >
+                            > <LoadingSpinner v-if="loading" />
                                 Delete
                             </button>
                             <button
@@ -102,6 +102,7 @@ import { ExclamationIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
 import notification from '../Utils/notification'
+import LoadingSpinner from '../Components/LoadingSpinner.vue'
 
 export default {
     emits: ['close'],
@@ -112,7 +113,8 @@ export default {
         DialogTitle,
         TransitionChild,
         TransitionRoot,
-        ExclamationIcon
+        ExclamationIcon,
+        LoadingSpinner
     },
     setup (props, { emit }) {
         const { onClickTop, onClickBot } = notification()
@@ -120,6 +122,7 @@ export default {
         const successMessage = ref('')
         const checkedTransactions = props.checkedTransactions
         const deleteProps = props.deleteProps
+        const loading = ref(false)
 
         function deleteTransactions () {
             axios

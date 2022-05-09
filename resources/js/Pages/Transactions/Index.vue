@@ -147,8 +147,8 @@
                         :key="item.index"
                         class="py-3 border-b border-gray-background mr-2"
                     >
-                        <td class=" lg:table-cell px-5">
-                            <label class="block" :for="item.id"></label>
+                        <td class="lg:table-cell px-5">
+                            <label class=" . h-24  w-18 text-center-4 border-2 border-yellow-400" :for="item.id"></label>
                             <input
                                 :checked="isChecked"
                                 type="checkbox"
