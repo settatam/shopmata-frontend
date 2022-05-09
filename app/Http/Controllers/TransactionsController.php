@@ -21,6 +21,7 @@ use App\Traits\FileUploader;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MetalPrice;
 use App\Services\Barcode;
+use function Aws\map;
 
 class TransactionsController extends Controller
 {
@@ -223,28 +224,39 @@ class TransactionsController extends Controller
         }
     }
 
+    public function bulkPrintAction(Request $request) {
+        $transactions = json_decode($request->input()['transactions'], true);
+        $printables = [];
+
+        foreach($transactions as $transaction) {
+            $tr = Transaction::find($transaction['id']);
+            $printables[] = [
+                'barcode' => Barcode::generate($tr),
+                'qty' => $transaction['qty']
+            ];
+        }
+        
+        return view('pages.barcode', compact('printables'));
+    }
+
     public function bulkPrint(Request $request, $printable) {
 
         if($printable !== 'barcode' && $printable !== 'label') {
             abort(404);
         }
 
-        $transaction = Transaction::find($id);
+        $input = $request->input();
+        $transactions = Transaction::whereIn('id', $input['transactions'])->get();
 
-        switch($printable) {
-           case 'barcode':
-               $printables = [Barcode::generate($transaction)];
-               return view('pages.barcode', compact('printables'));
-               break;
-           case 'label':
-//               $transaction->getShippingLabel();
-               $printables = $transaction->shippingLabels;
-               return view('pages.label', compact('printables'));
-               break;
-           default:
-               echo 'no';
+        $transactions->map(function(Transaction $transaction){
+            return $transaction->qty = 5;
+        });
+
+        if($input['action'] == 'barcode') {
+            return Inertia::render('Transactions/BulkPrintBarcode', compact('transactions'));
+        }else if($input['action'] == 'label') {
+            return Inertia::render('Transactions/BulkPrintLabel', compact('transactions'));
         }
-
     }
 
     public function printable(Request $request, $id, $printable) {
@@ -256,7 +268,10 @@ class TransactionsController extends Controller
         $transaction = Transaction::find($id);
        switch($printable) {
            case 'barcode':
-               $printables = [Barcode::generate($transaction)];
+               $printables = [
+                   'barcode' => Barcode::generate($transaction),
+                   'qty' => 5
+               ];
                return view('pages.barcode', compact('printables'));
                break;
            case 'label':

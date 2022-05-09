@@ -282,6 +282,7 @@ class Fedex extends Shipping
     protected function getPickUpType() {
         return $this->pickupType ?? 'DROPOFF_AT_FEDEX_LOCATION';
     }
+
     protected function getServiceType() {
         return $this->serviceType ?? config('logistics.fedex.serviceType');
     }

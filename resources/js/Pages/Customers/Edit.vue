@@ -32,7 +32,7 @@
                 <li>
                     <div>
                         <a
-                            href="/customers"
+                            href="/admin/customers"
                             class="text-gray-500 hover:text-gray-700"
                         >
                             All Customers
@@ -764,14 +764,14 @@ export default {
             }
             loading.value = true
             axios
-                .put(`/customers/${customer.id}`, customerEdit)
+                .put(`/admin/customers/${customer.id}`, customerEdit)
                 .then(res => {
                     if (res.status == 200) {
                         successMessage.value = res.data.message
                         setTimeout(onClickTop, 2000)
                     }
                 })
-                .then(Inertia.visit('/customers', { method: 'get' }))
+                .then(Inertia.visit('/admin/customers', { method: 'get' }))
                 .catch(error => {
                     loading.value = false
                     if (res.status == 422) {
