@@ -18,14 +18,15 @@
 
                     <!-- list -->
                     <div class="p-3">
-                        <p
+                        <inertia-link
                             v-for="counter in item.kit"
                             :key="counter.index"
+                            :href="'/admin/transactions?'+counter.href"
                             class="py-1 my-1 px-3 flex justify-between bg-gray-grayer"
                         >
                             <span>{{ counter.counter }}</span>
                             <span>{{ counter.val }}</span>
-                        </p>
+                        </inertia-link>
                     </div>
                 </div>
                 <!-- Kits end -->
@@ -42,14 +43,15 @@
 
                         <!-- list -->
                         <div class="p-3">
-                            <p
+                            <inertia-link
                                 v-for="counter in item.fedex"
                                 :key="counter.index"
+                                :href="'/admin/transactions?'+counter.href"
                                 class="py-1 px-3 flex justify-between my-1 bg-gray-grayer"
                             >
                                 <span>{{ counter.counter }}</span>
                                 <span>{{ counter.val }}</span>
-                            </p>
+                            </inertia-link>
                         </div>
                     </div>
                     <!-- Fedex end -->
