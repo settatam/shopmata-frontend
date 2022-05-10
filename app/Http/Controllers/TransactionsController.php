@@ -375,11 +375,11 @@ class TransactionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $reques, $id)
+    public function destroy(Request $request)
     {
        
         foreach ( $request->transaction_ids as $transaction_id ){
-            $transaction = Transaction::find($selected);
+            $transaction = Transaction::find($transaction_id);
             $transaction->delete();
         }
         $transactions = Transaction::with('items','customer','images')
