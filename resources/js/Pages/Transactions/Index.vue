@@ -12,15 +12,6 @@
                     >
                 </div>
 
-                <!-- <div class="lg:hidden flex flex-row justify-start mr-3 py-4">
-                    <button
-                        class="bg-purple-darken px-2 py-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
-                        type="submit"
-                    >
-                        <PlusIcon class="h-4 w-5 inline-flex items-center" />
-                        <span class="pl-2">Add Customer</span>
-                    </button>
-                </div> -->
             </div>
 
             <div
@@ -30,10 +21,13 @@
                 <div class="flex flex-row space-x-2 w-auto">
                     <div class="">
                         <select
-                            class="rounded text-black bg-white text-xm md:text-base w-20 "
+                            @change="filterTransactions()"
+                            class="rounded text-black bg-white text-xm md:text-base w-fit "
                             name=""
                             id=""
+                            v-model="filterNumber"
                         >
+                            <option value="choose">Choose</option>
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="30">30</option>
@@ -75,7 +69,7 @@
                             id=""
                             v-model="massActionChoice"
                         >
-                            <option value="choose">Choose</option>
+                            <option value="choose">Choose Action</option>
                             <option value="label_to"
                                 >Create Shipping label to customer</option
                             >
@@ -307,6 +301,7 @@ export default {
         const filterLists = ref(transactions.data)
         const massActionChoice = ref('choose')
         const isDelete = ref(false)
+        const filterNumber = ref('choose')
         const deleteProps = reactive({
             url: '/admin/transactions/delete',
             item: 'Transactions'
@@ -354,6 +349,17 @@ export default {
             })
         }
 
+        function filterTransactions () {
+            switch(filterNumber.value){
+                case 'choose':
+                    break
+                default:
+                        Inertia.visit(`/admin/transactions?per_page=${filterNumber.value}`, {
+                method: 'get'
+            })
+            }
+        }
+
         return {
             loading,
             transactions,
@@ -368,7 +374,9 @@ export default {
             isDelete,
             deleteProps,
             close,
-            checkedTransactions
+            checkedTransactions,
+            filterNumber,
+            filterTransactions
         }
     }
 }
