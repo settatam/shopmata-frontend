@@ -150,7 +150,7 @@
                     >
                         <td class="lg:table-cell px-5">
                             <label
-                                class=" text-center-4 border-2"
+                                class=" text-center-4 "
                                 :for="item.id"
                             ></label>
                             <input
