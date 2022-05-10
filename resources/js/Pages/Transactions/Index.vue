@@ -299,7 +299,7 @@ export default {
         const notifications = notifications
         const pagination = ref(transactions)
         const filterLists = ref(transactions.data)
-        const massActionChoice = ref('')
+        const massActionChoice = ref('Choose')
         const isDelete = ref(false)
         const deleteProps = reactive({
             url: '/admin/transactions/delete',
@@ -322,7 +322,7 @@ export default {
         }
 
         function sendAction () {
-            if (massActionChoice.value == 'delete') {
+            if (massActionChoice.value == 'delete' && checkedTransactions.value.length >= 1) {
                 isDelete.value = true
             }
         }

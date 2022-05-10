@@ -60,7 +60,11 @@
                                 </DialogTitle>
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500">
-                                        Confirm deletion?
+                                        Confirm deletion of
+                                        {{
+                                            checkedTransactions.length
+                                        }}
+                                        transaction(s) ?
                                     </p>
                                 </div>
                             </div>
@@ -70,8 +74,10 @@
                                 type="button"
                                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                                 @click="deleteTransactions()"
-                            > <LoadingSpinner v-if="loading" />
-                                Delete
+                            >
+                                <LoadingSpinner v-if="loading" />
+                                {{ deleteMessage }}
+                                {{ checkedTransactions.length }}
                             </button>
                             <button
                                 type="button"
@@ -123,6 +129,7 @@ export default {
         const checkedTransactions = props.checkedTransactions
         const deleteProps = props.deleteProps
         const loading = ref(false)
+        const deleteMessage = ref('Delete')
 
         function deleteTransactions () {
             axios
@@ -130,6 +137,7 @@ export default {
                     transaction_ids: checkedTransactions
                 })
                 .then(res => {
+                    deleteMessage.value == 'Deleting '
                     loading.value = false
                     // transactionItems.value = res.data.items
                     successMessage.value = 'Item deleted'
@@ -137,6 +145,8 @@ export default {
                 })
                 .catch(error => {
                     loading.value = false
+                    open.value = false
+                    emit('close', open.value)
                     successMessage.value = 'Error processing your request'
                     setTimeout(onClickBot(successMessage.value), 2000)
                 })
@@ -152,7 +162,8 @@ export default {
             closeModal,
             deleteTransactions,
             checkedTransactions,
-            deleteProps
+            deleteProps,
+            deleteMessage
         }
     }
 }
