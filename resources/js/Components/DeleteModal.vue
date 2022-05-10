@@ -61,9 +61,7 @@
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500">
                                         Confirm deletion of
-                                        {{
-                                            checkedTransactions.length
-                                        }}
+                                        {{ checkedTransactions.length }}
                                         transaction(s) ?
                                     </p>
                                 </div>
@@ -71,14 +69,16 @@
                         </div>
                         <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                             <button
+                                :disabled="loading"
                                 type="button"
                                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                                 @click="deleteTransactions()"
                             >
                                 <LoadingSpinner v-if="loading" />
                                 {{ deleteMessage }}
-                                {{ checkedTransactions.length }}
+                                ({{ checkedTransactions.length }})
                             </button>
+
                             <button
                                 type="button"
                                 class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
@@ -107,7 +107,6 @@ import {
 import { ExclamationIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
-import notification from '../Utils/notification'
 import LoadingSpinner from '../Components/LoadingSpinner.vue'
 
 export default {
@@ -123,32 +122,28 @@ export default {
         LoadingSpinner
     },
     setup (props, { emit }) {
-        const { onClickTop, onClickBot } = notification()
         const open = ref(true)
-        const successMessage = ref('')
         const checkedTransactions = props.checkedTransactions
         const deleteProps = props.deleteProps
         const loading = ref(false)
         const deleteMessage = ref('Delete')
 
         function deleteTransactions () {
+            loading.value = true
+            deleteMessage.value = 'Deleting...'
             axios
                 .post(deleteProps.url, {
                     transaction_ids: checkedTransactions
                 })
                 .then(res => {
-                    deleteMessage.value == 'Deleting '
+                    
                     loading.value = false
-                    // transactionItems.value = res.data.items
-                    successMessage.value = 'Item deleted'
-                    setTimeout(onClickTop(successMessage.value), 2000)
+                    emit('close', open.value)
                 })
                 .catch(error => {
                     loading.value = false
                     open.value = false
                     emit('close', open.value)
-                    successMessage.value = 'Error processing your request'
-                    setTimeout(onClickBot(successMessage.value), 2000)
                 })
         }
 
@@ -163,7 +158,8 @@ export default {
             deleteTransactions,
             checkedTransactions,
             deleteProps,
-            deleteMessage
+            deleteMessage,
+            loading
         }
     }
 }
