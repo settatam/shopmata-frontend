@@ -4,10 +4,6 @@
             <h1 class="text-white">Transaction Timeline</h1>
         </div>
 
-        <!-- image modal start -->
-        <AddItem :categories="categories" @close="popUp = false" v-if="popUp" />
-        <!-- image modal ends -->
-
         <div
             class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8"
         >
@@ -132,7 +128,7 @@
 
                         <div>
                             <a
-                                class="bg-purple-darken w-40 px-2 md:px-7 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                                class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 :href="
                                     '/admin/transactions/' +
                                     transaction.id +
@@ -261,7 +257,7 @@ import { reactive, ref, computed } from "@vue/reactivity";
 import { watch } from "vue";
 
 import debounce from "lodash/debounce";
-import AddItem from "../Components/AddItem.vue";
+// import AddItem from "../Components/AddItem.vue";
 import AppLayout from "../../../Layouts/AppLayout.vue";
 import AdminImages from "./AdminImages.vue";
 import PrintLabel from "../Components/PrintLabel.vue";
@@ -278,7 +274,7 @@ export default {
         AppLayout,
         PrintLabel,
         AdminImages,
-        AddItem,
+        // AddItem,
         CheckCircleIcon,
         XCircleIcon,
         MinusCircleIcon,

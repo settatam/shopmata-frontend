@@ -134,7 +134,7 @@
                         </div>
                     </td>
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap w-8"
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-normal break-words"
                     >
                         {{ transactionItem.description }}
                     </td>

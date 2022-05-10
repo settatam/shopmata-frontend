@@ -1,10 +1,8 @@
 <template>
-    <!-- <div
-    class="grid grid-cols-2 gap-2 my-4 md:px-0 md:grid-cols-6 rounded bg-transparent"
-> -->
-
-    <div class="lg:flex lg:flex-row lg:justify-between lg:space-x-1 my-6 w-full grid grid-cols-2 gap-2">
-        <div class="w-full">
+    <div
+        class="grid grid-cols-2 gap-2 my-4 md:px-0 md:grid-cols-6 rounded bg-transparent"
+    >
+        <div class="">
             <div
                 class="relative w-full text-gray-400 focus-within:text-gray-600"
             >
@@ -24,7 +22,7 @@
             </div>
         </div>
 
-        <div class="w-full">
+        <div class="">
             <input
                 type="date"
                 name=""
@@ -33,7 +31,7 @@
             />
         </div>
 
-        <div class="w-full">
+        <div class="">
             <input
                 type="date"
                 name=""
@@ -42,7 +40,7 @@
             />
         </div>
 
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col">
             <select
                 name="Status"
                 id=""
@@ -51,8 +49,7 @@
                 <option value="">Date Kit Requested</option>
             </select>
         </div>
-
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col">
             <div class="flex">
                 <select
                     name="Tag"
@@ -64,13 +61,20 @@
             </div>
         </div>
 
-        <div class="flex w-1/2">
+        <div class="flex">
             <div class="flex flex-row space-x-2">
                 <button
-                    class="bg-purple-darken px-6 py-1 border border-transparent rounded-sm shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
+                    class="bg-purple-darken px-2 py-1 border border-transparent rounded shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
                     type="submit"
                 >
-                    Apply Now
+                    Apply
+                </button>
+
+                <button
+                    class="bg-purple-darken px-2 py-1 border border-transparent rounded shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
+                    type="submit"
+                >
+                    New Customer
                 </button>
             </div>
         </div>

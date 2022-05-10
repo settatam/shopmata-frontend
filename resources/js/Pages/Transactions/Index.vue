@@ -1,5 +1,5 @@
 <template>
-        <!-- Page header -->
+    <!-- Page header -->
     <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3">
             <div class="flex flex-row justify-between">
@@ -73,6 +73,7 @@
                             class="py-2 text-sm text-black rounded-md focus:outline-none focus:bg-white w-72 lg:w-full"
                             name="massaction"
                             id=""
+                            v-model="massActionChoice"
                         >
                             <option value="label_to"
                                 >Create Shipping label to customer</option
@@ -89,13 +90,20 @@
                     <div>
                         <button
                             class="inline-flex px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md cursor-pointer text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                            @click="sendAction()"
                         >
                             Send
                         </button>
                     </div>
+
+                    <DeleteModal
+                        :checkedTransactions="checkedTransactions"
+                        :deleteProps="deleteProps"
+                        @close="close"
+                        v-if="isDelete"
+                    />
                 </div>
             </div>
-
             <!-- transaction items -->
             <table class="my-4 mx-3 bg-white rounded-md">
                 <thead class="border-b table-auto">
@@ -139,13 +147,15 @@
                         :key="item.index"
                         class="py-3 border-b border-gray-background mr-2"
                     >
-                        <td class=" lg:table-cell px-5">
-                            <label :for="item.id"></label>
+                        <td class="lg:table-cell px-5">
+                            <label class=" h-24  w-18 text-center-4 border-2" :for="item.id"></label>
                             <input
                                 :checked="isChecked"
                                 type="checkbox"
                                 :name="item.id"
+                                :value="item.id"
                                 :id="item.id"
+                                v-model="checkedTransactions"
                             />
                         </td>
 
@@ -261,6 +271,7 @@ import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
 import { MailIcon, PhoneIcon } from '@heroicons/vue/outline'
 import Pagination from '../../Components/Pagination.vue'
 import { Inertia } from '@inertiajs/inertia'
+import DeleteModal from '../../Components/DeleteModal.vue'
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
     processing: 'bg-yellow-100 text-yellow-800',
@@ -273,7 +284,8 @@ export default {
         MailIcon,
         PlusIcon,
         PhoneIcon,
-        Pagination
+        Pagination,
+        DeleteModal
     },
     props: {
         notifications: Array,
@@ -282,16 +294,21 @@ export default {
     },
     setup ({ navigation, transactions }) {
         const imageExists = ref(true)
-        const open = ref(false)
+        const loading = false
         const isChecked = ref(false)
         const notifications = notifications
         const pagination = ref(transactions)
         const filterLists = ref(transactions.data)
-
-        const el = ref()
+        const massActionChoice = ref('')
+        const isDelete = ref(false)
+        const deleteProps = reactive({
+            url: '/admin/transactions/delete',
+            item: 'Transactions'
+        })
+        const checkedTransactions = ref([])
 
         onMounted(() => {
-          // this.$emit('doNavigation', navigation)
+            // this.$emit('doNavigation', navigation)
         })
 
         function success (list, page) {
@@ -304,14 +321,42 @@ export default {
             isChecked.value = !isChecked.value
         }
 
+        function sendAction () {
+            let data = {
+                transactions: checkedTransactions.value,
+                action: massActionChoice.value
+            }
+            switch (massActionChoice.value) {
+                case 'delete':
+                    isDelete.value = true;
+                    break;
+                case 'label_to':
+                case 'label_from':
+                case 'barcode':
+                    Inertia.post('/admin/transactions/bulk-actions/barcode', data);
+                    break;
+            }
+        }
+
+        function close () {
+            isDelete.value = false
+        }
+
         return {
+            loading,
             transactions,
             statusStyles,
             pagination,
             filterLists,
             imageExists,
             isChecked,
-            checkAll
+            checkAll,
+            massActionChoice,
+            sendAction,
+            isDelete,
+            deleteProps,
+            close,
+            checkedTransactions
         }
     }
 }

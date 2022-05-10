@@ -26,12 +26,9 @@ class Transaction extends Model
     ];
 
     protected $appends = [
-//        'est_value',
-//        'total_dwt',
-//        'final_offer',
-//        'payment_type',
-//        'lead',
-//        'status',
+//         'payment_type',
+//           'lead',
+//          'status',
 //        'estimated_profit',
 //        'incoming_tracking',
 //        'outgoing_tracking',
@@ -56,7 +53,7 @@ class Transaction extends Model
     }
 
     public static function addtag($tag_id, $id) {
-        
+
         $transaction = self::findOrFail($id);
         //This will become a problem if we don't have a store ....
         $store_tag   =  StoreTag::where(
@@ -91,20 +88,69 @@ class Transaction extends Model
     static function search($filter) {
         return self::query()
             ->withDates($filter)
+            ->withStatus($filter)
             ->withCustomer($filter)
             ->withTransactionCount($filter)
             ->withLead($filter)
             ->withStores($filter)
             ->withDayOfWeek($filter)
             ->withTrafficSource($filter)
-            ->with('offers')
+           // ->with('offers')
             ->orderBy('id', 'desc');
+    }
+
+    public function scopeWithEstValue($query) {
+        return $query->addSelect(['est_value'=>TransactionItem::selectRaw('sum(price) as est_val')
+                ->whereColumn('transactions.id', 'transaction_items.transaction_id')
+        ]);
+    }
+
+    public function scopeWithTotalDwt($query) {
+        return $query->addSelect(['total_dwt'=>TransactionItem::selectRaw('sum(price) as total_dwt')
+                ->whereColumn('transactions.id', 'transaction_items.transaction_id')
+        ]);
+    }
+
+    public function scopeWithLabelsFrom($query) {
+        return $query->addSelect(['outgoing_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as outgoing_tracking')
+                ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
+                ->where('shipping_labels.to_customer', true)
+        ]);
+    }
+
+    public function scopeWithLabelsTo($query) {
+        return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
+                ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
+                ->where('shipping_labels.to_customer', false)
+        ]);
+    }
+
+    public function scopePublicMessage($query) {
+        return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
+                ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
+                ->where('shipping_labels.to_customer', false)
+        ]);
+    }
+
+    public function scopeWithFinalOffer($query) {
+        return $query->addSelect(['offer'=>TransactionOffer::selectRaw('offer')
+                ->whereColumn('transactions.id', 'transaction_offers.transaction_id')
+                ->latest()
+        ]);
     }
 
     public function scopeWithStores($query, $filter) {
         if($stores = data_get($filter, 'stores')) {
             if(!is_array($stores)) $stores = [$stores];
             $query->whereIn('store_id', $stores);
+        }
+    }
+
+    public function scopeWithStatus($query, $filter) {
+        $status = data_get($filter, 'status');
+        if(null !== $status) {
+            if(!is_array($status)) $status = [$status];
+            $query->whereIn('status_id', $status);
         }
     }
 
@@ -176,15 +222,14 @@ class Transaction extends Model
     }
 
     public function getIncomingTrackingAttribute() {
-        return $this->shippingLabels()->where('to_customer', true)->get()
-            ->implode('tracking_number', ',');
-    }
-
-    public function getOutgoingTrackingAttribute() {
         return $this->shippingLabels()->where('to_customer', false)->get()
             ->implode('tracking_number', ',');
     }
 
+    public function getOutgoingTrackingAttribute() {
+        return $this->shippingLabels()->where('to_customer', true)->get()
+            ->implode('tracking_number', ',');
+    }
 
     public function images()
     {
@@ -385,17 +430,37 @@ class Transaction extends Model
         return $this->hasOne(ShippingLabel::class)->where('type',  Shipping::SHIPPING_TYPE_TO);
     }
 
-    public function getShippingLabel() {
-//        if($labelObj)
-        $shipping = new Fedex();
-        $shipping->setRecipient($this->customer->shippingAddress);
-        $shipping->setShipper($this->store->shippingAddress);
-        $shipping->getLabel();
-    }
+    public function getShippingLabel($direction, $new=false) {
+        if($direction != 'to' && $direction != 'from') return 'Direction must be to customer or from customer';
+        if ($new) {
+            if($shippingLabel = $this->createLabel($direction)) {
+                return $this->shippingLabels()->create([
+                    'tracking_number' => $shippingLabel->getTrackingNumber(),
+                    'raw_data' => $shippingLabel->getBase64Label(),
+                    'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO
+                ]);
+            }
+        } else {
+            switch ($direction){
+                case Shipping::SHIPPING_TYPE_TO:
+                    $labels = $this->shippingLabels()->where('to_customer', true)->get();
+                    break;
+                case Shipping::SHIPPING_TYPE_FROM:
+                  $labels = $this->shippingLabels()->where('to_customer', false)->get();
+                  break;
+            }
+        }
 
-//    public function address() {
-//        return $this->morphOne(Address::class, 'addressable');
-//    }
+        if(count($labels)) return $labels;
+
+        if($shippingLabel = $this->createLabel($direction)) {
+            return $this->shippingLabels()->create([
+                'tracking_number' => $shippingLabel->getTrackingNumber(),
+                'raw_data' => $shippingLabel->getBase64Label(),
+                'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO
+            ]);
+        }
+    }
 
     public function getOrSetShippingLabel($type, $cache=false) {
 
@@ -434,6 +499,7 @@ class Transaction extends Model
 
         return false;
     }
+
 
     public function hasHistory($value) {
         return $this->histories()->where('event', $value)->first();
@@ -649,7 +715,6 @@ class Transaction extends Model
 
     public function sendSMS($message) {
         $smsMessage = new SmsManager();
-//        if($smsMessage->
         $to = $this->customer->phone_number;
         $from = $this->store->sms_send_from;
         $sender = $smsMessage->sendSMS($message, $to);
@@ -658,8 +723,6 @@ class Transaction extends Model
                 'message' => $message,
                 'from' => $from,
                 'to' => $to,
-//                'smsable_id' => $this->id,
-//                'smsable_type' => get_class($this),
             ];
             $this->sms()->create($data);
         }else{
@@ -669,7 +732,7 @@ class Transaction extends Model
     }
 
 
-    
+
 
     public function createNote($type, $note=''){
         return TransactionNote::create([
@@ -684,3 +747,4 @@ class Transaction extends Model
     }
 
 }
+
