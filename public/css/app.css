@@ -1979,9 +1979,6 @@ select {
 .w-4\/5 {
 	width: 80%;
 }
-.w-18 {
-	width: 4.5rem;
-}
 .w-24 {
 	width: 6rem;
 }
@@ -2677,10 +2674,6 @@ select {
 .border-red-300 {
 	--tw-border-opacity: 1;
 	border-color: rgba(252, 165, 165, var(--tw-border-opacity));
-}
-.border-yellow-400 {
-	--tw-border-opacity: 1;
-	border-color: rgba(251, 191, 36, var(--tw-border-opacity));
 }
 .bg-white {
 	--tw-bg-opacity: 1;
@@ -4254,6 +4247,10 @@ input[type='checkbox']:focus {
 		margin-top: -8rem;
 	}
 
+	.sm\:ml-16 {
+		margin-left: 4rem;
+	}
+
 	.sm\:mt-5 {
 		margin-top: 1.25rem;
 	}
@@ -4268,10 +4265,6 @@ input[type='checkbox']:focus {
 
 	.sm\:mt-6 {
 		margin-top: 1.5rem;
-	}
-
-	.sm\:ml-16 {
-		margin-left: 4rem;
 	}
 
 	.sm\:block {
@@ -4364,10 +4357,6 @@ input[type='checkbox']:focus {
 
 	.sm\:flex-none {
 		flex: none;
-	}
-
-	.sm\:flex-auto {
-		flex: 1 1 auto;
 	}
 
 	.sm\:translate-y-0 {
@@ -5452,12 +5441,6 @@ input[type='checkbox']:focus {
 		--tw-space-y-reverse: 0;
 		margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
 		margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
-	}
-
-	.lg\:space-x-1 > :not([hidden]) ~ :not([hidden]) {
-		--tw-space-x-reverse: 0;
-		margin-right: calc(0.25rem * var(--tw-space-x-reverse));
-		margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
 	}
 
 	.lg\:space-x-12 > :not([hidden]) ~ :not([hidden]) {

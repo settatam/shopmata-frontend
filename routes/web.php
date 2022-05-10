@@ -221,6 +221,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('transaction/notes', [TransactionsController::class, 'addNote']);
         Route::post('transaction/image', [TransactionsController::class, 'addImage']);
         Route::post('transaction/image/delete', [TransactionsController::class, 'deleteTransactionNoteImage']);
+        Route::post('transactions/delete', [TransactionsController::class, 'destroy']);
 
         Route::resource('items', TransactionItemsController::class);
         Route::post('item/{id}/images', [TransactionItemsController::class, 'UpdateImage']);
@@ -313,8 +314,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::resource('order-customer-note', OrderCustomerNoteController::class);
         Route::resource('settings/shipping-rates', ShippingRatesController::class);
-
-
         // Navigation
 
         Route::get('online-store/navigation', [NavigationController::class, 'index'])->name('navigation.list');
@@ -368,3 +367,6 @@ Route::get('check-migrations', function() {
        'tables' => \Illuminate\Support\Facades\DB::table('migrations')->get()
    ]);
 });
+
+
+
