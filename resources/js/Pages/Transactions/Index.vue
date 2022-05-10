@@ -75,6 +75,7 @@
                             id=""
                             v-model="massActionChoice"
                         >
+                            <option value="choose">Choose</option>
                             <option value="label_to"
                                 >Create Shipping label to customer</option
                             >
@@ -148,7 +149,10 @@
                         class="py-3 border-b border-gray-background mr-2"
                     >
                         <td class="lg:table-cell px-5">
-                            <label class=" h-24  w-18 text-center-4 border-2" :for="item.id"></label>
+                            <label
+                                class=" text-center-4 border-2"
+                                :for="item.id"
+                            ></label>
                             <input
                                 :checked="isChecked"
                                 type="checkbox"
@@ -272,6 +276,7 @@ import { MailIcon, PhoneIcon } from '@heroicons/vue/outline'
 import Pagination from '../../Components/Pagination.vue'
 import { Inertia } from '@inertiajs/inertia'
 import DeleteModal from '../../Components/DeleteModal.vue'
+import notification from '../../Utils/notification'
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
     processing: 'bg-yellow-100 text-yellow-800',
@@ -293,13 +298,14 @@ export default {
         navigation: Array
     },
     setup ({ navigation, transactions }) {
+        const { onClickTop, onClickBot } = notification()
         const imageExists = ref(true)
         const loading = false
         const isChecked = ref(false)
         const notifications = notifications
         const pagination = ref(transactions)
         const filterLists = ref(transactions.data)
-        const massActionChoice = ref('')
+        const massActionChoice = ref('choose')
         const isDelete = ref(false)
         const deleteProps = reactive({
             url: '/admin/transactions/delete',
@@ -328,18 +334,24 @@ export default {
             }
             switch (massActionChoice.value) {
                 case 'delete':
-                    isDelete.value = true;
-                    break;
+                    isDelete.value = true
+                    break
                 case 'label_to':
                 case 'label_from':
                 case 'barcode':
-                    Inertia.post('/admin/transactions/bulk-actions/barcode', data);
-                    break;
+                    Inertia.post(
+                        '/admin/transactions/bulk-actions/barcode',
+                        data
+                    )
+                    break
             }
         }
 
         function close () {
             isDelete.value = false
+            Inertia.visit('/admin/transactions', {
+                method: 'get'
+            })
         }
 
         return {
