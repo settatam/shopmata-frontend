@@ -213,6 +213,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::resource('settings/remittance', PayoutSettingsController::class);
         Route::resource('transactions', TransactionsController::class);
+        Route::post('transactions/bulk-print-action', [TransactionsController::class, 'bulkPrintAction']);
+        Route::post('transactions/bulk-actions/{printable}', [TransactionsController::class, 'bulkPrint']);
         Route::get('transactions/{id}/{printable}', [TransactionsController::class, 'printable']);
         Route::post('transactions/{id}/{extra}', [TransactionsController::class, 'extras']);
         Route::post('transaction/tag', [TransactionsController::class, 'addTag']);
@@ -224,9 +226,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('items', TransactionItemsController::class);
         Route::post('item/{id}/images', [TransactionItemsController::class, 'UpdateImage']);
         Route::post('item/{id}/image/delete', [TransactionItemsController::class, 'deleteImage']);
-
-
-
 
         Route::resource('reports', ReportsController::class);
 
@@ -315,8 +314,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::resource('order-customer-note', OrderCustomerNoteController::class);
         Route::resource('settings/shipping-rates', ShippingRatesController::class);
-
-
         // Navigation
 
         Route::get('online-store/navigation', [NavigationController::class, 'index'])->name('navigation.list');
@@ -370,3 +367,6 @@ Route::get('check-migrations', function() {
        'tables' => \Illuminate\Support\Facades\DB::table('migrations')->get()
    ]);
 });
+
+
+

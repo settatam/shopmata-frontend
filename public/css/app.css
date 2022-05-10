@@ -1467,6 +1467,9 @@ select {
 .mt-1 {
 	margin-top: 0.25rem;
 }
+.ml-2 {
+	margin-left: 0.5rem;
+}
 .mb-6 {
 	margin-bottom: 1.5rem;
 }
@@ -1484,9 +1487,6 @@ select {
 }
 .ml-1 {
 	margin-left: 0.25rem;
-}
-.ml-2 {
-	margin-left: 0.5rem;
 }
 .-mr-0\.5 {
 	margin-right: -0.125rem;
@@ -2463,6 +2463,9 @@ select {
 }
 .break-words {
 	overflow-wrap: break-word;
+}
+.break-all {
+	word-break: break-all;
 }
 .rounded-md {
 	border-radius: 0.375rem;
@@ -4250,6 +4253,10 @@ input[type='checkbox']:focus {
 		margin-top: -8rem;
 	}
 
+	.sm\:ml-16 {
+		margin-left: 4rem;
+	}
+
 	.sm\:mt-5 {
 		margin-top: 1.25rem;
 	}
@@ -4352,6 +4359,10 @@ input[type='checkbox']:focus {
 
 	.sm\:flex-1 {
 		flex: 1 1 0%;
+	}
+
+	.sm\:flex-none {
+		flex: none;
 	}
 
 	.sm\:translate-y-0 {
@@ -4939,6 +4950,10 @@ input[type='checkbox']:focus {
 
 	.md\:gap-4 {
 		gap: 1rem;
+	}
+
+	.md\:rounded-lg {
+		border-radius: 0.5rem;
 	}
 
 	.md\:border-t-0 {

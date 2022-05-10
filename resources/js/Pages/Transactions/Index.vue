@@ -322,8 +322,19 @@ export default {
         }
 
         function sendAction () {
-            if (massActionChoice.value == 'delete' && checkedTransactions.value.length >= 1) {
-                isDelete.value = true
+            let data = {
+                transactions: checkedTransactions.value,
+                action: massActionChoice.value
+            }
+            switch (massActionChoice.value) {
+                case 'delete':
+                    isDelete.value = true;
+                    break;
+                case 'label_to':
+                case 'label_from':
+                case 'barcode':
+                    Inertia.post('/admin/transactions/bulk-actions/barcode', data);
+                    break;
             }
         }
 

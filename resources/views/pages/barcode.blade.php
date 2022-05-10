@@ -22,8 +22,8 @@
     </head>
     <body>
         @foreach($printables as $printable)
-            @for($i=0; $i<3; $i++)
-                <img src="data:image/png;base64, {{ $printable }}" />
+            @for($i=0; $i<$printable['qty']; $i++)
+                <img src="data:image/png;base64, {{ $printable['barcode'] }}" />
             @endfor
         @endforeach
 
