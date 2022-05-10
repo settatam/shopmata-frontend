@@ -360,9 +360,18 @@ class TransactionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $reques, $id)
     {
-        //
+       
+        foreach ( $request->transaction_ids as $transaction_id ){
+            $transaction = Transaction::find($selected);
+            $transaction->delete();
+        }
+        $transactions = Transaction::with('items','customer','images')
+        //                                ->where('store_id',session('store_id'))
+                                        ->latest()
+                                        ->paginate(10); 
+        return response($transactions, 200);  
     }
 }
 
