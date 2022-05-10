@@ -135,7 +135,7 @@ class Transaction extends Model
     public function scopeWithFinalOffer($query) {
         return $query->addSelect(['offer'=>TransactionOffer::selectRaw('offer')
                 ->whereColumn('transactions.id', 'transaction_offers.transaction_id')
-                ->latest()
+                ->latest()->take(1)
         ]);
     }
 
