@@ -63,6 +63,10 @@
 
             
         </div>
+            <TransactionTable class="mx-4"/>
+        <div>
+
+        </div>
     </app-layout>
 </template>
 
@@ -75,6 +79,7 @@ import axios from 'axios'
 import CustomerInfo from './Components/CustomerInfo.vue'
 import CustomerSales from './Components/CustomerSales.vue'
 import PaymentInformation from './Components/PaymentInformation.vue'
+import TransactionTable from './Components/TransactionTable.vue'
 
 import {
     Dialog,
@@ -125,7 +130,8 @@ export default {
         HomeIcon,
         CustomerInfo,
         CustomerSales,
-        PaymentInformation
+        PaymentInformation,
+        TransactionTable
     },
 
     data () {

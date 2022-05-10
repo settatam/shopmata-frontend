@@ -545,7 +545,6 @@
                         name="private"
                         id=""
                         rows="3"
-                        cols="50"
                         v-model="messagePrivate"
                         @input="saveNote"
                     ></textarea>
