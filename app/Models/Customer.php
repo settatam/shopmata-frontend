@@ -11,6 +11,13 @@ class Customer extends Model
     use HasFactory;
 
     protected $table = 'customers';
+
+    const TAGS = [
+        'Easy',
+        'Med',
+        'Hard'
+    ];
+
     protected $appends = [
         'activation_status',
         'timezone'
