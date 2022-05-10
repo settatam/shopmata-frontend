@@ -239,18 +239,19 @@ class TransactionsController extends Controller
                 }
                 return view('pages.barcode', compact('printables'));
                 break;
-            case 'label_to':
-            case 'label_from':
-                 $direction = str_replace('label_to', '', $request->action);
+            case 'label':
                  foreach($transactions as $transaction) {
                     $tr = Transaction::find($transaction['id']);
                     $printables[] = [
-                        'label' => $tr->getShippingLabel($direction),
+                        'label' => $tr->getShippingLabel($transaction['direction']),
                         'qty' => $transaction['qty']
                     ];
                  }
-                 return view('pages.barcode', compact('printables'));
+                 dd($printables);
+                 return view('pages.label', compact('printables'));
                  break;
+            default:
+                dd($request->action);
 
         }
 
