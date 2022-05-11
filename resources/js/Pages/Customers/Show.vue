@@ -110,7 +110,8 @@ export default {
         customer: Object,
         store: Object,
         navigation: Array,
-        countries: Object
+        countries: Object,
+        transaction: Object,
     },
 
     components: {
