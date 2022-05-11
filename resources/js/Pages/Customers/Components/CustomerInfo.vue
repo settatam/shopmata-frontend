@@ -2,13 +2,19 @@
     <!-- Main content -->
     <div class=" bg-white mt-7 mb-7 mx-auto rounded-md">
         <!-- header -->
-            <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
-                <h1 class="text-xl">Customer Information</h1>
-            </div>
+        <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
+            <h1 class="text-xl">Customer Information</h1>
+        </div>
         <div class="p-6">
-            
-
             <div class="mb-4">
+                <div>
+                    <inertia-link
+                        class="text-purple-darken 2xl font-bold"
+                        :href="'/admin/customers/' + customer.id"
+                        >{{ customer.first_name }} {{ customer.last_name }} (ID:
+                        {{ customer.id }})</inertia-link
+                    >
+                </div>
                 <!-- first row start -->
 
                 <div class="flex flex-col lg:flex-row">
@@ -461,7 +467,6 @@
 
                 <!-- 8th starts -->
 
-
                 <div class="required w-full mr-5 mt-5 relative">
                     <div>
                         <label
@@ -482,9 +487,7 @@
                             required
                             v-model="CustomerInfo.email"
                         >
-                        
                             <option value="test">Select One</option>
-
                         </select>
                     </div>
 
@@ -519,9 +522,7 @@
                             required
                             v-model="CustomerInfo.email"
                         >
-                        
                             <option value="test">Choose Lead</option>
-
                         </select>
                     </div>
 
@@ -532,7 +533,6 @@
                     </div>
                 </div>
 
-
                 <!-- 9th ends -->
 
                 <!-- 10th starts -->
@@ -540,14 +540,14 @@
                 <div class="required w-full mr-5 mt-8 relative">
                     <div>
                         <textarea
-                        class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
-                        placeholder="Customer Notes"
-                        name="private"
-                        id=""
-                        rows="3"
-                        v-model="messagePrivate"
-                        @input="saveNote"
-                    ></textarea>
+                            class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
+                            placeholder="Customer Notes"
+                            name="private"
+                            id=""
+                            rows="3"
+                            v-model="messagePrivate"
+                            @input="saveNote"
+                        ></textarea>
                     </div>
 
                     <div class="mt-1">
@@ -726,6 +726,7 @@ export default {
     },
 
     setup (props) {
+        const customer = props.customer
         const CustomerInfo = reactive({
             first_name: '',
             last_name: '',
@@ -742,7 +743,7 @@ export default {
             gender: '',
             lead: '',
             customer_notes: '',
-            country_id: '',
+            country_id: ''
         })
 
         const states = ref([])
@@ -793,37 +794,31 @@ export default {
                     required: helpers.withMessage(
                         'Please enter a home/work number',
                         required
-                    ),
+                    )
                 },
                 ext: {
                     required: helpers.withMessage(
                         'Please enter an extension',
                         required
-                    ),
+                    )
                 },
                 email: {
                     required: helpers.withMessage(
                         'Please enter an email address',
                         required
-                    ),
+                    )
                 },
                 dob: {
                     required: helpers.withMessage(
                         'Please enter a DOB',
                         required
-                    ),
+                    )
                 },
                 gender: {
-                    required: helpers.withMessage(
-                        'Select a gender',
-                        required
-                    )
+                    required: helpers.withMessage('Select a gender', required)
                 },
                 lead: {
-                    required: helpers.withMessage(
-                        'Select a lead',
-                        required
-                    )
+                    required: helpers.withMessage('Select a lead', required)
                 },
                 customer_notes: {
                     required: helpers.withMessage(
@@ -833,8 +828,7 @@ export default {
                 },
                 country_id: {
                     required: helpers.withMessage('Select a country', required)
-                },
-                
+                }
             }
         })
 
@@ -897,7 +891,8 @@ export default {
             states,
             countries,
             onClickTop,
-            onClickBot
+            onClickBot,
+            customer
         }
     }
 }
