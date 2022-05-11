@@ -28,7 +28,7 @@ export default {
         const sum = ref(0)
         const customer = props.customer
         function transactionSum (){
-            sum.value = customer.transactions.reduce((partialSum, a) => partialSum + a, 0)
+            sum.value = customer.transactions.reduce((partialSum, a) => partialSum + a.final_offer, 0)
         }
 
         return{

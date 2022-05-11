@@ -787,7 +787,7 @@ export default {
                     required: helpers.withMessage(
                         'Please enter an email address',
                         required
-                    )
+                    ), email
                 },
                 dob: {
                     required: helpers.withMessage(
