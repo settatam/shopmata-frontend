@@ -10,6 +10,8 @@ use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Address;
 use App\Models\Tag;
+use App\Models\Lead;
+
 use App\Http\Helpers\Helper;
 
 use Illuminate\Support\Str;
@@ -161,14 +163,18 @@ class CustomersController extends Controller
 
         $tags = Tag::whereIn('name', Customer::TAGS)->get();
 
-        $customer = Customer::with(['transactions','addresses'])->find($id);
+        $leads = Lead::all();
+
+        $countries = Country::where('name','United States')->with('states')->first();
+
+        $customer  = Customer::with(['transactions','addresses'])->find($id);
 
         if (null === $customer) {
             throw new HttpException(404);
         }
 
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
-        return Inertia::render('Customers/Show', compact('store','customer', 'tags'));
+        return Inertia::render('Customers/Show', compact('leads','store','customer', 'tags','countries'));
     }
 
     /**
