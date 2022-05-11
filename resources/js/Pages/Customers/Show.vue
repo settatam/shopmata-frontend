@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <TransactionTable class="mx-4" />
+        <TransactionTable :transactions="customer.transactions" class="mx-4" />
         <div></div>
     </app-layout>
 </template>
