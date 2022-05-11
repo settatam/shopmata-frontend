@@ -42,21 +42,21 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr v-for="transaction in transactions" :key="transaction.index">
                     <td
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
                     >
-                        
+                        {{transaction.id}}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        
+                        {{ moment(transaction.updated_at).format('MM-DD-YYYY') }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        
+                        {{transaction.final_offer}}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
@@ -66,12 +66,12 @@
                     <td
                         class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        
+                        {{transaction.payment_method_id}} 
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        
+                        {{transaction.status_id}}
                     </td>
                 </tr>
             </tbody>
@@ -82,10 +82,14 @@
 <script>
 import { reactive, ref } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
+import moment from 'moment'
 
 export default {
+    created: function () {
+        this.moment = moment
+    },
     components: { AppLayout },
-    props: [],
+    props: ['transactions'],
     setup () {
         return {}
     }
