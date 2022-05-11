@@ -129,8 +129,6 @@ class TransactionsController extends Controller
         return response(null,422);
     }
 
-
-
     public function addItem(Request $request)
     {
         try {
@@ -403,16 +401,12 @@ class TransactionsController extends Controller
      */
     public function destroy(Request $request)
     {
-
         foreach ( $request->transaction_ids as $transaction_id ){
             $transaction = Transaction::find($transaction_id);
             $transaction->delete();
         }
-        $transactions = Transaction::with('items','customer','images')
-        //                                ->where('store_id',session('store_id'))
-                                        ->latest()
-                                        ->paginate(10);
-        return response($transactions, 200);
+
+        return redirect('transactions.index');
     }
 }
 
