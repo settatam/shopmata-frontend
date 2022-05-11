@@ -432,35 +432,28 @@ class Transaction extends Model
 
     public function getShippingLabel($direction, $new=false) {
         if($direction != 'to' && $direction != 'from') return 'Direction must be to customer or from customer';
-        if ($new) {
-            if($shippingLabel = $this->createLabel($direction)) {
+        switch ($direction) {
+            case Shipping::SHIPPING_TYPE_TO:
+                $labels = $this->shippingLabels()->where('to_customer', true)->latest()->first();
+                break;
+            case Shipping::SHIPPING_TYPE_FROM:
+                $labels = $this->shippingLabels()->where('to_customer', false)->latest()->first();
+                break;
+        }
+
+        if(null !== $labels) return $labels;
+
+        if($shippingLabel = $this->createLabel($direction)) {
+            if(!$shippingLabel->hasErrors()) {
                 return $this->shippingLabels()->create([
                     'tracking_number' => $shippingLabel->getTrackingNumber(),
                     'raw_data' => $shippingLabel->getBase64Label(),
                     'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO
                 ]);
             }
-        } else {
-            switch ($direction){
-                case Shipping::SHIPPING_TYPE_TO:
-                    $labels = $this->shippingLabels()->where('to_customer', true)->get();
-                    break;
-                case Shipping::SHIPPING_TYPE_FROM:
-                  $labels = $this->shippingLabels()->where('to_customer', false)->get();
-                  break;
-            }
         }
 
-        if(count($labels)) return $labels;
-
-        if($shippingLabel = $this->createLabel($direction)) {
-//            dd($shippingLabel);
-            return $this->shippingLabels()->create([
-                'tracking_number' => $shippingLabel->getTrackingNumber(),
-                'raw_data' => $shippingLabel->getBase64Label(),
-                'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO
-            ]);
-        }
+        return false;
     }
 
     public function getOrSetShippingLabel($type, $cache=false) {
@@ -484,6 +477,8 @@ class Transaction extends Model
             $shipperAddress = $this->store->shippingAddress;
         }
 
+        dd($recipientAddress);
+
         if(null !== $shipperAddress && null !== $recipientAddress) {
             $fedex = new Fedex();
             $fedex->setShipper($shipperAddress);
@@ -492,12 +487,12 @@ class Transaction extends Model
             //We can set weight, amount and all the other properties ...
             try{
                 $fedexLabel =  $fedex->getLabel();
+                dd($fedexLabel);
                 return $fedexLabel;
             }catch (\Exception $e) {
                 dd($e->getMessage());
             }
         }
-
         return false;
     }
 

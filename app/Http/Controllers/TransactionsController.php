@@ -242,12 +242,15 @@ class TransactionsController extends Controller
             case 'label':
                  foreach($transactions as $transaction) {
                     $tr = Transaction::find($transaction['id']);
-                    $printables[] = [
-                        'label' => $tr->getShippingLabel($transaction['direction']),
-                        'qty' => $transaction['qty']
-                    ];
+
+                    if($shippingLabel = $tr->getShippingLabel($transaction['direction'], true)) {
+                        $printables[] = [
+                            'label' => $shippingLabel,
+                            'qty' => $transaction['qty']
+                        ];
+                    }
                  }
-                 dd($printables);
+
                  return view('pages.label', compact('printables'));
                  break;
             default:
@@ -400,7 +403,7 @@ class TransactionsController extends Controller
      */
     public function destroy(Request $request)
     {
-       
+
         foreach ( $request->transaction_ids as $transaction_id ){
             $transaction = Transaction::find($transaction_id);
             $transaction->delete();
@@ -408,8 +411,8 @@ class TransactionsController extends Controller
         $transactions = Transaction::with('items','customer','images')
         //                                ->where('store_id',session('store_id'))
                                         ->latest()
-                                        ->paginate(10); 
-        return response($transactions, 200);  
+                                        ->paginate(10);
+        return response($transactions, 200);
     }
 }
 
