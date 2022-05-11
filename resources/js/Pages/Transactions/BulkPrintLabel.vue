@@ -134,6 +134,7 @@ export default {
                 action: 'label',
                 _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
+
             let form  = document.createElement('form');
             form.setAttribute('method', 'post');
             form.setAttribute('action', '/admin/transactions/bulk-print-action');

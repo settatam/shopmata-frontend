@@ -477,8 +477,6 @@ class Transaction extends Model
             $shipperAddress = $this->store->shippingAddress;
         }
 
-        dd($recipientAddress);
-
         if(null !== $shipperAddress && null !== $recipientAddress) {
             $fedex = new Fedex();
             $fedex->setShipper($shipperAddress);
@@ -487,7 +485,6 @@ class Transaction extends Model
             //We can set weight, amount and all the other properties ...
             try{
                 $fedexLabel =  $fedex->getLabel();
-                dd($fedexLabel);
                 return $fedexLabel;
             }catch (\Exception $e) {
                 dd($e->getMessage());
