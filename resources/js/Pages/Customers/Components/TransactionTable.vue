@@ -1,5 +1,5 @@
 <template>
-    <div class=" rounded-md bg-white mt-3 overflow-x-auto lg:mx-2">
+    <div class=" rounded-md bg-white mt-4 overflow-x-auto lg:mx-2">
         <table class="min-w-full">
             <thead class="Kev table-auto border-b bg-purple-darken ">
                 <tr class="">
@@ -41,7 +41,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody v-if="transactions.length > 0">
                 <tr v-for="transaction in transactions" :key="transaction.index">
                     <td
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
@@ -74,6 +74,12 @@
                         {{transaction.status_id}}
                     </td>
                 </tr>
+            </tbody>
+
+            <tbody v-else class="">
+                
+                    <p  class="p-4 text-xl">The customer has no transactions to display</p>
+                
             </tbody>
         </table>
     </div>

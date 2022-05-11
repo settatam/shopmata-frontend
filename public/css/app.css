@@ -1428,13 +1428,13 @@ select {
 	margin-top: 3rem;
 	margin-bottom: 3rem;
 }
-.mx-1 {
-	margin-left: 0.25rem;
-	margin-right: 0.25rem;
-}
 .my-0 {
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+.mx-1 {
+	margin-left: 0.25rem;
+	margin-right: 0.25rem;
 }
 .my-2\.5 {
 	margin-top: 0.625rem;
@@ -2050,6 +2050,9 @@ select {
 .w-3\/6 {
 	width: 50%;
 }
+.w-1\/12 {
+	width: 8.333333%;
+}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -2378,15 +2381,15 @@ select {
 	margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
 	margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
-.-space-y-px > :not([hidden]) ~ :not([hidden]) {
-	--tw-space-y-reverse: 0;
-	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
-	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
-}
 .space-x-0 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-x-reverse: 0;
 	margin-right: calc(0px * var(--tw-space-x-reverse));
 	margin-left: calc(0px * calc(1 - var(--tw-space-x-reverse)));
+}
+.-space-y-px > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-y-reverse: 0;
+	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
+	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
 }
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
@@ -3182,6 +3185,9 @@ select {
 .pb-5 {
 	padding-bottom: 1.25rem;
 }
+.pb-96 {
+	padding-bottom: 24rem;
+}
 .pl-16 {
 	padding-left: 4rem;
 }
@@ -3196,9 +3202,6 @@ select {
 }
 .pb-12 {
 	padding-bottom: 3rem;
-}
-.pb-96 {
-	padding-bottom: 24rem;
 }
 .text-left {
 	text-align: left;

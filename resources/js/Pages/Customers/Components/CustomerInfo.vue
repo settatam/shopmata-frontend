@@ -8,15 +8,30 @@
 
         <div class="px-6 pt-6  flex flex-row space-x-4">
             <div class="space-x-2">
-                <input type="radio" id="easy" value="easy"  v-model="CustomerInfo.customerDifficulty" />
+                <input
+                    type="radio"
+                    id="easy"
+                    value="easy"
+                    v-model="CustomerInfo.customerDifficulty"
+                />
                 <label for="easy">Easy</label>
             </div>
             <div class="space-x-2">
-                <input type="radio"  id="med" value="med"  v-model="CustomerInfo.customerDifficulty"  />
+                <input
+                    type="radio"
+                    id="med"
+                    value="med"
+                    v-model="CustomerInfo.customerDifficulty"
+                />
                 <label for="med">Med</label>
             </div>
             <div class="space-x-2">
-                <input type="radio" id="hard" value="hard"  v-model="CustomerInfo.customerDifficulty" />
+                <input
+                    type="radio"
+                    id="hard"
+                    value="hard"
+                    v-model="CustomerInfo.customerDifficulty"
+                />
                 <label for="hard">Hard</label>
             </div>
         </div>
@@ -349,7 +364,6 @@
                                 v-model="CustomerInfo.home_work"
                             />
                         </div>
-
                     </div>
 
                     <div class="required w-full mt-4 relative">
@@ -479,27 +493,38 @@
                 <!-- 9th starts -->
 
                 <div class="required w-full mr-5 mt-5 relative">
-                    <div>
-                        <label
-                            class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                        >
-                            Lead
-                        </label>
-                        <select
-                            :class="{
-                                'border-red-600': v$.lead.$error,
-                                'border-gray-300': !v$.lead.$error
-                            }"
-                            id="email"
-                            name="email"
-                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder=""
-                            required
-                            v-model="CustomerInfo.lead"
-                        >
-                            <option value="null">Choose Lead</option>
-                            <option v-for="lead in leads" :key="lead.index" :value="lead.id">{{lead.name}}</option>
-                        </select>
+                    <div class="flex flex-row space-x-2">
+                        <div class="w-11/12">
+                            <label
+                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
+                            >
+                                Lead
+                            </label>
+                            <select
+                                :class="{
+                                    'border-red-600': v$.lead.$error,
+                                    'border-gray-300': !v$.lead.$error
+                                }"
+                                id="email"
+                                name="email"
+                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder=""
+                                required
+                                v-model="CustomerInfo.lead"
+                            >
+                                <option value="null">Choose Lead</option>
+                                <option
+                                    v-for="lead in leads"
+                                    :key="lead.index"
+                                    :value="lead.id"
+                                    >{{ lead.name }}</option
+                                >
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col justify-end cursor-pointer w-1/12">
+                            <PlusIcon class="h-7 w-7 mb-2 text-purple-darken font-bold" />
+                        </div>
                     </div>
 
                     <div class="mt-1">
@@ -525,7 +550,6 @@
                             @input="saveNote"
                         ></textarea>
                     </div>
-
                 </div>
 
                 <!-- 10th ends -->
@@ -645,8 +669,7 @@ import {
     TransitionChild,
     TransitionRoot
 } from '@headlessui/vue'
-import { ChevronRightIcon, ArrowLeftIcon } from '@heroicons/vue/solid'
-import { HomeIcon } from '@heroicons/vue/outline'
+import { PlusIcon } from '@heroicons/vue/solid'
 import { Inertia } from '@inertiajs/inertia'
 import { notify } from 'notiwind'
 import {
@@ -673,7 +696,7 @@ export default {
         notification: Object,
         customer_notification: Object,
         leads: Array,
-        states: Array,
+        states: Array
     },
 
     components: {
@@ -681,10 +704,8 @@ export default {
         DialogOverlay,
         TransitionChild,
         TransitionRoot,
-        ArrowLeftIcon,
-        ChevronRightIcon,
-        HomeIcon,
-        LoadingSpinner
+        LoadingSpinner,
+        PlusIcon
     },
 
     setup (props) {
@@ -701,7 +722,7 @@ export default {
             addressOne: customer.address,
             addressTwo: '',
             city: customer.city,
-            state_id: selectedState.value ? customer.state_id : "" ,
+            state_id: selectedState.value ? customer.state_id : '',
             zip: customer.zip,
             phone_number: customer.phone_number,
             home_work: '',
@@ -710,7 +731,7 @@ export default {
             dob: '',
             gender: '' ? customer.gender : 'null',
             lead: '' ? customer.lead : 'null',
-            customer_notes: '',
+            customer_notes: ''
         })
 
         const rules = computed(() => {
@@ -745,7 +766,7 @@ export default {
                         required
                     )
                 },
-                
+
                 email: {
                     required: helpers.withMessage(
                         'Please enter an email address',
@@ -800,7 +821,7 @@ export default {
                 return
             }
             loading.value = true
-            console.log("test")
+            console.log('test')
             axios
                 .put(`/admin/customers/${customer.id}`, CustomerInfo)
                 .then(res => {
