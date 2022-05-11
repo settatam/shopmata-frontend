@@ -4868,10 +4868,6 @@ input[type='checkbox']:focus {
 		width: 70%;
 	}
 
-	.md\:w-1\/4 {
-		width: 25%;
-	}
-
 	.md\:max-w-sm {
 		max-width: 24rem;
 	}
@@ -5351,10 +5347,6 @@ input[type='checkbox']:focus {
 
 	.lg\:w-3\/10 {
 		width: 30%;
-	}
-
-	.lg\:w-1\/4 {
-		width: 25%;
 	}
 
 	.lg\:min-w-0 {
