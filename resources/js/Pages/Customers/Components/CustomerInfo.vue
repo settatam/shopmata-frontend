@@ -5,6 +5,22 @@
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1 class="text-xl">Customer Information</h1>
         </div>
+
+        <div class="px-6 pt-6  flex flex-row space-x-4">
+            <div class="space-x-2">
+                <input type="radio" id="easy" value="easy"  v-model="CustomerInfo.customerDifficulty" />
+                <label for="easy">Easy</label>
+            </div>
+            <div class="space-x-2">
+                <input type="radio"  id="med" value="med"  v-model="CustomerInfo.customerDifficulty"  />
+                <label for="med">Med</label>
+            </div>
+            <div class="space-x-2">
+                <input type="radio" id="hard" value="hard"  v-model="CustomerInfo.customerDifficulty" />
+                <label for="hard">Hard</label>
+            </div>
+        </div>
+
         <div class="p-6">
             <div class="mb-4">
                 <div>
@@ -201,8 +217,7 @@
                                 >
                                     <option value="">Choose a State</option>
                                     <option
-                                        v-for="(state, index) in states[0]
-                                            .states"
+                                        v-for="(state, index) in states"
                                         :key="index"
                                         :value="state.id"
                                     >
@@ -325,10 +340,6 @@
                                 Home / Work:
                             </label>
                             <input
-                                :class="{
-                                    'border-red-600': v$.home_work.$error,
-                                    'border-gray-300': !v$.home_work.$error
-                                }"
                                 type="text"
                                 id="firstName"
                                 name="firstName"
@@ -339,14 +350,6 @@
                             />
                         </div>
 
-                        <div class="mt-1">
-                            <p
-                                class="text-red-600 text-xs"
-                                v-if="v$.home_work.$error"
-                            >
-                                {{ v$.home_work.$errors[0].$message }}
-                            </p>
-                        </div>
                     </div>
 
                     <div class="required w-full mt-4 relative">
@@ -357,10 +360,6 @@
                                 Ext:
                             </label>
                             <input
-                                :class="{
-                                    'border-red-600': v$.ext.$error,
-                                    'border-gray-300': !v$.ext.$error
-                                }"
                                 type="text"
                                 id="lastName"
                                 name="lastName"
@@ -369,15 +368,6 @@
                                 required
                                 v-model="CustomerInfo.ext"
                             />
-                        </div>
-
-                        <div class="mt-1">
-                            <p
-                                class="text-red-600 text-xs"
-                                v-if="v$.ext.$error"
-                            >
-                                {{ v$.ext.$errors[0].$message }}
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -508,6 +498,7 @@
                             v-model="CustomerInfo.lead"
                         >
                             <option value="null">Choose Lead</option>
+                            <option v-for="lead in leads" :key="lead.index" :value="lead.id">{{lead.name}}</option>
                         </select>
                     </div>
 
@@ -535,14 +526,6 @@
                         ></textarea>
                     </div>
 
-                    <div class="mt-1">
-                        <p
-                            class="text-red-600 text-xs"
-                            v-if="v$.customer_notes.$error"
-                        >
-                            {{ v$.customer_notes.$errors[0].$message }}
-                        </p>
-                    </div>
                 </div>
 
                 <!-- 10th ends -->
@@ -635,7 +618,7 @@
                     'opacity-25 cursor-not-allowed': loading
                 }"
                 class="disabled:bg-gray-400 mb-6 mr-6 w-fit flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                @click="submit"
+                @click="submit()"
             >
                 <LoadingSpinner v-if="loading" />
                 Update User Info
@@ -646,7 +629,7 @@
                 type="button"
                 class="bg-indigo-600 text-white rounded-md px-8 py-3 w-fit mb-6 mr-6"
             >
-                Update User Info
+                Update User
             </button>
         </div>
     </div>
@@ -688,7 +671,9 @@ export default {
         states: Array,
         user: Object,
         notification: Object,
-        customer_notification: Object
+        customer_notification: Object,
+        leads: Array,
+        states: Array,
     },
 
     components: {
@@ -706,22 +691,17 @@ export default {
         const customer = props.customer
         const loading = ref(false)
         const successMessage = ref('')
-        const countries = props.countries
-        // const states = computed(() => {
-        //     return countries.filter(
-        //         country => country.id == CustomerInfo.country_id
-        //     )
-        // })
-        const states = ref([])
+        const states = props.states
         const selectedCountry = ref(customer.country_id)
         const selectedState = ref(customer.state_id)
         const CustomerInfo = reactive({
+            customerDifficulty: '',
             first_name: customer.first_name,
             last_name: customer.last_name,
             addressOne: customer.address,
             addressTwo: '',
             city: customer.city,
-            state_id: selectedState.value ? customer.state_id : "null",
+            state_id: selectedState.value ? customer.state_id : "" ,
             zip: customer.zip,
             phone_number: customer.phone_number,
             home_work: '',
@@ -729,9 +709,8 @@ export default {
             email: customer.email,
             dob: '',
             gender: '' ? customer.gender : 'null',
-            lead: '' ? customer.gender : 'null',
+            lead: '' ? customer.lead : 'null',
             customer_notes: '',
-            country_id: selectedCountry.value ? customer.country_id : 1
         })
 
         const rules = computed(() => {
@@ -766,23 +745,13 @@ export default {
                         required
                     )
                 },
-                home_work: {
-                    required: helpers.withMessage(
-                        'Please enter a home/work number',
-                        required
-                    )
-                },
-                ext: {
-                    required: helpers.withMessage(
-                        'Please enter an extension',
-                        required
-                    )
-                },
+                
                 email: {
                     required: helpers.withMessage(
                         'Please enter an email address',
                         required
-                    ), email
+                    ),
+                    email
                 },
                 dob: {
                     required: helpers.withMessage(
@@ -795,12 +764,6 @@ export default {
                 },
                 lead: {
                     required: helpers.withMessage('Select a lead', required)
-                },
-                customer_notes: {
-                    required: helpers.withMessage(
-                        'Enter customer notes',
-                        required
-                    )
                 },
                 country_id: {
                     required: helpers.withMessage('Select a country', required)
@@ -837,6 +800,7 @@ export default {
                 return
             }
             loading.value = true
+            console.log("test")
             axios
                 .put(`/admin/customers/${customer.id}`, CustomerInfo)
                 .then(res => {
@@ -865,7 +829,6 @@ export default {
             submit,
             v$,
             states,
-            countries,
             onClickTop,
             onClickBot,
             customer,
