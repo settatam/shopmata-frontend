@@ -225,15 +225,34 @@ class TransactionsController extends Controller
         $transactions = json_decode($request->input()['transactions'], true);
         $printables = [];
 
-        foreach($transactions as $transaction) {
-            $tr = Transaction::find($transaction['id']);
-            $printables[] = [
-                'barcode' => Barcode::generate($tr),
-                'qty' => $transaction['qty']
-            ];
+        switch ($request->action) {
+            case 'barcode':
+                foreach($transactions as $transaction) {
+                    $tr = Transaction::find($transaction['id']);
+                    $printables[] = [
+                        'barcode' => Barcode::generate($tr),
+                        'qty' => $transaction['qty']
+                    ];
+                }
+                return view('pages.barcode', compact('printables'));
+                break;
+            case 'label_to':
+            case 'label_from':
+                 $direction = str_replace('label_to', '', $request->action);
+                 foreach($transactions as $transaction) {
+                    $tr = Transaction::find($transaction['id']);
+                    $printables[] = [
+                        'label' => $tr->getShippingLabel($direction),
+                        'qty' => $transaction['qty']
+                    ];
+                 }
+                 return view('pages.barcode', compact('printables'));
+                 break;
+
         }
-        
-        return view('pages.barcode', compact('printables'));
+
+
+
     }
 
     public function bulkPrint(Request $request, $printable) {
@@ -245,13 +264,16 @@ class TransactionsController extends Controller
         $input = $request->input();
         $transactions = Transaction::whereIn('id', $input['transactions'])->get();
 
-        $transactions->map(function(Transaction $transaction){
-            return $transaction->qty = 5;
-        });
-
         if($input['action'] == 'barcode') {
+            $transactions->map(function(Transaction $transaction){
+                return $transaction->qty = 5;
+            });
             return Inertia::render('Transactions/BulkPrintBarcode', compact('transactions'));
-        }else if($input['action'] == 'label') {
+        }else if($input['action'] == 'label_to' || $input['action'] == 'label_from' ) {
+            $direction = str_replace('label_', '', $input['action']);
+            $transactions->map(function(Transaction $transaction) use ($direction) {
+                return [$transaction->qty = 1, $transaction->direction = $direction];
+            });
             return Inertia::render('Transactions/BulkPrintLabel', compact('transactions'));
         }
     }

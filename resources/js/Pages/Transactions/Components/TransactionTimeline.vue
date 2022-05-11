@@ -257,7 +257,6 @@ import { reactive, ref, computed } from "@vue/reactivity";
 import { watch } from "vue";
 
 import debounce from "lodash/debounce";
-// import AddItem from "../Components/AddItem.vue";
 import AppLayout from "../../../Layouts/AppLayout.vue";
 import AdminImages from "./AdminImages.vue";
 import PrintLabel from "../Components/PrintLabel.vue";
