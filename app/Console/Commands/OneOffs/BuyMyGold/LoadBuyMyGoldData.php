@@ -138,6 +138,7 @@ class LoadBuyMyGoldData extends Command
                     'store_id' => $customer->store_id,
                     'first_name' => $customer->first_name,
                     'last_name' => $customer->last_name,
+                    'phone' => $order["customer_phone"],
                     'country' => 'US',
                     'postal_code' => $order["customer_zip"],
                     'addressable_id' => $transaction->id,

@@ -75,14 +75,12 @@ class Fedex extends Shipping
     }
 
     public function getLabel() {
-//        $this->shipperData
         $this->setParams('declaredValue',
             [
                 'currency' => 'USD',
 
         ]);
         $d = $this->getShipmentData();
-        //dd($this->getShipmentData());
         if($this->getToken()) {
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->accessToken,
@@ -120,8 +118,10 @@ class Fedex extends Shipping
                 $pieceResponses = $responseData['output']['transactionShipments'][0]['pieceResponses'];
                 $this->trackingNumber = $pieceResponses[0]['trackingNumber'];
                 $this->base64Label = $pieceResponses[0]['packageDocuments'][0]['encodedLabel'];
+                $this->hasErrors = false;
                 return $this;
             }else{
+                $this->hasErrors = true;
                 $this->errors = $response->json();
                 return $this;
             }
@@ -136,8 +136,8 @@ class Fedex extends Shipping
             return 'FEDEX_SMALL_BOX';
         }
 
-        if(!$this->packageType) return self::DEFAULT_PACKAGES_TYPE;
-        return $this->packageType;
+        if(!$this->packagingType) return self::DEFAULT_PACKAGES_TYPE;
+        return $this->packagingType;
     }
 
     public function getTrackingNumber() {
