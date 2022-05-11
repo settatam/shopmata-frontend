@@ -161,6 +161,8 @@ class CustomersController extends Controller
 
         $tags = Tag::whereIn('name', Customer::TAGS)->get();
 
+        $leads = Lead::all();
+
         $customer = Customer::with(['transactions','addresses'])->find($id);
 
         if (null === $customer) {
@@ -168,7 +170,7 @@ class CustomersController extends Controller
         }
 
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
-        return Inertia::render('Customers/Show', compact('store','customer', 'tags'));
+        return Inertia::render('Customers/Show', compact('leads','store','customer', 'tags'));
     }
 
     /**
