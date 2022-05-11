@@ -473,10 +473,7 @@
                             <option value="null">Select One</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
-                            <option value="Transgender">Transgender</option>
-                            <option value="Non-binary">Non-binary</option>
-                            <option value="Bigender">Bigender</option>
-                            <option value="Drag Queen">Drag Queen</option>
+                            <option value="other">Other</option>
                         </select>
                     </div>
 
