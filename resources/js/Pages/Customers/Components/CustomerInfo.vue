@@ -714,36 +714,35 @@ export default {
 
     setup (props) {
         const customer = props.customer
-        const CustomerInfo = reactive({
-            first_name: '',
-            last_name: '',
-            addressOne: '',
-            addressTwo: '',
-            city: '',
-            state_id: '',
-            zip: '',
-            phone_number: '',
-            home_work: '',
-            ext: '',
-            email: '',
-            dob: '',
-            gender: '',
-            lead: '',
-            customer_notes: '',
-            country_id: ''
-        })
-
-        const states = ref([])
-
+        const loading = ref(false)
+        const successMessage = ref('')
         const countries = props.countries
         // const states = computed(() => {
         //     return countries.filter(
         //         country => country.id == CustomerInfo.country_id
         //     )
         // })
-
-        const loading = ref(false)
-        const successMessage = ref('')
+        const states = ref([])
+        const selectedCountry = ref( customer.country_id)
+        const selectedState = ref(customer.state_id)
+        const CustomerInfo = reactive({
+            first_name: customer.first_name,
+            last_name: customer.last_name,
+            addressOne: customer.address,
+            addressTwo: '',
+            city: customer.city,
+            state_id: selectedState.value ? customer.state_id : 1 ,
+            zip: customer.zip,
+            phone_number: customer.phone_number,
+            home_work: '',
+            ext: '',
+            email: customer.email,
+            dob: '',
+            gender: '',
+            lead: '',
+            customer_notes: '',
+            country_id: selectedCountry.value ?  customer.country_id :  1,
+        })
 
         const rules = computed(() => {
             return {
@@ -879,7 +878,9 @@ export default {
             countries,
             onClickTop,
             onClickBot,
-            customer
+            customer,
+            selectedCountry,
+            selectedState,
         }
     }
 }
