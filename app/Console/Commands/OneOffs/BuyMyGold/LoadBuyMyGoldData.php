@@ -67,7 +67,7 @@ class LoadBuyMyGoldData extends Command
                 //Create the customer using the customer details in the endpoint
                 $transaction->id              = $order['order_id'];
                 $transaction->status_id       = $order['status_id'];
-                $transaction->customer_id         = $order['user_id'];//Customer id
+                $transaction->customer_id     = $order['user_id'];//Customer id
                 $transaction->tags            = $order['tags'];
                 $transaction->comments        = $order['values'];
                 $transaction->insurance_value = $order['ship_insurance'];
@@ -257,8 +257,7 @@ class LoadBuyMyGoldData extends Command
                         try {
                             if ($image) {
                                 $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
-                                $img = $image.'.o.jpg';
-                                $imgs= new Image(['url' => $img, 'rank' => 1]);
+                                $imgs= new Image(['url' => $file, 'rank' => 1]);
                                 $transaction->images()->save($imgs);
                             }
 
