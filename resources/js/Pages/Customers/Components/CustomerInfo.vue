@@ -471,9 +471,9 @@
                             required
                             v-model="CustomerInfo.gender"
                         >
-                            <option value="test">Select One</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="null">Select One</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
                             <option value="Transgender">Transgender</option>
                             <option value="Non-binary">Non-binary</option>
                             <option value="Bigender">Bigender</option>
@@ -512,7 +512,7 @@
                             required
                             v-model="CustomerInfo.lead"
                         >
-                            <option value="test">Choose Lead</option>
+                            <option value="null">Choose Lead</option>
                         </select>
                     </div>
 
@@ -639,7 +639,7 @@
                     disabled: loading,
                     'opacity-25 cursor-not-allowed': loading
                 }"
-                class="disabled:bg-gray-400 mb-6 w-fit flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="disabled:bg-gray-400 mb-6 ml-6 w-fit flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 @click="submit"
             >
                 <LoadingSpinner v-if="loading" />
@@ -649,7 +649,7 @@
             <button
                 v-else
                 type="button"
-                class="bg-indigo-600 text-white rounded-md px-8 py-3"
+                class="bg-indigo-600 text-white rounded-md px-8 py-3 w-fit mb-6 ml-6"
             >
                 Update User Info
             </button>
@@ -726,15 +726,15 @@ export default {
             addressOne: customer.address,
             addressTwo: '',
             city: customer.city,
-            state_id: selectedState.value ? customer.state_id : 1,
+            state_id: selectedState.value ? customer.state_id : "null",
             zip: customer.zip,
             phone_number: customer.phone_number,
             home_work: '',
             ext: '',
             email: customer.email,
             dob: '',
-            gender: '',
-            lead: '',
+            gender: '' ? customer.gender : 'null',
+            lead: '' ? customer.gender : 'null',
             customer_notes: '',
             country_id: selectedCountry.value ? customer.country_id : 1
         })
