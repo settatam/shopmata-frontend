@@ -6,7 +6,7 @@
 
         <div class="p-6 space-y-3">
             <p>Total Transactions: {{customer.transactions.length}}</p>
-            <p>Total Sales: ${{sum}}</p>
+            <p>Total Sales: ${{transactionSum}}</p>
             <p>
                 Customer Since: {{ moment(customer.date).format('MM-DD-YYYY') }}
             </p>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { ref, } from 'vue'
+import { ref, computed} from 'vue'
 import moment from 'moment'
 
 export default {
@@ -25,14 +25,13 @@ export default {
     },
     props: ['customer'],
     setup(props){
-        const sum = ref(0)
         const customer = props.customer
-        function transactionSum (){
-            sum.value = customer.transactions.reduce((partialSum, a) => partialSum + a.final_offer, 0)
-        }
+        const transactionSum  = computed(() => {
+            return customer.transactions.reduce((partialSum, a) => partialSum + parseFloat(a.final_offer), 0)
+
+        })
 
         return{
-            sum,
             transactionSum
         }
     }

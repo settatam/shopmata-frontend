@@ -463,7 +463,6 @@
                                 'border-red-600': v$.gender.$error,
                                 'border-gray-300': !v$.gender.$error
                             }"
-                            type="email"
                             id="email"
                             name="email"
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -504,7 +503,6 @@
                                 'border-red-600': v$.lead.$error,
                                 'border-gray-300': !v$.lead.$error
                             }"
-                            type="email"
                             id="email"
                             name="email"
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
