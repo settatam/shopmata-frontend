@@ -155,9 +155,6 @@ class TransactionsController extends Controller
             $customer_note->customer_id    = $request->customer_id;
             $customer_note->type           = 'public';
             $customer_note->save();
-
-
-
             //return response()->json($customer_note->images,  200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
