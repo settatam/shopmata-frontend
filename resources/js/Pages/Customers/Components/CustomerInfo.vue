@@ -469,9 +469,15 @@
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
-                            v-model="CustomerInfo.email"
+                            v-model="CustomerInfo.gender"
                         >
                             <option value="test">Select One</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Transgender">Transgender</option>
+                            <option value="Non-binary">Non-binary</option>
+                            <option value="Bigender">Bigender</option>
+                            <option value="Drag Queen">Drag Queen</option>
                         </select>
                     </div>
 
