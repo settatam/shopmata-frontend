@@ -9,6 +9,7 @@ use App\Models\Store;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Address;
+use App\Models\Tag;
 use App\Http\Helpers\Helper;
 
 use Illuminate\Support\Str;
@@ -151,27 +152,23 @@ class CustomersController extends Controller
         $store = Store::find(session('store_id'));
         $store->load('currency');
 
-        $month = time();
-        $months[date("F", $month)] = 0;
-        for ($i = 1; $i <= 11; $i++) {
-          $month = strtotime('last month', $month);
-          $months[date("F", $month)] = 0;
-        }
+        // $month = time();
+        // $months[date("F", $month)] = 0;
+        // for ($i = 1; $i <= 11; $i++) {
+        //   $month = strtotime('last month', $month);
+        //   $months[date("F", $month)] = 0;
+        // }
 
-        $stats = Order::getByRange($id);
-        foreach($stats as $stat) {
-            $months[$stat->month] = $stat->total_sale;
-        }
+        $tags = Tag::whereIn('name', Customer::TAGS)->get();
 
-        $customer = Customer::with(['orders.items','addresses'])->withTotalOrders($id)->find($id);
+        $customer = Customer::with(['transactions','addresses'])->find($id);
 
         if (null === $customer) {
             throw new HttpException(404);
         }
 
-        $customer->number_of_orders = count($customer->orders);
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
-        return Inertia::render('Customers/Show', compact('store','customer', 'months'));
+        return Inertia::render('Customers/Show', compact('store','customer', 'tags'));
     }
 
     /**
