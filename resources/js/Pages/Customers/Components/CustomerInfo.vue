@@ -97,8 +97,8 @@
                             </label>
                             <input
                                 :class="{
-                                    'border-red-600': v$.first_name.$error,
-                                    'border-gray-300': !v$.first_name.$error
+                                    'border-red-600': v$.addressOne.$error,
+                                    'border-gray-300': !v$.addressOne.$error
                                 }"
                                 type="text"
                                 id="firstName"
@@ -106,16 +106,16 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="CustomerInfo.first_name"
+                                v-model="CustomerInfo.addressOne"
                             />
                         </div>
 
                         <div class="mt-1">
                             <p
                                 class="text-red-600 text-xs"
-                                v-if="v$.first_name.$error"
+                                v-if="v$.addressOne.$error"
                             >
-                                {{ v$.first_name.$errors[0].$message }}
+                                {{ v$.addressOne.$errors[0].$message }}
                             </p>
                         </div>
                     </div>
@@ -128,27 +128,14 @@
                                 Address 2:
                             </label>
                             <input
-                                :class="{
-                                    'border-red-600': v$.last_name.$error,
-                                    'border-gray-300': !v$.last_name.$error
-                                }"
                                 type="text"
                                 id="lastName"
                                 name="lastName"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="CustomerInfo.last_name"
+                                v-model="CustomerInfo.addressTwo"
                             />
-                        </div>
-
-                        <div class="mt-1">
-                            <p
-                                class="text-red-600 text-xs"
-                                v-if="v$.last_name.$error"
-                            >
-                                {{ v$.last_name.$errors[0].$message }}
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -339,8 +326,8 @@
                             </label>
                             <input
                                 :class="{
-                                    'border-red-600': v$.first_name.$error,
-                                    'border-gray-300': !v$.first_name.$error
+                                    'border-red-600': v$.home_work.$error,
+                                    'border-gray-300': !v$.home_work.$error
                                 }"
                                 type="text"
                                 id="firstName"
@@ -348,16 +335,16 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="CustomerInfo.first_name"
+                                v-model="CustomerInfo.home_work"
                             />
                         </div>
 
                         <div class="mt-1">
                             <p
                                 class="text-red-600 text-xs"
-                                v-if="v$.first_name.$error"
+                                v-if="v$.home_work.$error"
                             >
-                                {{ v$.first_name.$errors[0].$message }}
+                                {{ v$.home_work.$errors[0].$message }}
                             </p>
                         </div>
                     </div>
@@ -371,8 +358,8 @@
                             </label>
                             <input
                                 :class="{
-                                    'border-red-600': v$.last_name.$error,
-                                    'border-gray-300': !v$.last_name.$error
+                                    'border-red-600': v$.ext.$error,
+                                    'border-gray-300': !v$.ext.$error
                                 }"
                                 type="text"
                                 id="lastName"
@@ -380,16 +367,16 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="CustomerInfo.last_name"
+                                v-model="CustomerInfo.ext"
                             />
                         </div>
 
                         <div class="mt-1">
                             <p
                                 class="text-red-600 text-xs"
-                                v-if="v$.last_name.$error"
+                                v-if="v$.ext.$error"
                             >
-                                {{ v$.last_name.$errors[0].$message }}
+                                {{ v$.ext.$errors[0].$message }}
                             </p>
                         </div>
                     </div>
@@ -440,8 +427,8 @@
                         </label>
                         <input
                             :class="{
-                                'border-red-600': v$.phone_number.$error,
-                                'border-gray-300': !v$.phone_number.$error
+                                'border-red-600': v$.dob.$error,
+                                'border-gray-300': !v$.dob.$error
                             }"
                             type="date"
                             id="tel"
@@ -449,16 +436,13 @@
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
-                            v-model="CustomerInfo.phone_number"
+                            v-model="CustomerInfo.dob"
                         />
                     </div>
 
                     <div class="mt-1">
-                        <p
-                            class="text-red-600 text-xs"
-                            v-if="v$.phone_number.$error"
-                        >
-                            {{ v$.phone_number.$errors[0].$message }}
+                        <p class="text-red-600 text-xs" v-if="v$.dob.$error">
+                            {{ v$.dob.$errors[0].$message }}
                         </p>
                     </div>
                 </div>
@@ -476,8 +460,8 @@
                         </label>
                         <select
                             :class="{
-                                'border-red-600': v$.email.$error,
-                                'border-gray-300': !v$.email.$error
+                                'border-red-600': v$.gender.$error,
+                                'border-gray-300': !v$.gender.$error
                             }"
                             type="email"
                             id="email"
@@ -492,8 +476,8 @@
                     </div>
 
                     <div class="mt-1">
-                        <p class="text-red-600 text-xs" v-if="v$.email.$error">
-                            {{ v$.email.$errors[0].$message }}
+                        <p class="text-red-600 text-xs" v-if="v$.gender.$error">
+                            {{ v$.gender.$errors[0].$message }}
                         </p>
                     </div>
                 </div>
@@ -511,8 +495,8 @@
                         </label>
                         <select
                             :class="{
-                                'border-red-600': v$.email.$error,
-                                'border-gray-300': !v$.email.$error
+                                'border-red-600': v$.lead.$error,
+                                'border-gray-300': !v$.lead.$error
                             }"
                             type="email"
                             id="email"
@@ -520,15 +504,15 @@
                             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                             placeholder=""
                             required
-                            v-model="CustomerInfo.email"
+                            v-model="CustomerInfo.lead"
                         >
                             <option value="test">Choose Lead</option>
                         </select>
                     </div>
 
                     <div class="mt-1">
-                        <p class="text-red-600 text-xs" v-if="v$.email.$error">
-                            {{ v$.email.$errors[0].$message }}
+                        <p class="text-red-600 text-xs" v-if="v$.lead.$error">
+                            {{ v$.lead.$errors[0].$message }}
                         </p>
                     </div>
                 </div>
@@ -545,14 +529,17 @@
                             name="private"
                             id=""
                             rows="3"
-                            v-model="messagePrivate"
+                            v-model="CustomerInfo.customer_notes"
                             @input="saveNote"
                         ></textarea>
                     </div>
 
                     <div class="mt-1">
-                        <p class="text-red-600 text-xs" v-if="v$.email.$error">
-                            {{ v$.email.$errors[0].$message }}
+                        <p
+                            class="text-red-600 text-xs"
+                            v-if="v$.customer_notes.$error"
+                        >
+                            {{ v$.customer_notes.$errors[0].$message }}
                         </p>
                     </div>
                 </div>

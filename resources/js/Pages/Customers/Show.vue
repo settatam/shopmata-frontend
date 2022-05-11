@@ -52,21 +52,17 @@
 
             <div class="m-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <CustomerInfo :customer="customer"/>
+                    <CustomerInfo :customer="customer" />
                 </div>
 
                 <div>
-                    <CustomerSales :customer="customer"/>
-                    <PaymentInformation/>
+                    <CustomerSales :customer="customer" />
+                    <PaymentInformation />
                 </div>
             </div>
-
-            
         </div>
-            <TransactionTable class="mx-4"/>
-        <div>
-
-        </div>
+        <TransactionTable class="mx-4" />
+        <div></div>
     </app-layout>
 </template>
 
@@ -112,10 +108,9 @@ const statusStyles = {
 export default {
     props: {
         customer: Object,
-        orders: Object,
         store: Object,
-        data: Object,
-        navigation: Array
+        navigation: Array,
+        countries: Object
     },
 
     components: {
