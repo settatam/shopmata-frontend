@@ -1,6 +1,6 @@
 <template>
     <!-- Main content -->
-    <div class=" bg-white mt-7 mb-7 mx-auto rounded-md">
+    <div class=" bg-white my-7 mx-auto rounded-md">
         <!-- header -->
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1 class="text-xl">Customer Information</h1>
@@ -524,7 +524,7 @@
                 <div class="required w-full mr-5 mt-8 relative">
                     <div>
                         <textarea
-                            class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
+                            class="shadow-sm block sm:text-sm border-gray-300 rounded-md w-full"
                             placeholder="Customer Notes"
                             name="private"
                             id=""
@@ -623,19 +623,8 @@
                     </div>
                 </div> -->
         </div>
-    </div>
 
-    <!-- <div class="flex justify-between w-2/3 mx-auto mb-9">
-        <div class="">
-            <inertia-link href="/customers">
-                <button
-                    class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
-                >
-                    Cancel
-                </button>
-            </inertia-link>
-        </div>
-        <div class="">
+        <div class="flex justify-start">
             <button
                 v-if="!v$.$error"
                 :disabled="loading"
@@ -644,11 +633,11 @@
                     disabled: loading,
                     'opacity-25 cursor-not-allowed': loading
                 }"
-                class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                class="disabled:bg-gray-400 mb-6 w-fit flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 @click="submit"
             >
                 <LoadingSpinner v-if="loading" />
-                Save
+                Update User Info
             </button>
 
             <button
@@ -656,10 +645,10 @@
                 type="button"
                 class="bg-indigo-600 text-white rounded-md px-8 py-3"
             >
-                Save
+                Update User Info
             </button>
         </div>
-    </div> -->
+    </div>
 </template>
 
 <script>
@@ -723,7 +712,7 @@ export default {
         //     )
         // })
         const states = ref([])
-        const selectedCountry = ref( customer.country_id)
+        const selectedCountry = ref(customer.country_id)
         const selectedState = ref(customer.state_id)
         const CustomerInfo = reactive({
             first_name: customer.first_name,
@@ -731,7 +720,7 @@ export default {
             addressOne: customer.address,
             addressTwo: '',
             city: customer.city,
-            state_id: selectedState.value ? customer.state_id : 1 ,
+            state_id: selectedState.value ? customer.state_id : 1,
             zip: customer.zip,
             phone_number: customer.phone_number,
             home_work: '',
@@ -741,7 +730,7 @@ export default {
             gender: '',
             lead: '',
             customer_notes: '',
-            country_id: selectedCountry.value ?  customer.country_id :  1,
+            country_id: selectedCountry.value ? customer.country_id : 1
         })
 
         const rules = computed(() => {
@@ -880,7 +869,7 @@ export default {
             onClickBot,
             customer,
             selectedCountry,
-            selectedState,
+            selectedState
         }
     }
 }
