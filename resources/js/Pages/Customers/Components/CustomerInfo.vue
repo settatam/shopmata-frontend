@@ -841,7 +841,7 @@ export default {
             }
             loading.value = true
             axios
-                .post('store', CustomerInfo)
+                .put(`/admin/customers/${customer.id}`, CustomerInfo)
                 .then(res => {
                     if (res.status == 200) {
                         successMessage.value = res.data.message
