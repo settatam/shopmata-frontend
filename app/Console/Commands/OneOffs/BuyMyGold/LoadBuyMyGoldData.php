@@ -59,246 +59,248 @@ class LoadBuyMyGoldData extends Command
 
         if($orders = json_decode($data, true)) {
             $bar = $this->output->createProgressBar(count($orders['orders']));
-            foreach ($orders['orders'] as $order) {
-                $transaction = new Transaction;
-                $transaction = Transaction::firstOrNew(
-                    ['id' => $order['order_id']]
-                );
-                //Create the customer using the customer details in the endpoint
-                $transaction->id              = $order['order_id'];
-                $transaction->status_id       = $order['status_id'];
-                $transaction->customer_id     = $order['user_id'];//Customer id
-                $transaction->tags            = $order['tags'];
-                $transaction->comments        = $order['values'];
-                $transaction->insurance_value = $order['ship_insurance'];
-                $transaction->payment_method_id = $order['pay_method'];
-                //$transaction->bin_location = $order['bin_location'];
-                $transaction->store_id = $this->getStore($order['is_jewelry']);
-                $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
-                $transaction->save();
-                
+            try {
+                foreach ($orders['orders'] as $order) {
+                    $transaction = new Transaction;
+                    $transaction = Transaction::firstOrNew(
+                        ['id' => $order['order_id']]
+                    );
+                    //Create the customer using the customer details in the endpoint
+                    $transaction->id              = $order['order_id'];
+                    $transaction->status_id       = $order['status_id'];
+                    $transaction->customer_id     = $order['user_id'];//Customer id
+                    $transaction->tags            = $order['tags'];
+                    $transaction->comments        = $order['values'];
+                    $transaction->insurance_value = $order['ship_insurance'];
+                    $transaction->payment_method_id = $order['pay_method'];
+                    //$transaction->bin_location = $order['bin_location'];
+                    $transaction->store_id = $this->getStore($order['is_jewelry']);
+                    $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
+                    $transaction->save();
+                    
 
-                //add customers
-                $customer = Customer::firstOrNew(
-                    ['id' => $order['user_id']]
-                );
+                    //add customers
+                    $customer = Customer::firstOrNew(
+                        ['id' => $order['user_id']]
+                    );
 
-                $names = explode(' ', $order["customer_name"], 2);
+                    $names = explode(' ', $order["customer_name"], 2);
 
-                $customer->id                 = $order['user_id'];
-                $customer->email              = $order["customer_email"];
-                $customer->first_name         = data_get($names, 0);
-                $customer->last_name          = data_get($names, 1);
-                $customer->address            = $order["customer_address"];
-                $customer->city               = $order["customer_city"];
-                
-                $customer->state_id           = $this->getStateId($order["customer_state"]);
-                $customer->store_id           = $this->getStore($order['is_jewelry']);
-                $customer->zip                = $order["customer_zip"];
-                $customer->phone_number       = $order["customer_phone"];
-                $customer->address2           = $order["customer_address2"];
-                $customer->dob                = $order["customer_dob"];
-                $customer->password           = bcrypt($order['order_password']);
-                $customer->accepts_marketing  =   1;
-                $customer->created_at = $order['date_new'];
-                $customer->save();
-                //Create the transaction history
-
-
-                $transaction_payment_address = new TransactionPaymentAddress;
-                $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
-                    ['transaction_id' => $order['order_id'] ]
-                );
-
-                $transaction_payment_address->transaction_id         =  $order['order_id'];
-                $transaction_payment_address->customer_id            =  $customer->id;
-                $transaction_payment_address->payment_type_id        =  $order["pay_method"];
-                $transaction_payment_address->paypal_address         =  $order["paypal_address"];
-                $transaction_payment_address->bank_address           =  $order["ach_bank_address"];
-                $transaction_payment_address->bank_address_city      =  $order["ach_bank_address_city"];
-                $transaction_payment_address->bank_address_state_id  =  $this->getStateId($order["ach_bank_address_state"]);
-                $transaction_payment_address->bank_address_zip       =  $order["ach_bank_address_zip"];
-                $transaction_payment_address->routing_number         =  $order["ach_routing_number"];
-                $transaction_payment_address->account_number         =  $order["ach_account_number"];
-                $transaction_payment_address->account_name           =  $order["ach_account_name"];
-                $transaction_payment_address->account_type           =  $order["ach_account_type"];
-                $transaction_payment_address->venmo_address          =  $order["venmo_address"];
-                $transaction_payment_address->check_name             =  $order["check_payable"];
-                $transaction_payment_address->check_address          =  $order["check_address"];
-                $transaction_payment_address->check_city             =  $order["check_city"];
-                $transaction_payment_address->check_zip              =  $order["check_zip"];
-                $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]);
-                $transaction_payment_address->save();
-
-                $transAddress = Address::firstOrNew([
-                    'addressable_id' => $transaction->id,
-                    'addressable_type' => Transaction::class
-                ]);
-
-                $address = [
-                    'address' => $order["customer_address"],
-                    'address' => $order["customer_address2"],
-                    'city' => $order["customer_city"],
-                    'state' => $order["customer_state"],
-                    'store_id' => $customer->store_id,
-                    'first_name' => $customer->first_name,
-                    'last_name' => $customer->last_name,
-                    'phone' => $order["customer_phone"],
-                    'country' => 'US',
-                    'zip' => $order["customer_zip"],
-                    'addressable_id' => $transaction->id,
-                    'addressable_type' => Transaction::class,
-                    'state_id' => $this->getStateId($order["customer_state"]),
-                    'dob'  => $order["customer_dob"],
-                ];
-
-                $transAddress->fill($address);
-                $transAddress->save();
+                    $customer->id                 = $order['user_id'];
+                    $customer->email              = $order["customer_email"];
+                    $customer->first_name         = data_get($names, 0);
+                    $customer->last_name          = data_get($names, 1);
+                    $customer->address            = $order["customer_address"];
+                    $customer->city               = $order["customer_city"];
+                    
+                    $customer->state_id           = $this->getStateId($order["customer_state"]);
+                    $customer->store_id           = $this->getStore($order['is_jewelry']);
+                    $customer->zip                = $order["customer_zip"];
+                    $customer->phone_number       = $order["customer_phone"];
+                    $customer->address           = $order["customer_address"];
+                    $customer->address2           = $order["customer_address2"];
+                    $customer->dob                = $order["customer_dob"];
+                    $customer->password           = bcrypt($order['order_password']);
+                    $customer->accepts_marketing  =   1;
+                    $customer->created_at = $order['date_new'];
+                    $customer->save();
+                    //Create the transaction history
 
 
-                $cusAddress = Address::firstOrNew([
-                    'addressable_id' => $customer->id,
-                    'addressable_type' => Customer::class
-                ]);
+                    $transaction_payment_address = new TransactionPaymentAddress;
+                    $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
+                        ['transaction_id' => $order['order_id'] ]
+                    );
 
-                $address = [
-                    'address' => $order["customer_address"],
-                    'address' => $order["customer_address2"],
-                    'city' => $order["customer_city"],
-                    'state' => $order["customer_state"],
-                    'store_id' => $customer->store_id,
-                    'first_name' => $customer->first_name,
-                    'last_name' => $customer->last_name,
-                    'country' => 'US',
-                    'zip' => $order["customer_zip"],
-                    'addressable_id' => $transaction->id,
-                    'addressable_type' => Transaction::class,
-                    'state_id' => $this->getStateId($order["customer_state"]),
-                    'dob'  => $order["customer_dob"],
-                ];
+                    $transaction_payment_address->transaction_id         =  $order['order_id'];
+                    $transaction_payment_address->customer_id            =  $customer->id;
+                    $transaction_payment_address->payment_type_id        =  $order["pay_method"];
+                    $transaction_payment_address->paypal_address         =  $order["paypal_address"];
+                    $transaction_payment_address->bank_address           =  $order["ach_bank_address"];
+                    $transaction_payment_address->bank_address_city      =  $order["ach_bank_address_city"];
+                    $transaction_payment_address->bank_address_state_id  =  $this->getStateId($order["ach_bank_address_state"]);
+                    $transaction_payment_address->bank_address_zip       =  $order["ach_bank_address_zip"];
+                    $transaction_payment_address->routing_number         =  $order["ach_routing_number"];
+                    $transaction_payment_address->account_number         =  $order["ach_account_number"];
+                    $transaction_payment_address->account_name           =  $order["ach_account_name"];
+                    $transaction_payment_address->account_type           =  $order["ach_account_type"];
+                    $transaction_payment_address->venmo_address          =  $order["venmo_address"];
+                    $transaction_payment_address->check_name             =  $order["check_payable"];
+                    $transaction_payment_address->check_address          =  $order["check_address"];
+                    $transaction_payment_address->check_city             =  $order["check_city"];
+                    $transaction_payment_address->check_zip              =  $order["check_zip"];
+                    $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]);
+                    $transaction_payment_address->save();
 
-                $cusAddress->fill($address);
-                $cusAddress->save();
-
-                foreach ($transaction->histories as $history) {
-                    $history->delete();
-                }
-
-                if ($order["date_update"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([
-                        'event' => "UPDATED" ,
-                        'created_at' => $order["date_update"]
+                    $transAddress = Address::firstOrNew([
+                        'addressable_id' => $transaction->id,
+                        'addressable_type' => Transaction::class
                     ]);
-                }
 
-                if ($order["date_fulfilled"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([
-                        'event' => "FULFILLED" ,
-                        'created_at' => $order["date_fulfilled"]
+                    $address = [
+                        'address' => $order["customer_address"],
+                        'address2' => $order["customer_address2"],
+                        'city' => $order["customer_city"],
+                        'store_id' => $customer->store_id,
+                        'first_name' => data_get($names, 0),
+                        'last_name' => data_get($names, 1),
+                        'country' => 'US',
+                        'zip' => $order["customer_zip"],
+                        'addressable_id' => $transaction->id,
+                        'addressable_type' => Transaction::class,
+                        'state_id' => $this->getStateId($order["customer_state"]),
+                        'dob'  => $order["customer_dob"],
+                    ];
+
+                    $transAddress->fill($address);
+                    $transAddress->save();
+
+
+                    $cusAddress = Address::firstOrNew([
+                        'addressable_id' => $customer->id,
+                        'addressable_type' => Customer::class
                     ]);
-                }
 
-                if ($order["date_kit_denied"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([
-                        'event' => "KIT DENIED" ,
-                        'created_at' => $order["date_kit_denied"]
-                    ]);
-                }
+                    $address = [
+                        'address' => $order["customer_address"],
+                        'address2' => $order["customer_address2"],
+                        'city' => $order["customer_city"],
+                        'store_id' => $customer->store_id,
+                        'first_name' => data_get($names, 0),
+                        'last_name' => data_get($names, 1),
+                        'country' => 'US',
+                        'zip' => $order["customer_zip"],
+                        'addressable_id' => $transaction->id,
+                        'addressable_type' => Transaction::class,
+                        'state_id' => $this->getStateId($order["customer_state"]),
+                        'dob'  => $order["customer_dob"],
+                    ];
 
-                if ($order["date_shipment_received"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([
-                        'event' => "SHIPMENT RECEIVED",
-                        'created_at' => $order["date_shipment_received"]
-                    ]);
-                }
+                    $cusAddress->fill($address);
+                    $cusAddress->save();
 
-                if ($order["date_shipment_declined"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([
-                        'event' => "SHIPMENT DECLINED",
-                        'created_at' => $order["date_shipment_declined"]
-                    ]);
-                }
-
-                if ($order["date_shipment_returned"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([
-                        'event' => 'SHIPMENT RETURNED',
-                        'created_at' => $order["date_shipment_returned"]
-                    ]);
-                }
-
-                if ($order["date_offer_given"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([
-                        'event' => 'OFFER GIVEN',
-                        'created_at' => $order["date_offer_given"]
-                    ]);
-                }
-
-                if ($order["date_offer_accepted"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' =>'OFFER ACCEPTED', 'created_at' => $order["date_offer_accepted"] ]);
-                }
-
-                if ($order["date_offer_declined"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' => 'OFFER DECLINED', 'created_at' => $order["date_offer_declined"]]);
-                }
-
-                if ($order["date_offer_paid"]  !== "0000-00-00 00:00:00"){
-                    $transaction->histories()->create([ 'event' => 'OFFER DECLINED', 'created_at' => $order["date_offer_paid"]]);
-                }
-
-                foreach ($transaction->notes as $note) {
-                    $note->delete();
-                }
-
-                if($order['notes_private']) {
-                    TransactionNote::create([
-                        'transaction_id' => $transaction->id,
-                        'type' => TransactionNote::PRIVATE_TYPE,
-                        'notes' => $order['notes_private']
-                    ]);
-                }
-
-                if($order['notes_private']) {
-                    TransactionNote::create([
-                        'transaction_id' => $transaction->id,
-                        'type' => TransactionNote::PUBLIC_TYPE,
-                        'notes' => $order['notes_public']
-                    ]);
-                }
-
-                if ($transaction->offers->count()) {
-                    foreach ($transaction->offers as $offer) {
-                        $offer->delete();
+                    foreach ($transaction->histories as $history) {
+                        $history->delete();
                     }
-                }
 
-                $transaction->offers()->create(
-                    [
-                        'offer' => $order['offer_amount']
-                    ]
-                );
+                    if ($order["date_update"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([
+                            'event' => "UPDATED" ,
+                            'created_at' => $order["date_update"]
+                        ]);
+                    }
 
-                foreach ($transaction->images as $image) {
-                    $image->delete();
-                }
+                    if ($order["date_fulfilled"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([
+                            'event' => "FULFILLED" ,
+                            'created_at' => $order["date_fulfilled"]
+                        ]);
+                    }
 
-                $images = $order['photos'] ?  explode(',', $order['photos']) : null;
+                    if ($order["date_kit_denied"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([
+                            'event' => "KIT DENIED" ,
+                            'created_at' => $order["date_kit_denied"]
+                        ]);
+                    }
 
-                if ( !empty( $images )  > 0 ) {
-                    foreach ( $images  as $image) {
-                        try {
-                            if ($image) {
-                                $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
-                                $imgs= new Image(['url' => $file, 'rank' => 1]);
-                                $transaction->images()->save($imgs);
+                    if ($order["date_shipment_received"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([
+                            'event' => "SHIPMENT RECEIVED",
+                            'created_at' => $order["date_shipment_received"]
+                        ]);
+                    }
+
+                    if ($order["date_shipment_declined"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([
+                            'event' => "SHIPMENT DECLINED",
+                            'created_at' => $order["date_shipment_declined"]
+                        ]);
+                    }
+
+                    if ($order["date_shipment_returned"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([
+                            'event' => 'SHIPMENT RETURNED',
+                            'created_at' => $order["date_shipment_returned"]
+                        ]);
+                    }
+
+                    if ($order["date_offer_given"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([
+                            'event' => 'OFFER GIVEN',
+                            'created_at' => $order["date_offer_given"]
+                        ]);
+                    }
+
+                    if ($order["date_offer_accepted"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([ 'event' =>'OFFER ACCEPTED', 'created_at' => $order["date_offer_accepted"] ]);
+                    }
+
+                    if ($order["date_offer_declined"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([ 'event' => 'OFFER DECLINED', 'created_at' => $order["date_offer_declined"]]);
+                    }
+
+                    if ($order["date_offer_paid"]  !== "0000-00-00 00:00:00"){
+                        $transaction->histories()->create([ 'event' => 'OFFER DECLINED', 'created_at' => $order["date_offer_paid"]]);
+                    }
+
+                    foreach ($transaction->notes as $note) {
+                        $note->delete();
+                    }
+
+                    if($order['notes_private']) {
+                        TransactionNote::create([
+                            'transaction_id' => $transaction->id,
+                            'type' => TransactionNote::PRIVATE_TYPE,
+                            'notes' => $order['notes_private']
+                        ]);
+                    }
+
+                    if($order['notes_private']) {
+                        TransactionNote::create([
+                            'transaction_id' => $transaction->id,
+                            'type' => TransactionNote::PUBLIC_TYPE,
+                            'notes' => $order['notes_public']
+                        ]);
+                    }
+
+                    if ($transaction->offers->count()) {
+                        foreach ($transaction->offers as $offer) {
+                            $offer->delete();
+                        }
+                    }
+
+                    $transaction->offers()->create(
+                        [
+                            'offer' => $order['offer_amount']
+                        ]
+                    );
+
+                    foreach ($transaction->images as $image) {
+                        $image->delete();
+                    }
+
+                    $images = $order['photos'] ?  explode(',', $order['photos']) : null;
+
+                    if ( !empty( $images )  > 0 ) {
+                        foreach ( $images  as $image) {
+                            try {
+                                if ($image) {
+                                    $file = 'https://s3.amazonaws.com/wbgasphotos/uploads/assets/'.substr($image,0,2)."/".substr($image,2,2)."/".$image.'.o.jpg';
+                                    $imgs= new Image(['url' => $file, 'rank' => 1]);
+                                    $transaction->images()->save($imgs);
+                                }
+
+                            } catch(\Exception $e) {
+                                echo $e->getMessage();
                             }
 
-                        } catch(\Exception $e) {
-                            echo $e->getMessage();
                         }
-
                     }
+                    $bar->advance();
                 }
-                $bar->advance();
+            } catch(\Exception $e) {
+
             }
 
             Storage::deleteDirectory('items');
@@ -331,3 +333,5 @@ class LoadBuyMyGoldData extends Command
     }
 
 }
+
+    
