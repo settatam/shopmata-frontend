@@ -87,6 +87,7 @@ class Transaction extends Model
 
     static function search($filter) {
         return self::query()
+            ->withDaysInStock()
             ->withDates($filter)
             ->withStatus($filter)
             ->withCustomer($filter)
@@ -97,6 +98,25 @@ class Transaction extends Model
             ->withTrafficSource($filter)
            // ->with('offers')
             ->orderBy('id', 'desc');
+    }
+
+    public function scopeWithDaysInStock($query) {
+        return $query->selectRaw("DATEDIFF(NOW(), created_at)AS dis");
+    }
+
+    function stuff() {
+        $q = "SELECT counter,val FROM (
+			(SELECT 'kits_accepted' AS counter,count(*) AS val FROM orders WHERE date_shipment_received != 0 {$date_received}) UNION
+			(SELECT 'kits_sent' AS counter,count(*) AS val FROM orders WHERE status_id > 0 {$dates}) UNION
+			(SELECT 'kits_declined' AS counter,count(*) FROM orders WHERE date_offer_declined != 0 {$date_offer_paid} AND date_offer_accepted = 0) UNION
+			(SELECT 'total_value' AS counter,round(sum(item_sum),2) FROM bmg_reporting WHERE date_offer_paid != 0 {$date_offer_paid}) UNION
+			(SELECT 'kits_rejected' AS counter,count(*) FROM orders WHERE date_shipment_declined != 0 {$date_received}) UNION
+			(SELECT 'kits_not_received' AS counter,count(*) FROM orders WHERE status_id <= 1 {$dates}) UNION
+			(SELECT 'total_profit' AS counter,round(sum(profit_value),2) FROM orders WHERE date_offer_paid != 0 {$date_offer_paid}) UNION
+			(SELECT 'sum_payout' AS counter,round(sum(offer_amount),2) AS val FROM orders WHERE date_offer_paid != 0 {$date_offer_paid}) UNION
+			(SELECT 'estimated_value' AS counter,round(sum(item_sum),2) AS val FROM bmg_reporting WHERE 1 {$date_offer_paid}) UNION
+			(SELECT 'sum_offer' AS counter,round(sum(offer_amount),2) AS val FROM orders WHERE date_offer_paid != 0 {$dates})
+			) uxmegallc";
     }
 
     public function scopeWithEstValue($query) {

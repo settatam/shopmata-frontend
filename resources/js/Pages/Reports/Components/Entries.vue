@@ -32,27 +32,27 @@
             <thead class=" bg-purple-darken text-white table-auto border-b">
                 <tr>
                     <th
-                        class="text-xs lg:text-sm font-bold px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-bold px-1 mr-1 py-1 text-left"
                         scope="col"
                     >
-                        #Tx ID
+                        <span class="inline-block">#Tx ID</span>
                         <SwitchVerticalIcon
                             @click="sortBy('txId')"
-                            class="h-5 w-5 ml-1 inline-flex cursor-pointer"
+                            class="h-5 w-5 ml-1 inline-block cursor-pointer"
                         />
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-bold px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-bold px-1 mr-1 py-1 text-left"
                         scope="col"
                     >
-                        Bought
+                        <span class="inline-block">Bought</span>
                         <SwitchVerticalIcon
                             @click="sortBy('bought')"
-                            class="h-5 w-5 ml-1 inline-flex cursor-pointer"
+                            class="h-5 w-5 ml-1 inline-block cursor-pointer"
                         />
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-bold px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-sm font-bold px-1 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Estimated Value

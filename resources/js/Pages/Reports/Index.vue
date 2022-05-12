@@ -15,7 +15,7 @@
             </div> -->
 
             <div>
-                <TransactionTable v-for="item in 4" :key="item.index" />
+                <TransactionTable />
                 <!-- button -->
                 <div class="flex justify-end mx-2 mt-6">
                     <button
