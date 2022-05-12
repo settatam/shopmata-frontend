@@ -129,8 +129,6 @@ class TransactionsController extends Controller
         return response(null,422);
     }
 
-
-
     public function addItem(Request $request)
     {
         try {
@@ -236,18 +234,22 @@ class TransactionsController extends Controller
                 }
                 return view('pages.barcode', compact('printables'));
                 break;
-            case 'label_to':
-            case 'label_from':
-                 $direction = str_replace('label_to', '', $request->action);
+            case 'label':
                  foreach($transactions as $transaction) {
                     $tr = Transaction::find($transaction['id']);
-                    $printables[] = [
-                        'label' => $tr->getShippingLabel($direction),
-                        'qty' => $transaction['qty']
-                    ];
+
+                    if($shippingLabel = $tr->getShippingLabel($transaction['direction'], true)) {
+                        $printables[] = [
+                            'label' => $shippingLabel,
+                            'qty' => $transaction['qty']
+                        ];
+                    }
                  }
-                 return view('pages.barcode', compact('printables'));
+
+                 return view('pages.label', compact('printables'));
                  break;
+            default:
+                dd($request->action);
 
         }
 
@@ -399,9 +401,9 @@ class TransactionsController extends Controller
         foreach ( $request->transaction_ids as $transaction_id ){
             $transaction = Transaction::find($transaction_id);
             $transaction->delete();
-        }   
-                             
-        return response($transactions, 200);  
+        }
+
+        return redirect('transactions.index');
     }
 }
 

@@ -1288,11 +1288,11 @@ select {
 .m-auto {
 	margin: auto;
 }
-.m-2 {
-	margin: 0.5rem;
-}
 .m-4 {
 	margin: 1rem;
+}
+.m-2 {
+	margin: 0.5rem;
 }
 .m-1 {
 	margin: 0.25rem;
@@ -1428,13 +1428,13 @@ select {
 	margin-top: 3rem;
 	margin-bottom: 3rem;
 }
-.mx-1 {
-	margin-left: 0.25rem;
-	margin-right: 0.25rem;
-}
 .my-0 {
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+.mx-1 {
+	margin-left: 0.25rem;
+	margin-right: 0.25rem;
 }
 .my-2\.5 {
 	margin-top: 0.625rem;
@@ -1988,6 +1988,12 @@ select {
 .w-7\/10 {
 	width: 70%;
 }
+.w-1\/12 {
+	width: 8.333333%;
+}
+.w-7 {
+	width: 1.75rem;
+}
 .w-1\.5\/10 {
 	width: 15%;
 }
@@ -2037,9 +2043,6 @@ select {
 }
 .w-1\/6 {
 	width: 16.666667%;
-}
-.w-7 {
-	width: 1.75rem;
 }
 .w-28 {
 	width: 7rem;
@@ -2378,15 +2381,15 @@ select {
 	margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
 	margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
-.-space-y-px > :not([hidden]) ~ :not([hidden]) {
-	--tw-space-y-reverse: 0;
-	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
-	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
-}
 .space-x-0 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-x-reverse: 0;
 	margin-right: calc(0px * var(--tw-space-x-reverse));
 	margin-left: calc(0px * calc(1 - var(--tw-space-x-reverse)));
+}
+.-space-y-px > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-y-reverse: 0;
+	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
+	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
 }
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
@@ -3182,6 +3185,9 @@ select {
 .pb-5 {
 	padding-bottom: 1.25rem;
 }
+.pb-96 {
+	padding-bottom: 24rem;
+}
 .pl-16 {
 	padding-left: 4rem;
 }
@@ -3196,9 +3202,6 @@ select {
 }
 .pb-12 {
 	padding-bottom: 3rem;
-}
-.pb-96 {
-	padding-bottom: 24rem;
 }
 .text-left {
 	text-align: left;

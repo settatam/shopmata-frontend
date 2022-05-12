@@ -31,6 +31,7 @@ class Shipping
     protected $currency;
     protected $totalWeight;
     protected $isTest = false;
+    protected $hasErrors = false;
 
     public function setSenderName($value) {
         $this->senderName = $value;
@@ -210,6 +211,10 @@ class Shipping
 
     public function getCurrency() {
         return 'USD';
+    }
+
+    public function hasErrors() {
+        return $this->hasErrors;
     }
 
 }
