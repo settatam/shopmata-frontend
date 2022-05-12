@@ -57,6 +57,9 @@
 <script>
 import { ref, computed } from 'vue'
 import Check from './Dynamic/Check.vue'
+import Paypal from './Dynamic/Paypal.vue'
+import Ach from './Dynamic/Ach.vue'
+import Venmo from './Dynamic/Venmo.vue'
 
 export default {
     components: { Check },
@@ -71,6 +74,12 @@ export default {
             switch (payment_method.value) {
                 case 'check':
                     return Check
+                case 'ach':
+                    return Ach
+                case 'paypal':
+                    return Paypal
+                case 'venmo':
+                    return Venmo
                 default:
                     break
             }

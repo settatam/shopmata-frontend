@@ -1,69 +1,116 @@
 <template>
-    <div class=" ml-6 space-y-3 w-full pb-4">
-        <div class="flex flex-row space-x-2">
+    <div class=" px-4 space-y-3 w-full pb-4">
+        <div class="flex flex-col space-y-2  space-y-2">
             <label
-                class="font-semibold mt-2 w-1/6 bg-transparent"
+                class="font-semibold mt-2 w-full bg-transparent"
                 for="payable_to"
                 >PAYABLE TO:</label
             >
             <input
-                class=" shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-3/4 sm:text-sm border-gray-300 rounded-md"
+                :class="{
+                    'border-red-600': v$.payable_to.$error,
+                    'border-gray-300': !v$.payable_to.$error
+                }"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="payable_to"
+                v-model="paymentInfo.payable_to"
                 placeholder="Make check payable to"
             />
         </div>
+        <div class="mt-1">
+            <p class="text-red-600 text-xs" v-if="v$.payable_to.$error">
+                {{ v$.payable_to.$errors[0].$message }}
+            </p>
+        </div>
 
-        <div class="flex flex-row space-x-2">
-            <label class="font-semibold mt-2 w-1/6 bg-transparent" for="address"
+        <div class="flex flex-col space-y-2 space-y-2">
+            <label
+                class="font-semibold mt-2 w-full bg-transparent"
+                for="address"
                 >ADDRESS:</label
             >
             <input
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-3/4 sm:text-sm border-gray-300 rounded-md"
+                :class="{
+                    'border-red-600': v$.address.$error,
+                    'border-gray-300': !v$.address.$error
+                }"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="address"
+                v-model="paymentInfo.address"
                 placeholder="Send Check to this Street"
             />
         </div>
+        <div class="mt-1">
+            <p class="text-red-600 text-xs" v-if="v$.address.$error">
+                {{ v$.address.$errors[0].$message }}
+            </p>
+        </div>
 
-        <div class="flex flex-row space-x-2">
-            <label class="font-semibold mt-2 w-1/6 bg-transparent" for="city"
+        <div class="flex flex-col space-y-2 ">
+            <label class="font-semibold mt-2 w-full bg-transparent" for="city"
                 >CITY:</label
             >
             <input
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-3/4 sm:text-sm border-gray-300 rounded-md"
+                :class="{
+                    'border-red-600': v$.city.$error,
+                    'border-gray-300': !v$.city.$error
+                }"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="city"
+                v-model="paymentInfo.city"
                 placeholder="city"
             />
         </div>
+        <div class="mt-1">
+            <p class="text-red-600 text-xs" v-if="v$.city.$error">
+                {{ v$.city.$errors[0].$message }}
+            </p>
+        </div>
 
-        <div class="flex flex-row space-x-2">
+        <div class="flex flex-col space-y-2 ">
             <label
-                class="font-semibold mt-2 w-1/6 bg-transparent"
+                class="font-semibold mt-2 w-full bg-transparent"
                 for="state_id"
                 >STATE:</label
             >
             <select
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-3/4 sm:text-sm border-gray-300 rounded-md"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 name="state"
                 id=""
-                v-model="state_id"
+                v-model="paymentInfo.state_id"
+                :class="{
+                    'border-red-600': v$.state_id.$error,
+                    'border-gray-300': !v$.state_id.$error
+                }"
             >
                 <option value="choose">State/Province</option>
             </select>
         </div>
+        <div class="mt-1">
+            <p class="text-red-600 text-xs" v-if="v$.state_id.$error">
+                {{ v$.state_id.$errors[0].$message }}
+            </p>
+        </div>
 
-        <div class="flex flex-row space-x-2">
-            <label class="font-semibold w-1/6 mt-2 bg-transparent" for="zip"
+        <div class="flex flex-col space-y-2 ">
+            <label class="font-semibold w-full mt-2 bg-transparent" for="zip"
                 >ZIP:</label
             >
             <input
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-3/4 sm:text-sm border-gray-300 rounded-md"
+                :class="{
+                    'border-red-600': v$.zip.$error,
+                    'border-gray-300': !v$.zip.$error
+                }"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="zip"
+                v-model="paymentInfo.zip"
                 placeholder="Zip/Postal"
             />
+        </div>
+        <div class="mt-1">
+            <p class="text-red-600 text-xs" v-if="v$.zip.$error">
+                {{ v$.zip.$errors[0].$message }}
+            </p>
         </div>
 
         <!-- submit -->
@@ -114,8 +161,12 @@ import {
     email
 } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
+import LoadingSpinner from '../../../../Components/LoadingSpinner.vue'
 
 export default {
+    components: {
+        LoadingSpinner
+    },
     setup () {
         const loading = ref(false)
         const paymentInfo = reactive({
@@ -130,16 +181,13 @@ export default {
         const rules = computed(() => {
             return {
                 payable_to: {
-                    required: helpers.withMessage('Enter a last name', required)
-                },
-                payable_to: {
                     required: helpers.withMessage('Enter an address', required)
                 },
                 address: {
-                    required: helpers.withMessage('Enter a city', required)
+                    required: helpers.withMessage('Enter an address', required)
                 },
                 city: {
-                    required: helpers.withMessage('Select a state', required)
+                    required: helpers.withMessage('Enter a city', required)
                 },
                 state_id: {
                     required: helpers.withMessage('Select a state', required)
@@ -162,12 +210,11 @@ export default {
             }
             loading.value = true
             axios
-                .put(`/admin/customers/${customer.id}`, CustomerInfo)
+                .put(``, paymentInfo)
                 .then(res => {
                     successMessage.value = res.data.message
                     setTimeout(onClickTop, 2000)
                 })
-                .then(Inertia.visit('/admin/customers', { method: 'get' }))
                 .catch(error => {
                     loading.value = false
                     successMessage.value = 'Error processing your request'
@@ -177,7 +224,9 @@ export default {
 
         return {
             v$,
-            paymentInfo
+            paymentInfo,
+            loading,
+            submit
         }
     }
 }

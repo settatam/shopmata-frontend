@@ -1,6 +1,6 @@
 <template>
-    <div class=" px-4 space-y-3 w-full pb-4">
-        <div class="flex flex-col space-y-2  space-y-2">
+    <div class=" px-4 space-y-3 w-full pb-8">
+        <div class="flex flex-col space-y-2 ">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
                 for="payable_to"
@@ -112,7 +112,7 @@
         </div>
 
         <!-- submit -->
-        <div class="flex justify-between w-2/3 mx-auto mb-9">
+        <div class="flex justify-between w-2/3 mx-auto pt-8 mt-8">
             <div class="">
                 <button
                     class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
