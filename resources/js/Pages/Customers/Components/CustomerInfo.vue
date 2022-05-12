@@ -848,6 +848,10 @@ export default {
                 })
         }
 
+        function pushValue(){
+            popUp.value = false
+        }
+
         const v$ = useVuelidate(rules, CustomerInfo)
 
         function submit () {
@@ -885,7 +889,8 @@ export default {
             customer,
             selectedCountry,
             selectedState,
-            selectedDob
+            selectedDob,
+            pushValue
         }
     }
 }
