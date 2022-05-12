@@ -3,7 +3,7 @@
         <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
-                for="payable_to"
+                for="bank_name"
                 >BANK NAME:</label
             >
             <input
@@ -26,7 +26,7 @@
         <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
-                for="address"
+                for="routing_number"
                 >ROUTING NUMBER:</label
             >
             <input
@@ -47,7 +47,7 @@
         </div>
 
         <div class="flex flex-col space-y-2 ">
-            <label class="font-semibold mt-2 w-full bg-transparent" for="city"
+            <label class="font-semibold mt-2 w-full bg-transparent" for="account_number"
                 >ACCOUNT NUMBER:</label
             >
             <input
@@ -73,18 +73,16 @@
                 for="account_name"
                 >ACCOUNT NAME:</label
             >
-            <select
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                name="state"
-                id=""
-                v-model="paymentInfo.account_name"
+            <input
                 :class="{
                     'border-red-600': v$.account_name.$error,
                     'border-gray-300': !v$.account_name.$error
                 }"
-            >
-                <option value="choose">State/Province</option>
-            </select>
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
+                type="text"
+                v-model="paymentInfo.account_name"
+                placeholder="Account nam e(your name here)"
+            />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.account_name.$error">
@@ -104,7 +102,7 @@
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.account_type"
-                placeholder="account_type/Postal"
+                placeholder="Account type (Checking, Savings)"
             />
         </div>
         <div class="mt-1">
