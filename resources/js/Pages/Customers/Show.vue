@@ -50,9 +50,13 @@
                 </ol>
             </nav>
 
-            <div class="m-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="mx-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <CustomerInfo :customer="customer" />
+                    <CustomerInfo
+                        :customer="customer"
+                        :leads="leads"
+                        :states="countries.states"
+                    />
                 </div>
 
                 <div>
@@ -61,8 +65,22 @@
                 </div>
             </div>
         </div>
-        <TransactionTable class="mx-4" />
-        <div></div>
+
+        <div>
+            <AdminImages
+                :transactions="customer.transactions"
+                class="mb-8"
+            />
+        </div>
+
+
+        <div>
+            <TransactionTable
+                :transactions="customer.transactions"
+                class="m-4"
+            />
+        </div>
+
     </app-layout>
 </template>
 
@@ -76,6 +94,7 @@ import CustomerInfo from './Components/CustomerInfo.vue'
 import CustomerSales from './Components/CustomerSales.vue'
 import PaymentInformation from './Components/PaymentInformation.vue'
 import TransactionTable from './Components/TransactionTable.vue'
+import AdminImages from './Components/AdminImages.vue'
 
 import {
     Dialog,
@@ -112,6 +131,7 @@ export default {
         navigation: Array,
         countries: Object,
         transaction: Object,
+        leads: Array
     },
 
     components: {
@@ -127,7 +147,8 @@ export default {
         CustomerInfo,
         CustomerSales,
         PaymentInformation,
-        TransactionTable
+        TransactionTable,
+        AdminImages
     },
 
     data () {

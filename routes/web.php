@@ -212,7 +212,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('settings/plan-and-permissions/staffs/invite', [StaffsController::class, 'inviteStaff']);
 
         Route::resource('settings/remittance', PayoutSettingsController::class);
-        Route::resource('transactions', TransactionsController::class);
+        Route::resource('transactions', TransactionsController::class)->names([
+            'index' => 'transactions.index'
+        ]);
         Route::post('transactions/bulk-print-action', [TransactionsController::class, 'bulkPrintAction']);
         Route::post('transactions/bulk-actions/{printable}', [TransactionsController::class, 'bulkPrint']);
         Route::get('transactions/{id}/{printable}', [TransactionsController::class, 'printable']);

@@ -6,7 +6,8 @@
 
         <div class="p-6 space-y-3">
             <p>Total Transactions: {{customer.transactions.length}}</p>
-            <p>Total Sales: ${{transactionSum}}</p>
+            <p v-if="transactionSum">Total Sales: ${{transactionSum}}</p>
+            <p else>Total Sales: $0</p>
             <p>
                 Customer Since: {{ moment(customer.date).format('MM-DD-YYYY') }}
             </p>
