@@ -52,6 +52,37 @@
                                     @click="closeModal"
                                 />
                             </div>
+
+                            <div
+                                class="flex flex-col lg:flex-row required  mb-4"
+                            >
+                                <div class="mr-2 w-full">
+                                    <label
+                                        class="block text-gray-600 font-semibold mb-2 bg-transparent"
+                                    >
+                                        Name
+                                    </label>
+                                    <input
+                                        :class="{
+                                            'border-red-600': v$.name.$error,
+                                            'border-gray-300': !v$.name.$error
+                                        }"
+                                        type="text"
+                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        placeholder=""
+                                        v-model="leadPayload.name"
+                                        required
+                                    />
+
+                                    <p
+                                        class="text-red-600 text-xs"
+                                        v-if="v$.name.$error"
+                                    >
+                                        {{ v$.name.$errors[0].$message }}
+                                    </p>
+                                </div>
+                            </div>
+
                             <div class="mt-3 sm:mt-5">
                                 <div class="flex required  mb-4">
                                     <div class="mr-2 w-full">
@@ -79,37 +110,6 @@
                                                 v$.description.$errors[0]
                                                     .$message
                                             }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="flex flex-col lg:flex-row required  mb-4"
-                                >
-                                    <div class="mr-2 w-full">
-                                        <label
-                                            class="block text-gray-600 font-semibold mb-2 bg-transparent"
-                                        >
-                                            Name
-                                        </label>
-                                        <input
-                                            :class="{
-                                                'border-red-600': v$.name.$error,
-                                                'border-gray-300': !v$.name
-                                                    .$error
-                                            }"
-                                            type="text"
-                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                            placeholder=""
-                                            v-model="name"
-                                            required
-                                        />
-
-                                        <p
-                                            class="text-red-600 text-xs"
-                                            v-if="v$.name.$error"
-                                        >
-                                            {{ v$.name.$errors[0].$message }}
                                         </p>
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@ export default {
         XIcon,
         LoadingSpinner
     },
-    emits: [ 'close-modal'],
+    emits: ['close-modal'],
     setup (props, { emit }) {
         const open = ref(true)
         const text = ref('Save')
@@ -173,10 +173,8 @@ export default {
 
         const leadPayload = reactive({
             description: '',
-            name: '',
+            name: ''
         })
-
-
 
         const closeModal = () => {
             open.value = false
@@ -193,12 +191,11 @@ export default {
                 },
                 name: {
                     required: helpers.withMessage('Enter a Name', required)
-                },
+                }
             }
         })
 
         const v$ = useVuelidate(rules, leadPayload)
-
 
         function submit () {
             this.v$.$validate()
@@ -224,10 +221,8 @@ export default {
             submit,
             v$,
             closeModal,
-            countries,
-            states,
             loading,
-            text,
+            text
         }
     }
 }
