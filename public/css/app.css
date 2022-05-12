@@ -1288,11 +1288,11 @@ select {
 .m-auto {
 	margin: auto;
 }
-.m-2 {
-	margin: 0.5rem;
-}
 .m-4 {
 	margin: 1rem;
+}
+.m-2 {
+	margin: 0.5rem;
 }
 .m-1 {
 	margin: 0.25rem;
@@ -1988,6 +1988,12 @@ select {
 .w-7\/10 {
 	width: 70%;
 }
+.w-1\/12 {
+	width: 8.333333%;
+}
+.w-7 {
+	width: 1.75rem;
+}
 .w-1\.5\/10 {
 	width: 15%;
 }
@@ -2038,9 +2044,6 @@ select {
 .w-1\/6 {
 	width: 16.666667%;
 }
-.w-7 {
-	width: 1.75rem;
-}
 .w-28 {
 	width: 7rem;
 }
@@ -2049,9 +2052,6 @@ select {
 }
 .w-3\/6 {
 	width: 50%;
-}
-.w-1\/12 {
-	width: 8.333333%;
 }
 .min-w-0 {
 	min-width: 0px;
