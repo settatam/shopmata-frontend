@@ -2053,30 +2053,6 @@ select {
 .w-3\/6 {
 	width: 50%;
 }
-.w-2\/6 {
-	width: 33.333333%;
-}
-.w-5\/6 {
-	width: 83.333333%;
-}
-.w-2\/4 {
-	width: 50%;
-}
-.w-8\/12 {
-	width: 66.666667%;
-}
-.w-5\/12 {
-	width: 41.666667%;
-}
-.w-6\/12 {
-	width: 50%;
-}
-.w-7\/12 {
-	width: 58.333333%;
-}
-.w-10\/12 {
-	width: 83.333333%;
-}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -2414,16 +2390,6 @@ select {
 	--tw-space-y-reverse: 0;
 	margin-top: calc(-1px * calc(1 - var(--tw-space-y-reverse)));
 	margin-bottom: calc(-1px * var(--tw-space-y-reverse));
-}
-.space-y-3\.5 > :not([hidden]) ~ :not([hidden]) {
-	--tw-space-y-reverse: 0;
-	margin-top: calc(0.875rem * calc(1 - var(--tw-space-y-reverse)));
-	margin-bottom: calc(0.875rem * var(--tw-space-y-reverse));
-}
-.space-x-3\.5 > :not([hidden]) ~ :not([hidden]) {
-	--tw-space-x-reverse: 0;
-	margin-right: calc(0.875rem * var(--tw-space-x-reverse));
-	margin-left: calc(0.875rem * calc(1 - var(--tw-space-x-reverse)));
 }
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
@@ -3068,18 +3034,6 @@ select {
 .py-7 {
 	padding-top: 1.75rem;
 	padding-bottom: 1.75rem;
-}
-.px-48 {
-	padding-left: 12rem;
-	padding-right: 12rem;
-}
-.px-40 {
-	padding-left: 10rem;
-	padding-right: 10rem;
-}
-.px-44 {
-	padding-left: 11rem;
-	padding-right: 11rem;
 }
 .pt-6 {
 	padding-top: 1.5rem;
@@ -4987,12 +4941,6 @@ input[type='checkbox']:focus {
 
 	.md\:gap-4 {
 		gap: 1rem;
-	}
-
-	.md\:space-y-0 > :not([hidden]) ~ :not([hidden]) {
-		--tw-space-y-reverse: 0;
-		margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
-		margin-bottom: calc(0px * var(--tw-space-y-reverse));
 	}
 
 	.md\:rounded-lg {

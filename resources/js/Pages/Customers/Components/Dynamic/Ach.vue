@@ -1,120 +1,120 @@
 <template>
-    <div class=" px-4 space-y-3 w-full pb-4">
-        <div class="flex flex-col space-y-2  space-y-2">
+    <div class=" px-4 space-y-3 w-full pb-8">
+        <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
                 for="payable_to"
-                >PAYABLE TO:</label
+                >BANK NAME:</label
             >
             <input
                 :class="{
-                    'border-red-600': v$.payable_to.$error,
-                    'border-gray-300': !v$.payable_to.$error
+                    'border-red-600': v$.bank_name.$error,
+                    'border-gray-300': !v$.bank_name.$error
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="paymentInfo.payable_to"
-                placeholder="Make check payable to"
+                v-model="paymentInfo.bank_name"
+                placeholder="Bank Name"
             />
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.payable_to.$error">
-                {{ v$.payable_to.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.bank_name.$error">
+                {{ v$.bank_name.$errors[0].$message }}
             </p>
         </div>
 
-        <div class="flex flex-col space-y-2 space-y-2">
+        <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
                 for="address"
-                >ADDRESS:</label
+                >ROUTING NUMBER:</label
             >
             <input
                 :class="{
-                    'border-red-600': v$.address.$error,
-                    'border-gray-300': !v$.address.$error
+                    'border-red-600': v$.routing_number.$error,
+                    'border-gray-300': !v$.routing_number.$error
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="paymentInfo.address"
-                placeholder="Send Check to this Street"
+                v-model="paymentInfo.routing_number"
+                placeholder="Routing Number (9 Digit Number)"
             />
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.address.$error">
-                {{ v$.address.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.routing_number.$error">
+                {{ v$.routing_number.$errors[0].$message }}
             </p>
         </div>
 
         <div class="flex flex-col space-y-2 ">
             <label class="font-semibold mt-2 w-full bg-transparent" for="city"
-                >CITY:</label
+                >ACCOUNT NUMBER:</label
             >
             <input
                 :class="{
-                    'border-red-600': v$.city.$error,
-                    'border-gray-300': !v$.city.$error
+                    'border-red-600': v$.account_number.$error,
+                    'border-gray-300': !v$.account_number.$error
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="paymentInfo.city"
+                v-model="paymentInfo.account_number"
                 placeholder="city"
             />
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.city.$error">
-                {{ v$.city.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.account_number.$error">
+                {{ v$.account_number.$errors[0].$message }}
             </p>
         </div>
 
         <div class="flex flex-col space-y-2 ">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
-                for="state_id"
-                >STATE:</label
+                for="account_name"
+                >ACCOUNT NAME:</label
             >
             <select
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 name="state"
                 id=""
-                v-model="paymentInfo.state_id"
+                v-model="paymentInfo.account_name"
                 :class="{
-                    'border-red-600': v$.state_id.$error,
-                    'border-gray-300': !v$.state_id.$error
+                    'border-red-600': v$.account_name.$error,
+                    'border-gray-300': !v$.account_name.$error
                 }"
             >
                 <option value="choose">State/Province</option>
             </select>
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.state_id.$error">
-                {{ v$.state_id.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.account_name.$error">
+                {{ v$.account_name.$errors[0].$message }}
             </p>
         </div>
 
         <div class="flex flex-col space-y-2 ">
-            <label class="font-semibold w-full mt-2 bg-transparent" for="zip"
-                >ZIP:</label
+            <label class="font-semibold w-full mt-2 bg-transparent" for="account_type"
+                >ACCOUNT TYPE:</label
             >
             <input
                 :class="{
-                    'border-red-600': v$.zip.$error,
-                    'border-gray-300': !v$.zip.$error
+                    'border-red-600': v$.account_type.$error,
+                    'border-gray-300': !v$.account_type.$error
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="paymentInfo.zip"
-                placeholder="Zip/Postal"
+                v-model="paymentInfo.account_type"
+                placeholder="account_type/Postal"
             />
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.zip.$error">
-                {{ v$.zip.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.account_type.$error">
+                {{ v$.account_type.$errors[0].$message }}
             </p>
         </div>
 
         <!-- submit -->
-        <div class="flex justify-between w-2/3 mx-auto mb-9">
+        <div class="flex justify-between w-2/3 mx-auto pt-8 mt-8">
             <div class="">
                 <button
                     class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
@@ -180,9 +180,6 @@ export default {
 
         const rules = computed(() => {
             return {
-                payment_method: {
-                    required: helpers.withMessage('Enter a last name', required)
-                },
                 bank_name: {
                     required: helpers.withMessage('Enter an address', required)
                 },
