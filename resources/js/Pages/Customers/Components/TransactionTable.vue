@@ -41,45 +41,47 @@
                     </th>
                 </tr>
             </thead>
+            
             <tbody v-if="transactions.length > 0">
-                <tr v-for="transaction in transactions" :key="transaction.index">
+                <tr
+                    v-for="transaction in transactions"
+                    :key="transaction.index"
+                >
                     <td
                         class="text-xs lg:text-sm font-light px-6 py-4 whitespace-nowrap text-purple-darken"
                     >
-                        {{transaction.id}}
+                        {{ transaction.id }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ moment(transaction.updated_at).format('MM-DD-YYYY') }}
+                        {{
+                            moment(transaction.updated_at).format('MM-DD-YYYY')
+                        }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{transaction.final_offer}}
+                        {{ transaction.final_offer }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
+                    ></td>
+                    <td
+                        class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        
+                        {{ transaction.payment_method_id }}
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{transaction.payment_method_id}} 
-                    </td>
-                    <td
-                        class=" text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
-                    >
-                        {{transaction.status_id}}
+                        {{ transaction.status_id }}
                     </td>
                 </tr>
             </tbody>
 
             <tbody v-else class="">
-                
-                    <p  class="p-4 text-xl">This customer has no transactions to display</p>
-                
+                <p class="p-4 text-xl">This customer has no transactions</p>
             </tbody>
         </table>
     </div>
