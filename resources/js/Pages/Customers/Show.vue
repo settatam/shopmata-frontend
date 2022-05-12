@@ -56,6 +56,7 @@
                         :customer="customer"
                         :leads="leads"
                         :states="countries.states"
+                        :tags = "tags"
                     />
                 </div>
 
@@ -131,7 +132,8 @@ export default {
         navigation: Array,
         countries: Object,
         transaction: Object,
-        leads: Array
+        leads: Array,
+        tags: Array
     },
 
     components: {

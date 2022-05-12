@@ -6,6 +6,13 @@
             <h1 class="text-xl">Customer Information</h1>
         </div>
 
+        <AddLead
+            @close-modal="pushValue"
+            :leads="leads"
+            @close="popUp = false"
+            v-if="popUp"
+        />
+
         <div class="px-6 pt-6  flex flex-row space-x-4">
             <div class="space-x-2">
                 <input
@@ -522,8 +529,12 @@
                             </select>
                         </div>
 
-                        <div class="flex flex-col justify-end cursor-pointer w-1/12">
-                            <PlusIcon class="h-7 w-7 mb-2 text-purple-darken font-bold" />
+                        <div
+                            class="flex flex-col justify-end cursor-pointer w-1/12"
+                        >
+                            <PlusIcon @click="popModal()"
+                                class="h-7 w-7 mb-2 text-purple-darken font-bold"
+                            />
                         </div>
                     </div>
 
@@ -663,6 +674,7 @@
 import { ref, reactive, watch, computed } from 'vue'
 import axios from 'axios'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
+import AddLead from './AddLead.vue'
 import {
     Dialog,
     DialogOverlay,
@@ -672,6 +684,7 @@ import {
 import { PlusIcon } from '@heroicons/vue/solid'
 import { Inertia } from '@inertiajs/inertia'
 import { notify } from 'notiwind'
+import moment from 'moment'
 import {
     required,
     maxLength,
@@ -687,6 +700,9 @@ const statusStyles = {
     failed: 'bg-gray-100 text-gray-800'
 }
 export default {
+    created: function () {
+        this.moment = moment
+    },
     props: {
         customer: Object,
         countries: Array,
@@ -696,7 +712,8 @@ export default {
         notification: Object,
         customer_notification: Object,
         leads: Array,
-        states: Array
+        states: Array,
+        tags: Array
     },
 
     components: {
@@ -705,7 +722,8 @@ export default {
         TransitionChild,
         TransitionRoot,
         LoadingSpinner,
-        PlusIcon
+        PlusIcon,
+        AddLead
     },
 
     setup (props) {
@@ -715,6 +733,7 @@ export default {
         const states = props.states
         const selectedCountry = ref(customer.country_id)
         const selectedState = ref(customer.state_id)
+        const selectedDob = ref(moment(customer.dob).format('MM-DD-YYYY'))
         const CustomerInfo = reactive({
             customerDifficulty: '',
             first_name: customer.first_name,
@@ -728,11 +747,15 @@ export default {
             home_work: '',
             ext: '',
             email: customer.email,
-            dob: '',
-            gender: '' ? customer.gender : "",
-            lead: '' ? customer.lead : "",
+            dob: selectedDob.value ? customer.dob : '',
+            gender: '' ? customer.gender : '',
+            lead: '' ? customer.lead : '',
             customer_notes: ''
         })
+        const popUp = ref(false)
+        const popModal = () => {
+            popUp.value = true
+        }
 
         const rules = computed(() => {
             return {
@@ -785,7 +808,7 @@ export default {
                 },
                 lead: {
                     required: helpers.withMessage('Select a lead', required)
-                },
+                }
             }
         })
 
@@ -810,6 +833,21 @@ export default {
             )
         }
 
+        function addTag () {
+            axios
+                .post(`/admin/customer/tag/`, {
+                    tag: CustomerInfo.customerDifficulty
+                })
+                .then(res => {
+                    successMessage.value = res.data.message
+                    setTimeout(onClickTop, 2000)
+                })
+                .catch(err => {
+                    successMessage.value = 'Error processing your request'
+                    setTimeout(onClickBot, 2000)
+                })
+        }
+
         const v$ = useVuelidate(rules, CustomerInfo)
 
         function submit () {
@@ -821,8 +859,8 @@ export default {
             axios
                 .put(`/admin/customers/${customer.id}`, CustomerInfo)
                 .then(res => {
-                        successMessage.value = res.data.message
-                        setTimeout(onClickTop, 2000)
+                    successMessage.value = res.data.message
+                    setTimeout(onClickTop, 2000)
                 })
                 .then(Inertia.visit('/admin/customers', { method: 'get' }))
                 .catch(error => {
@@ -833,6 +871,8 @@ export default {
         }
 
         return {
+            popUp,
+            popModal,
             statusStyles,
             CustomerInfo,
             submit,
@@ -844,7 +884,8 @@ export default {
             onClickBot,
             customer,
             selectedCountry,
-            selectedState
+            selectedState,
+            selectedDob
         }
     }
 }
