@@ -14,7 +14,10 @@ class AlterAddressesTableAddStoreId extends Migration
     public function up()
     {
         Schema::table('addresses', function (Blueprint $table) {
-            $table->integer('store_id')->nullable();
+            if (!Schema::hasColumn('transactions', 'store_id'))
+            {
+                $table->integer('store_id')->nullable();
+            }
             $table->string('first_name')->nullable()->change();
             $table->string('last_name')->nullable()->change();
         });
