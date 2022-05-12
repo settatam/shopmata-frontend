@@ -73,6 +73,11 @@ class Customer extends Model
         return 'Email Sent';
     }
 
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+	}
+
     public function stores()
     {
         return $this->hasMany(Store::class);
@@ -109,6 +114,11 @@ class Customer extends Model
 
     public function shippingAddress() {
         return $this->morphOne(Address::class, 'addressable');
+    }
+
+    public function transaction_payment_address()
+    {
+        return $this->hasOne(TransactionPaymentAddress::class);
     }
 
 }
