@@ -78,7 +78,7 @@
 
             <tbody v-else class="">
                 
-                    <p  class="p-4 text-xl">The customer has no transactions to display</p>
+                    <p  class="p-4 text-xl">This customer has no transactions to display</p>
                 
             </tbody>
         </table>

@@ -128,8 +128,8 @@
                             </label>
                             <input
                                 :class="{
-                                    'border-red-600': v$.addressOne.$error,
-                                    'border-gray-300': !v$.addressOne.$error
+                                    'border-red-600': v$.address.$error,
+                                    'border-gray-300': !v$.address.$error
                                 }"
                                 type="text"
                                 id="firstName"
@@ -137,16 +137,16 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="CustomerInfo.addressOne"
+                                v-model="CustomerInfo.address"
                             />
                         </div>
 
                         <div class="mt-1">
                             <p
                                 class="text-red-600 text-xs"
-                                v-if="v$.addressOne.$error"
+                                v-if="v$.address.$error"
                             >
-                                {{ v$.addressOne.$errors[0].$message }}
+                                {{ v$.address.$errors[0].$message }}
                             </p>
                         </div>
                     </div>
@@ -474,7 +474,7 @@
                             required
                             v-model="CustomerInfo.gender"
                         >
-                            <option value="null">Select One</option>
+                            <option value="">Select One</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                             <option value="other">Other</option>
@@ -512,7 +512,7 @@
                                 required
                                 v-model="CustomerInfo.lead"
                             >
-                                <option value="null">Choose Lead</option>
+                                <option value="">Choose Lead</option>
                                 <option
                                     v-for="lead in leads"
                                     :key="lead.index"
@@ -653,7 +653,7 @@
                 type="button"
                 class="bg-indigo-600 text-white rounded-md px-8 py-3 w-fit mb-6 mr-6"
             >
-                Update User
+                Update User Info
             </button>
         </div>
     </div>
@@ -719,7 +719,7 @@ export default {
             customerDifficulty: '',
             first_name: customer.first_name,
             last_name: customer.last_name,
-            addressOne: customer.address,
+            address: customer.address,
             addressTwo: '',
             city: customer.city,
             state_id: selectedState.value ? customer.state_id : '',
@@ -729,8 +729,8 @@ export default {
             ext: '',
             email: customer.email,
             dob: '',
-            gender: '' ? customer.gender : 'null',
-            lead: '' ? customer.lead : 'null',
+            gender: '' ? customer.gender : "",
+            lead: '' ? customer.lead : "",
             customer_notes: ''
         })
 
@@ -745,7 +745,7 @@ export default {
                 last_name: {
                     required: helpers.withMessage('Enter a last name', required)
                 },
-                addressOne: {
+                address: {
                     required: helpers.withMessage('Enter an address', required)
                 },
                 city: {
@@ -786,9 +786,6 @@ export default {
                 lead: {
                     required: helpers.withMessage('Select a lead', required)
                 },
-                country_id: {
-                    required: helpers.withMessage('Select a country', required)
-                }
             }
         })
 
@@ -821,22 +818,15 @@ export default {
                 return
             }
             loading.value = true
-            console.log('test')
             axios
                 .put(`/admin/customers/${customer.id}`, CustomerInfo)
                 .then(res => {
-                    if (res.status == 200) {
                         successMessage.value = res.data.message
                         setTimeout(onClickTop, 2000)
-                    }
                 })
-                .then(Inertia.visit('/customers', { method: 'get' }))
+                .then(Inertia.visit('/admin/customers', { method: 'get' }))
                 .catch(error => {
                     loading.value = false
-                    if (res.status == 422) {
-                        successMessage.value = res.data.message
-                        setTimeout(onClickBot, 2000)
-                    }
                     successMessage.value = 'Error processing your request'
                     setTimeout(onClickBot, 2000)
                 })
