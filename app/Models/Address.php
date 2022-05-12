@@ -30,7 +30,9 @@ class Address extends Model
         'addressable_id',
         'nickname',
         'extension',
-        'store_id'
+        'store_id',
+        'dob',
+        'state_id'
     ];
 
 
