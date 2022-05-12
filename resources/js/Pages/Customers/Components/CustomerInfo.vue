@@ -672,6 +672,7 @@ import {
 import { PlusIcon } from '@heroicons/vue/solid'
 import { Inertia } from '@inertiajs/inertia'
 import { notify } from 'notiwind'
+import moment from 'moment'
 import {
     required,
     maxLength,
@@ -687,6 +688,9 @@ const statusStyles = {
     failed: 'bg-gray-100 text-gray-800'
 }
 export default {
+    created: function () {
+        this.moment = moment
+    },
     props: {
         customer: Object,
         countries: Array,
@@ -715,6 +719,7 @@ export default {
         const states = props.states
         const selectedCountry = ref(customer.country_id)
         const selectedState = ref(customer.state_id)
+        const selectedDob = ref(moment(customer.dob).format('MM-DD-YYYY'))
         const CustomerInfo = reactive({
             customerDifficulty: '',
             first_name: customer.first_name,
@@ -728,7 +733,7 @@ export default {
             home_work: '',
             ext: '',
             email: customer.email,
-            dob: '',
+            dob: selectedDob.value ? customer.dob : "",
             gender: '' ? customer.gender : "",
             lead: '' ? customer.lead : "",
             customer_notes: ''
@@ -844,7 +849,8 @@ export default {
             onClickBot,
             customer,
             selectedCountry,
-            selectedState
+            selectedState,
+            selectedDob
         }
     }
 }
