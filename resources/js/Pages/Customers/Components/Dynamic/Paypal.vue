@@ -4,7 +4,7 @@
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
                 for="payable_to"
-                >PAYABLE TO:</label
+                >PAYPAL ADDRESS:</label
             >
             <input
                 :class="{

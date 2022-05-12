@@ -1,43 +1,20 @@
 <template>
-    <div class=" px-4 space-y-3 w-full pb-4">
-        <div class="flex flex-col space-y-2  space-y-2">
+    <div class=" px-4 space-y-3 w-full pb-8">
+        <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
                 for="payable_to"
-                >PAYABLE TO:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.payable_to.$error,
-                    'border-gray-300': !v$.payable_to.$error
-                }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                v-model="paymentInfo.payable_to"
-                placeholder="Make check payable to"
-            />
-        </div>
-        <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.payable_to.$error">
-                {{ v$.payable_to.$errors[0].$message }}
-            </p>
-        </div>
-
-        <div class="flex flex-col space-y-2 space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="address"
-                >ADDRESS:</label
+                >VENMO ADDRESS:</label
             >
             <input
                 :class="{
                     'border-red-600': v$.address.$error,
                     'border-gray-300': !v$.address.$error
                 }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.address"
-                placeholder="Send Check to this Street"
+                placeholder="Make check payable to"
             />
         </div>
         <div class="mt-1">
@@ -46,75 +23,8 @@
             </p>
         </div>
 
-        <div class="flex flex-col space-y-2 ">
-            <label class="font-semibold mt-2 w-full bg-transparent" for="city"
-                >CITY:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.city.$error,
-                    'border-gray-300': !v$.city.$error
-                }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                v-model="paymentInfo.city"
-                placeholder="city"
-            />
-        </div>
-        <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.city.$error">
-                {{ v$.city.$errors[0].$message }}
-            </p>
-        </div>
-
-        <div class="flex flex-col space-y-2 ">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="state_id"
-                >STATE:</label
-            >
-            <select
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                name="state"
-                id=""
-                v-model="paymentInfo.state_id"
-                :class="{
-                    'border-red-600': v$.state_id.$error,
-                    'border-gray-300': !v$.state_id.$error
-                }"
-            >
-                <option value="choose">State/Province</option>
-            </select>
-        </div>
-        <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.state_id.$error">
-                {{ v$.state_id.$errors[0].$message }}
-            </p>
-        </div>
-
-        <div class="flex flex-col space-y-2 ">
-            <label class="font-semibold w-full mt-2 bg-transparent" for="zip"
-                >ZIP:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.zip.$error,
-                    'border-gray-300': !v$.zip.$error
-                }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                v-model="paymentInfo.zip"
-                placeholder="Zip/Postal"
-            />
-        </div>
-        <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.zip.$error">
-                {{ v$.zip.$errors[0].$message }}
-            </p>
-        </div>
-
         <!-- submit -->
-        <div class="flex justify-between w-2/3 mx-auto mb-9">
+        <div class="flex justify-between w-2/3 mx-auto pt-8 mt-8">
             <div class="">
                 <button
                     class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
@@ -170,33 +80,14 @@ export default {
     setup () {
         const loading = ref(false)
         const paymentInfo = reactive({
-            payment_method: 'check',
-            payable_to: '',
-            address: '',
-            city: '',
-            state_id: '',
-            zip: ''
+            payment_method: 'venmo',
+            address: ''
         })
 
         const rules = computed(() => {
             return {
-                payable_to: {
-                    required: helpers.withMessage('Enter an address', required)
-                },
                 address: {
                     required: helpers.withMessage('Enter an address', required)
-                },
-                city: {
-                    required: helpers.withMessage('Enter a city', required)
-                },
-                state_id: {
-                    required: helpers.withMessage('Select a state', required)
-                },
-                zip: {
-                    required: helpers.withMessage(
-                        'Enter a postal code',
-                        required
-                    )
                 }
             }
         })
