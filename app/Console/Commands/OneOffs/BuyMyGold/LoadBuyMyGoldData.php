@@ -170,14 +170,16 @@ class LoadBuyMyGoldData extends Command
                         'last_name' => data_get($names, 1),
                         'country' => 'US',
                         'zip' => $order["customer_zip"],
-                        'addressable_id' => $transaction->id,
-                        'addressable_type' => Transaction::class,
+                        'addressable_id' => $customer->id,
+                        'addressable_type' => Customer::class,
                         'state_id' => $this->getStateId($order["customer_state"]),
                         'dob'  => $order["customer_dob"],
                     ];
 
                     $cusAddress->fill($address);
                     $cusAddress->save();
+
+
 
                     foreach ($transaction->histories as $history) {
                         $history->delete();
