@@ -14,32 +14,15 @@
         />
 
         <div class="px-6 pt-6  flex flex-row space-x-4">
-            <div class="space-x-2">
+            <div @change="addTag()"  class="space-x-2" v-for="tag in tags" :key="tag.index">
                 <input
+                
                     type="radio"
-                    id="easy"
-                    value="easy"
+                    :id="tag.id"
+                    :value="tag.id"
                     v-model="CustomerInfo.customerDifficulty"
                 />
-                <label for="easy">Easy</label>
-            </div>
-            <div class="space-x-2">
-                <input
-                    type="radio"
-                    id="med"
-                    value="med"
-                    v-model="CustomerInfo.customerDifficulty"
-                />
-                <label for="med">Med</label>
-            </div>
-            <div class="space-x-2">
-                <input
-                    type="radio"
-                    id="hard"
-                    value="hard"
-                    v-model="CustomerInfo.customerDifficulty"
-                />
-                <label for="hard">Hard</label>
+                <label :for="tag.id">{{tag.name}}</label>
             </div>
         </div>
 
@@ -835,8 +818,8 @@ export default {
 
         function addTag () {
             axios
-                .post(`/admin/customer/tag/`, {
-                    tag: CustomerInfo.customerDifficulty
+                .post(`/admin/customer/${customer.id}/tags/`, {
+                    tag_id: CustomerInfo.customerDifficulty
                 })
                 .then(res => {
                     successMessage.value = res.data.message
@@ -861,7 +844,7 @@ export default {
             }
             loading.value = true
             axios
-                .put(`/admin/customers/${customer.id}`, CustomerInfo)
+                .put(`/admin/customer/${customer.id}`, CustomerInfo)
                 .then(res => {
                     successMessage.value = res.data.message
                     setTimeout(onClickTop, 2000)
@@ -890,7 +873,8 @@ export default {
             selectedCountry,
             selectedState,
             selectedDob,
-            pushValue
+            pushValue,
+            addTag
         }
     }
 }
