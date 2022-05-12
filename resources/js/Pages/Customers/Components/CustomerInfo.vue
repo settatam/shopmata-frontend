@@ -817,8 +817,7 @@ export default {
         }
 
         function addTag () {
-            axios
-                .post(`/admin/customer/${customer.id}/tags/`, {
+            axios.post(`/admin/customer/${customer.id}/tags`, {
                     tag_id: CustomerInfo.customerDifficulty
                 })
                 .then(res => {
