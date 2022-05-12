@@ -3,7 +3,7 @@
         <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
-                for="payable_to"
+                for="address"
                 >PAYPAL ADDRESS:</label
             >
             <input
@@ -14,7 +14,7 @@
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.address"
-                placeholder="Make check payable to"
+                placeholder="My paypal address is..."
             />
         </div>
         <div class="mt-1">

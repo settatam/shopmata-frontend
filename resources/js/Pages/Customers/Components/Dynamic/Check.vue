@@ -23,7 +23,7 @@
             </p>
         </div>
 
-        <div class="flex flex-col space-y-2 space-y-2">
+        <div class="flex flex-col space-y-2">
             <label class="font-semibold mt-2 w-full bg-transparent" for="address"
                 >ADDRESS:</label
             >
