@@ -76,12 +76,42 @@ class LoadBuyMyGoldData extends Command
                 $transaction->store_id = $this->getStore($order['is_jewelry']);
                 $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
                 $transaction->save();
+                
+
+                //add customers
+                $customer = Customer::firstOrNew(
+                    ['id' => $order['user_id']]
+                );
+
+                $names = explode(' ', $order["customer_name"], 2);
+
+                $customer->id                 = $order['user_id'];
+                $customer->email              = $order["customer_email"];
+                $customer->first_name         = data_get($names, 0);
+                $customer->last_name          = data_get($names, 1);
+                $customer->address            = $order["customer_address"];
+                $customer->city               = $order["customer_city"];
+                
+                $customer->state_id           = $this->getStateId($order["customer_state"]);
+                $customer->store_id           = $this->getStore($order['is_jewelry']);
+                $customer->zip                = $order["customer_zip"];
+                $customer->phone_number       = $order["customer_phone"];
+                $customer->address2           = $order["customer_address2"];
+                $customer->dob                = $order["customer_dob"];
+                $customer->password           = bcrypt($order['order_password']);
+                $customer->accepts_marketing  =   1;
+                $customer->created_at = $order['date_new'];
+                $customer->save();
+                //Create the transaction history
+
+
                 $transaction_payment_address = new TransactionPaymentAddress;
                 $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                     ['transaction_id' => $order['order_id'] ]
                 );
 
                 $transaction_payment_address->transaction_id         =  $order['order_id'];
+                $transaction_payment_address->customer_id            =  $customer->id;
                 $transaction_payment_address->payment_type_id        =  $order["pay_method"];
                 $transaction_payment_address->paypal_address         =  $order["paypal_address"];
                 $transaction_payment_address->bank_address           =  $order["ach_bank_address"];
@@ -100,31 +130,6 @@ class LoadBuyMyGoldData extends Command
                 $transaction_payment_address->check_state_id         =  $this->getStateId($order["check_state"]);
                 $transaction_payment_address->save();
 
-                //add customers
-                $customer = Customer::firstOrNew(
-                    ['id' => $order['user_id']]
-                );
-
-                $names = explode(' ', $order["customer_name"], 2);
-
-                $customer->id                 = $order['user_id'];
-                $customer->email              = $order["customer_email"];
-                $customer->first_name         = data_get($names, 0);
-                $customer->last_name         = data_get($names, 1);
-                $customer->address            = $order["customer_address"];
-                $customer->city               = $order["customer_city"];
-                $customer->state_id           = $this->getStateId($order["customer_state"]);
-                $customer->store_id           = $this->getStore($order['is_jewelry']);
-                $customer->zip                = $order["customer_zip"];
-                $customer->phone_number       = $order["customer_phone"];
-                $customer->address2           = $order["customer_address2"];
-                $customer->dob                = $order["customer_dob"];
-                $customer->password           = bcrypt($order['order_password']);
-                $customer->accepts_marketing  =   1;
-                $customer->created_at = $order['date_new'];
-                $customer->save();
-                //Create the transaction history
-
                 $transAddress = Address::firstOrNew([
                     'addressable_id' => $transaction->id,
                     'addressable_type' => Transaction::class
@@ -139,21 +144,46 @@ class LoadBuyMyGoldData extends Command
                     'first_name' => $customer->first_name,
                     'last_name' => $customer->last_name,
                     'country' => 'US',
-                    'postal_code' => $order["customer_zip"],
+                    'zip' => $order["customer_zip"],
                     'addressable_id' => $transaction->id,
-                    'addressable_type' => Transaction::class
-
+                    'addressable_type' => Transaction::class,
+                    'state_id' => $this->getStateId($order["customer_state"]),
+                    'dob'  => $order["customer_dob"],
                 ];
 
                 $transAddress->fill($address);
                 $transAddress->save();
+
+
+                $cusAddress = Address::firstOrNew([
+                    'addressable_id' => $customer->id,
+                    'addressable_type' => Customer::class
+                ]);
+
+                $address = [
+                    'address' => $order["customer_address"],
+                    'address' => $order["customer_address2"],
+                    'city' => $order["customer_city"],
+                    'state' => $order["customer_state"],
+                    'store_id' => $customer->store_id,
+                    'first_name' => $customer->first_name,
+                    'last_name' => $customer->last_name,
+                    'country' => 'US',
+                    'zip' => $order["customer_zip"],
+                    'addressable_id' => $transaction->id,
+                    'addressable_type' => Transaction::class,
+                    'state_id' => $this->getStateId($order["customer_state"]),
+                    'dob'  => $order["customer_dob"],
+                ];
+
+                $cusAddress->fill($address);
+                $cusAddress->save();
 
                 foreach ($transaction->histories as $history) {
                     $history->delete();
                 }
 
                 if ($order["date_update"]  !== "0000-00-00 00:00:00"){
-
                     $transaction->histories()->create([
                         'event' => "UPDATED" ,
                         'created_at' => $order["date_update"]
