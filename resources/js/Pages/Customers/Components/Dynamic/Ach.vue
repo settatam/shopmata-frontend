@@ -81,7 +81,7 @@
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.account_name"
-                placeholder="Account nam e(your name here)"
+                placeholder="Account name (your name here)"
             />
         </div>
         <div class="mt-1">
