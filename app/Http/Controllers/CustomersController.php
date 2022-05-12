@@ -175,7 +175,22 @@ class CustomersController extends Controller
                 break;
             case 'payments':
 
-            
+                 
+                break;
+
+            case 'leads':
+                   
+                try {
+                    $lead = new Lead;
+                    $lead->name = $request->name;
+                    $lead->save();
+                    $leads = Lead::all();
+                    return response()->json($leads,  200);
+                } catch (\Throwable $th) {
+                    \Log::Error("Failed to Add lead" . collect($request->all())  ."  Error: " .$th->getMessage() );
+                    return response($th->getMessage() ,422);
+                }
+                
                 break;
            
             case 'tags':
