@@ -229,10 +229,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('item/{id}/images', [TransactionItemsController::class, 'UpdateImage']);
         Route::post('item/{id}/image/delete', [TransactionItemsController::class, 'deleteImage']);
 
-
-        Route::post('customer/{id}/{extra}', [CustomersController::class, 'extras']);
-
-
         Route::resource('reports', ReportsController::class);
 
 
@@ -294,6 +290,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::put('customers/{id}', [CustomersController::class, 'update']);
         Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
         Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
+        Route::post('customer/{id}/{extra}', [CustomersController::class, 'extras']);
+
         Route::post('images', [ImagesController::class, 'store']);
         Route::post('images/delete', [ImagesController::class, 'destroy']);
 
