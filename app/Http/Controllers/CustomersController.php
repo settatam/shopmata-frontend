@@ -139,6 +139,71 @@ class CustomersController extends Controller
 
     }
 
+        /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function extras(Request $request, $id, $action)
+    {
+        //
+        $input = $request->input();
+        $customer = Customer::find($id);
+
+        //How do we perform validation here???
+
+        switch ($action) {
+            case 'images':
+                try {
+                    $image  = FileUploader::upload($request);
+                    if ( isset($image[0]['thumb']) ){
+                        $l_image = $image[0]['large'];
+                        $tn_image = $image[0]['thumb'];
+                        $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
+                        $customer->images()->save($imgs);
+                    }
+
+                    return response()->json($customer->images,  200);
+                } catch (\Throwable $th) {
+                    \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+                    return response($th->getMessage() ,422);
+                }
+
+                return response("Something went wrong" ,422);
+                break;
+            case 'payments':
+
+            
+                break;
+           
+            case 'tags':
+                $this->addTag($request, $id);
+                break;
+//            case:
+
+        }
+
+        return response()->json(null, 200);
+    }
+
+
+
+     public function addTag(Request $request, $id)
+    {
+        try {
+            Customer::addTag($request->tag_id, $id);
+            return response(null, 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            \Log::Error("Failed to add or delete  tag  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response(null, 422);
+        }
+        return response(null,422);
+    }
+
+
 
 
 
@@ -152,6 +217,7 @@ class CustomersController extends Controller
     {
         //
         $store = Store::find(session('store_id'));
+
         $store->load('currency');
 
         // $month = time();
@@ -161,7 +227,7 @@ class CustomersController extends Controller
         //   $months[date("F", $month)] = 0;
         // }
 
-        $tags = Tag::whereIn('name', Customer::TAGS)->get();
+        $tags  = Tag::whereIn('name', Customer::TAGS)->get();
 
         $leads = Lead::all();
 

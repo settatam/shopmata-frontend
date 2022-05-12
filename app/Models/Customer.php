@@ -46,6 +46,30 @@ class Customer extends Model
         return $this->morphMany(Address::class, 'addressable');
     }
 
+    public static function addtag($tag_id, $id) {
+
+        $transaction = self::findOrFail($id);
+        //This will become a problem if we don't have a store ....
+        $store_tag   =  StoreTag::where(
+                            [
+                                'tagable_id' => $id,
+                                'tag_id'     => $tag_id
+                            ]
+                        )->first();
+        if (null !== $store_tag){
+            $store_tag->delete();
+            Log::info("Tag(s) deleted!", );
+            return true;
+        } else {
+            $tags  = new StoreTag(['tag_id' => $tag_id]);
+            if ( $customer->tags()->save($tags) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function public_note()
     {
         return $this->hasOne(TransactionNote::class)->where('type','public');
