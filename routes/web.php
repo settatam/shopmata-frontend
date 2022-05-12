@@ -229,6 +229,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('item/{id}/images', [TransactionItemsController::class, 'UpdateImage']);
         Route::post('item/{id}/image/delete', [TransactionItemsController::class, 'deleteImage']);
 
+
+        Route::post('customer/{id}/{extra}', [CustomersController::class, 'extras']);
+
+
         Route::resource('reports', ReportsController::class);
 
 
