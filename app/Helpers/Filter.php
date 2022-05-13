@@ -14,12 +14,36 @@ class Filter
     const DEFAULT_TIMEZONE = 'America/New_York';
     const DEFAULT_PER_PAGE = 25;
 
-    static function dates($params, $range=self::DATE_7_DAYS, $timezone=self::DEFAULT_TIMEZONE)
+    static function dates($params, $setDate = false, $range=self::DATE_7_DAYS, $timezone=self::DEFAULT_TIMEZONE)
     {
         $dates['to'] = data_get($params, 'date_to');
         $dates['from'] = data_get($params, 'date_from');
 
         if($dates['to'] && $dates['from']) return $dates;
+
+        if(!$setDate) {
+            if(!$dates['to'] && !$dates['from']) {
+                return [
+                    'from' => '1970-01-01',
+                    'to' =>  now()->setTimezone($timezone)->endOfDay()->utc()->format('Y-m-d H:i:s')
+                ];
+            }
+
+            if($dates['to'] && !$dates['from']) {
+                return [
+                    'from' => '1970-01-01 00:00:01',
+                    'to' =>  $dates['to']
+                ];
+            }
+
+            if(!$dates['to'] && $dates['from']) {
+                return [
+                    'from' => $dates['from'],
+                    'to' => now()->setTimezone($timezone)->endOfDay()->utc()->format('c')
+                ];
+            }
+        }
+
 
         switch ($range) {
             case self::DATE_7_DAYS:
@@ -68,6 +92,14 @@ class Filter
 
     static function isValidToFromDate($dates) {
 
+    }
+
+    static function stores($filter, $implode=false) {
+        if($stores = data_get($filter, 'stores')) {
+            if(!is_array($stores)) $stores = [$stores];
+            return ($implode) ? implode(',', $stores) : $stores;
+        }
+        return null;
     }
 
     static function perPage($filter){

@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Services;
+use App\Helpers\Filter;
 use DB;
+use App\Models\TransactionHistory;
 
 class DashBoard
 {
@@ -81,4 +83,27 @@ class DashBoard
 
     }
 
+    public static function reportSummary($filters)
+    {
+        $dates = Filter::dates($filters);
+        $dateValues = " BETWEEN '{$dates['from']}' AND '{$dates['to']}'";
+        $stores = Filter::stores($filters, true);
+        if($stores) {
+            $storeAddon = " AND t.store_id IN ($stores)";
+        }
+
+        $sql = "SELECT counter,val FROM (
+			(SELECT 'kits_accepted' AS counter,count(*) AS val FROM transactions t INNER JOIN transaction_histories h ON t.id = h.transaction_id WHERE  h.event = '" . TransactionHistory::SHIPMENT_RECEIVED . "' AND h.created_at {$dateValues} {$storeAddon}) UNION
+			(SELECT 'kits_sent' AS counter,count(*) AS val FROM transactions t WHERE status_id > 0 AND t.created_at {$dateValues} {$storeAddon} ) UNION
+			(SELECT 'kits_declined' AS counter,count(*) AS val FROM transactions t INNER JOIN transaction_histories h ON t.id = h.transaction_id WHERE h.event = '" . TransactionHistory::KIT_DENIED . "' AND h.event != '" . TransactionHistory::OFFER_ACCEPTED . "' AND h.created_at {$dateValues} {$storeAddon}) UNION
+			(SELECT 'offer_accepted' AS counter,round(sum(i.price),2) AS val FROM transactions t INNER JOIN transaction_histories h ON t.id = h.transaction_id INNER JOIN transaction_items i ON t.id = i.transaction_id WHERE  h.event = '" . TransactionHistory::OFFER_ACCEPTED . "' AND h.created_at {$dateValues} {$storeAddon}) UNION
+			(SELECT 'kits_rejected' AS counter,count(*) AS val FROM transactions t INNER JOIN transaction_histories h ON t.id = h.transaction_id WHERE  h.event = '" . TransactionHistory::SHIPMENT_DECLINED . "' AND h.created_at {$dateValues} {$storeAddon}) UNION
+			(SELECT 'kits_not_received' AS counter,count(*) AS val FROM transactions t WHERE status_id = 0 AND t.created_at {$dateValues} {$storeAddon}) UNION
+
+			) uxmegallc";
+
+        return DB::select($sql);
+    }
+
 }
+

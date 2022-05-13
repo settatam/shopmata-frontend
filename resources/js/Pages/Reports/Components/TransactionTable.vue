@@ -4,61 +4,61 @@
             <thead class=" border-b bg-white ">
                 <tr>
                     <th
-                        class="text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-xs text-center font-bold text-gray-600 px-2 mr-1 py-3 text-left"
                         scope="col"
                     >
-                        Website
+                        Websit
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-xs text-center font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Bought
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-xs text-center font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Total Value
                     </th>
                     <th
-                        class="text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="text-xs lg:text-xs text-center font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         Profit
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         AVG Kit Value
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         AVG Profit %
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         AVG Kits Received %
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         AVG Kits Declined %
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         AVG Kits Rejected %
                     </th>
                     <th
-                        class="hidden lg:table-cell text-xs lg:text-sm font-bold text-gray-600 px-5 mr-1 py-1 text-left"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs font-bold text-gray-600 px-2 mr-1 py-1 text-left"
                         scope="col"
                     >
                         AVG Kits Not Received %
@@ -68,36 +68,36 @@
             <tbody>
                 <tr v-for="item in items" :key="item.index">
                     <td
-                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-xs text-center text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >
                     {{item.website}}</td>
                     <td
-                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-xs text-center text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >
                     ${{item.bought}}</td>
                     <td
-                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-xs text-center text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >${{item.totalValue}}</td>
                     <td
-                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-xs text-center text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >${{item.profit}}</td>
                     <td
-                        class="text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-xs text-center text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >${{item.avgKitValue}}</td>
                     <td
-                        class="hidden lg:table-cell text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >{{item.avgProfit}}%</td>
                     <td
-                        class="hidden lg:table-cell text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >{{item.avgKitsReceived}}%</td>
                     <td
-                        class="hidden lg:table-cell text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >{{item.avgKitsDeclined}}%</td>
                     <td
-                        class="hidden lg:table-cell text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >{{item.avgKitsRejected}}%</td>
                     <td
-                        class="hidden lg:table-cell text-xs lg:text-sm text-gray-600 font-light px-6 py-4 whitespace-nowrap"
+                        class="hidden lg:table-cell text-center text-xs lg:text-xs text-gray-600 font-light px-2 py-4 whitespace-nowrap"
                     >{{item.avgKitsNotReceived}}%</td>
                 </tr>
             </tbody>
