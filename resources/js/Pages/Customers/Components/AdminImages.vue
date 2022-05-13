@@ -55,7 +55,7 @@ export default {
         const display = ref('')
         const media_open = ref(true)
         const images = ref(note_images)
-        const customerUrl = ref(`/admin/customers/${props.customer.id}/images`)
+        const customerUrl = ref(`/admin/customer/${props.customer.id}/images`)
 
         function delete_img (index) {
             images.value.splice(index)
