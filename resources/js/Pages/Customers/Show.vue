@@ -70,6 +70,7 @@
         <div>
             <AdminImages
                 :transactions="customer.transactions"
+                :customer="customer"
                 class="mb-8"
             />
         </div>

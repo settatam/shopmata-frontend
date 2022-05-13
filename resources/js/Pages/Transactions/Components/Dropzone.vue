@@ -61,7 +61,7 @@ export default {
     components: {
         LoadingSpinner
     },
-    props: ['transaction'],
+    props: ['transaction', 'linkUrl'],
     name: 'UseDropzone',
     emits: ['add-image'],
     setup (props, { emit }) {
@@ -72,7 +72,8 @@ export default {
         const  { onClickTop, onClickBot } = notification();
         const  { saveFiles } = fileUploader();
 
-        const url = '/admin/transactions/'+ transaction.id +'/images'
+        // const url = '/admin/transactions/'+ transaction.id +'/images'
+        const url = props.linkUrl
 
         function onDrop (acceptFiles, rejectReasons) {
             loading.value = true

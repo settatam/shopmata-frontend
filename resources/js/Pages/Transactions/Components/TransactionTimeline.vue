@@ -273,7 +273,6 @@ export default {
         AppLayout,
         PrintLabel,
         AdminImages,
-        // AddItem,
         CheckCircleIcon,
         XCircleIcon,
         MinusCircleIcon,
