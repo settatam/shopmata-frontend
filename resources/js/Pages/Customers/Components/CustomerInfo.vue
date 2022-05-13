@@ -1,6 +1,6 @@
 <template>
     <!-- Main content -->
-    <div class=" bg-white my-7 mx-auto rounded-md">
+    <div class=" bg-white my-7 mx-auto rounded-md" :key="custkey">
         <!-- header -->
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1 class="text-xl">Customer Information</h1>
@@ -9,20 +9,25 @@
         <AddLead
             @close-modal="pushValue"
             :leads="leads"
+            :customer="customer.id"
             @close="popUp = false"
             v-if="popUp"
         />
 
         <div class="px-6 pt-6  flex flex-row space-x-4">
-            <div @change="addTag()"  class="space-x-2" v-for="tag in tags" :key="tag.index">
+            <div
+                @change="addTag()"
+                class="space-x-2"
+                v-for="tag in tags"
+                :key="tag.index"
+            >
                 <input
-                
                     type="radio"
                     :id="tag.id"
                     :value="tag.id"
                     v-model="CustomerInfo.customerDifficulty"
                 />
-                <label :for="tag.id">{{tag.name}}</label>
+                <label :for="tag.id">{{ tag.name }}</label>
             </div>
         </div>
 
@@ -504,8 +509,8 @@
                             >
                                 <option value="">Choose Lead</option>
                                 <option
-                                    v-for="lead in leads"
-                                    :key="lead.index"
+                                    v-for="lead in customerLeads"
+                                    :key="lead.id"
                                     :value="lead.id"
                                     >{{ lead.name }}</option
                                 >
@@ -515,7 +520,8 @@
                         <div
                             class="flex flex-col justify-end cursor-pointer w-1/12"
                         >
-                            <PlusIcon @click="popModal()"
+                            <PlusIcon
+                                @click="popModal()"
                                 class="h-7 w-7 mb-2 text-purple-darken font-bold"
                             />
                         </div>
@@ -711,6 +717,7 @@ export default {
 
     setup (props) {
         const customer = props.customer
+        const custkey = ref(1)
         const loading = ref(false)
         const successMessage = ref('')
         const states = props.states
@@ -739,6 +746,8 @@ export default {
         const popModal = () => {
             popUp.value = true
         }
+        let leads = props.leads
+        const customerLeads = ref(leads)
 
         const rules = computed(() => {
             return {
@@ -817,7 +826,8 @@ export default {
         }
 
         function addTag () {
-            axios.post(`/admin/customer/${customer.id}/tags`, {
+            axios
+                .post(`/admin/customer/${customer.id}/tags`, {
                     tag_id: CustomerInfo.customerDifficulty
                 })
                 .then(res => {
@@ -830,7 +840,8 @@ export default {
                 })
         }
 
-        function pushValue(){
+        function pushValue (res) {
+            customerLeads.value = res.data
             popUp.value = false
         }
 
@@ -873,7 +884,9 @@ export default {
             selectedState,
             selectedDob,
             pushValue,
-            addTag
+            addTag,
+            customerLeads,
+            custkey
         }
     }
 }

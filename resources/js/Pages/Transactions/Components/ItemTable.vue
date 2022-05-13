@@ -261,7 +261,6 @@ export default {
 
         const successMessage = ref('')
         const transactionItems = ref(items)
-        console.log(transactionItems)
 
         const popUp = ref(false)
         const popModal = () => {
@@ -306,7 +305,6 @@ export default {
         
         function pushEditValue (res) {
             transactionItems.value = res.data.items
-            console.log(res)
         }
         
         function Edited (res){
