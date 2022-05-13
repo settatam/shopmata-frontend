@@ -155,7 +155,7 @@ import { required, helpers, numeric } from '@vuelidate/validators'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 
 export default {
-    props: ['store'],
+    props: ['leads', 'customer'],
 
     components: {
         Dialog,
@@ -203,14 +203,13 @@ export default {
             text.value = 'Saving'
             axios
                 .post(
-                    `/admin/transactions/${transaction_id}/items`,
+                    `/admin/customer/${props.customer}/leads`,
                     leadPayload
                 )
                 .then(res => {
                     loading.value = false
-                    emit('it-added', res)
                     open.value = false
-                    emit('close-modal', open.value)
+                    emit('close-modal', res)
                 })
                 .catch(err => (loading.value = true))
         }

@@ -1,6 +1,6 @@
 <template>
     <!-- Main content -->
-    <div class=" bg-white my-7 mx-auto rounded-md">
+    <div class=" bg-white my-7 mx-auto rounded-md" :key="custkey">
         <!-- header -->
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1 class="text-xl">Customer Information</h1>
@@ -9,37 +9,25 @@
         <AddLead
             @close-modal="pushValue"
             :leads="leads"
+            :customer="customer.id"
             @close="popUp = false"
             v-if="popUp"
         />
 
         <div class="px-6 pt-6  flex flex-row space-x-4">
-            <div class="space-x-2">
+            <div
+                @change="addTag()"
+                class="space-x-2"
+                v-for="tag in tags"
+                :key="tag.index"
+            >
                 <input
                     type="radio"
-                    id="easy"
-                    value="easy"
+                    :id="tag.id"
+                    :value="tag.id"
                     v-model="CustomerInfo.customerDifficulty"
                 />
-                <label for="easy">Easy</label>
-            </div>
-            <div class="space-x-2">
-                <input
-                    type="radio"
-                    id="med"
-                    value="med"
-                    v-model="CustomerInfo.customerDifficulty"
-                />
-                <label for="med">Med</label>
-            </div>
-            <div class="space-x-2">
-                <input
-                    type="radio"
-                    id="hard"
-                    value="hard"
-                    v-model="CustomerInfo.customerDifficulty"
-                />
-                <label for="hard">Hard</label>
+                <label :for="tag.id">{{ tag.name }}</label>
             </div>
         </div>
 
@@ -521,8 +509,8 @@
                             >
                                 <option value="">Choose Lead</option>
                                 <option
-                                    v-for="lead in leads"
-                                    :key="lead.index"
+                                    v-for="lead in customerLeads"
+                                    :key="lead.id"
                                     :value="lead.id"
                                     >{{ lead.name }}</option
                                 >
@@ -532,7 +520,8 @@
                         <div
                             class="flex flex-col justify-end cursor-pointer w-1/12"
                         >
-                            <PlusIcon @click="popModal()"
+                            <PlusIcon
+                                @click="popModal()"
                                 class="h-7 w-7 mb-2 text-purple-darken font-bold"
                             />
                         </div>
@@ -728,6 +717,7 @@ export default {
 
     setup (props) {
         const customer = props.customer
+        const custkey = ref(1)
         const loading = ref(false)
         const successMessage = ref('')
         const states = props.states
@@ -756,6 +746,8 @@ export default {
         const popModal = () => {
             popUp.value = true
         }
+        let leads = props.leads
+        const customerLeads = ref(leads)
 
         const rules = computed(() => {
             return {
@@ -835,8 +827,8 @@ export default {
 
         function addTag () {
             axios
-                .post(`/admin/customer/tag/`, {
-                    tag: CustomerInfo.customerDifficulty
+                .post(`/admin/customer/${customer.id}/tags`, {
+                    tag_id: CustomerInfo.customerDifficulty
                 })
                 .then(res => {
                     successMessage.value = res.data.message
@@ -848,7 +840,8 @@ export default {
                 })
         }
 
-        function pushValue(){
+        function pushValue (res) {
+            customerLeads.value = res.data
             popUp.value = false
         }
 
@@ -861,7 +854,7 @@ export default {
             }
             loading.value = true
             axios
-                .put(`/admin/customers/${customer.id}`, CustomerInfo)
+                .put(`/admin/customer/${customer.id}`, CustomerInfo)
                 .then(res => {
                     successMessage.value = res.data.message
                     setTimeout(onClickTop, 2000)
@@ -890,7 +883,10 @@ export default {
             selectedCountry,
             selectedState,
             selectedDob,
-            pushValue
+            pushValue,
+            addTag,
+            customerLeads,
+            custkey
         }
     }
 }
