@@ -69,6 +69,8 @@ class Customer extends Model
         $customer->customer_notes  = $request->customer_notes;
         $customer->ext             = $request->ext;
         $customer->gender    = $request->gender;
+        $customer->dob    = $request->dob;
+
 
 
         $customer->is_active    = 1;

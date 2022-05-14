@@ -829,7 +829,17 @@ export default {
                 })
                 .then((res) => {
                     successMessage.value = res.data.message;
-                    setTimeout(onClickTop, 2000);
+                    //setTimeout(onClickTop, 2000);
+                    notify(
+                        {
+                            group: "top",
+                            title: "Success",
+                            text: successMessage.value,
+                        },
+                        100
+                    );
+
+                    console.log(true);
                 })
                 .catch((err) => {
                     successMessage.value = "Error processing your request";
@@ -853,13 +863,18 @@ export default {
             axios
                 .put(`/admin/customers/${customer.id}`, CustomerInfo)
                 .then((res) => {
-                    successMessage.value = res.data.message;
-                    setTimeout(onClickTop, 2000);
-                })
-                .then((error) => {
                     loading.value = false;
                     successMessage.value = "Customer details updated";
-                    setTimeout(onClickBot, 2000);
+                    notify(
+                        {
+                            group: "top",
+                            title: "Success",
+                            text: "Customer details updated",
+                        },
+                        100
+                    );
+
+                    // setTimeout(onClickTop, 2000);
                 })
                 .catch((error) => {
                     loading.value = false;
