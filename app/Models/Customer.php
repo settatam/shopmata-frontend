@@ -27,7 +27,7 @@ class Customer extends Model
         'user_id',
         'store_id',
         'country',
-        'state',
+        'state_id',
         'phone',
         'city',
         'first_name',
