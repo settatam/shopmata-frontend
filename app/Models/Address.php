@@ -21,7 +21,7 @@ class Address extends Model
         'is_default',
         'address',
         'address2',
-        'postal_code',
+        'zip',
         'country',
         'state',
         'first_name',
@@ -40,4 +40,7 @@ class Address extends Model
     {
         return $this->morphTo();
     }
+
+
+
 }

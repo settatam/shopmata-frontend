@@ -38,12 +38,58 @@ class Customer extends Model
         'accepts_marketing',
         'is_active',
         'zip',
-        'password'
+        'password',
+        'customer_notes',
+        'gender',
+        'home_phone_number',
+        'ext'
+
     ];
 
     public function addresses()
     {
         return $this->morphMany(Address::class, 'addressable');
+    }
+
+
+    public function customer_address()
+    {
+        return $this->morphOne(Address::class, 'addressable');
+    }
+
+
+    public static function createUpdate($request, $customer)
+    {
+        $customer->first_name   = $request->first_name;
+        $customer->last_name    = $request->last_name;
+        $customer->email        = $request->email;
+        $customer->phone_number = $request->phone_number;
+        $customer->lead_id      = $request->lead_id;
+        $customer->home_phone_number    = $request->home_work;
+        $customer->customer_notes  = $request->customer_notes;
+        $customer->ext             = $request->ext;
+        $customer->gender    = $request->gender;
+
+
+        $customer->is_active    = 1;
+        $customer->accepts_marketing = 1;
+        if ( $customer->save() ) {
+            $address = new Address([
+                'first_name' => $request->first_name,
+                'last_name'  => $request->last_name,
+                'state_id'   => $request->state_id,
+                'city'       => $request->city,
+                'is_default' => 1,
+                'address'    => $request->address,
+                'address2'   => $request->addressTwo,
+                'zip'        => $request->zip,
+            ]
+          );
+          $customer->customer_address()->save($address);
+          return true;
+        }
+        
+        return false;
     }
 
     public static function addtag($tag_id, $id) {
