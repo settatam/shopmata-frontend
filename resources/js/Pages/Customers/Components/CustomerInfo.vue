@@ -724,8 +724,10 @@ export default {
         const selectedCountry = ref(customer.country_id)
         const selectedState = ref(customer.state_id)
         const selectedDob = ref(moment(customer.dob).format('MM-DD-YYYY'))
+        // const selectedTags = ref( customer.tags ? customer.tags[customer.tags.length - 1].id : '')
+        const selectedTags = ref(customer.tags)
         const CustomerInfo = reactive({
-            customerDifficulty: '',
+            customerDifficulty: selectedTags.value.length > 0 ? customer.tags[customer.tags.length - 1].tag_id : '',
             first_name: customer.first_name,
             last_name: customer.last_name,
             address: customer.address,
@@ -886,7 +888,8 @@ export default {
             pushValue,
             addTag,
             customerLeads,
-            custkey
+            custkey,
+            selectedTags
         }
     }
 }

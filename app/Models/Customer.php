@@ -48,7 +48,7 @@ class Customer extends Model
 
     public static function addtag($tag_id, $id) {
 
-        $transaction = self::findOrFail($id);
+        $customer = self::findOrFail($id);
         //This will become a problem if we don't have a store ....
         $store_tag   =  StoreTag::where(
                             [
@@ -86,6 +86,10 @@ class Customer extends Model
         return $this->hasOne(TransactionNote::class)->where('type','private');
     }
 
+    public function tags()
+    {
+        return $this->morphMany(StoreTag::class, 'tagable');
+    }
 
     public function getFullNameAttribute()
     {

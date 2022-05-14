@@ -28,7 +28,7 @@
                             @image-deleted="delete_img" 
                         />
 
-                        <Dropzone :transaction="root" @add-image="onAddImage" class="" />
+                        <Dropzone :linkUrl="transactionrUrl" @add-image="onAddImage" class="" />
                     </div>
                     
                 </div>
@@ -50,6 +50,7 @@ export default {
     props: ['root'],
     setup (props) {
         let note_images = props.root.public_note ? props.root.public_note.images : [];
+        const transactionrUrl = ref(`/admin/transactions/${props.root.id}/images`)
         console.log(props.root)
         const display = ref("")
         const media_open = ref(true)
@@ -62,7 +63,7 @@ export default {
         function onAddImage (response) {
             images.value = response.data
         }
-        return { delete_img, onAddImage, media_open, images, display }
+        return { delete_img, onAddImage, media_open, images, display, transactionrUrl }
     }
 }
 </script>
