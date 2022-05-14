@@ -194,7 +194,7 @@ class CustomersController extends Controller
                 break;
            
             case 'tags':
-                $this->addTag($request, $id);
+                $this->addTag($request->tag_id, $id);
                 break;
 //            case:
 
@@ -205,10 +205,10 @@ class CustomersController extends Controller
 
 
 
-     public function addTag(Request $request, $id)
+     public function addTag($tag_id, $id)
     {
         try {
-            Customer::addTag($request->tag_id, $id);
+            Customer::addTag($tag_id, $id);
             return response(null, 200);
         } catch (\Throwable $th) {
             //throw $th;
@@ -235,20 +235,13 @@ class CustomersController extends Controller
 
         $store->load('currency');
 
-        // $month = time();
-        // $months[date("F", $month)] = 0;
-        // for ($i = 1; $i <= 11; $i++) {
-        //   $month = strtotime('last month', $month);
-        //   $months[date("F", $month)] = 0;
-        // }
-
         $tags  = Tag::whereIn('name', Customer::TAGS)->get();
 
         $leads = Lead::all();
 
         $countries = Country::where('name','United States')->with('states')->first();
 
-        $customer  = Customer::with(['transactions','addresses','transaction_payment_address'])->find($id);
+        $customer  = Customer::with(['transactions','addresses','images','transaction_payment_address','tags'])->find($id);
 
         if (null === $customer) {
             throw new HttpException(404);

@@ -38,9 +38,14 @@ class ImagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        
-        $response  = FileUploader::upload($request);
-        return response()->json($response);
+
+        try {
+          $response =   Image::addImage($request);
+          return response()->json($response,  200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response($th->getMessage() ,422);
+        }
     }
 
     /**
