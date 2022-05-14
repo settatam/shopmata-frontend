@@ -95,7 +95,7 @@ class CustomersController extends Controller
         $customer = new Customer;
 
         try {
-            $this->createUpdate($request, $customer);
+            Customer::createUpdate($request, $customer);
             \Log::info("New customer added");
             return response()->json(['message'=> "Customer added  successfully"], 200);
         } catch (\Throwable $th) {
@@ -107,37 +107,7 @@ class CustomersController extends Controller
 
 
 
-    public function createUpdate($request, $customer)
-    {
-        $user  = $request->user();
-        $customer->store_id     = $user->store_id;
-        $customer->first_name   = $request->first_name;
-        $customer->last_name    = $request->last_name;
-        $customer->email        = $request->email;
-        $customer->phone_number = $request->phone_number;
-        $customer->is_active    = 1;
-        $customer->accepts_marketing = 1;
-        $customer->save();
-
-            Address::updateOrCreate(
-                ['user_id' => $customer->id],
-                [
-                    'first_name' => $request->first_name,
-                    'last_name'  => $request->last_name,
-                    'user_id'    => $customer->id,
-                    'country_id' => $request->country_id,
-                    'state_id'   => $request->state_id,
-                    'city'       => $request->city,
-                    'is_default' => 1,
-                    'address'    => $request->address,
-                    'address2'   => $request->address2,
-                    'zip'        => $request->postal_code,
-                ]
-            );
-        
-
-
-    }
+    
 
         /**
      * Update the specified resource in storage.
@@ -241,7 +211,7 @@ class CustomersController extends Controller
 
         $countries = Country::where('name','United States')->with('states')->first();
 
-        $customer  = Customer::with(['transactions','addresses','images','transaction_payment_address','tags'])->find($id);
+        $customer  = Customer::with(['transactions','customer_address','images','transaction_payment_address','tags'])->find($id);
 
         if (null === $customer) {
             throw new HttpException(404);
@@ -288,12 +258,12 @@ class CustomersController extends Controller
         //     'phone_number' => ['required']
         // ]);
         try {
-            $this->createUpdate($request, $customer);
+            Customer::createUpdate($request, $customer);
             \Log::info("Customer Updated");
             return response()->json(['message'=> "Customer details updated successfully" ], 200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to update  customers  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response()->json(['message'=> "Failed to update settings"], 422);
+            return response()->json(['message'=> $th->getMessage()], 422);
         }
     }
 
