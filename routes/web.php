@@ -47,6 +47,8 @@ use App\Http\Controllers\TransactionsItemsController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TransactionItemsController;
 
+use App\Http\Controllers\WidgetsController;
+
 
 
 use App\Http\Controllers\MessagesController;
@@ -300,6 +302,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         ## Store Preferences
 
         Route::resource('preferences', 'StorePreferencesController');
+
+        //Widgets
+
+        Route::get('widgets/view', [WidgetsController::class, 'view'])->name('widget.view');
 
         ## Online Store
 

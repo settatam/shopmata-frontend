@@ -1,5 +1,6 @@
 <template>
     <app-layout :navigation="navigation">
+        <Table />
         <!-- Page header -->
         <div class="m-3" v-for="(item, index) in summary" :key="item.index">
             <div class="mx-6 mt-8">
@@ -110,9 +111,11 @@
 <script>
 import AppLayout from '../Layouts/AppLayout.vue'
 import {  SearchIcon } from '@heroicons/vue/solid'
+import Table from "./Widgets/Table";
 
 export default {
     components: {
+        Table,
         AppLayout,
         SearchIcon
     },

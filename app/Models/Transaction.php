@@ -6,6 +6,7 @@ use App\Services\EventNotification;
 use App\Services\Logistics\Fedex;
 use App\Services\Logistics\Shipping;
 use App\Services\SmsManager;
+use App\Widget\TransactionsTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -249,6 +250,11 @@ class Transaction extends Model
     public function getOutgoingTrackingAttribute() {
         return $this->shippingLabels()->where('to_customer', true)->get()
             ->implode('tracking_number', ',');
+    }
+
+    static function tableData($filter, $data) {
+
+        return (new TransactionsTable($filter, $data))->render();
     }
 
     public function images()
