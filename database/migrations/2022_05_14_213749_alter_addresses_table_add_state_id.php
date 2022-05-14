@@ -14,9 +14,10 @@ class AlterAddressesTableAddStateId extends Migration
     public function up()
     {
         Schema::table('addresses', function (Blueprint $table) {
-            if (!Schema::hasColumn('addresses', 'state_id'))
+            if (!Schema::hasColumn('addresses', 'state_id') && !Schema::hasColumn('addresses', 'zip'))
             {
                 $table->integer('state_id')->nullable();
+                $table->string('zip')->nullable();
             }
         });
     }
@@ -29,7 +30,7 @@ class AlterAddressesTableAddStateId extends Migration
     public function down()
     {
         Schema::table('addresses', function (Blueprint $table) {
-            $table->dropColumn('state_id');
+            $table->dropColumn('state_id','zip');
 
         });
     }
