@@ -35,7 +35,7 @@
                     Drag and drop your image here or
                 </p>
                 <button
-                    class="text-white bg-indigo-600 active:bg-indigo-600 border border-transparent text-center px-8  py-3 rounded flex mx-auto justify-center"
+                    class="text-white bg-indigo-600 active:bg-indigo-600 border border-transparent text-center px-8 py-3 rounded flex mx-auto justify-center"
                 >
                     <LoadingSpinner v-if="loading" />
 
@@ -47,66 +47,59 @@
 </template>
 
 <script>
-
-import { ref } from '@vue/reactivity'
-import { useDropzone } from 'vue3-dropzone'
-import axios from 'axios'
-import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
-import notification from '../../../Utils/notification'
-import fileUploader from '../../../Utils/fileUploader'
-
-
+import { ref } from "@vue/reactivity";
+import { useDropzone } from "vue3-dropzone";
+import axios from "axios";
+import LoadingSpinner from "../../../Components/LoadingSpinner.vue";
+import notification from "../../../Utils/notification";
+import fileUploader from "../../../Utils/fileUploader";
 
 export default {
     components: {
-        LoadingSpinner
+        LoadingSpinner,
     },
-    props: ['transaction', 'linkUrl'],
-    name: 'UseDropzone',
-    emits: ['add-image'],
-    setup (props, { emit }) {
-        const  message = ref('')
-        const  loading = ref(false)
-        const  text = ref('Choose file')
-        const  transaction = props.transaction
-        const  { onClickTop, onClickBot } = notification();
-        const  { saveFiles } = fileUploader();
+    props: ["payLoad"],
+    name: "UseDropzone",
+    emits: ["add-image"],
+    setup(props, { emit }) {
+        const message = ref("");
+        const loading = ref(false);
+        const text = ref("Choose file");
+        const { onClickTop, onClickBot } = notification();
+        const { saveFiles } = fileUploader();
 
-        // const url = '/admin/transactions/'+ transaction.id +'/images'
-        const url = props.linkUrl
+        function onDrop(acceptFiles, rejectReasons) {
+            loading.value = true;
+            text.value = "Uploading....";
+            saveFiles(acceptFiles, payLoad)
+                .then((res) => {
+                    emit("add-image", res);
+                    loading.value = false;
+                    message.value = "Image uploaded successfully";
+                    text.value = "Choose file";
+                    setTimeout(onClickTop, 2000);
+                })
+                .catch((err) => {
+                    loading.value = false;
+                    message.value = "Error processing request";
+                    setTimeout(onClickBot, 2000);
+                    text.value = "Choose file";
+                });
 
-        function onDrop (acceptFiles, rejectReasons) {
-            loading.value = true
-            text.value = 'Uploading....'
-            saveFiles(
-                       acceptFiles, 
-                       { url },  
-                    {})
-                    .then( (res) => {
-                        emit('add-image', res)
-                        loading.value = false
-                        message.value = 'Image uploaded successfully'
-                        text.value = 'Choose file'
-                        setTimeout(onClickTop, 2000)
-                    }).catch(err => {
-                        loading.value = false
-                        message.value = 'Error processing request'
-                        setTimeout(onClickBot, 2000)
-                        text.value = 'Choose file'
-                    })
-
-            return rejectReasons
+            return rejectReasons;
         }
 
-        const { getRootProps, getInputProps, ...rest } = useDropzone({ onDrop })
+        const { getRootProps, getInputProps, ...rest } = useDropzone({
+            onDrop,
+        });
 
         return {
             getRootProps,
             getInputProps,
             ...rest,
             loading,
-            text
-        }
-    }
-}
+            text,
+        };
+    },
+};
 </script>

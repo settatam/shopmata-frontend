@@ -237,7 +237,7 @@
         </div>
 
         <div class="my-4">
-            <AdminImages :root="transaction" />
+            <Images :payload="params" :imgs="transaction.images" class="mb-8" />
         </div>
 
         <!-- add item start -->
@@ -258,7 +258,7 @@ import { watch } from "vue";
 
 import debounce from "lodash/debounce";
 import AppLayout from "../../../Layouts/AppLayout.vue";
-import AdminImages from "./AdminImages.vue";
+import Images from "../../../Components/Images.vue";
 import PrintLabel from "../Components/PrintLabel.vue";
 import { notify } from "notiwind";
 import moment from "moment";
@@ -272,7 +272,8 @@ export default {
     components: {
         AppLayout,
         PrintLabel,
-        AdminImages,
+        Images,
+        // AddItem,
         CheckCircleIcon,
         XCircleIcon,
         MinusCircleIcon,
@@ -288,6 +289,10 @@ export default {
         const popModal = () => {
             popUp.value = true;
         };
+        const params = ref({
+            model: "Transaction",
+            model_id: props.transaction.id,
+        });
         const notes = props.transaction;
         const transaction_id = props.root.id;
         const pickedTags = props.root.tags;
@@ -423,7 +428,9 @@ export default {
         function saveBottomTags(tag_id) {
             if (this.checkedList.includes(tag_id)) {
                 axios
-                    .post(`/admin/transactions/${transaction_id}/tags`, { tag_id })
+                    .post(`/admin/transactions/${transaction_id}/tags`, {
+                        tag_id,
+                    })
 
                     .then((res) => {
                         if (res.status == 200) {
@@ -443,7 +450,9 @@ export default {
                     });
             } else {
                 axios
-                    .post(`/admin/transactions/${transaction_id}/tags`, { tag_id })
+                    .post(`/admin/transactions/${transaction_id}/tags`, {
+                        tag_id,
+                    })
                     .then((res) => {
                         if (res.status == 200) {
                             successMessage.value = "Tag added";
@@ -481,6 +490,7 @@ export default {
             updateTransaction,
             onChange,
             currentTransaction,
+            params,
         };
     },
 };
