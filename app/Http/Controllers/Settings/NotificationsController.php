@@ -15,7 +15,7 @@ use App\Models\Store;
 use App\Models\StoreGroup;
 use App\Models\StoreIndustry;
 use App\Models\StoreNotification;
-use App\Models\StoreActualNotification;
+use App\Models\StoreNotificationMessage;
 
 use App\Models\StorePaymentGateway;
 
@@ -109,9 +109,10 @@ class NotificationsController extends Controller
      */
     public function show($id)
     {   
-        $store_notification = StoreActualNotification::where('store_notification_id',$id)->first();
+        $email = StoreNotificationMessage::where(['store_notification_id' => $id,'channel' => 'email'])->first();
+        $sms   = StoreNotificationMessage::where(['store_notification_id' => $id,'channel' => 'sms'])->first();
         $notification = StoreNotification::find($id);
-        return Inertia::render('Settings/Notifications/Show',compact('store_notification','notification'));
+        return Inertia::render('Settings/Notifications/Show',compact('email','notification','sms'));
     }
 
     /**

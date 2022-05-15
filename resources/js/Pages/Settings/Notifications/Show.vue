@@ -55,12 +55,14 @@
                 <Nav page="Notifications"></Nav>
                 <!-- Main content -->
                 <div class="flex-1 max-h-screen xl:overflow-y-auto">
-                    <div class="w-auto  lg:ml-7 lg:mr-2">
+                    <div class="w-auto lg:ml-7 lg:mr-2">
                         <div
-                            class="flex justify-between items-center mb-2 lg:mb-0 "
+                            class="flex justify-between items-center mb-2 lg:mb-0"
                         >
                             <div class="flex font-semibold items-center">
-                                <inertia-link href="/admin/settings/notifications">
+                                <inertia-link
+                                    href="/admin/settings/notifications"
+                                >
                                     <arrow-left-icon class="w-5 h-5 mr-5" />
                                 </inertia-link>
                                 <p class="text-base lg:text-2xl">
@@ -78,13 +80,7 @@
                                 </div>
                                 <button
                                     type="button"
-                                    class=" disabled:bg-gray-400 rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs  lg:text-base font-medium text-white sm:text-sm"
-                                    :class="
-                                        order.subject.length > 1 &&
-                                        order.message.length > 1
-                                            ? 'bg-indigo-600'
-                                            : 'bg-gray-400'
-                                    "
+                                    class="disabled:bg-gray-400 rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs lg:text-base font-medium text-white sm:text-sm"
                                     :disabled="loading"
                                     @click="submit"
                                 >
@@ -96,7 +92,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="px-4 md:px-8 pb-8 pt-6  mb-6 bg-white">
+                        <div class="px-4 md:px-8 pb-8 pt-6 mb-6 bg-white">
                             <h1 class="text-xl font-bold">Email</h1>
                             <div class="w-auto relative">
                                 <label class="block mt-4 mb-2 bg-transparent">
@@ -119,8 +115,8 @@
                                     Email body (HTML)
                                 </label>
                                 <textarea
-                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm  border-gray-300 h-96 rounded-md"
-                                    v-model.trim="order.message"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 h-96 rounded-md"
+                                    v-model.trim="order.email_message"
                                     required
                                 ></textarea>
                                 <error-icon
@@ -131,25 +127,114 @@
                         </div>
                     </div>
 
-                    <SmsBox :order="order" />
+                    <div class="flex-1 max-h-screen xl:overflow-y-auto">
+                        <div class="w-auto lg:ml-7 lg:mr-2">
+                            <div class="px-4 md:px-8 pb-8 pt-6 mb-6 bg-white">
+                                <!-- message textarea -->
+                                <div class="w-auto relative">
+                                    <label
+                                        class="block mt-4 mb-2 bg-transparent"
+                                    >
+                                        Message
+                                    </label>
+                                    <textarea
+                                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 h-32 rounded-md"
+                                        v-model.trim="order.sms_message"
+                                        required
+                                    ></textarea>
+                                    <error-icon
+                                        class="absolute top-1 left-40"
+                                        v-show="bodyError"
+                                    />
+                                </div>
+                                <!-- message textare ends -->
 
-                    <div class="w-auto  lg:ml-7 lg:mr-2">
-                        <div class=" flex justify-between">
+                                <!-- schedule start -->
+                                <div class="w-auto relative">
+                                    <div>
+                                        <label
+                                            class="block mt-4 mb-2 bg-transparent"
+                                        >
+                                            Schedule a Message
+                                        </label>
+                                        <select
+                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                            placeholder=""
+                                            required
+                                        >
+                                            <option value="">
+                                                Immediately
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- schedule end -->
+
+                                <!-- conditions start -->
+                                <div class="w-auto relative">
+                                    <div>
+                                        <label
+                                            class="block mt-4 mb-2 bg-transparent"
+                                        >
+                                            Schedule a Message
+                                        </label>
+                                        <div
+                                            class="flex justify-between md:flex-row lg:justify-between space-x-2 mt-4"
+                                        >
+                                            <div class="w-4.5/10 lg:w-3/10">
+                                                <select
+                                                    name="options"
+                                                    id=""
+                                                    class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none mb-2 lg:mb-0"
+                                                >
+                                                    <option value="">
+                                                        Immediately
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="w-4.5/10 lg:w-3/10">
+                                                <select
+                                                    name="conditions"
+                                                    id=""
+                                                    class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none"
+                                                >
+                                                    <option value="">
+                                                        Immediately
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div
+                                                class="w-4.5/10 lg:w-3/10 mb-2"
+                                            >
+                                                <select
+                                                    name="state"
+                                                    id=""
+                                                    class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 w-full hover:bg-gray-50 focus:outline-none"
+                                                >
+                                                    <option value="">
+                                                        Immediately
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- conditions end -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-auto lg:ml-7 lg:mr-2">
+                        <div class="flex justify-between">
                             <button
                                 type="button"
-                                class=" rounded-md border border-gray-500 mr-4 shadow-sm px-3 lg:px-5 py-1.5 lg:py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none  sm:text-sm"
+                                class="rounded-md border border-gray-500 mr-4 shadow-sm px-3 lg:px-5 py-1.5 lg:py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none sm:text-sm"
                             >
                                 Back to default
                             </button>
                             <button
                                 type="button"
-                                class=" rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs  lg:text-base font-medium text-white focus:outline-none sm:text-sm disabled:bg-gray-400"
-                                :class="
-                                    order.subject.length > 1 &&
-                                    order.message.length > 1
-                                        ? 'bg-indigo-600'
-                                        : 'bg-gray-400'
-                                "
+                                class="rounded-md border bg-indigo-600 border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs lg:text-base font-medium text-white focus:outline-none sm:text-sm disabled:bg-gray-400"
                                 :disabled="loading"
                                 @click="submit"
                             >
@@ -315,34 +400,35 @@
 </template>
 
 <script>
-import AppLayout from '../../../Layouts/AppLayout.vue'
-import SmsBox from './Components/SmsBox.vue'
-import Nav from '../Nav'
+import AppLayout from "../../../Layouts/AppLayout.vue";
+import SmsBox from "./Components/SmsBox.vue";
+import Nav from "../Nav";
 import {
     ChevronLeftIcon,
     ChevronUpIcon,
     ChevronDownIcon,
     ChevronRightIcon,
     ArrowLeftIcon,
-    EyeIcon
-} from '@heroicons/vue/solid'
-import { reactive, ref } from '@vue/reactivity'
-import ErrorIcon from '../../../../assets/ErrorIcon.vue'
-import { HomeIcon } from '@heroicons/vue/outline'
-import axios from 'axios'
-import { onBeforeMount } from '@vue/runtime-core'
-import { notify } from 'notiwind'
+    EyeIcon,
+} from "@heroicons/vue/solid";
+import { reactive, ref } from "@vue/reactivity";
+import ErrorIcon from "../../../../assets/ErrorIcon.vue";
+import { HomeIcon } from "@heroicons/vue/outline";
+import axios from "axios";
+import notify from "../../../Utils/notification";
 
 const pages = [
-    { name: 'Settings', href: '/admin/settings', current: false },
-    { name: 'Notifications', href: '/settings/notifications', current: false }
-]
+    { name: "Settings", href: "/admin/settings", current: false },
+    { name: "Notifications", href: "/settings/notifications", current: false },
+];
 
 export default {
     props: {
         store_notification: Object,
         notification: Object,
-        navigation: Array
+        navigation: Array,
+        sms: Object,
+        email: Object,
     },
     components: {
         AppLayout,
@@ -352,84 +438,45 @@ export default {
         ArrowLeftIcon,
         EyeIcon,
         ErrorIcon,
-        SmsBox
     },
-    setup ({ store_notification, notification }) {
+    setup({ email, sms, notification }) {
         const order = reactive({
-            subject: '',
-            message: '',
-            store_notification_id: notification.id
-        })
-        const bodyError = ref(false)
-        const subjectError = ref(false)
-        const loading = ref(false)
-        const save = ref('Save')
-        const successMessage = ref('')
-        onBeforeMount(() => {
-            store_notification == null
-                ? (order.subject = notification.name)
-                : (order.subject = store_notification.subject)
-            store_notification == null
-                ? (order.message = notification.content)
-                : (order.message = store_notification.message)
-        })
-        function onClickTop () {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot () {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
+            subject: notification.name,
+            sms_message: sms ? sms.message : null,
+            email_message: email ? email.message : null,
+            store_notification_id: notification.id,
+            channels: ["sms", "email"],
+        });
+
+        const { onClickTop, onClickBot } = notify();
+
+        const bodyError = ref(false);
+        const subjectError = ref(false);
+        const loading = ref(false);
+        const save = ref("Save");
+        const successMessage = ref("");
+
         const loadingFn = () => {
-            loading.value = false
-            save.value = 'Save'
-            window.location.href = '/admin/settings/notifications/'
-        }
+            loading.value = false;
+            save.value = "Save";
+            window.location.href = "/admin/settings/notifications/";
+        };
         const errorFn = () => {
-            loading.value = false
-            save.value = 'Save'
-        }
+            loading.value = false;
+            save.value = "Save";
+        };
         const submit = () => {
-            if (!order.subject.length && order.message.length) {
-                subjectError.value = true
-            } else if (!order.message.length && order.subject.length) {
-                bodyError.value = true
-            } else if (!order.message.length && !order.subject.length) {
-                bodyError.value = true
-                subjectError.value = true
-            } else {
-                axios.post('store', order).then(res => {
-                    loading.value = true
-                    if (res.status == 200) {
-                        successMessage.value = res.data.message
-                        onClickTop()
-                        save.value = 'Saving'
-                        setTimeout(loadingFn, 3000)
-                    } else if (res.status == 422) {
-                        successMessage.value = res.data.message
-                        onClickBot()
-                        setTimeout(errorFn, 3000)
-                    } else {
-                        successMessage.value = 'Error processing your request'
-                        onClickBot()
-                        setTimeout(errorFn, 3000)
-                    }
+            loading.value = true;
+            axios
+                .post("store", order)
+                .then((res) => {
+                    loading.value = false;
+                    setTimeout(onClickTop("Notification added"), 2000);
                 })
-            }
-        }
+                .catch((error) => {
+                    setTimeout(onClickBot("Something went wrong"), 2000);
+                });
+        };
         return {
             pages,
             order,
@@ -440,10 +487,10 @@ export default {
             save,
             successMessage,
             onClickTop,
-            onClickBot
-        }
-    }
-}
+            onClickBot,
+        };
+    },
+};
 </script>
 
 <style></style>

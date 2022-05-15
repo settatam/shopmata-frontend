@@ -32,7 +32,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\ShippingRatesController;
-use App\Http\Controllers\Settings\StoreActualNotificationsController;
+use App\Http\Controllers\Settings\StoreNotificationMessageController;
 use App\Http\Controllers\Settings\StoreLocationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StaffsController;
@@ -256,7 +256,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         #Settings -> Notifications
         Route::get('settings/notifications', [NotificationsController::class, 'index']);
         Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
-        Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
+        Route::post('settings/notifications/store', [StoreNotificationMessageController::class, 'store']);
         Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
 
         #Notifications
