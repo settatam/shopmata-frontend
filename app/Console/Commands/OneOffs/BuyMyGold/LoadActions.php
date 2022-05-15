@@ -54,7 +54,7 @@ class LoadActions extends Command
                 $activity->name               =  $action['name'];
                 $activity->activityable_type  =  'App\Models\Transaction';
                 $activity->activityable_id    =  $action['order_id'];
-                $activity->agent              =  $action['agent']; //fix the agent .... 
+                $activity->agent              =  $action['agent'] ?? 'system'; //fix the agent ....
                 $activity->offer              =  $action['offer'];
                 $activity->notes              =  $action['notes'];
                 $activity->created_at         =  $action['created_at'];

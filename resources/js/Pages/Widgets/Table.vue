@@ -181,7 +181,7 @@ import {
             actions.value = res.data.actions;
             hasCheckBox.value = res.data.hasCheckBox;
             title.value = res.data.title
-            description.value = res.data.description.title
+            description.value = res.datadescription.value
             exportable.value = res.data.exportable;
         })
     }
