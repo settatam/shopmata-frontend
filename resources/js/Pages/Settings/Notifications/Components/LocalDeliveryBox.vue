@@ -30,7 +30,7 @@
                 class="flex flex-col md:flex-row mb-5"
             >
                 <inertia-link
-                    :href="`/settings/notifications/${delivery.id}`"
+                    :href="`/admin/settings/notifications/${delivery.id}`"
                     class="w-full md:w-3/10"
                 >
                     <p class="font-bold text-indigo-700 no-underline">

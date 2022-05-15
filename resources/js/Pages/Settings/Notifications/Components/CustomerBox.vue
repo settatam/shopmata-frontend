@@ -20,7 +20,7 @@
                 class="flex flex-col md:flex-row mb-5"
             >
                 <inertia-link
-                    :href="`/settings/notifications/${customer.id}`"
+                    :href="`/admin/settings/notifications/${customer.id}`"
                     class="w-full md:w-3/10"
                 >
                     <p class="font-bold text-indigo-700 no-underline">

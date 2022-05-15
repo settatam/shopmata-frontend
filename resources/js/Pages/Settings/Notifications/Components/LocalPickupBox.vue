@@ -23,7 +23,7 @@
                 class="flex flex-col md:flex-row mb-5"
             >
                 <inertia-link
-                    :href="`/settings/notifications/${pickup.id}`"
+                    :href="`/admin/settings/notifications/${pickup.id}`"
                     class="w-full md:w-3/10"
                 >
                     <p
