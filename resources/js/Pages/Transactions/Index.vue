@@ -2,6 +2,7 @@
     <!-- Page header -->
     <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3">
+
             <Table :filters="filters"/>
         </div>
     </app-layout>
