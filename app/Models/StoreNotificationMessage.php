@@ -9,9 +9,42 @@ class StoreNotificationMessage extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+                        'message',
+                        'store_notification_id',
+                        'store_id',            
+                        'user_id',  
+                        'channel',
+                        'email_subject'    
+                    ];
+
+
+    public static function addNotification($request, $user) {
+
+        foreach ($request->channels as $key => $channel) {
+            $message  = $channel."_message";
+            $input = $request->only(['sms_message','email_message']);
+            $store = self::updateOrCreate(
+                ['store_notification_id' => $request->store_notification_id, 'channel' => $channel],
+                [
+                    'message' => $input[$message],
+                    'store_notification_id' => $request->store_notification_id,
+                    'store_id' =>  $user->store_id,
+                    'user_id'  =>  $user->id,
+                    'channel' => $channel,
+                    'email_subject' => $request->subject
+                ]
+            );
+        }
+
+    }
+
+
     public function store_notification() {
         return $this->belongsTo(StoreNotification::class);
     }
+
+
 
     public static function getAllMessages($store_id, $event){
         return self::with('store_notification')->whereHas('store_notification', function($q) use ($event, $store_id) {
