@@ -3,7 +3,7 @@
     <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3">
 
-            <Table :filters="filters"/>
+            <shopmata-table :filters="filters" />
         </div>
     </app-layout>
 </template>
@@ -17,7 +17,7 @@ import Pagination from '../../Components/Pagination.vue'
 import { Inertia } from '@inertiajs/inertia'
 import DeleteModal from '../../Components/DeleteModal.vue'
 import notification from '../../Utils/notification'
-import Table from "../Widgets/Table";
+import ShopmataTable from "../Widgets/ShopmataTable";
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -39,7 +39,7 @@ export default {
         PhoneIcon,
         Pagination,
         DeleteModal,
-        Table
+        ShopmataTable
     },
     props: {
         notifications: Array,

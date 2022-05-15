@@ -6,34 +6,18 @@
                 <SearchRow />
             </div>
 
+            <TransactionTable />
+
             <div class="">
                 <TopRow class="mt-8"/>
             </div>
 
-            <!-- <div>
-                <ReportLayout />
-            </div> -->
-
-            <div>
-                <TransactionTable />
-                <!-- button -->
-                <div class="flex justify-end mx-2 mt-6">
-                    <button
-                        class="text-center bg-purple-darken px-6 py-2 border border-transparent rounded shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
-                        type="submit"
-                    >
-                        Download CSV
-                    </button>
-                </div>
-            </div>
 
             <div>
                 <FilterBy />
             </div>
 
-            <div>
-                <Entries :transactions="transactions.data" />
-            </div>
+            <shopmata-table :filters="filters"></shopmata-table>
 
             <NotificationGroup group="top" position="top">
                 <div
@@ -184,6 +168,7 @@ import TransactionTable from './Components/TransactionTable.vue'
 import FilterBy from './Components/FilterBy.vue'
 import Entries from './Components/Entries.vue'
 import ReportLayout from './Components/ReportLayout.vue'
+import ShopmataTable from '../Widgets/ShopmataTable'
 
 export default {
     components: {
@@ -194,13 +179,16 @@ export default {
         FilterBy,
         Entries,
         TopRow,
-        ReportLayout
+        ReportLayout,
+        ShopmataTable
     },
     props: {
         notifications: Array,
-        transactions: Object,
-        navigation: Array
+        filters: Object,
+        navigation: Array,
     },
-    setup () {}
+    setup (props) {
+
+    }
 }
 </script>

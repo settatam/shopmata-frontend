@@ -2,6 +2,9 @@
 
 namespace App\Widget;
 
+use App\Models\Transaction;
+use App\Helpers\Filter;
+
 class ReportsTable extends Table
 {
     protected $hasCheckBox = true;
@@ -28,16 +31,6 @@ class ReportsTable extends Table
             [
                 'key' => 'est_val',
                 'label' => 'Estimated Value',
-                'sortable' => true,
-            ],
-            [
-                'key' => 'customer_name',
-                'label' => 'Customer',
-                'sortable' => true,
-            ],
-            [
-                'key' => 'phone',
-                'label' => 'Phone',
                 'sortable' => true,
             ],
             [
@@ -85,6 +78,101 @@ class ReportsTable extends Table
                 'label' => 'Outgoing Fedex',
                 'sortable' => true,
             ],
+            [
+                'key' => 'customer_name',
+                'label' => 'Customer',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'phone',
+                'label' => 'Phone',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'email',
+                'label' => 'Email',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'address',
+                'label' => 'Street Address',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'address2',
+                'label' => 'Suite / Apt',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'city',
+                'label' => 'City',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'state',
+                'label' => 'State',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'zip',
+                'label' => 'Zip',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'gender',
+                'label' => 'Gender',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'behavior',
+                'label' => 'Behavior',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'DOB',
+                'label' => 'dob',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'DIS',
+                'label' => 'days_in_stock',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'profit_percent',
+                'label' => 'Profit Percent',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'estimated_profit',
+                'label' => 'Estimated Profit',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'payment_type',
+                'label' => 'Payment Type',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'total_dwt',
+                'label' => 'Total DWT',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'inotes',
+                'label' => 'INotes',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'cnotes',
+                'label' => 'Customer Notes',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'email',
+                'label' => 'Email',
+                'sortable' => true,
+            ],
         ];
     }
 
@@ -93,6 +181,12 @@ class ReportsTable extends Table
         $this->data = Transaction::search($filter)
             ->with('transStatus')
             ->with('images')
+            ->with('address')
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
             ->paginate(Filter::perPage($filter));
 
         return [
@@ -101,16 +195,101 @@ class ReportsTable extends Table
             'numberOfRows' => data_get($this->data, 'numberOfRows'),
             'items' => $this->data->map(function(Transaction $transaction) {
                 return [
-                    'id' => $transaction->id,
-                    'created_at' => $transaction->created_at,
-                    'status' => optional($transaction->transStatus)->name,
-                    'description' => 'This is my test description',
-                    'pictures' => $transaction->images,
-                    'categories' => 'Category 1, Category 2',
-                    'whatever' => 'This is whatever',
-                    'customer_info' => $transaction->customer
+                    'id' => [
+                        'data' => $transaction->id,
+                        'type' => 'link',
+                        'href' => '/admin/transactions/'.$transaction->id
+                    ],
+                    'final_offer' => [
+                        'data' => $transaction->final_offer,
+                    ],
+                    'est_val' => [
+                        'data' => $transaction->est_val,
+                    ],
+                    'numberOfTransactions' => [
+                        'data' => $transaction->numberOfTransactions,
+                    ],
+                    'status' => [
+                        'data' => $transaction->status,
+                    ],
+                    'customer_since' => [
+                        'data' => $transaction->customer_since,
+                    ],
+                    'keyword' => [
+                        'data' => $transaction->keyword,
+                    ],
+                    'lead' => [
+                        'data' => $transaction->lead,
+                    ],
+                    'website' => [
+                        'data' => $transaction->website,
+                    ],
+                    'tags' => [
+                        'data' => $transaction->tags,
+                    ],
+                    'incoming_fedex' => [
+                        'data' => $transaction->incoming_fedex,
+                    ],
+                    'outgoing_fedex' => [
+                        'data' => $transaction->outgoing_fedex,
+                    ],
+                    'customer_name' => [
+                        'data' => $transaction->customer->name,
+                        'type' => 'link',
+                        'href' => '/admin/customers/'.$transaction->id
+                    ],
+                    'phone' => [
+                        'data' => $transaction->address->gender,
+                    ],
+                    'email' => [
+                        'data' => $transaction->customer->email,
+                    ],
+                    'address' => [
+                        'data' => $transaction->address->address,
+                    ],
+                    'address2' => [
+                        'data' => $transaction->address->address2,
+                    ],
+                    'city' => [
+                        'data' => $transaction->address->city,
+                    ],
+                    'state' => [
+                        'data' => optional($transaction->address->state)->code,
+                    ],
+                    'zip' => [
+                        'data' => $transaction->address->postal_code,
+                    ],
+                    'gender' => [
+                        'data' => $transaction->customer->gender,
+                    ],
+                    'behavior' => [
+                        'data' => $transaction->customer->behavior,
+                    ],
+                    'dob' => [
+                        'data' => $transaction->customer->dob,
+                    ],
+                    'dis' => [
+                        'data' => $transaction->days_in_stock,
+                    ],
+                    'profit_percent' => [
+                        'data' => $transaction->profit_percent,
+                    ],
+                    'estimated_profit' => [
+                        'key' => $transaction->estimated_profit,
+                    ],
+                    'payment_type' => [
+                        'data' => $transaction->payment_type,
+                    ],
+                    'total_dwt' => [
+                        'data' => $transaction->total_dwt,
+                    ],
+                    'inotes' => [
+                        'data' => $transaction->inotes,
+                    ],
+                    'cnotes' => [
+                        'data' => $transaction->cnotes,
+                    ],
                 ];
-
             })
         ];
     }

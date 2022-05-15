@@ -17,8 +17,7 @@
 
             <div class="text-gray-500">
                 <h1>
-                    Select an option and edit the template to enable its
-                    function.
+                    Select an option and edit the template to enable its function.
                 </h1>
             </div>
         </div>

@@ -29,6 +29,8 @@ class Table extends Widget
 
     protected $hasCheckBox = false;
 
+    protected $isSearchable = false;
+
     public function __construct($filter=null, $data=[])
       {
           $this->filter = $filter;
@@ -98,6 +100,7 @@ class Table extends Widget
         ];
 
         $config['hasCheckBox'] = $this->hasCheckBox();
+        $config['isSearchable'] = $this->isSearchable();
 
         $config['fields'] = collect($this->fields($filter, $filteredData))
           ->map(function($data) use (&$config) {
@@ -203,6 +206,8 @@ class Table extends Widget
           return $this->hasCheckBox;
       }
 
-
+    public function isSearchable() {
+          return $this->isSearchable;
+    }
 
 }

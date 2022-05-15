@@ -110,7 +110,6 @@
 <script>
 import AppLayout from '../Layouts/AppLayout.vue'
 import {  SearchIcon } from '@heroicons/vue/solid'
-import Table from "./Widgets/Table";
 
 const filters = {
     type: 'TransactionsTable',
@@ -120,7 +119,6 @@ const filters = {
 
 export default {
     components: {
-        Table,
         AppLayout,
         SearchIcon
     },

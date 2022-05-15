@@ -64,7 +64,7 @@ class LoadBuyMyGoldData extends Command
                         ['id' => $order['order_id']]
                     );
                     //Create the customer using the customer details in the endpoint
-                    $transaction->id              = $order['order_id'];
+//                    $transaction->id              = $order['order_id'];
                     $transaction->status_id       = ($order['status_id']) ? $order['status_id'] : 60;
                     $transaction->customer_id     = $order['user_id'];//Customer id
                     $transaction->tags            = $order['tags'];

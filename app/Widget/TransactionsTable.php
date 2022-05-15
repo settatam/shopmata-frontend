@@ -28,7 +28,7 @@ class TransactionsTable extends Table
               ],
               [
                 'key' => 'created_at',
-                'label' => 'Date Requested',
+                'label' => 'Date',
                 'sortable' => true,
                 'html' => true
               ],
@@ -126,26 +126,6 @@ class TransactionsTable extends Table
 
     public function totalRows() {
         return $this->data->lastPage();
-    }
-
-    public function getCustomerHTMLInfo($customer) {
-        return sprintf('<span class="pb-4 pt-6 px-6 flex flex-col">
-                                    <span class="text-indigo-700 cursor-pointer font-bold">%s %s</span>
-                                    <div>%s, %s</div>
-                               </div>',
-            $customer->first_name,
-            $customer->last_name,
-            $customer->address,
-            $customer->state->code
-        );
-    }
-
-    public function getPicturesHTML($images) {
-        if(count($images)) {
-            return sprintf('<div class="h-10 w-10 flex-shrink-0"><img class="h-10 w-10 rounded-full src="%s" /></div>',
-            $images[0]->url);
-        }
-        return '';
     }
 
     public function actions() {
