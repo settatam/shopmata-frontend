@@ -285,17 +285,17 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('/generate/user/discount/code', [DiscountsController::class, 'createDiscountCode']);
 
         #Customers
-        Route::get('customers', [CustomersController::class, 'index'])->name('customers');
-        Route::get('customers/create', [CustomersController::class, 'create']);
-        Route::post('customers/store', [CustomersController::class, 'store']);
-        Route::get('customers/{id}/edit', [CustomersController::class, 'edit'])->name('customers.edit');
-        Route::put('customers/{id}', [CustomersController::class, 'update']);
-        Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
-        Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
+        Route::get('customers',              [CustomersController::class, 'index'])->name('customers');
+        Route::get('customers/create',       [CustomersController::class, 'create']);
+        Route::post('customers/store',       [CustomersController::class, 'store']);
+        Route::get('customers/{id}/edit',    [CustomersController::class, 'edit'])->name('customers.edit');
+        Route::put('customers/{id}',         [CustomersController::class, 'update']);
+        Route::get('customers/{id}',         [CustomersController::class, 'show'])->name('customers.view');
+        Route::delete('customers/{id}',      [CustomersController::class, 'destroy']);
         Route::post('customer/{id}/{extra}', [CustomersController::class, 'extras']);
 
         Route::post('images', [ImagesController::class, 'store']);
-        Route::post('images/delete', [ImagesController::class, 'destroy']);
+        Route::post('image/delete', [ImagesController::class, 'destroy']);
 
         Route::get('product-images', [ImagesController::class, 'index']);
 

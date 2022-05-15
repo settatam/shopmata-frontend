@@ -82,7 +82,8 @@
                                 <input
                                     :class="{
                                         'border-red-600': v$.first_name.$error,
-                                        'border-gray-300': !v$.first_name.$error
+                                        'border-gray-300':
+                                            !v$.first_name.$error,
                                     }"
                                     type="text"
                                     id="firstName"
@@ -114,7 +115,7 @@
                                 <input
                                     :class="{
                                         'border-red-600': v$.last_name.$error,
-                                        'border-gray-300': !v$.last_name.$error
+                                        'border-gray-300': !v$.last_name.$error,
                                     }"
                                     type="text"
                                     id="lastName"
@@ -147,7 +148,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.email.$error,
-                                    'border-gray-300': !v$.email.$error
+                                    'border-gray-300': !v$.email.$error,
                                 }"
                                 type="email"
                                 id="email"
@@ -178,7 +179,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.phone_number.$error,
-                                    'border-gray-300': !v$.phone_number.$error
+                                    'border-gray-300': !v$.phone_number.$error,
                                 }"
                                 type="tel"
                                 id="tel"
@@ -218,7 +219,7 @@
                         <input
                             :class="{
                                 'border-red-600': v$.address.$error,
-                                'border-gray-300': !v$.address.$error
+                                'border-gray-300': !v$.address.$error,
                             }"
                             type="text"
                             id="address"
@@ -252,7 +253,7 @@
                             <select
                                 :class="{
                                     'border-red-600': v$.country_id.$error,
-                                    'border-gray-300': !v$.country_id.$error
+                                    'border-gray-300': !v$.country_id.$error,
                                 }"
                                 id="country"
                                 name="country"
@@ -326,7 +327,7 @@
                                     v-model="customerEdit.state_id"
                                     :class="{
                                         'border-red-600': v$.state_id.$error,
-                                        'border-gray-300': !v$.state_id.$error
+                                        'border-gray-300': !v$.state_id.$error,
                                     }"
                                 >
                                     <option value="">Choose a State</option>
@@ -347,7 +348,7 @@
                                 <select
                                     :class="{
                                         'border-red-600': v$.state_id.$error,
-                                        'border-gray-300': !v$.state_id.$error
+                                        'border-gray-300': !v$.state_id.$error,
                                     }"
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder=""
@@ -382,7 +383,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.city.$error,
-                                    'border-gray-300': !v$.city.$error
+                                    'border-gray-300': !v$.city.$error,
                                 }"
                                 type="text"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -414,7 +415,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.zip.$error,
-                                    'border-gray-300': !v$.zip.$error
+                                    'border-gray-300': !v$.zip.$error,
                                 }"
                                 type="text"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -456,7 +457,7 @@
                     type="submit"
                     :class="{
                         disabled: loading,
-                        'opacity-25 cursor-not-allowed': loading
+                        'opacity-25 cursor-not-allowed': loading,
                     }"
                     class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     @click="submit"
@@ -618,39 +619,39 @@
 </template>
 
 <script>
-import { ref, reactive, computed, onBeforeMount } from 'vue'
-import AppLayout from '../../Layouts/AppLayout.vue'
-import axios from 'axios'
-import LoadingSpinner from '../../Components/LoadingSpinner.vue'
+import { ref, reactive, computed, onBeforeMount } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
+import axios from "axios";
+import LoadingSpinner from "../../Components/LoadingSpinner.vue";
 import {
     Dialog,
     DialogOverlay,
     TransitionChild,
-    TransitionRoot
-} from '@headlessui/vue'
-import { ChevronRightIcon } from '@heroicons/vue/solid'
-import { HomeIcon } from '@heroicons/vue/outline'
-import { Inertia } from '@inertiajs/inertia'
-import { notify } from 'notiwind'
+    TransitionRoot,
+} from "@headlessui/vue";
+import { ChevronRightIcon } from "@heroicons/vue/solid";
+import { HomeIcon } from "@heroicons/vue/outline";
+import { Inertia } from "@inertiajs/inertia";
+import { notify } from "notiwind";
 import {
     required,
     maxLength,
     numeric,
     helpers,
-    email
-} from '@vuelidate/validators'
-import useVuelidate from '@vuelidate/core'
+    email,
+} from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 
 const pages = [
-    { name: 'Edit Customer', href: '/customers/edit', current: false }
-]
+    { name: "Edit Customer", href: "/customers/edit", current: false },
+];
 const statusStyles = {
-    success: 'bg-green-100 text-green-800',
-    processing: 'bg-yellow-100 text-yellow-800',
-    failed: 'bg-gray-100 text-gray-800'
-}
+    success: "bg-green-100 text-green-800",
+    processing: "bg-yellow-100 text-yellow-800",
+    failed: "bg-gray-100 text-gray-800",
+};
 export default {
-    props: ['customer', 'countries', 'notification', 'navigation'],
+    props: ["customer", "countries", "notification", "navigation"],
 
     components: {
         AppLayout,
@@ -660,22 +661,22 @@ export default {
         TransitionRoot,
         ChevronRightIcon,
         HomeIcon,
-        LoadingSpinner
+        LoadingSpinner,
     },
 
-    setup (props) {
-        const customer = props.customer
-        const loading = ref(false)
-        const successMessage = ref('')
-        const countries = props.countries
+    setup(props) {
+        const customer = props.customer;
+        const loading = ref(false);
+        const successMessage = ref("");
+        const countries = props.countries;
         const states = computed(() => {
             return countries.filter(
-                country => country.id == customerEdit.country_id
-            )
-        })
+                (country) => country.id == customerEdit.country_id
+            );
+        });
 
-        const selectedCountry = ref( customer.country_id)
-        const selectedState = ref(customer.state_id)
+        const selectedCountry = ref(customer.country_id);
+        const selectedState = ref(customer.state_id);
         const customerEdit = reactive({
             first_name: customer.first_name,
             last_name: customer.last_name,
@@ -683,104 +684,107 @@ export default {
             phone_number: customer.phone_number,
             address: customer.address,
             apartment: customer.apartment,
-            country_id: selectedCountry.value ?  customer.country_id :  1,
-            state_id: selectedState.value ? customer.state_id : 1 ,
+            country_id: selectedCountry.value ? customer.country_id : 1,
+            state_id: selectedState.value ? customer.state_id : 1,
             city: customer.city,
-            zip: customer.zip
-        })
+            zip: customer.zip,
+        });
 
         const rules = computed(() => {
             return {
                 first_name: {
                     required: helpers.withMessage(
-                        'Enter a first name',
+                        "Enter a first name",
                         required
-                    )
+                    ),
                 },
                 last_name: {
-                    required: helpers.withMessage('Enter a last name', required)
+                    required: helpers.withMessage(
+                        "Enter a last name",
+                        required
+                    ),
                 },
                 email: {
                     required: helpers.withMessage(
-                        'Please enter an email address',
+                        "Please enter an email address",
                         required
                     ),
-                    email
+                    email,
                 },
                 phone_number: {
                     required: helpers.withMessage(
-                        'Enter a phone number',
+                        "Enter a phone number",
                         required
-                    )
+                    ),
                 },
                 address: {
-                    required: helpers.withMessage('Enter an address', required)
+                    required: helpers.withMessage("Enter an address", required),
                 },
                 country_id: {
-                    required: helpers.withMessage('Select a country', required)
+                    required: helpers.withMessage("Select a country", required),
                 },
                 state_id: {
-                    required: helpers.withMessage('Select a state', required)
+                    required: helpers.withMessage("Select a state", required),
                 },
                 city: {
-                    required: helpers.withMessage('Enter a city', required)
+                    required: helpers.withMessage("Enter a city", required),
                 },
                 zip: {
                     required: helpers.withMessage(
-                        'Enter a postal code',
+                        "Enter a postal code",
                         required
-                    )
-                }
-            }
-        })
+                    ),
+                },
+            };
+        });
 
-        const v$ = useVuelidate(rules, customerEdit)
+        const v$ = useVuelidate(rules, customerEdit);
 
-        function onClickTop () {
+        function onClickTop() {
             notify(
                 {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
+                    group: "top",
+                    title: "Success",
+                    text: successMessage.value,
                 },
                 4000
-            )
+            );
         }
-        function onClickBot () {
+        function onClickBot() {
             notify(
                 {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
+                    group: "bottom",
+                    title: "Error",
+                    text: successMessage.value,
                 },
                 4000
-            )
+            );
         }
 
-        function submit () {
-            this.v$.$validate()
+        function submit() {
+            this.v$.$validate();
             if (this.v$.$error) {
-                return
+                return;
             }
-            loading.value = true
+            loading.value = true;
             axios
                 .put(`/admin/customers/${customer.id}`, customerEdit)
-                .then(res => {
+                .then((res) => {
                     if (res.status == 200) {
-                        successMessage.value = res.data.message
-                        setTimeout(onClickTop, 2000)
+                        successMessage.value = res.data.message;
+                        setTimeout(onClickTop, 2000);
                     }
                 })
-                .then(Inertia.visit('/admin/customers', { method: 'get' }))
-                .catch(error => {
-                    loading.value = false
+                .then(Inertia.visit("/admin/customers", { method: "get" }))
+                .catch((error) => {
+                    loading.value = false;
                     if (res.status == 422) {
-                        successMessage.value = res.data.message
-                        setTimeout(onClickBot, 2000)
+                        successMessage.value = res.data.message;
+                        setTimeout(onClickBot, 2000);
                     }
-                    successMessage.value = 'Error processing your request'
-                    setTimeout(onClickBot, 2000)
-                })
+                    successMessage.value = "Error processing your request";
+                    setTimeout(onClickBot, 2000);
+                });
 
             // Inertia.visit('/customers', { method: 'get' })
         }
@@ -798,8 +802,8 @@ export default {
             states,
             countries,
             selectedCountry,
-            selectedState
-        }
-    }
-}
+            selectedState,
+        };
+    },
+};
 </script>
