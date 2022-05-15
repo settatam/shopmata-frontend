@@ -22,6 +22,7 @@ class WidgetsController extends Controller
         ]);
 
         $class = $data['type'];
+
         if (!Str::startsWith($class, $namespace = 'App\\Widget\\')) {
           $class = $namespace . $class;
         }
@@ -45,17 +46,18 @@ class WidgetsController extends Controller
        */
       public function view(Request $request)
       {
-        try {
+       // try {
           return response()->json(
             $this->validateRequest($request, 'view')
-              ->render($request)
+              ->render($request->input())
           );
-        } catch (\Exception $e) {
-          return response()->json([
-            'error' => [
-              'There was an unidentified error',
-            ]
-          ], 422);
-        }
+//        } catch (\Exception $e) {
+//            dd($e->getMessage());
+//          return response()->json([
+//            'error' => [
+//              'There was an unidentified error',
+//            ]
+//          ], 422);
+//        }
       }
 }

@@ -346,6 +346,10 @@ class Transaction extends Model
         return $this->store->transactionStatuses;
     }
 
+    public function transStatus() {
+        return $this->belongsTo(Status::class, 'status_id', 'status_id');
+    }
+
     public function trStatus() {
         return $this->belongsTo(Status::class, 'status_id', 'status_id');
     }

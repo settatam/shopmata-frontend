@@ -54,7 +54,29 @@
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                             v-for="(tranItem, tranIndex) in item"
                         >
-                             {{ item[tranIndex] }}
+                            <div class="flex items-center" v-if="item[tranIndex].type == 'customer_info'">
+                                  <div class="ml-4">
+                                    <div class="font-medium text-gray-900">
+                                        <inertia-link :href="item[tranIndex].href">
+                                            {{ item.customer_info.data.first_name }} {{ item.customer_info.data.last_name }}
+                                        </inertia-link>
+                                    </div>
+                                    <div class="text-gray-500">{{ item.customer_info.data.email }}</div>
+                                  </div>
+                            </div>
+                            <div class="flex items-center" v-else-if="item[tranIndex].type == 'slideshow'">
+                                <div class="h-10 w-10 flex-shrink-0" v-if="item.pictures.data.length">
+                                    <img class="h-10 w-10 rounded-full" :src="item.pictures.data[0].url" alt="" />
+                                </div>
+                            </div>
+                            <div class="flex items-center" v-else-if="item[tranIndex].type == 'link'">
+                                <inertia-link :href="item[tranIndex].href"> {{ item[tranIndex].data }}  </inertia-link>
+                            </div>
+
+                            <div class="flex items-center" v-else>
+                                {{ item[tranIndex].data }}
+                            </div>
+
                         </td>
                     </tr>
     <!--                <tr v-for="person in people" :key="person.email">-->
@@ -97,6 +119,10 @@ import {onMounted, ref, computed} from 'vue'
     import axios from 'axios'
     import Pagination from "../../Components/Pagination";
 
+    const props = defineProps({
+        filters: Object
+    })
+
 import {
         BadgeCheckIcon,
         ChevronDownIcon,
@@ -124,6 +150,9 @@ import {
     const filterText = ref('Filter Transactions');
     const bulkAction = ref('');
 
+    const filters = props.filters;
+    console.log(filters);
+
     onMounted(() => {
         getData();
     })
@@ -132,12 +161,14 @@ import {
 
     }
 
+    const getFieldIndex = (field, obj) =>  {
+        console.log(obj);
+        return obj.findIndex(e => e.key === field);
+    }
+
     const getData = () => {
         axios.get('/admin/widgets/view', {
-            params: {
-                type: 'TransactionsTable',
-                filters: {}
-            }
+            params: filters
         }).then((res) => {
             fields.value = res.data.fields
             items.value = res.data.data.items;

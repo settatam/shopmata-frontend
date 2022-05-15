@@ -65,7 +65,7 @@ class LoadBuyMyGoldData extends Command
                     );
                     //Create the customer using the customer details in the endpoint
                     $transaction->id              = $order['order_id'];
-                    $transaction->status_id       = $order['status_id'];
+                    $transaction->status_id       = ($order['status_id']) ? $order['status_id'] : 60;
                     $transaction->customer_id     = $order['user_id'];//Customer id
                     $transaction->tags            = $order['tags'];
                     $transaction->comments        = $order['values'];
@@ -74,8 +74,9 @@ class LoadBuyMyGoldData extends Command
                     //$transaction->bin_location = $order['bin_location'];
                     $transaction->store_id = $this->getStore($order['is_jewelry']);
                     $transaction->created_at = $order['date_new'];// $this->getStore($order['is_jewelry']);
+                    $transaction->customer_categories = $order['items'];
                     $transaction->save();
-                    
+
 
                     //add customers
                     $customer = Customer::firstOrNew(
@@ -90,7 +91,7 @@ class LoadBuyMyGoldData extends Command
                     $customer->last_name          = data_get($names, 1);
                     $customer->address            = $order["customer_address"];
                     $customer->city               = $order["customer_city"];
-                    
+
                     $customer->state_id           = $this->getStateId($order["customer_state"]);
                     $customer->store_id           = $this->getStore($order['is_jewelry']);
                     $customer->zip                = $order["customer_zip"];
@@ -146,7 +147,8 @@ class LoadBuyMyGoldData extends Command
                         'zip' => $order["customer_zip"],
                         'addressable_id' => $transaction->id,
                         'addressable_type' => Transaction::class,
-                        'state_id' => $this->getStateId($order["customer_state"]),
+                       'state' => $order["customer_state"],
+//                        'state_id' => $this->getStateId($order["customer_state"]),
                         'dob'  => $order["customer_dob"],
                     ];
 
@@ -170,13 +172,13 @@ class LoadBuyMyGoldData extends Command
                         'zip' => $order["customer_zip"],
                         'addressable_id' => $customer->id,
                         'addressable_type' => Customer::class,
-                        'state_id' => $this->getStateId($order["customer_state"]),
+                        'state' => $order["customer_state"],
+//                        'state_id' => $this->getStateId($order["customer_state"]),
                         'dob'  => $order["customer_dob"],
                     ];
 
                     $cusAddress->fill($address);
                     $cusAddress->save();
-
 
 
                     foreach ($transaction->histories as $history) {
@@ -300,7 +302,7 @@ class LoadBuyMyGoldData extends Command
                     $bar->advance();
                 }
             } catch(\Exception $e) {
-
+                dd($e->getMessage());
             }
 
             Storage::deleteDirectory('items');
@@ -334,4 +336,4 @@ class LoadBuyMyGoldData extends Command
 
 }
 
-    
+

@@ -23,7 +23,6 @@ class Image extends Model
 
     public static function deleteImage($request)
     {
-        
         if ($request->filled('image_id')){
             $image =  self::find($request->image_id);
         } elseif($request->filled('image_url')) {
@@ -39,7 +38,7 @@ class Image extends Model
         if ($image->thumb){
             Storage::disk('DO')->delete($image->thumb);
         }
-            
+
         $image->delete();
 
         return $image;

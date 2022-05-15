@@ -61,7 +61,7 @@ class Table extends Widget
        * @param $filteredData
        * @return array|Arrayable
        */
-      public function items()
+      public function items($filter)
       {
           return data_get($this->data, 'items');
       }
@@ -86,13 +86,13 @@ class Table extends Widget
         ];
       }
 
-      public function config($filter, $filteredData)
+      public function config($filter, $filteredData=[])
       {
         $config = [
           'data' => [
               'fields' => $this->fields($filter, $filteredData),
               'options' => $this->tableOptions($filter, $filteredData),
-              'items' => $this->items(),
+              'items' => $this->items($filter),
               'totalRows' => $this->data->lastPage(),
           ],
         ];

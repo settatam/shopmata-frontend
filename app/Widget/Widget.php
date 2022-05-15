@@ -113,7 +113,6 @@ abstract class Widget
       {
 
         $title = $this->title($filter, $data);
-        $filter = $this->filter;
         $data = $this->data;
 
         return array_merge([
@@ -122,7 +121,7 @@ abstract class Widget
             'description' => $this->description($filter, $data),
             'icon' => $this->icon($filter, $data),
             'component' => $this->component($filter, $data),
-            'filter' => $this->filter,
+            'filter' => $filter,
             'filters' => $this->buildFilters($filter, $data),
             'explore' => $this->explore($filter, $data),
             'exploreLabel' => $this->exploreLabel($filter, $data),

@@ -1,6 +1,6 @@
 <template>
     <app-layout :navigation="navigation">
-        <Table />
+        <Table :filters="filters"/>
         <!-- Page header -->
         <div class="m-3" v-for="(item, index) in summary" :key="item.index">
             <div class="mx-6 mt-8">
@@ -113,6 +113,12 @@ import AppLayout from '../Layouts/AppLayout.vue'
 import {  SearchIcon } from '@heroicons/vue/solid'
 import Table from "./Widgets/Table";
 
+const filters = {
+    type: 'TransactionsTable',
+    // status: 60
+}
+
+
 export default {
     components: {
         Table,
@@ -126,9 +132,9 @@ export default {
     data () {},
     setup (props) {
         const summary = props.summary
-
         return {
-            summary
+            summary,
+            filters
         }
     }
 }

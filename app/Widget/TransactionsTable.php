@@ -2,6 +2,7 @@
 
 namespace App\Widget;
 
+use App\Helpers\Filter;
 use Illuminate\Support\Str;
 use App\Models\Transaction;
 
@@ -43,10 +44,16 @@ class TransactionsTable extends Table
                 'sortable' => true,
                 'html' => true
               ],
+            [
+                'key' => 'pictures',
+                'label' => 'Pictures',
+                'sortable' => true,
+                'html' => true
+              ],
               [
                 'key' => 'Categories',
                 'label' => 'Misses',
-                'sortable' => true,
+                'sortable' => false,
                 'html' => true
               ],
             [
@@ -56,18 +63,20 @@ class TransactionsTable extends Table
                 'html' => true
               ],
               [
-                'key' => 'Customer Info',
-                'label' => 'customer_info',
+                'key' => 'customer_info',
+                'label' => 'Customer Info',
                 'sortable' => true,
                 'html' => true
               ]
         ];
     }
 
-    public function data() {
+    public function data($filter=[]) {
 
-        $this->data = Transaction::search([])
-            ->paginate(20);
+        $this->data = Transaction::search($filter)
+            ->with('transStatus')
+            ->with('images')
+            ->paginate(Filter::perPage($filter));
 
         return [
             'count' => data_get($this->data, 'perPage'),
@@ -75,25 +84,68 @@ class TransactionsTable extends Table
             'numberOfRows' => data_get($this->data, 'numberOfRows'),
             'items' => $this->data->map(function(Transaction $transaction) {
                 return [
-                    'id' => $transaction->id,
-                    'created_at' => $transaction->created_at,
-                    'status' => 'Pending Kits',
-                    'description' => 'This is my test description',
-                    'categories' => 'Category 1, Category 2',
-                    'whatever' => 'This is whatever',
-                    'Customer Info' => 'This is the customer info you need to know'
+                    'id' => [
+                        'data' => $transaction->id,
+                        'type' => 'link',
+                        'href' => '/admin/transactions/'.$transaction->id
+
+                        ],
+                    'created_at' => [
+                            'data' => $transaction->created_at
+                        ],
+                    'status' => [
+                        'data' => optional($transaction->transStatus)->name,
+                        ],
+                    'description' => [
+                            'data' => 'This is my test description',
+                        ],
+                    'pictures' => [
+                        'data' => $transaction->images,
+                        'type' => 'slideshow'
+                        ],
+                    'categories' => [
+                        'data' => $transaction->customer_categories,
+                    ],
+                    'whatever' => [
+                        'data' => 'This is whatever',
+                        ],
+                    'customer_info' => [
+                        'data' => $transaction->customer,
+                        'type' => 'customer_info',
+                        'href' => '/admin/customers/'.$transaction->customer->id
+                        ]
                 ];
 
             })
         ];
     }
 
-    public function items() {
-        return data_get($this->data(), 'items');
+    public function items($filter) {
+        return data_get($this->data($filter), 'items');
     }
 
     public function totalRows() {
         return $this->data->lastPage();
+    }
+
+    public function getCustomerHTMLInfo($customer) {
+        return sprintf('<span class="pb-4 pt-6 px-6 flex flex-col">
+                                    <span class="text-indigo-700 cursor-pointer font-bold">%s %s</span>
+                                    <div>%s, %s</div>
+                               </div>',
+            $customer->first_name,
+            $customer->last_name,
+            $customer->address,
+            $customer->state->code
+        );
+    }
+
+    public function getPicturesHTML($images) {
+        if(count($images)) {
+            return sprintf('<div class="h-10 w-10 flex-shrink-0"><img class="h-10 w-10 rounded-full src="%s" /></div>',
+            $images[0]->url);
+        }
+        return '';
     }
 
     public function actions() {
