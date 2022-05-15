@@ -52,7 +52,7 @@ class TransactionsTable extends Table
               ],
               [
                 'key' => 'Categories',
-                'label' => 'Misses',
+                'label' => 'Categories',
                 'sortable' => false,
                 'html' => true
               ],
@@ -97,7 +97,7 @@ class TransactionsTable extends Table
                         'data' => optional($transaction->transStatus)->name,
                         ],
                     'description' => [
-                            'data' => 'This is my test description',
+                            'data' => $transaction->comments,
                         ],
                     'pictures' => [
                         'data' => $transaction->images,
@@ -155,5 +155,9 @@ class TransactionsTable extends Table
             'Delete',
             'Rejected By Admin'
         ];
+    }
+
+    public function exportable($filter, $filteredData) {
+        return true;
     }
 }
