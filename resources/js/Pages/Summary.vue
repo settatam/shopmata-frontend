@@ -57,26 +57,26 @@
                     <!-- Fedex end -->
 
                     <!-- MISC start -->
-                    <div class=" rounded-md bg-white lg:mx-2">
-                        <!-- header -->
-                        <div
-                            class="rounded-t-md w-full bg-purple-darken p-4 text-white"
-                        >
-                            <h1 class="text-xl">MISC</h1>
-                        </div>
+<!--                    <div class=" rounded-md bg-white lg:mx-2">-->
+<!--                        &lt;!&ndash; header &ndash;&gt;-->
+<!--                        <div-->
+<!--                            class="rounded-t-md w-full bg-purple-darken p-4 text-white"-->
+<!--                        >-->
+<!--                            <h1 class="text-xl">MISC</h1>-->
+<!--                        </div>-->
 
-                        <!-- list -->
-                        <div class="p-3">
-                            <p
-                                v-for="counter in item.misc"
-                                :key="counter.index"
-                                class="py-1 px-3 flex justify-between my-1 bg-gray-grayer"
-                            >
-                                <span>{{ counter.counter }}</span>
-                                <span>{{ counter.val }}</span>
-                            </p>
-                        </div>
-                    </div>
+<!--                        &lt;!&ndash; list &ndash;&gt;-->
+<!--                        <div class="p-3">-->
+<!--                            <p-->
+<!--                                v-for="counter in item.misc"-->
+<!--                                :key="counter.index"-->
+<!--                                class="py-1 px-3 flex justify-between my-1 bg-gray-grayer"-->
+<!--                            >-->
+<!--                                <span>{{ counter.counter }}</span>-->
+<!--                                <span>{{ counter.val }}</span>-->
+<!--                            </p>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <!-- MISC end -->
                 </div>
             </div>
