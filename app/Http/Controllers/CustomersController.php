@@ -214,7 +214,6 @@ class CustomersController extends Controller
         $leads = Lead::all();
         $countries = Country::where('name','United States')->with('states')->first();
         $customer  = Customer::with(['transactions','customer_address','images','payment_address','payment_address.payment_type','tags'])->find($id);
-        dd(\DB::table('transaction_payment_types')->truncate()); 
         if (null === $customer) {
             throw new HttpException(404);
         }
