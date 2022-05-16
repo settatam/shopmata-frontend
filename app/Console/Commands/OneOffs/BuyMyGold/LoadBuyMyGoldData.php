@@ -101,7 +101,7 @@ class LoadBuyMyGoldData extends Command
                     $customer->dob                = $order["customer_dob"];
                     $customer->password           = bcrypt($order['order_password']);
                     $customer->gender             = $order['customer_gender'];
-                    $customer->customer_notes     = $order['customer_gender'];
+                    $customer->customer_notes     = $order['customer_notes'];
 
 
                     $customer->accepts_marketing  =   1;
