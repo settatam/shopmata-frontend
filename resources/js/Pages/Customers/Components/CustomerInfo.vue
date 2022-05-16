@@ -707,7 +707,6 @@ export default {
 
     setup(props) {
         const customer = props.customer;
-        console.log(customer);
         const address = customer.customer_address;
         const custkey = ref(1);
         const loading = ref(false);
@@ -717,6 +716,7 @@ export default {
         const selectedState = ref(customer.state_id);
         const selectedDob = ref(moment(customer.dob).format("MM-DD-YYYY"));
         // const selectedTags = ref( customer.tags ? customer.tags[customer.tags.length - 1].id : '')
+        console.log(address);
         const selectedTags = ref(customer.tags);
         const CustomerInfo = reactive({
             customerDifficulty:
@@ -838,8 +838,6 @@ export default {
                         },
                         100
                     );
-
-                    console.log(true);
                 })
                 .catch((err) => {
                     successMessage.value = "Error processing your request";
