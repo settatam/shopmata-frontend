@@ -43,10 +43,11 @@
                     {{ customer.payment_address.routing_number }}
                 </p>
                 <p>
-                    ACCOUNT NUMBER: {{ customer.payment_address.acount_number }}
+                    ACCOUNT NUMBER:
+                    {{ customer.payment_address.account_number }}
                 </p>
-                <p>ACCOUNT NAME: {{ customer.payment_address.acount_name }}</p>
-                <p>ACCOUNT TYPE: {{ customer.payment_address.acount_type }}</p>
+                <p>ACCOUNT NAME: {{ customer.payment_address.account_name }}</p>
+                <p>ACCOUNT TYPE: {{ customer.payment_address.account_type }}</p>
             </div>
 
             <div
