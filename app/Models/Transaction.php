@@ -220,6 +220,10 @@ class Transaction extends Model
                  $q->where('gender', $gender);
              }
 
+             if($customer_id = data_get($filter, 'customer_id')) {
+                 $q->where('id', $customer_id);
+             }
+
              if($state = data_get($filter, 'state')) {
                  $q->where('state', $state);
              }

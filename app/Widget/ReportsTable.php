@@ -182,11 +182,11 @@ class ReportsTable extends Table
             ->with('transStatus')
             ->with('images')
             ->with('address')
-            ->withEstValue()
-            ->withFinalOffer()
-            ->withTotalDwt()
-            ->withLabelsFrom()
-            ->withLabelsTo()
+//            ->withEstValue()
+//            ->withFinalOffer()
+//            ->withTotalDwt()
+//            ->withLabelsFrom()
+//            ->withLabelsTo()
             ->paginate(Filter::perPage($filter));
 
         return [

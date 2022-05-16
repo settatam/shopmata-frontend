@@ -15,7 +15,7 @@ class ReportsController extends Controller
     {
         $filters = $request->input();
         //†$filters['dates'] = Filter::dates($filters);
-        $filters['type'] = ReportsTable::class;
+        $filters['type'] = 'ReportsTable';
         return Inertia::render('Reports/Index', compact('filters'));
     }
 }

@@ -18,7 +18,7 @@
       <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-              <div class="px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+              <div class="px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600" v-if="isSearchable">
                 <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" :placeholder="filterText" />
               </div>
               <div v-if="selectedItems.length > 0" class="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
@@ -155,6 +155,7 @@ import {
     const filterText = ref('Filter Transactions');
     const bulkAction = ref('');
     const exportable = ref(false)
+    const isSearchable = ref(false)
 
     const filters = props.filters;
     console.log(filters);
@@ -183,6 +184,7 @@ import {
             title.value = res.data.title
             description.value = res.datadescription.value
             exportable.value = res.data.exportable;
+            isSearchable.value = res.data.isSearchable;
         })
     }
 

@@ -102,10 +102,7 @@
 
                 <!-- row 5 starts -->
                 <div class="w-full">
-                    <TransactionsTable
-                        :transaction="transaction"
-                        class="mb-12"
-                    />
+                    <shopmata-table :filters="customerFilters"></shopmata-table>
                 </div>
                 <!-- row 5 ends -->
 
@@ -280,6 +277,7 @@ import TrafficSource from './Components/TrafficSource.vue'
 import TransactionsTable from './Components/TransactionsTable.vue'
 import Actions from './Components/Actions.vue'
 import Scans from './Components/Scans.vue'
+import ShopmataTable from '../Widgets/ShopmataTable';
 import { ChevronRightIcon, HomeIcon } from '@heroicons/vue/solid'
 
 const pages = [
@@ -306,6 +304,7 @@ export default {
         TransactionsTable,
         Actions,
         Scans,
+        ShopmataTable
     },
     props: {
         notifications: Array,
@@ -324,6 +323,10 @@ export default {
         const open = ref(false)
         const notifications = props.notifications
         const transaction = props.transaction
+        const customerFilters = {
+            customer_id: props.transaction.customer.id,
+            type: 'CustomerTransactionsTable'
+        }
 
         function updateTransaction(data) {
             let currentData = {};
@@ -360,7 +363,8 @@ export default {
         return {
             pages,
             updateTransaction,
-            transaction
+            transaction,
+            customerFilters
         }
     }
 }
