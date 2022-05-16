@@ -58,7 +58,7 @@ class TransactionPaymentAddress extends Model
               'account_name'          =>  $request->account_name,
               'account_type'          =>  $request->account_type,
               'venmo_address'         =>  $request->check_name,
-              'check_name'            =>  $request->payable_to,
+              'check_name'            =>  $request->check_name,
               'check_address'         =>  $request->check_address,
               'check_city'            =>  $request->check_city,
               'check_zip'             =>  $request->check_zip,
