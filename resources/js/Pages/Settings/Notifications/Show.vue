@@ -455,16 +455,7 @@ export default {
         const loading = ref(false);
         const save = ref("Save");
         const successMessage = ref("");
-
-        const loadingFn = () => {
-            loading.value = false;
-            save.value = "Save";
-            window.location.href = "/admin/settings/notifications/";
-        };
-        const errorFn = () => {
-            loading.value = false;
-            save.value = "Save";
-        };
+ 
         const submit = () => {
             loading.value = true;
             axios
