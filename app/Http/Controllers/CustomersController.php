@@ -211,7 +211,7 @@ class CustomersController extends Controller
 
         $countries = Country::where('name','United States')->with('states')->first();
 
-        $customer  = Customer::with(['transactions','customer_address','images','transaction_payment_address','tags'])->find($id);
+        $customer  = Customer::with(['transactions','customer_address','images','payment_address','tags'])->find($id);
 
         if (null === $customer) {
             throw new HttpException(404);

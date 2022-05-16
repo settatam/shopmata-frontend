@@ -62,7 +62,7 @@
 
                 <div>
                     <CustomerSales :customer="customer" />
-                    <PaymentInformation />
+                    <PaymentInformation :payment="customer.payment_address" />
                 </div>
             </div>
         </div>
