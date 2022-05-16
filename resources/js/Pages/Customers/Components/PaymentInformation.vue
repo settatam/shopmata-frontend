@@ -79,7 +79,7 @@
                 <p>Address: {{ customer.payment_address.check_address }}</p>
                 <p>City: {{ customer.payment_address.check_city }}</p>
                 <p>Zip: {{ customer.payment_address.check_zip }}</p>
-                <p>State: {{ customer.payment_address.check_zip }}</p>
+                <p>State: {{ "" }}</p>
             </div>
         </div>
 
