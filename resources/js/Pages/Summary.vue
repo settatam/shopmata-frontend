@@ -56,29 +56,6 @@
                     </div>
                     <!-- Fedex end -->
 
-                    <!-- Import start -->
-                    <div class=" rounded-md bg-white lg:mx-2">
-                        <!-- header -->
-                        <div
-                            class="rounded-t-md w-full bg-purple-darken p-4 text-white"
-                        >
-                            <h1 class="text-xl">Import</h1>
-                        </div>
-
-                        <!-- list -->
-                        <div class="p-3">
-                            <p
-                                v-for="counter in item.import"
-                                :key="counter.index"
-                                class="py-1 px-3 flex justify-between my-1 bg-gray-grayer"
-                            >
-                                <span>{{ counter.counter }}</span>
-                                <span>{{ counter.val }}</span>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Import end -->
-
                     <!-- MISC start -->
                     <div class=" rounded-md bg-white lg:mx-2">
                         <!-- header -->
