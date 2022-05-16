@@ -192,7 +192,7 @@ class Customer extends Model
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function transaction_payment_address()
+    public function payment_address()
     {
         return $this->hasOne(TransactionPaymentAddress::class);
     }

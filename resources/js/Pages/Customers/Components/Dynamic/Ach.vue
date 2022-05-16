@@ -1,5 +1,5 @@
 <template>
-    <div class=" px-4 space-y-3 w-full pb-8">
+    <div class="px-4 space-y-3 w-full pb-8">
         <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
@@ -9,7 +9,7 @@
             <input
                 :class="{
                     'border-red-600': v$.bank_name.$error,
-                    'border-gray-300': !v$.bank_name.$error
+                    'border-gray-300': !v$.bank_name.$error,
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
@@ -32,9 +32,9 @@
             <input
                 :class="{
                     'border-red-600': v$.routing_number.$error,
-                    'border-gray-300': !v$.routing_number.$error
+                    'border-gray-300': !v$.routing_number.$error,
                 }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.routing_number"
                 placeholder="Routing Number (9 Digit Number)"
@@ -46,16 +46,18 @@
             </p>
         </div>
 
-        <div class="flex flex-col space-y-2 ">
-            <label class="font-semibold mt-2 w-full bg-transparent" for="account_number"
+        <div class="flex flex-col space-y-2">
+            <label
+                class="font-semibold mt-2 w-full bg-transparent"
+                for="account_number"
                 >ACCOUNT NUMBER:</label
             >
             <input
                 :class="{
                     'border-red-600': v$.account_number.$error,
-                    'border-gray-300': !v$.account_number.$error
+                    'border-gray-300': !v$.account_number.$error,
                 }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.account_number"
                 placeholder="city"
@@ -67,7 +69,7 @@
             </p>
         </div>
 
-        <div class="flex flex-col space-y-2 ">
+        <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
                 for="account_name"
@@ -76,9 +78,9 @@
             <input
                 :class="{
                     'border-red-600': v$.account_name.$error,
-                    'border-gray-300': !v$.account_name.$error
+                    'border-gray-300': !v$.account_name.$error,
                 }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.account_name"
                 placeholder="Account name (your name here)"
@@ -90,16 +92,18 @@
             </p>
         </div>
 
-        <div class="flex flex-col space-y-2 ">
-            <label class="font-semibold w-full mt-2 bg-transparent" for="account_type"
+        <div class="flex flex-col space-y-2">
+            <label
+                class="font-semibold w-full mt-2 bg-transparent"
+                for="account_type"
                 >ACCOUNT TYPE:</label
             >
             <input
                 :class="{
                     'border-red-600': v$.account_type.$error,
-                    'border-gray-300': !v$.account_type.$error
+                    'border-gray-300': !v$.account_type.$error,
                 }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500  w-full sm:text-sm border-gray-300 rounded-md"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.account_type"
                 placeholder="Account type (Checking, Savings)"
@@ -127,7 +131,7 @@
                     type="submit"
                     :class="{
                         disabled: loading,
-                        'opacity-25 cursor-not-allowed': loading
+                        'opacity-25 cursor-not-allowed': loading,
                     }"
                     class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     @click="submit"
@@ -150,82 +154,99 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed } from "vue";
 import {
     required,
     maxLength,
     numeric,
     helpers,
-    email
-} from '@vuelidate/validators'
-import useVuelidate from '@vuelidate/core'
-import LoadingSpinner from '../../../../Components/LoadingSpinner.vue'
+    email,
+} from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
+import LoadingSpinner from "../../../../Components/LoadingSpinner.vue";
 
 export default {
-    components: {
-        LoadingSpinner
+    props: {
+        customer: Object,
     },
-    setup () {
-        const loading = ref(false)
+    components: {
+        LoadingSpinner,
+    },
+    setup(props) {
+        const loading = ref(false);
         const paymentInfo = reactive({
-            payment_method: 'ach',
-            bank_name: '',
-            routing_number: '',
-            account_number: '',
-            account_name: '',
-            account_type: '',
-        })
+            payment_method: "ACH",
+            bank_name: "",
+            routing_number: "",
+            account_number: "",
+            account_name: "",
+            account_type: "",
+        });
 
         const rules = computed(() => {
             return {
                 bank_name: {
-                    required: helpers.withMessage('Enter an address', required)
+                    required: helpers.withMessage(
+                        "Enter a bank name",
+                        required
+                    ),
                 },
                 routing_number: {
-                    required: helpers.withMessage('Enter a city', required)
+                    required: helpers.withMessage(
+                        "Enter a routing number",
+                        required
+                    ),
                 },
                 account_number: {
-                    required: helpers.withMessage('Select a state', required)
+                    required: helpers.withMessage(
+                        "Select a account number",
+                        required
+                    ),
                 },
                 account_name: {
-                    required: helpers.withMessage('Select a state', required)
+                    required: helpers.withMessage(
+                        " Enter a account name",
+                        required
+                    ),
                 },
                 account_type: {
                     required: helpers.withMessage(
-                        'Enter a postal code',
+                        "Enter an account type",
                         required
-                    )
-                }
-            }
-        })
+                    ),
+                },
+            };
+        });
 
-        const v$ = useVuelidate(rules, paymentInfo)
+        const v$ = useVuelidate(rules, paymentInfo);
 
-        function submit () {
-            this.v$.$validate()
+        function submit() {
+            this.v$.$validate();
             if (this.v$.$error) {
-                return
+                return;
             }
-            loading.value = true
+            loading.value = true;
             axios
-                .put(``, paymentInfo)
-                .then(res => {
-                    successMessage.value = res.data.message
-                    setTimeout(onClickTop, 2000)
+                .post(
+                    `/admin/customer/${props.customer.id}/payment`,
+                    paymentInfo
+                )
+                .then((res) => {
+                    console.log(true);
+                    Inertia.visit(`/admin/customers/${props.customer.id}`);
                 })
-                .catch(error => {
-                    loading.value = false
-                    successMessage.value = 'Error processing your request'
-                    setTimeout(onClickBot, 2000)
-                })
+                .catch((error) => {
+                    loading.value = false;
+                    //setTimeout(onClickBot, 2000);
+                });
         }
 
         return {
             v$,
             paymentInfo,
             loading,
-            submit
-        }
-    }
-}
+            submit,
+        };
+    },
+};
 </script>

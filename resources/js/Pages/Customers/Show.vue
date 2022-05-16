@@ -62,7 +62,10 @@
 
                 <div>
                     <CustomerSales :customer="customer" />
-                    <PaymentInformation />
+                    <PaymentInformation
+                        :states="countries.states"
+                        :customer="customer"
+                    />
                 </div>
             </div>
         </div>

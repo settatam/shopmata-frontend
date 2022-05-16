@@ -54,9 +54,6 @@ class LoadBuyMyGoldData extends Command
         $response = Http::get('https://buymygold.com/api/transactions');
         $data = $response->body();
         
-        Transaction::truncate();
-
-
 
         if($orders = json_decode($data, true)) {
             $bar = $this->output->createProgressBar(count($orders['orders']));
@@ -338,5 +335,6 @@ class LoadBuyMyGoldData extends Command
     }
 
 }
+
 
 
