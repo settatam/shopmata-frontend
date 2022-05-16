@@ -121,6 +121,7 @@ class LoadBuyMyGoldData extends Command
                     $transaction_payment_address->bank_address_state_id  =  $this->getStateId($order["ach_bank_address_state"]);
                     $transaction_payment_address->bank_address_zip       =  $order["ach_bank_address_zip"];
                     $transaction_payment_address->routing_number         =  $order["ach_routing_number"];
+                    $transaction_payment_address->bank_name              =  $order["ach_bank_name"];
                     $transaction_payment_address->account_number         =  $order["ach_account_number"];
                     $transaction_payment_address->account_name           =  $order["ach_account_name"];
                     $transaction_payment_address->account_type           =  $order["ach_account_type"];
