@@ -14,8 +14,8 @@
 
         <div v-if="!isEdit" class="p-6 space-y-3 text-gray-lighter">
             <p>IS LOAN:</p>
-            <p>PAY METHOD: {{ payment.name }}</p>
-            <p>BANK NAME:</p>
+            <p>PAY METHOD: {{ customer.payment_address.payment_type.name }}</p>
+            <p>BANK NAME: {{ "" }}</p>
             <p>ROUTING NUMBER:</p>
             <p>ACCOUNT NUMBER:</p>
             <p>ACCOUNT NAME:</p>
@@ -45,7 +45,11 @@
 
             <div class="mx-auto w-full">
                 <keep-alive>
-                    <component :is="checkPaymentMethod" />
+                    <component
+                        :customer="customer"
+                        :states="states"
+                        :is="checkPaymentMethod"
+                    />
                 </keep-alive>
             </div>
         </div>
@@ -61,7 +65,8 @@ import Venmo from "./Dynamic/Venmo.vue";
 
 export default {
     props: {
-        payment: Object,
+        customer: Object,
+        states: Array,
     },
     components: { Check },
 
