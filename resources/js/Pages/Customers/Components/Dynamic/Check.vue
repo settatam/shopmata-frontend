@@ -228,12 +228,14 @@ export default {
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/customers/${props.customer.id}`);
+                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
+                        method: "get",
+                    });
                 })
                 .catch((error) => {
                     loading.value = false;
-                    successMessage.value = "Error processing your request";
-                    setTimeout(onClickBot, 2000);
+                    //successMessage.value = "Error processing your request";
+                    //setTimeout(onClickBot, 2000);
                 });
         }
 
