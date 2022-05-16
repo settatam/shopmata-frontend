@@ -147,9 +147,7 @@ class CustomersController extends Controller
                 break;
             case 'payment':
                    try {
-                       
-                     $r =  TransactionPaymentAddress::UpdateCustomerPayment($request, $id);
-                     return $r;
+                    TransactionPaymentAddress::UpdateCustomerPayment($request, $id);
                    } catch (\Throwable $th) {
                       return response($th->getMessage() ,422);
                       

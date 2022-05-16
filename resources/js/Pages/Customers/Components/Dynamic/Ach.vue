@@ -232,8 +232,9 @@ export default {
                     paymentInfo
                 )
                 .then((res) => {
-                    console.log(true);
-                    Inertia.visit(`/admin/customers/${props.customer.id}`);
+                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
+                        method: "get",
+                    });
                 })
                 .catch((error) => {
                     loading.value = false;
