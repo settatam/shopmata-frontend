@@ -13,13 +13,73 @@
         </div>
 
         <div v-if="!isEdit" class="p-6 space-y-3 text-gray-lighter">
-            <p>IS LOAN:</p>
-            <p>PAY METHOD: {{ customer.payment_address.payment_type.name }}</p>
-            <p>BANK NAME: {{ "" }}</p>
-            <p>ROUTING NUMBER:</p>
-            <p>ACCOUNT NUMBER:</p>
-            <p>ACCOUNT NAME:</p>
-            <p>ACCOUNT TYPE:</p>
+            <div
+                v-if="
+                    null != customer.payment_address &&
+                    customer.payment_address.payment_type.name == 'Paypal'
+                "
+            >
+                <p>
+                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
+                </p>
+                <p>
+                    Paypal Address:
+                    {{ customer.payment_address.paypal_address }}
+                </p>
+            </div>
+            <div
+                v-if="
+                    null != customer.payment_address &&
+                    customer.payment_address.payment_type.name == 'ACH'
+                "
+            >
+                <p>IS LOAN:</p>
+                <p>
+                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
+                </p>
+                <p>BANK NAME: {{ customer.payment_address.bank_name }}</p>
+                <p>
+                    ROUTING NUMBER:
+                    {{ customer.payment_address.routing_number }}
+                </p>
+                <p>
+                    ACCOUNT NUMBER: {{ customer.payment_address.acount_number }}
+                </p>
+                <p>ACCOUNT NAME: {{ customer.payment_address.acount_name }}</p>
+                <p>ACCOUNT TYPE: {{ customer.payment_address.acount_type }}</p>
+            </div>
+
+            <div
+                v-if="
+                    null != customer.payment_address &&
+                    customer.payment_address.payment_type.name == 'Venmo'
+                "
+            >
+                <p>
+                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
+                </p>
+
+                <p>
+                    Venmo address: {{ customer.payment_address.venmo_address }}
+                </p>
+            </div>
+
+            <div
+                v-if="
+                    null != customer.payment_address &&
+                    customer.payment_address.payment_type.name == 'Check'
+                "
+            >
+                <p>
+                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
+                </p>
+
+                <p>Payable to: {{ customer.payment_address.check_name }}</p>
+                <p>Address: {{ customer.payment_address.check_address }}</p>
+                <p>City: {{ customer.payment_address.check_city }}</p>
+                <p>Zip: {{ customer.payment_address.check_zip }}</p>
+                <p>State: {{ customer.payment_address.check_zip }}</p>
+            </div>
         </div>
 
         <div v-else>
