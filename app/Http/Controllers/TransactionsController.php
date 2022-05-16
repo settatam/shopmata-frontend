@@ -88,11 +88,10 @@ class TransactionsController extends Controller
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
         $transaction_categories      = Category::where(['store_id' => $store_id, 'type' => 'transaction_category' ])->get();
-        $transactions                = Transaction::where(['customer_id' => optional($transaction->customer)->id, 'store_id' => $store_id ])->get();
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
         $timeline = $transaction->historyTimeline();
-        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','transactions','top_tags','bottom_tags', 'timeline'));
+        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','top_tags','bottom_tags', 'timeline'));
     }
 
 
@@ -259,20 +258,20 @@ class TransactionsController extends Controller
 
     public function bulkPrint(Request $request, $printable) {
 
-        if($printable !== 'barcode' && $printable !== 'label') {
-            abort(404);
-        }
+//        if($printable !== 'barcode' && $printable !== 'label') {
+//            abort(404);
+//        }
 
         $input = $request->input();
         $transactions = Transaction::whereIn('id', $input['transactions'])->get();
 
-        if($input['action'] == 'barcode') {
+        if($input['action'] == 'Create Barcodes') {
             $transactions->map(function(Transaction $transaction){
                 return $transaction->qty = 5;
             });
             return Inertia::render('Transactions/BulkPrintBarcode', compact('transactions'));
-        }else if($input['action'] == 'label_to' || $input['action'] == 'label_from' ) {
-            $direction = str_replace('label_', '', $input['action']);
+        }else if($input['action'] == 'Create Shipping Label' || $input['action'] == 'label_from' ) {
+            $direction = str_replace('label', '', $input['action']);
             $transactions->map(function(Transaction $transaction) use ($direction) {
                 return [$transaction->qty = 1, $transaction->direction = $direction];
             });

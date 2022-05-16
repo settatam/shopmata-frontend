@@ -18,18 +18,19 @@
       <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-              <div class="px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600" v-if="isSearchable">
-                <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" :placeholder="filterText" />
+              <div class="shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600" v-if="isSearchable">
+                <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm px-3 py-3" :placeholder="filterText" />
               </div>
-              <div v-if="selectedItems.length > 0" class="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
+              <div v-if="selectedItems.length > 0" class="px-3 py-3 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
                   <button type="button"
                           class="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
                           v-for="(action, index) in actions"
+                          @click="sendAction(action)"
                           :key="index"
                   >
                           {{ action }}
                   </button>
-                  <p> {{ selectedItems.length }} Items selected </p>
+                  <p class="text-gray-500 text-xs"> {{ selectedItems.length }} Items selected </p>
               </div>
                 <table class="min-w-full divide-y divide-gray-300 table-fixed">
                   <thead class="bg-gray-50">
@@ -43,9 +44,6 @@
                           > {{ field[1] }}
                         </th>
 
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 ">
-                            <span class="sr-only">Edit</span>
-                        </th>
                     </tr>
                   </thead>
                   <tbody class="divide-y divide-gray-200 bg-white">
@@ -120,9 +118,10 @@
 </template>
 
 <script setup>
-import {onMounted, ref, computed} from 'vue'
+    import {onMounted, ref, computed} from 'vue'
     import axios from 'axios'
     import Pagination from "../../Components/Pagination";
+    import { Inertia } from '@inertiajs/inertia'
 
     const props = defineProps({
         filters: Object
@@ -152,7 +151,7 @@ import {
     const selectedItems = ref([])
     const hasCheckBox = ref(false);
     const indeterminate = computed(() => selectedItems.value.length > 0 && selectedItems.value.length < items.length)
-    const filterText = ref('Filter Transactions');
+    const filterText = ref('Search Table');
     const bulkAction = ref('');
     const exportable = ref(false)
     const isSearchable = ref(false)
@@ -166,6 +165,26 @@ import {
 
     const bulkActions = (el) => {
 
+    }
+
+    function sendAction (action) {
+        let data = {
+            transactions: selectedItems.value.map(t => t.data),
+            action
+        }
+        switch (action) {
+            case 'delete':
+                isDelete.value = true
+                break;
+            case 'Create Shipping Label':
+            case 'Create Barcodes':
+            case 'Rejected By Admin':
+                Inertia.post(
+                    '/admin/transactions/bulk-actions/barcode',
+                    data
+                )
+                break;
+            }
     }
 
     const getFieldIndex = (field, obj) =>  {
@@ -182,7 +201,7 @@ import {
             actions.value = res.data.actions;
             hasCheckBox.value = res.data.hasCheckBox;
             title.value = res.data.title
-            description.value = res.datadescription.value
+            // description.value = res.data.description.value
             exportable.value = res.data.exportable;
             isSearchable.value = res.data.isSearchable;
         })

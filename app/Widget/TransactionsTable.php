@@ -140,4 +140,9 @@ class TransactionsTable extends Table
     public function exportable($filter, $filteredData) {
         return true;
     }
+
+    public function isSearchable()
+    {
+        return true;
+    }
 }

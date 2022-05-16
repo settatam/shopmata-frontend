@@ -85,6 +85,7 @@ class SearchTable extends Table
                     ->orWhere('last_name', 'LIKE', $term);
             })->with('transStatus')
             ->with('images')
+            ->orderBy(Filter::sortBy($filter), Filter::sort($filter))
             ->paginate(Filter::perPage($filter));
 
         return [
