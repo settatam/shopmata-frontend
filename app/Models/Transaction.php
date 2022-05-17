@@ -121,6 +121,12 @@ class Transaction extends Model
 			) uxmegallc";
     }
 
+//    public function scopeWithStatusDateTime($query) {
+//        return $query->addSelect(['est_value'=>Acti::selectRaw('sum(price) as est_val')
+//                ->whereColumn('transactions.id', 'transaction_items.transaction_id')
+//        ]);
+//    }
+
     public function scopeWithEstValue($query) {
         return $query->addSelect(['est_value'=>TransactionItem::selectRaw('sum(price) as est_val')
                 ->whereColumn('transactions.id', 'transaction_items.transaction_id')
@@ -143,6 +149,14 @@ class Transaction extends Model
         return $query->addSelect(['outgoing_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as outgoing_tracking')
                 ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
                 ->where('shipping_labels.to_customer', true)
+        ]);
+    }
+
+    public function scopeWithStatusDateTime($query) {
+        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(created_at, '%m-%d-%Y')) as status_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('is_status', true)
+                ->take(1)->latest()
         ]);
     }
 
@@ -412,7 +426,7 @@ class Transaction extends Model
 
     public function doUpdate($input) {
         $this->input = $input;
-        $currentStatus = $this->status;
+        $currentStatus = $this->trStatus->name;
         //Get the current difference between the model and the input
         $inputCollection = $this->input;
             //convert back to an array
@@ -421,13 +435,15 @@ class Transaction extends Model
                 foreach($this->getChanges() as $index => $input) {
                     //Create Activity Entry
                     $this->load('trStatus');
+                    $status = optional($this->trStatus)->name;
                     if($index == 'updated_at') continue;
                     $this->activities()->create([
                         'user_id' => Auth::id(),
                         'agent' => Auth::user()->first_name,
-                        'status' => $this->status,
-                        'notes' => 'Updated status to ' . $this->status,
-                        'name' => $currentStatus
+                        'status' => $status,
+                        'notes' => 'Updated status to ' . $status,
+                        'name' => $currentStatus,
+                        'is_status' => 1
                     ]);
                     $checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated');
                     $checkForEvent = EventCondition::check(get_class(), TransactionOffer::class, TransactionOffer::FINAL_OFFER, 'added');

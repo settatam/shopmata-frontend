@@ -9,6 +9,8 @@ use App\Models\Store;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Address;
+use App\Models\TransactionPaymentAddress;
+
 use App\Models\Tag;
 use App\Models\Lead;
 
@@ -143,9 +145,13 @@ class CustomersController extends Controller
 
                 return response("Something went wrong" ,422);
                 break;
-            case 'payments':
-
-                 
+            case 'payment':
+                   try {
+                    TransactionPaymentAddress::UpdateCustomerPayment($request, $id);
+                   } catch (\Throwable $th) {
+                      return response($th->getMessage() ,422);
+                      
+                   }
                 break;
 
             case 'leads':
@@ -204,15 +210,10 @@ class CustomersController extends Controller
         $store = Store::find(session('store_id'));
 
         $store->load('currency');
-
         $tags  = Tag::whereIn('name', Customer::TAGS)->get();
-
         $leads = Lead::all();
-
         $countries = Country::where('name','United States')->with('states')->first();
-
-        $customer  = Customer::with(['transactions','customer_address','images','transaction_payment_address','tags'])->find($id);
-
+        $customer  = Customer::with(['transactions','customer_address','images','payment_address','payment_address.payment_type','tags'])->find($id);
         if (null === $customer) {
             throw new HttpException(404);
         }

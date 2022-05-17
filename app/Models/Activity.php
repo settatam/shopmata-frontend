@@ -33,6 +33,7 @@ class Activity extends Model
         'notes',
         'name',
         'is_from_admin',
+        'is_status'
     ];
 
 

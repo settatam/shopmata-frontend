@@ -138,7 +138,7 @@
             </div> -->
             <!-- Activity table (small breakpoint and up) -->
             <div class="sm:block mb-10">
-                <div class="mx-auto px-4 sm:px-6 lg:px-8 ">
+                <div class="mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col mt-4">
                         <div
                             class="align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg"
@@ -148,7 +148,6 @@
                             >
                                 <thead class="bg-white">
                                     <tr>
-
                                         <th
                                             scope="col"
                                             class="px-6 py-3 text-left text-base font-medium text-gray-400 uppercase tracking-wider"
@@ -178,11 +177,15 @@
                     </th> -->
                                     </tr>
                                 </thead>
-                                <div v-if="loading" class="absolute top-2/3 scale-150 left-1/2 flex flex-col justify-center items-center">
-                                    <spinner class=" "/>
+                                <div
+                                    v-if="loading"
+                                    class="absolute top-2/3 scale-150 left-1/2 flex flex-col justify-center items-center"
+                                >
+                                    <spinner class=" " />
                                     <p class="text-lg font-bold">loading...</p>
                                 </div>
-                                <tbody v-else
+                                <tbody
+                                    v-else
                                     class="bg-white divide-y divide-gray-200"
                                 >
                                     <tr
@@ -195,13 +198,13 @@
                                         >
                                             <inertia-link
                                                 :href="
-                                                    '/admin/customers/' + customer.id
+                                                    '/admin/customers/' +
+                                                    customer.id
                                                 "
                                             >
                                                 {{ customer.first_name }}
                                                 {{ customer.last_name }}
                                             </inertia-link>
-
                                         </td>
                                         <td
                                             class="px-6 py-3 text-left text-base font-medium text-gray-700 tracking-wider"
@@ -229,7 +232,10 @@
                             </table>
                         </div>
                         <!-- Pagination -->
-                         <pagination :meta="pagination" v-if="pagination.total > pagination.per_page"/>
+                        <pagination
+                            :meta="pagination"
+                            v-if="pagination.total > pagination.per_page"
+                        />
 
                         <!-- <nav
                             class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
@@ -271,10 +277,13 @@
                         </nav> -->
 
                         <!-- Customer modal -->
-                        <customer @close="openCustomer=false" v-if="openCustomer" :countries="countries" />
+                        <customer
+                            @close="openCustomer = false"
+                            v-if="openCustomer"
+                            :countries="countries"
+                        />
                     </div>
                 </div>
-
             </div>
         </div>
     </app-layout>
@@ -285,13 +294,12 @@ import { computed, reactive, ref, watch } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import { PlusIcon, EyeIcon, TrashIcon } from "@heroicons/vue/solid";
 import { SearchIcon, ArrowRightIcon } from "@heroicons/vue/outline";
-import Pagination from '../../Components/Pagination.vue'
+import Pagination from "../../Components/Pagination.vue";
 // import Search from '../Search.vue'
 // import axios from "axios"
 import moment from "moment";
-import Spinner from "../../../assets/Spinner.vue"
-import Customer from './Components/Customer.vue';
-
+import Spinner from "../../../assets/Spinner.vue";
+import Customer from "./Components/Customer.vue";
 
 export default {
     props: {
@@ -300,7 +308,7 @@ export default {
         //data: Object,
         store: Object,
         countries: Array,
-        navigation: Array
+        navigation: Array,
     },
     data() {
         return {
@@ -406,57 +414,64 @@ export default {
         ArrowRightIcon,
         Pagination,
         Spinner,
-        Customer
+        Customer,
     },
 
-    setup({customers}) {
+    setup({ customers }) {
         const open = ref(false);
         const filterLists = ref(customers.data);
-        const openCustomer = ref(false)
+        const openCustomer = ref(false);
         const filter = reactive({
             from_date: "",
             to_date: "",
             q: "",
             filter: true,
         });
-        const pagination = ref(customers)
-        const loading = ref(false)
+        const pagination = ref(customers);
+        const loading = ref(false);
 
-
-        const disableBtn=computed(()=>{
-            if ((filter.from_date==''||filter.to_date=='')&&filter.q=='') {
-                return true
-            } else if(filter.q!='' && (filter.from_date=='' || filter.to_date=='')) {
-                return false
-            }else{
-                return false
+        const disableBtn = computed(() => {
+            if (
+                (filter.from_date == "" || filter.to_date == "") &&
+                filter.q == ""
+            ) {
+                return true;
+            } else if (
+                filter.q != "" &&
+                (filter.from_date == "" || filter.to_date == "")
+            ) {
+                return false;
+            } else {
+                return false;
             }
-        })
+        });
 
-        function success(list,page){
-            filterLists.value = list
-            pagination.value = page
-            loading.value = false
+        function success(list, page) {
+            filterLists.value = list;
+            pagination.value = page;
+            loading.value = false;
         }
-        function reset(){
-            filter.from_date =""
-            filter.to_date=""
+        function reset() {
+            filter.from_date = "";
+            filter.to_date = "";
         }
-        function submit(){
-            loading.value = true
-            axios.get('/customers',{
-                params:{
-                    from_date:filter.from_date,
-                    to_date: filter.to_date,
-                    q:filter.q,
-                    filter:true
-                }
-            }).then((res)=>{
-                const list = res.data.data
-                const page = res.data.meta
-                setTimeout(success(list,page),2000)
-                // setTimeout(reset(),2100)
-            })
+        function submit() {
+            loading.value = true;
+            axios
+                .get("/admin/customers", {
+                    params: {
+                        from_date: filter.from_date,
+                        to_date: filter.to_date,
+                        q: filter.q,
+                        filter: true,
+                    },
+                })
+                .then((res) => {
+                    const list = res.data.data;
+                    const page = res.data.meta;
+                    setTimeout(success(list, page), 2000);
+                    // setTimeout(reset(),2100)
+                });
         }
         return {
             filter,
@@ -465,7 +480,7 @@ export default {
             pagination,
             loading,
             openCustomer,
-            disableBtn
+            disableBtn,
         };
     },
 };

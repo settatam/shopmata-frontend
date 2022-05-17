@@ -294,6 +294,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::delete('customers/{id}',      [CustomersController::class, 'destroy']);
         Route::post('customer/{id}/{extra}', [CustomersController::class, 'extras']);
 
+        
+
         Route::post('images', [ImagesController::class, 'store']);
         Route::post('image/delete', [ImagesController::class, 'destroy']);
 

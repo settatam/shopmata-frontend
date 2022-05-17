@@ -1,5 +1,5 @@
 <template>
-    <div class=" bg-white mt-7 mb-7 mx-auto rounded-md">
+    <div class="bg-white mt-7 mb-7 mx-auto rounded-md">
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1 class="text-xl">
                 Payment Information
@@ -13,26 +13,85 @@
         </div>
 
         <div v-if="!isEdit" class="p-6 space-y-3 text-gray-lighter">
-            <p>IS LOAN:</p>
-            <p>PAY METHOD:</p>
-            <p>
-                BANK NAME:
-            </p>
-            <p>ROUTING NUMBER:</p>
-            <p>ACCOUNT NUMBER:</p>
-            <p>ACCOUNT NAME:</p>
-            <p>ACCOUNT TYPE:</p>
+            <div
+                v-if="
+                    null != customer.payment_address &&
+                    customer.payment_address.payment_type.name == 'Paypal'
+                "
+            >
+                <p>
+                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
+                </p>
+                <p>
+                    Paypal Address:
+                    {{ customer.payment_address.paypal_address }}
+                </p>
+            </div>
+            <div
+                v-if="
+                    null != customer.payment_address &&
+                    customer.payment_address.payment_type.name == 'ACH'
+                "
+            >
+                <p>IS LOAN:</p>
+                <p>
+                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
+                </p>
+                <p>BANK NAME: {{ customer.payment_address.bank_name }}</p>
+                <p>
+                    ROUTING NUMBER:
+                    {{ customer.payment_address.routing_number }}
+                </p>
+                <p>
+                    ACCOUNT NUMBER:
+                    {{ customer.payment_address.account_number }}
+                </p>
+                <p>ACCOUNT NAME: {{ customer.payment_address.account_name }}</p>
+                <p>ACCOUNT TYPE: {{ customer.payment_address.account_type }}</p>
+            </div>
+
+            <div
+                v-if="
+                    null != customer.payment_address &&
+                    customer.payment_address.payment_type.name == 'Venmo'
+                "
+            >
+                <p>
+                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
+                </p>
+
+                <p>
+                    Venmo address: {{ customer.payment_address.venmo_address }}
+                </p>
+            </div>
+
+            <div
+                v-if="
+                    null != customer.payment_address &&
+                    customer.payment_address.payment_type.name == 'Check'
+                "
+            >
+                <p>
+                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
+                </p>
+
+                <p>Payable to: {{ customer.payment_address.check_name }}</p>
+                <p>Address: {{ customer.payment_address.check_address }}</p>
+                <p>City: {{ customer.payment_address.check_city }}</p>
+                <p>Zip: {{ customer.payment_address.check_zip }}</p>
+                <p>State: {{ "" }}</p>
+            </div>
         </div>
 
         <div v-else>
-            <div class="py-4 px-4 space-y-2 flex flex-col ">
+            <div class="py-4 px-4 space-y-2 flex flex-col">
                 <label
                     class="font-semibold w-full mt-2 bg-transparent"
                     for="pay_method"
-                    >PAYMENT METHOD: </label
-                >
+                    >PAYMENT METHOD:
+                </label>
                 <select
-                    class=" shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
+                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                     name="pay_method"
                     id=""
                     v-model="payment_method"
@@ -47,45 +106,54 @@
 
             <div class="mx-auto w-full">
                 <keep-alive>
-                <component :is="checkPaymentMethod" />
-            </keep-alive>
+                    <component
+                        :customer="customer"
+                        :states="states"
+                        :is="checkPaymentMethod"
+                    />
+                </keep-alive>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-import Check from './Dynamic/Check.vue'
-import Paypal from './Dynamic/Paypal.vue'
-import Ach from './Dynamic/Ach.vue'
-import Venmo from './Dynamic/Venmo.vue'
+import { ref, computed } from "vue";
+import Check from "./Dynamic/Check.vue";
+import Paypal from "./Dynamic/Paypal.vue";
+import Ach from "./Dynamic/Ach.vue";
+import Venmo from "./Dynamic/Venmo.vue";
 
 export default {
+    props: {
+        customer: Object,
+        states: Array,
+    },
     components: { Check },
-    setup () {
-        const isEdit = ref(false)
-        function toggleEdit () {
-            isEdit.value = !isEdit.value
+
+    setup() {
+        const isEdit = ref(false);
+        function toggleEdit() {
+            isEdit.value = !isEdit.value;
         }
-        const payment_method = ref('choose')
+        const payment_method = ref("choose");
 
         const checkPaymentMethod = computed(() => {
             switch (payment_method.value) {
-                case 'check':
-                    return Check
-                case 'ach':
-                    return Ach
-                case 'paypal':
-                    return Paypal
-                case 'venmo':
-                    return Venmo
+                case "check":
+                    return Check;
+                case "ach":
+                    return Ach;
+                case "paypal":
+                    return Paypal;
+                case "venmo":
+                    return Venmo;
                 default:
-                    break
+                    break;
             }
-        })
+        });
 
-        return { isEdit, toggleEdit, payment_method, checkPaymentMethod }
-    }
-}
+        return { isEdit, toggleEdit, payment_method, checkPaymentMethod };
+    },
+};
 </script>

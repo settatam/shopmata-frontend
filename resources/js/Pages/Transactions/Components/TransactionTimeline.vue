@@ -49,7 +49,7 @@
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
                             placeholder="Offer"
                             autocomplete="off"
-                            v-model="currentTransaction.final_offer"
+                            v-model="currentTransaction.offer"
                         />
                         <div class="flex flex-row ml-1">
                             <input
@@ -373,13 +373,13 @@ export default {
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.final_offer,
+                        value: this.currentTransaction.offer,
                     };
                     break;
                 case "sms":
                     data = {
                         field: "sms",
-                        value: this.currentTransaction.final_offer,
+                        value: this.currentTransaction.sms,
                     };
                     break;
             }
