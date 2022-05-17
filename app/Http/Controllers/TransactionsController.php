@@ -88,7 +88,7 @@ class TransactionsController extends Controller
             ->withPaymentType()
             ->withStatusDateTime()
             ->withReceivedDateTime()
-            ->with('customer.state','items','items.category','items.images','histories','offers','public_note.images','sms','images', 'activities','transaction_payment_address','tags')
+            ->with('customer.state','items','items.category','items.images','histories','offers','public_note.images','sms','images', 'activities','payment_address','tags')
             ->find($id);
 
 
@@ -100,7 +100,7 @@ class TransactionsController extends Controller
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
         $timeline = $transaction->historyTimeline();
-        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','top_tags','bottom_tags', 'payment_address','timeline'));
+        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','top_tags','bottom_tags','timeline'));
     }
 
 
