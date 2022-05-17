@@ -117,7 +117,7 @@
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
                         <div
-                            
+
                         >
                             <ImageModal
                                 :enlargedImage="transactionItem.images.length ? transactionItem.images[0].url : null"
@@ -166,7 +166,7 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                     
+
                         <p>
                             <span
                                 href=" "
@@ -199,28 +199,31 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4"
                     ></td>
+
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4"
-                    ></td>
-                    <td 
                         class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        Total Value: {{ transactionItems.length ? transactionItems.length : 0 }}
+                        {{ transactionItems.length ? transactionItems.length : 0 }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        ${{ totalDwt }}
+                        {{ totalDwt }}
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        
+                         {{ root.est_value }}
+                    </td>
+                    <td
+                        class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap text-right"
+                    >
+                        Profit Percentage:
                     </td>
                     <td
                         class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        Estimated Profit: {{}}
+                    {{ root.profit_percent }}
                     </td>
                 </tr>
             </tbody>
@@ -236,7 +239,7 @@
                 </button>
             </div>
         </div>
-        
+
     </div>
 </template>
 
@@ -291,6 +294,14 @@ export default {
             return sum.toFixed(2)
         })
 
+        const estimatedProfit = computed(() => {
+            return root.est_val;
+        })
+
+        const percentProfit = computed(() => {
+            return root.est_val;
+        })
+
         const totalPrice = computed(() => {
             let sum = 0
             items.forEach(item => {
@@ -302,11 +313,11 @@ export default {
         function pushValue (res) {
             popUp.value = res.data
         }
-        
+
         function pushEditValue (res) {
             transactionItems.value = res.data.items
         }
-        
+
         function Edited (res){
             cosole.log(res)
         }
@@ -347,7 +358,9 @@ export default {
             deleteItem,
             pushEditValue,
             item,
-            Edited
+            Edited,
+            estimatedProfit,
+            percentProfit
         }
     }
 }

@@ -170,6 +170,14 @@ class Transaction extends Model
         ]);
     }
 
+    public function getProfitPercent($offer, $est_val) {
+        if(isset($est_val) && isset($offer)) {
+            $result = ($offer - $est_val) / 100;
+            return Numeral::number($result)->format('0.0%');
+
+        }
+    }
+
     public function scopeWithPrivateNote($query) {
         return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
                 ->whereColumn('transactions.id', 'transaction_notes.transaction_id')

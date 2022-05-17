@@ -87,7 +87,9 @@
             </p>
             <p class="font-bold text-sm text-black">
                 Website Categories
-                <span class="font-normal"></span>
+                <span class="font-normal">
+                    {{ transaction.customer_categories }}
+                </span>
             </p>
         </div>
     </div>
