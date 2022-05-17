@@ -6,9 +6,7 @@
 
         <div class="p-4 space-y-2">
             <payment-method
-                :payment_method_name="
-                    transaction.payment_address.payment_type.name
-                "
+                :payment_method_name="name"
                 :payment="transaction.payment_address"
             />
         </div>
@@ -24,7 +22,13 @@ export default {
         transaction: Object,
     },
     components: { AppLayout, PaymentMethod },
-    setup() {
+    setup({ transaction }) {
+        const name = ref(
+            transaction.payment_address.payment_type
+                ? transaction.payment_address.payment_type.name
+                : null
+        );
+
         return {};
     },
 };
