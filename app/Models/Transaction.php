@@ -411,10 +411,12 @@ class Transaction extends Model
         return $this->hasMany(TransactionOffer::class);
     }
 
-    public function transaction_payment_address()
+    public function payment_address()
     {
         return $this->hasOne(TransactionPaymentAddress::class);
     }
+
+    
 
 
     public function sms()

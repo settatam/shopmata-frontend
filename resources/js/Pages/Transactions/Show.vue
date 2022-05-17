@@ -50,7 +50,7 @@
                             class="mb-4 h-full"
                         />
                     </div>
-                    <div class="w-full lg:w-1/3 ">
+                    <div class="w-full lg:w-1/3">
                         <KitInformation
                             class="mb-4 h-full"
                             :categories="transaction_categories"
@@ -63,11 +63,14 @@
                         <div>
                             <CustomerInformation
                                 :customer="transaction.customer"
-                                class="mb-4 "
+                                class="mb-4"
                             />
                         </div>
                         <div>
-                            <PaymentInformation class="mb-4" />
+                            <PaymentInformation
+                                :transaction="transaction"
+                                class="mb-4"
+                            />
                         </div>
                         <div>
                             <TrafficSource class="mb-4" />
@@ -108,15 +111,12 @@
 
                 <!-- Scan row starts -->
                 <div class="w-full">
-                    <Scans
-                        class="mb-12"
-                    />
+                    <Scans class="mb-12" />
                 </div>
 
                 <div class="w-full">
-                    <ShopmataTable :filters="activityFilters"/>
+                    <ShopmataTable :filters="activityFilters" />
                 </div>
-
             </div>
 
             <NotificationGroup group="top" position="top">
@@ -258,30 +258,30 @@
 </template>
 
 <script>
-import { ref, computed, watch, reactive } from 'vue'
-import AppLayout from '../../Layouts/AppLayout.vue'
-import axios from 'axios'
-import TransactionBox1 from './Components/TransactionBox1.vue'
-import KitInformation from './Components/KitInformation.vue'
-import CustomerInformation from './Components/CustomerInformation.vue'
-import PaymentInformation from './Components/PaymentInformation.vue'
-import TransactionTimeline from './Components/TransactionTimeline.vue'
-import ItemTable from './Components/ItemTable.vue'
-import TrafficSource from './Components/TrafficSource.vue'
-import TransactionsTable from './Components/TransactionsTable.vue'
-import Actions from './Components/Actions.vue'
-import Scans from './Components/Scans.vue'
-import ShopmataTable from '../Widgets/ShopmataTable';
-import { ChevronRightIcon, HomeIcon } from '@heroicons/vue/solid'
+import { ref, computed, watch, reactive } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
+import axios from "axios";
+import TransactionBox1 from "./Components/TransactionBox1.vue";
+import KitInformation from "./Components/KitInformation.vue";
+import CustomerInformation from "./Components/CustomerInformation.vue";
+import PaymentInformation from "./Components/PaymentInformation.vue";
+import TransactionTimeline from "./Components/TransactionTimeline.vue";
+import ItemTable from "./Components/ItemTable.vue";
+import TrafficSource from "./Components/TrafficSource.vue";
+import TransactionsTable from "./Components/TransactionsTable.vue";
+import Actions from "./Components/Actions.vue";
+import Scans from "./Components/Scans.vue";
+import ShopmataTable from "../Widgets/ShopmataTable";
+import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/solid";
 
 const pages = [
-    { name: 'Transactions', href: '/admin/transactions', current: false },
+    { name: "Transactions", href: "/admin/transactions", current: false },
     {
-        name: 'Transaction Report',
-        href: '',
-        current: true
-    }
-]
+        name: "Transaction Report",
+        href: "",
+        current: true,
+    },
+];
 
 export default {
     components: {
@@ -298,7 +298,7 @@ export default {
         TransactionsTable,
         Actions,
         Scans,
-        ShopmataTable
+        ShopmataTable,
     },
     props: {
         notifications: Array,
@@ -310,52 +310,57 @@ export default {
         bottom_tags: Array,
         timeline: Array,
         navigation: Array,
-        store: Object
+        store: Object,
     },
 
-    setup (props) {
-        const open = ref(false)
-        const notifications = props.notifications
-        const transaction = props.transaction
+    setup(props) {
+        const open = ref(false);
+        const notifications = props.notifications;
+        const transaction = props.transaction;
         const customerFilters = {
             customer_id: props.transaction.customer.id,
-            type: 'CustomerTransactionsTable'
-        }
+            type: "CustomerTransactionsTable",
+        };
 
         const activityFilters = {
-            type: 'TransactionActionsTable',
-            transaction_id: props.transaction.id
-        }
+            type: "TransactionActionsTable",
+            transaction_id: props.transaction.id,
+        };
 
         function updateTransaction(data) {
             let currentData = {};
-            currentData[data.field] = data['value'];
-            let url = '';
-            let method = 'put';
-            switch(data.field) {
-                case 'offer':
-                    url = '/admin/transactions/'+props.transaction.id+'/offer';
-                    method = 'post';
+            currentData[data.field] = data["value"];
+            let url = "";
+            let method = "put";
+            switch (data.field) {
+                case "offer":
+                    url =
+                        "/admin/transactions/" +
+                        props.transaction.id +
+                        "/offer";
+                    method = "post";
                     break;
-                case 'message':
-                     url = '/admin/transactions/'+props.transaction.id+'/message';
-                     method = 'post';
-                     break;
+                case "message":
+                    url =
+                        "/admin/transactions/" +
+                        props.transaction.id +
+                        "/message";
+                    method = "post";
+                    break;
                 default:
-                    method = 'put';
-                    url = '/admin/transactions/'+props.transaction.id
+                    method = "put";
+                    url = "/admin/transactions/" + props.transaction.id;
             }
 
-            if(method == 'put') {
-                axios.put(url, currentData).then(res => {
-                // props.transaction.value = res.data
-                })
-            }else{
-                axios.post(url, currentData).then(res => {
-                // props.transaction.value = res.data
-                })
+            if (method == "put") {
+                axios.put(url, currentData).then((res) => {
+                    // props.transaction.value = res.data
+                });
+            } else {
+                axios.post(url, currentData).then((res) => {
+                    // props.transaction.value = res.data
+                });
             }
-
         }
 
         return {
@@ -363,8 +368,8 @@ export default {
             updateTransaction,
             transaction,
             customerFilters,
-            activityFilters
-        }
-    }
-}
+            activityFilters,
+        };
+    },
+};
 </script>

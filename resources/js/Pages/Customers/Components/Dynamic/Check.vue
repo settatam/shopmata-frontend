@@ -83,7 +83,7 @@
                     'border-gray-300': !v$.check_state_id.$error,
                 }"
             >
-                <option value="0">State/Province</option>
+                <option value="">Choose a State</option>
                 <option
                     v-for="(state, index) in states"
                     :key="index"
@@ -181,13 +181,14 @@ export default {
     },
     setup(props) {
         const loading = ref(false);
+        let payment = props.customer.payment_address;
         const paymentInfo = reactive({
             payment_method: "Check",
-            check_name: "",
-            check_address: "",
-            check_city: "",
-            check_state_id: "",
-            check_zip: "",
+            check_name: payment.check_name,
+            check_address: payment.check_address,
+            check_city: payment.check_city,
+            check_state_id: payment.check_state_id || "",
+            check_zip: payment.check_zip,
         });
 
         const rules = computed(() => {
