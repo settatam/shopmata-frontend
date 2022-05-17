@@ -49,25 +49,27 @@ class TransactionsTable extends Table
                 'label' => 'Pictures',
                 'sortable' => true,
                 'html' => true
-              ],
-              [
+            ],
+
+            [
+                'key' => 'message',
+                'label' => 'Message',
+                'sortable' => true,
+                'html' => true
+            ],
+
+            [
                 'key' => 'Categories',
                 'label' => 'Categories',
                 'sortable' => false,
                 'html' => true
-              ],
+            ],
             [
-                'key' => 'Whatever',
-                'label' => 'whatever',
-                'sortable' => true,
-                'html' => true
-              ],
-              [
                 'key' => 'customer_info',
                 'label' => 'Customer Info',
                 'sortable' => true,
                 'html' => true
-              ]
+            ]
         ];
     }
 
@@ -103,12 +105,12 @@ class TransactionsTable extends Table
                         'data' => $transaction->images,
                         'type' => 'slideshow'
                         ],
+                    'message' => [
+                        'data' => 'This is a messager',
+                    ],
                     'categories' => [
                         'data' => $transaction->customer_categories,
                     ],
-                    'whatever' => [
-                        'data' => 'This is whatever',
-                        ],
                     'customer_info' => [
                         'data' => $transaction->customer,
                         'type' => 'customer_info',
@@ -144,5 +146,10 @@ class TransactionsTable extends Table
     public function isSearchable()
     {
         return true;
+    }
+
+    public function shouldChangeStatus()
+    {
+        return false;
     }
 }

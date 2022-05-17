@@ -25,10 +25,6 @@ const statusStyles = {
     failed: 'bg-gray-100 text-gray-800'
 }
 
-const filters = {
-    type: 'TransactionsTable',
-    // status: 60
-}
 
 export default {
     components: {
@@ -44,7 +40,8 @@ export default {
     props: {
         notifications: Array,
         transactions: Object,
-        navigation: Array
+        navigation: Array,
+        filters: Object
     },
     setup ({ navigation, transactions }) {
         const { onClickTop, onClickBot } = notification()
@@ -132,7 +129,6 @@ export default {
             checkedTransactions,
             filterNumber,
             filterTransactions,
-            filters
         }
     }
 }

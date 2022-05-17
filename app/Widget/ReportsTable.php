@@ -330,4 +330,9 @@ class ReportsTable extends Table
             'Rejected By Admin'
         ];
     }
+
+    public function isSearchable()
+    {
+         return true;
+    }
 }

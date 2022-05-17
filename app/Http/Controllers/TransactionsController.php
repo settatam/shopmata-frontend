@@ -35,12 +35,14 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = $request->input();
-        $perPage = Filter::perPage($filter);
-        $transactions = Transaction::search($filter)
+        $filters = $request->input();
+        $filters['page'] = Filter::page($filters);
+        $filters['type'] = 'TransactionsTable';
+        $perPage = Filter::perPage($filters);
+        $transactions = Transaction::search($filters)
                         ->with('items','customer','images', 'customer.state')
                         ->paginate($perPage);
-        return Inertia::render('Transactions/Index',compact('transactions'));
+        return Inertia::render('Transactions/Index',compact('transactions', 'filters'));
     }
 
     /**
@@ -81,8 +83,13 @@ class TransactionsController extends Controller
             ->withTotalDwt()
             ->withLabelsFrom()
             ->withLabelsTo()
-            ->with('customer','customer.state','items','items.category','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note')
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->with('customer.state','items','items.category','items.images','histories','offers','public_note.images','sms','images', 'activities','payment_address','tags')
             ->find($id);
+
+
 //        $transaction                 = Transaction::with('shippingLabels')->findorFail($id);
         $statuses                    = Status::all();
         $store_id                    = session('store_id');

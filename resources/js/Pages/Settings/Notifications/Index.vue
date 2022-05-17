@@ -77,35 +77,45 @@
                                 template that will be used to send messages to
                                 your customer.
                             </p>
-                            <OrdersBox
-                                :notifications="notifications"
-                                :openOrder="openOrder"
-                            />
 
-                            <LocalDeliveryBox
-                                :notifications="notifications"
-                                :openLocal="openLocal"
-                            />
+                            <div class="" v-for="(notification, index) in notifications" :key="index">
+                                <div class="p-4 lg:p-8 mb-6 bg-white">
+                                    <div class="flex items-center justify-between mb-5">
+                                        <h2 class="font-bold text-xl">{{ index }}</h2>
+                                        <chevron-up-icon
+                                            class="w-6 h-6 text-indigo-700 cursor-pointer"
+                                            v-if="openOrder"
+                                            @click="openOrder = false"
+                                        />
+                                        <chevron-down-icon
+                                            class="w-6 h-6 text-indigo-700 cursor-pointer"
+                                            v-else
+                                            @click="openOrder = true"
+                                        />
+                                    </div>
+                                    <div
+                                        v-for="order in notification"
+                                        :key="order.id"
+                                        class="flex mb-5 flex-col md:flex-row"
+                                    >
+                                        <inertia-link
+                                            :href="`/admin/settings/notifications/${order.id}`"
+                                            class="w-full md:w-3/10"
+                                        >
+                                            <p
+                                                class="font-bold text-indigo-700 no-underline cursor-pointer"
+                                            >
+                                                {{ order.name }}
+                                            </p>
+                                        </inertia-link>
+                                        <p class="text-gray-500 w-full md:w-7/10">
+                                            {{ order.description }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <ShippingBox
-                                :notifications="notifications"
-                                :openShipping="openShipping"
-                            />
 
-                            <LocalPickupBox
-                                :notifications="notifications"
-                                :openPickup="openPickup"
-                            />
-
-                            <CustomerBox
-                                :notifications="notifications"
-                                :openCustomer="openCustomer"
-                            />
-
-                            <EmailMarketingBox
-                                :notifications="notifications"
-                                :openMarketing="openMarketing"
-                            />
 
                             <error
                                 v-if="error"
@@ -520,7 +530,6 @@ export default {
 
         const popModal = () => {
             popUp.value = true
-            console.log(popUp.value)
         }
 
         watch(email_marketing, (curr, prev) => {

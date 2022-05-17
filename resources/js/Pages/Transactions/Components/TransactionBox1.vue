@@ -20,7 +20,7 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Received Date/Time:
-                <span class="font-normal"> {{ transaction.recived_date }} </span>
+                <span class="font-normal"> {{ transaction.recieved_date }} </span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Incoming Tracking#:

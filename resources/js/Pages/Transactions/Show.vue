@@ -113,16 +113,10 @@
                     />
                 </div>
 
-                <!-- Scan row ends -->
-
-                <!-- row 6 starts -->
                 <div class="w-full">
-                    <Actions
-                        :transaction="transaction.activities"
-                        class="mb-12"
-                    />
+                    <ShopmataTable :filters="activityFilters"/>
                 </div>
-                <!-- row 6 ends -->
+
             </div>
 
             <NotificationGroup group="top" position="top">
@@ -328,6 +322,11 @@ export default {
             type: 'CustomerTransactionsTable'
         }
 
+        const activityFilters = {
+            type: 'TransactionActionsTable',
+            transaction_id: props.transaction.id
+        }
+
         function updateTransaction(data) {
             let currentData = {};
             currentData[data.field] = data['value'];
@@ -359,12 +358,12 @@ export default {
 
         }
 
-
         return {
             pages,
             updateTransaction,
             transaction,
-            customerFilters
+            customerFilters,
+            activityFilters
         }
     }
 }

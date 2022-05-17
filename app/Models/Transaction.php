@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+use Auth;
 
 
 class Transaction extends Model
@@ -126,6 +127,12 @@ class Transaction extends Model
         ]);
     }
 
+    public function scopeWithPaymentType($query) {
+        return $query->addSelect(['transaction_payment_type'=>PaymentType::selectRaw('name as transaction_payment_type')
+                ->whereColumn('transactions.payment_method_id', 'payment_types.id')
+        ]);
+    }
+
     public function scopeWithTotalDwt($query) {
         return $query->addSelect(['total_dwt'=>TransactionItem::selectRaw('sum(price) as total_dwt')
                 ->whereColumn('transactions.id', 'transaction_items.transaction_id')
@@ -146,10 +153,17 @@ class Transaction extends Model
         ]);
     }
 
-    public function scopePublicMessage($query) {
-        return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
-                ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
-                ->where('shipping_labels.to_customer', false)
+    public function scopeWithPublicNote($query) {
+        return $query->addSelect(['public_note'=>TransactionNote::selectRaw('notes as public_note')
+                ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
+                ->where('transaction_notes.type', 'public')
+        ]);
+    }
+
+    public function scopeWithPrivateNote($query) {
+        return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
+                ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
+                ->where('transaction_notes.type', 'private')
         ]);
     }
 
@@ -246,16 +260,6 @@ class Transaction extends Model
         return $this->morphMany(ShippingLabel::class, 'shippable');
     }
 
-    public function getIncomingTrackingAttribute() {
-        return $this->shippingLabels()->where('to_customer', false)->get()
-            ->implode('tracking_number', ',');
-    }
-
-    public function getOutgoingTrackingAttribute() {
-        return $this->shippingLabels()->where('to_customer', true)->get()
-            ->implode('tracking_number', ',');
-    }
-
     static function tableData($filter, $data) {
 
         return (new TransactionsTable($filter, $data))->render();
@@ -296,46 +300,46 @@ class Transaction extends Model
     	return \Carbon\Carbon::parse($value)->diffForHumans();
 	}
 
-    public function getPrivateMessageAttribute($value)
-    {
-    	return optional($this->private_note)->notes;
-	}
+//    public function getPrivateMessageAttribute($value)
+//    {
+//    	return optional($this->private_note)->notes;
+//	}
+//
+//    public function getPublicMessageAttribute($value)
+//    {
+//    	return optional($this->public_note)->notes;
+//	}
 
-    public function getPublicMessageAttribute($value)
-    {
-    	return optional($this->public_note)->notes;
-	}
+//    public function getEstValueAttribute() {
+//        return $this->items->sum('price');
+//    }
 
-    public function getEstValueAttribute() {
-        return $this->items->sum('price');
-    }
-
-    public function getTotalDwtAttribute() {
-        return $this->items->sum('dwt');
-    }
+//    public function getTotalDwtAttribute() {
+//        return $this->items->sum('dwt');
+//    }
 
     public function getKitTypeAttribute() {
         return self::KIT_TYPE;
     }
 
-    public function getFinalOfferAttribute() {
-        return optional($this->offers()->orderBy('id', 'desc')->first())->offer;
-    }
+//    public function getFinalOfferAttribute() {
+//        return optional($this->offers()->orderBy('id', 'desc')->first())->offer;
+//    }
 
-    public function getPaymentTypeAttribute() {
-        return optional($this->paymentTy)->name;
-    }
+//    public function getPaymentTypeAttribute() {
+//        return optional($this->paymentTy)->name;
+//    }
 
-    public function getEstimatedProfitAttribute() {
-        if($this->est_value && $this->final_offer) {
-            return round(($this->value - $this->final_offer), 2);
-        }
-        return '';
-    }
+//    public function getEstimatedProfitAttribute() {
+//        if($this->est_value && $this->final_offer) {
+//            return round(($this->value - $this->final_offer), 2);
+//        }
+//        return '';
+//    }
 
-    public function getStatusAttribute() {
-        return optional($this->trStatus)->name;
-    }
+//    public function getStatusAttribute() {
+//        return optional($this->trStatus)->name;
+//    }
 
     public function getLeadAttribute() {
         return 'google';
@@ -408,12 +412,23 @@ class Transaction extends Model
 
     public function doUpdate($input) {
         $this->input = $input;
+        $currentStatus = $this->status;
         //Get the current difference between the model and the input
         $inputCollection = $this->input;
             //convert back to an array
             if($this->update($this->input)) {
                 //Log the update
                 foreach($this->getChanges() as $index => $input) {
+                    //Create Activity Entry
+                    $this->load('trStatus');
+                    if($index == 'updated_at') continue;
+                    $this->activities()->create([
+                        'user_id' => Auth::id(),
+                        'agent' => Auth::user()->first_name,
+                        'status' => $this->status,
+                        'notes' => 'Updated status to ' . $this->status,
+                        'name' => $currentStatus
+                    ]);
                     $checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated');
                     $checkForEvent = EventCondition::check(get_class(), TransactionOffer::class, TransactionOffer::FINAL_OFFER, 'added');
                     if(null !== $checkForEvent) {

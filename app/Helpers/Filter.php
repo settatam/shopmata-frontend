@@ -116,4 +116,8 @@ class Filter
         return data_get($filter, 'sort') ?? self::DEFAULT_SORT;
     }
 
+    static function page($filter, $default = 1) {
+        return data_get($filter, 'page') ?? $default;
+    }
+
 }

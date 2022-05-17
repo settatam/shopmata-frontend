@@ -47,35 +47,12 @@ class NotificationsController extends Controller
         $notifications_data = StoreNotification::with('category')->get();
         $store_id = session('store_id');
         $email_marketing_settings = EmailMarketingSetting::where('store_id', $store_id)->get();
-        $notifications = [
-            'orders' => array_filter($notifications_data->all(), function ($el) {
-                return $el['store_notification_category_id'] === 1;
-            }),
 
-            'shippings' => array_filter($notifications_data->all(), function ($el) {
-                return $el['store_notification_category_id'] === 2;
-            }),
+        $notification = [];
 
-            'deliveries' => array_filter($notifications_data->all(), function ($el) {
-                return $el['store_notification_category_id'] === 3;
-            }),
-
-            'pickups' => array_filter($notifications_data->all(), function ($el) {
-                return $el['store_notification_category_id'] === 4;
-            }),
-
-            'customers' => array_filter($notifications_data->all(), function ($el) {
-                return $el['store_notification_category_id'] === 5;
-            }),
-
-            'marketings' => array_filter($notifications_data->all(), function ($el) {
-                return $el['store_notification_category_id'] === 6;
-            }),
-
-            'returns' => array_filter($notifications_data->all(), function ($el) {
-                return $el['store_notification_category_id'] === 7;
-            }),
-        ];
+        foreach($notifications_data as $data) {
+            $notifications[$data->category->name][] = $data;
+        }
 
         return Inertia::render('Settings/Notifications/Index', compact('notifications','email_marketing_settings'));
     }
@@ -108,7 +85,7 @@ class NotificationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         $email = StoreNotificationMessage::where(['store_notification_id' => $id,'channel' => 'email'])->first();
         $sms   = StoreNotificationMessage::where(['store_notification_id' => $id,'channel' => 'sms'])->first();
         $notification = StoreNotification::find($id);
@@ -134,7 +111,7 @@ class NotificationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
     }
 
     /**
@@ -148,5 +125,5 @@ class NotificationsController extends Controller
         //
     }
 
-    
+
 }

@@ -319,15 +319,8 @@ export default {
         });
 
         const currentTransaction = ref(props.transaction);
-
-        tmPublic =
-            null !== props.root.public_note ? props.root.public_note.notes : "";
-        tmPrivate =
-            null !== props.root.private_note
-                ? props.root.private_note.notes
-                : "";
-        messagePublic.value = tmPublic;
-        messagePrivate.value = tmPrivate;
+        tmPublic = currentTransaction.public_note;
+        tmPrivate = currentTransaction.private_note;
 
         function saveNote(e) {
             if (e.target.name == "private") {

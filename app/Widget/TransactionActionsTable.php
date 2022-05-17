@@ -2,6 +2,8 @@
 
 namespace App\Widget;
 
+use App\Models\Activity;
+
 class TransactionActionsTable extends Table
 {
     protected $hasCheckBox = true;
@@ -28,20 +30,20 @@ class TransactionActionsTable extends Table
                 'html' => true
               ],
               [
-                'key' => 'price',
-                'label' => 'Price',
+                'key' => 'agent',
+                'label' => 'Agent',
                 'sortable' => true,
                 'html' => true
               ],
               [
-                'key' => 'items',
-                'label' => 'Items',
+                'key' => 'communication',
+                'label' => 'Communication',
                 'sortable' => true,
                 'html' => true
               ],
             [
-                'key' => 'payment_type',
-                'label' => 'Payment Type',
+                'key' => 'offer',
+                'label' => 'Offer',
                 'sortable' => true,
                 'html' => true
               ],
@@ -61,37 +63,33 @@ class TransactionActionsTable extends Table
 
     public function data($filter=[]) {
 
-        $this->data = Transaction::search($filter)
-            ->with('transStatus')
-            ->with('images')
-            ->paginate(Filter::perPage($filter));
+        $this->data = Activity::where('activityable_id', $filter['transaction_id'])
+                ->orderBy('id', 'desc')
+                ->paginate(100);
 
         return [
             'count' => data_get($this->data, 'perPage'),
             'total' => data_get($this->data, 'total'),
             'numberOfRows' => data_get($this->data, 'numberOfRows'),
-            'items' => $this->data->map(function(Transaction $transaction) {
+            'items' => $this->data->map(function(Activity $activity) {
                 return [
                     'id' => [
-                        'data' => $transaction->id,
-                        'type' => 'link',
-                        'href' => '/admin/transactions/'.$transaction->id
-
+                        'data' => $activity->name,
                         ],
                     'created_at' => [
-                            'data' => $transaction->created_at
+                            'data' => $activity->created_at
                         ],
-                    'final_offer' => [
-                        'data' => $transaction->final_offer,
+                    'agent' => [
+                        'data' => $activity->agent,
                         ],
-                    'items' => [
-                            'data' => $transaction->numberOfItems,
+                    'communication' => [
+                            'data' => $activity->notes,
                         ],
-                    'payment_type' => [
-                        'data' => $transaction->payment_type,
+                    'offer' => [
+                        'data' => '',
                         ],
                     'status' => [
-                        'data' => $transaction->status,
+                        'data' => $activity->status,
                     ],
 
                 ];
@@ -111,4 +109,5 @@ class TransactionActionsTable extends Table
     {
         return false;
     }
+
 }

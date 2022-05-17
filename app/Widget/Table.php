@@ -31,6 +31,8 @@ class Table extends Widget
 
     protected $isSearchable = false;
 
+    protected $shouldChangeStatus = false;
+
     public function __construct($filter=null, $data=[])
       {
           $this->filter = $filter;
@@ -208,6 +210,10 @@ class Table extends Widget
 
     public function isSearchable() {
           return $this->isSearchable;
+    }
+
+    public function shouldChangeStatus() {
+          return $this->shouldChangeStatus;
     }
 
 }
