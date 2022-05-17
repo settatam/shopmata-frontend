@@ -28,15 +28,8 @@ class Transaction extends Model
     ];
 
     protected $appends = [
-//         'payment_type',
-//           'lead',
-//          'status',
-//        'estimated_profit',
-//        'incoming_tracking',
-//        'outgoing_tracking',
-//        'kit_type',
-//        'public_message',
-//        'private_message'
+        'kit_type',
+        'est_profit'
     ];
 
 
@@ -153,10 +146,18 @@ class Transaction extends Model
     }
 
     public function scopeWithStatusDateTime($query) {
-        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(created_at, '%m-%d-%Y')) as status_date_time")
+        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s')) as status_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('is_status', true)
                 ->take(1)->latest()
+        ]);
+    }
+
+    public function scopeWithReceivedDateTime($query) {
+        return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('status', 'Kit Received')
+                ->take(1)
         ]);
     }
 
@@ -228,6 +229,12 @@ class Transaction extends Model
             if(!is_array($leads)) $leads = [$leads];
             $query->whereIn('lead_id', $leads);
         }
+    }
+
+    public function scopeWithLeadSource($query) {
+        return $query->addSelect(['lead_source'=>Lead::selectRaw('name as lead_source')
+                ->whereColumn('transactions.lead_id', 'leads.id')
+        ]);
     }
 
     public function scopeWithTrafficSource($query, $filter=null)
@@ -311,7 +318,17 @@ class Transaction extends Model
 
     public function getCreatedAtAttribute($value)
     {
+        return \Carbon\Carbon::parse($value)->diffForHumans();
+	}
+
+    public function getCreatedDate($value)
+    {
     	return \Carbon\Carbon::parse($value)->diffForHumans();
+	}
+
+    public function getEstProfitAttribute($value)
+    {
+//    	if($this->)
 	}
 
 //    public function getPrivateMessageAttribute($value)

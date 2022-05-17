@@ -9,18 +9,18 @@
                 Kit Type: <span class="font-normal"> {{ transaction.kit_type }} </span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Status: <span class="font-normal"> {{ transaction.status }}</span>
+                Status: <span class="font-normal"> {{ transaction.status_date_time }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Lead: <span class="font-normal"> {{ transaction.lead }}</span>
             </p>
-            <p class="font-bold text-xs lg: text-sm text-black">
+            <p class="font-bold text-xs lg:text-sm text-black">
                 From Date/Time:
-                <span class="font-normal"> {{ transaction.from_date }}</span>
+                <span class="font-normal"> {{ transaction.created_at }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Received Date/Time:
-                <span class="font-normal"> {{ transaction.recieved_date }} </span>
+                <span class="font-normal"> {{ transaction.received_date_time }} </span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Incoming Tracking#:
@@ -38,7 +38,7 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Final Offer:
-                <span class="font-normal">{{ transaction.final_offer }}</span>
+                <span class="font-normal">{{ transaction.offer }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Payment Type: <span class="font-normal"> {{ transaction.payment_type }}</span>

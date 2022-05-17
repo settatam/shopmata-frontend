@@ -86,6 +86,8 @@ class TransactionsController extends Controller
             ->withPrivateNote()
             ->withPublicNote()
             ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
             ->with('customer.state','items','items.category','items.images','histories','offers','public_note.images','sms','images', 'activities','transaction_payment_address','tags')
             ->find($id);
 
