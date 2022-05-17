@@ -544,82 +544,6 @@
 
                 <!-- 10th ends -->
             </div>
-
-            <!-- <div class="flex mt-4 flex-col lg:flex-row">
-                    <div class="required w-full mr-5 relative">
-                        <div>
-                            <label
-                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                            >
-                                Country
-                            </label>
-                            <select
-                                :class="{
-                                    'border-red-600': v$.country_id.$error,
-                                    'border-gray-300': !v$.country_id.$error
-                                }"
-                                id="country"
-                                name="country"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="CustomerInfo.country_id"
-                            >
-                                <option value="">Choose a Country</option>
-                                <option
-                                    v-for="(country, index) in countries"
-                                    :key="index"
-                                    :value="country.id"
-                                >
-                                    {{ country.name }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="mt-1">
-                            <p
-                                class="text-red-600 text-xs"
-                                v-if="v$.country_id.$error"
-                            >
-                                {{ v$.country_id.$errors[0].$message }}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
-                    >
-                        <div>
-                            <label
-                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                            >
-                                Apartment/Suite
-                            </label>
-                            <input
-                                :class="{
-                                    'border-red-600': v$.apartment.$error,
-                                    'border-gray-300': !v$.apartment.$error
-                                }"
-                                type="text"
-                                id="apartment"
-                                name="apartment"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="CustomerInfo.apartment"
-                            />
-                        </div>
-
-                        <div class="mt-1">
-                            <p
-                                class="text-red-600 text-xs"
-                                v-if="v$.apartment.$error"
-                            >
-                                {{ v$.apartment.$errors[0].$message }}
-                            </p>
-                        </div>
-                    </div>
-                </div> -->
         </div>
 
         <div class="flex justify-end">
@@ -829,7 +753,6 @@ export default {
                 })
                 .then((res) => {
                     successMessage.value = res.data.message;
-                    //setTimeout(onClickTop, 2000);
                     notify(
                         {
                             group: "top",

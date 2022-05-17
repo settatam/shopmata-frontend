@@ -40,6 +40,12 @@ class TransactionPaymentAddress extends Model
     }
 
 
+    public function state() 
+    {
+        return $this->belongsTo(State::class,'check_state_id','id');
+    }
+
+
     public static function UpdateCustomerPayment($request, $customer_id) {
         $payment_type = TransactionPaymentType::where('name', $request->payment_method)->first();
         self::updateOrCreate(
@@ -57,7 +63,7 @@ class TransactionPaymentAddress extends Model
               'account_number'        =>  $request->account_number,
               'account_name'          =>  $request->account_name,
               'account_type'          =>  $request->account_type,
-              'venmo_address'         =>  $request->check_name,
+              'venmo_address'         =>  $request->venmo_address,
               'check_name'            =>  $request->check_name,
               'check_address'         =>  $request->check_address,
               'check_city'            =>  $request->check_city,
