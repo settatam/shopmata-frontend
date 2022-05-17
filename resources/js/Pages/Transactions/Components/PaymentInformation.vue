@@ -6,7 +6,7 @@
 
         <div class="p-4 space-y-2">
             <payment-method
-                :payment_method_name="name"
+                :payment_method_name="transaction.transaction_payment_type"
                 :payment="transaction.payment_address"
             />
         </div>
@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import { ref } from "vue";
-
 import AppLayout from "../../../Layouts/AppLayout.vue";
 import PaymentMethod from "../../../Components/PaymentMethod.vue";
 
@@ -24,14 +22,6 @@ export default {
         transaction: Object,
     },
     components: { AppLayout, PaymentMethod },
-    setup({ transaction }) {
-        const name = ref(
-            transaction.payment_address.payment_type
-                ? transaction.payment_address.payment_type.name
-                : null
-        );
-
-        return { name };
-    },
+    setup({ transaction }) {},
 };
 </script>
