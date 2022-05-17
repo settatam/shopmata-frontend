@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { ref } from "vue";
+
 import AppLayout from "../../../Layouts/AppLayout.vue";
 import PaymentMethod from "../../../Components/PaymentMethod.vue";
 
@@ -29,7 +31,7 @@ export default {
                 : null
         );
 
-        return {};
+        return { name };
     },
 };
 </script>
