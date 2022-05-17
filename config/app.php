@@ -180,6 +180,7 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
 
+
     ],
 
     /*
@@ -235,7 +236,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Twig' => TwigBridge\Facade\Twig::class,
-        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class
+        'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
+        'Numeral' => Numeral\Numeral::class
 
     ],
 

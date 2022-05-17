@@ -158,11 +158,10 @@
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
                         placeholder="MET 3-2-22-Incoming via text"
                         name="private"
-                        id=""
                         rows="3"
                         cols="150"
                         v-model="transaction.private_note"
-                        @change="updateTransaction('private_note');
+                        @change="updateTransaction('private_note')"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
