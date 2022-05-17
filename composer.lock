@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33d22ca53f51d74278009266dd3e02d3",
+    "content-hash": "e0be786a6db78a64ab1f3b0813b82515",
     "packages": [
+        {
+            "name": "adampatterson/numeral",
+            "version": "0.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adampatterson/Numeral.git",
+                "reference": "3572764c52b4c4af50554581d9abcdcdc47f4bf8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adampatterson/Numeral/zipball/3572764c52b4c4af50554581d9abcdcdc47f4bf8",
+                "reference": "3572764c52b4c4af50554581d9abcdcdc47f4bf8",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Numeral\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Patterson",
+                    "email": "hello@adampatterson.ca"
+                }
+            ],
+            "description": "A PHP library for formatting and manipulating numbers.",
+            "keywords": [
+                "Numerals",
+                "format",
+                "numbers",
+                "percentage",
+                "time"
+            ],
+            "support": {
+                "issues": "https://github.com/adampatterson/Numeral-php/issues",
+                "source": "https://github.com/adampatterson/Numeral-php"
+            },
+            "time": "2016-02-22T23:18:28+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.1.1",

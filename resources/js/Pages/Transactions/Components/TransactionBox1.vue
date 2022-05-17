@@ -41,10 +41,10 @@
                 <span class="font-normal">{{ transaction.offer }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Payment Type: <span class="font-normal"> {{ transaction.payment_type }}</span>
+                Payment Type: <span class="font-normal"> {{ transaction.transaction_payment_type }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Payment Date: <span class="font-normal"> {{ transaction.payment_date }} </span>
+                Payment Date: <span class="font-normal"> {{ transaction.payment_date_time }} </span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Insurance Value:
