@@ -5,8 +5,8 @@
             :key="key"
             v-for="(map, key) in html"
         >
-            {{ key }}
-            <span class="font-normal">{{ map }}</span>
+            {{ key }} :
+            <span class="ml-2 font-normal">{{ map }}</span>
         </p>
     </div>
 </template>
