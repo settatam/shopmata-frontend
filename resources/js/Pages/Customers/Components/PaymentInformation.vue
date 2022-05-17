@@ -13,74 +13,12 @@
         </div>
 
         <div v-if="!isEdit" class="p-6 space-y-3 text-gray-lighter">
-            <div
-                v-if="
-                    null != customer.payment_address &&
-                    customer.payment_address.payment_type.name == 'Paypal'
+            <payment-method
+                :payment_method_name="
+                    customer.payment_address.payment_type.name
                 "
-            >
-                <p>
-                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
-                </p>
-                <p>
-                    Paypal Address:
-                    {{ customer.payment_address.paypal_address }}
-                </p>
-            </div>
-            <div
-                v-if="
-                    null != customer.payment_address &&
-                    customer.payment_address.payment_type.name == 'ACH'
-                "
-            >
-                <p>IS LOAN:</p>
-                <p>
-                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
-                </p>
-                <p>BANK NAME: {{ customer.payment_address.bank_name }}</p>
-                <p>
-                    ROUTING NUMBER:
-                    {{ customer.payment_address.routing_number }}
-                </p>
-                <p>
-                    ACCOUNT NUMBER:
-                    {{ customer.payment_address.account_number }}
-                </p>
-                <p>ACCOUNT NAME: {{ customer.payment_address.account_name }}</p>
-                <p>ACCOUNT TYPE: {{ customer.payment_address.account_type }}</p>
-            </div>
-
-            <div
-                v-if="
-                    null != customer.payment_address &&
-                    customer.payment_address.payment_type.name == 'Venmo'
-                "
-            >
-                <p>
-                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
-                </p>
-
-                <p>
-                    Venmo address: {{ customer.payment_address.venmo_address }}
-                </p>
-            </div>
-
-            <div
-                v-if="
-                    null != customer.payment_address &&
-                    customer.payment_address.payment_type.name == 'Check'
-                "
-            >
-                <p>
-                    PAY METHOD: {{ customer.payment_address.payment_type.name }}
-                </p>
-
-                <p>Payable to: {{ customer.payment_address.check_name }}</p>
-                <p>Address: {{ customer.payment_address.check_address }}</p>
-                <p>City: {{ customer.payment_address.check_city }}</p>
-                <p>Zip: {{ customer.payment_address.check_zip }}</p>
-                <p>State: {{ "" }}</p>
-            </div>
+                :payment="customer.payment_address"
+            />
         </div>
 
         <div v-else>
@@ -123,15 +61,16 @@ import Check from "./Dynamic/Check.vue";
 import Paypal from "./Dynamic/Paypal.vue";
 import Ach from "./Dynamic/Ach.vue";
 import Venmo from "./Dynamic/Venmo.vue";
+import PaymentMethod from "../../../Components/PaymentMethod.vue";
 
 export default {
     props: {
         customer: Object,
         states: Array,
     },
-    components: { Check },
+    components: { Check, PaymentMethod },
 
-    setup() {
+    setup(props) {
         const isEdit = ref(false);
         function toggleEdit() {
             isEdit.value = !isEdit.value;

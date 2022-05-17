@@ -175,13 +175,14 @@ export default {
     },
     setup(props) {
         const loading = ref(false);
+        let payment = props.customer.payment_address;
         const paymentInfo = reactive({
             payment_method: "ACH",
-            bank_name: "",
-            routing_number: "",
-            account_number: "",
-            account_name: "",
-            account_type: "",
+            bank_name: payment.bank_name,
+            routing_number: payment.routing_number,
+            account_number: payment.account_number,
+            account_name: payment.account_name,
+            account_type: payment.account_type,
         });
 
         const rules = computed(() => {

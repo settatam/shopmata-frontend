@@ -83,9 +83,11 @@ export default {
     },
     setup(props) {
         const loading = ref(false);
+        let payment = props.customer.payment_address;
+
         const paymentInfo = reactive({
-            payment_method: "venmo",
-            address: "",
+            payment_method: "Venmo",
+            venmo_address: payment.venmo_address,
         });
 
         const rules = computed(() => {
