@@ -224,10 +224,13 @@ class Table extends Widget
               'total' => $this->data->total(),
               'per_page' => $this->data->perPage(),
               'current_page' => $this->data->currentPage(),
-              'last_page' => $this->data->lastPage(),
+              'from' => (($this->data->currentPage()-1) * $this->data->perPage()) + 1,
+              'to' => $this->data->lastPage(),
               'first_page_url' => $this->data->url(1),
+              'last_page_url' => $this->data->url($this->data->lastPage()),
               'path' => $this->data->path(),
-              'links' => $this->data->linkCollection()->toArray()
+              'links' => $this->data->linkCollection()->toArray(),
+              ''
           ];
     }
 
