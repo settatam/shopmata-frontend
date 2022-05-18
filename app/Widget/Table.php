@@ -3,7 +3,6 @@
 namespace App\Widget;
 
 use Illuminate\Support\Str;
-use Illuminate\Pagination\LengthAwarePaginator
 
 class Table extends Widget
 {
