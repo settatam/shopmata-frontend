@@ -3,6 +3,7 @@
 namespace App\Widget;
 
 use Illuminate\Support\Str;
+use Illuminate\Pagination\LengthAwarePaginator
 
 class Table extends Widget
 {
@@ -227,7 +228,7 @@ class Table extends Widget
               'last_page' => $this->data->lastPage(),
               'first_page_url' => $this->data->url(1),
               'path' => $this->data->path(),
-              'links' => $this->data->links()
+              'links' => $this->data->linkCollection()->toArray()
           ];
     }
 
