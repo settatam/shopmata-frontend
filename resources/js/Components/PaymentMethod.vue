@@ -34,7 +34,7 @@ export default {
                 "PAY METHOD": payment_method_name,
                 "Venmo address": payment.venmo_address,
             },
-            Paypal: {
+            PayPal: {
                 "PAY METHOD": payment_method_name,
                 "Paypal address": payment.paypal_address,
             },
