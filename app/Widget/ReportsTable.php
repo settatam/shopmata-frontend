@@ -182,11 +182,17 @@ class ReportsTable extends Table
             ->with('transStatus')
             ->with('images')
             ->with('address')
-//            ->withEstValue()
-//            ->withFinalOffer()
-//            ->withTotalDwt()
-//            ->withLabelsFrom()
-//            ->withLabelsTo()
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
             ->paginate(Filter::perPage($filter));
 
         return [
@@ -201,10 +207,10 @@ class ReportsTable extends Table
                         'href' => '/admin/transactions/'.$transaction->id
                     ],
                     'final_offer' => [
-                        'data' => $transaction->final_offer,
+                        'data' => $transaction->offer,
                     ],
                     'est_val' => [
-                        'data' => $transaction->est_val,
+                        'data' => $transaction->est_value,
                     ],
                     'numberOfTransactions' => [
                         'data' => $transaction->numberOfTransactions,
