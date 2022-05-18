@@ -225,7 +225,8 @@ class Table extends Widget
               'per_page' => $this->data->perPage(),
               'current_page' => $this->data->currentPage(),
               'last_page' => $this->data->lastPage(),
-              'first_page_url' => $this->data->url(1)
+              'first_page_url' => $this->data->url(1),
+              'path' => $this->data->path()
           ];
     }
 
