@@ -69,6 +69,7 @@ export default {
         const popUp = ref(false);
         const selected = ref(null);
         const message = ref("");
+
         const popModal = (index) => {
             selected.value = index;
             popUp.value = true;
@@ -78,7 +79,6 @@ export default {
 
         function deleteImg(id, index) {
             loading.value = index;
-            console.log(index);
             axios
                 .post("/admin/image/delete", { image_id: id })
                 .then((res) => {

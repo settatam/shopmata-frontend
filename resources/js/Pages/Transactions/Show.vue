@@ -1,5 +1,8 @@
 <template>
     <app-layout :navigation="navigation">
+        <ImageSlider :images="testImages">
+
+        </ImageSlider>
         <div id="container">
             <div
                 class="bg-gray-background w-full flex flex-col lg:space-y-2 px-4"
@@ -273,6 +276,7 @@ import Actions from "./Components/Actions.vue";
 import Scans from "./Components/Scans.vue";
 import ShopmataTable from "../Widgets/ShopmataTable";
 import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/solid";
+import ImageSlider from "../Widgets/ImageSlider";
 
 const pages = [
     { name: "Transactions", href: "/admin/transactions", current: false },
@@ -283,8 +287,15 @@ const pages = [
     },
 ];
 
+const testImages = [
+  "https://i.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY",
+  "https://i.picsum.photos/id/2/200/300.jpg?hmac=HiDjvfge5yCzj935PIMj1qOf4KtvrfqWX3j4z1huDaU",
+  "https://i.picsum.photos/id/3/200/300.jpg?hmac=o1-38H2y96Nm7qbRf8Aua54lF97OFQSHR41ATNErqFc",
+];
+
 export default {
     components: {
+        ImageSlider,
         AppLayout,
         TransactionBox1,
         KitInformation,
@@ -369,6 +380,7 @@ export default {
             transaction,
             customerFilters,
             activityFilters,
+            testImages
         };
     },
 };
