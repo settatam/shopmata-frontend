@@ -195,6 +195,7 @@ class ReportsTable extends Table
             ->withPaymentDateTime()
             ->paginate(Filter::perPage($filter));
 
+
         return [
             'count' => data_get($this->data, 'perPage'),
             'total' => data_get($this->data, 'total'),
@@ -307,6 +308,8 @@ class ReportsTable extends Table
     public function totalRows() {
         return $this->data->lastPage();
     }
+
+    p
 
     public function getCustomerHTMLInfo($customer) {
         return sprintf('<span class="pb-4 pt-6 px-6 flex flex-col">
