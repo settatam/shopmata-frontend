@@ -226,8 +226,13 @@ class Table extends Widget
               'current_page' => $this->data->currentPage(),
               'last_page' => $this->data->lastPage(),
               'first_page_url' => $this->data->url(1),
-              'path' => $this->data->path()
+              'path' => $this->data->path(),
+              'links' => $this->data->links()
           ];
+    }
+
+    protected function paginatorLinks() {
+//          $totalPages = $this->data->total() / ;
     }
 
 }

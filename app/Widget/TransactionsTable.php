@@ -131,11 +131,17 @@ class TransactionsTable extends Table
     }
 
     public function actions() {
+        //should have data, action, type, and so on
         return  [
-            'Create Shipping Label',
-            'Create Barcodes',
-            'Delete',
-            'Rejected By Admin'
+            [
+                'Create Shipping Label',
+                'Create Barcodes',
+                'Delete',
+                'Rejected By Admin'
+            ],
+            [
+                'status change'
+            ]
         ];
     }
 

@@ -84,6 +84,7 @@
                     </tr>
                   </tbody>
                 </table>
+                <Pagination meta="pagination" ></Pagination>
           </div>
         </div>
       </div>
@@ -129,6 +130,7 @@ import {
     const bulkAction = ref('');
     const exportable = ref(false)
     const isSearchable = ref(false)
+    const pagination = ref({})
 
     const filters = props.filters;
 
@@ -176,6 +178,7 @@ import {
             // description.value = res.data.description.value
             exportable.value = res.data.exportable;
             isSearchable.value = res.data.isSearchable;
+            pagination.value = res.data.pagination
         })
     }
 

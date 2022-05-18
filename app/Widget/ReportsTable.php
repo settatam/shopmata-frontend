@@ -196,6 +196,8 @@ class ReportsTable extends Table
             ->paginate(Filter::perPage($filter));
 
 
+
+
         return [
             'count' => data_get($this->data, 'perPage'),
             'total' => data_get($this->data, 'total'),
