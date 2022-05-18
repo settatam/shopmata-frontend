@@ -182,7 +182,7 @@ class ReportsTable extends Table
             ->with('transStatus')
             ->with('images')
             ->with('address')
-//            ->withEstValue()
+            ->withEstValue()
 //            ->withFinalOffer()
 //            ->withTotalDwt()
 //            ->withLabelsFrom()
