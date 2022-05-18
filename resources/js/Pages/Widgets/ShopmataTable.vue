@@ -84,7 +84,11 @@
                     </tr>
                   </tbody>
                 </table>
-                <Pagination :meta="pagination" ></Pagination>
+
+              <div class="px-3">
+                  <Pagination :meta="pagination" ></Pagination>
+              </div>
+
           </div>
         </div>
       </div>
