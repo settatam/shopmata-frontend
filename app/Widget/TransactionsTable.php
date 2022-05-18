@@ -78,7 +78,7 @@ class TransactionsTable extends Table
         $this->data = Transaction::search($filter)
             ->with('transStatus')
             ->with('images')
-            ->paginate(Filter::perPage($filter));
+            ->paginate(Filter::perPage($filter))->withQueryString();
 
         return [
             'count' => data_get($this->data, 'perPage'),
