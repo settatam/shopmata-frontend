@@ -84,7 +84,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <Pagination meta="pagination" ></Pagination>
+                <Pagination :meta="pagination" ></Pagination>
           </div>
         </div>
       </div>

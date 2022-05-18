@@ -230,7 +230,6 @@ class Table extends Widget
               'last_page_url' => $this->data->url($this->data->lastPage()),
               'path' => $this->data->path(),
               'links' => $this->data->linkCollection()->toArray(),
-              ''
           ];
     }
 
