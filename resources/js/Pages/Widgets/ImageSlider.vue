@@ -49,9 +49,9 @@
                         </div>
                         <div class="w-full" v-if="images.length">
                             <div class="flex justify-center align-middle h-96 relative mx-5">
-                                <a class="prev absolute top-1/2 left-0" @click="prev"> Prev </a>
-                                <a class="next absolute top-1/2 right-0" @click="next"> Next </a>
-                                <img :src="images[index]" class="max-w-full"/>
+                                <a class="prev absolute top-1/2 left-0 cursor-pointer" @click="prev"> Prev </a>
+                                <a class="next absolute top-1/2 right-0 cursor-pointer" @click="next"> Next </a>
+                                <img :src="images[index].url" class="max-w-full"/>
                             </div>
                         </div>
                     </div>
@@ -72,13 +72,12 @@
     import { XIcon } from "@heroicons/vue/solid";
 
     const index = ref(0);
-    const open = ref(true);
     const props = defineProps({
-        images: Array
+        images: Array,
+        open: Boolean
     })
 
-
-
+    const emits = defineEmits(['close'])
     const next = () => {
         index.value == props.images.length-1 ? 0 : index.value++;
     }
@@ -86,5 +85,10 @@
     const prev = () => {
         index.value > 0 ? index.value-- : 0;
     }
+
+    const closeModal = () => {
+        // props.open = false;
+        emits("close");
+    };
 
 </script>

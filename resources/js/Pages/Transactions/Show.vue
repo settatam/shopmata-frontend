@@ -1,8 +1,5 @@
 <template>
     <app-layout :navigation="navigation">
-        <ImageSlider :images="testImages">
-
-        </ImageSlider>
         <div id="container">
             <div
                 class="bg-gray-background w-full flex flex-col lg:space-y-2 px-4"
