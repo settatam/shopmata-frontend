@@ -34,7 +34,7 @@
                     {{ ' ' }}
                     <span class="font-medium">{{ meta.total }}</span>
                     {{ ' ' }}
-                    results
+                    result
                 </p>
             </div>
             <div>
