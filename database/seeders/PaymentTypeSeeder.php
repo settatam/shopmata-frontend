@@ -14,7 +14,9 @@ class PaymentTypeSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {   
+        \DB::table('transaction_payment_types')->truncate();
+
         $paymentTypes = [
             '1' => 'Check',
             '2' => 'Paypal',
