@@ -182,12 +182,19 @@ class ReportsTable extends Table
             ->with('transStatus')
             ->with('images')
             ->with('address')
-//            ->withEstValue()
-//            ->withFinalOffer()
-//            ->withTotalDwt()
-//            ->withLabelsFrom()
-//            ->withLabelsTo()
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
             ->paginate(Filter::perPage($filter));
+
 
         return [
             'count' => data_get($this->data, 'perPage'),
@@ -201,10 +208,10 @@ class ReportsTable extends Table
                         'href' => '/admin/transactions/'.$transaction->id
                     ],
                     'final_offer' => [
-                        'data' => $transaction->final_offer,
+                        'data' => $transaction->offer,
                     ],
                     'est_val' => [
-                        'data' => $transaction->est_val,
+                        'data' => $transaction->est_value,
                     ],
                     'numberOfTransactions' => [
                         'data' => $transaction->numberOfTransactions,
@@ -301,6 +308,8 @@ class ReportsTable extends Table
     public function totalRows() {
         return $this->data->lastPage();
     }
+
+    p
 
     public function getCustomerHTMLInfo($customer) {
         return sprintf('<span class="pb-4 pt-6 px-6 flex flex-col">

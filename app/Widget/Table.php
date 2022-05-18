@@ -33,6 +33,8 @@ class Table extends Widget
 
     protected $shouldChangeStatus = false;
 
+    protected $data;
+
     public function __construct($filter=null, $data=[])
       {
           $this->filter = $filter;
@@ -103,6 +105,7 @@ class Table extends Widget
 
         $config['hasCheckBox'] = $this->hasCheckBox();
         $config['isSearchable'] = $this->isSearchable();
+        $config['pagination'] = $this->pagination();
 
         $config['fields'] = collect($this->fields($filter, $filteredData))
           ->map(function($data) use (&$config) {
@@ -214,6 +217,16 @@ class Table extends Widget
 
     public function shouldChangeStatus() {
           return $this->shouldChangeStatus;
+    }
+
+    public function pagination() {
+          return [
+              'total' => $this->data->total(),
+              'per_page' => $this->data->perPage(),
+              'current_page' => $this->data->currentPage(),
+              'last_page' => $this->data->lastPage(),
+              'first_page_url' => $this->data->url(1)
+          ];
     }
 
 }

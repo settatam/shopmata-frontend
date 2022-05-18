@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\MetalPrice;
 use App\Services\Barcode;
 use function Aws\map;
+use Numeral\Numeral;
 
 class TransactionsController extends Controller
 {
@@ -89,10 +90,11 @@ class TransactionsController extends Controller
             ->withStatusDateTime()
             ->withReceivedDateTime()
             ->withPaymentDateTime()
-
             ->withPaymentDateTime()
             ->with('customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','payment_address','tags')
             ->find($id);
+
+        $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
 
 
 //        $transaction                 = Transaction::with('shippingLabels')->findorFail($id);

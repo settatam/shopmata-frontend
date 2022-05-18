@@ -96,8 +96,26 @@ class Transaction extends Model
             ->orderBy('id', 'desc');
     }
 
+    static function searchForFilter($filter) {
+        return self::query()
+            ->withTrafficSource($filter)
+            ->withLead($filter)
+            ->withStores($filter)
+            ->withDayOfWeek($filter);
+    }
+
     public function scopeWithDaysInStock($query) {
         return $query->selectRaw("DATEDIFF(NOW(), created_at)AS dis");
+    }
+
+    public function scopeWithGroupedStatus($query) {
+        $query->selectRaw("status_id, COUNT(status_id) AS `statusCount`")->groupBy('status_id');
+    }
+
+    public function scopeWithGroupedGender($query) {
+        $query->whereHas('customer', function($q){
+            $q->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
+        });
     }
 
 
@@ -168,6 +186,14 @@ class Transaction extends Model
                 ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
                 ->where('transaction_notes.type', 'public')
         ]);
+    }
+
+    public function getProfitPercent($offer, $est_val) {
+        if(isset($est_val) && isset($offer)) {
+            $result = ($offer - $est_val) / 100;
+            return Numeral::number($result)->format('0.0%');
+
+        }
     }
 
     public function scopeWithPrivateNote($query) {
@@ -416,7 +442,7 @@ class Transaction extends Model
         return $this->hasOne(TransactionPaymentAddress::class);
     }
 
-    
+
 
 
     public function sms()
