@@ -309,8 +309,6 @@ class ReportsTable extends Table
         return $this->data->lastPage();
     }
 
-    p
-
     public function getCustomerHTMLInfo($customer) {
         return sprintf('<span class="pb-4 pt-6 px-6 flex flex-col">
                                     <span class="text-indigo-700 cursor-pointer font-bold">%s %s</span>
