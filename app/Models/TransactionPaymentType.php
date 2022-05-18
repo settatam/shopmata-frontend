@@ -17,7 +17,7 @@ class TransactionPaymentType extends Model
 
     public static $paymentTypes = [
         '1' => 'Check',
-        '2' => 'Paypal',
+        '2' => 'PayPal',
         '3' => 'ACH',
         '4' => 'Venmo',
         '5' => 'Wire Transfer',

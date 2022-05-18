@@ -86,7 +86,7 @@ export default {
         let payment = props.customer.payment_address;
 
         const paymentInfo = reactive({
-            payment_method: "Paypal",
+            payment_method: "PayPal",
             paypal_address: payment.paypal_address,
         });
 
