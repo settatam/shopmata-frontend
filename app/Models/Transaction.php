@@ -109,11 +109,11 @@ class Transaction extends Model
     }
 
     public function scopeWithGroupedStatus($query) {
-        $query->selectRaw("status_id, COUNT(status_id) AS `statusCount`")->groupBy('status_id');
+       return $query->selectRaw("status_id, COUNT(status_id) AS `statusCount`")->groupBy('status_id');
     }
 
     public function scopeWithGroupedGender($query) {
-        $query->whereHas('customer', function($q){
+       return  $query->whereHas('customer', function($q){
             $q->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
         });
     }
@@ -402,12 +402,14 @@ class Transaction extends Model
         return $this->belongsTo(PaymentType::class, 'payment_method_id', 'id');
     }
 
+
+
     public function statuses() {
         return $this->store->transactionStatuses;
     }
 
     public function transStatus() {
-        return $this->belongsTo(Status::class, 'status_id', 'status_id');
+        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
 
     public function trStatus() {
