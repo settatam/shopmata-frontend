@@ -27,15 +27,22 @@
               <div class="shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600" v-if="isSearchable">
                 <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm px-3 py-3" :placeholder="filterText" />
               </div>
-              <div v-if="selectedItems.length > 0" class="px-3 py-3 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
-                  <button type="button"
-                          class="inline-flex items-center rounded border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30"
-                          v-for="(action, index) in actions"
-                          @click="sendAction(action)"
-                          :key="index"
-                  >
-                          {{ action }}
-                  </button>
+              <div v-if="selectedItems.length && actions.length" class="px-3 py-3 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
+                  <form v-for="(action, index) in actions" class="flex mr-2">
+                      <div v-for="(formGroup, formIndex) in action.formGroups">
+                          <label v-if="formGroup.label"> {{ formGroup.label }}</label>
+                          <select v-model="formGroup.field.selected" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md mr-2">
+                              <option v-for="option in formGroup.field.options" :value="option.value">
+                                  {{ option.text }}
+                              </option>
+                          </select>
+                      </div>
+                      <button type="button"
+                              @click="doAction(formIndex)"
+                                  class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+                              {{ action.buttons[0].label }}
+                      </button>
+                  </form>
                   <p class="text-gray-500 text-xs"> {{ selectedItems.length }} Items selected </p>
               </div>
                 <table class="min-w-full divide-y divide-gray-300 table-fixed">
@@ -153,6 +160,11 @@ import {
 
     const bulkActions = (el) => {
 
+    }
+
+    function doAction(index) {
+        let action = actions.value[index].selected;
+        sendAction(action);
     }
 
     function sendAction (action) {

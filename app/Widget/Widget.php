@@ -101,7 +101,7 @@ abstract class Widget
         return true;
       }
 
-      function actions() {
+      function actions($filter) {
           return [];
       }
 
@@ -128,7 +128,7 @@ abstract class Widget
             'footer' => $this->footer($filter, $data),
             'exportable' => $this->exportable($filter, $data),
             'options' => $this->options($filter, $data),
-            'actions' => $this->actions(),
+            'actions' => $this->actions($filter),
         ], $this->config($filter, $data));
       }
 }

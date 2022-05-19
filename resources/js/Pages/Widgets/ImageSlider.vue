@@ -47,11 +47,15 @@
                                 @click="closeModal"
                             />
                         </div>
+                        <div>
+                            {{ }}
+                        </div>
                         <div class="w-full" v-if="images.length">
-                            <div class="flex justify-center align-middle h-96 relative mx-5">
-                                <a class="prev absolute top-1/2 left-0 cursor-pointer" @click="prev"> Prev </a>
-                                <a class="next absolute top-1/2 right-0 cursor-pointer" @click="next"> Next </a>
-                                <img :src="images[index].url" class="max-w-full"/>
+                            <div class="flex justify-center align-middle h-96 relative mx-5 flex-col">
+                                <chevron-left-icon class="prev absolute top-1/2 left-0 cursor-pointer h-10" @click="prev"></chevron-left-icon>
+                                <chevron-right-icon class="next absolute top-1/2 right-0 cursor-pointer h-10" @click="next"> Next </chevron-right-icon>
+                                <img :src="images[index].url" class="max-w-full h-96"/>
+                                <p> {{ index+1 }} of {{ images.length }}</p>
                             </div>
                         </div>
                     </div>
@@ -70,6 +74,10 @@
         TransitionRoot,
     } from "@headlessui/vue";
     import { XIcon } from "@heroicons/vue/solid";
+    import {
+        ChevronLeftIcon,
+        ChevronRightIcon
+    } from '@heroicons/vue/outline'
 
     const index = ref(0);
     const props = defineProps({

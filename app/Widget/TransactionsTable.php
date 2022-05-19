@@ -5,6 +5,10 @@ namespace App\Widget;
 use App\Helpers\Filter;
 use Illuminate\Support\Str;
 use App\Models\Transaction;
+use App\Widget\Filter\StatusFilter;
+use App\Widget\Filter\PendingKitActions;
+use App\Widget\PendingKit;
+use App\Widget\StatusForm;
 
 
 class TransactionsTable extends Table
@@ -130,18 +134,11 @@ class TransactionsTable extends Table
         return $this->data->lastPage();
     }
 
-    public function actions() {
+    public function actions($filter) {
         //should have data, action, type, and so on
         return  [
-            [
-                'Create Shipping Label',
-                'Create Barcodes',
-                'Delete',
-                'Rejected By Admin'
-            ],
-            [
-                'status change'
-            ]
+            (new PendingKit())->render($filter),
+            (new StatusForm())->render($filter)
         ];
     }
 

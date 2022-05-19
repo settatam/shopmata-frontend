@@ -23,7 +23,7 @@ class ReportsController extends Controller
             'No' => $noRepeatCustomerCount
         ]);
 
-        
+
 
         //†$filters['dates'] = Filter::dates($filters);
         $filters['type'] = 'ReportsTable';
