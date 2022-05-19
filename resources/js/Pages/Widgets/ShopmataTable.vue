@@ -1,5 +1,11 @@
 <template>
   <div>
+       <ImageSlider
+            :images="images"
+            :open="openModal"
+            @close="doClose"
+        >
+        </ImageSlider>
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-xl font-semibold text-gray-900">{{ title }}</h1>
@@ -68,9 +74,9 @@
                                   </div>
                             </div>
                             <div class="flex items-center" v-else-if="item[tranIndex].type == 'slideshow'">
-                                <div class="h-10 w-10 flex-shrink-0" v-if="item.pictures.data.length">
+                                <a class="h-10 w-10 flex-shrink-0 cursor-pointer" v-if="item.pictures.data.length" @click="doSlider(item.pictures.data)">
                                     <img class="h-10 w-10" :src="item.pictures.data[0].url" alt="" />
-                                </div>
+                                </a>
                             </div>
                             <div class="flex items-center" v-else-if="item[tranIndex].type == 'link'">
                                 <inertia-link :href="item[tranIndex].href"> {{ item[tranIndex].data }}  </inertia-link>
@@ -84,6 +90,11 @@
                     </tr>
                   </tbody>
                 </table>
+
+              <div class="px-3">
+                  <Pagination :meta="pagination" ></Pagination>
+              </div>
+
           </div>
         </div>
       </div>
@@ -96,6 +107,7 @@
     import axios from 'axios'
     import Pagination from "../../Components/Pagination";
     import { Inertia } from '@inertiajs/inertia'
+    import ImageSlider from './ImageSlider';
 
     const props = defineProps({
         filters: Object
@@ -129,6 +141,9 @@ import {
     const bulkAction = ref('');
     const exportable = ref(false)
     const isSearchable = ref(false)
+    const pagination = ref({})
+    const openModal = ref(false)
+    const images = ref([]);
 
     const filters = props.filters;
 
@@ -176,7 +191,18 @@ import {
             // description.value = res.data.description.value
             exportable.value = res.data.exportable;
             isSearchable.value = res.data.isSearchable;
+            pagination.value = res.data.pagination
         })
+    }
+
+    const doClose = () => {
+        openModal.value = false;
+    }
+
+    const doSlider = (i) => {
+        images.value = i
+        openModal.value = true;
+
     }
 
     const open = ref(false);

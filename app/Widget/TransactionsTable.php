@@ -78,7 +78,7 @@ class TransactionsTable extends Table
         $this->data = Transaction::search($filter)
             ->with('transStatus')
             ->with('images')
-            ->paginate(Filter::perPage($filter));
+            ->paginate(Filter::perPage($filter))->withQueryString();
 
         return [
             'count' => data_get($this->data, 'perPage'),
@@ -131,11 +131,17 @@ class TransactionsTable extends Table
     }
 
     public function actions() {
+        //should have data, action, type, and so on
         return  [
-            'Create Shipping Label',
-            'Create Barcodes',
-            'Delete',
-            'Rejected By Admin'
+            [
+                'Create Shipping Label',
+                'Create Barcodes',
+                'Delete',
+                'Rejected By Admin'
+            ],
+            [
+                'status change'
+            ]
         ];
     }
 

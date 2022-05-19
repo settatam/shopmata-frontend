@@ -12,11 +12,11 @@
                         class="border-b border-gray-300"
                         v-if="images.length && media_open"
                     >
-                        <li class="flex text-gray-700 justify-between">
+                        <div class="flex text-gray-700 justify-between">
                             <p class="w-3/10">Image</p>
 
                             <p class="w-2/10 px-2">Thumbnail</p>
-                        </li>
+                        </div>
                     </div>
 
                     <div class="">

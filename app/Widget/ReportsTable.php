@@ -183,17 +183,19 @@ class ReportsTable extends Table
             ->with('images')
             ->with('address')
             ->withEstValue()
-            ->withFinalOffer()
-            ->withTotalDwt()
-            ->withLabelsFrom()
-            ->withLabelsTo()
-            ->withPrivateNote()
-            ->withPublicNote()
-            ->withPaymentType()
-            ->withStatusDateTime()
-            ->withReceivedDateTime()
-            ->withPaymentDateTime()
+//            ->withFinalOffer()
+//            ->withTotalDwt()
+//            ->withLabelsFrom()
+//            ->withLabelsTo()
+//            ->withPrivateNote()
+//            ->withPublicNote()
+//            ->withPaymentType()
+//            ->withStatusDateTime()
+//            ->withReceivedDateTime()
+//            ->withPaymentDateTime()
             ->paginate(Filter::perPage($filter));
+
+
 
 
         return [
@@ -308,8 +310,6 @@ class ReportsTable extends Table
     public function totalRows() {
         return $this->data->lastPage();
     }
-
-    p
 
     public function getCustomerHTMLInfo($customer) {
         return sprintf('<span class="pb-4 pt-6 px-6 flex flex-col">

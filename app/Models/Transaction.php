@@ -113,9 +113,21 @@ class Transaction extends Model
     }
 
     public function scopeWithGroupedGender($query) {
+<<<<<<< HEAD
        return  $query->whereHas('customer', function($q){
             $q->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
         });
+=======
+        $query->join('customers', 'customers.id', '=', 'transactions.customer_id')
+            ->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
+    }
+
+    public function scopeWithGroupedRepeatCustomer($query, $repeat=true) {
+        $query->selectRaw("COUNT(customer_id) AS `numberOfTransactions`")->groupBy('customer_id');
+        if($repeat) {
+            $query->havingRaw('numberOfTransactions > ?', [1]);
+        }
+>>>>>>> b7dbcd8a52265b94118b56a21bcabb72aef6ae30
     }
 
 
