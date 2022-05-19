@@ -112,14 +112,35 @@ class Transaction extends Model
        return $query->selectRaw("status_id, COUNT(status_id) AS `statusCount`")->groupBy('status_id');
     }
 
+    public function scopeWithGroupedDates($query) {
+        return $query->selectRaw('DATE_FORMAT(created_at, "%W") as day,  COUNT(DATE_FORMAT(created_at, "%W")) AS `dayCount`')
+        ->groupBy('day');    
+    }
+
+
     public function scopeWithGroupedGender($query) {
-<<<<<<< HEAD
-       return  $query->whereHas('customer', function($q){
-            $q->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
-        });
-=======
         $query->join('customers', 'customers.id', '=', 'transactions.customer_id')
             ->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
+    }
+
+    public function scopeWithGroupedStates($query) {
+        $query->join('addresses', 'addresses.addressable_id', '=', 'transactions.id')
+            ->join('states', 'addresses.state_id', '=', 'states.id')
+            ->selectRaw("states.name, addresses.state_id, COUNT(addresses.state_id) AS `stateCount`")->groupBy('state_id');
+    }
+
+    public function scopeWithGroupedPaymentTypes($query) {
+        $query->join('transaction_payment_addresses', 'transaction_payment_addresses.transaction_id', '=', 'transactions.id')
+            ->join('transaction_payment_types', 'transaction_payment_addresses.payment_type_id', '=', 'transaction_payment_types.id')
+
+            ->selectRaw("transaction_payment_types.name, transaction_payment_addresses.payment_type_id, COUNT(transaction_payment_addresses.payment_type_id) AS `paymentCount`")->groupBy('payment_type_id');
+    }
+
+
+    public function scopeWithGroupedLeads($query) {
+        $query->join('customers', 'customers.id', '=', 'transactions.customer_id')
+                ->join('leads', 'customers.lead_id', '=', 'leads.id')
+               ->selectRaw("leads.name, customers.lead_id, COUNT(customers.lead_id) AS `leadIdCount`")->groupBy('lead_id');
     }
 
     public function scopeWithGroupedRepeatCustomer($query, $repeat=true) {
@@ -127,7 +148,6 @@ class Transaction extends Model
         if($repeat) {
             $query->havingRaw('numberOfTransactions > ?', [1]);
         }
->>>>>>> b7dbcd8a52265b94118b56a21bcabb72aef6ae30
     }
 
 
@@ -425,7 +445,7 @@ class Transaction extends Model
     }
 
     public function trStatus() {
-        return $this->belongsTo(Status::class, 'status_id', 'status_id');
+        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
 
     public function trLead() {

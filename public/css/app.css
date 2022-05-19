@@ -1192,14 +1192,11 @@ select {
 .top-12 {
 	top: 3rem;
 }
-.left-12 {
-	left: 3rem;
+.top-1\/2 {
+	top: 50%;
 }
 .left-4 {
 	left: 1rem;
-}
-.top-1\/2 {
-	top: 50%;
 }
 .top-3\.5 {
 	top: 0.875rem;
@@ -1836,6 +1833,9 @@ select {
 .h-px {
 	height: 1px;
 }
+.h-96 {
+	height: 24rem;
+}
 .h-10\.5 {
 	height: 2.625rem;
 }
@@ -1849,9 +1849,6 @@ select {
 	height: -webkit-max-content;
 	height: -moz-max-content;
 	height: max-content;
-}
-.h-96 {
-	height: 24rem;
 }
 .h-32 {
 	height: 8rem;
@@ -3296,11 +3293,11 @@ select {
 .font-bold {
 	font-weight: 700;
 }
-.font-extrabold {
-	font-weight: 800;
-}
 .font-normal {
 	font-weight: 400;
+}
+.font-extrabold {
+	font-weight: 800;
 }
 .font-light {
 	font-weight: 300;
@@ -3421,6 +3418,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(185, 28, 28, var(--tw-text-opacity));
 }
+.text-black {
+	--tw-text-opacity: 1;
+	color: rgba(0, 0, 0, var(--tw-text-opacity));
+}
 .text-green-800 {
 	--tw-text-opacity: 1;
 	color: rgba(6, 95, 70, var(--tw-text-opacity));
@@ -3440,10 +3441,6 @@ select {
 .text-cyan-300 {
 	--tw-text-opacity: 1;
 	color: rgba(165, 180, 252, var(--tw-text-opacity));
-}
-.text-black {
-	--tw-text-opacity: 1;
-	color: rgba(0, 0, 0, var(--tw-text-opacity));
 }
 .text-yellow-800 {
 	--tw-text-opacity: 1;
@@ -5622,16 +5619,16 @@ input[type='checkbox']:focus {
 		text-align: left;
 	}
 
+	.lg\:text-sm {
+		font-size: 0.985rem;
+	}
+
 	.lg\:text-lg {
 		font-size: 1.125rem;
 	}
 
 	.lg\:text-base {
 		font-size: 1rem;
-	}
-
-	.lg\:text-sm {
-		font-size: 0.985rem;
 	}
 
 	.lg\:text-xs {
