@@ -9,9 +9,8 @@
             <TransactionTable />
 
             <div class="">
-                <TopRow class="mt-8"/>
+                <TopRow class="mt-8" />
             </div>
-
 
             <div>
                 <FilterBy />
@@ -157,18 +156,18 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive } from 'vue'
-import AppLayout from '../../Layouts/AppLayout.vue'
-import axios from 'axios'
-import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
-import { Inertia } from '@inertiajs/inertia'
-import TopRow from './Components/TopRow.vue'
-import SearchRow from './Components/SearchRow.vue'
-import TransactionTable from './Components/TransactionTable.vue'
-import FilterBy from './Components/FilterBy.vue'
-import Entries from './Components/Entries.vue'
-import ReportLayout from './Components/ReportLayout.vue'
-import ShopmataTable from '../Widgets/ShopmataTable'
+import { ref, reactive } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
+import axios from "axios";
+import { SearchIcon, PlusIcon } from "@heroicons/vue/solid";
+import { Inertia } from "@inertiajs/inertia";
+import TopRow from "./Components/TopRow.vue";
+import SearchRow from "./Components/SearchRow.vue";
+import TransactionTable from "./Components/TransactionTable.vue";
+import FilterBy from "./Components/FilterBy.vue";
+import Entries from "./Components/Entries.vue";
+import ReportLayout from "./Components/ReportLayout.vue";
+import ShopmataTable from "../Widgets/ShopmataTable";
 
 export default {
     components: {
@@ -180,15 +179,16 @@ export default {
         Entries,
         TopRow,
         ReportLayout,
-        ShopmataTable
+        ShopmataTable,
     },
     props: {
         notifications: Array,
         filters: Object,
         navigation: Array,
+        genders: Array,
     },
-    setup (props) {
-
-    }
-}
+    setup(props) {
+        console.log(props.genders);
+    },
+};
 </script>

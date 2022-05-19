@@ -58,6 +58,12 @@ class Customer extends Model
     }
 
 
+    public function lead()
+    {
+        return $this->belongsTo(Lead::class);
+    }
+
+
     public static function createUpdate($request, $customer)
     {
         $customer->first_name   = $request->first_name;
