@@ -22,22 +22,27 @@ class ReportFormGroup extends Form
     {
         return [
             [
+                'name' => 'status',
                 'label' => 'Status',
                 'fields' => (new StatusCheckBoxes())->render($filter)
             ],
             [
+                'name' => 'repeat_customer',
                 'label' => 'Repeat Customer',
                 'fields' => (new RepeatCustomerCheckBoxes())->render($filter)
             ],
             [
+                'name' => 'gender',
                 'label' => 'Gender',
                 'fields' => (new GenderCheckBoxes())->render($filter)
             ],
             [
+                'name' => 'lead',
                 'label' => 'Lead Type',
                 'fields' => (new LeadTypeCheckBoxes())->render($filter)
             ],
             [
+                'payment_type',
                 'label' => 'Payment Type',
                 'fields' => (new PaymentTypeCheckBoxes())->render($filter)
             ],
@@ -58,10 +63,12 @@ class ReportFormGroup extends Form
             //     'fields' => (new AgeCheckBoxes())->render($filter)
             // ],
             [
+                'name' => 'days',
                 'label' => 'Days',
                 'fields' => (new DaysCheckBoxes())->render($filter)
             ],
             [
+                'name' => 'states',
                 'label' => 'States',
                 'fields' => (new StatesCheckBoxes())->render($filter)
             ]
