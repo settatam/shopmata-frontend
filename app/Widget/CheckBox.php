@@ -13,7 +13,7 @@ class CheckBox
     protected $filter;
     protected $label;
     protected $title;
-    protectd $name = 'checkbox';
+    protected $name = 'checkbox';
 
     public function data()
     {
@@ -74,4 +74,4 @@ class CheckBox
             'name' => $this->name()
         ];
     }
-}
+}e
