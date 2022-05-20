@@ -331,7 +331,7 @@ class ReportsTable extends Table
         return '';
     }
 
-    public function actions() {
+    public function actions($filter) {
         return  [
             'Create Shipping Label',
             'Create Barcodes',

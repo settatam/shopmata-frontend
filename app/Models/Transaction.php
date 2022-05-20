@@ -114,7 +114,7 @@ class Transaction extends Model
 
     public function scopeWithGroupedDates($query) {
         return $query->selectRaw('DATE_FORMAT(created_at, "%W") as day,  COUNT(DATE_FORMAT(created_at, "%W")) AS `dayCount`')
-        ->groupBy('day');    
+        ->groupBy('day');
     }
 
 
@@ -147,6 +147,8 @@ class Transaction extends Model
         $query->selectRaw("COUNT(customer_id) AS `numberOfTransactions`")->groupBy('customer_id');
         if($repeat) {
             $query->havingRaw('numberOfTransactions > ?', [1]);
+        }else{
+            $query->havingRaw('numberOfTransactions = ?', [1]);
         }
     }
 
