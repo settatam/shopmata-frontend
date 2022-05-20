@@ -16,4 +16,8 @@ class StatusCheckBoxes extends CheckBox
         });
     }
 
+    public function name() {
+        return 'status';
+    }
+
 }
