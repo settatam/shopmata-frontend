@@ -5,6 +5,7 @@ namespace App\Widget;
 use App\Widget\StatusCheckBoxes;
 use App\Widget\RepeatCustomerCheckBoxes;
 
+
 class ReportFormGroup extends Form
 {
     public function formGroups($filter)
@@ -16,6 +17,14 @@ class ReportFormGroup extends Form
             ],
             [
                 'label' => 'Repeat Customer',
+                'fields' => (new RepeatCustomerCheckBoxes())->render($filter)
+            ],
+            [
+                'label' => 'Gender',
+                'fields' => (new GenderCheckBoxes())->render($filter)
+            ],
+            [
+                'label' => 'Lead Type',
                 'fields' => (new RepeatCustomerCheckBoxes())->render($filter)
             ]
         ];

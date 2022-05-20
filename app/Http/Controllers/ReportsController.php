@@ -26,7 +26,7 @@ class ReportsController extends Controller
         $noRepeatCustomerCount = Transaction::searchForFilter($filters)->withGroupedRepeatCustomer(false)->count();
         $days =  Transaction::searchForFilter($filters)->withGroupedDates()->get();
         //$behaviour           =
-       // $tags =
+        $tags =
         $states   =  Transaction::searchForFilter($filters)->withGroupedStates()->get();
         $repeatCustomers = collect([
             'Yes' => $repeatCustomerCount,
