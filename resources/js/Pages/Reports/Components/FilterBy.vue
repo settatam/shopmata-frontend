@@ -14,12 +14,12 @@
                     <div
                         class="bg-purple-darken text-white font-bold px-2 py-2"
                     >
-                        <h1>{{ item.header }}</h1>
+                        <h1>{{ item.label }}</h1>
                     </div>
                     <div class="pl-3 py-3 bg-white">
                         <div>
                             <div
-                                v-for="filter in item.filters"
+                                v-for="filter in item.fields.options"
                                 :key="filter.index"
                                 class="space-x-2 px-2"
                             >
@@ -29,7 +29,7 @@
                                     :name="filter"
                                 />
                                 <label :for="filter" class="text-xs lg:text-xs">
-                                    {{ filter }}
+                                    {{ filter.label }}
                                 </label>
                             </div>
                         </div>
@@ -43,8 +43,13 @@
 <script>
 import { reactive } from '@vue/reactivity'
 export default {
-    setup () {
-        const filterLists = reactive([
+    props: {
+        notifications: Array,
+        formObject: Object
+    },
+    setup (props) {
+        const filterLists = reactive(props.formObject.formGroups)
+        const filterListssss = reactive([
             {
                 header: 'Statuses',
                 filters: [

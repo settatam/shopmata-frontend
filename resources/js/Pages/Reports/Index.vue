@@ -13,7 +13,7 @@
             </div>
 
             <div>
-                <FilterBy />
+                <FilterBy :formObject="reportForm"/>
             </div>
 
             <shopmata-table :filters="filters"></shopmata-table>
@@ -182,13 +182,10 @@ export default {
         ShopmataTable,
     },
     props: {
-        notifications: Array,
-        filters: Object,
-        navigation: Array,
-        genders: Array,
+        reportForm: Object,
     },
     setup(props) {
-        console.log(props.genders);
+        // console.log(props.genders);
     },
 };
 </script>
