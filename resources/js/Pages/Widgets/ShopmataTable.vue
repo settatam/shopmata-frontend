@@ -31,7 +31,10 @@
                   <form v-for="(action, index) in actions" class="flex mr-2">
                       <div v-for="(formGroup, formIndex) in action.formGroups">
                           <label v-if="formGroup.label"> {{ formGroup.label }}</label>
-                          <select v-model="formGroup.field.selected" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md mr-2">
+                          <select
+                              v-model="formGroup.field.attributes.value"
+                              :name="formGroup.field.attributes.name"
+                              class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md mr-2">
                               <option v-for="option in formGroup.field.options" :value="option.value">
                                   {{ option.text }}
                               </option>
@@ -165,8 +168,11 @@ import {
     function doAction(index, formGroupIndex) {
         console.log('This is the index', formGroupIndex);
         console.log(actions.value[index].formGroups);
-        // let action = actions.value[index].formGroups[formGroupIndex].field.selected;
-        // sendAction(action);
+        let formData = [];
+        for(let i=0; i<actions.value[index].formGroups.length; i++) {
+            formData.push(actions.value[index].formGroups[i].field.attributes)
+        }
+        console.log(formData);
     }
 
     function sendAction (action) {

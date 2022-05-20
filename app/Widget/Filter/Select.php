@@ -50,13 +50,23 @@ class Select
         return $this->label;
     }
 
+    public function attributes() {
+        return [
+            'name' => '',
+            'value' => '',
+            'id' => $this->id(),
+            'classes' => $this->classes()
+        ];
+    }
+
     public function render($filter=[]) {
         $this->filter = $filter;
         return [
             'type' => $this->type(),
             'selected' => $this->selected(),
             'action' => $this->actions($filter),
-            'options' => $this->options()
+            'options' => $this->options(),
+            'attributes' => $this->attributes()
         ];
     }
 }

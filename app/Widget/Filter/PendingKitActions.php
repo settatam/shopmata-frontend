@@ -15,6 +15,13 @@ class PendingKitActions extends Select
         return '';
     }
 
+    public function attributes() {
+        return [
+            'name' => 'actions',
+            'value' => ''
+        ];
+    }
+
     public function data() {
         return [
             [
