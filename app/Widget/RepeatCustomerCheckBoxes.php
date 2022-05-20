@@ -2,6 +2,8 @@
 
 namespace App\Widget;
 
+use App\Models\Transaction;
+
 class RepeatCustomerCheckBoxes extends CheckBox
 {
     public function options($filter) {
@@ -10,13 +12,15 @@ class RepeatCustomerCheckBoxes extends CheckBox
 
         return collect(
             [
-                'label' => 'Yes ' . $repeatCustomerCount,
+                [
+                'label' => 'Yes - ' . $repeatCustomerCount,
                 'value' => 'Yes'
-            ],
-            [
-                'label' => 'No ' . $noRepeatCustomerCount,
-                'value' => 'No'
-            ],
+                ],
+                [
+                    'label' => 'No - ' . $noRepeatCustomerCount,
+                    'value' => 'No'
+                ],
+            ]
         );
     }
 }
