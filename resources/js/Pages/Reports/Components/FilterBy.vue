@@ -19,16 +19,16 @@
                     <div class="pl-3 py-3 bg-white">
                         <div>
                             <div
-                                v-for="filter in item.fields.options"
-                                :key="filter.index"
+                                v-for="(filter, filterIndex) in item.fields.options"
+                                :key="filter.filterIndex"
                                 class="space-x-2 px-2"
                             >
                                 <input
                                     type="checkbox"
-                                    :id="filter"
+                                    :id="'id-' + filterIndex"
                                     :name="filter"
                                 />
-                                <label :for="filter" class="text-xs lg:text-xs">
+                                <label :for="'id-' + filterIndex" class="text-xs lg:text-xs">
                                     {{ filter.label }}
                                 </label>
                             </div>
