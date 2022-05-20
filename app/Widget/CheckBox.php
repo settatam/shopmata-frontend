@@ -74,4 +74,4 @@ class CheckBox
             'name' => $this->name()
         ];
     }
-}e
+}
