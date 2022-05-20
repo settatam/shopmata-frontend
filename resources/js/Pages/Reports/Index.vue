@@ -183,7 +183,8 @@ export default {
     },
     props: {
         reportForm: Object,
-        navigation: Array
+        navigation: Array,
+        filters: Object
     },
     setup(props) {
         // console.log(props.genders);
