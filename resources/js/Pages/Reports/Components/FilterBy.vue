@@ -7,8 +7,8 @@
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div
                 class="w-full my-2 border bg-white"
-                v-for="item in filterLists"
-                :key="item.index"
+                v-for="(item, mainIndex) in filterLists"
+                :key="mainIndex"
             >
                 <div class="">
                     <div
@@ -25,10 +25,10 @@
                             >
                                 <input
                                     type="checkbox"
-                                    :id="'id-' + filterIndex"
+                                    :id="'id-' + filterIndex + mainIndex"
                                     :name="filter"
                                 />
-                                <label :for="'id-' + filterIndex" class="text-xs lg:text-xs">
+                                <label :for="'id-' + filterIndex + mainIndex" class="text-xs lg:text-xs">
                                     {{ filter.label }}
                                 </label>
                             </div>
