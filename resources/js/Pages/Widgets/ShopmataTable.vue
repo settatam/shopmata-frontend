@@ -38,7 +38,7 @@
                           </select>
                       </div>
                       <button type="button"
-                              @click="doAction(formIndex)"
+                              @click="doAction(index, 0)"
                                   class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
                               {{ action.buttons[0].label }}
                       </button>
@@ -162,9 +162,11 @@ import {
 
     }
 
-    function doAction(index) {
-        let action = actions.value[index].selected;
-        sendAction(action);
+    function doAction(index, formGroupIndex) {
+        console.log('This is the index', formGroupIndex);
+        console.log(actions.value[index].formGroups);
+        // let action = actions.value[index].formGroups[formGroupIndex].field.selected;
+        // sendAction(action);
     }
 
     function sendAction (action) {
