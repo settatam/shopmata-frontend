@@ -17,7 +17,6 @@ class ReportsController extends Controller
     {
         $filters  = $request->input();
         $statuses = Transaction::searchForFilter($filters)->with('trStatus')->withGroupedStatus()->get();
-        
         $lead_type             = Customer::has('transactions')->select(\DB::raw('customers.lead_id, COUNT(customers.lead_id) AS `leadIdCount`'))->with('lead')->groupBy('lead_id')->get();
         $genders               = Transaction::searchForFilter($filters)->withGroupedGender()->get();
         $payment_types         = Transaction::withGroupedPaymentTypes()->get();
