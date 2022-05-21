@@ -187,7 +187,7 @@ export default {
                         case 'Rejected By Admin':
                             let data = {
                                 transactions: selectedTransactions.value,
-                                action
+                                action: value
                             }
                             Inertia.post(
                                 '/admin/transactions/bulk-actions/barcode',
