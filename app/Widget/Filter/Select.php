@@ -13,6 +13,7 @@ class Select
     protected $classes = '';
     protected $filter;
     protected $label;
+    protected $isRequired = false;
 
     public function data() {
 
@@ -44,6 +45,10 @@ class Select
 
     public function id() {
         return $this->id;
+    }
+
+    public function isRequired() {
+        return $this->isRequired;
     }
 
     public function label() {

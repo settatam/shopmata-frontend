@@ -144,7 +144,6 @@ export default {
     },
     setup() {
         const open = ref(true);
-
         return {
             open,
         };

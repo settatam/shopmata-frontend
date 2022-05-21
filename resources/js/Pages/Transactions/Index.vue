@@ -2,7 +2,17 @@
     <!-- Page header -->
     <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3">
-
+            <ConfirmationModal
+                :open="openConfirmationModal"
+                @close="closeConfirmationModal"
+            >
+                <template #header>
+                    {{ confirmationHeader}}
+                </template>
+                <template #body>
+                    {{ confirmationBody }}
+                </template>
+            </ConfirmationModal>
             <shopmata-table
                 :filters="filters"
                 @action="doAction"
@@ -21,6 +31,7 @@ import { Inertia } from '@inertiajs/inertia'
 import DeleteModal from '../../Components/DeleteModal.vue'
 import notification from '../../Utils/notification'
 import ShopmataTable from "../Widgets/ShopmataTable";
+import ConfirmationModal from "../../Components/ConfirmationModal";
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -31,6 +42,7 @@ const statusStyles = {
 
 export default {
     components: {
+        ConfirmationModal,
         AppLayout,
         SearchIcon,
         MailIcon,
@@ -62,6 +74,11 @@ export default {
             item: 'Transactions'
         })
         const checkedTransactions = ref([])
+        const openConfirmationModal = ref(false);
+        const confirmationHeader = ref('');
+        const confirmationBody = ref('');
+        const selectedTransactions = ref([]);
+        const confirmationFor = ref('');
 
         onMounted(() => {
             // this.$emit('doNavigation', navigation)
@@ -77,25 +94,28 @@ export default {
             isChecked.value = !isChecked.value
         }
 
-        function sendAction () {
-            let data = {
-                transactions: checkedTransactions.value,
-                action: massActionChoice.value
-            }
-            switch (massActionChoice.value) {
-                case 'delete':
-                    isDelete.value = true
-                    break
-                case 'label_to':
-                case 'label_from':
-                case 'barcode':
-                    Inertia.post(
-                        '/admin/transactions/bulk-actions/barcode',
-                        data
-                    )
-                    break
-            }
-        }
+        // function sendAction () {
+        //     let data = {
+        //         transactions: checkedTransactions.value,
+        //         action: massActionChoice.value
+        //     }
+        //     switch (massActionChoice.value) {
+        //         case 'delete':
+        //             isDelete.value = true
+        //             confirmationBody.value = 'Are you sure you want to delete these transactions?'
+        //             confirmationHeader.value = 'Delete Transactions'
+        //             openConfirmationModal.value = true;
+        //             break
+        //         case 'label_to':
+        //         case 'label_from':
+        //         case 'barcode':
+        //             Inertia.post(
+        //                 '/admin/transactions/bulk-actions/barcode',
+        //                 data
+        //             )
+        //             break
+        //     }
+        // }
 
         function close () {
             isDelete.value = false
@@ -124,22 +144,37 @@ export default {
                 data[name] = action.formGroups[i].field.attributes.value;
                 formData.push(data);
             }
-            sendAction(formData, selectedItems);
+            //add requires danger confirmation
+            //sendAction(formData, selectedItems);
+            let formAction = formData[0].actions
+            selectedTransactions.value = selectedItems.map(t => t.data)
+            if(formAction == 'Delete') {
+                confirmationBody.value = 'Are you sure you want to delete these transactions?'
+                confirmationHeader.value = 'Delete Transactions'
+                openConfirmationModal.value = true;
+                confirmationFor.value = 'Delete'
+            }else{
+                sendAction(formAction)
+            }
         }
 
-        function sendAction (formData, selectedItems) {
-            let action = formData[0].actions
-            let data = {
-                transactions: selectedItems.map(t => t.data),
-                action
-            }
+        function closeConfirmationModal(confirmation) {
+            openConfirmationModal.value = false
+            if(confirmation) sendAction(confirmationFor.value)
+        }
+
+        function sendAction (action) {
             switch (action) {
-                case 'delete':
-                    isDelete.value = true
+                case 'Delete':
+                    alert('this is the part where we actually delete the item');
                     break;
                 case 'Create Shipping Label':
                 case 'Create Barcodes':
                 case 'Rejected By Admin':
+                    let data = {
+                        transactions: selectedTransactions.value,
+                        action
+                    }
                     Inertia.post(
                         '/admin/transactions/bulk-actions/barcode',
                         data
@@ -152,6 +187,7 @@ export default {
                     )
                     break;
             }
+            confirmationFor.value = '';
         }
 
         return {
@@ -171,7 +207,11 @@ export default {
             checkedTransactions,
             filterNumber,
             filterTransactions,
-            doAction
+            doAction,
+            openConfirmationModal,
+            confirmationBody,
+            confirmationHeader,
+            closeConfirmationModal
         }
     }
 }

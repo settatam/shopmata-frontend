@@ -5,12 +5,17 @@ use App\Widget\Filter\PendingKitActions;
 
 class PendingKit extends Form
 {
+    public function shouldConfirm()
+    {
+        return true;
+    }
+
     public function formGroups($filter)
     {
         return [
             [
                 'label' => '',
-                'field' => (new PendingKitActions($filter))->render($filter)
+                'field' => (new PendingKitActions())->render($filter)
             ]
         ];
     }

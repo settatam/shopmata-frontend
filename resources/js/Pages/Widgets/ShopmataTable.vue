@@ -5,8 +5,9 @@
             :open="openModal"
             @close="doClose"
         >
-        </ImageSlider>
-    <div class="sm:flex sm:items-center">
+       </ImageSlider>
+
+      <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-xl font-semibold text-gray-900">{{ title }}</h1>
         <p class="mt-2 text-sm text-gray-700">{{ description }}</p>
@@ -28,8 +29,8 @@
                 <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm px-3 py-3" :placeholder="filterText" />
               </div>
               <div v-if="selectedItems.length && actions.length" class="px-3 py-3 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
-                  <form v-for="(action, index) in actions" class="flex mr-2">
-                      <div v-for="(formGroup, formIndex) in action.formGroups">
+                  <form v-for="(action, index) in actions" class="flex mr-2 items-center">
+                      <div v-for="(formGroup, formIndex) in action.formGroups" class="mr-3">
                           <label v-if="formGroup.label"> {{ formGroup.label }}</label>
                           <select
                               v-model="formGroup.field.attributes.value"
@@ -42,7 +43,7 @@
                       </div>
                       <button type="button"
                               @click="doAction(index, 0)"
-                                  class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+                                  class="inline-flex h-10 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
                               {{ action.buttons[0].label }}
                       </button>
                   </form>
@@ -138,9 +139,6 @@ import {
         ShoppingBagIcon
     } from '@heroicons/vue/solid'
 
-    import { ScaleIcon } from '@heroicons/vue/outline'
-
-
     const transactions = ref([]);
     const title = ref('');
     const description = ref('');
@@ -158,6 +156,7 @@ import {
     const pagination = ref({})
     const openModal = ref(false)
     const images = ref([]);
+
 
     const filters = props.filters;
 
