@@ -35,7 +35,8 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+
         $filters = $request->input();
         $filters['page'] = Filter::page($filters);
         $filters['type'] = 'TransactionsTable';
