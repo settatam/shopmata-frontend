@@ -136,6 +136,7 @@ export default {
         }
 
         function doAction(action, selectedItems) {
+            console.log(action)
             let formData = [];
             for(let i=0; i<action.formGroups.length; i++) {
                 //formData.push(actions.value[index].formGroups[i].field.attributes)
@@ -148,12 +149,13 @@ export default {
             //sendAction(formData, selectedItems);
             let formAction = formData[0].actions
             selectedTransactions.value = selectedItems.map(t => t.data)
-            if(formAction == 'Delete') {
+            if(action.name == 'status') {
+                alert('status')
+            }else if(formAction == 'Delete') {
                 confirmationBody.value = 'Are you sure you want to delete these transactions?'
                 confirmationHeader.value = 'Delete Transactions'
                 openConfirmationModal.value = true;
                 confirmationFor.value = 'Delete'
-            }else{
                 sendAction(formAction)
             }
         }
@@ -181,6 +183,7 @@ export default {
                     )
                 break;
                 case 'status':
+                    alert('We have status happening now');
                     Inertia.post(
                     '/admin/transactions/bulk-actions/status',
                     data

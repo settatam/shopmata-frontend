@@ -170,7 +170,7 @@ import {
 
     function doAction(index, formGroupIndex) {
         //we should emit actions here ...
-        emits('action', actions.value[formGroupIndex], selectedItems.value);
+        emits('action', actions.value[index], selectedItems.value);
     }
 
 
