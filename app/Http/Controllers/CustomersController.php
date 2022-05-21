@@ -40,7 +40,7 @@ class CustomersController extends Controller
     {
         
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 20;
-        dd(  \DB::table('transaction_payment_types')->all() );
+        dd(  \DB::table('transaction_payment_types')->get() );
 
         $countries = Country::all();
         $data      = [];
