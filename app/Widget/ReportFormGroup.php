@@ -46,10 +46,10 @@ class ReportFormGroup extends Form
                 'label' => 'Payment Type',
                 'fields' => (new PaymentTypeCheckBoxes())->render($filter)
             ],
-            [
-                 'label' => 'Behaviour',
-                 'fields' => (new BehaviourCheckBoxes())->render($filter)
-            ],
+            // [
+            //      'label' => 'Behaviour',
+            //      'fields' => (new BehaviourCheckBoxes())->render($filter)
+            // ],
             // [
             //     'label' => 'Tags',
             //     'fields' => (new TagsCheckBoxes())->render($filter)
