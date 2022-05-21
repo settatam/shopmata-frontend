@@ -35,7 +35,8 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+
         $filters = $request->input();
         $filters['page'] = Filter::page($filters);
         $filters['type'] = 'TransactionsTable';
@@ -91,13 +92,11 @@ class TransactionsController extends Controller
             ->withReceivedDateTime()
             ->withPaymentDateTime()
             ->withPaymentDateTime()
-            ->with('customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','payment_address','tags')
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
             ->find($id);
 
         $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
-
-
-//        $transaction                 = Transaction::with('shippingLabels')->findorFail($id);
+        //$transaction               = Transaction::with('shippingLabels')->findorFail($id);
         $statuses                    = Status::all();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();

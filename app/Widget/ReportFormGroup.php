@@ -9,7 +9,7 @@ use App\Widget\PaymentTypeCheckBoxes;
 //use App\Widget\BehaviourCheckBoxes;
 //use App\Widget\TagsCheckBoxes;
 //use App\Widget\SourceCheckBoxes;
-//use App\Widget\AgeCheckBoxes;
+use App\Widget\AgeCheckBoxes;
 use App\Widget\DaysCheckBoxes;
 use App\Widget\StatesCheckBoxes;
 
@@ -47,8 +47,8 @@ class ReportFormGroup extends Form
                 'fields' => (new PaymentTypeCheckBoxes())->render($filter)
             ],
             // [
-            //     'label' => 'Behaviour',
-            //     'fields' => (new BehaviourCheckBoxes())->render($filter)
+            //      'label' => 'Behaviour',
+            //      'fields' => (new BehaviourCheckBoxes())->render($filter)
             // ],
             // [
             //     'label' => 'Tags',
