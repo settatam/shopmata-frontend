@@ -6,7 +6,7 @@
 
         <div class="p-4 space-y-2">
             <payment-method
-                :payment_method_name="transaction.transaction_payment_type"
+                :payment_method_name="transaction.payment_address"
                 :payment="transaction.payment_address"
             />
         </div>
