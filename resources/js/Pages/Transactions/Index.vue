@@ -169,7 +169,7 @@ export default {
 
         function closeConfirmationModal(confirmation) {
             openConfirmationModal.value = false
-            if(confirmation) sendAction(confirmationFor.name, confirmationFor.value)
+            if(confirmation) sendAction(confirmationFor.value.name, confirmationFor.value.value)
         }
 
         function sendAction (action, value) {
