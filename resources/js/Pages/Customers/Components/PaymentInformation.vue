@@ -7,8 +7,8 @@
                     class="cursor-pointer hover:text-gray-400"
                     @click="toggleEdit()"
                 >
-                    [ Edit ]</span
-                >
+                    [ Edit ]
+                </span>
             </h1>
         </div>
 
@@ -35,10 +35,10 @@
                     v-model="payment_method"
                 >
                     <option value="choose">Choose Method</option>
-                    <option value="check">Pay me with a Check</option>
-                    <option value="paypal">Pay me with PayPal</option>
-                    <option value="ach">Pay me with ACH</option>
-                    <option value="venmo">Pay me with Venmo</option>
+                    <option value="Check">Pay me with a Check</option>
+                    <option value="PayPal">Pay me with PayPal</option>
+                    <option value="ACH">Pay me with ACH</option>
+                    <option value="Venmo">Pay me with Venmo</option>
                 </select>
             </div>
 
@@ -58,7 +58,7 @@
 <script>
 import { ref, computed } from "vue";
 import Check from "./Dynamic/Check.vue";
-import Paypal from "./Dynamic/Paypal.vue";
+import PayPal from "./Dynamic/PayPal.vue";
 import Ach from "./Dynamic/Ach.vue";
 import Venmo from "./Dynamic/Venmo.vue";
 import PaymentMethod from "../../../Components/PaymentMethod.vue";
@@ -72,25 +72,27 @@ export default {
 
     setup(props) {
         const isEdit = ref(false);
-        function toggleEdit() {
-            isEdit.value = !isEdit.value;
-        }
         const payment_method = ref("choose");
-
-        const checkPaymentMethod = computed(() => {
+        let name = props.customer.payment_address.payment_type.name;
+        let checkPaymentMethod = computed(() => {
             switch (payment_method.value) {
-                case "check":
+                case "Check":
                     return Check;
-                case "ach":
+                case "ACH":
                     return Ach;
-                case "paypal":
-                    return Paypal;
-                case "venmo":
+                case "PayPal":
+                    return PayPal;
+                case "Venmo":
                     return Venmo;
                 default:
                     break;
             }
         });
+
+        function toggleEdit() {
+            payment_method.value = name;
+            isEdit.value = !isEdit.value;
+        }
 
         return { isEdit, toggleEdit, payment_method, checkPaymentMethod };
     },
