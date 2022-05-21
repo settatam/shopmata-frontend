@@ -90,7 +90,7 @@ export default {
         });
 
         function toggleEdit() {
-            payment_method.value = name;
+            payment_method.value = null != name ? name : "choose";
             isEdit.value = !isEdit.value;
         }
 

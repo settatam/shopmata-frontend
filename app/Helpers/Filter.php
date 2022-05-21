@@ -12,7 +12,7 @@ class Filter
     const DATE_6_MONTHS = '6 months';
     const DATE_1_YEAR = '1 year';
     const DEFAULT_TIMEZONE = 'America/New_York';
-    const DEFAULT_PER_PAGE = 25;
+    const DEFAULT_PER_PAGE = 20;
     const DEFAULT_SORTBY = 'id';
     const DEFAULT_SORT = 'desc';
 
