@@ -34,7 +34,7 @@ class Select
         return $this->actions;
     }
 
-    public function options() {
+    public function options($filter) {
         return $this->options;
     }
 
@@ -50,7 +50,7 @@ class Select
         return $this->label;
     }
 
-    public function attributes() {
+    public function attributes($filter) {
         return [
             'name' => '',
             'value' => '',
@@ -65,8 +65,8 @@ class Select
             'type' => $this->type(),
             'selected' => $this->selected(),
             'action' => $this->actions($filter),
-            'options' => $this->options(),
-            'attributes' => $this->attributes()
+            'options' => $this->options($filter),
+            'attributes' => $this->attributes($filter)
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Widget\Filter;
 
 class PendingKitActions extends Select
 {
-    public function default() {
+    public function default($filters) {
         return [
             '' => 'Choose Action'
         ];
@@ -15,7 +15,7 @@ class PendingKitActions extends Select
         return '';
     }
 
-    public function attributes() {
+    public function attributes($filter) {
         return [
             'name' => 'actions',
             'value' => ''
@@ -47,9 +47,9 @@ class PendingKitActions extends Select
         ];
     }
 
-    public function options() {
+    public function options($filters) {
         return array_merge(
-            $this->default(),
+            $this->default($filters),
             $this->data()
         );
     }

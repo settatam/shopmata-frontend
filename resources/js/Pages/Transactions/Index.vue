@@ -3,7 +3,10 @@
     <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3">
 
-            <shopmata-table :filters="filters" />
+            <shopmata-table
+                :filters="filters"
+                @action="doAction"
+            />
         </div>
     </app-layout>
 </template>
@@ -112,6 +115,45 @@ export default {
             }
         }
 
+        function doAction(action, selectedItems) {
+            let formData = [];
+            for(let i=0; i<action.formGroups.length; i++) {
+                //formData.push(actions.value[index].formGroups[i].field.attributes)
+                let name = action.formGroups[i].field.attributes.name
+                let data = {};
+                data[name] = action.formGroups[i].field.attributes.value;
+                formData.push(data);
+            }
+            sendAction(formData, selectedItems);
+        }
+
+        function sendAction (formData, selectedItems) {
+            let action = formData[0].actions
+            let data = {
+                transactions: selectedItems.map(t => t.data),
+                action
+            }
+            switch (action) {
+                case 'delete':
+                    isDelete.value = true
+                    break;
+                case 'Create Shipping Label':
+                case 'Create Barcodes':
+                case 'Rejected By Admin':
+                    Inertia.post(
+                        '/admin/transactions/bulk-actions/barcode',
+                        data
+                    )
+                break;
+                case 'status':
+                    Inertia.post(
+                    '/admin/transactions/bulk-actions/status',
+                    data
+                    )
+                    break;
+            }
+        }
+
         return {
             loading,
             transactions,
@@ -129,6 +171,7 @@ export default {
             checkedTransactions,
             filterNumber,
             filterTransactions,
+            doAction
         }
     }
 }

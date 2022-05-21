@@ -123,6 +123,10 @@
         filters: Object
     })
 
+    const emits = defineEmits([
+        'action'
+    ]);
+
 import {
         BadgeCheckIcon,
         ChevronDownIcon,
@@ -166,34 +170,10 @@ import {
     }
 
     function doAction(index, formGroupIndex) {
-        console.log('This is the index', formGroupIndex);
-        console.log(actions.value[index].formGroups);
-        let formData = [];
-        for(let i=0; i<actions.value[index].formGroups.length; i++) {
-            formData.push(actions.value[index].formGroups[i].field.attributes)
-        }
-        console.log(formData);
+        //we should emit actions here ...
+        emits('action', actions.value[formGroupIndex], selectedItems.value);
     }
 
-    function sendAction (action) {
-        let data = {
-            transactions: selectedItems.value.map(t => t.data),
-            action
-        }
-        switch (action) {
-            case 'delete':
-                isDelete.value = true
-                break;
-            case 'Create Shipping Label':
-            case 'Create Barcodes':
-            case 'Rejected By Admin':
-                Inertia.post(
-                    '/admin/transactions/bulk-actions/barcode',
-                    data
-                )
-                break;
-            }
-    }
 
     const getFieldIndex = (field, obj) =>  {
         return obj.findIndex(e => e.key === field);
