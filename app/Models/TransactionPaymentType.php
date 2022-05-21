@@ -26,6 +26,9 @@ class TransactionPaymentType extends Model
     ];
 
 
+
+
+
     
 }
 
