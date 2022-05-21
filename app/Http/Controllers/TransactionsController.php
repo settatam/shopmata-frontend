@@ -35,7 +35,9 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
+
+        dd(        \DB::table('transaction_payment_types')->all()    );
         $filters = $request->input();
         $filters['page'] = Filter::page($filters);
         $filters['type'] = 'TransactionsTable';
