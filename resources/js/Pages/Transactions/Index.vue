@@ -149,6 +149,7 @@ export default {
             //sendAction(formData, selectedItems);
             let formAction = formData[0].actions
             selectedTransactions.value = selectedItems.map(t => t.data)
+            console.log(formAction)
             if(action.name == 'status') {
                 alert('status')
             }else if(formAction == 'Delete') {
