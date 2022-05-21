@@ -91,7 +91,7 @@ class TransactionsController extends Controller
             ->withReceivedDateTime()
             ->withPaymentDateTime()
             ->withPaymentDateTime()
-            ->with('customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','payment_address','tags')
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
             ->find($id);
 
         $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
