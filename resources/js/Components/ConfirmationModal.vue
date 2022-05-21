@@ -56,19 +56,11 @@
                                     as="h3"
                                     class="text-lg leading-6 font-medium text-gray-900"
                                 >
-                                    Delete {{ item[0].toUpperCase()
-                                    }}{{ item.substring(1).toLowerCase() }}
+                                    <slot name="header"></slot>
                                 </DialogTitle>
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500">
-                                        Are you sure you want to delete the
-                                        <span class="text-black bold"
-                                            >{{ selected.length }} selected
-                                            {{ item }}(s)?</span
-                                        >
-                                        The data will be permanently removed
-                                        from those options. This action cannot
-                                        be undone.
+                                        <slot name="body"></slot>
                                     </p>
                                 </div>
                             </div>
@@ -77,7 +69,7 @@
                             <button
                                 type="button"
                                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                @click="deleteUser"
+                                @click="confirmAction"
                             >
                                 Delete
                             </button>
@@ -98,7 +90,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted  } from "vue";
 import {
     Dialog,
     DialogOverlay,
@@ -110,19 +102,7 @@ import { ExclamationIcon } from "@heroicons/vue/outline";
 import axios from "axios";
 
 export default {
-    emits: ["close", "delete"],
-    props: {
-        open: {
-            type: Boolean,
-        },
-        selected: {
-            type: Array,
-        },
-        item: {
-            type: String,
-            default: "Product",
-        },
-    },
+    emits: ["close"],
     components: {
         Dialog,
         DialogOverlay,
@@ -131,21 +111,28 @@ export default {
         TransitionRoot,
         ExclamationIcon,
     },
-    methods: {
-        closeModal() {
-            this.open = false;
-            this.$emit("close");
-        },
-        deleteUser() {
-            this.open = false;
-            this.$emit("delete");
-            this.$emit("close");
-        },
+    props: {
+        open: Boolean
     },
-    setup() {
-        const open = ref(true);
+    setup(props, {emit}) {
+
+        const confirmation = ref(false)
+        onMounted(() => {
+
+        })
+        // const open = ref(true);
+        function closeModal() {
+            emit('close', confirmation.value);
+        }
+
+        function confirmAction() {
+            emit('close', true);
+        }
+
         return {
-            open,
+            closeModal,
+            confirmAction,
+            // open,
         };
     },
 };

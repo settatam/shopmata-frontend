@@ -13,6 +13,7 @@ class CheckBox
     protected $filter;
     protected $label;
     protected $title;
+    protected $name = 'checkbox';
 
     public function data()
     {
@@ -58,6 +59,10 @@ class CheckBox
         return $this->label;
     }
 
+    public function name() {
+        return $this->name;
+    }
+
     public function render($filter = [])
     {
         $this->filter = $filter;
@@ -65,7 +70,8 @@ class CheckBox
             'type' => $this->type(),
             'selected' => $this->selected(),
             'options' => $this->options($filter),
-            'title' => $this->title()
+            'title' => $this->title(),
+            'name' => $this->name()
         ];
     }
 }

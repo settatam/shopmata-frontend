@@ -9,6 +9,7 @@ class Form
     protected $action = '';
     protected $method = '';
     protected $formGroups = [];
+    protected $shouldConfirm = false;
 
     public function formGroups($filter) {
         return $this->formGroups;
@@ -20,6 +21,10 @@ class Form
 
     public function action() {
         return $this->action;
+    }
+
+    public function shouldConfirm() {
+        $this->shouldConfirm;
     }
 
     public function buttons() {
@@ -39,6 +44,7 @@ class Form
             'method' => $this->method(),
             'action' => $this->action(),
             'buttons' => $this->buttons(),
+            'shouldConfirm' => $this->shouldConfirm()
         ];
     }
 }

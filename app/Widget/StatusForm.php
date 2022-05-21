@@ -10,7 +10,7 @@ class StatusForm extends Form
         return [
             [
                 'label' => '',
-                'field' => (new StatusFilter($filter))->render($filter)
+                'field' => (new StatusFilter())->render($filter)
             ]
         ];
     }

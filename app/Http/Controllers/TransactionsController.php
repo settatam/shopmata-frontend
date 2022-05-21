@@ -256,6 +256,8 @@ class TransactionsController extends Controller
                             'label' => $shippingLabel,
                             'qty' => $transaction['qty']
                         ];
+                    }else{
+
                     }
                  }
 
@@ -277,18 +279,36 @@ class TransactionsController extends Controller
 //        }
 
         $input = $request->input();
-        $transactions = Transaction::whereIn('id', $input['transactions'])->get();
+        $transactionObj = Transaction::whereIn('id', $input['transactions'])->get();
 
         if($input['action'] == 'Create Barcodes') {
-            $transactions->map(function(Transaction $transaction){
-                return $transaction->qty = 5;
+            $transactionObj->map(function(Transaction $transaction){
+                    $transaction->qty = 5;
             });
-            return Inertia::render('Transactions/BulkPrintBarcode', compact('transactions'));
-        }else if($input['action'] == 'Create Shipping Label' || $input['action'] == 'label_from' ) {
+            return Inertia::render('Transactions/BulkPrintBarcode', [
+                'transactions' => $transactionObj
+            ]);
+        }else if($input['action'] == 'Create Shipping Label' ) {
             $direction = str_replace('label', '', $input['action']);
-            $transactions->map(function(Transaction $transaction) use ($direction) {
-                return [$transaction->qty = 1, $transaction->direction = $direction];
+            $to = $transactionObj->map(function(Transaction $transaction) {
+                return [
+                    'id' => $transaction->id,
+                    'qty' => 1,
+                    'direction' => 'to'
+                ];
             });
+
+            $from = $transactionObj->map(function(Transaction $transaction) {
+                return [
+                    'id' => $transaction->id,
+                    'qty' => 1,
+                    'direction' => 'from'
+                ];
+            });
+
+            $merged = $to->merge($from)->sortBy('id');
+            $transactions = $merged->values()->all();
+
             return Inertia::render('Transactions/BulkPrintLabel', compact('transactions'));
         }
     }

@@ -13,6 +13,7 @@ class Select
     protected $classes = '';
     protected $filter;
     protected $label;
+    protected $isRequired = false;
 
     public function data() {
 
@@ -34,7 +35,7 @@ class Select
         return $this->actions;
     }
 
-    public function options() {
+    public function options($filter) {
         return $this->options;
     }
 
@@ -46,8 +47,21 @@ class Select
         return $this->id;
     }
 
+    public function isRequired() {
+        return $this->isRequired;
+    }
+
     public function label() {
         return $this->label;
+    }
+
+    public function attributes($filter) {
+        return [
+            'name' => '',
+            'value' => '',
+            'id' => $this->id(),
+            'classes' => $this->classes()
+        ];
     }
 
     public function render($filter=[]) {
@@ -56,7 +70,8 @@ class Select
             'type' => $this->type(),
             'selected' => $this->selected(),
             'action' => $this->actions($filter),
-            'options' => $this->options()
+            'options' => $this->options($filter),
+            'attributes' => $this->attributes($filter)
         ];
     }
 }
