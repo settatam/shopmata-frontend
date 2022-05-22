@@ -83,7 +83,7 @@ class Transaction extends Model
 
     static function search($filter) {
         return self::query()
-            ->withDaysInStock()
+            //->withDaysInStock()
             ->withDates($filter)
             ->withStatus($filter)
             ->withCustomer($filter)

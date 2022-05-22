@@ -155,9 +155,9 @@ class TransactionsTable extends Table
 
     public function data($filter=[]) {
 
-        $this->data = Transaction::search($filter)
-            ->with('transStatus')
+        $this->data = Transaction::with('transStatus')
             ->with('images')
+            ->with('trStatus')
             ->paginate(Filter::perPage($filter))->withQueryString();
 
         return [
