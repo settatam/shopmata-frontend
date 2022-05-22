@@ -88,6 +88,7 @@ class Transaction extends Model
             ->withDates($filter)
             ->withStatus($filter)
             ->withCustomer($filter)
+            ->withTerm($filter)
             //->withTransactionCount($filter)
             ->withLead($filter)
             ->withStores($filter)
@@ -106,6 +107,16 @@ class Transaction extends Model
             ->withLead($filter)
             ->withStores($filter)
             ->withDayOfWeek($filter);
+    }
+
+    public function scopeWithTerm($query, $filter) {
+        if($term = data_get($filter, 'term')) {
+            $query->where('id', 'LIKE', '%'.$term.'%');
+            $query->orWhereHas('customer', function($q) use ($term){
+                $q->where('first_name', 'LIKE', $term)
+                ->orWhere('last_name', 'LIKE', $term);
+            });
+        }
     }
 
     public function scopeWithDaysInStock($query) {

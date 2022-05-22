@@ -51,7 +51,7 @@ class TransactionsTable extends Table
         ];
 
         $extras = [];
-        if($status = data_get($filter, 'status')) {
+        $status = data_get($filter, 'status');
             switch($status) {
                 case 60:
                 case 3:
@@ -144,10 +144,68 @@ class TransactionsTable extends Table
                             'html' => true
                         ],
                     ];
+                    break;
+                default:
+                    $extras = [
+                         [
+                            'key' => 'pictures',
+                            'label' => 'Pictures',
+                            'sortable' => true,
+                            'html' => true
+                        ],
 
+                        [
+                            'key' => 'message',
+                            'label' => 'Message',
+                            'sortable' => true,
+                            'html' => true
+                        ],
+
+                        [
+                            'key' => 'Categories',
+                            'label' => 'Categories',
+                            'sortable' => false,
+                            'html' => true
+                        ],
+                        [
+                            'key' => 'customer_info',
+                            'label' => 'Customer Info',
+                            'sortable' => true,
+                            'html' => true
+                        ],
+                        [
+                            'key' => 'outbound_tracking',
+                            'label' => 'Outbound Tracking',
+                            'sortable' => true,
+                            'html' => true
+                        ],
+                        [
+                            'key' => 'inbound_tracking',
+                            'label' => 'Inbound Tracking',
+                            'sortable' => true,
+                            'html' => true
+                        ],
+                        [
+                            'key' => 'bin_location',
+                            'label' => 'Bin Location',
+                            'sortable' => true,
+                            'html' => true
+                        ],
+                        [
+                            'key' => 'offer',
+                            'label' => 'Offer',
+                            'sortable' => true,
+                            'html' => true
+                        ],
+                        [
+                            'key' => 'nothing',
+                            'label' => 'Estimated Value',
+                            'sortable' => true,
+                            'html' => true
+                        ],
+                    ];
                     break;
             }
-        }
 
         return array_merge($items, $extras);
 
@@ -155,7 +213,7 @@ class TransactionsTable extends Table
 
     public function data($filter=[]) {
 
-        $this->data = Transaction::with('transStatus')
+        $this->data = Transaction::search($filter)->with('transStatus')
             ->with('images')
             ->with('trStatus')
             ->orderBy('id', 'desc')
@@ -193,7 +251,7 @@ class TransactionsTable extends Table
                     ],
                 ];
 
-                if($status = data_get($filter, 'status')) {
+                $status = data_get($filter, 'status');
                     switch ($status) {
                         case 60:
                         case 3:
@@ -213,7 +271,7 @@ class TransactionsTable extends Table
                             ];
                             break;
                         case 2:
-                            $extras =[
+                            $extras = [
                                 'message' => [
                                         'data' => 'This is a messager',
                                 ],
@@ -241,8 +299,37 @@ class TransactionsTable extends Table
                                     'data' => $transaction->est_val
                                 ],
                             ];
+                        default:
+                            $extras = [
+                                'message' => [
+                                        'data' => 'This is a messager',
+                                ],
+                                'categories' => [
+                                    'data' => $transaction->customer_categories,
+                                ],
+                                'customer_info' => [
+                                    'data' => $transaction->customer,
+                                    'type' => 'customer_info',
+                                    'href' => '/admin/customers/'.$transaction->customer->id
+                                ],
+                                'outbound_tracking' => [
+                                    'data' => $transaction->outgoing_tracking
+                                ],
+                                'inbound_tracking' => [
+                                    'data' => $transaction->incoming_tracking
+                                ],
+                                'bin_location' => [
+                                    'data' => 'Bin Location'
+                                ],
+                                'offer' => [
+                                    'data' => $transaction->offer
+                                ],
+                                'estimated_value' => [
+                                    'data' => $transaction->est_value
+                                ],
+                            ];
                         }
-                    }
+
                 return array_merge($mains, $extras);
 
             })

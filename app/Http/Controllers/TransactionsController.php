@@ -40,6 +40,7 @@ class TransactionsController extends Controller
         $filters = $request->input();
         $filters['page'] = Filter::page($filters);
         $filters['type'] = 'TransactionsTable';
+        $filters['term'] = '';
         $perPage = Filter::perPage($filters);
         return Inertia::render('Transactions/Index',compact('filters'));
     }

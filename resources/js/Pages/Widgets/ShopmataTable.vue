@@ -26,7 +26,11 @@
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5">
               <div class="shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600" v-if="isSearchable">
-                <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm px-3 py-3" :placeholder="filterText" />
+                <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm px-3 py-3"
+                       :placeholder="filterText"
+                       @keyup="handleSearchChange"
+                       v-model="pageFilters.term"
+                />
               </div>
               <div v-if="selectedItems.length && actions.length" class="px-3 py-3 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
                   <form v-for="(action, index) in actions" class="flex mr-2 items-center">
@@ -145,11 +149,13 @@
     import TablePagination from "../../Components/TablePagination";
 
     const props = defineProps({
-        filters: Object
+        filters: Object,
+        term: String
     })
 
     const emits = defineEmits([
-        'action'
+        'action',
+        'termUpdated'
     ]);
 
 
@@ -171,6 +177,7 @@
     const openModal = ref(false)
     const images = ref([]);
     const pageFilters = ref({});
+    const searchTerm = ref(props.term)
 
 
     const filters = props.filters;
@@ -193,20 +200,31 @@
         return obj.findIndex(e => e.key === field);
     }
 
-    const getData = () => {
-        axios.get('/admin/widgets/view', {
-            params: pageFilters.value
-        }).then((res) => {
-            fields.value = res.data.fields
-            items.value = res.data.data.items;
-            actions.value = res.data.actions;
-            hasCheckBox.value = res.data.hasCheckBox;
-            title.value = res.data.title
-            // description.value = res.data.description.value
-            exportable.value = res.data.exportable;
-            isSearchable.value = res.data.isSearchable;
-            pagination.value = res.data.pagination
+    let cancelToken;
+
+    const getData = async e => {
+
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        source.cancel('Operation canceled by the user.');
+
+        const res = await axios.get('/admin/widgets/view', {
+            params: pageFilters.value,
+            cancelToken
+        },{
+            cancelToken: source.token
         })
+
+        fields.value = res.data.fields
+        items.value = res.data.data.items;
+        actions.value = res.data.actions;
+        hasCheckBox.value = res.data.hasCheckBox;
+        title.value = res.data.title
+            // description.value = res.data.description.value
+        exportable.value = res.data.exportable;
+        isSearchable.value = res.data.isSearchable;
+        pagination.value = res.data.pagination
     }
 
     const doClose = () => {
@@ -219,8 +237,17 @@
     }
 
     const updatePage = (page) => {
-        alert(page)
         pageFilters.value.page = page;
+        getData();
+    }
+
+    const search = () => {
+        console.log('running')
+    }
+
+    const handleSearchChange = () => {
+        console.log('searching')
+        if(pageFilters.value.term.length < 3) return;
         getData();
     }
 
