@@ -64,8 +64,6 @@ export default {
         const loading = false
         const isChecked = ref(false)
         const notifications = notifications
-        const pagination = ref(transactions)
-        const filterLists = ref(transactions.data)
         const massActionChoice = ref('choose')
         const isDelete = ref(false)
         const filterNumber = ref('choose')
@@ -204,8 +202,6 @@ export default {
             loading,
             transactions,
             statusStyles,
-            pagination,
-            filterLists,
             imageExists,
             isChecked,
             checkAll,

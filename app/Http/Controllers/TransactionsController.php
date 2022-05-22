@@ -35,16 +35,13 @@ class TransactionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
+    {
 
         $filters = $request->input();
         $filters['page'] = Filter::page($filters);
         $filters['type'] = 'TransactionsTable';
         $perPage = Filter::perPage($filters);
-        $transactions = Transaction::search($filters)
-                        ->with('items','customer','images', 'customer.state')
-                        ->paginate($perPage);
-        return Inertia::render('Transactions/Index',compact('transactions', 'filters'));
+        return Inertia::render('Transactions/Index',compact('filters'));
     }
 
     /**
