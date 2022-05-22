@@ -103,7 +103,10 @@
                 </table>
 
               <div class="px-3">
-                  <Pagination :meta="pagination" ></Pagination>
+                  <table-pagination
+                      :meta="pagination"
+                      @updatePage="updatePage"
+                  ></table-pagination>
               </div>
 
           </div>
@@ -117,8 +120,9 @@
     import {onMounted, ref, computed} from 'vue'
     import axios from 'axios'
     import Pagination from "../../Components/Pagination";
-    import { Inertia } from '@inertiajs/inertia'
+    import {Inertia} from "@inertiajs/inertia";
     import ImageSlider from './ImageSlider';
+    import TablePagination from "../../Components/TablePagination";
 
     const props = defineProps({
         filters: Object
@@ -128,16 +132,6 @@
         'action'
     ]);
 
-import {
-        BadgeCheckIcon,
-        ChevronDownIcon,
-        ChevronRightIcon,
-        CollectionIcon,
-        SearchIcon,
-        SortAscendingIcon,
-        StarIcon,
-        ShoppingBagIcon
-    } from '@heroicons/vue/solid'
 
     const transactions = ref([]);
     const title = ref('');
@@ -156,14 +150,15 @@ import {
     const pagination = ref({})
     const openModal = ref(false)
     const images = ref([]);
+    const pageFilters = ref({});
 
 
     const filters = props.filters;
 
     onMounted(() => {
+        pageFilters.value = props.filters
         getData();
     })
-
     const bulkActions = (el) => {
 
     }
@@ -180,7 +175,7 @@ import {
 
     const getData = () => {
         axios.get('/admin/widgets/view', {
-            params: filters
+            params: pageFilters.value
         }).then((res) => {
             fields.value = res.data.fields
             items.value = res.data.data.items;
@@ -201,7 +196,12 @@ import {
     const doSlider = (i) => {
         images.value = i
         openModal.value = true;
+    }
 
+    const updatePage = (page) => {
+        alert(page)
+        pageFilters.value.page = page;
+        getData();
     }
 
     const open = ref(false);
