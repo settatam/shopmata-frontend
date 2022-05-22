@@ -237,7 +237,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Twig' => TwigBridge\Facade\Twig::class,
         'GeoIP' => \Torann\GeoIP\Facades\GeoIP::class,
-        'Numeral' => Numeral\Numeral::class
+        'Numeral' => Numeral\Numeral::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

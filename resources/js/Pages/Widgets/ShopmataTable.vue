@@ -71,14 +71,19 @@
                             <div v-if="selectedItems.includes(item.id)" class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
                             <input type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6" :value="item.id" v-model="selectedItems" />
                         </td>
-                        <td class="px-3 py-4 text-sm text-gray-500"
+                        <td class="px-3 py-4 text-xs text-gray-900"
                             v-for="(tranItem, tranIndex) in item"
                         >
                             <div class="flex items-center" v-if="item[tranIndex].type == 'customer_info'">
                                   <div class="ml-4">
                                     <div class="font-medium text-gray-900">
-                                        <inertia-link :href="item[tranIndex].href">
-                                            {{ item.customer_info.data.first_name }} {{ item.customer_info.data.last_name }}
+                                        <inertia-link :href="item[tranIndex].href" class="text-indigo-700 font-bold">
+                                            <span v-if="item[tranIndex].hasOwnProperty('class')" :class="item[tranIndex].class">
+                                                {{ item.customer_info.data.first_name }} {{ item.customer_info.data.last_name }}
+                                            </span>
+                                            <span v-else>
+                                                {{ item.customer_info.data.first_name }} {{ item.customer_info.data.last_name }}
+                                            </span>
                                         </inertia-link>
                                     </div>
                                     <div class="text-gray-500">{{ item.customer_info.data.email }}</div>
@@ -90,28 +95,43 @@
                                 </a>
                             </div>
                             <div class="flex items-center" v-else-if="item[tranIndex].type == 'link'">
-                                <inertia-link :href="item[tranIndex].href"> {{ item[tranIndex].data }}  </inertia-link>
+                                <inertia-link :href="item[tranIndex].href" class="text-indigo-700 font-bold">
+                                    <span v-if="item[tranIndex].hasOwnProperty('class')" :class="item[tranIndex].class">
+                                        {{ item[tranIndex].data }}
+                                    </span>
+                                    <span v-else>
+                                        {{ item[tranIndex].data }}
+                                    </span>
+                                </inertia-link>
+                            </div>
+
+                            <div class="flex items-center" v-else-if="item[tranIndex].type == 'description'">
+                                <span class="w-96 min-width-full">{{ item[tranIndex].data }}</span>
                             </div>
 
                             <div class="flex items-center max-w-xs flex-wrap" v-else>
-                                {{ item[tranIndex].data }}
+                                <span v-if="item[tranIndex].hasOwnProperty('class')" :class="item[tranIndex].class">
+                                    {{ item[tranIndex].data }}
+                                </span>
+                                <span v-else>
+                                    {{ item[tranIndex].data }}
+                                </span>
                             </div>
 
                         </td>
                     </tr>
                   </tbody>
                 </table>
-
-              <div class="px-3">
-                  <table-pagination
-                      :meta="pagination"
-                      @updatePage="updatePage"
-                  ></table-pagination>
-              </div>
-
           </div>
+
         </div>
       </div>
+        <div class="py-2">
+            <table-pagination
+                :meta="pagination"
+                @updatePage="updatePage"
+            ></table-pagination>
+        </div>
     </div>
   </div>
 </template>

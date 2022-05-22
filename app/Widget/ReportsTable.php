@@ -4,6 +4,7 @@ namespace App\Widget;
 
 use App\Models\Transaction;
 use App\Helpers\Filter;
+use Numeral\Numeral;
 
 class ReportsTable extends Table
 {
@@ -39,8 +40,8 @@ class ReportsTable extends Table
                 'sortable' => true,
             ],
             [
-                'key' => 'Status',
-                'label' => 'status',
+                'key' => 'status',
+                'label' => 'Status',
                 'sortable' => false,
             ],
             [
@@ -168,11 +169,6 @@ class ReportsTable extends Table
                 'label' => 'Customer Notes',
                 'sortable' => true,
             ],
-            [
-                'key' => 'email',
-                'label' => 'Email',
-                'sortable' => true,
-            ],
         ];
     }
 
@@ -180,23 +176,25 @@ class ReportsTable extends Table
 
         $this->data = Transaction::search($filter)
             ->with('transStatus')
-            ->with('images')
             ->with('address')
+            ->with('images')
+            ->with('trStatus')
+            ->with('customer')
+            ->with('store')
+            ->withFinalOffer()
             ->withEstValue()
-//            ->withFinalOffer()
-//            ->withTotalDwt()
-//            ->withLabelsFrom()
-//            ->withLabelsTo()
-//            ->withPrivateNote()
-//            ->withPublicNote()
-//            ->withPaymentType()
-//            ->withStatusDateTime()
-//            ->withReceivedDateTime()
-//            ->withPaymentDateTime()
-            ->paginate(Filter::perPage($filter));
-
-
-
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->with('payment')
+            ->paginate(Filter::perPage($filter))
+            ->withQueryString();
 
         return [
             'count' => data_get($this->data, 'perPage'),
@@ -210,19 +208,20 @@ class ReportsTable extends Table
                         'href' => '/admin/transactions/'.$transaction->id
                     ],
                     'final_offer' => [
-                        'data' => $transaction->offer,
+                        'data' => Numeral::number($transaction->offer)->format('$0.0'),
                     ],
                     'est_val' => [
-                        'data' => $transaction->est_value,
+                        'data' => Numeral::number($transaction->est_value)->format('$0.0'),
                     ],
                     'numberOfTransactions' => [
-                        'data' => $transaction->numberOfTransactions,
+                        'data' => $transaction->customer->transaction_count,
                     ],
                     'status' => [
-                        'data' => $transaction->status,
+                        'data' => optional($transaction->trStatus)->name,
                     ],
                     'customer_since' => [
-                        'data' => $transaction->customer_since,
+                        'data' => $transaction->customer->created_at,
+                        'class' => 'block w-24'
                     ],
                     'keyword' => [
                         'data' => $transaction->keyword,
@@ -231,27 +230,28 @@ class ReportsTable extends Table
                         'data' => $transaction->lead,
                     ],
                     'website' => [
-                        'data' => $transaction->website,
+                        'data' => $transaction->store->name,
                     ],
                     'tags' => [
                         'data' => $transaction->tags,
                     ],
                     'incoming_fedex' => [
-                        'data' => $transaction->incoming_fedex,
+                        'data' => $transaction->incoming_tracking,
                     ],
                     'outgoing_fedex' => [
-                        'data' => $transaction->outgoing_fedex,
+                        'data' => $transaction->outgoing_tracking,
                     ],
-                    'customer_name' => [
-                        'data' => $transaction->customer->name,
+                    'customer_info' => [
+                        'data' => optional($transaction->customer)->name,
                         'type' => 'link',
-                        'href' => '/admin/customers/'.$transaction->id
+                        'href' => '/admin/customers/'.$transaction->id,
+                        'class' => 'block w-48'
                     ],
                     'phone' => [
                         'data' => $transaction->address->gender,
                     ],
                     'email' => [
-                        'data' => $transaction->customer->email,
+                        'data' => optional($transaction->customer)->email,
                     ],
                     'address' => [
                         'data' => $transaction->address->address,
@@ -275,7 +275,7 @@ class ReportsTable extends Table
                         'data' => $transaction->customer->behavior,
                     ],
                     'dob' => [
-                        'data' => $transaction->customer->dob,
+                        'data' => optional($transaction->customer)->dob,
                     ],
                     'dis' => [
                         'data' => $transaction->days_in_stock,

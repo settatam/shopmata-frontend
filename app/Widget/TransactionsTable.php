@@ -158,7 +158,9 @@ class TransactionsTable extends Table
         $this->data = Transaction::with('transStatus')
             ->with('images')
             ->with('trStatus')
-            ->paginate(Filter::perPage($filter))->withQueryString();
+            ->orderBy('id', 'desc')
+            ->paginate(Filter::perPage($filter))
+            ->withQueryString();
 
         return [
             'count' => data_get($this->data, 'perPage'),
@@ -170,15 +172,19 @@ class TransactionsTable extends Table
                     'id' => [
                         'data' => $transaction->id,
                         'type' => 'link',
-                        'href' => '/admin/transactions/'.$transaction->id
+                        'href' => '/admin/transactions/'.$transaction->id,
+                        'classes' => 'font-bold text-indigo-800'
                     ],
                     'created_at' => [
-                            'data' => $transaction->created_at
+                            'data' => $transaction->created_date,
+                            'class' => 'w-24'
                         ],
                     'status' => [
                         'data' => optional($transaction->trStatus)->name,
+                        'class' => 'w-24'
                         ],
                     'description' => [
+                            'type' => 'description',
                             'data' => $transaction->comments,
                         ],
                     'pictures' => [
