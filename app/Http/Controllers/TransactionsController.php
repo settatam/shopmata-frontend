@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\MetalPrice;
 use App\Services\Barcode;
 use function Aws\map;
+use Numeral\Numeral;
 
 class TransactionsController extends Controller
 {
@@ -35,12 +36,13 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = $request->input();
-        $perPage = Filter::perPage($filter);
-        $transactions = Transaction::search($filter)
-                        ->with('items','customer','images', 'customer.state')
-                        ->paginate($perPage);
-        return Inertia::render('Transactions/Index',compact('transactions'));
+
+        $filters = $request->input();
+        $filters['page'] = Filter::page($filters);
+        $filters['type'] = 'TransactionsTable';
+        $filters['term'] = '';
+        $perPage = Filter::perPage($filters);
+        return Inertia::render('Transactions/Index',compact('filters'));
     }
 
     /**
@@ -81,9 +83,18 @@ class TransactionsController extends Controller
             ->withTotalDwt()
             ->withLabelsFrom()
             ->withLabelsTo()
-            ->with('customer','customer.state','items','items.category','items.images','histories','offers','public_note.images','notes','sms','images', 'activities','transaction_payment_address','transaction_payment_address.transaction_payment_type','tags','public_note','private_note')
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->withPaymentDateTime()
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
             ->find($id);
-//        $transaction                 = Transaction::with('shippingLabels')->findorFail($id);
+
+        $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
+        //$transaction               = Transaction::with('shippingLabels')->findorFail($id);
         $statuses                    = Status::all();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
@@ -91,7 +102,7 @@ class TransactionsController extends Controller
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
         $timeline = $transaction->historyTimeline();
-        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','top_tags','bottom_tags', 'timeline'));
+        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','top_tags','bottom_tags','timeline'));
     }
 
 
@@ -242,6 +253,8 @@ class TransactionsController extends Controller
                             'label' => $shippingLabel,
                             'qty' => $transaction['qty']
                         ];
+                    }else{
+
                     }
                  }
 
@@ -263,18 +276,36 @@ class TransactionsController extends Controller
 //        }
 
         $input = $request->input();
-        $transactions = Transaction::whereIn('id', $input['transactions'])->get();
+        $transactionObj = Transaction::whereIn('id', $input['transactions'])->get();
 
         if($input['action'] == 'Create Barcodes') {
-            $transactions->map(function(Transaction $transaction){
-                return $transaction->qty = 5;
+            $transactionObj->map(function(Transaction $transaction){
+                    $transaction->qty = 5;
             });
-            return Inertia::render('Transactions/BulkPrintBarcode', compact('transactions'));
-        }else if($input['action'] == 'Create Shipping Label' || $input['action'] == 'label_from' ) {
+            return Inertia::render('Transactions/BulkPrintBarcode', [
+                'transactions' => $transactionObj
+            ]);
+        }else if($input['action'] == 'Create Shipping Label' ) {
             $direction = str_replace('label', '', $input['action']);
-            $transactions->map(function(Transaction $transaction) use ($direction) {
-                return [$transaction->qty = 1, $transaction->direction = $direction];
+            $to = $transactionObj->map(function(Transaction $transaction) {
+                return [
+                    'id' => $transaction->id,
+                    'qty' => 1,
+                    'direction' => 'to'
+                ];
             });
+
+            $from = $transactionObj->map(function(Transaction $transaction) {
+                return [
+                    'id' => $transaction->id,
+                    'qty' => 1,
+                    'direction' => 'from'
+                ];
+            });
+
+            $merged = $to->merge($from)->sortBy('id');
+            $transactions = $merged->values()->all();
+
             return Inertia::render('Transactions/BulkPrintLabel', compact('transactions'));
         }
     }

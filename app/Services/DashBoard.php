@@ -19,9 +19,9 @@ class DashBoard
         foreach($stores as $store => $store_id) {
             $response[$store]['kit'] = DB::select(
                 "SELECT counter,val, href FROM (
-                    (SELECT 'Pending Kit Request' AS counter,count(*) AS val, 'status=0' as href FROM transactions WHERE status_id=0 AND store_id = $store_id) UNION
+                    (SELECT 'Pending Kit Request' AS counter,count(*) AS val, 'status=60' as href FROM transactions WHERE status_id=60 AND store_id = $store_id) UNION
                     (SELECT 'Pending Kit Requests - Rejected By Admin' AS counter,count(*) AS val, 'status=3' as href FROM transactions WHERE status_id=3 AND store_id = $store_id) UNION
-                    (SELECT 'Kit Sent' AS counter,count(*) AS val, 'status=20' as href FROM transactions WHERE status_id=1 AND store_id = $store_id) UNION
+                    (SELECT 'Kit Sent' AS counter,count(*) AS val, 'status=1' as href FROM transactions WHERE status_id=1 AND store_id = $store_id) UNION
                     (SELECT 'Kit Received' AS counter,count(*) AS val, 'status=2' as href FROM transactions WHERE status_id=2 AND store_id = $store_id) UNION
                     (SELECT 'Kit Received Rejected By Admin' AS counter,count(*) AS val, 'status=3' as href FROM transactions WHERE status_id=3 AND store_id = $store_id) UNION
                     (SELECT 'Returned By Admin' AS counter,count(*) AS val, 'status=6' as href FROM transactions WHERE status_id=6 AND store_id = $store_id) UNION

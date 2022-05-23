@@ -1192,11 +1192,11 @@ select {
 .top-12 {
 	top: 3rem;
 }
-.left-4 {
-	left: 1rem;
-}
 .top-1\/2 {
 	top: 50%;
+}
+.left-4 {
+	left: 1rem;
 }
 .top-3\.5 {
 	top: 0.875rem;
@@ -1246,11 +1246,11 @@ select {
 .z-50 {
 	z-index: 50;
 }
-.z-40 {
-	z-index: 40;
-}
 .z-10 {
 	z-index: 10;
+}
+.z-40 {
+	z-index: 40;
 }
 .z-20 {
 	z-index: 20;
@@ -1833,6 +1833,9 @@ select {
 .h-px {
 	height: 1px;
 }
+.h-96 {
+	height: 24rem;
+}
 .h-10\.5 {
 	height: 2.625rem;
 }
@@ -1846,9 +1849,6 @@ select {
 	height: -webkit-max-content;
 	height: -moz-max-content;
 	height: max-content;
-}
-.h-96 {
-	height: 24rem;
 }
 .h-32 {
 	height: 8rem;
@@ -2100,6 +2100,9 @@ select {
 }
 .max-w-3xl {
 	max-width: 48rem;
+}
+.max-w-full {
+	max-width: 100%;
 }
 .flex-1 {
 	flex: 1 1 0%;
@@ -2867,11 +2870,11 @@ select {
 .bg-opacity-25 {
 	--tw-bg-opacity: 0.25;
 }
-.bg-opacity-50 {
-	--tw-bg-opacity: 0.5;
-}
 .bg-opacity-75 {
 	--tw-bg-opacity: 0.75;
+}
+.bg-opacity-50 {
+	--tw-bg-opacity: 0.5;
 }
 .bg-opacity-20 {
 	--tw-bg-opacity: 0.2;
@@ -3287,11 +3290,11 @@ select {
 .font-bold {
 	font-weight: 700;
 }
-.font-extrabold {
-	font-weight: 800;
-}
 .font-normal {
 	font-weight: 400;
+}
+.font-extrabold {
+	font-weight: 800;
 }
 .font-light {
 	font-weight: 300;
@@ -3412,6 +3415,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(185, 28, 28, var(--tw-text-opacity));
 }
+.text-black {
+	--tw-text-opacity: 1;
+	color: rgba(0, 0, 0, var(--tw-text-opacity));
+}
 .text-green-800 {
 	--tw-text-opacity: 1;
 	color: rgba(6, 95, 70, var(--tw-text-opacity));
@@ -3431,10 +3438,6 @@ select {
 .text-cyan-300 {
 	--tw-text-opacity: 1;
 	color: rgba(165, 180, 252, var(--tw-text-opacity));
-}
-.text-black {
-	--tw-text-opacity: 1;
-	color: rgba(0, 0, 0, var(--tw-text-opacity));
 }
 .text-yellow-800 {
 	--tw-text-opacity: 1;
@@ -4143,9 +4146,6 @@ input[type='checkbox']:focus {
 	--tw-text-opacity: 1;
 	color: rgba(31, 41, 55, var(--tw-text-opacity));
 }
-.disabled\:cursor-not-allowed:disabled {
-	cursor: not-allowed;
-}
 .disabled\:bg-gray-400:disabled {
 	--tw-bg-opacity: 1;
 	background-color: rgba(156, 163, 175, var(--tw-bg-opacity));
@@ -4155,9 +4155,6 @@ input[type='checkbox']:focus {
 }
 .disabled\:opacity-75:disabled {
 	opacity: 0.75;
-}
-.disabled\:opacity-30:disabled {
-	opacity: 0.3;
 }
 .disabled\:opacity-50:disabled {
 	opacity: 0.5;
@@ -5613,16 +5610,16 @@ input[type='checkbox']:focus {
 		text-align: left;
 	}
 
+	.lg\:text-sm {
+		font-size: 0.985rem;
+	}
+
 	.lg\:text-lg {
 		font-size: 1.125rem;
 	}
 
 	.lg\:text-base {
 		font-size: 1rem;
-	}
-
-	.lg\:text-sm {
-		font-size: 0.985rem;
 	}
 
 	.lg\:text-xs {

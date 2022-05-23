@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+use Auth;
+use Numeral\Numeral;
 
 
 class Transaction extends Model
@@ -27,15 +29,9 @@ class Transaction extends Model
     ];
 
     protected $appends = [
-//         'payment_type',
-//           'lead',
-//          'status',
-//        'estimated_profit',
-//        'incoming_tracking',
-//        'outgoing_tracking',
-//        'kit_type',
-//        'public_message',
-//        'private_message'
+        'kit_type',
+        'est_profit',
+        'created_date'
     ];
 
 
@@ -92,33 +88,91 @@ class Transaction extends Model
             ->withDates($filter)
             ->withStatus($filter)
             ->withCustomer($filter)
-            ->withTransactionCount($filter)
+            ->withTerm($filter)
+            //->withTransactionCount($filter)
             ->withLead($filter)
             ->withStores($filter)
             ->withDayOfWeek($filter)
             ->withTrafficSource($filter)
-           // ->with('offers')
-            ->orderBy('id', 'desc');
+            ->with('offers')
+            ->withLabelsFrom($filter)
+            ->withTransactions($filter)
+            ->withLabelsTo($filter)
+            ->orderBy('transactions.id', 'desc');
+    }
+
+    static function searchForFilter($filter) {
+        return self::query()
+            ->withTrafficSource($filter)
+            ->withLead($filter)
+            ->withStores($filter)
+            ->withDayOfWeek($filter);
+    }
+
+    public function scopeWithTerm($query, $filter) {
+        if($term = data_get($filter, 'term')) {
+            $query->where('id', 'LIKE', '%'.$term.'%');
+            $query->orWhereHas('customer', function($q) use ($term){
+                $q->where('first_name', 'LIKE', $term)
+                ->orWhere('last_name', 'LIKE', $term);
+            });
+        }
     }
 
     public function scopeWithDaysInStock($query) {
         return $query->selectRaw("DATEDIFF(NOW(), created_at)AS dis");
     }
 
-    function stuff() {
-        $q = "SELECT counter,val FROM (
-			(SELECT 'kits_accepted' AS counter,count(*) AS val FROM orders WHERE date_shipment_received != 0 {$date_received}) UNION
-			(SELECT 'kits_sent' AS counter,count(*) AS val FROM orders WHERE status_id > 0 {$dates}) UNION
-			(SELECT 'kits_declined' AS counter,count(*) FROM orders WHERE date_offer_declined != 0 {$date_offer_paid} AND date_offer_accepted = 0) UNION
-			(SELECT 'total_value' AS counter,round(sum(item_sum),2) FROM bmg_reporting WHERE date_offer_paid != 0 {$date_offer_paid}) UNION
-			(SELECT 'kits_rejected' AS counter,count(*) FROM orders WHERE date_shipment_declined != 0 {$date_received}) UNION
-			(SELECT 'kits_not_received' AS counter,count(*) FROM orders WHERE status_id <= 1 {$dates}) UNION
-			(SELECT 'total_profit' AS counter,round(sum(profit_value),2) FROM orders WHERE date_offer_paid != 0 {$date_offer_paid}) UNION
-			(SELECT 'sum_payout' AS counter,round(sum(offer_amount),2) AS val FROM orders WHERE date_offer_paid != 0 {$date_offer_paid}) UNION
-			(SELECT 'estimated_value' AS counter,round(sum(item_sum),2) AS val FROM bmg_reporting WHERE 1 {$date_offer_paid}) UNION
-			(SELECT 'sum_offer' AS counter,round(sum(offer_amount),2) AS val FROM orders WHERE date_offer_paid != 0 {$dates})
-			) uxmegallc";
+    public function scopeWithGroupedStatus($query) {
+       return $query->selectRaw("status_id, COUNT(status_id) AS `statusCount`")->groupBy('status_id');
     }
+
+    public function scopeWithGroupedDates($query) {
+        return $query->selectRaw('DATE_FORMAT(created_at, "%W") as day,  COUNT(DATE_FORMAT(created_at, "%W")) AS `dayCount`')
+        ->groupBy('day');
+    }
+
+
+    public function scopeWithGroupedGender($query) {
+        $query->join('customers', 'customers.id', '=', 'transactions.customer_id')
+            ->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
+    }
+
+    public function scopeWithGroupedStates($query) {
+        $query->join('addresses', 'addresses.addressable_id', '=', 'transactions.id')
+            ->join('states', 'addresses.state_id', '=', 'states.id')
+            ->selectRaw("states.name, addresses.state_id, COUNT(addresses.state_id) AS `stateCount`")->groupBy('state_id');
+    }
+
+    public function scopeWithGroupedPaymentTypes($query) {
+        $query->join('transaction_payment_addresses', 'transaction_payment_addresses.transaction_id', '=', 'transactions.id')
+            ->join('transaction_payment_types', 'transaction_payment_addresses.payment_type_id', '=', 'transaction_payment_types.id')
+
+            ->selectRaw("transaction_payment_types.name, transaction_payment_addresses.payment_type_id, COUNT(transaction_payment_addresses.payment_type_id) AS `paymentCount`")->groupBy('payment_type_id');
+    }
+
+
+    public function scopeWithGroupedLeads($query) {
+        $query->join('customers', 'customers.id', '=', 'transactions.customer_id')
+                ->join('leads', 'customers.lead_id', '=', 'leads.id')
+               ->selectRaw("leads.name, customers.lead_id, COUNT(customers.lead_id) AS `leadIdCount`")->groupBy('lead_id');
+    }
+
+    public function scopeWithGroupedRepeatCustomer($query, $repeat=true) {
+        $query->selectRaw("COUNT(customer_id) AS `numberOfTransactions`")->groupBy('customer_id');
+        if($repeat) {
+            $query->havingRaw('numberOfTransactions > ?', [1]);
+        }else{
+            $query->havingRaw('numberOfTransactions = ?', [1]);
+        }
+    }
+
+
+//    public function scopeWithStatusDateTime($query) {
+//        return $query->addSelect(['est_value'=>Acti::selectRaw('sum(price) as est_val')
+//                ->whereColumn('transactions.id', 'transaction_items.transaction_id')
+//        ]);EstPri
+//    }
 
     public function scopeWithEstValue($query) {
         return $query->addSelect(['est_value'=>TransactionItem::selectRaw('sum(price) as est_val')
@@ -126,8 +180,14 @@ class Transaction extends Model
         ]);
     }
 
+    public function scopeWithPaymentType($query) {
+        return $query->addSelect(['transaction_payment_type'=>PaymentType::selectRaw('name as transaction_payment_type')
+                ->whereColumn('transactions.payment_method_id', 'payment_types.id')
+        ]);
+    }
+
     public function scopeWithTotalDwt($query) {
-        return $query->addSelect(['total_dwt'=>TransactionItem::selectRaw('sum(price) as total_dwt')
+        return $query->addSelect(['total_dwt'=>TransactionItem::selectRaw('sum(dwt) as total_dwt')
                 ->whereColumn('transactions.id', 'transaction_items.transaction_id')
         ]);
     }
@@ -139,6 +199,30 @@ class Transaction extends Model
         ]);
     }
 
+    public function scopeWithStatusDateTime($query) {
+        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s')) as status_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('is_status', true)
+                ->take(1)->latest()
+        ]);
+    }
+
+    public function scopeWithPaymentDateTime($query) {
+        return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s') as payment_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('status', 'Payment Processed')
+                ->take(1)->latest()
+        ]);
+    }
+
+    public function scopeWithReceivedDateTime($query) {
+        return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('status', 'Kit Received')
+                ->take(1)
+        ]);
+    }
+
     public function scopeWithLabelsTo($query) {
         return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
                 ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
@@ -146,10 +230,25 @@ class Transaction extends Model
         ]);
     }
 
-    public function scopePublicMessage($query) {
-        return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
-                ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
-                ->where('shipping_labels.to_customer', false)
+    public function scopeWithPublicNote($query) {
+        return $query->addSelect(['public_note'=>TransactionNote::selectRaw('notes as public_note')
+                ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
+                ->where('transaction_notes.type', 'public')
+        ]);
+    }
+
+    public function getProfitPercent($offer, $est_val) {
+        if(isset($est_val) && isset($offer)) {
+            $result = ($offer - $est_val) / 100;
+            return Numeral::number($result)->format('0.0%');
+
+        }
+    }
+
+    public function scopeWithPrivateNote($query) {
+        return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
+                ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
+                ->where('transaction_notes.type', 'private')
         ]);
     }
 
@@ -175,8 +274,23 @@ class Transaction extends Model
         }
     }
 
+    public function scopeWithTransactions($query) {
+        $query->selectRaw('transactions.*');
+    }
+
     public function scopeWithTransactionCount($query, $filter=null) {
-        $query->selectRaw("transactions.*, COUNT(customer_id) AS `numberOfTransactions`")->groupBy('customer_id');
+        $query->join('transactions as t', 'transactions.id', '=', 't.id')
+            ->selectRaw('COUNT(t.id) AS numberOfTransactions')
+            ->whereRaw('t.customer_id = transactions.customer_id');
+
+        if($repeat = data_get($filter, 'repeat')) {
+            $query->havingRaw('numberOfTransactions > ?', [1]);
+        }
+        //$query->where('transactions.customer_id', 't.customer_id');
+    }
+
+    public function scopeWithTransactionCountss($query, $filter=null) {
+        $query->selectRaw("COUNT(customer_id) AS `numberOfTransactions`");
         if($repeat = data_get($filter, 'repeat')) {
             $query->havingRaw('numberOfTransactions > ?', [1]);
         }
@@ -200,6 +314,12 @@ class Transaction extends Model
             if(!is_array($leads)) $leads = [$leads];
             $query->whereIn('lead_id', $leads);
         }
+    }
+
+    public function scopeWithLeadSource($query) {
+        return $query->addSelect(['lead_source'=>Lead::selectRaw('name as lead_source')
+                ->whereColumn('transactions.lead_id', 'leads.id')
+        ]);
     }
 
     public function scopeWithTrafficSource($query, $filter=null)
@@ -246,16 +366,6 @@ class Transaction extends Model
         return $this->morphMany(ShippingLabel::class, 'shippable');
     }
 
-    public function getIncomingTrackingAttribute() {
-        return $this->shippingLabels()->where('to_customer', false)->get()
-            ->implode('tracking_number', ',');
-    }
-
-    public function getOutgoingTrackingAttribute() {
-        return $this->shippingLabels()->where('to_customer', true)->get()
-            ->implode('tracking_number', ',');
-    }
-
     static function tableData($filter, $data) {
 
         return (new TransactionsTable($filter, $data))->render();
@@ -290,52 +400,56 @@ class Transaction extends Model
     	return $this->belongsTo(Customer::class,'customer_id','id');
     }
 
-
-    public function getCreatedAtAttribute($value)
+    public function getCreatedDateAttribute($value)
     {
-    	return \Carbon\Carbon::parse($value)->diffForHumans();
+    	return \Carbon\Carbon::parse($this->created_at)->format('m-d-Y h:i A');
 	}
 
-    public function getPrivateMessageAttribute($value)
+    public function getEstProfitAttribute($value)
     {
-    	return optional($this->private_note)->notes;
+    	if($this->est_value && $this->offer) {
+            return Numeral::number($this->offer - $this->est_value)->format('$0,0');
+        }
+
+        return null;
 	}
 
-    public function getPublicMessageAttribute($value)
-    {
-    	return optional($this->public_note)->notes;
-	}
+//    public function getPrivateMessageAttribute($value)
+//    {
+//    	return optional($this->private_note)->notes;
+//	}
+//
+//    public function getPublicMessageAttribute($value)
+//    {
+//    	return optional($this->public_note)->notes;
+//	}
 
-    public function getEstValueAttribute() {
-        return $this->items->sum('price');
-    }
-
-    public function getTotalDwtAttribute() {
-        return $this->items->sum('dwt');
-    }
+//    public function getEstValueAttribute() {
+//        return $this->items->sum('price');
+//    }
 
     public function getKitTypeAttribute() {
         return self::KIT_TYPE;
     }
 
-    public function getFinalOfferAttribute() {
-        return optional($this->offers()->orderBy('id', 'desc')->first())->offer;
-    }
+//    public function getFinalOfferAttribute() {
+//        return optional($this->offers()->orderBy('id', 'desc')->first())->offer;
+//    }
 
-    public function getPaymentTypeAttribute() {
-        return optional($this->paymentTy)->name;
-    }
+//    public function getPaymentTypeAttribute() {
+//        return optional($this->paymentTy)->name;
+//    }
 
-    public function getEstimatedProfitAttribute() {
-        if($this->est_value && $this->final_offer) {
-            return round(($this->value - $this->final_offer), 2);
-        }
-        return '';
-    }
+//    public function getEstimatedProfitAttribute() {
+//        if($this->est_value && $this->final_offer) {
+//            return round(($this->value - $this->final_offer), 2);
+//        }
+//        return '';
+//    }
 
-    public function getStatusAttribute() {
-        return optional($this->trStatus)->name;
-    }
+//    public function getStatusAttribute() {
+//        return optional($this->trStatus)->name;
+//    }
 
     public function getLeadAttribute() {
         return 'google';
@@ -346,12 +460,14 @@ class Transaction extends Model
         return $this->belongsTo(PaymentType::class, 'payment_method_id', 'id');
     }
 
+
+
     public function statuses() {
         return $this->store->transactionStatuses;
     }
 
     public function transStatus() {
-        return $this->belongsTo(Status::class, 'status_id', 'status_id');
+        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
 
     public function trStatus() {
@@ -376,15 +492,22 @@ class Transaction extends Model
         return $this->hasMany(TransactionHistory::class);
     }
 
+    public function payment()
+    {
+        return $this->hasOne(TransactionHistory::class)->where('event', TransactionHistory::OFFER_PAID);
+    }
+
     public function offers()
     {
         return $this->hasMany(TransactionOffer::class);
     }
 
-    public function transaction_payment_address()
+    public function payment_address()
     {
         return $this->hasOne(TransactionPaymentAddress::class);
     }
+
+
 
 
     public function sms()
@@ -408,12 +531,25 @@ class Transaction extends Model
 
     public function doUpdate($input) {
         $this->input = $input;
+        $currentStatus = $this->trStatus->name;
         //Get the current difference between the model and the input
         $inputCollection = $this->input;
             //convert back to an array
             if($this->update($this->input)) {
                 //Log the update
                 foreach($this->getChanges() as $index => $input) {
+                    //Create Activity Entry
+                    $this->load('trStatus');
+                    $status = optional($this->trStatus)->name;
+                    if($index == 'updated_at') continue;
+                    $this->activities()->create([
+                        'user_id' => Auth::id(),
+                        'agent' => Auth::user()->first_name,
+                        'status' => $status,
+                        'notes' => 'Updated status to ' . $status,
+                        'name' => $currentStatus,
+                        'is_status' => 1
+                    ]);
                     $checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated');
                     $checkForEvent = EventCondition::check(get_class(), TransactionOffer::class, TransactionOffer::FINAL_OFFER, 'added');
                     if(null !== $checkForEvent) {

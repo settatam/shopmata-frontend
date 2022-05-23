@@ -52,7 +52,7 @@ class LoadCustomerTags extends Command
                 $t = Tag::firstOrNew(
                     ['name' => $tag]
                 );
-                $t->name      = $tag;                     
+                $t->name      = $tag; 
                 $t->save();  
                 $bar->advance();
             }

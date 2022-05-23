@@ -49,7 +49,7 @@
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
                             placeholder="Offer"
                             autocomplete="off"
-                            v-model="currentTransaction.final_offer"
+                            v-model="currentTransaction.offer"
                         />
                         <div class="flex flex-row ml-1">
                             <input
@@ -110,8 +110,8 @@
                         id=""
                         rows="3"
                         cols="150"
-                        @input="saveNote"
-                        v-model="messagePublic"
+                        @change="updateTransaction('public_note')"
+                        v-model="transaction.public_note"
                     >
                     </textarea>
 
@@ -158,11 +158,10 @@
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
                         placeholder="MET 3-2-22-Incoming via text"
                         name="private"
-                        id=""
                         rows="3"
                         cols="150"
-                        v-model="messagePrivate"
-                        @input="saveNote"
+                        v-model="transaction.private_note"
+                        @change="updateTransaction('private_note')"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
@@ -319,26 +318,15 @@ export default {
         });
 
         const currentTransaction = ref(props.transaction);
-
-        tmPublic =
-            null !== props.root.public_note ? props.root.public_note.notes : "";
-        tmPrivate =
-            null !== props.root.private_note
-                ? props.root.private_note.notes
-                : "";
-        messagePublic.value = tmPublic;
-        messagePrivate.value = tmPrivate;
+        tmPublic = currentTransaction.public_note;
+        tmPrivate = currentTransaction.private_note;
 
         function saveNote(e) {
-            if (e.target.name == "private") {
-                type = "private";
-                message = messagePrivate.value;
+            const noteDetails = {
+                name: e.target.name == "private" ? 'private_note' : 'public_note',
+                value: e.target.valu
             }
-
-            if (e.target.name == "public") {
-                type = "public";
-                message = messagePublic.value;
-            }
+            emit('updated-notes',noteDetails);
         }
 
         watch(
@@ -380,17 +368,28 @@ export default {
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.final_offer,
+                        value: this.currentTransaction.offer,
                     };
                     break;
                 case "sms":
                     data = {
                         field: "sms",
-                        value: this.currentTransaction.final_offer,
+                        value: this.currentTransaction.sms,
+                    };
+                    break;
+                case "private_note":
+                    data = {
+                        field: "private_note",
+                        value: this.currentTransaction.private_note,
+                    };
+                    break;
+                case "public_note":
+                     data = {
+                        field: "private_note",
+                        value: this.currentTransaction.public_note,
                     };
                     break;
             }
-
             emit("transaction-updated", data);
         }
 
@@ -408,6 +407,7 @@ export default {
 
         function onChange(event) {
             console.log(event.target.value);
+
         }
 
         function onClickBot() {

@@ -53,7 +53,7 @@ class LoadBuyMyGoldData extends Command
     {
         $response = Http::get('https://buymygold.com/api/transactions');
         $data = $response->body();
-        Storage::makeDirectory('items');
+        
 
         if($orders = json_decode($data, true)) {
             $bar = $this->output->createProgressBar(count($orders['orders']));
@@ -91,15 +91,16 @@ class LoadBuyMyGoldData extends Command
                     $customer->last_name          = data_get($names, 1);
                     $customer->address            = $order["customer_address"];
                     $customer->city               = $order["customer_city"];
-
                     $customer->state_id           = $this->getStateId($order["customer_state"]);
                     $customer->store_id           = $this->getStore($order['is_jewelry']);
-                    $customer->zip                = $order["customer_zip"];
                     $customer->phone_number       = $order["customer_phone"];
-                    $customer->address           = $order["customer_address"];
-                    $customer->address2           = $order["customer_address2"];
+                    $customer->lead_id            = isset($order["lead_id"]) && $order["lead_id"] != 0 ? $order["lead_id"]: null;
                     $customer->dob                = $order["customer_dob"];
                     $customer->password           = bcrypt($order['order_password']);
+                    $customer->gender             = $order['customer_gender'];
+                    $customer->customer_notes     = $order['customer_notes'];
+
+
                     $customer->accepts_marketing  =   1;
                     $customer->created_at = $order['date_new'];
                     $customer->save();
@@ -120,6 +121,7 @@ class LoadBuyMyGoldData extends Command
                     $transaction_payment_address->bank_address_state_id  =  $this->getStateId($order["ach_bank_address_state"]);
                     $transaction_payment_address->bank_address_zip       =  $order["ach_bank_address_zip"];
                     $transaction_payment_address->routing_number         =  $order["ach_routing_number"];
+                    $transaction_payment_address->bank_name              =  $order["ach_bank_name"];
                     $transaction_payment_address->account_number         =  $order["ach_account_number"];
                     $transaction_payment_address->account_name           =  $order["ach_account_name"];
                     $transaction_payment_address->account_type           =  $order["ach_account_type"];
@@ -147,8 +149,8 @@ class LoadBuyMyGoldData extends Command
                         'zip' => $order["customer_zip"],
                         'addressable_id' => $transaction->id,
                         'addressable_type' => Transaction::class,
-                       'state' => $order["customer_state"],
-//                        'state_id' => $this->getStateId($order["customer_state"]),
+                        'state' => $order["customer_state"],
+                        'state_id' => $this->getStateId($order["customer_state"]),
                         'dob'  => $order["customer_dob"],
                     ];
 
@@ -173,7 +175,7 @@ class LoadBuyMyGoldData extends Command
                         'addressable_id' => $customer->id,
                         'addressable_type' => Customer::class,
                         'state' => $order["customer_state"],
-//                        'state_id' => $this->getStateId($order["customer_state"]),
+                        'state_id' => $this->getStateId($order["customer_state"]),
                         'dob'  => $order["customer_dob"],
                     ];
 
@@ -305,8 +307,7 @@ class LoadBuyMyGoldData extends Command
                 dd($e->getMessage());
             }
 
-            Storage::deleteDirectory('items');
-            $bar->finish();
+             $bar->finish();
 
         }
 
@@ -335,5 +336,6 @@ class LoadBuyMyGoldData extends Command
     }
 
 }
+
 
 

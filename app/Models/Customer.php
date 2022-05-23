@@ -20,7 +20,8 @@ class Customer extends Model
 
     protected $appends = [
         'activation_status',
-        'timezone'
+        'timezone',
+        'transaction_count'
     ];
 
     protected $fillable = [
@@ -51,10 +52,21 @@ class Customer extends Model
         return $this->morphMany(Address::class, 'addressable');
     }
 
+    public function cAddress()
+    {
+        return $this->morphOne(Address::class, 'addressable');
+    }
+
 
     public function customer_address()
     {
         return $this->morphOne(Address::class, 'addressable');
+    }
+
+
+    public function lead()
+    {
+        return $this->belongsTo(Lead::class);
     }
 
 
@@ -90,7 +102,7 @@ class Customer extends Model
           $customer->customer_address()->save($address);
           return true;
         }
-        
+
         return false;
     }
 
@@ -192,9 +204,25 @@ class Customer extends Model
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function transaction_payment_address()
+    public function payment_address()
     {
         return $this->hasOne(TransactionPaymentAddress::class);
+    }
+
+    public function getTransactionCountAttribute() {
+        return count($this->transactions);
+    }
+
+    public function getNameAttribute() {
+        return $this->first_name  . ' ' . $this->last_name;
+    }
+
+    public function getPhoneAttribute() {
+        return optional($this->cAddress)->phone;
+    }
+
+    public function getStateAttribute() {
+        return optional($this->cAddress)->state-code;
     }
 
 }
