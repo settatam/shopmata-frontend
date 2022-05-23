@@ -118,6 +118,7 @@ export default {
                 })
                 .catch((error) => {
                     loading.value = false;
+
                     //setTimeout(onClickBot, 2000);
                 });
         }
