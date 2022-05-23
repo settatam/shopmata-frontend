@@ -471,7 +471,7 @@ class Transaction extends Model
     }
 
     public function trStatus() {
-        return $this->belongsTo(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
 
     public function trLead() {
