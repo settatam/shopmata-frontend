@@ -88,7 +88,17 @@ class HandleInertiaRequests extends Middleware
                     'name' => 'Messages',
                     'icon' => 'InboxIcon',
                     'href' => '/admin/messages',
-                    'current' => false
+                    'current' => false,
+                    'children' => [
+                        [
+                            'name' => 'All Messages',
+                            'href' => '/admin/messages'
+                        ],
+                        [
+                            'name' => 'New Message',
+                            'href' => '/admin/messages/new',
+                        ],
+                    ]
                 ],
                 [
                     'name' => 'Transactions',
