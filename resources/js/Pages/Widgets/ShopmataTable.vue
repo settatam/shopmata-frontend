@@ -26,7 +26,11 @@
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5">
               <div class="shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600" v-if="isSearchable">
-                <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm px-3 py-3" :placeholder="filterText" />
+                <input type="search" name="filter" id="name" class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm px-3 py-3"
+                       :placeholder="filterText"
+                       @keyup="handleSearchChange"
+                       v-model="pageFilters.term"
+                />
               </div>
               <div v-if="selectedItems.length && actions.length" class="px-3 py-3 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
                   <form v-for="(action, index) in actions" class="flex mr-2 items-center">
@@ -71,14 +75,19 @@
                             <div v-if="selectedItems.includes(item.id)" class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
                             <input type="checkbox" class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6" :value="item.id" v-model="selectedItems" />
                         </td>
-                        <td class="px-3 py-4 text-sm text-gray-500"
+                        <td class="px-3 py-4 text-xs text-gray-900"
                             v-for="(tranItem, tranIndex) in item"
                         >
                             <div class="flex items-center" v-if="item[tranIndex].type == 'customer_info'">
                                   <div class="ml-4">
                                     <div class="font-medium text-gray-900">
-                                        <inertia-link :href="item[tranIndex].href">
-                                            {{ item.customer_info.data.first_name }} {{ item.customer_info.data.last_name }}
+                                        <inertia-link :href="item[tranIndex].href" class="text-indigo-700 font-bold">
+                                            <span v-if="item[tranIndex].hasOwnProperty('class')" :class="item[tranIndex].class">
+                                                {{ item.customer_info.data.first_name }} {{ item.customer_info.data.last_name }}
+                                            </span>
+                                            <span v-else>
+                                                {{ item.customer_info.data.first_name }} {{ item.customer_info.data.last_name }}
+                                            </span>
                                         </inertia-link>
                                     </div>
                                     <div class="text-gray-500">{{ item.customer_info.data.email }}</div>
@@ -90,25 +99,43 @@
                                 </a>
                             </div>
                             <div class="flex items-center" v-else-if="item[tranIndex].type == 'link'">
-                                <inertia-link :href="item[tranIndex].href"> {{ item[tranIndex].data }}  </inertia-link>
+                                <inertia-link :href="item[tranIndex].href" class="text-indigo-700 font-bold">
+                                    <span v-if="item[tranIndex].hasOwnProperty('class')" :class="item[tranIndex].class">
+                                        {{ item[tranIndex].data }}
+                                    </span>
+                                    <span v-else>
+                                        {{ item[tranIndex].data }}
+                                    </span>
+                                </inertia-link>
+                            </div>
+
+                            <div class="flex items-center" v-else-if="item[tranIndex].type == 'description'">
+                                <span class="w-96 min-width-full">{{ item[tranIndex].data }}</span>
                             </div>
 
                             <div class="flex items-center max-w-xs flex-wrap" v-else>
-                                {{ item[tranIndex].data }}
+                                <span v-if="item[tranIndex].hasOwnProperty('class')" :class="item[tranIndex].class">
+                                    {{ item[tranIndex].data }}
+                                </span>
+                                <span v-else>
+                                    {{ item[tranIndex].data }}
+                                </span>
                             </div>
 
                         </td>
                     </tr>
                   </tbody>
                 </table>
-
-              <div class="px-3">
-                  <Pagination :meta="pagination" ></Pagination>
-              </div>
-
           </div>
+
         </div>
       </div>
+        <div class="py-2">
+            <table-pagination
+                :meta="pagination"
+                @updatePage="updatePage"
+            ></table-pagination>
+        </div>
     </div>
   </div>
 </template>
@@ -117,27 +144,20 @@
     import {onMounted, ref, computed} from 'vue'
     import axios from 'axios'
     import Pagination from "../../Components/Pagination";
-    import { Inertia } from '@inertiajs/inertia'
+    import {Inertia} from "@inertiajs/inertia";
     import ImageSlider from './ImageSlider';
+    import TablePagination from "../../Components/TablePagination";
 
     const props = defineProps({
-        filters: Object
+        filters: Object,
+        term: String
     })
 
     const emits = defineEmits([
-        'action'
+        'action',
+        'termUpdated'
     ]);
 
-import {
-        BadgeCheckIcon,
-        ChevronDownIcon,
-        ChevronRightIcon,
-        CollectionIcon,
-        SearchIcon,
-        SortAscendingIcon,
-        StarIcon,
-        ShoppingBagIcon
-    } from '@heroicons/vue/solid'
 
     const transactions = ref([]);
     const title = ref('');
@@ -156,21 +176,23 @@ import {
     const pagination = ref({})
     const openModal = ref(false)
     const images = ref([]);
+    const pageFilters = ref({});
+    const searchTerm = ref(props.term)
 
 
     const filters = props.filters;
 
     onMounted(() => {
+        pageFilters.value = props.filters
         getData();
     })
-
     const bulkActions = (el) => {
 
     }
 
     function doAction(index, formGroupIndex) {
         //we should emit actions here ...
-        emits('action', actions.value[formGroupIndex], selectedItems.value);
+        emits('action', actions.value[index], selectedItems.value);
     }
 
 
@@ -178,20 +200,31 @@ import {
         return obj.findIndex(e => e.key === field);
     }
 
-    const getData = () => {
-        axios.get('/admin/widgets/view', {
-            params: filters
-        }).then((res) => {
-            fields.value = res.data.fields
-            items.value = res.data.data.items;
-            actions.value = res.data.actions;
-            hasCheckBox.value = res.data.hasCheckBox;
-            title.value = res.data.title
-            // description.value = res.data.description.value
-            exportable.value = res.data.exportable;
-            isSearchable.value = res.data.isSearchable;
-            pagination.value = res.data.pagination
+    let cancelToken;
+
+    const getData = async e => {
+
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        source.cancel('Operation canceled by the user.');
+
+        const res = await axios.get('/admin/widgets/view', {
+            params: pageFilters.value,
+            cancelToken
+        },{
+            cancelToken: source.token
         })
+
+        fields.value = res.data.fields
+        items.value = res.data.data.items;
+        actions.value = res.data.actions;
+        hasCheckBox.value = res.data.hasCheckBox;
+        title.value = res.data.title
+            // description.value = res.data.description.value
+        exportable.value = res.data.exportable;
+        isSearchable.value = res.data.isSearchable;
+        pagination.value = res.data.pagination
     }
 
     const doClose = () => {
@@ -201,7 +234,21 @@ import {
     const doSlider = (i) => {
         images.value = i
         openModal.value = true;
+    }
 
+    const updatePage = (page) => {
+        pageFilters.value.page = page;
+        getData();
+    }
+
+    const search = () => {
+        console.log('running')
+    }
+
+    const handleSearchChange = () => {
+        console.log('searching')
+        if(pageFilters.value.term.length < 3) return;
+        getData();
     }
 
     const open = ref(false);

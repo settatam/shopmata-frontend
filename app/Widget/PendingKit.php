@@ -10,6 +10,10 @@ class PendingKit extends Form
         return true;
     }
 
+    public function name() {
+        return 'transaction-actions';
+    }
+
     public function formGroups($filter)
     {
         return [

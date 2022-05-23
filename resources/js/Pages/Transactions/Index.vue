@@ -64,8 +64,6 @@ export default {
         const loading = false
         const isChecked = ref(false)
         const notifications = notifications
-        const pagination = ref(transactions)
-        const filterLists = ref(transactions.data)
         const massActionChoice = ref('choose')
         const isDelete = ref(false)
         const filterNumber = ref('choose')
@@ -78,7 +76,7 @@ export default {
         const confirmationHeader = ref('');
         const confirmationBody = ref('');
         const selectedTransactions = ref([]);
-        const confirmationFor = ref('');
+        const confirmationFor = ref({});
 
         onMounted(() => {
             // this.$emit('doNavigation', navigation)
@@ -136,57 +134,67 @@ export default {
         }
 
         function doAction(action, selectedItems) {
+            console.log(action)
             let formData = [];
-            for(let i=0; i<action.formGroups.length; i++) {
-                //formData.push(actions.value[index].formGroups[i].field.attributes)
-                let name = action.formGroups[i].field.attributes.name
-                let data = {};
-                data[name] = action.formGroups[i].field.attributes.value;
-                formData.push(data);
-            }
+            // for(let i=0; i<action.formGroups.length; i++) {
+            //     //formData.push(actions.value[index].formGroups[i].field.attributes)
+            //     let name = action.formGroups[i].field.attributes.name
+            //     let data = {};
+            //     data[name] = action.formGroups[i].field.attributes.value;
+            //     formData.push(data);
+            // }
+            let name = action.formGroups[0].field.attributes.name
+            let value = action.formGroups[0].field.attributes.value
             //add requires danger confirmation
             //sendAction(formData, selectedItems);
-            let formAction = formData[0].actions
             selectedTransactions.value = selectedItems.map(t => t.data)
-            if(formAction == 'Delete') {
-                confirmationBody.value = 'Are you sure you want to delete these transactions?'
-                confirmationHeader.value = 'Delete Transactions'
-                openConfirmationModal.value = true;
-                confirmationFor.value = 'Delete'
-            }else{
-                sendAction(formAction)
+            if(name == 'status') {
+                sendAction(name, value)
+            }else if(name == 'actions') {
+                if(value == 'Delete') {
+                    confirmationBody.value = 'Are you sure you want to delete these transactions?'
+                    confirmationHeader.value = 'Delete Transactions'
+                    openConfirmationModal.value = true;
+                    confirmationFor.value = {
+                        name: 'actions',
+                        value: 'Delete'
+                    }
+                }else{
+                    sendAction(name, value)
+                }
             }
         }
 
         function closeConfirmationModal(confirmation) {
             openConfirmationModal.value = false
-            if(confirmation) sendAction(confirmationFor.value)
+            if(confirmation) sendAction(confirmationFor.value.name, confirmationFor.value.value)
         }
 
-        function sendAction (action) {
+        function sendAction (action, value) {
             switch (action) {
-                case 'Delete':
-                    alert('this is the part where we actually delete the item');
-                    break;
-                case 'Create Shipping Label':
-                case 'Create Barcodes':
-                case 'Rejected By Admin':
-                    let data = {
-                        transactions: selectedTransactions.value,
-                        action
-                    }
-                    Inertia.post(
-                        '/admin/transactions/bulk-actions/barcode',
-                        data
-                    )
-                break;
                 case 'status':
-                    Inertia.post(
-                    '/admin/transactions/bulk-actions/status',
-                    data
-                    )
+                    console.log('This is the status')
                     break;
+                case 'actions':
+                    switch (value) {
+                        case 'Delete':
+                            alert('this is the part where we actually delete the item');
+                            break;
+                        case 'Create Shipping Label':
+                        case 'Create Barcodes':
+                        case 'Rejected By Admin':
+                            let data = {
+                                transactions: selectedTransactions.value,
+                                action: value
+                            }
+                            Inertia.post(
+                                '/admin/transactions/bulk-actions/barcode',
+                                data
+                            )
+                        break;
+                    }
             }
+
             confirmationFor.value = '';
         }
 
@@ -194,8 +202,6 @@ export default {
             loading,
             transactions,
             statusStyles,
-            pagination,
-            filterLists,
             imageExists,
             isChecked,
             checkAll,

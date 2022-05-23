@@ -31,6 +31,7 @@ class Transaction extends Model
     protected $appends = [
         'kit_type',
         'est_profit',
+        'created_date'
     ];
 
 
@@ -87,15 +88,17 @@ class Transaction extends Model
             ->withDates($filter)
             ->withStatus($filter)
             ->withCustomer($filter)
-            ->withTransactionCount($filter)
+            ->withTerm($filter)
+            //->withTransactionCount($filter)
             ->withLead($filter)
             ->withStores($filter)
             ->withDayOfWeek($filter)
             ->withTrafficSource($filter)
             ->with('offers')
             ->withLabelsFrom($filter)
+            ->withTransactions($filter)
             ->withLabelsTo($filter)
-            ->orderBy('id', 'desc');
+            ->orderBy('transactions.id', 'desc');
     }
 
     static function searchForFilter($filter) {
@@ -104,6 +107,16 @@ class Transaction extends Model
             ->withLead($filter)
             ->withStores($filter)
             ->withDayOfWeek($filter);
+    }
+
+    public function scopeWithTerm($query, $filter) {
+        if($term = data_get($filter, 'term')) {
+            $query->where('id', 'LIKE', '%'.$term.'%');
+            $query->orWhereHas('customer', function($q) use ($term){
+                $q->where('first_name', 'LIKE', $term)
+                ->orWhere('last_name', 'LIKE', $term);
+            });
+        }
     }
 
     public function scopeWithDaysInStock($query) {
@@ -261,8 +274,23 @@ class Transaction extends Model
         }
     }
 
+    public function scopeWithTransactions($query) {
+        $query->selectRaw('transactions.*');
+    }
+
     public function scopeWithTransactionCount($query, $filter=null) {
-        $query->selectRaw("transactions.*, COUNT(customer_id) AS `numberOfTransactions`")->groupBy('customer_id');
+        $query->join('transactions as t', 'transactions.id', '=', 't.id')
+            ->selectRaw('COUNT(t.id) AS numberOfTransactions')
+            ->whereRaw('t.customer_id = transactions.customer_id');
+
+        if($repeat = data_get($filter, 'repeat')) {
+            $query->havingRaw('numberOfTransactions > ?', [1]);
+        }
+        //$query->where('transactions.customer_id', 't.customer_id');
+    }
+
+    public function scopeWithTransactionCountss($query, $filter=null) {
+        $query->selectRaw("COUNT(customer_id) AS `numberOfTransactions`");
         if($repeat = data_get($filter, 'repeat')) {
             $query->havingRaw('numberOfTransactions > ?', [1]);
         }
@@ -372,15 +400,9 @@ class Transaction extends Model
     	return $this->belongsTo(Customer::class,'customer_id','id');
     }
 
-
-    public function getCreatedAtAttribute($value)
+    public function getCreatedDateAttribute($value)
     {
-        return \Carbon\Carbon::parse($value)->diffForHumans();
-	}
-
-    public function getCreatedDate($value)
-    {
-    	return \Carbon\Carbon::parse($value)->diffForHumans();
+    	return \Carbon\Carbon::parse($this->created_at)->format('m-d-Y h:i A');
 	}
 
     public function getEstProfitAttribute($value)
@@ -449,7 +471,7 @@ class Transaction extends Model
     }
 
     public function trStatus() {
-        return $this->belongsTo(Status::class, 'status_id', 'id');
+        return $this->belongsTo(Status::class, 'status_id', 'status_id');
     }
 
     public function trLead() {
@@ -468,6 +490,11 @@ class Transaction extends Model
     public function histories()
     {
         return $this->hasMany(TransactionHistory::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(TransactionHistory::class)->where('event', TransactionHistory::OFFER_PAID);
     }
 
     public function offers()

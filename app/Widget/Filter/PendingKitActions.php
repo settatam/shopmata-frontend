@@ -44,6 +44,10 @@ class PendingKitActions extends Select
                 'text' => 'Delete',
                 'value' => 'Delete'
             ],
+            [
+                'text' => 'Send Message',
+                'value' => 'Send Message'
+            ],
         ];
     }
 
