@@ -223,7 +223,6 @@ export default {
         ErrorIcon,
         ChevronRightIcon,
         HomeIcon,
-
         ArrowLeftIcon,
         EyeIcon,
     },
