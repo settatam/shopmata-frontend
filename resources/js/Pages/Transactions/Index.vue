@@ -192,7 +192,7 @@ export default {
                             );
                             break;
                         case "Send Message":
-                            Inertia.post(
+                            Inertia.get(
                                 "/admin/transactions/bulk/messages",
                                 data,
                                 {
