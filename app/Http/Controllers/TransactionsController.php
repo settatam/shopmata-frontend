@@ -15,7 +15,7 @@ use App\Models\Status;
 use App\Models\Tag;
 use App\Models\StoreTag;
 use App\Models\TransactionItem;
-use App\Models\StoreNotificationMessage;
+use App\Models\StoreNotification;
 use Illuminate\Support\Facades\Log;
 use App\Models\TransactionNote;
 use App\Traits\FileUploader;
@@ -29,7 +29,6 @@ class TransactionsController extends Controller
 {
 
     use FileUploader;
-
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +36,6 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-
         $filters = $request->input();
         $filters['page'] = Filter::page($filters);
         $filters['type'] = 'TransactionsTable';
@@ -176,7 +174,7 @@ class TransactionsController extends Controller
 
     public function addNote(Request $request)
     {
-
+        
         try {
             $transaction = TransactionNote::updateOrCreate(
                 ['transaction_id' =>  $request->transaction_id, 'type' => $request->type],
@@ -232,8 +230,9 @@ class TransactionsController extends Controller
 
     public function messages(Request $request) {
         $user = $request->user();
-        $messages = (new StoreNotificationMessage())->getCustomMessages($user->store_id);
-        return Inertia::render('Messages/Create', compact('messages'));
+        $messages = StoreNotification::all();
+        $store_notifiction_id = null;
+        return Inertia::render('Messages/Create', compact('messages','store_notifiction_id'));
     }
 
     public function sendMessages(Request $request) {

@@ -260,7 +260,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         #Settings -> Notifications
         Route::get('settings/notifications', [NotificationsController::class, 'index']);
+        Route::post('settings/notifications', [App\Http\Controllers\StoreNotificationController::class, 'getMsg']);
+
         Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
+        //Route::post('settings/notifications/{id}', [NotificationsController::class, 'getMsg']);
+
         Route::post('settings/notifications/store', [StoreNotificationMessageController::class, 'store']);
         Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
 

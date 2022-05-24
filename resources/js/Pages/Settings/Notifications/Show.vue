@@ -455,7 +455,7 @@ export default {
         const loading = ref(false);
         const save = ref("Save");
         const successMessage = ref("");
- 
+
         const submit = () => {
             loading.value = true;
             axios
@@ -468,6 +468,7 @@ export default {
                     setTimeout(onClickBot("Something went wrong"), 2000);
                 });
         };
+
         return {
             pages,
             order,

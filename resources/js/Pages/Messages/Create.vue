@@ -63,36 +63,40 @@
                             ></div>
                         </div>
                     </div> -->
-                    <div class="px-4 md:px-8 pb-8 pt-6 mb-6 bg-white ">
+                    <div class="px-4 md:px-8 pb-8 pt-6 mb-6 bg-white">
                         <h1 class="text-xl font-bold">Email</h1>
 
                         <div class="w-auto relative">
                             <label class="block mt-4 mb-2 bg-transparent">
-                                Create Message
+                                Message
                             </label>
                             <select
-                                v-model.trim="msg.channel"
+                                v-model="msg.store_notification_id"
                                 name=""
                                 id=""
+                                @change="getMessage()"
                                 class="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                             >
-                                <option default value="null">Select</option>
+                                <option default value="">Select</option>
                                 <option
-                                    v-for="item in messages"
-                                    :key="item.index"
-                                    :value="item.channel"
-                                    >
-
-                                    <template v-if="item.channel == 'sms'">
-                                    {{ item.message }}
-                                    </template>
-
-                                    <template v-else>
-                                    {{ item.email_subject }}
-                                    </template>
-                                    
-                                    </option>
+                                    v-for="message in messages"
+                                    :key="message.index"
+                                    :value="message.id"
+                                >
+                                    {{ message.name }}
+                                </option>
                             </select>
+                        </div>
+
+                        <div class="w-auto relative">
+                            <label class="block mt-4 mb-2 bg-transparent">
+                                Title
+                            </label>
+                            <input
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Title"
+                                v-model="msg.title"
+                            />
                         </div>
 
                         <div class="w-auto relative">
@@ -101,7 +105,8 @@
                             </label>
                             <input
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                placeholder="Order Confirmation"
+                                placeholder="Email subject"
+                                v-model.trim="msg.subject"
                             />
                         </div>
 
@@ -114,33 +119,22 @@
                             <textarea
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-96"
                                 required
+                                v-model.trim="msg.email_message"
                             ></textarea>
                         </div>
 
                         <!-- email body end -->
 
-                        <!-- SMS SUBJECT START  -->
-
-                        <div class="w-auto relative">
-                            <label class="block mt-4 mb-2 bg-transparent">
-                                SMS subject
-                            </label>
-                            <input
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                placeholder="Order Confirmation"
-                            />
-                        </div>
-                        <!-- sms subject end -->
-
                         <!-- message start -->
 
                         <div class="w-auto relative">
                             <label class="block mt-4 mb-2 bg-transparent">
-                                Message
+                                SMS Message
                             </label>
                             <textarea
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-48"
                                 required
+                                v-model.trim="msg.sms_message"
                             ></textarea>
                         </div>
 
@@ -156,9 +150,9 @@
                                 id=""
                                 class="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                             >
-                                <option default value="null"
-                                    >Immediately</option
-                                >
+                                <option default value="null">
+                                    Immediately
+                                </option>
                             </select>
                         </div>
                         <!-- conditions start -->
@@ -251,10 +245,12 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive } from 'vue'
-import AppLayout from '../../Layouts/AppLayout.vue'
-import ErrorIcon from '../../../assets/ErrorIcon.vue'
-import { HomeIcon } from '@heroicons/vue/outline'
+import { ref, reactive } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
+import ErrorIcon from "../../../assets/ErrorIcon.vue";
+import { HomeIcon } from "@heroicons/vue/outline";
+import notify from "../../Utils/notification";
+
 // import SearchRow from './Components/SearchRow.vue'import {
 import {
     ChevronLeftIcon,
@@ -262,13 +258,13 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
     ArrowLeftIcon,
-    EyeIcon
-} from '@heroicons/vue/solid'
+    EyeIcon,
+} from "@heroicons/vue/solid";
 
 const pages = [
-    { name: 'Settings', href: '/admin/settings', current: false },
-    { name: 'Notifications', href: '/settings/notifications', current: false }
-]
+    { name: "Settings", href: "/admin/settings", current: false },
+    { name: "Notifications", href: "/settings/notifications", current: false },
+];
 
 export default {
     components: {
@@ -277,27 +273,58 @@ export default {
         ChevronRightIcon,
         HomeIcon,
         ArrowLeftIcon,
-        EyeIcon
+        EyeIcon,
     },
-    props: ['navigation', 'messages'],
+    props: ["navigation", "messages", "store_notification_id"],
 
-    setup (props) {
+    setup(props) {
         const msg = reactive({
-            channel: 'null',
-            subject: '',
+            subject: "",
             sms_message: null,
             email_message: null,
-            store_notification_id: null
-        })
+            store_notification_id: "",
+            channels: ["sms", "email"],
+            title: null,
+        });
 
-        const bodyError = ref(false)
-        const subjectError = ref(false)
-        const loading = ref(false)
-        const save = ref('Save')
-        const successMessage = ref('')
+        const bodyError = ref(false);
+        const subjectError = ref(false);
+        const loading = ref(false);
+        const save = ref("Save");
+        const successMessage = ref("");
+
         const submit = () => {
-            loading.value = true
-        }
+            loading.value = true;
+            axios
+                .post("/admin/settings/notifications/store", msg)
+                .then((res) => {
+                    loading.value = false;
+                    setTimeout(onClickTop("Notification added"), 2000);
+                })
+                .catch((error) => {
+                    setTimeout(onClickBot("Something went wrong"), 2000);
+                });
+        };
+
+        const getMessage = () => {
+            let payload = {
+                store_notification_id: msg.store_notification_id,
+            };
+            axios
+                .post("/admin/settings/notifications", payload)
+                .then((res) => {
+                    let resp = res.data;
+                    msg.subject =
+                        null != resp.email ? resp.email.email_subject : null;
+                    msg.sms_message =
+                        null != resp.sms ? resp.sms.message : null;
+                    msg.email_message =
+                        null != resp.email ? resp.email.message : null;
+                })
+                .catch((error) => {
+                    setTimeout(onClickBot("Something went wrong"), 2000);
+                });
+        };
 
         return {
             bodyError,
@@ -307,8 +334,9 @@ export default {
             save,
             successMessage,
             msg,
-            pages
-        }
-    }
-}
+            pages,
+            getMessage,
+        };
+    },
+};
 </script>
