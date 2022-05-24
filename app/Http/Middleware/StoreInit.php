@@ -38,7 +38,7 @@ class StoreInit
                 if(null !== $storeDomain) {
                     session()->put('store_id', $storeDomain->id);
                 }else{
-                  //  abort(404);
+                  abort(404);
 
                 }
             }
