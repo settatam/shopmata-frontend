@@ -30,7 +30,7 @@ class StoreNotificationMessageController extends Controller
         $user = $request->user();
         try {
             StoreNotificationMessage::addNotification($request, $user);
-            \Log::info("Updated store actual notifications with".  collect($request->all()));
+            \Log::info("Updated store  notifications with".  collect($request->all()));
             return response()->json(['message' => "Notification saved successfully."], 200);
         } catch (\Throwable $th) {
             \Log::error("Failed to Update store actual notifications with" . collect($request->all())  ."Error: " .$th->getMessage() );
