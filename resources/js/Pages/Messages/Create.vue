@@ -71,13 +71,27 @@
                                 Create Message
                             </label>
                             <select
-                                :placeholder="msg.subject"
-                                v-model.trim="msg.subject"
+                                v-model.trim="msg.channel"
                                 name=""
                                 id=""
                                 class="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                             >
                                 <option default value="null">Select</option>
+                                <option
+                                    v-for="item in messages"
+                                    :key="item.index"
+                                    :value="item.channel"
+                                    >
+
+                                    <template v-if="item.channel == 'sms'">
+                                    {{ item.message }}
+                                    </template>
+
+                                    <template v-else>
+                                    {{ item.email_subject }}
+                                    </template>
+                                    
+                                    </option>
                             </select>
                         </div>
 
@@ -151,7 +165,9 @@
 
                         <div class="w-auto relative mt-18">
                             <div>
-                                <h1 class="block mt-4 mb-2 bg-transparent font-semibold text-xl">
+                                <h1
+                                    class="block mt-4 mb-2 bg-transparent font-semibold text-xl"
+                                >
                                     Conditions:
                                 </h1>
                                 <div
@@ -170,9 +186,12 @@
                             </div>
                         </div>
 
-                        <div v-for="i in 3" :key="i.index" class="w-auto relative">
+                        <div
+                            v-for="i in 3"
+                            :key="i.index"
+                            class="w-auto relative"
+                        >
                             <div>
-                                
                                 <div
                                     class="flex justify-between md:flex-row lg:justify-between space-x-2 mt-4"
                                 >
@@ -200,39 +219,31 @@
                                     </div>
                                     <div class="w-4.5/10 lg:w-3/10 mb-2">
                                         <input
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                placeholder="Order Confirmation"
-                            />
+                                            class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            placeholder="Order Confirmation"
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- conditions end -->
-                    </div>
-                </div>
 
-                
-
-                <div class="w-auto lg:ml-7 lg:mr-2">
-                    <div class="flex justify-between">
-                        <button
-                            type="button"
-                            class="rounded-md bmsg bmsg-gray-500 mr-4 shadow-sm px-3 lg:px-5 py-1.5 lg:py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none sm:text-sm"
-                        >
-                            Back to default
-                        </button>
-                        <button
-                            type="button"
-                            class="rounded-md bmsg bg-indigo-600 bmsg-transparent shadow-sm px-4 lg:px-7 py-3 text-xs lg:text-base font-medium text-white focus:outline-none sm:text-sm disabled:bg-gray-400"
-                            :disabled="loading"
-                            @click="submit"
-                        >
-                            <i
-                                class="fas fa-spinner fa-pulse text-white m-1"
-                                v-if="loading"
-                            ></i
-                            >{{ save }}
-                        </button>
+                        <div class="w-auto lg:ml-7 lg:mr-2 mt-12">
+                            <div class="flex justify-end">
+                                <button
+                                    type="button"
+                                    class="rounded-md bmsg bg-indigo-600 bmsg-transparent shadow-sm px-4 lg:px-7 py-3 text-xs lg:text-base font-medium text-white focus:outline-none sm:text-sm disabled:bg-gray-400"
+                                    :disabled="loading"
+                                    @click="submit"
+                                >
+                                    <i
+                                        class="fas fa-spinner fa-pulse text-white m-1"
+                                        v-if="loading"
+                                    ></i
+                                    >{{ save }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -270,13 +281,13 @@ export default {
     },
     props: ['navigation', 'messages'],
 
-    setup ({ email, sms, notification }) {
+    setup (props) {
         const msg = reactive({
+            channel: 'null',
             subject: '',
             sms_message: null,
             email_message: null,
-            store_notification_id: null,
-            channels: ['sms', 'email']
+            store_notification_id: null
         })
 
         const bodyError = ref(false)
