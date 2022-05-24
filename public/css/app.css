@@ -2063,7 +2063,7 @@ select {
 	width: 95% !important;
 }
 .w-3\/6 {
-	width: 50% !important;
+	width: 50%;
 }
 .min-w-0 {
 	min-width: 0px !important;
