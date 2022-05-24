@@ -332,7 +332,6 @@ class Transaction extends Model
         }
     }
 
-
     public function scopeWithCustomer($query, $filter=null)
     {
         $query->whereHas('customer', function($q) use ($filter) {
@@ -471,7 +470,7 @@ class Transaction extends Model
     }
 
     public function trStatus() {
-        return $this->belongsTo(Status::class, 'status_id', 'id');
+        return $this->belongsTo(Status::class, 'status_id', 'status_id');
     }
 
     public function trLead() {
