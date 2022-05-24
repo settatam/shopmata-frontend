@@ -15,6 +15,7 @@ use App\Models\Status;
 use App\Models\Tag;
 use App\Models\StoreTag;
 use App\Models\TransactionItem;
+use App\Models\StoreNotificationMessage;
 use Illuminate\Support\Facades\Log;
 use App\Models\TransactionNote;
 use App\Traits\FileUploader;
@@ -222,11 +223,36 @@ class TransactionsController extends Controller
         //
         $input = $request->input();
         //How do we perform validation here???
-
         $transaction = Transaction::find($id);
         if($transaction->doUpdate($input)) {
             return response()->json($transaction);
         }
+    }
+
+
+    public function messages(Request $request) {
+        $user = $request->user();
+        $messages = (new StoreNotificationMessage())->getCustomMessages($user->store_id);
+        return Inertia::render('Messages/Create', compact('messages'));
+    }
+
+    public function sendMessages(Request $request) {
+
+        $user = $request->user();
+        try {
+            StoreNotificationMessage::addNotification($request, $user);
+            $transactions = Transaction::whereIn('id', $request->transaction_id)->get();
+            foreach ($transactions as  $transaction) {
+                # code...
+                //send message
+            }
+            \Log::info("Updated store  notifications with".  collect($request->all()));
+            return response()->json(['message' => "Notification saved successfully."], 200);
+        } catch (\Throwable $th) {
+            \Log::error("Failed to Update store actual notifications with" . collect($request->all())  ."Error: " .$th->getMessage() );
+            return response()->json(['message'=>$th->getMessage()], 422);
+        }
+
     }
 
     public function bulkPrintAction(Request $request) {
