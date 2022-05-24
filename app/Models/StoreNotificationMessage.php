@@ -15,7 +15,8 @@ class StoreNotificationMessage extends Model
                         'store_id',            
                         'user_id',  
                         'channel',
-                        'email_subject'    
+                        'email_subject' ,
+                        'is_custom'   
                     ];
 
 
@@ -32,7 +33,9 @@ class StoreNotificationMessage extends Model
                     'store_id' =>  $user->store_id,
                     'user_id'  =>  $user->id,
                     'channel' => $channel,
-                    'email_subject' => $request->subject
+                    'email_subject' => $request->subject,
+                    'is_custom' => $request->is_custom ? 1 :0
+
                 ]
             );
         }
@@ -42,6 +45,11 @@ class StoreNotificationMessage extends Model
 
     public function store_notification() {
         return $this->belongsTo(StoreNotification::class);
+    }
+
+
+    public function getCustomMessages($store_id) {
+        return $this->where(['store_id'=>$store_id, 'is_custom' =>true])->get();
     }
 
 

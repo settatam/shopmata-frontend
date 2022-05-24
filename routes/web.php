@@ -219,7 +219,13 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         ]);
         Route::post('transactions/bulk-print-action', [TransactionsController::class, 'bulkPrintAction']);
         Route::post('transactions/bulk-actions/{printable}', [TransactionsController::class, 'bulkPrint']);
+        Route::post('transactions/bulk/messages', [TransactionsController::class, 'messages']);
+        Route::post('transactions/send/messages', [TransactionsController::class, 'sendMessages']);
+
+
         Route::get('transactions/{id}/{printable}', [TransactionsController::class, 'printable']);
+        Route::get('transactions/{id}/{printable}', [TransactionsController::class, 'printable']);
+
         Route::post('transactions/{id}/{extra}', [TransactionsController::class, 'extras']);
         Route::post('transaction/tag', [TransactionsController::class, 'addTag']);
         Route::post('transaction/notes', [TransactionsController::class, 'addNote']);
@@ -308,6 +314,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         //Widgets
 
         Route::get('widgets/view', [WidgetsController::class, 'view'])->name('widget.view');
+
+
 
         ## Online Store
 
