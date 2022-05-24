@@ -4,9 +4,12 @@
         <div id="container" class="flex flex-col mx-3 space-y-3">
             <div class="flex-1 max-h-screen xl:overflow-y-auto">
                 <div class="flex-shrink-0 mb-3 px:3 md:px-6 flex items-center">
-                    <p class="text-2xl font-semibold text-gray-900">Settings</p>
+                    <p class="text-2xl mt-8 font-bold text-indigo-700">
+                        Messages
+                    </p>
                 </div>
-                <nav class="flex px-3 md:px-6" aria-label="Breadcrumb">
+
+                <!-- <nav class="flex px-3 md:px-6" aria-label="Breadcrumb">
                     <ol role="list" class="flex items-center space-x-4">
                         <li>
                             <div>
@@ -18,7 +21,7 @@
                                         class="flex-shrink-0 h-5 w-5"
                                         aria-hidden="true"
                                     />
-                                    <span class="sr-only">Settings</span>
+                                    <span class="sr-only">Messages</span>
                                 </a>
                             </div>
                         </li>
@@ -39,9 +42,15 @@
                             </div>
                         </li>
                     </ol>
-                </nav>
+                </nav> -->
+
                 <div class="w-auto lg:ml-7 lg:mr-2">
-                    <div class="flex justify-between items-center mb-2 lg:mb-0">
+                    <div class="mt-8 py-3">
+                        <h1 class="text-xl font-semibold">
+                            Send a New Message
+                        </h1>
+                    </div>
+                    <!-- <div class="flex justify-between items-center mb-2 lg:mb-0">
                         <div class="flex font-semibold items-center">
                             <inertia-link href="/admin/settings/notifications">
                                 <arrow-left-icon class="w-5 h-5 mr-5" />
@@ -53,123 +62,156 @@
                                 class="text-indigo-700 mr-7 hidden lg:flex"
                             ></div>
                         </div>
-                    </div>
-                    <div class="px-4 md:px-8 pb-8 pt-6 mb-6 bg-white">
+                    </div> -->
+                    <div class="px-4 md:px-8 pb-8 pt-6 mb-6 bg-white ">
                         <h1 class="text-xl font-bold">Email</h1>
+
+                        <div class="w-auto relative">
+                            <label class="block mt-4 mb-2 bg-transparent">
+                                Create Message
+                            </label>
+                            <select
+                                :placeholder="msg.subject"
+                                v-model.trim="msg.subject"
+                                name=""
+                                id=""
+                                class="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                            >
+                                <option default value="null">Select</option>
+                            </select>
+                        </div>
+
                         <div class="w-auto relative">
                             <label class="block mt-4 mb-2 bg-transparent">
                                 Email subject
                             </label>
                             <input
-                                type="text"
-                                class="shadow-sm focus:ring-indigo-500 focus:bmsg-indigo-500 block w-full sm:text-sm bmsg-gray-300 rounded-md"
-                                :placeholder="msg.subject"
-                                v-model.trim="msg.subject"
-                                required
-                            />
-                            <error-icon
-                                class="absolute top-11 right-2.5"
-                                v-show="subjectError"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Order Confirmation"
                             />
                         </div>
+
+                        <!-- email body start -->
+
                         <div class="w-auto relative">
                             <label class="block mt-4 mb-2 bg-transparent">
                                 Email body (HTML)
                             </label>
                             <textarea
-                                class="shadow-sm focus:ring-indigo-500 focus:bmsg-indigo-500 block w-full sm:text-sm bmsg-gray-300 h-96 rounded-md"
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-96"
                                 required
                             ></textarea>
                         </div>
-                    </div>
-                </div>
 
-                <div class="flex-1 max-h-screen xl:overflow-y-auto">
-                    <div class="w-auto lg:ml-7 lg:mr-2">
-                        <div class="px-4 md:px-8 pb-8 pt-6 mb-6 bg-white">
-                            <!-- message textarea -->
-                            <div class="w-auto relative">
-                                <label class="block mt-4 mb-2 bg-transparent">
-                                    Message
-                                </label>
-                                <textarea
-                                    class="shadow-sm focus:ring-indigo-500 focus:bmsg-indigo-500 block w-full sm:text-sm bmsg-gray-300 h-32 rounded-md"
-                                    required
-                                ></textarea>
-                                <error-icon class="absolute top-1 left-40" />
-                            </div>
-                            <!-- message textare ends -->
+                        <!-- email body end -->
 
-                            <!-- schedule start -->
-                            <div class="w-auto relative">
-                                <div>
-                                    <label
-                                        class="block mt-4 mb-2 bg-transparent"
-                                    >
-                                        Schedule a Message
-                                    </label>
-                                    <select
-                                        class="shadow-sm focus:ring-indigo-500 focus:bmsg-indigo-500 block w-full sm:text-sm bmsg-gray-300 rounded-md"
-                                        placeholder=""
-                                        required
-                                    >
-                                        <option value="">Immediately</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <!-- schedule end -->
+                        <!-- SMS SUBJECT START  -->
 
-                            <!-- conditions start -->
-                            <div class="w-auto relative">
-                                <div>
-                                    <label
-                                        class="block mt-4 mb-2 bg-transparent"
-                                    >
-                                        Schedule a Message
-                                    </label>
-                                    <div
-                                        class="flex justify-between md:flex-row lg:justify-between space-x-2 mt-4"
-                                    >
-                                        <div class="w-4.5/10 lg:w-3/10">
-                                            <select
-                                                name="options"
-                                                id=""
-                                                class="rounded-md bmsg bmsg-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none mb-2 lg:mb-0"
-                                            >
-                                                <option value="">
-                                                    Immediately
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="w-4.5/10 lg:w-3/10">
-                                            <select
-                                                name="conditions"
-                                                id=""
-                                                class="rounded-md bmsg bmsg-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none"
-                                            >
-                                                <option value="">
-                                                    Immediately
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="w-4.5/10 lg:w-3/10 mb-2">
-                                            <select
-                                                name="state"
-                                                id=""
-                                                class="rounded-md bmsg bmsg-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 w-full hover:bg-gray-50 focus:outline-none"
-                                            >
-                                                <option value="">
-                                                    Immediately
-                                                </option>
-                                            </select>
-                                        </div>
+                        <div class="w-auto relative">
+                            <label class="block mt-4 mb-2 bg-transparent">
+                                SMS subject
+                            </label>
+                            <input
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Order Confirmation"
+                            />
+                        </div>
+                        <!-- sms subject end -->
+
+                        <!-- message start -->
+
+                        <div class="w-auto relative">
+                            <label class="block mt-4 mb-2 bg-transparent">
+                                Message
+                            </label>
+                            <textarea
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-48"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <!-- message end -->
+                        <div class="w-auto relative">
+                            <label class="block mt-4 mb-2 bg-transparent">
+                                Schedule a Message
+                            </label>
+                            <select
+                                :placeholder="msg.subject"
+                                v-model.trim="msg.subject"
+                                name=""
+                                id=""
+                                class="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                            >
+                                <option default value="null"
+                                    >Immediately</option
+                                >
+                            </select>
+                        </div>
+                        <!-- conditions start -->
+
+                        <div class="w-auto relative mt-18">
+                            <div>
+                                <h1 class="block mt-4 mb-2 bg-transparent font-semibold text-xl">
+                                    Conditions:
+                                </h1>
+                                <div
+                                    class="flex justify-between md:flex-row lg:justify-between space-x-2 mt-4"
+                                >
+                                    <div class="w-4.5/10 lg:w-3/10">
+                                        <p>Products must match:</p>
+                                    </div>
+                                    <div class="w-4.5/10 lg:w-3/10">
+                                        <p>all conditions:</p>
+                                    </div>
+                                    <div class="w-4.5/10 lg:w-3/10 mb-2">
+                                        <p>any condition:</p>
                                     </div>
                                 </div>
                             </div>
-                            <!-- conditions end -->
                         </div>
+
+                        <div v-for="i in 3" :key="i.index" class="w-auto relative">
+                            <div>
+                                
+                                <div
+                                    class="flex justify-between md:flex-row lg:justify-between space-x-2 mt-4"
+                                >
+                                    <div class="w-4.5/10 lg:w-3/10">
+                                        <select
+                                            name="options"
+                                            id=""
+                                            class="rounded-md bmsg bmsg-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none mb-2 lg:mb-0"
+                                        >
+                                            <option value="">
+                                                Product Title
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="w-4.5/10 lg:w-3/10">
+                                        <select
+                                            name="conditions"
+                                            id=""
+                                            class="rounded-md bmsg bmsg-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none"
+                                        >
+                                            <option value="">
+                                                is equal to
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="w-4.5/10 lg:w-3/10 mb-2">
+                                        <input
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                placeholder="Order Confirmation"
+                            />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- conditions end -->
                     </div>
                 </div>
+
+                
 
                 <div class="w-auto lg:ml-7 lg:mr-2">
                     <div class="flex justify-between">
@@ -198,10 +240,10 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive } from "vue";
-import AppLayout from "../../Layouts/AppLayout.vue";
-import ErrorIcon from "../../../assets/ErrorIcon.vue";
-import { HomeIcon } from "@heroicons/vue/outline";
+import { ref, reactive } from 'vue'
+import AppLayout from '../../Layouts/AppLayout.vue'
+import ErrorIcon from '../../../assets/ErrorIcon.vue'
+import { HomeIcon } from '@heroicons/vue/outline'
 // import SearchRow from './Components/SearchRow.vue'import {
 import {
     ChevronLeftIcon,
@@ -209,13 +251,13 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
     ArrowLeftIcon,
-    EyeIcon,
-} from "@heroicons/vue/solid";
+    EyeIcon
+} from '@heroicons/vue/solid'
 
 const pages = [
-    { name: "Settings", href: "/admin/settings", current: false },
-    { name: "Notifications", href: "/settings/notifications", current: false },
-];
+    { name: 'Settings', href: '/admin/settings', current: false },
+    { name: 'Notifications', href: '/settings/notifications', current: false }
+]
 
 export default {
     components: {
@@ -224,27 +266,27 @@ export default {
         ChevronRightIcon,
         HomeIcon,
         ArrowLeftIcon,
-        EyeIcon,
+        EyeIcon
     },
-    props: ["navigation"],
+    props: ['navigation', 'messages'],
 
-    setup({ email, sms, notification }) {
+    setup ({ email, sms, notification }) {
         const msg = reactive({
-            subject: "",
+            subject: '',
             sms_message: null,
             email_message: null,
             store_notification_id: null,
-            channels: ["sms", "email"],
-        });
+            channels: ['sms', 'email']
+        })
 
-        const bodyError = ref(false);
-        const subjectError = ref(false);
-        const loading = ref(false);
-        const save = ref("Save");
-        const successMessage = ref("");
+        const bodyError = ref(false)
+        const subjectError = ref(false)
+        const loading = ref(false)
+        const save = ref('Save')
+        const successMessage = ref('')
         const submit = () => {
-            loading.value = true;
-        };
+            loading.value = true
+        }
 
         return {
             bodyError,
@@ -254,8 +296,8 @@ export default {
             save,
             successMessage,
             msg,
-            pages,
-        };
-    },
-};
+            pages
+        }
+    }
+}
 </script>
