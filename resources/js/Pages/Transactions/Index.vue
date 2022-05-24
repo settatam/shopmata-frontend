@@ -2,6 +2,7 @@
     <!-- Page header -->
     <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3">
+            
             <ConfirmationModal
                 :open="openConfirmationModal"
                 @close="closeConfirmationModal"
@@ -50,7 +51,7 @@ export default {
         PhoneIcon,
         Pagination,
         DeleteModal,
-        ShopmataTable
+        ShopmataTable,
     },
     props: {
         notifications: Array,
