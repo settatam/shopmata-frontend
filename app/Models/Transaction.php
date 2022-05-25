@@ -332,7 +332,6 @@ class Transaction extends Model
         }
     }
 
-
     public function scopeWithCustomer($query, $filter=null)
     {
         $query->whereHas('customer', function($q) use ($filter) {
