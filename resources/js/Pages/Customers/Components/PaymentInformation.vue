@@ -58,7 +58,7 @@
 <script>
 import { ref, computed } from "vue";
 import Check from "./Dynamic/Check.vue";
-import PayPal from "./Dynamic/PayPal.vue";
+import PayPal from "./Dynamic/Paypal.vue";
 import Ach from "./Dynamic/Ach.vue";
 import Venmo from "./Dynamic/Venmo.vue";
 import PaymentMethod from "../../../Components/PaymentMethod.vue";
