@@ -51,7 +51,7 @@ class NotificationsController extends Controller
         $notification = [];
 
         foreach($notifications_data as $data) {
-            $notifications[$data->category->name][] = $data;
+            $notifications[optional($data->category)->name][] = $data;
         }
 
         return Inertia::render('Settings/Notifications/Index', compact('notifications','email_marketing_settings'));

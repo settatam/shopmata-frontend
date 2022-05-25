@@ -108,7 +108,6 @@
 <script>
 import { ref, reactive } from 'vue'
 import { AdjustmentsIcon } from '@heroicons/vue/outline'
-// import Datepicker from 'vue3-datepicker'
 import flatPickr from 'vue-flatpickr-component'; 
 import 'flatpickr/dist/flatpickr.css';
 
@@ -116,7 +115,6 @@ import 'flatpickr/dist/flatpickr.css';
 export default {
     components: {
         AdjustmentsIcon,
-        // Datepicker
         flatPickr
     },
     emits: ['getFilters'],
