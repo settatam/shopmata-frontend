@@ -15,7 +15,7 @@
         <div v-if="!isEdit" class="p-6 space-y-3 text-gray-lighter">
             <payment-method
                 :payment_method_name="
-                    customer.payment_address.payment_type.name
+                    ''?customer.payment_address.payment_type.name : ''
                 "
                 :payment="customer.payment_address"
             />
@@ -73,7 +73,7 @@ export default {
     setup(props) {
         const isEdit = ref(false);
         const payment_method = ref("choose");
-        let name = props.customer.payment_address.payment_type.name;
+        let name = '' ? props.customer.payment_address.payment_type.name : '';
         let checkPaymentMethod = computed(() => {
             switch (payment_method.value) {
                 case "Check":

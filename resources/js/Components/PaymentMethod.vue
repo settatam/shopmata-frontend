@@ -24,27 +24,29 @@ export default {
         let payments = {
             Check: {
                 "PAY METHOD": payment_method_name,
-                "Payable to": payment.check_name,
-                Address: payment.check_address,
-                City: payment.check_city,
-                Zip: payment.check_zip,
-                State: payment.state ? payment.state.name : "",
+                "Payable to": ''? payment.check_name : '',
+                Address: '' ? payment.check_address : '',
+                City: '' ? payment.check_city : '',
+                Zip: '' ? payment.check_zip : '',
+                // State: payment.state ? payment.state.name : "",
+                State: ''
             },
             Venmo: {
                 "PAY METHOD": payment_method_name,
-                "Venmo address": payment.venmo_address,
+                "Venmo address": ''? payment.venmo_address : '',
             },
             PayPal: {
                 "PAY METHOD": payment_method_name,
-                "Paypal address": payment.paypal_address,
+                "Paypal address": ''? payment.paypal_address : '',
             },
             ACH: {
                 "PAY METHOD": payment_method_name,
-                "BANK NAME": payment.bank_name,
-                "ROUTING NUMBER": payment.routing_number,
-                "ACCOUNT NUMBER": payment.account_number,
-                "ACCOUNT NAME": payment.account_name,
-                "ACCOUNT TYPE": payment.account_type,
+                "BANK NAME": ''? payment.bank_name: '',
+                "ROUTING NUMBER": ''? payment.routing_number: '',
+                "ACCOUNT NUMBER": ''? payment.account_number: '',
+                "ACCOUNT NAME": ''? payment.account_name: '',
+                "ACCOUNT TYPE": ''? payment.account_type: ''
+,
             },
         };
 
