@@ -30,7 +30,7 @@
                     Export
                 </button>
             </div>
-            
+
         </div>
 
         <div>
@@ -193,40 +193,21 @@
                                                                     .class
                                                             "
                                                         >
-                                                            {{
-                                                                item
-                                                                    .customer_info
-                                                                    .data
-                                                                    .first_name
-                                                            }}
-                                                            {{
-                                                                item
-                                                                    .customer_info
-                                                                    .data
-                                                                    .last_name
-                                                            }}
+                                                            {{ item.customer_info.data.first_name }}
+                                                            {{ item.customer_info.data.last_name }}
                                                         </span>
                                                         <span v-else>
-                                                            {{
-                                                                item
-                                                                    .customer_info
-                                                                    .data
-                                                                    .first_name
-                                                            }}
-                                                            {{
-                                                                item
-                                                                    .customer_info
-                                                                    .data
-                                                                    .last_name
-                                                            }}
+                                                            {{ item.customer_info.data.first_name }}
+                                                            {{ item.customer_info.data.last_name }}
+
                                                         </span>
                                                     </inertia-link>
                                                 </div>
                                                 <div class="text-gray-500">
-                                                    {{
-                                                        item.customer_info.data
-                                                            .email
-                                                    }}
+                                                    {{ item.customer_info.data.email }} <br />
+                                                    {{ item.customer_info.data.address.address }} <br />
+                                                    {{ item.customer_info.data.address.state.code }} {{item.customer_info.data.address.zip }}
+                                                    {{ item.customer_info.data.address.phone }}
                                                 </div>
                                             </div>
                                         </div>
@@ -447,7 +428,6 @@ const search = () => {
 }
 
 const handleSearchChange = () => {
-    console.log('searching')
     if (pageFilters.value.term.length < 3) return
     getData()
 }

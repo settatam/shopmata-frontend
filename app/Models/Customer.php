@@ -34,8 +34,8 @@ class Customer extends Model
         'first_name',
         'last_name',
         'phone',
-        'address',
-        'address2',
+        'street_address',
+        'street_address2',
         'accepts_marketing',
         'is_active',
         'zip',
@@ -52,7 +52,7 @@ class Customer extends Model
         return $this->morphMany(Address::class, 'addressable');
     }
 
-    public function cAddress()
+    public function address()
     {
         return $this->morphOne(Address::class, 'addressable');
     }
