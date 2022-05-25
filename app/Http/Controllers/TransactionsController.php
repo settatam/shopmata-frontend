@@ -242,9 +242,19 @@ class TransactionsController extends Controller
         try {
             StoreNotificationMessage::addNotification($request, $user);
             $transactions = Transaction::whereIn('id', $request->transaction_id)->get();
-            foreach ($transactions as  $transaction) {
-                # code...
+            $store_notification = StoreNotification::find($request->store_notification_id);  
+
+            $name = $request->title ?? $store_notification->name;  
+
+            foreach ($request->transactions as  $transaction_id) {
                 //send message
+                $transaction = Transaction::find($transaction_id);
+        
+                (new EventNotification($name, [
+                    'customer' => $transaction->customer,
+                    'transaction' => $transaction
+                    //'store' => $store
+                ]));
             }
             \Log::info("Updated store  notifications with".  collect($request->all()));
             return response()->json(['message' => "Notification saved successfully."], 200);
