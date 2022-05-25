@@ -1178,11 +1178,7 @@ select {
 	right: 50% !important;
 }
 .top-2\/3 {
-<<<<<<< HEAD
-	top: 66.666667%;
-=======
 	top: 66.666667% !important;
->>>>>>> 35feb1bd4c61b6aa3c95dc287752976d7b9c77ab
 }
 .right-4 {
 	right: 1rem !important;
@@ -1237,21 +1233,6 @@ select {
 }
 .left-40 {
 	left: 10rem !important;
-}
-.top-11 {
-	top: 2.75rem;
-}
-.right-2\.5 {
-	right: 0.625rem;
-}
-.right-2 {
-	right: 0.5rem;
-}
-.top-1 {
-	top: 0.25rem;
-}
-.left-40 {
-	left: 10rem;
 }
 .bottom-1 {
 	bottom: 0.25rem !important;
@@ -1462,13 +1443,8 @@ select {
 	margin-right: 0.25rem !important;
 }
 .my-2\.5 {
-<<<<<<< HEAD
-	margin-top: 0.625rem;
-	margin-bottom: 0.625rem;
-=======
 	margin-top: 0.625rem !important;
 	margin-bottom: 0.625rem !important;
->>>>>>> 35feb1bd4c61b6aa3c95dc287752976d7b9c77ab
 }
 .ml-3 {
 	margin-left: 0.75rem !important;
@@ -1771,11 +1747,7 @@ select {
 	margin-left: -1.25rem !important;
 }
 .-mr-5 {
-<<<<<<< HEAD
-	margin-right: -1.25rem;
-=======
 	margin-right: -1.25rem !important;
->>>>>>> 35feb1bd4c61b6aa3c95dc287752976d7b9c77ab
 }
 .block {
 	display: block !important;
@@ -1853,11 +1825,7 @@ select {
 	height: 24rem !important;
 }
 .h-48 {
-<<<<<<< HEAD
-	height: 12rem;
-=======
 	height: 12rem !important;
->>>>>>> 35feb1bd4c61b6aa3c95dc287752976d7b9c77ab
 }
 .h-3 {
 	height: 0.75rem !important;
@@ -1886,11 +1854,7 @@ select {
 	height: max-content !important;
 }
 .h-32 {
-<<<<<<< HEAD
-	height: 8rem;
-=======
 	height: 8rem !important;
->>>>>>> 35feb1bd4c61b6aa3c95dc287752976d7b9c77ab
 }
 .max-h-screen {
 	max-height: 100vh !important;
@@ -2518,9 +2482,6 @@ select {
 .break-words {
 	overflow-wrap: break-word !important;
 }
-.break-all {
-	word-break: break-all;
-}
 .rounded-md {
 	border-radius: 0.375rem !important;
 }
@@ -3074,13 +3035,10 @@ select {
 	padding-left: 3rem !important;
 	padding-right: 3rem !important;
 }
-<<<<<<< HEAD
-=======
 .px-10 {
 	padding-left: 2.5rem !important;
 	padding-right: 2.5rem !important;
 }
->>>>>>> 35feb1bd4c61b6aa3c95dc287752976d7b9c77ab
 .px-11 {
 	padding-left: 2.75rem !important;
 	padding-right: 2.75rem !important;
@@ -3088,10 +3046,6 @@ select {
 .py-1\.5 {
 	padding-top: 0.375rem !important;
 	padding-bottom: 0.375rem !important;
-}
-.py-1\.5 {
-	padding-top: 0.375rem;
-	padding-bottom: 0.375rem;
 }
 .px-7 {
 	padding-left: 1.75rem !important;
@@ -3110,13 +3064,8 @@ select {
 	padding-right: 1.125rem !important;
 }
 .py-7 {
-<<<<<<< HEAD
-	padding-top: 1.75rem;
-	padding-bottom: 1.75rem;
-=======
 	padding-top: 1.75rem !important;
 	padding-bottom: 1.75rem !important;
->>>>>>> 35feb1bd4c61b6aa3c95dc287752976d7b9c77ab
 }
 .pt-6 {
 	padding-top: 1.5rem !important;
@@ -5623,13 +5572,8 @@ input[type='checkbox']:focus {
 	}
 
 	.lg\:px-7 {
-<<<<<<< HEAD
-		padding-left: 1.75rem;
-		padding-right: 1.75rem;
-=======
 		padding-left: 1.75rem !important;
 		padding-right: 1.75rem !important;
->>>>>>> 35feb1bd4c61b6aa3c95dc287752976d7b9c77ab
 	}
 
 	.lg\:py-12 {
@@ -5665,16 +5609,6 @@ input[type='checkbox']:focus {
 	.lg\:py-3 {
 		padding-top: 0.75rem !important;
 		padding-bottom: 0.75rem !important;
-	}
-
-	.lg\:px-5 {
-		padding-left: 1.25rem;
-		padding-right: 1.25rem;
-	}
-
-	.lg\:py-3 {
-		padding-top: 0.75rem;
-		padding-bottom: 0.75rem;
 	}
 
 	.lg\:pl-8 {
