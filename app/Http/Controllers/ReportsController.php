@@ -9,6 +9,8 @@ use App\Models\Transaction;
 use App\Models\Customer;
 use App\Widget\ReportsTable;
 use App\Widget\ReportFormGroup;
+use App\Exports\ReportsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class ReportsController extends Controller
@@ -22,6 +24,11 @@ class ReportsController extends Controller
         return Inertia::render('Reports/Index',
             compact('filters', 'reportForm')
         );
+    }
+
+    public function export(Request $request) {
+        $filters = $request->input();
+        return Excel::download(new ReportsExport($filters), 'reports.xlsx');
     }
 }
 
