@@ -217,6 +217,8 @@ class TransactionsTable extends Table
             ->with('images')
             ->with('trStatus')
             ->orderBy('id', 'desc')
+            ->with('customer.address')
+            ->with('customer.address.state')
             ->paginate(Filter::perPage($filter))
             ->withQueryString();
 
