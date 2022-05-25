@@ -231,6 +231,7 @@ class TransactionsController extends Controller
     public function messages(Request $request) {
         $user = $request->user();
         $messages = StoreNotification::all();
+        //dd();
         $store_notifiction_id = null;
         return Inertia::render('Messages/Create', compact('messages','store_notifiction_id'));
     }
