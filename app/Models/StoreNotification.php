@@ -9,6 +9,13 @@ class StoreNotification extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'store_id',
+        'user_id'
+    ];
+
     public function category() {
     	return $this->belongsTo(StoreNotificationCategory::class, 'store_notification_category_id', 'id');
     }
@@ -16,4 +23,17 @@ class StoreNotification extends Model
     public function messages() {
         return $this->hasMany(StoreNotificationMessage::class);
     }
+
+
+    public static function addNotification($request) 
+    {
+        $user = $request->user();
+        $store = self::create([
+                                'store_id' =>  $user->store_id,
+                                'user_id'  =>  $user->id,
+                                'name' => $request->title
+                            ]);
+        return $store;
+    }
+
 }

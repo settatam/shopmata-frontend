@@ -20,7 +20,16 @@ class StoreNotificationMessage extends Model
                     ];
 
 
-    public static function addNotification($request, $user) {
+    public static function addNotification($request, $user) 
+    {
+
+        $store_notification = null;
+
+        if ( !$request->store_notification_id ) {
+            $store_notification = StoreNotification::addNotification($request);  
+            $request->store_notification_id = $store_notification->id;
+        }
+
 
         foreach ($request->channels as $key => $channel) {
             $message  = $channel."_message";
