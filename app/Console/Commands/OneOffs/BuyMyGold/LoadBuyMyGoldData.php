@@ -53,7 +53,7 @@ class LoadBuyMyGoldData extends Command
     {
         $response = Http::get('https://buymygold.com/api/transactions');
         $data = $response->body();
-        
+
 
         if($orders = json_decode($data, true)) {
             $bar = $this->output->createProgressBar(count($orders['orders']));
@@ -89,7 +89,7 @@ class LoadBuyMyGoldData extends Command
                     $customer->email              = $order["customer_email"];
                     $customer->first_name         = data_get($names, 0);
                     $customer->last_name          = data_get($names, 1);
-                    $customer->address            = $order["customer_address"];
+                    $customer->street_address            = $order["customer_address"];
                     $customer->city               = $order["customer_city"];
                     $customer->state_id           = $this->getStateId($order["customer_state"]);
                     $customer->store_id           = $this->getStore($order['is_jewelry']);
@@ -145,6 +145,7 @@ class LoadBuyMyGoldData extends Command
                         'store_id' => $customer->store_id,
                         'first_name' => data_get($names, 0),
                         'last_name' => data_get($names, 1),
+                        'phone' => $order["customer_phone"],
                         'country' => 'US',
                         'zip' => $order["customer_zip"],
                         'addressable_id' => $transaction->id,
@@ -170,6 +171,7 @@ class LoadBuyMyGoldData extends Command
                         'store_id' => $customer->store_id,
                         'first_name' => data_get($names, 0),
                         'last_name' => data_get($names, 1),
+                        'phone' => $order["customer_phone"],
                         'country' => 'US',
                         'zip' => $order["customer_zip"],
                         'addressable_id' => $customer->id,

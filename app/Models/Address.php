@@ -41,6 +41,10 @@ class Address extends Model
         return $this->morphTo();
     }
 
+    public function state() {
+        return $this->belongsTo(State::class, 'state_id', 'id');
+    }
+
 
 
 }
