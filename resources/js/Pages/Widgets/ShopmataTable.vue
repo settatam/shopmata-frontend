@@ -34,7 +34,7 @@
         </div>
 
         <div>
-            <Filter v-if="filterToggleStatus" @getFilters="filterValues"/>
+            <Filter v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle"/>
         </div>
 
         <div class="mt-8 flex flex-col">
@@ -323,7 +323,7 @@ import TablePagination from '../../Components/TablePagination'
 
 const props = defineProps({
     filters: Object,
-    term: String
+    term: String,
 })
 
 const emits = defineEmits(['action', 'termUpdated'])
