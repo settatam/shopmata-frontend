@@ -5,6 +5,7 @@
         </div>
 
         <div class="p-4 space-y-2">
+            {{ transaction.customer.payment_address.payment_type.name }}
             <payment-method
                 :payment_method_name="
                     transaction.customer.payment_address.payment_type.name
