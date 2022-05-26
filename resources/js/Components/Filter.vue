@@ -95,7 +95,7 @@
 
                 <div>
                     <p
-                        class="py-3 cursor-pointer hover:underline text-normal hover:text-indigo-700"
+                        class="py-3 cursor-pointer hover:underline text-normal hover:text-indigo-700" @click="toggleFilter()"
                     >
                         Cancel
                     </p>
@@ -120,19 +120,27 @@ export default {
     emits: ['getFilters'],
     setup (props, { emit }) {
         const filterValues = reactive({
-            dateOne: '',
-            dateTwo: '',
-            store: '',
-            status: ''
+            dateOne: new Date(),
+            dateTwo: new Date(),
+            store: null,
+            status: null
         })
+        const showFilter = ref(true)
 
         function submitFilters () {
             emit('getFilters', filterValues)
         }
 
+        function toggleFilter(){
+            showFilter.value = false
+            emit('switchToggle', showFilter)
+        }
+
         return {
             filterValues,
-            submitFilters
+            submitFilters,
+            showFilter,
+            toggleFilter
         }
     }
 }
