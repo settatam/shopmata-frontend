@@ -53,14 +53,15 @@ class Transaction extends Model
         });
     }
 
-    public static function addtag($tag_id, $id) {
+    public static function addtag($tag_id, $id) { #why is this a static function? This is a perrc
 
         $transaction = self::findOrFail($id);
         //This will become a problem if we don't have a store ....
         $store_tag   =  StoreTag::where(
                             [
                                 'tagable_id' => $id,
-                                'tag_id'     => $tag_id
+                                'tag_id'     => $tag_id,
+                                'store_id'  => $this->store->id
                             ]
                         )->first();
         if (null !== $store_tag){
@@ -947,7 +948,8 @@ class Transaction extends Model
 
         if($newKit = self::create([
             'customer_id' => $this->customer_id,
-            'status_id' => self::PENDING_KIT_ID
+            'status_id' => self::PENDING_KIT_ID,
+            'store_id' => $this->store->id
         ])) {
             $note = sprintf('%s created a new kit', Auth::user()->full_name);
             $newKit->addActivity($newKit, [], $note);

@@ -46,9 +46,13 @@ class Activity extends Model
         $user = Auth::user()->first_name . ' ' . Auth::user()->last_name;
         $note = 'updated the ' . $model . 'with the following;';
         $changeText = '';
+        $i=0;
 
         foreach($changes as $index => $change) {
-            if($index == 'updated_at') continue;
+            if($index == 'updated_at') {
+                $i++;
+                continue;
+            }
             $changedTo = $current->{$index};
             if($index == 'status_id') {
                 $change = Status::findById($change);
@@ -57,6 +61,12 @@ class Activity extends Model
             }
 
             $changeText .= $index .' : ' . $changedTo . ' => ' . $change;
+            if($i == (count($changes)-1)) {
+                $changeText .= '';
+            }else{
+                $changeText .= ', ';
+            }
+            $i++;
         }
 
         return sprintf('%s updated the %s with the following: %s',
