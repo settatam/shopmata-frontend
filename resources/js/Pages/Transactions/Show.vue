@@ -274,6 +274,8 @@ import Scans from "./Components/Scans.vue";
 import ShopmataTable from "../Widgets/ShopmataTable";
 import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/solid";
 import ImageSlider from "../Widgets/ImageSlider";
+import urls from "../../api/urls";
+import {Inertia} from "@inertiajs/inertia";
 
 const pages = [
     { name: "Transactions", href: "/admin/transactions", current: false },
@@ -324,7 +326,7 @@ export default {
     setup(props) {
         const open = ref(false);
         const notifications = props.notifications;
-        const transaction = props.transaction;
+        const currentTransaction = ref(props.transaction);
         const customerFilters = {
             customer_id: props.transaction.customer.id,
             type: "CustomerTransactionsTable",
@@ -349,10 +351,13 @@ export default {
                     method = "post";
                     break;
                 case "message":
-                    url =
-                        "/admin/transactions/" +
-                        props.transaction.id +
-                        "/message";
+                    currentData.type = data.type
+                    url =urls.transactions.message(props.transaction.id)
+                    method = "post";
+                    break;
+                case "new-kit":
+                    currentData.type = data.type
+                    url = urls.transactions.newKit(props.transaction.id)
                     method = "post";
                     break;
                 default:
@@ -367,6 +372,11 @@ export default {
             } else {
                 axios.post(url, currentData).then((res) => {
                     // props.transaction.value = res.data
+                    if(data.field == 'new-kit') {
+                        Inertia.visit(urls.transactions.main(res.data.id))
+                    }else{
+                        transaction.value = res.data
+                    }
                 });
             }
         }
@@ -374,7 +384,7 @@ export default {
         return {
             pages,
             updateTransaction,
-            transaction,
+            currentTransaction,
             customerFilters,
             activityFilters,
             testImages

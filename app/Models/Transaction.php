@@ -22,10 +22,14 @@ class Transaction extends Model
     protected $input = [];
 
     const KIT_TYPE = 'Kit';
+    const FIRST_OFFER_NOTIFICATION_NAME = 'First Offer';
+    const OTHER_OFFER_NOTIFICATION_NAME = 'Other Offer';
+    const PENDING_KIT_ID = 60;
 
     protected $fillable = [
         'id',
         'status_id',
+        'customer_id'
     ];
 
     protected $appends = [
@@ -89,7 +93,6 @@ class Transaction extends Model
             ->withStatus($filter)
             ->withCustomer($filter)
             ->withTerm($filter)
-            //->withTransactionCount($filter)
             ->withLead($filter)
             ->withStores($filter)
             ->withDayOfWeek($filter)
@@ -227,6 +230,7 @@ class Transaction extends Model
         return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
                 ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
                 ->where('shipping_labels.to_customer', false)
+                ->take(1)->latest()
         ]);
     }
 
@@ -234,6 +238,7 @@ class Transaction extends Model
         return $query->addSelect(['public_note'=>TransactionNote::selectRaw('notes as public_note')
                 ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
                 ->where('transaction_notes.type', 'public')
+                ->take(1)->latest()
         ]);
     }
 
@@ -249,6 +254,7 @@ class Transaction extends Model
         return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
                 ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
                 ->where('transaction_notes.type', 'private')
+                ->latest()->take(1)
         ]);
     }
 
@@ -312,7 +318,7 @@ class Transaction extends Model
     {
         if($leads = data_get($filter, 'lead')) {
             if(!is_array($leads)) $leads = [$leads];
-            $query->whereIn('lead_id', $leads);
+            //$query->whereIn('lead_id', $leads);
         }
     }
 
@@ -530,25 +536,19 @@ class Transaction extends Model
 
     public function doUpdate($input) {
         $this->input = $input;
-        $currentStatus = $this->trStatus->name;
+        $currentObj = clone $this;
         //Get the current difference between the model and the input
         $inputCollection = $this->input;
             //convert back to an array
             if($this->update($this->input)) {
                 //Log the update
+                $changes = $this->getChanges();
+                if(count($changes)) {
+                    $dd = $this->addActivity($currentObj, $changes);
+                }
+                $this->load('trStatus');
                 foreach($this->getChanges() as $index => $input) {
                     //Create Activity Entry
-                    $this->load('trStatus');
-                    $status = optional($this->trStatus)->name;
-                    if($index == 'updated_at') continue;
-                    $this->activities()->create([
-                        'user_id' => Auth::id(),
-                        'agent' => Auth::user()->first_name,
-                        'status' => $status,
-                        'notes' => 'Updated status to ' . $status,
-                        'name' => $currentStatus,
-                        'is_status' => 1
-                    ]);
                     $checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated');
                     $checkForEvent = EventCondition::check(get_class(), TransactionOffer::class, TransactionOffer::FINAL_OFFER, 'added');
                     if(null !== $checkForEvent) {
@@ -569,16 +569,44 @@ class Transaction extends Model
         return $this;
     }
 
+    public function addActivity($transaction, $changes, $note='') {
+        $this->load('trStatus');
+        return Activity::addNew($transaction, $changes, 'transaction', $note);
+    }
+
     public function addOffer($amount) {
+        $notification_name = '';
         if($this->offers()->create([
             'offer' => $amount
         ])) {
+
             $isSecondOffer = $this->offers()->count() > 1;
             if($isSecondOffer) {
                 $this->doUpdate(['status_id'=>15]);
+                $offerNote = Activity::TRANSACTION_MAKE_SECOND_OFFER;
+                $notification_name = self::OTHER_OFFER_NOTIFICATION_NAME;
             }else{
                 $this->doUpdate(['status_id'=>4]);
+                $offerNote = Activity::TRANSACTION_MAKE_OFFER;
+                $notification_name = self::OTHER_OFFER_NOTIFICATION_NAME;
             }
+
+            $note = sprintf('%s %s %s',
+                Auth::user()->full_name,
+                $offerNote,
+                Numeral::number($amount)->format('$0.0')
+            );
+
+            $this->addActivity($this, [], $note);
+
+             $sendNotice = new EventNotification(
+                                $notification_name,
+                                [
+                                    'customer' => $this->customer,
+                                    'store' => $this->store,
+                                    'transaction' => $this
+                                ]
+                            );
             //Send Email about offer ...
         }
     }
@@ -656,7 +684,7 @@ class Transaction extends Model
                 $fedexLabel =  $fedex->getLabel();
                 return $fedexLabel;
             }catch (\Exception $e) {
-                dd($e->getMessage());
+               // dd($e->getMessage());
             }
         }
         return false;
@@ -893,19 +921,39 @@ class Transaction extends Model
         }
     }
 
-
-
-
-    public function createNote($type, $note=''){
-        return TransactionNote::create([
+    public function createNote($type, $message=''){
+       if($notes = TransactionNote::create([
             'type' => $type,
             'transaction_id' => $this->id,
-            'notes' => $note
-        ]);
+            'notes' => $message
+        ])) {
+           $user = Auth::user()->full_name;
+           $text = $type === TransactionNote::PUBLIC_TYPE ? Activity::TRANSACTION_ADD_PUBLIC_NOTE : Activity::TRANSACTION_ADD_PRIVATE_NOTE;
+
+           $note = sprintf('%s %s - %s',
+            $user,
+            $text,
+            $message
+           );
+           $this->addActivity($this, [], $note);
+       }
     }
 
     public function sendMessageAndPictures() {
 
+    }
+
+    public function createNewFromTransaction() {
+
+        if($newKit = self::create([
+            'customer_id' => $this->customer_id,
+            'status_id' => self::PENDING_KIT_ID
+        ])) {
+            $note = sprintf('%s created a new kit', Auth::user()->full_name);
+            $newKit->addActivity($newKit, [], $note);
+        }
+
+        return $newKit;
     }
 
 }

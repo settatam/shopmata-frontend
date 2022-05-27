@@ -4,6 +4,8 @@ namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use App\Models\Transaction;
+use Numeral\Numeral;
 
 
 class ReportsExport implements FromCollection, WithHeadings
@@ -20,10 +22,67 @@ class ReportsExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        //
+        $transactions = Transaction::search($this->filter)
+            ->with('transStatus')
+            ->with('address')
+            ->with('images')
+            ->with('trStatus')
+            ->with('customer')
+            ->with('customer.address')
+            ->with('customer.address.state')
+            ->with('store')
+            ->withFinalOffer()
+            ->withEstValue()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->with('payment')
+            ->take(100)
+            ->get();
+
+        return $transactions->map(function(Transaction $transaction) {
+            return [
+                $transaction->id,
+                Numeral::number($transaction->offer)->format('$0.0'),
+                Numeral::number($transaction->est_value)->format('$0.0'),
+                $transaction->customer->transaction_count,
+                optional($transaction->trStatus)->name,
+                $transaction->customer->created_at,
+                $transaction->keyword,
+                $transaction->lead,
+                $transaction->store->name,
+                $transaction->tags,
+                $transaction->incoming_tracking,
+                $transaction->outgoing_tracking,
+                optional($transaction->customer)->name,
+                $transaction->customer->gender,
+                optional($transaction->customer)->email,
+                $transaction->customer->address->address,
+                $transaction->customer->address->address2,
+                $transaction->customer->address->city,
+                optional($transaction->customer->address->state)->code,
+                $transaction->address->postal_code,
+                $transaction->customer->gender,
+                $transaction->customer->behavior,
+                optional($transaction->customer)->dob,
+                $transaction->days_in_stock,
+                $transaction->profit_percent,
+                $transaction->estimated_profit,
+                $transaction->payment_type,
+                $transaction->total_dwt,
+                $transaction->inotes,
+                $transaction->cnotes,
+            ];
+        });
     }
 
-    public function headings() {
+    public function headings() : array {
         return [
             'Txn ID',
             'Bought',

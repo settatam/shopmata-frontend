@@ -609,7 +609,7 @@
             </main>
             <footer class="grid grid-cols-2 gap-2 my-4 w-full md:grid-cols-5">
                 <div class="px-4">
-                    <p> This is the path for the footer </p>
+                    <!-- <p> This is the path for the footer </p> -->
                 </div>
             </footer>
 

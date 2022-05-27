@@ -73,6 +73,8 @@ import { MailIcon, PhoneIcon } from '@heroicons/vue/outline'
 import Pagination from '../../Components/Pagination.vue'
 import { Inertia } from '@inertiajs/inertia'
 import DeleteModal from '../../Components/DeleteModal.vue'
+import { postAsNativeForm } from "../../api";
+
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
     processing: 'bg-yellow-100 text-yellow-800',
@@ -134,22 +136,24 @@ export default {
                 action: 'label',
                 _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
+            let action = '/admin/transactions/bulk-print-action';
+            postAsNativeForm(action, params);
 
-            let form  = document.createElement('form');
-            form.setAttribute('method', 'post');
-            form.setAttribute('action', '/admin/transactions/bulk-print-action');
-            for (let key in params) {
-                if (params.hasOwnProperty(key)) {
-                    let hiddenField = document.createElement('input');
-                    hiddenField.setAttribute('type', 'hidden');
-                    hiddenField.setAttribute('name', key);
-                    hiddenField.setAttribute('value', params[key]);
-                    form.appendChild(hiddenField);
-                }
-            }
-
-            document.body.appendChild(form);
-            form.submit();
+            // let form  = document.createElement('form');
+            // form.setAttribute('method', 'post');
+            // form.setAttribute('action', '/admin/transactions/bulk-print-action');
+            // for (let key in params) {
+            //     if (params.hasOwnProperty(key)) {
+            //         let hiddenField = document.createElement('input');
+            //         hiddenField.setAttribute('type', 'hidden');
+            //         hiddenField.setAttribute('name', key);
+            //         hiddenField.setAttribute('value', params[key]);
+            //         form.appendChild(hiddenField);
+            //     }
+            // }
+            //
+            // document.body.appendChild(form);
+            // form.submit();
         }
 
         function close () {

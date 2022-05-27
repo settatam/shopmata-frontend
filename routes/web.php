@@ -190,7 +190,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('orders/{id}', [OrdersController::class, 'show'])->name('orders.show');
         Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
         //Bank Details
-        
+
         #Settings
         Route::get('settings', [GeneralController::class, 'index'])->name('settings');
 
@@ -214,7 +214,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::resource('settings/remittance', PayoutSettingsController::class);
         Route::resource('transactions', TransactionsController::class)->names([
-            'index' => 'transactions.index'
+            'index' => 'transactions.index',
+            'show' => 'transactions.show'
         ]);
         Route::post('transactions/bulk-print-action', [TransactionsController::class, 'bulkPrintAction']);
         Route::post('transactions/bulk-actions/{printable}', [TransactionsController::class, 'bulkPrint']);
@@ -236,8 +237,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('item/{id}/images', [TransactionItemsController::class, 'UpdateImage']);
         Route::post('item/{id}/image/delete', [TransactionItemsController::class, 'deleteImage']);
 
+        Route::get('reports/export', [ReportsController::class, 'export']);
         Route::resource('reports', ReportsController::class);
-
 
         #Settings -> Shipping and Delivery
         Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
@@ -303,7 +304,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::delete('customers/{id}',      [CustomersController::class, 'destroy']);
         Route::post('customer/{id}/{extra}', [CustomersController::class, 'extras']);
 
-        
+
 
         Route::post('images', [ImagesController::class, 'store']);
         Route::post('image/delete', [ImagesController::class, 'destroy']);

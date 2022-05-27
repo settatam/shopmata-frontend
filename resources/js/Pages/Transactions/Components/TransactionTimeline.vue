@@ -143,7 +143,8 @@
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="submit"
+                                type="button"
+                                @click="updateTransaction('new-kit')"
                             >
                                 Send New Kit
                             </button>
@@ -169,7 +170,7 @@
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="button"
-                                @click="updateTransaction('message')"
+                                @click="updateTransaction('status_id', 50)"
                             >
                                 Email (Pictures &amp; Cnotes)
                             </button>
@@ -324,7 +325,7 @@ export default {
         function saveNote(e) {
             const noteDetails = {
                 name: e.target.name == "private" ? 'private_note' : 'public_note',
-                value: e.target.valu
+                value: e.target.value
             }
             emit('updated-notes',noteDetails);
         }
@@ -379,16 +380,24 @@ export default {
                     break;
                 case "private_note":
                     data = {
-                        field: "private_note",
+                        field: "message",
                         value: this.currentTransaction.private_note,
+                        type: 'private'
                     };
                     break;
                 case "public_note":
                      data = {
-                        field: "private_note",
+                        field: 'message',
                         value: this.currentTransaction.public_note,
+                         type: 'public'
                     };
-                    break;
+                     break;
+                case "new-kit":
+                     data = {
+                        field: "new-kit",
+                        value: true
+                    };
+                     break;
             }
             emit("transaction-updated", data);
         }

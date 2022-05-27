@@ -25,13 +25,16 @@ class EventNotification
     protected $order = NULL;
     protected $data = [];
     protected $event = '';
+    protected $options;
 
     /**
      * @throws InvalidInputException
      */
-    public function __construct($event, $data) {
+    public function __construct($event, $data, $options=[]) {
           $this->data = $data;
           $this->event = $event;
+          $this->options = $options;
+
           if(!count($this->data)) {
               throw new InvalidInputException('There is no event');
           }

@@ -16,4 +16,13 @@ class Status extends Model
         'name',
         'store_id'
     ];
+
+    static function findById($id) {
+        $status = self::where('status_id', $id)->first();
+        if(null !== $status) {
+            return $status->name;
+        }
+
+        return '';
+    }
 }

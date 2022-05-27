@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Filter;
+use App\Models\Activity;
 use App\Models\EventCondition;
 use App\Services\EventNotification;
 use Illuminate\Http\Request;
@@ -174,7 +175,7 @@ class TransactionsController extends Controller
 
     public function addNote(Request $request)
     {
-        
+
         try {
             $transaction = TransactionNote::updateOrCreate(
                 ['transaction_id' =>  $request->transaction_id, 'type' => $request->type],
@@ -242,14 +243,14 @@ class TransactionsController extends Controller
         try {
             StoreNotificationMessage::addNotification($request, $user);
             $transactions = Transaction::whereIn('id', $request->transaction_id)->get();
-            $store_notification = StoreNotification::find($request->store_notification_id);  
+            $store_notification = StoreNotification::find($request->store_notification_id);
 
-            $name = $request->title ?? $store_notification->name;  
+            $name = $request->title ?? $store_notification->name;
 
             foreach ($request->transactions as  $transaction_id) {
                 //send message
                 $transaction = Transaction::find($transaction_id);
-        
+
                 (new EventNotification($name, [
                     'customer' => $transaction->customer,
                     'transaction' => $transaction
@@ -272,11 +273,13 @@ class TransactionsController extends Controller
         switch ($request->action) {
             case 'barcode':
                 foreach($transactions as $transaction) {
-                    $tr = Transaction::find($transaction['id']);
+                    $transactionObj = Transaction::find($transaction['id']);
                     $printables[] = [
-                        'barcode' => Barcode::generate($tr),
+                        'barcode' => Barcode::generate($transactionObj),
                         'qty' => $transaction['qty']
                     ];
+
+                    $transactionObj->addActivity($transactionObj, [], Activity::TRANSACTION_CREATE_BARCODE);
                 }
                 return view('pages.barcode', compact('printables'));
                 break;
@@ -356,14 +359,18 @@ class TransactionsController extends Controller
        switch($printable) {
            case 'barcode':
                $printables = [
-                   'barcode' => Barcode::generate($transaction),
-                   'qty' => 5
+                   [
+                       'barcode' => Barcode::generate($transaction),
+                       'qty' => 5
+                   ]
                ];
+               $transaction->addActivity($transaction, [], Activity::TRANSACTION_CREATE_BARCODE);
                return view('pages.barcode', compact('printables'));
                break;
            case 'label':
 //               $transaction->getShippingLabel();
                $printables = $transaction->shippingLabels;
+               $transaction->addActivity($transaction, [], Activity::TRANSACTION_CREATE_BARCODE);
                return view('pages.label', compact('printables'));
                break;
            default:
@@ -442,9 +449,14 @@ class TransactionsController extends Controller
             case 'offer':
                 $transaction->addOffer($input['offer']);
                 break;
+            case 'create-new-kit':
+                $newKit = $transaction->createNewFromTransaction();
+                return response()->json($newKit);
             case 'tags':
                 $this->addTag($request, $id);
                 break;
+            case 'messages':
+                $transaction->createNote($input['type'], $input['message']);
             case 'status':
                 $transaction->doUpdate($input);
                 break;
@@ -452,7 +464,22 @@ class TransactionsController extends Controller
 
         }
 
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::search([])
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->withPaymentDateTime()
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
+            ->find($id);
+
         return response()->json($transaction);
     }
 
