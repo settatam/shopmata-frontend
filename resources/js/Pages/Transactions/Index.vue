@@ -2,7 +2,7 @@
     <!-- Page header -->
     <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3">
-            
+
             <ConfirmationModal
                 :open="openConfirmationModal"
                 @close="closeConfirmationModal"
@@ -30,6 +30,7 @@ import DeleteModal from "../../Components/DeleteModal.vue";
 import notification from "../../Utils/notification";
 import ShopmataTable from "../Widgets/ShopmataTable";
 import ConfirmationModal from "../../Components/ConfirmationModal";
+import * as api from "../../api";
 
 const statusStyles = {
     success: "bg-green-100 text-green-800",
@@ -159,7 +160,7 @@ export default {
                     confirmationFor.value = {
                         name: "actions",
                         value: "Delete",
-                    };
+                    }
                 } else {
                     sendAction(name, value);
                 }
@@ -202,8 +203,9 @@ export default {
                             break;
                         case "Create Barcodes":
                         case "Rejected By Admin":
+                        case "Create Shipping Label":
                             Inertia.post(
-                                "/admin/transactions/bulk-actions/barcode",
+                                api.bulkActionForTransactions(),
                                 data
                             );
                             break;

@@ -10,11 +10,11 @@
                 >
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
-                <span class="font-normal">{{ customer.address }}</span>
+                <span class="font-normal">{{ customer.street_address }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 2:
-                <span class="font-normal">{{ customer.address2 }}</span>
+                <span class="font-normal">{{ customer.street_address2 }}</span>
             </p>
             <p
                 v-if="customer.state"

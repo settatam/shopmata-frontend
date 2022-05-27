@@ -274,6 +274,7 @@ import Scans from "./Components/Scans.vue";
 import ShopmataTable from "../Widgets/ShopmataTable";
 import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/solid";
 import ImageSlider from "../Widgets/ImageSlider";
+import urls from "../../api/urls";
 
 const pages = [
     { name: "Transactions", href: "/admin/transactions", current: false },
@@ -349,10 +350,13 @@ export default {
                     method = "post";
                     break;
                 case "message":
-                    url =
-                        "/admin/transactions/" +
-                        props.transaction.id +
-                        "/message";
+                    currentData.type = data.type
+                    url =urls.transactions.message(props.transaction.id)
+                    method = "post";
+                    break;
+                case "new-kit":
+                    currentData.type = data.type
+                    url = urls.transactions.newKit(props.transaction.id)
                     method = "post";
                     break;
                 default:
