@@ -8,6 +8,8 @@ use App\Models\Country;
 use App\Http\Resources\CountriesCollection;
 use App\Http\Resources\Countries;
 use App\Models\Status;
+use App\Http\Helpers\Helper;
+
 
 class StatusController extends Controller
 {
@@ -19,6 +21,22 @@ class StatusController extends Controller
     public function index()
     {
         //
+        $data   =  Helper::getApiData('https://buymygold.shopmata-staging.com/api/status');
+
+        if ($data){
+            foreach ($data as $cat ) {
+                $status = new Status;
+                $status = Status::firstOrNew(
+                    [ 'id' => $cat['id'] ]
+                );
+                $status->id          = $cat['id'];
+                $status->name        = $cat['name'];
+                $status->status_id   = $cat['status_id'];
+                $status->store_id    = Helper::getStoreByName('BuyMyGold');
+                $status->save();                      
+            }
+
+        }
         $status = Status::all();
         return   $status;
     }

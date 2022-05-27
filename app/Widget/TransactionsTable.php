@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Transaction;
 use App\Widget\Filter\StatusFilter;
 use App\Widget\Filter\PendingKitActions;
-use App\Widget\PendingKit;
+use App\Widget\{PendingKit, KitSent, KitReceived, KitReceivedRefusedbyCustomerFedex, PendingKitRequestsRejectedbyAdmin, ReturnedbyAdmin, OffersGiven, OffersGivenCnotesandPictures, OffersAccepted, PaymentsProcessed, ReadyForMelt };
 use App\Widget\StatusForm;
 
 
@@ -348,10 +348,48 @@ class TransactionsTable extends Table
 
     public function actions($filter) {
         //should have data, action, type, and so on
-        return  [
-            (new PendingKit())->render($filter),
-            (new StatusForm())->render($filter)
-        ];
+        $actions = [];
+        //should have data, action, type, and so on
+        if($status = data_get($filter, 'status')) {
+                switch ($status) {
+                    case 60:
+                        $actions[] = (new PendingKit())->render($filter);
+                        break;
+                    case 1:
+                        $actions[] = (new KitSent())->render($filter);
+                        break;
+                    case 2:
+                        $actions[] = (new KitReceived())->render($filter);
+                        break;
+                    case 3:
+                        $actions[] = (new PendingKitRequestsRejectedbyAdmin())->render($filter);
+                        break;
+                    case 6:
+                        $actions[] = (new ReturnedbyAdmin())->render($filter);
+                        break;
+                    case 20:
+                        $actions[] = (new KitReceivedRefusedbyCustomerFedex())->render($filter);
+                        break;
+                    case 4:
+                        $actions[] = (new OffersGiven())->render($filter);
+                        break;
+                    case 50:
+                        $actions[] = (new OffersGivenCnotesandPictures())->render($filter);
+                        break;
+                    case 24:
+                        $actions[] = (new OffersAccepted())->render($filter);
+                        break;
+                    case 20:
+                        $actions[] = (new PaymentsProcessed())->render($filter);
+                        break;
+                    case 13:
+                        $actions[] = (new ReadyForMelt())->render($filter);
+                        break;                    
+                }
+
+        }
+
+        return $actions;
     }
 
     public function exportable($filter, $filteredData) {
