@@ -449,6 +449,9 @@ class TransactionsController extends Controller
             case 'offer':
                 $transaction->addOffer($input['offer']);
                 break;
+            case 'create-new-kit':
+                $newKit = $transaction->createNewFromTransaction();
+                return response()->json($newKit);
             case 'tags':
                 $this->addTag($request, $id);
                 break;
@@ -461,7 +464,22 @@ class TransactionsController extends Controller
 
         }
 
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::search([])
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->withPaymentDateTime()
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
+            ->find($id);
+
         return response()->json($transaction);
     }
 

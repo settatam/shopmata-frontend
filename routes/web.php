@@ -214,7 +214,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::resource('settings/remittance', PayoutSettingsController::class);
         Route::resource('transactions', TransactionsController::class)->names([
-            'index' => 'transactions.index'
+            'index' => 'transactions.index',
+            'show' => 'transactions.show'
         ]);
         Route::post('transactions/bulk-print-action', [TransactionsController::class, 'bulkPrintAction']);
         Route::post('transactions/bulk-actions/{printable}', [TransactionsController::class, 'bulkPrint']);
