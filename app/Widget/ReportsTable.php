@@ -174,8 +174,133 @@ class ReportsTable extends Table
 
     public function data($filter=[]) {
 
+        $this->data = Transaction::search($filter)
+            ->with('transStatus')
+            ->with('address')
+            ->with('images')
+            ->with('trStatus')
+            ->with('customer')
+            ->with('store')
+            ->withFinalOffer()
+            ->withEstValue()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->with('payment')
+            ->paginate(Filter::perPage($filter))
+            ->withQueryString();
 
-
+        return [
+            'count' => data_get($this->data, 'perPage'),
+            'total' => data_get($this->data, 'total'),
+            'numberOfRows' => data_get($this->data, 'numberOfRows'),
+            'items' => $this->data->map(function(Transaction $transaction) {
+                return [
+                    'id' => [
+                        'data' => $transaction->id,
+                        'type' => 'link',
+                        'href' => '/admin/transactions/'.$transaction->id
+                    ],
+                    'final_offer' => [
+                        'data' => Numeral::number($transaction->offer)->format('$0.0'),
+                    ],
+                    'est_val' => [
+                        'data' => Numeral::number($transaction->est_value)->format('$0.0'),
+                    ],
+                    'numberOfTransactions' => [
+                        'data' => $transaction->customer->transaction_count,
+                    ],
+                    'status' => [
+                        'data' => optional($transaction->trStatus)->name,
+                    ],
+                    'customer_since' => [
+                        'data' => $transaction->customer->created_at,
+                        'class' => 'block w-24'
+                    ],
+                    'keyword' => [
+                        'data' => $transaction->keyword,
+                    ],
+                    'lead' => [
+                        'data' => $transaction->lead,
+                    ],
+                    'website' => [
+                        'data' => optional($transaction->store)->name,
+                    ],
+                    'tags' => [
+                        'data' => $transaction->tags,
+                    ],
+                    'incoming_fedex' => [
+                        'data' => $transaction->incoming_tracking,
+                    ],
+                    'outgoing_fedex' => [
+                        'data' => $transaction->outgoing_tracking,
+                    ],
+                    'customer_info' => [
+                        'data' => optional($transaction->customer)->name,
+                        'type' => 'link',
+                        'href' => '/admin/customers/'.$transaction->id,
+                        'class' => 'block w-48'
+                    ],
+                    'phone' => [
+                        'data' => $transaction->address->gender,
+                    ],
+                    'email' => [
+                        'data' => optional($transaction->customer)->email,
+                    ],
+                    'address' => [
+                        'data' => $transaction->address->address,
+                    ],
+                    'address2' => [
+                        'data' => $transaction->address->address2,
+                    ],
+                    'city' => [
+                        'data' => $transaction->address->city,
+                    ],
+                    'state' => [
+                        'data' => optional($transaction->address->state)->code,
+                    ],
+                    'zip' => [
+                        'data' => $transaction->address->postal_code,
+                    ],
+                    'gender' => [
+                        'data' => $transaction->customer->gender,
+                    ],
+                    'behavior' => [
+                        'data' => $transaction->customer->behavior,
+                    ],
+                    'dob' => [
+                        'data' => optional($transaction->customer)->dob,
+                    ],
+                    'dis' => [
+                        'data' => $transaction->days_in_stock,
+                    ],
+                    'profit_percent' => [
+                        'data' => $transaction->profit_percent,
+                    ],
+                    'estimated_profit' => [
+                        'key' => $transaction->estimated_profit,
+                    ],
+                    'payment_type' => [
+                        'data' => $transaction->payment_type,
+                    ],
+                    'total_dwt' => [
+                        'data' => $transaction->total_dwt,
+                    ],
+                    'inotes' => [
+                        'data' => $transaction->inotes,
+                    ],
+                    'cnotes' => [
+                        'data' => $transaction->cnotes,
+                    ],
+                ];
+            })
+        ];
     }
 
     public function items($filter) {

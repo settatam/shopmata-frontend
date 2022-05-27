@@ -4,6 +4,7 @@ namespace App\Widget\Filter;
 
 class PendingKitActions extends Select
 {
+
     public function default($filters) {
         return [
             '' => 'Choose Action'
