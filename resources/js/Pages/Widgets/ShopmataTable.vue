@@ -37,7 +37,7 @@
             <Filter v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle"/>
         </div>
 
-        <div>
+        <div v-if="displaySpinner" class="flex justify-center m-3 p-3">
             <Spinner/>
         </div>
 
@@ -386,6 +386,8 @@ const getFieldIndex = (field, obj) => {
 
 let cancelToken
 
+const displaySpinner = ref(true)
+
 const getData = async e => {
     const CancelToken = axios.CancelToken
     const source = CancelToken.source()
@@ -402,6 +404,7 @@ const getData = async e => {
             cancelToken: source.token
         }
     )
+    displaySpinner.value = false
 
     fields.value = res.data.fields
     items.value = res.data.data.items
