@@ -131,7 +131,7 @@ class TransactionsController extends Controller
         try {
             Transaction::addTag($request->tag_id, $id);
             return response(null, 200);
-        } catch (\Throable $th) {
+        } catch (\Throwable $th) {
             //throw $th;
             \Log::Error("Failed to add or delete  tag  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response(null, 422);
@@ -396,6 +396,7 @@ class TransactionsController extends Controller
 
         switch ($action) {
             case 'images':
+
                 try {
                     $customer_note = TransactionNote::firstOrNew(
                         ['id' => optional($transaction->public_note)->id],
@@ -406,10 +407,11 @@ class TransactionsController extends Controller
                         $tn_image = $image[0]['thumb'];
                         $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
                         $customer_note->images()->save($imgs);
-                       // $customer_note->addActivity($newKit, [], $note);
+                        $note = sprintf('%s added a new image', Auth::user()->full_name);
+                        return $note;
+                       // $transaction->addActivity($transaction, [], $note);
                     }
 
-                    return response()->json($customer_note->images,  200);
                 } catch (\Throwable $th) {
                     \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
                     return response($th->getMessage() ,422);
@@ -422,9 +424,6 @@ class TransactionsController extends Controller
                     $transaction = Transaction::find($request->transaction_id);
                     $item = new TransactionItem;
                     TransactionItem::createUpdateItem($request, $item);
-                    $transaction->load('items','items.images','items.category');
-                    return response()->json($transaction,  200);
-
                 } catch (\Throwable $th) {
                     \Log::Error("Failed to Add item" . collect($request->all())  ."  Error: " .$th->getMessage() );
                     return response($th->getMessage() ,422);
