@@ -113,27 +113,18 @@ export default {
             isChecked.value = !isChecked.value
         }
 
+        function postAsNativeForm(action, params) {
+
+        }
+
         function sendAction () {
             let params = {
                 transactions: JSON.stringify(filterLists.value),
                 action: 'barcode',
                 _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
-            let form  = document.createElement('form');
-            form.setAttribute('method', 'post');
-            form.setAttribute('action', '/admin/transactions/bulk-print-action');
-            for (let key in params) {
-                if (params.hasOwnProperty(key)) {
-                    let hiddenField = document.createElement('input');
-                    hiddenField.setAttribute('type', 'hidden');
-                    hiddenField.setAttribute('name', key);
-                    hiddenField.setAttribute('value', params[key]);
-                    form.appendChild(hiddenField);
-                }
-            }
 
-            document.body.appendChild(form);
-            form.submit();
+            postAsNativeForm('/admin/transactions/bulk-print-action', params);
         }
 
         function close () {

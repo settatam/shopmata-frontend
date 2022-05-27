@@ -218,11 +218,11 @@ class Customer extends Model
     }
 
     public function getPhoneAttribute() {
-        return optional($this->cAddress)->phone;
+        return optional($this->address)->phone;
     }
 
-    public function getStateAttribute() {
-        return optional($this->cAddress)->state-code;
-    }
+//    public function getStateAttribute() {
+////        return optional($this->address)->state->code;
+//    }
 
 }

@@ -403,7 +403,6 @@ const getData = async e => {
     actions.value = res.data.actions
     hasCheckBox.value = res.data.hasCheckBox
     title.value = res.data.title
-    // description.value = res.data.description.value
     exportable.value = res.data.exportable
     isSearchable.value = res.data.isSearchable
     pagination.value = res.data.pagination
@@ -424,7 +423,7 @@ const updatePage = page => {
 }
 
 const search = () => {
-    console.log('running')
+    // console.log('running')
 }
 
 const handleSearchChange = () => {
