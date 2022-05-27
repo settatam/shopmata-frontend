@@ -51,7 +51,7 @@ class Activity extends Model
             if($index == 'updated_at') continue;
             $changedTo = $current->{$index};
             if($index == 'status_id') {
-                $change = Status::findById($change);
+                $change    = Status::findById($change);
                 $changedTo = Status::findById($current->{$index});
                 $index = 'status';
             }

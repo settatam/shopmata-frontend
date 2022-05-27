@@ -5,9 +5,8 @@
         </div>
 
         <div class="p-4 space-y-2">
-            {{ transaction.customer.payment_address.payment_type.name }}
             <payment-method
-                :payment_method_name="''? transaction.customer.payment_address.payment_type.name:''"
+                :payment_method_name="name"
                 :payment="transaction.customer.payment_address"
             />
         </div>
@@ -15,6 +14,8 @@
 </template>
 
 <script>
+import { ref } from "@vue/reactivity";
+
 import AppLayout from "../../../Layouts/AppLayout.vue";
 import PaymentMethod from "../../../Components/PaymentMethod.vue";
 
@@ -23,6 +24,15 @@ export default {
         transaction: Object,
     },
     components: { AppLayout, PaymentMethod },
-    setup({ transaction }) {},
+    setup({ transaction }) {
+        const name = ref(
+            null != transaction.customer.payment_address
+                ? transaction.customer.payment_address.payment_type.name
+                : null
+        );
+        return {
+            name,
+        };
+    },
 };
 </script>
