@@ -24,6 +24,7 @@ class Transaction extends Model
     const KIT_TYPE = 'Kit';
     const FIRST_OFFER_NOTIFICATION_NAME = 'First Offer';
     const OTHER_OFFER_NOTIFICATION_NAME = 'Other Offer';
+    const PENDING_KIT_ID = 60;
 
     protected $fillable = [
         'id',
@@ -89,9 +90,8 @@ class Transaction extends Model
             ->withDaysInStock()
             ->withDates($filter)
             ->withStatus($filter)
-            ->withCustomer($filter)
+            //->withCustomer($filter)
             ->withTerm($filter)
-            //->withTransactionCount($filter)
             ->withLead($filter)
             ->withStores($filter)
             ->withDayOfWeek($filter)
@@ -229,6 +229,7 @@ class Transaction extends Model
         return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
                 ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
                 ->where('shipping_labels.to_customer', false)
+                ->take(1)->latest()
         ]);
     }
 
@@ -236,6 +237,7 @@ class Transaction extends Model
         return $query->addSelect(['public_note'=>TransactionNote::selectRaw('notes as public_note')
                 ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
                 ->where('transaction_notes.type', 'public')
+                ->take(1)->latest()
         ]);
     }
 
@@ -251,6 +253,7 @@ class Transaction extends Model
         return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
                 ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
                 ->where('transaction_notes.type', 'private')
+                ->latest()->take(1)
         ]);
     }
 
@@ -314,7 +317,7 @@ class Transaction extends Model
     {
         if($leads = data_get($filter, 'lead')) {
             if(!is_array($leads)) $leads = [$leads];
-            $query->whereIn('lead_id', $leads);
+            //$query->whereIn('lead_id', $leads);
         }
     }
 
@@ -923,9 +926,14 @@ class Transaction extends Model
             'transaction_id' => $this->id,
             'notes' => $message
         ])) {
-           $note = $type === TransactionNote::PUBLIC_TYPE ? Activity::TRANSACTION_ADD_PUBLIC_NOTE : Activity::TRANSACTION_ADD_PRIVATE_NOTE;
-           $note .= ' - ';
-           $note .= $message;
+           $user = Auth::user()->full_name;
+           $text = $type === TransactionNote::PUBLIC_TYPE ? Activity::TRANSACTION_ADD_PUBLIC_NOTE : Activity::TRANSACTION_ADD_PRIVATE_NOTE;
+
+           $note = sprintf('%s %s - %s',
+            $user,
+            $text,
+            $message
+           );
            $this->addActivity($this, [], $note);
        }
     }
@@ -934,6 +942,12 @@ class Transaction extends Model
 
     }
 
+    public function createNewFromTransaction() {
+        return self::create([
+            'customer_id' => $this->customer_id,
+            'status_id' => self::PENDING_KIT_ID
+        ]);
+    }
 
 }
 
