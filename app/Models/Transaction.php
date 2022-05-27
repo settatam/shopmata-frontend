@@ -935,6 +935,8 @@ class Transaction extends Model
             $text,
             $message
            );
+
+           
            $this->addActivity($this, [], $note);
        }
     }
