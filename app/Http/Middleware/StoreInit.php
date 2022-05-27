@@ -25,6 +25,7 @@ class StoreInit
             'seth',
             'me'
         ];
+
         if(env('APP_ENV') !== 'development') {
 
             Request::macro('subdomain', function () {

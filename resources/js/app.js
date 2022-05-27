@@ -14,8 +14,6 @@ import "../js/Components/Tooltip/Styles/main.css";
 import directives from "../js/Components/Tooltip/Directives/index";
 import Notifications from 'notiwind';
 import AppLayout from "./Layouts/AppLayout";
-import Datepicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
 
 
 const el = document.getElementById("app");
@@ -39,7 +37,6 @@ createApp({
 .use(Notifications)
 .component('QuillEditor', QuillEditor)
 .component('vueDebounce', vueDebounce)
-.component('Datepicker', Datepicker)
 .mount(el);
 
 InertiaProgress.init({ color: "#4B5563" });
