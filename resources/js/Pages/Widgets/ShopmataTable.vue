@@ -37,8 +37,9 @@
             <Filter v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle"/>
         </div>
 
-        <div v-if="displaySpinner" class="flex justify-center m-3 p-3">
+        <div v-if="displaySpinner" class="w-full flex flex-col items-center justify-center m-3 p-3">
             <Spinner/>
+            <p class="pt-2">Loading results</p>
         </div>
 
         <div class="mt-8 flex flex-col">
@@ -308,6 +309,7 @@
             </div>
             <div class="py-2">
                 <table-pagination
+                v-if="!displaySpinner"
                     :meta="pagination"
                     @updatePage="updatePage"
                 ></table-pagination>
