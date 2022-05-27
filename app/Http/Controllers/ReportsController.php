@@ -11,12 +11,15 @@ use App\Widget\ReportsTable;
 use App\Widget\ReportFormGroup;
 use App\Exports\ReportsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Status;
 
 
 class ReportsController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
+
+        dd(Status::all());
         $filters = $request->input();
         $reportForm = (new ReportFormGroup())->render($filters);
         //†$filters['dates'] = Filter::dates($filters);

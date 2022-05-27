@@ -131,7 +131,7 @@ class TransactionsController extends Controller
         try {
             Transaction::addTag($request->tag_id, $id);
             return response(null, 200);
-        } catch (\Throable $th) {
+        } catch (\Throwable $th) {
             //throw $th;
             \Log::Error("Failed to add or delete  tag  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response(null, 422);
@@ -407,7 +407,9 @@ class TransactionsController extends Controller
                         $tn_image = $image[0]['thumb'];
                         $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
                         $customer_note->images()->save($imgs);
-                        
+                        $note = sprintf('%s added a new image', Auth::user()->full_name);
+                        return $note;
+                       // $transaction->addActivity($transaction, [], $note);
                     }
 
                 } catch (\Throwable $th) {

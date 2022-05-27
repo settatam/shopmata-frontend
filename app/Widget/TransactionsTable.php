@@ -9,7 +9,6 @@ use App\Widget\Filter\StatusFilter;
 use App\Widget\Filter\PendingKitActions;
 use App\Widget\PendingKit;
 use App\Widget\StatusForm;
-use Numeral\Numeral;
 
 
 class TransactionsTable extends Table
@@ -54,9 +53,9 @@ class TransactionsTable extends Table
         $extras = [];
         $status = data_get($filter, 'status');
             switch($status) {
-                case 70:
-                case 80:
-                case 90:
+                case 60:
+                case 3:
+                case 1:
                     $extras = [
                          [
                             'key' => 'pictures',
@@ -86,7 +85,7 @@ class TransactionsTable extends Table
                         ]
                     ];
                     break;
-                case 95:
+                case 2:
                     $extras = [
                          [
                             'key' => 'pictures',
@@ -220,7 +219,6 @@ class TransactionsTable extends Table
             ->orderBy('id', 'desc')
             ->with('customer.address')
             ->with('customer.address.state')
-            ->withEstValue()
             ->paginate(Filter::perPage($filter))
             ->withQueryString();
 
@@ -257,9 +255,9 @@ class TransactionsTable extends Table
 
                 $status = data_get($filter, 'status');
                     switch ($status) {
-                        case 80:
-                        case 90:
-                        case 100:
+                        case 60:
+                        case 3:
+                        case 1:
                             $extras = [
                                 'message' => [
                                         'data' => 'This is a messager',
@@ -274,7 +272,7 @@ class TransactionsTable extends Table
                                 ]
                             ];
                             break;
-                        case 101:
+                        case 2:
                             $extras = [
                                 'message' => [
                                         'data' => 'This is a messager',
@@ -300,7 +298,7 @@ class TransactionsTable extends Table
                                     'data' => $transaction->offer
                                 ],
                                 'estimated_value' => [
-                                    'data' => $transaction->est_value
+                                    'data' => $transaction->est_val
                                 ],
                             ];
                         default:
@@ -329,7 +327,7 @@ class TransactionsTable extends Table
                                     'data' => $transaction->offer
                                 ],
                                 'estimated_value' => [
-                                    'data' => Numeral::number($transaction->est_value)->format('$0.0')
+                                    'data' => $transaction->est_value
                                 ],
                             ];
                         }
@@ -349,20 +347,11 @@ class TransactionsTable extends Table
     }
 
     public function actions($filter) {
-        $actions = [];
         //should have data, action, type, and so on
-            if($status = data_get($filter, 'status')) {
-                switch ($status) {
-                    case 2:
-                        $actions[] = (new PendingKit())->render($filter);
-                        break;
-                    case 60:
-                        $actions[] = (new StatusForm())->render($filter);
-                }
-
-            }
-
-        return $actions;
+        return  [
+            (new PendingKit())->render($filter),
+            (new StatusForm())->render($filter)
+        ];
     }
 
     public function exportable($filter, $filteredData) {
