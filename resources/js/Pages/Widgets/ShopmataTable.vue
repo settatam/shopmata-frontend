@@ -37,6 +37,10 @@
             <Filter v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle"/>
         </div>
 
+        <div>
+            <Spinner/>
+        </div>
+
         <div class="mt-8 flex flex-col">
             <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div
@@ -320,6 +324,7 @@ import Pagination from '../../Components/Pagination'
 import { Inertia } from '@inertiajs/inertia'
 import ImageSlider from './ImageSlider'
 import TablePagination from '../../Components/TablePagination'
+import Spinner from '../../../assets/Spinner.vue'
 
 const props = defineProps({
     filters: Object,
