@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CountriesController;
 use App\Http\Controllers\API\StatesController;
+use App\Http\Controllers\API\StatusController;
+
 use App\Http\Controllers\API\StoreLocationController;
 use App\Http\Controllers\ProductsController;
 use App\Models\Status;
@@ -27,9 +29,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/status', function (Request $request) {
-    return Status::get();
-});
+Route::get('status', [StatusController::class, 'index']);
+
+
 
 
 
