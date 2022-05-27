@@ -9,7 +9,7 @@ class StoreTag extends Model
 {
     use HasFactory;
 
-    public $fillable = ['tag_id'];
+    public $fillable = ['tag_id', 'store_id'];
 
     public function taggable()
     {

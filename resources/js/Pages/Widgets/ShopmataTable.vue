@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ImageSlider :images="images" :open="openModal" @close="doClose">
+        <ImageSlider :images="images" :open="openModal" position="0" @close="doClose">
         </ImageSlider>
 
         <div class="sm:flex sm:items-center mt-6">
@@ -307,7 +307,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <div class="py-2">
                 <table-pagination

@@ -131,7 +131,7 @@ class TransactionsController extends Controller
         try {
             Transaction::addTag($request->tag_id, $id);
             return response(null, 200);
-        } catch (\Throwable $th) {
+        } catch (\Throable $th) {
             //throw $th;
             \Log::Error("Failed to add or delete  tag  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response(null, 422);

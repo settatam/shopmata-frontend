@@ -96,6 +96,7 @@
 
     const closeModal = () => {
         // props.open = false;
+        index.value = 0;
         emits("close");
     };
 
