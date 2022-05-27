@@ -55,7 +55,7 @@ class Activity extends Model
             }
             $changedTo = $current->{$index};
             if($index == 'status_id') {
-                $change = Status::findById($change);
+                $change    = Status::findById($change);
                 $changedTo = Status::findById($current->{$index});
                 $index = 'status';
             }

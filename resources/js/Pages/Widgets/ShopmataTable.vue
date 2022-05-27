@@ -37,7 +37,12 @@
             <Filter v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle"/>
         </div>
 
-        <div class="mt-8 flex flex-col">
+        <div v-if="displaySpinner" class="w-full flex flex-col items-center justify-center m-3 p-3">
+            <Spinner/>
+            <p class="pt-2">Loading results</p>
+        </div>
+
+        <div v-if="!displaySpinner" class="mt-8 flex flex-col">
             <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div
                     class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
@@ -302,13 +307,16 @@
                     </div>
                 </div>
             </div>
-            <div class="py-2">
+            
+        </div>
+        <div class="py-2">
                 <table-pagination
+                v-if="!displaySpinner"
                     :meta="pagination"
                     @updatePage="updatePage"
                 ></table-pagination>
             </div>
-        </div>
+
     </div>
 </template>
 
@@ -320,6 +328,7 @@ import Pagination from '../../Components/Pagination'
 import { Inertia } from '@inertiajs/inertia'
 import ImageSlider from './ImageSlider'
 import TablePagination from '../../Components/TablePagination'
+import Spinner from '../../../assets/Spinner.vue'
 
 const props = defineProps({
     filters: Object,
@@ -381,6 +390,8 @@ const getFieldIndex = (field, obj) => {
 
 let cancelToken
 
+const displaySpinner = ref(true)
+
 const getData = async e => {
     const CancelToken = axios.CancelToken
     const source = CancelToken.source()
@@ -397,6 +408,7 @@ const getData = async e => {
             cancelToken: source.token
         }
     )
+    displaySpinner.value = false
 
     fields.value = res.data.fields
     items.value = res.data.data.items
@@ -419,6 +431,7 @@ const doSlider = i => {
 
 const updatePage = page => {
     pageFilters.value.page = page
+    displaySpinner.value = true
     getData()
 }
 

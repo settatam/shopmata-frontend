@@ -400,14 +400,13 @@ class TransactionsController extends Controller
                     $customer_note = TransactionNote::firstOrNew(
                         ['id' => optional($transaction->public_note)->id],
                     );
-
                     $image  = FileUploader::upload($request);
-
                     if ( isset($image[0]['thumb']) ){
                         $l_image = $image[0]['large'];
                         $tn_image = $image[0]['thumb'];
                         $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
                         $customer_note->images()->save($imgs);
+                       // $customer_note->addActivity($newKit, [], $note);
                     }
 
                     return response()->json($customer_note->images,  200);
@@ -420,7 +419,6 @@ class TransactionsController extends Controller
                 break;
             case 'items':
                 try {
-
                     $transaction = Transaction::find($request->transaction_id);
                     $item = new TransactionItem;
                     TransactionItem::createUpdateItem($request, $item);
@@ -461,7 +459,6 @@ class TransactionsController extends Controller
                 $transaction->doUpdate($input);
                 break;
 //            case:
-
         }
 
         $transaction = Transaction::search([])
