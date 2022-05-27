@@ -1,15 +1,19 @@
 <template>
-    <div class=" rounded-md bg-white lg:mx-2">
+    <div class="rounded-md bg-white lg:mx-2">
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1>Transaction #{{ transaction.id }}</h1>
         </div>
 
         <div class="p-4 space-y-2">
             <p class="font-bold text-xs lg:text-sm text-black">
-                Kit Type: <span class="font-normal"> {{ transaction.kit_type }} </span>
+                Kit Type:
+                <span class="font-normal"> {{ transaction.kit_type }} </span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Status: <span class="font-normal"> {{ transaction.status_date_time }}</span>
+                Status:
+                <span class="font-normal">
+                    {{ transaction.status_date_time }}</span
+                >
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Lead: <span class="font-normal"> {{ transaction.lead }}</span>
@@ -20,17 +24,19 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Received Date/Time:
-                <span class="font-normal"> {{ transaction.received_date_time }} </span>
+                <span class="font-normal">
+                    {{ transaction.received_date_time }}
+                </span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Incoming Tracking#:
-                <span class="font-normal text-purple-darken"> {{ transaction.incoming_tracking }}</span>
+                <span class="font-normal text-purple-darken">{{
+                    transaction.incoming_tracking
+                }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Estimated Value:
-                <span class="font-normal">{{
-                    transaction.est_value
-                }}</span>
+                <span class="font-normal">{{ transaction.est_value }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Estimated Profit:
@@ -41,17 +47,18 @@
                 <span class="font-normal">{{ transaction.offer }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Payment Type: <span class="font-normal"> {{ transaction.transaction_payment_type }}</span>
+                Payment Type:
+                <span class="font-normal">
+                    {{ transaction.transaction_payment_type }}</span
+                >
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Payment Date: <span class="font-normal"> {{ transaction.payment_date_time }} </span>
+                Payment Date:
+                <span class="font-normal">
+                    {{ transaction.payment_date_time }}
+                </span>
             </p>
-            <p class="font-bold text-xs lg:text-sm text-black">
-                Insurance Value:
-                <span class="font-normal">{{
-                    transaction.insurance_value
-                }}</span>
-            </p>
+
             <p
                 v-if="transaction.tags"
                 class="font-bold text-xs lg:text-sm text-black"
@@ -77,7 +84,9 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Outgoing Tracking#:
-                <span class="font-normal text-purple-darken"> {{ transaction.outgoing_tracking }}</span>
+                <span class="font-normal text-purple-darken">
+                    {{ transaction.outgoing_tracking }}</span
+                >
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Hold Date: <span class="font-normal"></span>
@@ -97,9 +106,9 @@
 
 <script>
 export default {
-    props: ['transaction', 'store'],
-    setup () {
-        return {}
-    }
-}
+    props: ["transaction", "store"],
+    setup() {
+        return {};
+    },
+};
 </script>
