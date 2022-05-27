@@ -42,7 +42,7 @@
             <p class="pt-2">Loading results</p>
         </div>
 
-        <div class="mt-8 flex flex-col">
+        <div v-if="!displaySpinner" class="mt-8 flex flex-col">
             <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div
                     class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
@@ -307,14 +307,16 @@
                     </div>
                 </div>
             </div>
-            <div class="py-2">
+            
+        </div>
+        <div class="py-2">
                 <table-pagination
                 v-if="!displaySpinner"
                     :meta="pagination"
                     @updatePage="updatePage"
                 ></table-pagination>
             </div>
-        </div>
+
     </div>
 </template>
 
@@ -429,6 +431,7 @@ const doSlider = i => {
 
 const updatePage = page => {
     pageFilters.value.page = page
+    displaySpinner.value = true
     getData()
 }
 
