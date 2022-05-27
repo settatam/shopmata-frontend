@@ -29,6 +29,7 @@ class Transaction extends Model
     protected $fillable = [
         'id',
         'status_id',
+        'customer_id'
     ];
 
     protected $appends = [
@@ -90,7 +91,7 @@ class Transaction extends Model
             ->withDaysInStock()
             ->withDates($filter)
             ->withStatus($filter)
-            //->withCustomer($filter)
+            ->withCustomer($filter)
             ->withTerm($filter)
             ->withLead($filter)
             ->withStores($filter)
@@ -943,10 +944,16 @@ class Transaction extends Model
     }
 
     public function createNewFromTransaction() {
-        return self::create([
+
+        if($newKit = self::create([
             'customer_id' => $this->customer_id,
             'status_id' => self::PENDING_KIT_ID
-        ]);
+        ])) {
+            $note = sprintf('%s created a new kit', Auth::user()->full_name);
+            $newKit->addActivity($newKit, [], $note);
+        }
+
+        return $newKit;
     }
 
 }
