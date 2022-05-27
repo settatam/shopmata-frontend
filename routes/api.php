@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/status', function (Request $request) {
-    return response()->json(Status::all());
+    return Status::get();
 });
 
 
