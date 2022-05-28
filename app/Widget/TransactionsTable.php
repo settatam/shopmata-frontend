@@ -53,9 +53,7 @@ class TransactionsTable extends Table
         $extras = [];
         $status = data_get($filter, 'status');
             switch($status) {
-                case 60:
-                case 3:
-                case 1:
+                case 200:
                     $extras = [
                          [
                             'key' => 'pictures',
@@ -85,78 +83,11 @@ class TransactionsTable extends Table
                         ]
                     ];
                     break;
-                case 2:
-                    $extras = [
-                         [
-                            'key' => 'pictures',
-                            'label' => 'Pictures',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-
-                        [
-                            'key' => 'message',
-                            'label' => 'Message',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-
-                        [
-                            'key' => 'Categories',
-                            'label' => 'Categories',
-                            'sortable' => false,
-                            'html' => true
-                        ],
-                        [
-                            'key' => 'customer_info',
-                            'label' => 'Customer Info',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-                        [
-                            'key' => 'outbound_tracking',
-                            'label' => 'Outbound Tracking',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-                        [
-                            'key' => 'inbound_tracking',
-                            'label' => 'Inbound Tracking',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-                        [
-                            'key' => 'bin_location',
-                            'label' => 'Bin Location',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-                        [
-                            'key' => 'offer',
-                            'label' => 'Offer',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-                        [
-                            'key' => 'estimated_value',
-                            'label' => 'Estimated Value',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-                    ];
-                    break;
                 default:
                     $extras = [
                          [
                             'key' => 'pictures',
                             'label' => 'Pictures',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-
-                        [
-                            'key' => 'message',
-                            'label' => 'Message',
                             'sortable' => true,
                             'html' => true
                         ],
@@ -215,6 +146,8 @@ class TransactionsTable extends Table
 
         $this->data = Transaction::search($filter)->with('transStatus')
             ->with('images')
+            ->withEstValue()
+            ->withFinalOffer()
             ->with('trStatus')
             ->orderBy('id', 'desc')
             ->with('customer.address')
@@ -254,29 +187,9 @@ class TransactionsTable extends Table
                 ];
 
                 $status = data_get($filter, 'status');
-                    switch ($status) {
-                        case 60:
-                        case 3:
-                        case 1:
-                            $extras = [
-                                'message' => [
-                                        'data' => 'This is a messager',
-                                ],
-                                'categories' => [
-                                    'data' => $transaction->customer_categories,
-                                ],
-                                'customer_info' => [
-                                    'data' => $transaction->customer,
-                                    'type' => 'customer_info',
-                                    'href' => '/admin/customers/'.$transaction->customer->id
-                                ]
-                            ];
-                            break;
+                switch ($status) {
                         case 2:
                             $extras = [
-                                'message' => [
-                                        'data' => 'This is a messager',
-                                ],
                                 'categories' => [
                                     'data' => $transaction->customer_categories,
                                 ],
@@ -303,9 +216,6 @@ class TransactionsTable extends Table
                             ];
                         default:
                             $extras = [
-                                'message' => [
-                                        'data' => 'This is a messager',
-                                ],
                                 'categories' => [
                                     'data' => $transaction->customer_categories,
                                 ],
@@ -384,7 +294,7 @@ class TransactionsTable extends Table
                         break;
                     case 13:
                         $actions[] = (new ReadyForMelt())->render($filter);
-                        break;                    
+                        break;
                 }
 
         }

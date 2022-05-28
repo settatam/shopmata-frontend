@@ -2482,9 +2482,6 @@ select {
 .break-words {
 	overflow-wrap: break-word !important;
 }
-.break-all {
-	word-break: break-all !important;
-}
 .rounded-md {
 	border-radius: 0.375rem !important;
 }
