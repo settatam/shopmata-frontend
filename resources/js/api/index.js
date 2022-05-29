@@ -19,4 +19,13 @@ export const postAsNativeForm = ((action, params) => {
     form.submit();
 })
 
+export const getTransactionActionType = (action) => {
+    switch (action) {
+        case '':
+            break;
+        default:
+            return 'status';
+    }
+}
+
 export const bulkActionForTransactions = () => '/admin/transactions/bulk-print-action';

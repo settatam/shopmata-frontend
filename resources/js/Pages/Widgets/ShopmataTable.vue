@@ -209,7 +209,7 @@
                                                     </inertia-link>
                                                 </div>
                                                 <div class="text-gray-500">
-                                                    {{ item.customer_info.data.email }} <br />
+                                                    <a :href="'mailto:'+item.customer_info.data.email+'?subject=Transaction '+items[index].id.data" class="block text-indigo-500">{{ item.customer_info.data.email }}</a>
                                                     {{ item.customer_info.data.address.address }} <br />
                                                     {{ item.customer_info.data.address.state.code }} {{item.customer_info.data.address.zip }}
                                                     {{ item.customer_info.data.address.phone }}

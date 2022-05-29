@@ -210,6 +210,14 @@ export default {
                             );
                             break;
                     }
+
+                    default:
+                        Inertia.post(
+                            api.bulkActionForTransactions('status'),
+                            data
+                        )
+                    break;
+
             }
 
             confirmationFor.value = "";
