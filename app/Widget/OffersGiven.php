@@ -18,7 +18,6 @@ class OffersGiven extends Form
     {
         return [
             [
-                'label' => '',
                 'field' => (new OffersGivenActions())->render($filter)
             ]
         ];

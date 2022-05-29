@@ -7,7 +7,7 @@ class OffersGivenActions extends Select
 
     public function default($filters) {
         return [
-            '' => 'Choose Action'
+            //'' => 'Choose Action'
         ];
     }
 
@@ -31,17 +31,17 @@ class OffersGivenActions extends Select
             ],
             [
                 'text' => 'Offer Accepted',
-                'value' => 'Offer Accepted'
+                'value' => 5
             ],
             [
                 'text' => 'Offer Declined',
-                'value' => 'Offer Declined'
+                'value' =>  19
             ],
             [
-                'text' => 'Declined- Send Back',
-                'value' => 'Declined- Send Back'
+                'text' => 'Declined - Send Back',
+                'value' => 12
             ],
-          
+
         ];
     }
 

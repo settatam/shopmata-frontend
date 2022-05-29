@@ -308,7 +308,7 @@ class TransactionsController extends Controller
 
     }
 
-    public function bulkPrint(Request $request, $printable) {
+    public function bulkAction(Request $request, $action) {
 
 //        if($printable !== 'barcode' && $printable !== 'label') {
 //            abort(404);
@@ -346,6 +346,19 @@ class TransactionsController extends Controller
             $transactions = $merged->values()->all();
 
             return Inertia::render('Transactions/BulkPrintLabel', compact('transactions'));
+        }else if(is_numeric($input['action'])) {
+            foreach($transactionObj as $transaction) {
+                $transaction->doUpdate(['status_id' => $input['action']]);
+            }
+
+            unset($input['transactions']);
+            unset($input['action']);
+            unset($input['page']);
+            unset($input['type']);
+
+            $input['refresh_token'] = rand(1, 5000);
+
+            return redirect()->route('transactions.index', $input);
         }
     }
 
@@ -368,8 +381,13 @@ class TransactionsController extends Controller
                return view('pages.barcode', compact('printables'));
                break;
            case 'label':
-//               $transaction->getShippingLabel();
-               $printables = $transaction->shippingLabels;
+               $shippingLabel = $transaction->getShippingLabel($request->direction);
+
+               $printables[] = [
+                   'label' => $shippingLabel,
+                   'qty' => 1
+               ];
+
                $transaction->addActivity($transaction, [], Activity::TRANSACTION_CREATE_BARCODE);
                return view('pages.label', compact('printables'));
                break;

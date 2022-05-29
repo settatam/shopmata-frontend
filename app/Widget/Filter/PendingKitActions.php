@@ -32,17 +32,14 @@ class PendingKitActions extends Select
             [
                 'text' => 'Create Shipping Label',
                 'value' => 'Create Shipping Label',
-                'type' => 'print'
             ],
             [
                 'text' => 'Create Barcodes',
                 'value' => 'Create Barcodes',
-                'type' => 'print'
             ],
             [
                 'text' => 'Rejected By Admin',
-                'value' => 'Rejected By Admin',
-                'type' => 'status'
+                'value' => 2,
             ],
             [
                 'text' => 'Delete',

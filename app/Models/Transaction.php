@@ -61,7 +61,7 @@ class Transaction extends Model
                             [
                                 'tagable_id' => $id,
                                 'tag_id'     => $tag_id,
-                                'store_id'  => $this->store->id
+                                //'store_id'  => $this->store->id
                             ]
                         )->first();
         if (null !== $store_tag){
@@ -649,6 +649,8 @@ class Transaction extends Model
                     'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO
                 ]);
             }
+
+            dd($shippingLabel);
         }
 
         return false;
@@ -668,10 +670,10 @@ class Transaction extends Model
         $recipientAddress = null;
         //Check to see if both shipping addresses exist
         if ($type == Shipping::SHIPPING_TYPE_FROM){
-            $shipperAddress = $this->shippingAddress;
+            $shipperAddress = $this->customer->address;
             $recipientAddress = $this->store->shippingAddress;
         }else if($type == Shipping::SHIPPING_TYPE_TO) {
-            $recipientAddress = $this->shippingAddress;
+            $recipientAddress = $this->customer->address;
             $shipperAddress = $this->store->shippingAddress;
         }
 
@@ -937,7 +939,7 @@ class Transaction extends Model
             $message
            );
 
-           
+
            $this->addActivity($this, [], $note);
        }
     }

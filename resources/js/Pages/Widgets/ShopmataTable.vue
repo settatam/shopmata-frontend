@@ -321,7 +321,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import Filter from '../../Components/Filter.vue'
 import axios from 'axios'
 import Pagination from '../../Components/Pagination'
@@ -367,6 +367,12 @@ function filterToggle(){
 }
 
 const filters = props.filters
+
+watch(filters, (filters, prevFilters) => {
+   pageFilters.value = props.filters
+    console.log('This is the new filters', pageFilters.value)
+   getData()
+})
 
 onMounted(() => {
     pageFilters.value = props.filters
