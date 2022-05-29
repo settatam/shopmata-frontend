@@ -18,7 +18,7 @@ class KitReceivedRefusedbyCustomerFedex extends Form
     {
         return [
             [
-                'label' => '',
+//                'label' => '',
                 'field' => (new KitReceivedRefusedbyCustomerFedexActions())->render($filter)
             ]
         ];

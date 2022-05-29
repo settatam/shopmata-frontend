@@ -266,7 +266,7 @@ class TransactionsTable extends Table
                         $actions[] = (new PendingKit())->render($filter);
                         break;
                     case 1:
-                        $actions[] = (new KitSent())->render($filter);
+                        //$actions[] = (new KitSent())->render($filter);
                         break;
                     case 2:
                         $actions[] = (new KitReceived())->render($filter);
