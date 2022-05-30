@@ -385,7 +385,7 @@ class TransactionsTable extends Table
                     case 13:
                         $actions[] = (new ReadyForMelt())->render($filter);
                         break;   
-                    default:
+                    case null:
                        $actions[] = (new DefaultStatus())->render($filter);
                        break;
 

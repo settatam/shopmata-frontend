@@ -4,12 +4,15 @@ export default () => {
     const saveFiles = (files, payload = null) => {
         const formData = new FormData();
 
+        console.log(payload.values);
+
         files.map((file) => {
             formData.append("files[]", file);
             formData.append("type", "image");
             if (typeof payload != null) {
                 formData.append("model", payload.model);
                 formData.append("model_id", payload.model_id);
+                formData.append("values", payload.values);
             }
 
             return formData;
@@ -35,7 +38,7 @@ export default () => {
         const { onClickTop, onClickBot } = notification();
         loading.value = index;
         return axios
-            .post(url, { image_id, image_url })
+            .post(url, { image_id, image_url, values })
             .then((res) => {
                 if (res.data.images !== "undefined") {
                     images.value = res.data.images;
