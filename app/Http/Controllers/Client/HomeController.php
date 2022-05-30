@@ -16,7 +16,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($account)
     {
         //
         if(session()->has('store_id')) {
@@ -67,7 +67,7 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($account, $id)
     {
         //
         if(session()->has('store_id')) {
