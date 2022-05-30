@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Transaction;
 use App\Widget\Filter\StatusFilter;
 use App\Widget\Filter\PendingKitActions;
-use App\Widget\{PendingKit, KitSent, KitReceived, KitReceivedRefusedbyCustomerFedex, PendingKitRequestsRejectedbyAdmin, ReturnedbyAdmin, OffersGiven, OffersGivenCnotesandPictures, OffersAccepted, PaymentsProcessed, ReadyForMelt };
+use App\Widget\{DefaultStatus, PendingKit, KitSent, KitReceived, KitReceivedRefusedbyCustomerFedex, PendingKitRequestsRejectedbyAdmin, ReturnedbyAdmin, OffersGiven, OffersGivenCnotesandPictures, OffersAccepted, PaymentsProcessed, ReadyForMelt };
 use App\Widget\StatusForm;
 
 
@@ -384,7 +384,11 @@ class TransactionsTable extends Table
                         break;
                     case 13:
                         $actions[] = (new ReadyForMelt())->render($filter);
-                        break;                    
+                        break;   
+                    default:
+                       $actions[] = (new DefaultStatus())->render($filter);
+                       break;
+
                 }
 
         }
