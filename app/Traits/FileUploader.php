@@ -55,7 +55,7 @@ trait FileUploader {
                     $response = ['status'=>1, 'message'=>'Could not create image'];
                     return $response;
                 }
-                
+
                 $image_normal = $image_normal->stream();
                 $image_thumb  = $image_thumb->stream();
 
@@ -72,9 +72,9 @@ trait FileUploader {
                 $insert = ProductImage::create($data);
 
                 // $rank++;
-                   
-                $response[] = ['status'=>0, 
-                            'message'=>'Image Created', 
+
+                $response[] = ['status'=>0,
+                            'message'=>'Image Created',
                             'thumb'=>$data['thumb'],
                             'large'=>$data['url'],
                             'alt'=>'',
@@ -82,9 +82,65 @@ trait FileUploader {
                 ];
             }
         }
-        
+
         return $response;
 	}
+
+    public function uploadImageToCloud(Store $store, $images, $rank=1) {
+        $slug = $store->slug;
+        $rank = 0;
+
+            foreach($images as $image) {
+
+
+                $name = md5($image->getClientOriginalName());
+
+                $filename = "item_" . time() . $name . '.jpg';
+                $filename_thumb = "item_" . time() . $name . '_thumb.jpg';
+
+                try {
+                    $image_normal = Image::make($image)->widen(1000, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })->encode('jpg');
+                } catch (\Intervention\Image\Exception\NotReadableException $e) {
+                    $response = ['status' => 1, 'message' => 'Could not create image'];
+                    return $response;
+                }
+                try {
+                    $image_thumb = Image::make($image)->resize(100, 100, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })->encode('jpg');
+                } catch (\Intervention\Image\Exception\NotReadableException $e) {
+                    $response = ['status' => 1, 'message' => 'Could not create image'];
+                    return $response;
+                }
+
+                $image_normal = $image_normal->stream();
+                $image_thumb = $image_thumb->stream();
+
+                Storage::disk('DO')->put($slug . '/' . $filename, $image_normal->__toString(), 'public');
+                Storage::disk('DO')->put($slug . '/' . $filename_thumb, $image_thumb->__toString(), 'public');
+
+                return [
+                    'url' => env('DO_URL') . $slug . '/' . $filename,
+                    'thumb' => env('DO_URL') . $slug . '/' . $filename_thumb,
+                ];
+            }
+
+	}
+
+    public function addImage(Store $store, $images, $id=null, $rank=1) {
+        if($id) {
+            $object = $this->find($id);
+            if ($data = $this->uploadImageToCloud($store, $images)) {
+                return $object->images()->create([
+                    'url' => $data['url'],
+                    'thumbnail' => $data['thumb'],
+                    'rank' => $rank,
+                ]);
+            }
+        }
+    }
 
 	public function uploadAsset() {
 

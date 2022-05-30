@@ -77,7 +77,7 @@ class EventNotification
                         $messageData['subject'] = ThemeFile::generateParsedContent($storeNotificationMessage->email_subject, $messageData);
                         $messageData['content_for_email'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
                         $emailTemplate = ThemeFile::getTemplateFor($this->data['store'], 'email');
-                        $messageData['parsed_message'] = ThemeFile::generateParsedContent($emailTemplate->content, $messageData);
+                        $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($emailTemplate->content, $messageData));
                         $this->sendEmail($messageData);
                         break;
                     case 'sms':

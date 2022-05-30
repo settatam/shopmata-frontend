@@ -16,9 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ReportsController extends Controller
 {
     public function index(Request $request)
-    {   
-
-        
+    {
         $filters = $request->input();
         $reportForm = (new ReportFormGroup())->render($filters);
         //†$filters['dates'] = Filter::dates($filters);
