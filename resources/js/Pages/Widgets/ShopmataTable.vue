@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ImageSlider :images="images" :open="openModal" position="0" @close="doClose">
+        <ImageSlider :images="images" :open="openModal" @close="doClose">
         </ImageSlider>
 
         <div class="sm:flex sm:items-center mt-6">
@@ -10,15 +10,6 @@
             </div>
 
 
-            <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                <button
-                    type="button"
-                    class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                    @click="filterToggle()"
-                >
-                    Filter by:
-                </button>
-            </div>
 
             <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                 <button
@@ -31,10 +22,6 @@
                 </button>
             </div>
 
-        </div>
-
-        <div>
-            <Filter v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle"/>
         </div>
 
         <div v-if="displaySpinner" class="w-full flex flex-col items-center justify-center m-3 p-3">
@@ -209,7 +196,7 @@
                                                     </inertia-link>
                                                 </div>
                                                 <div class="text-gray-500">
-                                                    <a :href="'mailto:'+item.customer_info.data.email+'?subject=Transaction '+items[index].id.data" class="block text-indigo-500">{{ item.customer_info.data.email }}</a>
+                                                    {{ item.customer_info.data.email }} <br />
                                                     {{ item.customer_info.data.address.address }} <br />
                                                     {{ item.customer_info.data.address.state.code }} {{item.customer_info.data.address.zip }}
                                                     {{ item.customer_info.data.address.phone }}
@@ -307,7 +294,7 @@
                     </div>
                 </div>
             </div>
-
+            
         </div>
         <div class="py-2">
                 <table-pagination
@@ -321,7 +308,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import Filter from '../../Components/Filter.vue'
 import axios from 'axios'
 import Pagination from '../../Components/Pagination'
@@ -360,19 +347,8 @@ const openModal = ref(false)
 const images = ref([])
 const pageFilters = ref({})
 const searchTerm = ref(props.term)
-const filterToggleStatus = ref(false)
-
-function filterToggle(){
-    filterToggleStatus.value = !filterToggleStatus.value
-}
 
 const filters = props.filters
-
-watch(filters, (filters, prevFilters) => {
-   pageFilters.value = props.filters
-    console.log('This is the new filters', pageFilters.value)
-   getData()
-})
 
 onMounted(() => {
     pageFilters.value = props.filters
@@ -383,11 +359,6 @@ const bulkActions = el => {}
 function doAction (index, formGroupIndex) {
     //we should emit actions here ...
     emits('action', actions.value[index], selectedItems.value)
-}
-
-
-function filterValues(res){
-    console.log(res)
 }
 
 const getFieldIndex = (field, obj) => {
