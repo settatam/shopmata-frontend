@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSortOrderIsActiveToStatuses extends Migration
+class AlterTableTransactionsTableAddIsAccepted extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class AddSortOrderIsActiveToStatuses extends Migration
      */
     public function up()
     {
-        Schema::table('statuses', function (Blueprint $table) {
-            //
-            if (!Schema::hasColumn('statuses', 'sort_order'))
+        Schema::table('transactions', function (Blueprint $table) {
+            if (!Schema::hasColumn('transactions', 'is_accepted'))
             {
-                $table->integer('sort_order')->nullable();
+                $table->integer('is_accepted')->nullable();
             }
         });
     }
@@ -29,8 +28,8 @@ class AddSortOrderIsActiveToStatuses extends Migration
      */
     public function down()
     {
-        Schema::table('statuses', function (Blueprint $table) {
-            //
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->dropColumn('is_accepted');
         });
     }
 }
