@@ -630,11 +630,11 @@ class Transaction extends Model
     public function sendNotes() {
         $notification_name = '';
         return new EventNotification(
-            '',
+            'Transaction Customer Notes',
             [
                 'customer' => $this->customer,
                 'store' => $this->store,
-                'transaction' => $this
+                'transaction' => $this,
             ]
         );
     }

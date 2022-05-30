@@ -81,7 +81,7 @@ class EventNotification
                         $this->sendEmail($messageData);
                         break;
                     case 'sms':
-                        $messageData['parsed_message'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
+                        $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData));
                         $messageData['notification_id'] = $storeNotificationMessage->id;
                         $this->sendSMS($messageData);
                         break;
@@ -98,7 +98,7 @@ class EventNotification
     public function sendEmail($data) {
 
         if(env('APP_ENV') != 'production') {
-            $data['to'] = env('DEVELOPER_EMAIL', 'jacob@enkoded.com');
+            $data['to'] = env('DEVELOPER_EMAIL', 'seth.atam@gmail.com');
         }
 
         Mail::to($data['to'])->send(new EmailSender($data));
