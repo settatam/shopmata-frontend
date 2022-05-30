@@ -258,7 +258,11 @@
         </div>
 
         <div class="my-4">
-            <Images :payload="params" :imgs="transaction.public_note.images" class="mb-8" />
+            <Images
+                :payload="params"
+                :imgs="transaction.public_note.images"
+                class="mb-8"
+            />
         </div>
 
         <!-- add item start -->
@@ -318,15 +322,16 @@ export default {
             model_id: transaction.public_note
                 ? transaction.public_note.id
                 : null,
-            values: {
-                transaction_id: transaction.id,
-                note: null,
-                type: 'public_note'
-            }
-        })
-        const notes = props.transaction
-        const transaction_id = props.root.id
-        const pickedTags = props.root.tags
+        });
+
+        const values = reactive({
+            transaction_id: transaction.id,
+            note: null,
+            type: "public_note",
+        });
+        const notes = props.transaction;
+        const transaction_id = props.root.id;
+        const pickedTags = props.root.tags;
         const checkedList = computed(() => {
             let myArray = []
             pickedTags.forEach(item => {
@@ -391,7 +396,7 @@ export default {
                 case "status_id":
                     data = {
                         field: "status_id",
-                        value: currentTransaction.status_id
+                        value: currentTransaction.status_id,
                     };
                     break;
                 case "status":
@@ -537,8 +542,8 @@ export default {
             onChange,
             currentTransaction,
             params,
-            loadingAnimation
-        }
-    }
-}
+            values,
+        };
+    },
+};
 </script>

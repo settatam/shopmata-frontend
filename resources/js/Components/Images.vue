@@ -26,10 +26,13 @@
                             @image-deleted="delete_img"
                         />
 
+                        {{ values }}
+
                         <Dropzone
                             @add-image="onAddImage"
                             class=""
                             :payload="payload"
+                            :values="values"
                         />
                     </div>
                 </div>
@@ -46,7 +49,7 @@ import ImagesList from "./ImageList.vue";
 
 export default {
     components: { AppLayout, Dropzone, ImagesList },
-    props: ["imgs", "payload"],
+    props: ["imgs", "payload", "values"],
     setup(props) {
         const display = ref("");
         const media_open = ref(true);
