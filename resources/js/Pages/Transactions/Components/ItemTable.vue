@@ -2,15 +2,13 @@
     <div class="rounded-md bg-white mt-8 overflow-x-auto lg:mx-2">
         <!-- add item start -->
         <div class="flex flex-row justify-start ml-3 mr-3 py-4">
-            <div>
-                <button
-                    class="bg-purple-darken px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                    type="submit"
-                    @click="popModal()"
-                >
-                    Add Item
-                </button>
-            </div>
+            <Button
+                class="my-1"
+                @sendResponse="addMessage"
+                :loadingAnimation="loadingAnimation"
+                :buttonName="buttonName"
+                @click="popModal()"
+            />
         </div>
 
         <AddItem
@@ -21,6 +19,7 @@
             @close="popUp = false"
             v-if="popUp"
         />
+
         <!-- add item end -->
 
         <!-- Edit modal -->
@@ -116,7 +115,7 @@
                         {{
                             transactionItem.category
                                 ? transactionItem.category.name
-                                : "----"
+                                : '----'
                         }}
                     </td>
                     <td
@@ -248,101 +247,105 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from "@vue/reactivity";
-import AppLayout from "../../../Layouts/AppLayout.vue";
-import AddItem from "../Components/AddItem.vue";
-import { Inertia } from "@inertiajs/inertia";
-import { Link } from "@inertiajs/inertia-vue3";
-import ImageModal from "./ImageModal.vue";
-import EditItem from "./EditItem.vue";
-import notification from "../../../Utils/notification";
+import { reactive, ref, computed } from '@vue/reactivity'
+import AppLayout from '../../../Layouts/AppLayout.vue'
+import AddItem from '../Components/AddItem.vue'
+import { Inertia } from '@inertiajs/inertia'
+import { Link } from '@inertiajs/inertia-vue3'
+import ImageModal from './ImageModal.vue'
+import EditItem from './EditItem.vue'
+import notification from '../../../Utils/notification'
+import Button from '../../../Components/Button.vue'
 
 export default {
-    components: { AppLayout, AddItem, ImageModal, EditItem },
-    props: ["items", "categories", "root"],
+    components: { AppLayout, AddItem, ImageModal, EditItem, Button },
+    props: ['items', 'categories', 'root'],
 
-    setup(props) {
-        const { onClickTop, onClickBot } = notification();
-        let items = props.items;
+    setup (props) {
+        const { onClickTop, onClickBot } = notification()
+        let items = props.items
 
-        const successMessage = ref("");
-        const transactionItems = ref(items);
+        const buttonName = ref('Add Item')
+        const loadingAnimation = ref(false)
 
-        const popUp = ref(false);
+        const successMessage = ref('')
+        const transactionItems = ref(items)
+
+        const popUp = ref(false)
         const popModal = () => {
-            popUp.value = true;
-        };
-        const loading = ref(false);
-        const item = ref(null);
+            popUp.value = true
+        }
+        const loading = ref(false)
+        const item = ref(null)
 
         // enlarge
-        const imagePopUp = ref(false);
-        const selected = ref(null);
-        const popImageModal = (index) => {
-            selected.value = index;
-            imagePopUp.value = true;
-        };
+        const imagePopUp = ref(false)
+        const selected = ref(null)
+        const popImageModal = index => {
+            selected.value = index
+            imagePopUp.value = true
+        }
         // Edit modal pop up
-        const EditPopUp = ref(false);
-        const EditPopModal = (i) => {
-            item.value = i;
-            EditPopUp.value = true;
-        };
+        const EditPopUp = ref(false)
+        const EditPopModal = i => {
+            item.value = i
+            EditPopUp.value = true
+        }
 
         const totalDwt = computed(() => {
-            let sum = 0;
-            items.forEach((item) => {
-                return (sum += parseFloat(item.dwt));
-            });
-            return sum.toFixed(2);
-        });
+            let sum = 0
+            items.forEach(item => {
+                return (sum += parseFloat(item.dwt))
+            })
+            return sum.toFixed(2)
+        })
 
         const estimatedProfit = computed(() => {
-            return root.est_val;
-        });
+            return root.est_val
+        })
 
         const percentProfit = computed(() => {
-            return root.est_val;
-        });
+            return root.est_val
+        })
 
         const totalPrice = computed(() => {
-            let sum = 0;
-            items.forEach((item) => {
-                return (sum += parseFloat(item.price));
-            });
-            return sum.toFixed(2);
-        });
+            let sum = 0
+            items.forEach(item => {
+                return (sum += parseFloat(item.price))
+            })
+            return sum.toFixed(2)
+        })
 
-        function pushValue(res) {
-            popUp.value = res.data;
+        function pushValue (res) {
+            popUp.value = res.data
         }
 
-        function pushEditValue(res) {
-            transactionItems.value = res.data.items;
+        function pushEditValue (res) {
+            transactionItems.value = res.data.items
         }
 
-        function Edited(res) {
-            cosole.log(res);
+        function Edited (res) {
+            cosole.log(res)
         }
 
-        function pushResponse(res) {
-            EditPopUp.value = false;
+        function pushResponse (res) {
+            EditPopUp.value = false
         }
 
-        function deleteItem(id, index) {
+        function deleteItem (id, index) {
             axios
                 .delete(`/admin/items/${id}`)
-                .then((res) => {
-                    loading.value = false;
-                    transactionItems.value = res.data.items;
-                    successMessage.value = "Item deleted";
-                    setTimeout(onClickTop(successMessage.value), 2000);
+                .then(res => {
+                    loading.value = false
+                    transactionItems.value = res.data.items
+                    successMessage.value = 'Item deleted'
+                    setTimeout(onClickTop(successMessage.value), 2000)
                 })
-                .catch((error) => {
-                    loading.value = false;
-                    successMessage.value = "Error processing your request";
-                    setTimeout(onClickBot(successMessage.value), 2000);
-                });
+                .catch(error => {
+                    loading.value = false
+                    successMessage.value = 'Error processing your request'
+                    setTimeout(onClickBot(successMessage.value), 2000)
+                })
         }
 
         return {
@@ -364,7 +367,9 @@ export default {
             Edited,
             estimatedProfit,
             percentProfit,
-        };
-    },
-};
+            buttonName,
+            loadingAnimation
+        }
+    }
+}
 </script>

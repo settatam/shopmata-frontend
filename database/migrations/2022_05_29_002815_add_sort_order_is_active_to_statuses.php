@@ -15,7 +15,10 @@ class AddSortOrderIsActiveToStatuses extends Migration
     {
         Schema::table('statuses', function (Blueprint $table) {
             //
-            $table->tinyInteger('sort_order')->default(50);
+            if (!Schema::hasColumn('statuses', 'sort_order'))
+            {
+                $table->integer('sort_order')->nullable();
+            }
         });
     }
 
