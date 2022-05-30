@@ -295,9 +295,18 @@ export default {
         const popModal = () => {
             popUp.value = true;
         };
+        let transaction = props.transaction;
+
         const params = ref({
-            model: "Transaction",
-            model_id: props.transaction.id,
+            model: "TransactionNote",
+            model_id: transaction.public_note
+                ? transaction.public_note.id
+                : null,
+            values: {
+                transaction_id: transaction.id,
+                note: null,
+                type: "public_note",
+            },
         });
         const notes = props.transaction;
         const transaction_id = props.root.id;
@@ -330,10 +339,11 @@ export default {
 
         function saveNote(e) {
             const noteDetails = {
-                name: e.target.name == "private" ? 'private_note' : 'public_note',
-                value: e.target.value
-            }
-            emit('updated-notes',noteDetails);
+                name:
+                    e.target.name == "private" ? "private_note" : "public_note",
+                value: e.target.value,
+            };
+            emit("updated-notes", noteDetails);
         }
 
         watch(
@@ -363,7 +373,7 @@ export default {
                 case "status":
                     data = {
                         field: "status_id",
-                        value: status_id
+                        value: status_id,
                     };
                     break;
                 case "message":
@@ -388,22 +398,22 @@ export default {
                     data = {
                         field: "message",
                         value: this.currentTransaction.private_note,
-                        type: 'private'
+                        type: "private",
                     };
                     break;
                 case "public_note":
-                     data = {
-                        field: 'message',
+                    data = {
+                        field: "message",
                         value: this.currentTransaction.public_note,
-                         type: 'public'
+                        type: "public",
                     };
-                     break;
+                    break;
                 case "new-kit":
-                     data = {
+                    data = {
                         field: "new-kit",
-                        value: true
+                        value: true,
                     };
-                     break;
+                    break;
             }
             emit("transaction-updated", data);
         }
@@ -422,7 +432,6 @@ export default {
 
         function onChange(event) {
             console.log(event.target.value);
-
         }
 
         function onClickBot() {

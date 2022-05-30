@@ -61,7 +61,7 @@ export default {
     name: "UseDropzone",
     emits: ["add-image"],
     setup(props, { emit }) {
-        console.log(props);
+        console.log(props.payload);
         const message = ref("");
         const loading = ref(false);
         const text = ref("Choose file");
