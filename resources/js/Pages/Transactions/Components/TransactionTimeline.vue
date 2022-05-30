@@ -243,7 +243,12 @@
         </div>
 
         <div class="my-4">
-            <Images :payload="params" :imgs="transaction.images" class="mb-8" />
+            <Images
+                :payload="params"
+                :values="values"
+                :imgs="transaction.images"
+                class="mb-8"
+            />
         </div>
 
         <!-- add item start -->
@@ -302,11 +307,12 @@ export default {
             model_id: transaction.public_note
                 ? transaction.public_note.id
                 : null,
-            values: {
-                transaction_id: transaction.id,
-                note: null,
-                type: "public_note",
-            },
+        });
+
+        const values = reactive({
+            transaction_id: transaction.id,
+            note: null,
+            type: "public_note",
         });
         const notes = props.transaction;
         const transaction_id = props.root.id;
@@ -515,6 +521,7 @@ export default {
             onChange,
             currentTransaction,
             params,
+            values,
         };
     },
 };
