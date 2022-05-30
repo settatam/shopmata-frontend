@@ -233,7 +233,7 @@ class ReportsTable extends Table
                         'data' => optional($transaction->store)->name,
                     ],
                     'tags' => [
-                        'data' => implode(' ' ,$transaction->tags()->toArray()),
+                        'data' => $transaction->tags ,
                     ],
                     'incoming_fedex' => [
                         'data' => $transaction->incoming_tracking,
