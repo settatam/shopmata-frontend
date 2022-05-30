@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\Models\Customer;
+use Inertia\Inertia;
 
 
 use Illuminate\Http\Request;
@@ -16,13 +17,9 @@ class SearchController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $input = $request->input();
-        if($term = data_get($input, 'term')) {
-            $terms = explode(' ', $term);
-            
-        }
-
+        $filters = $request->input();
+        $filters['type'] = 'SearchTable';
+        return Inertia::render('Search/Index', compact('filters'));
     }
 
     /**

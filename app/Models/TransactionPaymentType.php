@@ -9,15 +9,24 @@ class TransactionPaymentType extends Model
 {
     use HasFactory;
 
+
+    protected $fillable = [
+        'name'
+    ];
+
+
     public static $paymentTypes = [
         '1' => 'Check',
-        '2' => 'Paypal',
+        '2' => 'PayPal',
         '3' => 'ACH',
         '4' => 'Venmo',
         '5' => 'Wire Transfer',
         '6' => 'Bank Transfer (Nigeria)',
         '7' => 'CashApp'
     ];
+
+
+
 
 
     

@@ -13,6 +13,7 @@ class TransactionPaymentAddress extends Model
         'transaction_id',
         'payment_type_id',
         'paypal_address',
+        'bank_name',
         'bank_address',
         'bank_address_2',
         'bank_address_city',
@@ -28,12 +29,50 @@ class TransactionPaymentAddress extends Model
         'check_address_2',
         'check_city',
         'check_state_id',
-        'check_country'
+        'check_zip',
+        'check_country',
+        'customer_id'
     ];
 
-    public function transaction_payment_type() 
+    public function payment_type() 
     {
         return $this->belongsTo(TransactionPaymentType::class,'payment_type_id','id');
+    }
+
+
+    public function state() 
+    {
+        return $this->belongsTo(State::class,'check_state_id','id');
+    }
+
+
+    public static function UpdateCustomerPayment($request, $customer_id) {
+        $payment_type = TransactionPaymentType::where('name', $request->payment_method)->first();
+        $pA = TransactionPaymentAddress::where('customer_id', $customer_id)->first();
+        self::updateOrCreate(
+            ['customer_id' => $customer_id],  
+            [ 
+              'payment_type_id'       =>  null != $payment_type ? $payment_type->id : null,
+              'paypal_address'        =>  optional($pA)->paypal_address ?? $request->paypal_address,
+              'bank_name'             =>  optional($pA)->bank_name ?? $request->bank_name,
+              'bank_address'          =>  optional($pA)->bank_address ?? $request->bank_address,
+              'bank_address_2'        =>  optional($pA)->bank_address_2 ?? $request->bank_address_2,
+              'bank_address_city'     =>  optional($pA)->bank_address_city ?? $request->bank_address_city,
+              'bank_address_state_id' =>  optional($pA)->bank_address_state_id ?? $request->bank_address_state_id,
+              'bank_address_zip'      =>  optional($pA)->bank_address_zip ?? $request->bank_address_zip,
+              'routing_number'        =>  optional($pA)->routing_number ?? $request->routing_number,
+              'account_number'        =>  optional($pA)->account_number ?? $request->account_number,
+              'account_name'          =>  optional($pA)->account_name ?? $request->account_name,
+              'account_type'          =>  optional($pA)->account_type ?? $request->account_type,
+              'venmo_address'         =>  optional($pA)->venmo_address ?? $request->venmo_address,
+              'check_name'            =>  optional($pA)->check_name ?? $request->check_name,
+              'check_address'         =>  optional($pA)->check_address ?? $request->check_address,
+              'check_city'            =>  optional($pA)->check_city ??  $request->check_city,
+              'check_zip'             =>  optional($pA)->check_zip ?? $request->check_zip,
+              'check_state_id'        =>  optional($pA)->check_state_id ?? $request->check_state_id,
+            ]
+        );
+
     }
 
 }

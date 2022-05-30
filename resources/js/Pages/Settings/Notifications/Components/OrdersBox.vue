@@ -21,7 +21,7 @@
                 class="flex mb-5 flex-col md:flex-row"
             >
                 <inertia-link
-                    :href="`/settings/notifications/${order.id}`"
+                    :href="`/admin/settings/notifications/${order.id}`"
                     class="w-full md:w-3/10"
                 >
                     <p

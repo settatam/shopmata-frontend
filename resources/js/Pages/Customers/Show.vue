@@ -56,24 +56,23 @@
                         :customer="customer"
                         :leads="leads"
                         :states="countries.states"
-                        :tags = "tags"
+                        :tags="tags"
                     />
                 </div>
 
                 <div>
                     <CustomerSales :customer="customer" />
-                    <PaymentInformation />
+                    <PaymentInformation
+                        :states="countries.states"
+                        :customer="customer"
+                    />
                 </div>
             </div>
         </div>
 
         <div>
-            <AdminImages
-                :transactions="customer.transactions"
-                class="mb-8"
-            />
+            <Images :payload="payload" :imgs="customer.images" class="mb-8" />
         </div>
-
 
         <div>
             <TransactionTable
@@ -81,49 +80,48 @@
                 class="m-4"
             />
         </div>
-
     </app-layout>
 </template>
 
 <script>
-import { ref } from 'vue'
-import AppLayout from '../../Layouts/AppLayout.vue'
-import Search from '../Search.vue'
-import Nav from '../../Layouts/Nav'
-import axios from 'axios'
-import CustomerInfo from './Components/CustomerInfo.vue'
-import CustomerSales from './Components/CustomerSales.vue'
-import PaymentInformation from './Components/PaymentInformation.vue'
-import TransactionTable from './Components/TransactionTable.vue'
-import AdminImages from './Components/AdminImages.vue'
+import { ref } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
+import Search from "../Search.vue";
+import Nav from "../../Layouts/Nav";
+import axios from "axios";
+import CustomerInfo from "./Components/CustomerInfo.vue";
+import CustomerSales from "./Components/CustomerSales.vue";
+import PaymentInformation from "./Components/PaymentInformation.vue";
+import TransactionTable from "./Components/TransactionTable.vue";
+import Images from "../../Components/Images.vue";
 
 import {
     Dialog,
     DialogOverlay,
     TransitionChild,
-    TransitionRoot
-} from '@headlessui/vue'
-import { ChevronRightIcon } from '@heroicons/vue/solid'
-import { HomeIcon } from '@heroicons/vue/outline'
-import Button from '../../Jetstream/Button.vue'
+    TransitionRoot,
+} from "@headlessui/vue";
+import { ChevronRightIcon } from "@heroicons/vue/solid";
+import { HomeIcon } from "@heroicons/vue/outline";
+import Button from "../../Jetstream/Button.vue";
 
 const pages = [
-    { name: 'All Customers', href: '/admin/customers', current: false }
-]
+    { name: "All Customers", href: "/admin/customers", current: false },
+];
 
 const statusStyles = {
-    received: 'bg-green-100 text-green-800',
-    shipped: 'bg-green-100 text-green-800',
-    delivered: 'bg-green-100 text-green-800',
-    fulfilled: 'bg-green-100 text-green-800',
-    confirmed: 'bg-green-100 text-green-800',
-    pending: 'bg-yellow-100 text-yellow-800',
-    returned: 'bg-yellow-100 text-yellow-800',
-    refunded: 'bg-yellow-100 text-yellow-800',
-    failed: 'bg-gray-100 text-gray-800',
-    expired: 'bg-gray-100 text-gray-800',
-    cancelled: 'bg-red-100 text-red-800'
-}
+    received: "bg-green-100 text-green-800",
+    shipped: "bg-green-100 text-green-800",
+    delivered: "bg-green-100 text-green-800",
+    fulfilled: "bg-green-100 text-green-800",
+    confirmed: "bg-green-100 text-green-800",
+    pending: "bg-yellow-100 text-yellow-800",
+    returned: "bg-yellow-100 text-yellow-800",
+    refunded: "bg-yellow-100 text-yellow-800",
+    failed: "bg-gray-100 text-gray-800",
+    expired: "bg-gray-100 text-gray-800",
+    cancelled: "bg-red-100 text-red-800",
+};
 
 export default {
     props: {
@@ -133,7 +131,7 @@ export default {
         countries: Object,
         transaction: Object,
         leads: Array,
-        tags: Array
+        tags: Array,
     },
 
     components: {
@@ -150,20 +148,26 @@ export default {
         CustomerSales,
         PaymentInformation,
         TransactionTable,
-        AdminImages
+        Images,
     },
 
-    data () {
+    data() {
         return {
-            pages
-        }
+            pages,
+        };
     },
 
-    setup () {
+    setup(props) {
+        const payload = ref({
+            model: "Customer",
+            model_id: props.customer.id,
+        });
+
         return {
             statusStyles,
-            pages
-        }
-    }
-}
+            pages,
+            payload,
+        };
+    },
+};
 </script>

@@ -1,6 +1,6 @@
 <template>
     <!-- Main content -->
-    <div class=" bg-white my-7 mx-auto rounded-md" :key="custkey">
+    <div class="bg-white my-7 mx-auto rounded-md" :key="custkey">
         <!-- header -->
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1 class="text-xl">Customer Information</h1>
@@ -14,7 +14,7 @@
             v-if="popUp"
         />
 
-        <div class="px-6 pt-6  flex flex-row space-x-4">
+        <div class="px-6 pt-6 flex flex-row space-x-4">
             <div
                 @change="addTag()"
                 class="space-x-2"
@@ -54,7 +54,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.first_name.$error,
-                                    'border-gray-300': !v$.first_name.$error
+                                    'border-gray-300': !v$.first_name.$error,
                                 }"
                                 type="text"
                                 id="firstName"
@@ -86,7 +86,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.last_name.$error,
-                                    'border-gray-300': !v$.last_name.$error
+                                    'border-gray-300': !v$.last_name.$error,
                                 }"
                                 type="text"
                                 id="lastName"
@@ -124,7 +124,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.address.$error,
-                                    'border-gray-300': !v$.address.$error
+                                    'border-gray-300': !v$.address.$error,
                                 }"
                                 type="text"
                                 id="firstName"
@@ -181,7 +181,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.city.$error,
-                                    'border-gray-300': !v$.city.$error
+                                    'border-gray-300': !v$.city.$error,
                                 }"
                                 type="text"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -202,7 +202,7 @@
                     </div>
 
                     <div
-                        class="required w-full  mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
+                        class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
                     >
                         <div>
                             <label
@@ -222,10 +222,10 @@
                                     v-model="CustomerInfo.state_id"
                                     :class="{
                                         'border-red-600': v$.state_id.$error,
-                                        'border-gray-300': !v$.state_id.$error
+                                        'border-gray-300': !v$.state_id.$error,
                                     }"
                                 >
-                                    <option value="">Choose a State</option>
+                                    <option value="0">Choose a State</option>
                                     <option
                                         v-for="(state, index) in states"
                                         :key="index"
@@ -242,7 +242,7 @@
                                 <select
                                     :class="{
                                         'border-red-600': v$.state_id.$error,
-                                        'border-gray-300': !v$.state_id.$error
+                                        'border-gray-300': !v$.state_id.$error,
                                     }"
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder=""
@@ -276,7 +276,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.zip.$error,
-                                    'border-gray-300': !v$.zip.$error
+                                    'border-gray-300': !v$.zip.$error,
                                 }"
                                 type="text"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -314,7 +314,7 @@
                             <input
                                 :class="{
                                     'border-red-600': v$.phone_number.$error,
-                                    'border-gray-300': !v$.phone_number.$error
+                                    'border-gray-300': !v$.phone_number.$error,
                                 }"
                                 type="tel"
                                 id="tel"
@@ -395,7 +395,7 @@
                         <input
                             :class="{
                                 'border-red-600': v$.email.$error,
-                                'border-gray-300': !v$.email.$error
+                                'border-gray-300': !v$.email.$error,
                             }"
                             type="email"
                             id="email"
@@ -427,7 +427,7 @@
                         <input
                             :class="{
                                 'border-red-600': v$.dob.$error,
-                                'border-gray-300': !v$.dob.$error
+                                'border-gray-300': !v$.dob.$error,
                             }"
                             type="date"
                             id="tel"
@@ -460,7 +460,7 @@
                         <select
                             :class="{
                                 'border-red-600': v$.gender.$error,
-                                'border-gray-300': !v$.gender.$error
+                                'border-gray-300': !v$.gender.$error,
                             }"
                             id="email"
                             name="email"
@@ -496,24 +496,20 @@
                                 Lead
                             </label>
                             <select
-                                :class="{
-                                    'border-red-600': v$.lead.$error,
-                                    'border-gray-300': !v$.lead.$error
-                                }"
                                 id="email"
                                 name="email"
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
-                                required
-                                v-model="CustomerInfo.lead"
+                                v-model="CustomerInfo.lead_id"
                             >
                                 <option value="">Choose Lead</option>
                                 <option
                                     v-for="lead in customerLeads"
                                     :key="lead.id"
                                     :value="lead.id"
-                                    >{{ lead.name }}</option
                                 >
+                                    {{ lead.name }}
+                                </option>
                             </select>
                         </div>
 
@@ -525,12 +521,6 @@
                                 class="h-7 w-7 mb-2 text-purple-darken font-bold"
                             />
                         </div>
-                    </div>
-
-                    <div class="mt-1">
-                        <p class="text-red-600 text-xs" v-if="v$.lead.$error">
-                            {{ v$.lead.$errors[0].$message }}
-                        </p>
                     </div>
                 </div>
 
@@ -554,82 +544,6 @@
 
                 <!-- 10th ends -->
             </div>
-
-            <!-- <div class="flex mt-4 flex-col lg:flex-row">
-                    <div class="required w-full mr-5 relative">
-                        <div>
-                            <label
-                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                            >
-                                Country
-                            </label>
-                            <select
-                                :class="{
-                                    'border-red-600': v$.country_id.$error,
-                                    'border-gray-300': !v$.country_id.$error
-                                }"
-                                id="country"
-                                name="country"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="CustomerInfo.country_id"
-                            >
-                                <option value="">Choose a Country</option>
-                                <option
-                                    v-for="(country, index) in countries"
-                                    :key="index"
-                                    :value="country.id"
-                                >
-                                    {{ country.name }}
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="mt-1">
-                            <p
-                                class="text-red-600 text-xs"
-                                v-if="v$.country_id.$error"
-                            >
-                                {{ v$.country_id.$errors[0].$message }}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="required w-full mt-4 lg:mt-0 ml-0 lg:ml-5 relative"
-                    >
-                        <div>
-                            <label
-                                class="block text-gray-600 font-semibold mb-1 bg-transparent"
-                            >
-                                Apartment/Suite
-                            </label>
-                            <input
-                                :class="{
-                                    'border-red-600': v$.apartment.$error,
-                                    'border-gray-300': !v$.apartment.$error
-                                }"
-                                type="text"
-                                id="apartment"
-                                name="apartment"
-                                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder=""
-                                required
-                                v-model="CustomerInfo.apartment"
-                            />
-                        </div>
-
-                        <div class="mt-1">
-                            <p
-                                class="text-red-600 text-xs"
-                                v-if="v$.apartment.$error"
-                            >
-                                {{ v$.apartment.$errors[0].$message }}
-                            </p>
-                        </div>
-                    </div>
-                </div> -->
         </div>
 
         <div class="flex justify-end">
@@ -639,7 +553,7 @@
                 type="submit"
                 :class="{
                     disabled: loading,
-                    'opacity-25 cursor-not-allowed': loading
+                    'opacity-25 cursor-not-allowed': loading,
                 }"
                 class="disabled:bg-gray-400 mb-6 mr-6 w-fit flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 @click="submit()"
@@ -660,37 +574,37 @@
 </template>
 
 <script>
-import { ref, reactive, watch, computed } from 'vue'
-import axios from 'axios'
-import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
-import AddLead from './AddLead.vue'
+import { ref, reactive, watch, computed } from "vue";
+import axios from "axios";
+import LoadingSpinner from "../../../Components/LoadingSpinner.vue";
+import AddLead from "./AddLead.vue";
 import {
     Dialog,
     DialogOverlay,
     TransitionChild,
-    TransitionRoot
-} from '@headlessui/vue'
-import { PlusIcon } from '@heroicons/vue/solid'
-import { Inertia } from '@inertiajs/inertia'
-import { notify } from 'notiwind'
-import moment from 'moment'
+    TransitionRoot,
+} from "@headlessui/vue";
+import { PlusIcon } from "@heroicons/vue/solid";
+import { Inertia } from "@inertiajs/inertia";
+import { notify } from "notiwind";
+import moment from "moment";
 import {
     required,
     maxLength,
     numeric,
     helpers,
-    email
-} from '@vuelidate/validators'
-import useVuelidate from '@vuelidate/core'
+    email,
+} from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
 
 const statusStyles = {
-    success: 'bg-green-100 text-green-800',
-    processing: 'bg-yellow-100 text-yellow-800',
-    failed: 'bg-gray-100 text-gray-800'
-}
+    success: "bg-green-100 text-green-800",
+    processing: "bg-yellow-100 text-yellow-800",
+    failed: "bg-gray-100 text-gray-800",
+};
 export default {
     created: function () {
-        this.moment = moment
+        this.moment = moment;
     },
     props: {
         customer: Object,
@@ -702,7 +616,7 @@ export default {
         customer_notification: Object,
         leads: Array,
         states: Array,
-        tags: Array
+        tags: Array,
     },
 
     components: {
@@ -712,159 +626,182 @@ export default {
         TransitionRoot,
         LoadingSpinner,
         PlusIcon,
-        AddLead
+        AddLead,
     },
 
-    setup (props) {
-        const customer = props.customer
-        const custkey = ref(1)
-        const loading = ref(false)
-        const successMessage = ref('')
-        const states = props.states
-        const selectedCountry = ref(customer.country_id)
-        const selectedState = ref(customer.state_id)
-        const selectedDob = ref(moment(customer.dob).format('MM-DD-YYYY'))
+    setup(props) {
+        const customer = props.customer;
+        const address = customer.customer_address;
+        const custkey = ref(1);
+        const loading = ref(false);
+        const successMessage = ref("");
+        const states = props.states;
+        const selectedCountry = ref(customer.country_id);
+        const selectedState = ref(customer.state_id);
+        const selectedDob = ref(moment(customer.dob).format("MM-DD-YYYY"));
+        // const selectedTags = ref( customer.tags ? customer.tags[customer.tags.length - 1].id : '')
+        console.log(address);
+        const selectedTags = ref(customer.tags);
         const CustomerInfo = reactive({
-            customerDifficulty: '',
+            customerDifficulty:
+                selectedTags.value.length > 0
+                    ? customer.tags[customer.tags.length - 1].tag_id
+                    : "",
             first_name: customer.first_name,
             last_name: customer.last_name,
-            address: customer.address,
-            addressTwo: '',
-            city: customer.city,
-            state_id: selectedState.value ? customer.state_id : '',
-            zip: customer.zip,
+            address: null != address ? address.address : null,
+            addressTwo: null != address ? address.address2 : null,
+            city: null != address ? address.city : null,
+            state_id: null != address ? address.state_id : 0,
+            zip: null != address ? address.zip : null,
             phone_number: customer.phone_number,
-            home_work: '',
-            ext: '',
+            home_work: customer.home_phone_number,
+            ext: customer.ext,
             email: customer.email,
-            dob: selectedDob.value ? customer.dob : '',
-            gender: '' ? customer.gender : '',
-            lead: '' ? customer.lead : '',
-            customer_notes: ''
-        })
-        const popUp = ref(false)
+            dob: selectedDob.value ? customer.dob : "",
+            gender: null != customer.gender ? customer.gender : "",
+            lead_id: null != customer.lead_id ? customer.lead_id : "",
+            customer_notes: customer.customer_notes,
+        });
+        const popUp = ref(false);
         const popModal = () => {
-            popUp.value = true
-        }
-        let leads = props.leads
-        const customerLeads = ref(leads)
+            popUp.value = true;
+        };
+        let leads = props.leads;
+        const customerLeads = ref(leads);
 
         const rules = computed(() => {
             return {
                 first_name: {
                     required: helpers.withMessage(
-                        'Enter a first name',
+                        "Enter a first name",
                         required
-                    )
+                    ),
                 },
                 last_name: {
-                    required: helpers.withMessage('Enter a last name', required)
+                    required: helpers.withMessage(
+                        "Enter a last name",
+                        required
+                    ),
                 },
                 address: {
-                    required: helpers.withMessage('Enter an address', required)
+                    required: helpers.withMessage("Enter an address", required),
                 },
                 city: {
-                    required: helpers.withMessage('Enter a city', required)
+                    required: helpers.withMessage("Enter a city", required),
                 },
                 state_id: {
-                    required: helpers.withMessage('Select a state', required)
+                    required: helpers.withMessage("Select a state", required),
                 },
                 zip: {
                     required: helpers.withMessage(
-                        'Enter a postal code',
+                        "Enter a postal code",
                         required
-                    )
+                    ),
                 },
                 phone_number: {
                     required: helpers.withMessage(
-                        'Enter a phone number',
+                        "Enter a phone number",
                         required
-                    )
+                    ),
                 },
 
                 email: {
                     required: helpers.withMessage(
-                        'Please enter an email address',
+                        "Please enter an email address",
                         required
                     ),
-                    email
+                    email,
                 },
                 dob: {
                     required: helpers.withMessage(
-                        'Please enter a DOB',
+                        "Please enter a DOB",
                         required
-                    )
+                    ),
                 },
                 gender: {
-                    required: helpers.withMessage('Select a gender', required)
+                    required: helpers.withMessage("Select a gender", required),
                 },
-                lead: {
-                    required: helpers.withMessage('Select a lead', required)
-                }
-            }
-        })
+            };
+        });
 
-        function onClickTop () {
+        function onClickTop() {
             notify(
                 {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
+                    group: "top",
+                    title: "Success",
+                    text: successMessage.value,
                 },
                 4000
-            )
+            );
         }
-        function onClickBot () {
+        function onClickBot() {
             notify(
                 {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
+                    group: "bottom",
+                    title: "Error",
+                    text: successMessage.value,
                 },
                 4000
-            )
+            );
         }
 
-        function addTag () {
+        function addTag() {
             axios
                 .post(`/admin/customer/${customer.id}/tags`, {
-                    tag_id: CustomerInfo.customerDifficulty
+                    tag_id: CustomerInfo.customerDifficulty,
                 })
-                .then(res => {
-                    successMessage.value = res.data.message
-                    setTimeout(onClickTop, 2000)
+                .then((res) => {
+                    successMessage.value = res.data.message;
+                    notify(
+                        {
+                            group: "top",
+                            title: "Success",
+                            text: successMessage.value,
+                        },
+                        100
+                    );
                 })
-                .catch(err => {
-                    successMessage.value = 'Error processing your request'
-                    setTimeout(onClickBot, 2000)
-                })
+                .catch((err) => {
+                    successMessage.value = "Error processing your request";
+                    setTimeout(onClickBot, 2000);
+                });
         }
 
-        function pushValue (res) {
-            customerLeads.value = res.data
-            popUp.value = false
+        function pushValue(res) {
+            customerLeads.value = res.data;
+            popUp.value = false;
         }
 
-        const v$ = useVuelidate(rules, CustomerInfo)
+        const v$ = useVuelidate(rules, CustomerInfo);
 
-        function submit () {
-            this.v$.$validate()
+        function submit() {
+            this.v$.$validate();
             if (this.v$.$error) {
-                return
+                return;
             }
-            loading.value = true
+            loading.value = true;
             axios
-                .put(`/admin/customer/${customer.id}`, CustomerInfo)
-                .then(res => {
-                    successMessage.value = res.data.message
-                    setTimeout(onClickTop, 2000)
+                .put(`/admin/customers/${customer.id}`, CustomerInfo)
+                .then((res) => {
+                    loading.value = false;
+                    successMessage.value = "Customer details updated";
+                    notify(
+                        {
+                            group: "top",
+                            title: "Success",
+                            text: "Customer details updated",
+                        },
+                        100
+                    );
+
+                    // setTimeout(onClickTop, 2000);
                 })
-                .then(Inertia.visit('/admin/customers', { method: 'get' }))
-                .catch(error => {
-                    loading.value = false
-                    successMessage.value = 'Error processing your request'
-                    setTimeout(onClickBot, 2000)
-                })
+                .catch((error) => {
+                    loading.value = false;
+                    successMessage.value = "Error processing your request";
+                    setTimeout(onClickBot, 2000);
+                });
         }
 
         return {
@@ -886,8 +823,9 @@ export default {
             pushValue,
             addTag,
             customerLeads,
-            custkey
-        }
-    }
-}
+            custkey,
+            selectedTags,
+        };
+    },
+};
 </script>

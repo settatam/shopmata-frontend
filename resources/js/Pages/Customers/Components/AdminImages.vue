@@ -16,44 +16,46 @@
                     >
                         <li class="flex text-gray-700 justify-between">
                             <p class="w-3/10">Image</p>
-                          
+
                             <p class="w-2/10 px-2">Thumbnail</p>
                         </li>
                     </div>
 
-                    <div class="" >
-                        <images-list 
+                    <div class="">
+                        <images-list
                             :images="images"
                             v-if="images.length"
-                            @image-deleted="delete_img" 
+                            @image-deleted="delete_img"
                         />
 
-                        <Dropzone :transaction="root" @add-image="onAddImage" class="" />
+                        <Dropzone
+                            :linkUrl="customerUrl"
+                            @add-image="onAddImage"
+                            class=""
+                        />
                     </div>
-                    
                 </div>
-
-                
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import {  ref } from '@vue/reactivity'
+import { ref } from '@vue/reactivity'
 import AppLayout from '../../../Layouts/AppLayout.vue'
-import Dropzone from './Dropzone'
-import ImagesList from './ImagesList'
+import Dropzone from '../../Transactions/Components/Dropzone.vue'
+import ImagesList from './ImagesList.vue'
 
 export default {
     components: { AppLayout, Dropzone, ImagesList },
-    props: ['root'],
+    props: ['customer'],
     setup (props) {
-        let note_images = [];
+        let note_images = []
         console.log(props.root)
-        const display = ref("")
+        const display = ref('')
         const media_open = ref(true)
-        const images  = ref(note_images)
+        const images = ref(note_images)
+        const customerUrl = ref(`/admin/customer/${props.customer.id}/images`)
 
         function delete_img (index) {
             images.value.splice(index)
@@ -62,7 +64,14 @@ export default {
         function onAddImage (response) {
             images.value = response.data
         }
-        return { delete_img, onAddImage, media_open, images, display }
+        return {
+            delete_img,
+            onAddImage,
+            media_open,
+            images,
+            display,
+            customerUrl
+        }
     }
 }
 </script>

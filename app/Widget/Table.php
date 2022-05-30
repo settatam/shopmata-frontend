@@ -29,6 +29,12 @@ class Table extends Widget
 
     protected $hasCheckBox = false;
 
+    protected $isSearchable = false;
+
+    protected $shouldChangeStatus = false;
+
+    protected $data;
+
     public function __construct($filter=null, $data=[])
       {
           $this->filter = $filter;
@@ -98,6 +104,8 @@ class Table extends Widget
         ];
 
         $config['hasCheckBox'] = $this->hasCheckBox();
+        $config['isSearchable'] = $this->isSearchable();
+        $config['pagination'] = $this->pagination();
 
         $config['fields'] = collect($this->fields($filter, $filteredData))
           ->map(function($data) use (&$config) {
@@ -203,6 +211,30 @@ class Table extends Widget
           return $this->hasCheckBox;
       }
 
+    public function isSearchable() {
+          return $this->isSearchable;
+    }
 
+    public function shouldChangeStatus() {
+          return $this->shouldChangeStatus;
+    }
+
+    public function pagination() {
+          return [
+              'total' => $this->data->total(),
+              'per_page' => $this->data->perPage(),
+              'current_page' => $this->data->currentPage(),
+              'from' => (($this->data->currentPage()-1) * $this->data->perPage()) + 1,
+              'to' => (($this->data->currentPage()) * $this->data->perPage()) < $this->data->total() ? $this->data->currentPage() * $this->data->perPage() : $this->data->total() ,
+              'first_page_url' => $this->data->url(1),
+              'last_page_url' => $this->data->url($this->data->lastPage()),
+              'path' => $this->data->path(),
+              'links' => $this->data->linkCollection()->toArray(),
+          ];
+    }
+
+    protected function paginatorLinks() {
+//          $totalPages = $this->data->total() / ;
+    }
 
 }

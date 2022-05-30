@@ -32,7 +32,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\ShippingRatesController;
-use App\Http\Controllers\Settings\StoreActualNotificationsController;
+use App\Http\Controllers\Settings\StoreNotificationMessageController;
 use App\Http\Controllers\Settings\StoreLocationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\StaffsController;
@@ -191,7 +191,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('orders/{id}/send-invoice', [OrdersController::class, 'sendInvoice'])->name('orders.create');
         //Bank Details
 
-
         #Settings
         Route::get('settings', [GeneralController::class, 'index'])->name('settings');
 
@@ -215,11 +214,18 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::resource('settings/remittance', PayoutSettingsController::class);
         Route::resource('transactions', TransactionsController::class)->names([
-            'index' => 'transactions.index'
+            'index' => 'transactions.index',
+            'show' => 'transactions.show'
         ]);
         Route::post('transactions/bulk-print-action', [TransactionsController::class, 'bulkPrintAction']);
         Route::post('transactions/bulk-actions/{printable}', [TransactionsController::class, 'bulkPrint']);
+        Route::get('transactions/bulk/messages', [TransactionsController::class, 'messages']);
+        Route::post('transactions/send/messages', [TransactionsController::class, 'sendMessages']);
+
+
         Route::get('transactions/{id}/{printable}', [TransactionsController::class, 'printable']);
+        Route::get('transactions/{id}/{printable}', [TransactionsController::class, 'printable']);
+
         Route::post('transactions/{id}/{extra}', [TransactionsController::class, 'extras']);
         Route::post('transaction/tag', [TransactionsController::class, 'addTag']);
         Route::post('transaction/notes', [TransactionsController::class, 'addNote']);
@@ -231,8 +237,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('item/{id}/images', [TransactionItemsController::class, 'UpdateImage']);
         Route::post('item/{id}/image/delete', [TransactionItemsController::class, 'deleteImage']);
 
+        Route::get('reports/export', [ReportsController::class, 'export']);
         Route::resource('reports', ReportsController::class);
-
 
         #Settings -> Shipping and Delivery
         Route::get('settings/shipping-and-delivery', [ShippingController::class, 'index'])->name('settings.shipping');
@@ -255,8 +261,12 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         #Settings -> Notifications
         Route::get('settings/notifications', [NotificationsController::class, 'index']);
+        Route::post('settings/notifications', [App\Http\Controllers\StoreNotificationController::class, 'getMsg']);
+
         Route::get('settings/notifications/{id}', [NotificationsController::class, 'show']);
-        Route::post('settings/notifications/store', [StoreActualNotificationsController::class, 'store']);
+        //Route::post('settings/notifications/{id}', [NotificationsController::class, 'getMsg']);
+
+        Route::post('settings/notifications/store', [StoreNotificationMessageController::class, 'store']);
         Route::post('settings/notifications/email-marketing', [EmailMarketingSettingsController::class, 'store']);
 
         #Notifications
@@ -285,17 +295,19 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('/generate/user/discount/code', [DiscountsController::class, 'createDiscountCode']);
 
         #Customers
-        Route::get('customers', [CustomersController::class, 'index'])->name('customers');
-        Route::get('customers/create', [CustomersController::class, 'create']);
-        Route::post('customers/store', [CustomersController::class, 'store']);
-        Route::get('customers/{id}/edit', [CustomersController::class, 'edit'])->name('customers.edit');
-        Route::put('customers/{id}', [CustomersController::class, 'update']);
-        Route::get('customers/{id}', [CustomersController::class, 'show'])->name('customers.view');
-        Route::delete('customers/{id}', [CustomersController::class, 'destroy']);
+        Route::get('customers',              [CustomersController::class, 'index'])->name('customers');
+        Route::get('customers/create',       [CustomersController::class, 'create']);
+        Route::post('customers/store',       [CustomersController::class, 'store']);
+        Route::get('customers/{id}/edit',    [CustomersController::class, 'edit'])->name('customers.edit');
+        Route::put('customers/{id}',         [CustomersController::class, 'update']);
+        Route::get('customers/{id}',         [CustomersController::class, 'show'])->name('customers.view');
+        Route::delete('customers/{id}',      [CustomersController::class, 'destroy']);
         Route::post('customer/{id}/{extra}', [CustomersController::class, 'extras']);
 
+
+
         Route::post('images', [ImagesController::class, 'store']);
-        Route::post('images/delete', [ImagesController::class, 'destroy']);
+        Route::post('image/delete', [ImagesController::class, 'destroy']);
 
         Route::get('product-images', [ImagesController::class, 'index']);
 
@@ -306,6 +318,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         //Widgets
 
         Route::get('widgets/view', [WidgetsController::class, 'view'])->name('widget.view');
+
+
 
         ## Online Store
 

@@ -10,7 +10,7 @@ class Address extends Model
     use HasFactory;
 
     const SHIPPING_ADDRESS_TYPE = 'shipping';
-    const BILLING_ADDRESS_TYPE = 'billing';
+    const BILLING_ADDRESS_TYPE  = 'billing';
     const LOCATION_ADDRESS_TYPE = 'location';
 
     protected $fillable = [
@@ -21,7 +21,7 @@ class Address extends Model
         'is_default',
         'address',
         'address2',
-        'postal_code',
+        'zip',
         'country',
         'state',
         'first_name',
@@ -40,4 +40,11 @@ class Address extends Model
     {
         return $this->morphTo();
     }
+
+    public function state() {
+        return $this->belongsTo(State::class, 'state_id', 'id');
+    }
+
+
+
 }
