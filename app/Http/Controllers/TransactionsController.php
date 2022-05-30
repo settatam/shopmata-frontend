@@ -94,6 +94,9 @@ class TransactionsController extends Controller
             ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
             ->find($id);
 
+        $note = $transaction->getPublicNote();
+        $transaction->load('public_note.images');
+
         $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
         //$transaction               = Transaction::with('shippingLabels')->findorFail($id);
         $statuses                    = Status::orderBy('sort_order')->get();
