@@ -2259,9 +2259,6 @@ select {
 .flex-row {
 	flex-direction: row !important;
 }
-.flex-row-reverse {
-	flex-direction: row-reverse !important;
-}
 .flex-col {
 	flex-direction: column !important;
 }
@@ -4321,10 +4318,6 @@ input[type='checkbox']:focus {
 
 	.sm\:mt-6 {
 		margin-top: 1.5rem !important;
-	}
-
-	.sm\:mt-2 {
-		margin-top: 0.5rem !important;
 	}
 
 	.sm\:block {

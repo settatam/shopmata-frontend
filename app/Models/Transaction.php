@@ -677,6 +677,8 @@ class Transaction extends Model
 
         if(null !== $labels) return $labels;
 
+
+
         if($shippingLabel = $this->createLabel($direction)) {
             if(!$shippingLabel->hasErrors()) {
                 if($label = $this->shippingLabels()->create([

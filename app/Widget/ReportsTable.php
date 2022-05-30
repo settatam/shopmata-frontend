@@ -244,7 +244,7 @@ class ReportsTable extends Table
                     'customer_info' => [
                         'data' => optional($transaction->customer)->name,
                         'type' => 'link',
-                        'href' => '/admin/customers/'.$transaction->id,
+                        'href' => '/admin/customers/'.$transaction->customer->id,
                         'class' => 'block w-48'
                     ],
                     'phone' => [
