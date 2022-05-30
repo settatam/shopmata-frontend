@@ -296,7 +296,7 @@ class ReportsTable extends Table
                         'data' => $transaction->inotes,
                     ],
                     'cnotes' => [
-                        'data' => $transaction->cnotes,
+                        'data' => optional($transaction->public_note)->notes,
                     ],
                 ];
             })
