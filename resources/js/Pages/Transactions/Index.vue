@@ -66,7 +66,7 @@ export default {
         Pagination,
         DeleteModal,
         ShopmataTable,
-        Filter
+        Filter,
     },
     props: {
         notifications: Array,
