@@ -2259,6 +2259,9 @@ select {
 .flex-row {
 	flex-direction: row !important;
 }
+.flex-row-reverse {
+	flex-direction: row-reverse !important;
+}
 .flex-col {
 	flex-direction: column !important;
 }
@@ -3886,6 +3889,10 @@ input[type='checkbox']:focus {
 	--tw-bg-opacity: 1 !important;
 	background-color: rgba(224, 231, 255, var(--tw-bg-opacity)) !important;
 }
+.hover\:bg-indigo-500:hover {
+	--tw-bg-opacity: 1 !important;
+	background-color: rgba(99, 102, 241, var(--tw-bg-opacity)) !important;
+}
 .hover\:bg-opacity-50:hover {
 	--tw-bg-opacity: 0.5 !important;
 }
@@ -4314,6 +4321,10 @@ input[type='checkbox']:focus {
 
 	.sm\:mt-6 {
 		margin-top: 1.5rem !important;
+	}
+
+	.sm\:mt-2 {
+		margin-top: 0.5rem !important;
 	}
 
 	.sm\:block {
