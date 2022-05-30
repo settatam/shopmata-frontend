@@ -123,12 +123,17 @@ class Transaction extends Model
         }
     }
 
+    public function scopeWithTotalBought() {
+
+    }
+
     public function scopeWithDaysInStock($query) {
-        return $query->selectRaw("DATEDIFF(NOW(), created_at)AS dis");
+        return $query->selectRaw("DATEDIFF(NOW(), created_at) AS dis");
     }
 
     public function scopeWithGroupedStatus($query) {
-       return $query->selectRaw("status_id, COUNT(status_id) AS `statusCount`")->groupBy('status_id');
+       return $query->selectRaw("status_id, COUNT(status_id) AS `statusCount`")
+           ->groupBy('status_id');
     }
 
     public function scopeWithGroupedDates($query) {
@@ -246,7 +251,7 @@ class Transaction extends Model
     }
 
     public function scopeWithPublicNote($query) {
-        return $query->addSelect(['public_note'=>TransactionNote::selectRaw('notes as public_note')
+        return $query->addSelect(['pub_note'=>TransactionNote::selectRaw('notes as pub_note')
                 ->whereColumn('transactions.id', 'transaction_notes.transaction_id')
                 ->where('transaction_notes.type', 'public')
                 ->take(1)->latest()
@@ -630,11 +635,11 @@ class Transaction extends Model
     public function sendNotes() {
         $notification_name = '';
         return new EventNotification(
-            '',
+            'Transaction Customer Notes',
             [
                 'customer' => $this->customer,
                 'store' => $this->store,
-                'transaction' => $this
+                'transaction' => $this,
             ]
         );
     }
@@ -1005,6 +1010,18 @@ class Transaction extends Model
         }
 
         return $newKit;
+    }
+
+     public function getPublicNote() {
+        $note = $this->public_note()->latest()->first();
+
+        if(null !== $note) {
+            return $note;
+        }
+        return $this->public_note()->create([
+            'type' => 'public',
+            'notes' => '',
+        ]);
     }
 
 }

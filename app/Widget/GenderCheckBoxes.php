@@ -9,8 +9,8 @@ class GenderCheckBoxes extends CheckBox
         $statuses = Transaction::searchForFilter($filter)->with('customer')->withGroupedGender()->get();
         return $statuses->map(function (Transaction $transaction) use ($filter) {
             return [
-                'label' => optional($transaction->customer)->gender . ' - '  . ($transaction->genderCount),
-                'value' => optional($transaction->customer)->gender
+                'label' => $transaction->gender . ' - '  . ($transaction->genderCount),
+                'value' => $transaction->gender
             ];
         });
     }

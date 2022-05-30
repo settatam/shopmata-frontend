@@ -111,7 +111,7 @@
                         rows="3"
                         cols="150"
                         @change="updateTransaction('public_note')"
-                        v-model="transaction.public_note"
+                        v-model="transaction.pub_note"
                     >
                     </textarea>
 
@@ -245,8 +245,7 @@
         <div class="my-4">
             <Images
                 :payload="params"
-                :values="values"
-                :imgs="transaction.images"
+                :imgs="transaction.public_note.images"
                 class="mb-8"
             />
         </div>
@@ -376,6 +375,12 @@ export default {
         function updateTransaction(event, status_id = null) {
             let data = {};
             switch (event) {
+                case "status_id":
+                    data = {
+                        field: "status_id",
+                        value: currentTransaction.status_id,
+                    };
+                    break;
                 case "status":
                     data = {
                         field: "status_id",

@@ -14,6 +14,8 @@
                     {{ confirmationBody }}
                 </template>
             </ConfirmationModal>
+
+
             <shopmata-table :filters="tableFilters" @action="doAction" />
         </div>
     </app-layout>

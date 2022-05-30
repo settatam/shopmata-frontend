@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Traits\FileUploader;
 use App\Models\Image;
+use Illuminate\Support\Str;
+use App\Models\Store;
 
 
 class ImagesController extends Controller
-{   
+{
 
     use FileUploader;
     /**
@@ -39,13 +41,28 @@ class ImagesController extends Controller
      */
     public function store(Request $request) {
 
-        try {
-          $response =   Image::addImage($request);
-          return response()->json($response,  200);
-        } catch (\Throwable $th) {
-            \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response($th->getMessage() ,422);
+        $data = $request->input();
+        $data['model'] = 'TransactionNote';
+
+        $class = $data['model'];
+
+        if (!Str::startsWith($class, $namespace = 'App\\Models\\')) {
+          $class = $namespace . $class;
         }
+
+        $store = Store::find($request->session()->get('store_id'));
+
+        $model = new $class;
+
+        return $model->addImage($store, $request->file('files'), $request->model_id);
+
+//        try {
+//          $response =   Image::addImage($request);
+//          return response()->json($response,  200);
+//        } catch (\Throwable $th) {
+//            \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+//            return response($th->getMessage() ,422);
+//        }
     }
 
     /**
