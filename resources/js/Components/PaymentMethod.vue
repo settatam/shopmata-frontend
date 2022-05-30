@@ -23,7 +23,7 @@ export default {
     setup({ payment, payment_method_name }) {
         let payments = {
             Check: {
-                "PAY METHOD": payment_method_name,
+                "Pay Method": payment_method_name,
                 "Payable to": payment.check_name,
                 Address: payment.check_address,
                 City: payment.check_city,
@@ -31,20 +31,20 @@ export default {
                 State: payment.state ? payment.state.name : "",
             },
             Venmo: {
-                "PAY METHOD": payment_method_name,
+                "Pay Method": payment_method_name,
                 "Venmo address": payment.venmo_address,
             },
             PayPal: {
-                "PAY METHOD": payment_method_name,
+                "Pay Method": payment_method_name,
                 "Paypal address": payment.paypal_address,
             },
             ACH: {
-                "PAY METHOD": payment_method_name,
-                "BANK NAME": payment.bank_name,
-                "ROUTING NUMBER": payment.routing_number,
-                "ACCOUNT NUMBER": payment.account_number,
-                "ACCOUNT NAME": payment.account_name,
-                "ACCOUNT TYPE": payment.account_type,
+                "Pay Method": payment_method_name,
+                "Bank Name": payment.bank_name,
+                "Routing Number": payment.routing_number,
+                "Account Number": payment.account_number,
+                "Account Name": payment.account_name,
+                "Account Type": payment.account_type,
             },
         };
 

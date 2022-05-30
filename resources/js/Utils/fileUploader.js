@@ -1,10 +1,10 @@
 import notification from "./notification";
 
 export default () => {
-    const saveFiles = (files, payload = null) => {
+    const saveFiles = (files, payload = null, values = null) => {
         const formData = new FormData();
 
-        console.log(payload.values);
+        //console.log(values);
 
         files.map((file) => {
             formData.append("files[]", file);
@@ -12,7 +12,7 @@ export default () => {
             if (typeof payload != null) {
                 formData.append("model", payload.model);
                 formData.append("model_id", payload.model_id);
-                formData.append("values", payload.values);
+                formData.append("values", values);
             }
 
             return formData;

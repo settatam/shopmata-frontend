@@ -57,7 +57,7 @@ export default {
     components: {
         LoadingSpinner,
     },
-    props: ["payload"],
+    props: ["payload", "values"],
     name: "UseDropzone",
     emits: ["add-image"],
     setup(props, { emit }) {
@@ -73,7 +73,8 @@ export default {
         function onDrop(acceptFiles, rejectReasons) {
             loading.value = true;
             text.value = "Uploading....";
-            saveFiles(acceptFiles, props.payload)
+            console.log(props.values);
+            saveFiles(acceptFiles, props.payload, props.values)
                 .then((res) => {
                     emit("add-image", res);
                     loading.value = false;
