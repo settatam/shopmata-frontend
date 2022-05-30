@@ -35,6 +35,19 @@
                 }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
+                Outgoing Tracking#:
+                <span class="font-normal text-purple-darken">
+                    {{ transaction.outgoing_tracking }}
+                </span>
+            </p>
+            <p class="font-bold text-xs lg:text-sm text-black">
+                Return Tracking#:
+                <span class="font-normal text-purple-darken">
+                    {{ transaction.return_tracking }}
+                </span
+                >
+            </p>
+            <p class="font-bold text-xs lg:text-sm text-black">
                 Estimated Value:
                 <span class="font-normal">{{ transaction.est_value }}</span>
             </p>
@@ -82,12 +95,7 @@
                 Bin Location:
                 <span class="font-normal">{{ transaction.bin_location }}</span>
             </p>
-            <p class="font-bold text-xs lg:text-sm text-black">
-                Outgoing Tracking#:
-                <span class="font-normal text-purple-darken">
-                    {{ transaction.outgoing_tracking }}</span
-                >
-            </p>
+
             <p class="font-bold text-xs lg:text-sm text-black">
                 Hold Date: <span class="font-normal"></span>
             </p>

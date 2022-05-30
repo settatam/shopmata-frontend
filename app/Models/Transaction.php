@@ -196,10 +196,28 @@ class Transaction extends Model
         ]);
     }
 
-    public function scopeWithLabelsFrom($query) {
+    public function scopeWithLabelsTo($query) {
         return $query->addSelect(['outgoing_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as outgoing_tracking')
                 ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
                 ->where('shipping_labels.to_customer', true)
+                ->where('shipping_labels.is_return', 0)
+        ]);
+    }
+
+    public function scopeWithReturnLabel($query) {
+        return $query->addSelect(['return_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as return_tracking')
+                ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
+                ->where('shipping_labels.is_return', 1)
+               ->take(1)->latest()
+        ]);
+    }
+
+    public function scopeWithLabelsFrom($query) {
+        return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
+                ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
+                ->where('shipping_labels.to_customer', false)
+                ->where('shipping_labels.is_return', false)
+                ->take(1)->latest()
         ]);
     }
 
@@ -224,14 +242,6 @@ class Transaction extends Model
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kit Received')
                 ->take(1)
-        ]);
-    }
-
-    public function scopeWithLabelsTo($query) {
-        return $query->addSelect(['incoming_tracking'=>ShippingLabel::selectRaw('GROUP_CONCAT(tracking_number) as incoming_tracking')
-                ->whereColumn('transactions.id', 'shipping_labels.shippable_id')
-                ->where('shipping_labels.to_customer', false)
-                ->take(1)->latest()
         ]);
     }
 
@@ -600,16 +610,33 @@ class Transaction extends Model
 
             $this->addActivity($this, [], $note);
 
-             $sendNotice = new EventNotification(
-                                $notification_name,
-                                [
-                                    'customer' => $this->customer,
-                                    'store' => $this->store,
-                                    'transaction' => $this
-                                ]
-                            );
+
             //Send Email about offer ...
         }
+    }
+
+    public function sendOffer(){
+        $notification_name = '';
+        return new EventNotification(
+            $notification_name,
+            [
+                'customer' => $this->customer,
+                'store' => $this->store,
+                'transaction' => $this
+            ]
+        );
+    }
+
+    public function sendNotes() {
+        $notification_name = '';
+        return new EventNotification(
+            '',
+            [
+                'customer' => $this->customer,
+                'store' => $this->store,
+                'transaction' => $this
+            ]
+        );
     }
 
     public function shippingAddress() {
@@ -628,26 +655,44 @@ class Transaction extends Model
         return $this->hasOne(ShippingLabel::class)->where('type',  Shipping::SHIPPING_TYPE_TO);
     }
 
-    public function getShippingLabel($direction, $new=false) {
+    public function getShippingLabel($direction, $is_return=false) {
         if($direction != 'to' && $direction != 'from') return 'Direction must be to customer or from customer';
-        switch ($direction) {
+        if($is_return) {
+            $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', true)->latest()->first();
+        }else{
+            switch ($direction) {
             case Shipping::SHIPPING_TYPE_TO:
-                $labels = $this->shippingLabels()->where('to_customer', true)->latest()->first();
+                $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', false)->latest()->first();
                 break;
             case Shipping::SHIPPING_TYPE_FROM:
                 $labels = $this->shippingLabels()->where('to_customer', false)->latest()->first();
                 break;
+            }
         }
 
         if(null !== $labels) return $labels;
 
         if($shippingLabel = $this->createLabel($direction)) {
             if(!$shippingLabel->hasErrors()) {
-                return $this->shippingLabels()->create([
+                if($label = $this->shippingLabels()->create([
                     'tracking_number' => $shippingLabel->getTrackingNumber(),
                     'raw_data' => $shippingLabel->getBase64Label(),
-                    'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO
-                ]);
+                    'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO,
+                    'is_return' => (bool)$is_return
+                ])) {
+
+                    $labelType = ($is_return) ? ' return ' : '';
+                    $note = sprintf(
+                        '%s created a new %s shipping label %s with tracking number %s',
+                        Auth::user()->full_name,
+                        $labelType,
+                        $direction,
+                        $shippingLabel->getTrackingNumber()
+                    );
+
+                    $this->addActivity($this, [], $note);
+                    return $label;
+                }
             }
 
             dd($shippingLabel);

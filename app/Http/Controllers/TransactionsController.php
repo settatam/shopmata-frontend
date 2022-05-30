@@ -83,6 +83,7 @@ class TransactionsController extends Controller
             ->withTotalDwt()
             ->withLabelsFrom()
             ->withLabelsTo()
+            ->withReturnLabel()
             ->withPrivateNote()
             ->withPublicNote()
             ->withPaymentType()
@@ -381,14 +382,12 @@ class TransactionsController extends Controller
                return view('pages.barcode', compact('printables'));
                break;
            case 'label':
-               $shippingLabel = $transaction->getShippingLabel($request->direction);
-
+               $shippingLabel = $transaction->getShippingLabel($request->direction, $request->is_return);
                $printables[] = [
                    'label' => $shippingLabel,
                    'qty' => 1
                ];
-
-               $transaction->addActivity($transaction, [], Activity::TRANSACTION_CREATE_BARCODE);
+//               $transaction->addActivity($transaction, [], Activity::TRANSACTION_CREATE_BARCODE);
                return view('pages.label', compact('printables'));
                break;
            default:
