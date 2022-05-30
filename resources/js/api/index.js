@@ -1,5 +1,6 @@
 import axios from 'axios'
 import urls from "./urls";
+import {Inertia} from "@inertiajs/inertia";
 
 export const postAsNativeForm = ((action, params) => {
     let form  = document.createElement('form');
@@ -19,4 +20,11 @@ export const postAsNativeForm = ((action, params) => {
     form.submit();
 })
 
-export const bulkActionForTransactions = () => '/admin/transactions/bulk-print-action';
+export const getTransactionActionType = (action) => {
+    switch (action) {
+        case '':
+            break;
+        default:
+            return 'status';
+    }
+}

@@ -14,7 +14,7 @@
                     {{ confirmationBody }}
                 </template>
             </ConfirmationModal>
-            <shopmata-table :filters="filters" @action="doAction" />
+            <shopmata-table :filters="tableFilters" @action="doAction" />
         </div>
     </app-layout>
 </template>
@@ -31,6 +31,7 @@ import notification from "../../Utils/notification";
 import ShopmataTable from "../Widgets/ShopmataTable";
 import ConfirmationModal from "../../Components/ConfirmationModal";
 import * as api from "../../api";
+import urls from "../../api/urls";
 
 const statusStyles = {
     success: "bg-green-100 text-green-800",
@@ -56,7 +57,7 @@ export default {
         navigation: Array,
         filters: Object,
     },
-    setup({ navigation, transactions }) {
+    setup(props, { navigation, transactions }) {
         const { onClickTop, onClickBot } = notification();
         const imageExists = ref(true);
         const loading = false;
@@ -75,6 +76,7 @@ export default {
         const confirmationBody = ref("");
         const selectedTransactions = ref([]);
         const confirmationFor = ref({});
+        const tableFilters = ref(props.filters)
 
         onMounted(() => {
             // this.$emit('doNavigation', navigation)
@@ -135,7 +137,6 @@ export default {
         }
 
         function doAction(action, selectedItems) {
-            console.log(action);
             let formData = [];
             // for(let i=0; i<action.formGroups.length; i++) {
             //     //formData.push(actions.value[index].formGroups[i].field.attributes)
@@ -205,11 +206,26 @@ export default {
                         case "Rejected By Admin":
                         case "Create Shipping Label":
                             Inertia.post(
-                                api.bulkActionForTransactions(),
-                                data
-                            );
+                                urls.transactions.bulkAction('barcode'),
+                                { ...data, ...props.filters },
+                            )
                             break;
                     }
+
+                    default:
+                        Inertia.post(
+                            urls.transactions.bulkAction('status'),
+                            { ...data, ...props.filters },
+                            {replace: false,
+                            onSuccess: () => {
+                                tableFilters.value.refreshToken = Math.random()
+                                    console.log(tableFilters.value)
+                                    Inertia.reload()
+                                },
+                            }
+                        )
+                    break;
+
             }
 
             confirmationFor.value = "";
@@ -235,6 +251,7 @@ export default {
             confirmationBody,
             confirmationHeader,
             closeConfirmationModal,
+            tableFilters
         };
     },
 };

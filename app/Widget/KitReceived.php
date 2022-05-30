@@ -18,7 +18,6 @@ class KitReceived extends Form
     {
         return [
             [
-                'label' => '',
                 'field' => (new KitReceivedActions())->render($filter)
             ]
         ];

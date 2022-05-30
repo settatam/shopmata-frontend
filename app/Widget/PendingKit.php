@@ -18,7 +18,7 @@ class PendingKit extends Form
     {
         return [
             [
-                'label' => '',
+//                'label' => '',
                 'field' => (new PendingKitActions())->render($filter)
             ]
         ];

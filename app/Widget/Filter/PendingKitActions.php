@@ -7,7 +7,7 @@ class PendingKitActions extends Select
 
     public function default($filters) {
         return [
-            '' => 'Choose Action'
+//            '' => 'Choose Action'
         ];
     }
 
@@ -31,23 +31,27 @@ class PendingKitActions extends Select
             ],
             [
                 'text' => 'Create Shipping Label',
-                'value' => 'Create Shipping Label'
+                'value' => 'Create Shipping Label',
             ],
             [
                 'text' => 'Create Barcodes',
-                'value' => 'Create Barcodes'
+                'value' => 'Create Barcodes',
             ],
             [
                 'text' => 'Rejected By Admin',
-                'value' => 'Rejected By Adminn'
+                'value' => 2,
             ],
             [
                 'text' => 'Delete',
-                'value' => 'Delete'
+                'value' => 'Delete',
+            ],
+            [
+                'text' => 'Update Bin Location',
+                'value' => 'Bin Location',
             ],
             [
                 'text' => 'Send Message',
-                'value' => 'Send Message'
+                'value' => 'Send Message',
             ],
         ];
     }

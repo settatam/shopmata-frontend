@@ -18,7 +18,7 @@ class KitSent extends Form
     {
         return [
             [
-                'label' => '',
+//                'label' => '',
                 'field' => (new KitSentActions())->render($filter)
             ]
         ];

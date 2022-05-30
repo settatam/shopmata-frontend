@@ -7,7 +7,7 @@ class KitReceivedActions extends Select
 
     public function default($filters) {
         return [
-            '' => 'Choose Action'
+//            '' => 'Choose Action'
         ];
     }
 
@@ -31,18 +31,18 @@ class KitReceivedActions extends Select
             ],
             [
                 'text' => 'Rejected By Admin',
-                'value' => 'Rejected By Admin'
+                'value' => 3
             ],
             [
                 'text' => 'Returned by Admin',
-                'value' => 'Returned by Admin'
+                'value' => 24
             ],
             [
                 'text' => 'Send Offer',
                 'value' => 'Send Offer'
             ],
-            
-           
+
+
         ];
     }
 

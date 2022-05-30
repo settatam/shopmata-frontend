@@ -170,7 +170,7 @@
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="button"
-                                @click="updateTransaction('status_id', 50)"
+                                @click="updateTransaction('cnotes')"
                             >
                                 Email (Pictures &amp; Cnotes)
                             </button>
@@ -180,25 +180,31 @@
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="button"
-                                @click="updateTransaction('status_id', 50)"
+                                @click="updateTransaction('status', 50)"
                             >
                                 Email (Offer, Cnotes &amp; Pictures)
                             </button>
                         </div>
 
                         <div>
-                            <button
-                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="submit"
+                            <a
+                                :href="
+                                    '/admin/transactions/' +
+                                    transaction.id +
+                                    '/label?direction=to&is_return=1'
+                                "
+                                target="_blank"
+                                class="block bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                             >
                                 Return Label
-                            </button>
+                            </a>
                         </div>
 
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
+                                @click="updateTransaction('status', 3)"
                             >
                                 Reject Offer
                             </button>
@@ -357,7 +363,7 @@ export default {
                 case "status":
                     data = {
                         field: "status_id",
-                        value: this.currentTransaction.status_id,
+                        value: status_id
                     };
                     break;
                 case "message":

@@ -76,16 +76,17 @@
                                     <div
                                         class="space-x-2 flex flex-col lg:flex-row"
                                     >
-                                        <button
-                                            class="bg-gray-background px-2 py-1"
+                                        <a :href="'/admin/transactions/'+transaction.id+'/label?direction=from'"
+                                            class="bg-gray-background px-2 py-1" target="_blank"
                                         >
                                             From Seller
-                                        </button>
-                                        <button
+                                        </a>
+                                        <a :href="'/admin/transactions/'+transaction.id+'/label?direction=to'"
                                             class="bg-gray-background lg:mt-0 mt-2 px-2 py-1"
+                                           target="_blank"
                                         >
                                             To Seller
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
 

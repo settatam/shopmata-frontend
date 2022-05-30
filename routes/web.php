@@ -218,7 +218,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             'show' => 'transactions.show'
         ]);
         Route::post('transactions/bulk-print-action', [TransactionsController::class, 'bulkPrintAction']);
-        Route::post('transactions/bulk-actions/{printable}', [TransactionsController::class, 'bulkPrint']);
+        Route::post('transactions/bulk-actions/{action}', [TransactionsController::class, 'bulkAction']);
         Route::get('transactions/bulk/messages', [TransactionsController::class, 'messages']);
         Route::post('transactions/send/messages', [TransactionsController::class, 'sendMessages']);
 

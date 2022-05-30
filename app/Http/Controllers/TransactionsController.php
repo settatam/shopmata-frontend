@@ -83,6 +83,7 @@ class TransactionsController extends Controller
             ->withTotalDwt()
             ->withLabelsFrom()
             ->withLabelsTo()
+            ->withReturnLabel()
             ->withPrivateNote()
             ->withPublicNote()
             ->withPaymentType()
@@ -95,7 +96,7 @@ class TransactionsController extends Controller
 
         $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
         //$transaction               = Transaction::with('shippingLabels')->findorFail($id);
-        $statuses                    = Status::all();
+        $statuses                    = Status::orderBy('sort_order')->get();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
         $transaction_categories      = Category::where(['store_id' => $store_id, 'type' => 'transaction_category' ])->get();
@@ -308,7 +309,7 @@ class TransactionsController extends Controller
 
     }
 
-    public function bulkPrint(Request $request, $printable) {
+    public function bulkAction(Request $request, $action) {
 
 //        if($printable !== 'barcode' && $printable !== 'label') {
 //            abort(404);
@@ -346,6 +347,19 @@ class TransactionsController extends Controller
             $transactions = $merged->values()->all();
 
             return Inertia::render('Transactions/BulkPrintLabel', compact('transactions'));
+        }else if(is_numeric($input['action'])) {
+            foreach($transactionObj as $transaction) {
+                $transaction->doUpdate(['status_id' => $input['action']]);
+            }
+
+            unset($input['transactions']);
+            unset($input['action']);
+            unset($input['page']);
+            unset($input['type']);
+
+            $input['refresh_token'] = rand(1, 5000);
+
+            return redirect()->route('transactions.index', $input);
         }
     }
 
@@ -368,9 +382,12 @@ class TransactionsController extends Controller
                return view('pages.barcode', compact('printables'));
                break;
            case 'label':
-//               $transaction->getShippingLabel();
-               $printables = $transaction->shippingLabels;
-               $transaction->addActivity($transaction, [], Activity::TRANSACTION_CREATE_BARCODE);
+               $shippingLabel = $transaction->getShippingLabel($request->direction, $request->is_return);
+               $printables[] = [
+                   'label' => $shippingLabel,
+                   'qty' => 1
+               ];
+//               $transaction->addActivity($transaction, [], Activity::TRANSACTION_CREATE_BARCODE);
                return view('pages.label', compact('printables'));
                break;
            default:

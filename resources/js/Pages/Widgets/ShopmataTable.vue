@@ -209,7 +209,7 @@
                                                     </inertia-link>
                                                 </div>
                                                 <div class="text-gray-500">
-                                                    {{ item.customer_info.data.email }} <br />
+                                                    <a :href="'mailto:'+item.customer_info.data.email+'?subject=Transaction '+items[index].id.data" class="block text-indigo-500">{{ item.customer_info.data.email }}</a>
                                                     {{ item.customer_info.data.address.address }} <br />
                                                     {{ item.customer_info.data.address.state.code }} {{item.customer_info.data.address.zip }}
                                                     {{ item.customer_info.data.address.phone }}
@@ -321,7 +321,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import Filter from '../../Components/Filter.vue'
 import axios from 'axios'
 import Pagination from '../../Components/Pagination'
@@ -367,6 +367,12 @@ function filterToggle(){
 }
 
 const filters = props.filters
+
+watch(filters, (filters, prevFilters) => {
+   pageFilters.value = props.filters
+    console.log('This is the new filters', pageFilters.value)
+   getData()
+})
 
 onMounted(() => {
     pageFilters.value = props.filters
