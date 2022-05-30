@@ -233,7 +233,7 @@ class ReportsTable extends Table
                         'data' => optional($transaction->store)->name,
                     ],
                     'tags' => [
-                        'data' => $transaction->tags,
+                        'data' => implode(' ' ,$transaction->tags()->toArray()),
                     ],
                     'incoming_fedex' => [
                         'data' => $transaction->incoming_tracking,
@@ -248,31 +248,31 @@ class ReportsTable extends Table
                         'class' => 'block w-48'
                     ],
                     'phone' => [
-                        'data' => $transaction->address->gender,
+                        'data' => optional($transaction->customer)->phone_number,
                     ],
                     'email' => [
                         'data' => optional($transaction->customer)->email,
                     ],
                     'address' => [
-                        'data' => $transaction->address->address,
+                        'data' => optional(optional($transaction->customer)->address)->address,
                     ],
                     'address2' => [
-                        'data' => $transaction->address->address2,
+                        'data' => optional(optional($transaction->customer)->address)->address2,
                     ],
                     'city' => [
-                        'data' => $transaction->address->city,
+                        'data' => optional(optional($transaction->customer)->customer_address)->city,
                     ],
                     'state' => [
-                        'data' => optional($transaction->address->state)->code,
+                        'data' => optional(optional(optional($transaction->customer)->customer_address)->state)->code,
                     ],
                     'zip' => [
-                        'data' => $transaction->address->postal_code,
+                        'data' => optional(optional($transaction->customer)->customer_address)->postal_code,
                     ],
                     'gender' => [
                         'data' => $transaction->customer->gender,
                     ],
                     'behavior' => [
-                        'data' => $transaction->customer->behavior,
+                        'data' => optional(optional(optional($transaction->customer)->behavior)->tag)->name,
                     ],
                     'dob' => [
                         'data' => optional($transaction->customer)->dob,
@@ -281,13 +281,13 @@ class ReportsTable extends Table
                         'data' => $transaction->days_in_stock,
                     ],
                     'profit_percent' => [
-                        'data' => $transaction->profit_percent,
+                        'data' => $transaction->percentage_profit,
                     ],
                     'estimated_profit' => [
                         'key' => $transaction->estimated_profit,
                     ],
                     'payment_type' => [
-                        'data' => $transaction->payment_type,
+                        'data' => optional(optional($transaction->payment_address)->payment_type)->name,
                     ],
                     'total_dwt' => [
                         'data' => $transaction->total_dwt,

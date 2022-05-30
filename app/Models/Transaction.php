@@ -35,7 +35,9 @@ class Transaction extends Model
     protected $appends = [
         'kit_type',
         'est_profit',
-        'created_date'
+        'created_date',
+        'percentage_profit'
+        
     ];
 
 
@@ -262,9 +264,11 @@ class Transaction extends Model
         if(isset($est_val) && isset($offer)) {
             $result = ($offer - $est_val) / 100;
             return Numeral::number($result)->format('0.0%');
-
         }
     }
+
+
+   
 
     public function scopeWithPrivateNote($query) {
         return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
@@ -434,6 +438,14 @@ class Transaction extends Model
 
         return null;
 	}
+
+    public function getPercentageProfitAttribute(){
+        if($this->est_value && $this->offer) {
+            return $this->getProfitPercent($this->offer, $this->est_value);
+        }
+
+        return null;
+     }
 
 //    public function getPrivateMessageAttribute($value)
 //    {
