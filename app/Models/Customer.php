@@ -151,6 +151,12 @@ class Customer extends Model
         return $this->morphMany(StoreTag::class, 'tagable');
     }
 
+
+    public function behavior()
+    {
+        return $this->morphOne(StoreTag::class, 'tagable')->whereType('behavior');
+    }
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
