@@ -11,7 +11,7 @@ class StatusCheckBoxes extends CheckBox
         return $statuses->map(function (Transaction $transaction) use ($filter) {
             return [
                 'label' => optional($transaction->trStatus)->name . ' - '  . ($transaction->statusCount),
-                'value' => optional($transaction->transStatus)->id
+                'value' => optional($transaction->trStatus)->status_id
             ];
         });
     }
