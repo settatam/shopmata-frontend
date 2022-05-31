@@ -1028,12 +1028,12 @@ class Transaction extends Model
     }
 
      public function getPublicNote() {
-        $note = $this->publicNote()->latest()->first();
+        $note = $this->publicnote()->latest()->first();
 
         if(null !== $note) {
             return $note;
         }
-        return $this->publicNote()->create([
+        return $this->publicnote()->create([
             'type' => 'public',
             'notes' => '',
         ]);

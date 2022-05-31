@@ -95,7 +95,7 @@ class TransactionsController extends Controller
             ->find($id);
 
         $note = $transaction->getPublicNote();
-        $transaction->load('publicNote.images');
+        $transaction->load('publicnote.images');
 
         $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
         //$transaction               = Transaction::with('shippingLabels')->findorFail($id);

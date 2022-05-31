@@ -277,7 +277,7 @@
         <div class="my-4">
             <Images
                 :payload="params"
-                :imgs="transaction.public_note.images"
+                :imgs="transaction.publicnote.images"
                 class="mb-8"
             />
         </div>
@@ -336,7 +336,7 @@ export default {
 
         const params = ref({
             model: "TransactionNote",
-            model_id: transaction.pub_note ? transaction.public_note.id : null,
+            model_id: transaction.pub_note ? transaction.publicnote.id : null,
         });
 
         const values = reactive({
