@@ -287,13 +287,13 @@ class ReportsTable extends Table
                         'key' => $transaction->estimated_profit,
                     ],
                     'payment_type' => [
-                        'data' => optional(optional($transaction->payment_address)->payment_type)->name,
+                        'data' => optional(optional($transaction->customer->payment_address)->payment_type)->name,
                     ],
                     'total_dwt' => [
                         'data' => $transaction->total_dwt,
                     ],
                     'inotes' => [
-                        'data' => $transaction->inotes,
+                        'data' => optional($transaction->private_note)->notes,
                     ],
                     'cnotes' => [
                         'data' => optional($transaction->public_note)->notes,
@@ -324,7 +324,7 @@ class ReportsTable extends Table
     }
 
     public function getPicturesHTML($images) {
-        if(count($images)) {
+        if( count($images) ) {
             return sprintf('<div class="h-10 w-10 flex-shrink-0"><img class="h-10 w-10 rounded-full src="%s" /></div>',
             $images[0]->url);
         }
