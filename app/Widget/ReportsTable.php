@@ -293,10 +293,10 @@ class ReportsTable extends Table
                         'data' => $transaction->total_dwt,
                     ],
                     'inotes' => [
-                        'data' => optional($transaction->private_note)->notes,
+                        'data' => $transaction->private_note,
                     ],
                     'cnotes' => [
-                        'data' => optional($transaction->public_note)->notes,
+                        'data' => $transaction->pub_note,
                     ],
                 ];
             })
