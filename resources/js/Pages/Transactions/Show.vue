@@ -376,7 +376,7 @@ export default {
                     if (data.field == "new-kit") {
                         Inertia.visit(urls.transactions.main(res.data.id));
                     } else {
-                        transaction.value = res.data;
+                        props.transaction.value = res.data;
                     }
                 });
             }
