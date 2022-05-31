@@ -64,6 +64,7 @@
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         placeholder=""
                                         required
+                                        v-model="bin_location"
                                     />
                                 </div>
                             </div>
@@ -108,8 +109,9 @@ import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
 import LoadingSpinner from '../Components/LoadingSpinner.vue'
 
+
 export default {
-    emits: ['close',],
+    emits: ['close', 'send'],
     props: [''],
     components: {
         Dialog,
@@ -123,9 +125,10 @@ export default {
     setup (props, { emit }) {
         const open = ref(true)
         const loading = ref(false)
+        const bin_location = ref("")
 
         function saveDetails () {
-            
+            emit('send', bin_location .value)
         }
 
         function closeModal () {
@@ -136,8 +139,14 @@ export default {
         return {
             open,
             closeModal,
-            loading
+            loading,
+            bin_location ,
+            saveDetails
         }
+
+        
     }
+
+    
 }
 </script>
