@@ -22,11 +22,15 @@
                                 v-for="(filter, filterIndex) in item.fields.options"
                                 :key="filter.filterIndex"
                                 class="space-x-2 px-2"
+
                             >
                                 <input
                                     type="checkbox"
                                     :id="'id-' + filterIndex + mainIndex"
-                                    :name="filter"
+                                    :name="item.fields.name"
+                                    :value="filter.value"
+                                    v-model="item.fields.selected"
+                                    @change="doChange(mainIndex)"
                                 />
                                 <label :for="'id-' + filterIndex + mainIndex" class="text-xs lg:text-xs">
                                     {{ filter.label }}
@@ -49,8 +53,13 @@ export default {
     },
     setup (props) {
         const filterLists = reactive(props.formObject.formGroups)
+
+        function doChange(event) {
+            console.log(filterLists)
+        }
         return {
-            filterLists
+            filterLists,
+            doChange
         }
     }
 }

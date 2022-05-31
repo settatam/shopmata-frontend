@@ -344,4 +344,11 @@ class ReportsTable extends Table
     {
          return true;
     }
+
+    private function calcProfit($cost, $selling) {
+        if(!$cost && !$selling) return '';
+        $profit = $selling - $cost;
+        $percent = (($selling - $cost) / $cost) * 100;
+        return Numeral::number($percent)->format('0.0%');
+    }
 }
