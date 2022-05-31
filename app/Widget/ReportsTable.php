@@ -233,7 +233,7 @@ class ReportsTable extends Table
                         'data' => optional($transaction->store)->name,
                     ],
                     'tags' => [
-                        'data' => $transaction->tags ,
+                        'data' => $transaction->tags,
                     ],
                     'incoming_fedex' => [
                         'data' => $transaction->incoming_tracking,
@@ -263,7 +263,7 @@ class ReportsTable extends Table
                         'data' => optional(optional($transaction->customer)->customer_address)->city,
                     ],
                     'state' => [
-                        'data' => optional(optional(optional($transaction->customer)->customer_address)->state)->code,
+                        'data' => optional(optional($transaction->customer)->address)->state
                     ],
                     'zip' => [
                         'data' => optional(optional($transaction->customer)->customer_address)->postal_code,
@@ -343,5 +343,12 @@ class ReportsTable extends Table
     public function isSearchable()
     {
          return true;
+    }
+
+    private function calcProfit($cost, $selling) {
+        if(!$cost && !$selling) return '';
+        $profit = $selling - $cost;
+        $percent = (($selling - $cost) / $cost) * 100;
+        return Numeral::number($percent)->format('0.0%');
     }
 }
