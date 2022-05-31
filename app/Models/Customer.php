@@ -106,22 +106,17 @@ class Customer extends Model
         return false;
     }
 
-    public static function addtag($tag_id, $id) {
+    public static function addBehaviorTag($tag_id, $id) {
 
         $customer = self::findOrFail($id);
         //This will become a problem if we don't have a store ....
-        $store_tag   =  StoreTag::where(
-                            [
-                                'tagable_id' => $id,
-                                'tag_id'     => $tag_id
-                            ]
-                        )->first();
+        $store_tag   =  StoreTag::where([ 'tagable_id' => $id, 'tag_id' => $tag_id ])->first();
         if (null !== $store_tag){
             $store_tag->delete();
             Log::info("Tag(s) deleted!", );
             return true;
         } else {
-            $tags  = new StoreTag(['tag_id' => $tag_id]);
+            $tags  = new StoreTag(['tag_id' => $tag_id, 'type' => 'behavior']);
             if ( $customer->tags()->save($tags) ) {
                 return true;
             }
@@ -154,7 +149,7 @@ class Customer extends Model
 
     public function behavior()
     {
-        return $this->morphOne(StoreTag::class, 'tagable')->whereType('behavior');
+        return $this->morphOne(StoreTag::class, 'tagable')->where('type','behavior');
     }
 
     public function getFullNameAttribute()
