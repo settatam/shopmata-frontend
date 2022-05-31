@@ -287,7 +287,7 @@ class ReportsTable extends Table
                         'key' => $transaction->estimated_profit,
                     ],
                     'payment_type' => [
-                        'data' => optional(optional($transaction->customer->payment_address)->payment_type)->name,
+                        'data' =>optional(optional(optional($transaction->customer)->payment_address)->payment_type)->name,
                     ],
                     'total_dwt' => [
                         'data' => $transaction->total_dwt,
