@@ -24,6 +24,8 @@
                 </button>
             </div>
 
+            <BinLocation v-if="displayModal" />
+
             <Filter
                 v-if="filterToggleStatus"
                 @getFilters="filterValues"
@@ -48,6 +50,7 @@ import ShopmataTable from '../Widgets/ShopmataTable'
 import ConfirmationModal from '../../Components/ConfirmationModal'
 import * as api from '../../api'
 import urls from '../../api/urls'
+import BinLocation from '../../Components/BinLocation.vue'
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -67,6 +70,7 @@ export default {
         DeleteModal,
         ShopmataTable,
         Filter,
+        BinLocation
     },
     props: {
         notifications: Array,
@@ -96,12 +100,13 @@ export default {
         const confirmationFor = ref({})
         const tableFilters = ref(props.filters)
         const filterToggleStatus = ref(false)
+        const displayModal = ref(false)
 
         function filterToggle () {
             filterToggleStatus.value = !filterToggleStatus.value
         }
 
-        function filterValues(res) {
+        function filterValues (res) {
             console.log(res)
         }
 
@@ -189,6 +194,9 @@ export default {
                         name: 'actions',
                         value: 'Delete'
                     }
+                } else if (value == 'Bin Location') {
+                        displayModal.value = true
+                    
                 } else {
                     sendAction(name, value)
                 }
@@ -237,6 +245,8 @@ export default {
                                 { ...data, ...props.filters }
                             )
                             break
+                        case 'Update Bin Location':
+                            break
                     }
 
                 default:
@@ -281,7 +291,9 @@ export default {
             closeConfirmationModal,
             tableFilters,
             filterToggle,
-            filterValues
+            filterValues,
+            displayModal,
+            selectedTransactions
         }
     }
 }

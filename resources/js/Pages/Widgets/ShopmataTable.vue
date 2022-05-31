@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="relative">
         <ImageSlider :images="images" :open="openModal" @close="doClose">
         </ImageSlider>
 
@@ -8,8 +8,6 @@
                 <h1 class="text-xl font-semibold text-gray-900">{{ title }}</h1>
                 <p class="mt-2 text-sm text-gray-700">{{ description }}</p>
             </div>
-
-
 
             <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                 <button
@@ -21,15 +19,18 @@
                     Export
                 </button>
             </div>
-
         </div>
 
-        <div v-if="displaySpinner" class="w-full flex flex-col items-center justify-center m-3 p-3">
-            <Spinner/>
+        <!-- <div v-if="displaySpinner" class="w-full flex flex-col items-center justify-center m-3 p-3"> -->
+        <div
+            v-if="displaySpinner"
+            class="absolute z-10 top-2/3 scale-150 left-1/2 flex flex-col justify-center items-center"
+        >
+            <Spinner />
             <p class="pt-2">Loading results</p>
         </div>
 
-        <div v-if="!displaySpinner" class="mt-8 flex flex-col">
+        <div class="mt-8 flex flex-col">
             <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div
                     class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
@@ -185,21 +186,58 @@
                                                                     .class
                                                             "
                                                         >
-                                                            {{ item.customer_info.data.first_name }}
-                                                            {{ item.customer_info.data.last_name }}
+                                                            {{
+                                                                item
+                                                                    .customer_info
+                                                                    .data
+                                                                    .first_name
+                                                            }}
+                                                            {{
+                                                                item
+                                                                    .customer_info
+                                                                    .data
+                                                                    .last_name
+                                                            }}
                                                         </span>
                                                         <span v-else>
-                                                            {{ item.customer_info.data.first_name }}
-                                                            {{ item.customer_info.data.last_name }}
-
+                                                            {{
+                                                                item
+                                                                    .customer_info
+                                                                    .data
+                                                                    .first_name
+                                                            }}
+                                                            {{
+                                                                item
+                                                                    .customer_info
+                                                                    .data
+                                                                    .last_name
+                                                            }}
                                                         </span>
                                                     </inertia-link>
                                                 </div>
                                                 <div class="text-gray-500">
-                                                    {{ item.customer_info.data.email }} <br />
-                                                    {{ item.customer_info.data.address.address }} <br />
-                                                    {{ item.customer_info.data.address.state.code }} {{item.customer_info.data.address.zip }}
-                                                    {{ item.customer_info.data.address.phone }}
+                                                    {{
+                                                        item.customer_info.data
+                                                            .email
+                                                    }}
+                                                    <br />
+                                                    {{
+                                                        item.customer_info.data
+                                                            .address.address
+                                                    }}
+                                                    <br />
+                                                    {{
+                                                        item.customer_info.data
+                                                            .address.state.code
+                                                    }}
+                                                    {{
+                                                        item.customer_info.data
+                                                            .address.zip
+                                                    }}
+                                                    {{
+                                                        item.customer_info.data
+                                                            .address.phone
+                                                    }}
                                                 </div>
                                             </div>
                                         </div>
@@ -294,16 +332,14 @@
                     </div>
                 </div>
             </div>
-            
         </div>
         <div class="py-2">
-                <table-pagination
+            <table-pagination
                 v-if="!displaySpinner"
-                    :meta="pagination"
-                    @updatePage="updatePage"
-                ></table-pagination>
-            </div>
-
+                :meta="pagination"
+                @updatePage="updatePage"
+            ></table-pagination>
+        </div>
     </div>
 </template>
 
@@ -319,7 +355,7 @@ import Spinner from '../../../assets/Spinner.vue'
 
 const props = defineProps({
     filters: Object,
-    term: String,
+    term: String
 })
 
 const emits = defineEmits(['action', 'termUpdated'])
@@ -417,8 +453,10 @@ const search = () => {
 }
 
 const handleSearchChange = () => {
-    if (pageFilters.value.term.length < 3) return
-    getData()
+    if (pageFilters.value.term.length < 3) {
+        displaySpinner.value = true
+        return getData()
+    }
 }
 
 const open = ref(false)

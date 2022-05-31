@@ -109,7 +109,7 @@ import { Inertia } from '@inertiajs/inertia'
 import LoadingSpinner from '../Components/LoadingSpinner.vue'
 
 export default {
-    emits: ['close'],
+    emits: ['close',],
     props: [''],
     components: {
         Dialog,
