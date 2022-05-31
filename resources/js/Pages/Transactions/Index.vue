@@ -24,7 +24,7 @@
                 </button>
             </div>
 
-            <BinLocation v-if="displayModal" />
+            <BinLocation @close="toggleModal" v-if="displayModal" />
 
             <Filter
                 v-if="filterToggleStatus"
@@ -122,6 +122,10 @@ export default {
 
         function checkAll () {
             isChecked.value = !isChecked.value
+        }
+
+        function toggleModal(){
+            displayModal.value = !displayModal.value
         }
 
         // function sendAction () {
@@ -293,7 +297,8 @@ export default {
             filterToggle,
             filterValues,
             displayModal,
-            selectedTransactions
+            selectedTransactions,
+            toggleModal
         }
     }
 }
