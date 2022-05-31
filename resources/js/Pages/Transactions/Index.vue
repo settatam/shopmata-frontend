@@ -24,6 +24,12 @@
                 </button>
             </div>
 
+            <BinLocation
+                @send="sendPayload"
+                @close="toggleModal"
+                v-if="displayModal"
+            />
+
             <Filter
                 v-if="filterToggleStatus"
                 @getFilters="filterValues"
@@ -48,6 +54,7 @@ import ShopmataTable from '../Widgets/ShopmataTable'
 import ConfirmationModal from '../../Components/ConfirmationModal'
 import * as api from '../../api'
 import urls from '../../api/urls'
+import BinLocation from '../../Components/BinLocation.vue'
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -67,6 +74,7 @@ export default {
         DeleteModal,
         ShopmataTable,
         Filter,
+        BinLocation
     },
     props: {
         notifications: Array,
@@ -96,12 +104,14 @@ export default {
         const confirmationFor = ref({})
         const tableFilters = ref(props.filters)
         const filterToggleStatus = ref(false)
+        const displayModal = ref(false)
+        const bin_location = ref('')
 
         function filterToggle () {
             filterToggleStatus.value = !filterToggleStatus.value
         }
 
-        function filterValues(res) {
+        function filterValues (res) {
             console.log(res)
         }
 
@@ -117,6 +127,10 @@ export default {
 
         function checkAll () {
             isChecked.value = !isChecked.value
+        }
+
+        function toggleModal () {
+            displayModal.value = !displayModal.value
         }
 
         // function sendAction () {
@@ -164,18 +178,8 @@ export default {
         }
 
         function doAction (action, selectedItems) {
-            let formData = []
-            // for(let i=0; i<action.formGroups.length; i++) {
-            //     //formData.push(actions.value[index].formGroups[i].field.attributes)
-            //     let name = action.formGroups[i].field.attributes.name
-            //     let data = {};
-            //     data[name] = action.formGroups[i].field.attributes.value;
-            //     formData.push(data);
-            // }
             let name = action.formGroups[0].field.attributes.name
             let value = action.formGroups[0].field.attributes.value
-            //add requires danger confirmation
-            //sendAction(formData, selectedItems);
             selectedTransactions.value = selectedItems.map(t => t.data)
             if (name == 'status') {
                 sendAction(name, value)
@@ -188,6 +192,12 @@ export default {
                     confirmationFor.value = {
                         name: 'actions',
                         value: 'Delete'
+                    }
+                } else if (value == 'Bin Location') {
+                    displayModal.value = true
+                    confirmationFor.value = {
+                        name: 'actions',
+                        value: 'Bin Location'
                     }
                 } else {
                     sendAction(name, value)
@@ -202,6 +212,12 @@ export default {
                     confirmationFor.value.name,
                     confirmationFor.value.value
                 )
+        }
+
+        function sendPayload (res) {
+            bin_location.value = res
+            sendAction(confirmationFor.value.name,
+                    confirmationFor.value.value)
         }
 
         function sendAction (action, value) {
@@ -236,6 +252,10 @@ export default {
                                 urls.transactions.bulkAction('barcode'),
                                 { ...data, ...props.filters }
                             )
+                            break
+                        case 'Bin Location':
+                            let url = urls.transactions.bin_location(selectedTransactions[0])
+                            axios.post(url, {bin_location:bin_location.value})
                             break
                     }
 
@@ -281,7 +301,12 @@ export default {
             closeConfirmationModal,
             tableFilters,
             filterToggle,
-            filterValues
+            filterValues,
+            displayModal,
+            selectedTransactions,
+            toggleModal,
+            sendPayload,
+            bin_location
         }
     }
 }
