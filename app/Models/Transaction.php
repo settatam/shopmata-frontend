@@ -402,13 +402,13 @@ class Transaction extends Model
 	}
 
 
-    public function public_note()
+    public function publicnote()
     {
         return $this->hasOne(TransactionNote::class)->where('type', TransactionNote::PUBLIC_TYPE);
     }
 
 
-    public function private_note()
+    public function privatenote()
     {
         return $this->hasOne(TransactionNote::class)->where('type', TransactionNote::PRIVATE_TYPE);
     }
@@ -989,6 +989,7 @@ class Transaction extends Model
     }
 
     public function createNote($type, $message=''){
+
        if($notes = TransactionNote::create([
             'type' => $type,
             'transaction_id' => $this->id,
@@ -1027,12 +1028,12 @@ class Transaction extends Model
     }
 
      public function getPublicNote() {
-        $note = $this->public_note()->latest()->first();
+        $note = $this->publicNote()->latest()->first();
 
         if(null !== $note) {
             return $note;
         }
-        return $this->public_note()->create([
+        return $this->publicNote()->create([
             'type' => 'public',
             'notes' => '',
         ]);

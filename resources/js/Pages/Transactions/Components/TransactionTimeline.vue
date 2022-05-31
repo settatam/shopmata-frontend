@@ -79,7 +79,13 @@
                             Send Offer
                         </button> -->
 
-                        <Button class="" @click="updateTransaction('offer')" @sendResponse="addMessage" :loadingAnimation="loadingAnimation" :buttonName="'Send Offer'"/>
+                        <Button
+                            class=""
+                            @click="updateTransaction('offer')"
+                            @sendResponse="addMessage"
+                            :loadingAnimation="loadingAnimation"
+                            :buttonName="'Send Offer'"
+                        />
                     </div>
                 </div>
             </div>
@@ -93,7 +99,7 @@
                     <p
                         :class="{
                             'text-black': !status.date,
-                            'text-green-darker': status.date
+                            'text-green-darker': status.date,
                         }"
                         class=""
                     >
@@ -104,7 +110,7 @@
                             aria-hidden="true"
                         />
                         <span v-if="status.date">
-                            {{ moment(status.date).format('MM-DD-YYYY') }}
+                            {{ moment(status.date).format("MM-DD-YYYY") }}
                         </span>
                         <span v-else> {{}} </span>
                     </p>
@@ -121,7 +127,7 @@
                         rows="3"
                         cols="150"
                         @change="updateTransaction('public_note')"
-                        v-model="transaction.pub_note"
+                        v-model="messagePublic"
                     >
                     </textarea>
 
@@ -135,7 +141,13 @@
                                 Print Labels
                             </button> -->
 
-                            <Button class="px-10" @click="popModal()" @sendResponse="addMessage" :loadingAnimation="loadingAnimation" :buttonName="'Print Labels'"/>
+                            <Button
+                                class="px-10"
+                                @click="popModal()"
+                                @sendResponse="addMessage"
+                                :loadingAnimation="loadingAnimation"
+                                :buttonName="'Print Labels'"
+                            />
                         </div>
 
                         <div>
@@ -143,8 +155,8 @@
                                 class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 :href="
                                     '/admin/transactions/' +
-                                        transaction.id +
-                                        '/barcode'
+                                    transaction.id +
+                                    '/barcode'
                                 "
                                 target="_blank"
                             >
@@ -161,7 +173,13 @@
                                 Send New Kit
                             </button> -->
 
-                            <Button class="px-8" @click="updateTransaction('new-kit')" @sendResponse="addMessage" :loadingAnimation="loadingAnimation" :buttonName="'Send New Kit'"/>
+                            <Button
+                                class="px-8"
+                                @click="updateTransaction('new-kit')"
+                                @sendResponse="addMessage"
+                                :loadingAnimation="loadingAnimation"
+                                :buttonName="'Send New Kit'"
+                            />
                         </div>
                     </div>
                 </div>
@@ -175,7 +193,7 @@
                         name="private"
                         rows="3"
                         cols="150"
-                        v-model="transaction.private_note"
+                        v-model="messagePrivate"
                         @change="updateTransaction('private_note')"
                     ></textarea>
 
@@ -188,7 +206,6 @@
                             >
                                 Email (Pictures &amp; Cnotes)
                             </button>
-
                         </div>
 
                         <div>
@@ -205,8 +222,8 @@
                             <a
                                 :href="
                                     '/admin/transactions/' +
-                                        transaction.id +
-                                        '/label?direction=to&is_return=1'
+                                    transaction.id +
+                                    '/label?direction=to&is_return=1'
                                 "
                                 target="_blank"
                                 class="block bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
@@ -278,21 +295,21 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from '@vue/reactivity'
-import { watch } from 'vue'
+import { reactive, ref, computed } from "@vue/reactivity";
+import { watch } from "vue";
 
-import debounce from 'lodash/debounce'
-import AppLayout from '../../../Layouts/AppLayout.vue'
-import Images from '../../../Components/Images.vue'
-import PrintLabel from '../Components/PrintLabel.vue'
-import { notify } from 'notiwind'
-import moment from 'moment'
-import Button from '../../../Components/Button.vue'
+import debounce from "lodash/debounce";
+import AppLayout from "../../../Layouts/AppLayout.vue";
+import Images from "../../../Components/Images.vue";
+import PrintLabel from "../Components/PrintLabel.vue";
+import { notify } from "notiwind";
+import moment from "moment";
+import Button from "../../../Components/Button.vue";
 import {
     XCircleIcon,
     MinusCircleIcon,
-    CheckCircleIcon
-} from '@heroicons/vue/outline'
+    CheckCircleIcon,
+} from "@heroicons/vue/outline";
 
 export default {
     components: {
@@ -302,26 +319,24 @@ export default {
         Button,
         CheckCircleIcon,
         XCircleIcon,
-        MinusCircleIcon
+        MinusCircleIcon,
     },
-    props: ['transaction', 'bottom_tags', 'statuses', 'root', 'timeline'],
-    emits: ['transaction-updated'],
+    props: ["transaction", "bottom_tags", "statuses", "root", "timeline"],
+    emits: ["transaction-updated"],
     created: function () {
-        this.moment = moment
+        this.moment = moment;
     },
-    setup (props, { emit }) {
-        const popUp = ref(false)
-        const successMessage = ref('')
+    setup(props, { emit }) {
+        const popUp = ref(false);
+        const successMessage = ref("");
         const popModal = () => {
-            popUp.value = true
-        }
-        let transaction = props.transaction
+            popUp.value = true;
+        };
+        let transaction = props.transaction;
 
         const params = ref({
-            model: 'TransactionNote',
-            model_id: transaction.public_note
-                ? transaction.public_note.id
-                : null,
+            model: "TransactionNote",
+            model_id: transaction.pub_note ? transaction.public_note.id : null,
         });
 
         const values = reactive({
@@ -329,69 +344,34 @@ export default {
             note: null,
             type: "public_note",
         });
-        const notes = props.transaction;
+
         const transaction_id = props.root.id;
         const pickedTags = props.root.tags;
         const checkedList = computed(() => {
-            let myArray = []
-            pickedTags.forEach(item => {
-                return myArray.push(item.tag_id)
-            })
+            let myArray = [];
+            pickedTags.forEach((item) => {
+                return myArray.push(item.tag_id);
+            });
 
-            return myArray
-        })
-        const customer_id = props.root.customer.id
-        const messagePrivate = ref('')
-        const messagePublic = ref('')
-        let message = null
-        let tmPrivate = null
-        let tmPublic = null
-        let type = null
+            return myArray;
+        });
+        const currentTransaction = ref(props.transaction);
 
-        const loadingAnimation = ref(false)
+        const messagePrivate = ref(transaction.private_note);
+        const messagePublic = ref(transaction.pub_note);
+        let type = null;
 
-        const transactionStatus = ref('')
+        const loadingAnimation = ref(false);
+
+        const transactionStatus = ref("");
         const transactionOffer = reactive({
-            secondOffer: '',
-            offer: ''
-        })
+            secondOffer: "",
+            offer: "",
+        });
 
-        const currentTransaction = ref(props.transaction)
-        tmPublic = currentTransaction.public_note
-        tmPrivate = currentTransaction.private_note
-
-        function saveNote (e) {
-            const noteDetails = {
-                name:
-                    e.target.name == 'private' ? 'private_note' : 'public_note',
-                value: e.target.value
-            }
-            emit('updated-notes', noteDetails)
-        }
-
-        watch(
-            [messagePublic, messagePrivate],
-            debounce(function (value) {
-                axios
-                    .post('/admin/transaction/notes', {
-                        transaction_id,
-                        message: message,
-                        customer_id,
-                        type: type
-                    })
-                    .then(res => {
-                        successMessage.value = 'Note updated'
-                        setTimeout(onClickTop, 2000)
-                    })
-                    .catch(error => {
-                        successMessage.value = 'Something went wrong.'
-                        setTimeout(onClickBot, 2000)
-                    })
-            }, 1000)
-        )
-
-        function updateTransaction (event, status_id = null) {
-            let data = {}
+        function updateTransaction(event, status_id = null) {
+            console.log(messagePublic);
+            let data = {};
             switch (event) {
                 case "status_id":
                     data = {
@@ -401,125 +381,127 @@ export default {
                     break;
                 case "status":
                     data = {
-                        field: 'status_id',
-                        value: status_id
-                    }
-                    break
-                case 'message':
+                        field: "status_id",
+                        value: status_id,
+                    };
+                    break;
+                case "message":
                     data = {
-                        field: 'message',
-                        value: this.currentTransaction.status_id
-                    }
-                    break
-                case 'offer':
+                        field: "message",
+                        value: this.currentTransaction.status_id,
+                    };
+                    break;
+                case "offer":
                     data = {
-                        field: 'offer',
-                        value: this.currentTransaction.offer
-                    }
-                    break
-                case 'sms':
+                        field: "offer",
+                        value: this.currentTransaction.offer,
+                    };
+                    break;
+                case "sms":
                     data = {
-                        field: 'sms',
-                        value: this.currentTransaction.sms
-                    }
-                    break
-                case 'private_note':
+                        field: "sms",
+                        value: this.currentTransaction.sms,
+                    };
+                    break;
+                case "private_note":
                     data = {
-                        field: 'message',
-                        value: this.currentTransaction.private_note,
-                        type: 'private'
-                    }
-                    break
-                case 'public_note':
+                        field: "message",
+                        value: this.messagePrivate,
+                        type: "private",
+                    };
+                    break;
+                case "public_note":
                     data = {
-                        field: 'message',
-                        value: this.currentTransaction.public_note,
-                        type: 'public'
-                    }
-                    break
-                case 'new-kit':
+                        field: "message",
+                        value: this.messagePublic,
+                        type: "public",
+                    };
+                    break;
+                case "new-kit":
                     data = {
-                        field: 'new-kit',
-                        value: true
-                    }
-                    break
+                        field: "new-kit",
+                        value: true,
+                    };
+                    break;
             }
-            emit('transaction-updated', data)
+            emit("transaction-updated", data);
         }
 
         // notification
-        function onClickTop () {
+        function onClickTop() {
             notify(
                 {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
+                    group: "top",
+                    title: "Success",
+                    text: successMessage.value,
                 },
                 4000
-            )
+            );
         }
 
-        function onChange (event) {
-            console.log(event.target.value)
+        function onChange(event) {
+            console.log(event.target.value);
         }
 
-        function onClickBot () {
+        function onClickBot() {
             notify(
                 {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
+                    group: "bottom",
+                    title: "Error",
+                    text: successMessage.value,
                 },
                 4000
-            )
+            );
         }
         // notification ends
 
         // save notes end
 
         // Save tags
-        function saveBottomTags (tag_id) {
+        function saveBottomTags(tag_id) {
             if (this.checkedList.includes(tag_id)) {
                 axios
                     .post(`/admin/transactions/${transaction_id}/tags`, {
-                        tag_id
+                        tag_id,
                     })
 
-                    .then(res => {
+                    .then((res) => {
                         if (res.status == 200) {
-                            successMessage.value = 'Tag removed'
-                            setTimeout(onClickTop, 2000)
+                            successMessage.value = "Tag removed";
+                            setTimeout(onClickTop, 2000);
                         } else if (res.status == 422) {
-                            successMessage.value = res.data.notification.message
-                            setTimeout(onClickBot, 2000)
-                            setTimeout(errorFn, 3000)
+                            successMessage.value =
+                                res.data.notification.message;
+                            setTimeout(onClickBot, 2000);
+                            setTimeout(errorFn, 3000);
                         }
                     })
-                    .catch(error => {
-                        successMessage.value = 'Error processing your request'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    })
+                    .catch((error) => {
+                        successMessage.value = "Error processing your request";
+                        setTimeout(onClickBot, 2000);
+                        setTimeout(errorFn, 3000);
+                    });
             } else {
                 axios
                     .post(`/admin/transactions/${transaction_id}/tags`, {
-                        tag_id
+                        tag_id,
                     })
-                    .then(res => {
+                    .then((res) => {
                         if (res.status == 200) {
-                            successMessage.value = 'Tag added'
-                            setTimeout(onClickTop, 2000)
+                            successMessage.value = "Tag added";
+                            setTimeout(onClickTop, 2000);
                         } else if (res.status == 422) {
-                            successMessage.value = res.data.notification.message
-                            setTimeout(onClickBot, 2000)
-                            setTimeout(errorFn, 3000)
+                            successMessage.value =
+                                res.data.notification.message;
+                            setTimeout(onClickBot, 2000);
+                            setTimeout(errorFn, 3000);
                         }
                     })
-                    .catch(error => {
-                        successMessage.value = 'Error processing your request'
-                        setTimeout(onClickBot, 2000)
-                        setTimeout(errorFn, 3000)
-                    })
+                    .catch((error) => {
+                        successMessage.value = "Error processing your request";
+                        setTimeout(onClickBot, 2000);
+                        setTimeout(errorFn, 3000);
+                    });
             }
         }
 
@@ -534,10 +516,8 @@ export default {
             checkedList,
             messagePrivate,
             messagePublic,
-            saveNote,
             transactionStatus,
             transactionOffer,
-            notes,
             updateTransaction,
             onChange,
             currentTransaction,
