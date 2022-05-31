@@ -78,8 +78,6 @@ class HomeController extends Controller
             $pageToFind = StorePage::nameFromPath($path);
 
             $transaction = Transaction::with('trStatus')->with('images')->with('offers')->find($id);
-            
-            dd(Auth::user());
 
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind);

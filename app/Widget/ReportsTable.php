@@ -263,7 +263,7 @@ class ReportsTable extends Table
                         'data' => optional(optional($transaction->customer)->customer_address)->city,
                     ],
                     'state' => [
-                        'data' => optional(optional(optional($transaction->customer)->customer_address)->state)->code,
+                        'data' => optional(optional($transaction->customer)->address)->state
                     ],
                     'zip' => [
                         'data' => optional(optional($transaction->customer)->customer_address)->postal_code,
