@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterTrabsactionsTableDropTags extends Migration
+class AlterTransactionsTableDropTags extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AlterTrabsactionsTableDropTags extends Migration
     public function up()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            if (!Schema::hasColumn('transactions', 'tags'))
+            if (Schema::hasColumn('transactions', 'tags'))
             {
                 $table->dropColumn('tags');
             }

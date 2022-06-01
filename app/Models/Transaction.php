@@ -59,13 +59,7 @@ class Transaction extends Model
 
         $transaction = self::findOrFail($id);
         //This will become a problem if we don't have a store ....
-        $store_tag   =  StoreTag::where(
-                            [
-                                'tagable_id' => $id,
-                                'tag_id'     => $tag_id,
-                                //'store_id'  => $this->store->id
-                            ]
-                        )->first();
+        $store_tag   =  StoreTag::where([ 'tagable_id' => $id, 'tag_id' => $tag_id])->first();
         if (null !== $store_tag){
             $store_tag->delete();
             Log::info("Tag(s) deleted!", );
@@ -484,6 +478,20 @@ class Transaction extends Model
 //    public function getStatusAttribute() {
 //        return optional($this->trStatus)->name;
 //    }
+
+    public function allTags() {
+        $set = '';
+        $x     = 1;
+        foreach($this->tags as $tag){
+            $set .= " {$tag->tag->name} ";
+            if($x < $this->tags->count()){
+                $set .= ', ';
+            }
+            $x++;
+        }
+        return $set;
+    }
+
 
     public function getLeadAttribute() {
         return 'google';
