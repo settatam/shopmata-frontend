@@ -319,7 +319,8 @@ class TransactionsController extends Controller
 //        }
 
         $input = $request->input();
-        $transactionObj = Transaction::whereIn('id', $input['transactions'])->get();
+        $queryObj = Transaction::whereIn('id', $input['transactions']);
+        $transactionObj = $queryObj->get();
 
         if($input['action'] == 'Create Barcodes') {
             $transactionObj->map(function(Transaction $transaction){
@@ -360,8 +361,15 @@ class TransactionsController extends Controller
             unset($input['page']);
             unset($input['type']);
 
-            $input['refresh_token'] = rand(1, 5000);
-
+            return redirect()->route('transactions.index', $input);
+        }else if($input['action'] == 'Bin Location') {
+            foreach($transactionObj as $transaction) {
+                $req = ['bin_location' => $request->bin_location];
+                $transaction->doUpdate($req);
+            }
+            return redirect()->route('transactions.index', $input);
+        }else if($input['action'] == 'delete') {
+            $queryObj->delete();
             return redirect()->route('transactions.index', $input);
         }
     }
