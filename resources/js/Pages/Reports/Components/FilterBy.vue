@@ -1,12 +1,12 @@
 <template>
     <div class=" my-3 md:px-0 rounded">
         <div class="pt-3 ">
-            <h2 class="text-xl text-purple-darken">FILTER BY:</h2>
+            <h2 class="text-xs font-bold  text-purple-darken">FILTER BY:</h2>
         </div>
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div
-                class="w-full my-2 border bg-white"
+                class="w-full my-2 border  bg-white"
                 v-for="(item, mainIndex) in filterLists"
                 :key="mainIndex"
             >
@@ -16,7 +16,7 @@
                     >
                         <h1>{{ item.label }}</h1>
                     </div>
-                    <div class="pl-3 py-3 bg-white h-96 overflow-scroll">
+                    <div class="pl-3 py-3 bg-white h-96 overflow-scroll overflow-x-auto overflow-y-auto">
                         <div>
                             <div
                                 v-for="(filter, filterIndex) in item.fields.options"
