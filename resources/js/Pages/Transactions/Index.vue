@@ -255,23 +255,23 @@ export default {
                             let url = urls.transactions.bulkAction('bin_location')
                             data.bin_location = bin_location.value
                             Inertia.post(url, data)
-                            displayModal.value = false
+                            .then(
+                                displayModal.value = false
+                            )
+                            break;
+                        default:
+                            Inertia.post(
+                                urls.transactions.bulkAction('status'),
+                                { ...data, ...props.filters },
+                                {
+                                    replace: false,
+                                    onSuccess: () => {
+                                        tableFilters.value.refresh_token = Math.random()
+                                    }
+                                }
+                            )
                             break
                     }
-                default:
-                    Inertia.post(
-                        urls.transactions.bulkAction('status'),
-                        { ...data, ...props.filters },
-                        {
-                            replace: false,
-                            onSuccess: () => {
-                                tableFilters.value.refreshToken = Math.random()
-                                console.log(tableFilters.value)
-                                Inertia.reload()
-                            }
-                        }
-                    )
-                    break
             }
 
             confirmationFor.value = ''

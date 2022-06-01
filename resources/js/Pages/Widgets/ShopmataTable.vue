@@ -344,7 +344,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import Filter from '../../Components/Filter.vue'
 import axios from 'axios'
 import Pagination from '../../Components/Pagination'
@@ -355,7 +355,8 @@ import Spinner from '../../../assets/Spinner.vue'
 
 const props = defineProps({
     filters: Object,
-    term: String
+    term: String,
+    refresh_token: String
 })
 
 const emits = defineEmits(['action', 'termUpdated'])
@@ -390,6 +391,18 @@ onMounted(() => {
     pageFilters.value = props.filters
     getData()
 })
+
+watch(() => props.filters, (first, second) => {
+     pageFilters.value = first
+     getData()
+});
+
+watch(() => props.refresh_token, (first, second) => {
+     pageFilters.value = props.filters
+     getData()
+});
+
+
 const bulkActions = el => {}
 
 function doAction (index, formGroupIndex) {

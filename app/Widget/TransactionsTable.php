@@ -53,9 +53,9 @@ class TransactionsTable extends Table
         $extras = [];
         $status = data_get($filter, 'status');
             switch($status) {
-                case 60:
-                case 3:
-                case 1:
+                case 600:
+                case 300:
+                case 1000:
                     $extras = [
                          [
                             'key' => 'pictures',
@@ -85,7 +85,7 @@ class TransactionsTable extends Table
                         ]
                     ];
                     break;
-                case 2:
+                case 2000:
                     $extras = [
                          [
                             'key' => 'pictures',
@@ -255,9 +255,9 @@ class TransactionsTable extends Table
 
                 $status = data_get($filter, 'status');
                     switch ($status) {
-                        case 60:
-                        case 3:
-                        case 1:
+                        case 6000:
+                        case 3000:
+                        case 1000:
                             $extras = [
                                 'message' => [
                                         'data' => 'This is a messager',
@@ -272,7 +272,7 @@ class TransactionsTable extends Table
                                 ]
                             ];
                             break;
-                        case 2:
+                        case 2000:
                             $extras = [
                                 'message' => [
                                         'data' => 'This is a messager',
@@ -321,7 +321,7 @@ class TransactionsTable extends Table
                                     'data' => $transaction->incoming_tracking
                                 ],
                                 'bin_location' => [
-                                    'data' => 'Bin Location'
+                                    'data' => $transaction->bin_location
                                 ],
                                 'offer' => [
                                     'data' => $transaction->offer
@@ -384,7 +384,7 @@ class TransactionsTable extends Table
                         break;
                     case 13:
                         $actions[] = (new ReadyForMelt())->render($filter);
-                        break;   
+                        break;
                     case null:
                        $actions[] = (new DefaultStatus())->render($filter);
                        break;

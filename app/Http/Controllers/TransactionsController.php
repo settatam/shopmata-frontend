@@ -366,6 +366,7 @@ class TransactionsController extends Controller
             foreach($transactionObj as $transaction) {
                 $req = ['bin_location' => $request->bin_location];
                 $transaction->doUpdate($req);
+                dd($transaction);
             }
             return redirect()->route('transactions.index', $input);
         }else if($input['action'] == 'delete') {
