@@ -7,7 +7,7 @@
             Filter by:
         </button>
 
-        <div class="">
+        <!-- <div class="">
             <input type="date" name=""
                 class="rounded text-xm md:text-base text-gray-500 w-full bg-white border border-gray-200" id="" />
         </div>
@@ -15,9 +15,9 @@
         <div class="">
             <input type="date" name=""
                 class="rounded text-xm md:text-base text-gray-500 w-full bg-white border border-gray-200" id="" />
-        </div>
+        </div> -->
 
-        <div class="flex flex-col">
+        <!-- <div class="flex flex-col">
             <select name="Status" id=""
                 class="rounded text-gray-500 text-xm md:text-base w-full bg-white border border-gray-200">
                 <option value="">Date Kit Requested</option>
@@ -43,7 +43,7 @@
                 class="inline-flex items-center justify-center rounded-md border border-transparent bg-purple-darken py-2 px-2 text-sm font-medium text-white shadow-sm hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-purple-darken focus:ring-offset-2 sm:w-auto"
                 type="submit">
                 New Customer
-            </button>
+            </button> -->
 
     </div>
 

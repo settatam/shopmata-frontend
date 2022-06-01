@@ -110,9 +110,13 @@ import { ref, reactive } from 'vue'
 import { AdjustmentsIcon } from '@heroicons/vue/outline'
 import flatPickr from 'vue-flatpickr-component'; 
 import 'flatpickr/dist/flatpickr.css';
+import moment from 'moment'
 
 
 export default {
+    created: function () {
+        this.moment = moment
+    },
     components: {
         AdjustmentsIcon,
         flatPickr
@@ -120,8 +124,8 @@ export default {
     emits: ['getFilters', 'switchToggle'],
     setup (props, { emit }) {
         const filterValues = reactive({
-            from: new Date(),
-            to: new Date(),
+            from: moment(new Date()).format('YYYY-MM-DD'),
+            to: moment(new Date()).format('YYYY-MM-DD'),
             store: null,
             status: null
         })
