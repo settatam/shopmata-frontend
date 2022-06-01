@@ -15,6 +15,8 @@ class Filter
     const DEFAULT_PER_PAGE = 20;
     const DEFAULT_SORTBY = 'id';
     const DEFAULT_SORT = 'desc';
+    const DEFAULT_MTD = '';
+
 
     static function dates($params, $setDate = false, $range=self::DATE_7_DAYS, $timezone=self::DEFAULT_TIMEZONE)
     {
@@ -78,6 +80,20 @@ class Filter
         ];
     }
 
+    static function getDefaultMTD($timezone) {
+        return [
+          'from' => now()->setTimezone($timezone)->startOfMonth()->format('c'),
+          'to' => now()->setTimezone($timezone)->endOfDay()->utc()->format('c'),
+        ];
+    }
+
+    static function getDefaultYTD($timezone) {
+        return [
+          'from' => now()->setTimezone($timezone)->startOfYear()->format('c'),
+          'to' => now()->setTimezone($timezone)->endOfDay()->utc()->format('c'),
+        ];
+    }
+
     static function getDefault6Months($timezone) {
         return [
           'from' => now()->setTimezone($timezone)->startOfDay()->addDays(-180)->utc()->format('c'),
@@ -102,6 +118,10 @@ class Filter
             return ($implode) ? implode(',', $stores) : $stores;
         }
         return null;
+    }
+
+    static function getStore($filter) {
+        return data_get($filter, 'store_id');
     }
 
     static function perPage($filter){

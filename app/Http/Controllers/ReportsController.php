@@ -11,6 +11,7 @@ use App\Widget\ReportsTable;
 use App\Widget\ReportFormGroup;
 use App\Exports\ReportsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Store;
 
 
 class ReportsController extends Controller
@@ -21,8 +22,13 @@ class ReportsController extends Controller
         $reportForm = (new ReportFormGroup())->render($filters);
         //†$filters['dates'] = Filter::dates($filters);
         $filters['type'] = 'ReportsTable';
+        $dates = Filter::getDefaultYTD(Filter::DEFAULT_TIMEZONE);
+        $store = Filter::getStore($filters);
+        $to = data_get($dates, 'to');
+        $from = data_get($dates, 'from');
+        $stores = Store::get();
         return Inertia::render('Reports/Index',
-            compact('filters', 'reportForm')
+            compact('filters', 'reportForm', 'stores', 'to', 'from')
         );
     }
 
