@@ -59,13 +59,7 @@ class Transaction extends Model
 
         $transaction = self::findOrFail($id);
         //This will become a problem if we don't have a store ....
-        $store_tag   =  StoreTag::where(
-                            [
-                                'tagable_id' => $id,
-                                'tag_id'     => $tag_id,
-                                //'store_id'  => $this->store->id
-                            ]
-                        )->first();
+        $store_tag   =  StoreTag::where([ 'tagable_id' => $id, 'tag_id' => $tag_id])->first();
         if (null !== $store_tag){
             $store_tag->delete();
             Log::info("Tag(s) deleted!", );
@@ -269,7 +263,7 @@ class Transaction extends Model
     }
 
 
-   
+
 
     public function scopeWithPrivateNote($query) {
         return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
@@ -287,9 +281,9 @@ class Transaction extends Model
     }
 
     public function scopeWithStores($query, $filter) {
-        if($stores = data_get($filter, 'stores')) {
+        if($stores = data_get($filter, 'store_id')) {
             if(!is_array($stores)) $stores = [$stores];
-            $query->whereIn('store_id', $stores);
+            $query->whereIn('transactions.store_id', $stores);
         }
     }
 
@@ -484,6 +478,23 @@ class Transaction extends Model
 //    public function getStatusAttribute() {
 //        return optional($this->trStatus)->name;
 //    }
+
+    public function allTags() {
+        $set = '';
+        $x     = 1;
+        if (is_array($this->tags)) {
+            foreach($this->tags as $tag){
+                $set .= " {$tag->tag->name} ";
+                if($x < $this->tags->count()){
+                    $set .= ', ';
+                }
+                $x++;
+            }
+        }
+
+        return $set;
+    }
+
 
     public function getLeadAttribute() {
         return 'google';

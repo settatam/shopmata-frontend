@@ -14,7 +14,7 @@ class AlterCustomerTableDropAddress extends Migration
     public function up()
     {
         Schema::table('customers', function (Blueprint $table) {
-            if (!Schema::hasColumn('customers', 'address'))
+            if (Schema::hasColumn('customers', 'address'))
             {
                 $table->dropColumn('address');
             }
