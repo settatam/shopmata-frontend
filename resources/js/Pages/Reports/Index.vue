@@ -128,6 +128,7 @@ import ReportLayout from "./Components/ReportLayout.vue";
 import ShopmataTable from "../Widgets/ShopmataTable";
 import Filter from "../../Components/Filter.vue";
 import urls from "../../api/urls";
+import {postAsNativeForm} from "../../api/index"
 
 export default {
     components: {
@@ -170,7 +171,6 @@ export default {
         }
 
         function sendFilters(res) {
-            console.log(res)
             tableFilters.value = { ...tableFilters.value, ...res }
             getFormGroup()
             // tableFilters.value.refresh_token = Math.random()
@@ -188,8 +188,11 @@ export default {
             tableFilters.value['type'] = props.filters.type
         }
 
-        function exportData(){
-
+        function exportData() {
+            postAsNativeForm(
+                urls.reports.export(),
+                tableFilters.value
+            )
         }
 
         return {
@@ -200,7 +203,8 @@ export default {
             sendFilters,
             newFilters,
             filtersForm,
-            refresh_token
+            refresh_token,
+            exportData
         }
     },
 };

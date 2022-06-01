@@ -359,7 +359,7 @@ const props = defineProps({
     refresh_token: String
 })
 
-const emits = defineEmits(['action', 'termUpdated'])
+const emits = defineEmits(['action', 'termUpdated', 'export'])
 
 const transactions = ref([])
 const title = ref('')

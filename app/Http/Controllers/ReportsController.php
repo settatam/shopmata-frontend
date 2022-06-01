@@ -42,7 +42,6 @@ class ReportsController extends Controller
         return response()->json($formGroup);
     }
 
-
 }
 
 //$age = Carbon::parse($request->date_of_birth)->diff(Carbon::now())->y;

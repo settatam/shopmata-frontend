@@ -7,6 +7,7 @@ export default {
         bin_location: (id) => `/admin/transactions/${id}/bin_location`,
     },
     reports: {
-        formGroup: () => `/admin/reports/form-group`
+        formGroup: () => `/admin/reports/form-group`,
+        export: () => `/admin/reports/export`
     }
 };
