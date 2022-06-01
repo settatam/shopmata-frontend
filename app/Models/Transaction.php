@@ -38,7 +38,6 @@ class Transaction extends Model
         'est_profit',
         'created_date',
         'percentage_profit'
-        
     ];
 
 
@@ -147,6 +146,7 @@ class Transaction extends Model
 
     public function scopeWithGroupedGender($query) {
         $query->join('customers', 'customers.id', '=', 'transactions.customer_id')
+              ->where('gender', '!=', null)
             ->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
     }
 

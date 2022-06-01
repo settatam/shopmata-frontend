@@ -483,9 +483,7 @@ class TransactionsController extends Controller
             case 'tags':
                 $this->addTag($request, $id);
                 break;
-            case 'bin_location':
-                $transaction->doUpdate($input);
-                break;
+            
             case 'messages':
                 $transaction->createNote($input['type'], $input['message']);
             case 'status':
