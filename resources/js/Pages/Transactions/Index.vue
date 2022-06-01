@@ -255,9 +255,7 @@ export default {
                             let url = urls.transactions.bulkAction('bin_location')
                             data.bin_location = bin_location.value
                             Inertia.post(url, data)
-                            .then(
-                                displayModal.value = false
-                            )
+                            displayModal.value = false
                             break
                     }
                 default:
