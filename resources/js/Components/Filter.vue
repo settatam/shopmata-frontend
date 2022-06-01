@@ -22,8 +22,8 @@
                         id="daterange"
                         name="daterange"
                         class="text-start border-r-0 rounded-r-none w-full py-2  text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                        v-model="filterValues.dateOne"
-                        :lowerLimit="filterValues.dateOne"
+                        v-model="filterValues.from"
+                        :lowerLimit="filterValues.from"
                     ></flatPickr>
 
                     <span
@@ -42,8 +42,8 @@
                         id="daterange"
                         name="daterange"
                         class="border-l-0 w-full rounded-l-none py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                        v-model="filterValues.dateTwo"
-                        :lowerLimit="filterValues.dateOne"
+                        v-model="filterValues.to"
+                        :lowerLimit="filterValues.from"
                     ></flatPickr>
                 </div>
             </div>
@@ -110,9 +110,13 @@ import { ref, reactive } from 'vue'
 import { AdjustmentsIcon } from '@heroicons/vue/outline'
 import flatPickr from 'vue-flatpickr-component'; 
 import 'flatpickr/dist/flatpickr.css';
+import moment from 'moment'
 
 
 export default {
+    created: function () {
+        this.moment = moment
+    },
     components: {
         AdjustmentsIcon,
         flatPickr
@@ -120,8 +124,8 @@ export default {
     emits: ['getFilters', 'switchToggle'],
     setup (props, { emit }) {
         const filterValues = reactive({
-            dateOne: new Date(),
-            dateTwo: new Date(),
+            from: moment(new Date()).format('YYYY-MM-DD'),
+            to: moment(new Date()).format('YYYY-MM-DD'),
             store: null,
             status: null
         })
