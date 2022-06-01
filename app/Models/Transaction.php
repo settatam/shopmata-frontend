@@ -277,9 +277,9 @@ class Transaction extends Model
     }
 
     public function scopeWithStores($query, $filter) {
-        if($stores = data_get($filter, 'stores')) {
+        if($stores = data_get($filter, 'store_id')) {
             if(!is_array($stores)) $stores = [$stores];
-            $query->whereIn('store_id', $stores);
+            $query->whereIn('transactions.store_id', $stores);
         }
     }
 
@@ -478,6 +478,7 @@ class Transaction extends Model
         $set = '';
         $x     = 1;
         if (null != $this->tags) {
+
             foreach($this->tags as $tag){
                 $set .= " {$tag->tag->name} ";
                 if($x < $this->tags->count()){
@@ -486,7 +487,7 @@ class Transaction extends Model
                 $x++;
             }
         }
-       
+
         return $set;
     }
 
