@@ -62,7 +62,7 @@
 
     </div>
 
-    <Filter class="my-3" v-if="displayFilter" />
+    <Filter class="my-3" v-if="displayFilter" @switchToggle="filterToggle" @getFilters="sendFilters" />
 </template>
 
 <script>
@@ -78,7 +78,11 @@ export default {
             displayFilter.value = !displayFilter.value;
         }
 
-        return { displayFilter, filterToggle };
+        function sendFilters(res){
+            console.log(res)
+        }
+
+        return { displayFilter, filterToggle, sendFilters };
     },
 };
 </script>
