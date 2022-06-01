@@ -344,7 +344,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch } from 'vue'
+import { onMounted, ref, computed, watch, onUpdated } from 'vue'
 import Filter from '../../Components/Filter.vue'
 import axios from 'axios'
 import Pagination from '../../Components/Pagination'
@@ -389,11 +389,17 @@ const filters = props.filters
 
 onMounted(() => {
     pageFilters.value = props.filters
+    pageFilters.refresh_token = '';
     getData()
 })
 
 watch(() => props.filters, (first, second) => {
      pageFilters.value = first
+     getData()
+});
+
+watch(() => props.filters.refresh_token, (first, second) => {
+     pageFilters.value = props.filters
      getData()
 });
 

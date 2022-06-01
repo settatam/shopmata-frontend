@@ -27,7 +27,7 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, toRefs } from 'vue'
 import Filter from '../../Components/Filter.vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
@@ -89,7 +89,7 @@ export default {
         const confirmationBody = ref('')
         const selectedTransactions = ref([])
         const confirmationFor = ref({})
-        const tableFilters = ref(props.filters)
+        const tableFilters = reactive(props.filters)
         const filterToggleStatus = ref(false)
         const displayModal = ref(false)
         const bin_location = ref('')
@@ -241,10 +241,13 @@ export default {
                         case 'Bin Location':
                             let url = urls.transactions.bulkAction('bin_location')
                             data.bin_location = bin_location.value
-                            Inertia.post(url, data)
-                            .then(
-                                displayModal.value = false
-                            )
+                            axios.post(url, data).then((res) => {
+                                tableFilters.refresh_token = Math.random()
+                                console.log(tableFilters);
+                                displayModal.value = false;
+                                confirmationFor.value = {}
+                            })
+
                             break;
                         default:
                             Inertia.post(
@@ -253,7 +256,7 @@ export default {
                                 {
                                     replace: false,
                                     onSuccess: () => {
-                                        tableFilters.value.refresh_token = Math.random()
+                                        tableFilters.refresh_token = Math.random()
                                     }
                                 }
                             )
@@ -292,7 +295,7 @@ export default {
             selectedTransactions,
             toggleModal,
             sendPayload,
-            bin_location
+            bin_location,
         }
     }
 }

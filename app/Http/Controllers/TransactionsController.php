@@ -41,6 +41,7 @@ class TransactionsController extends Controller
         $filters['page'] = Filter::page($filters);
         $filters['type'] = 'TransactionsTable';
         $filters['term'] = '';
+        $filters['refresh_token'] = '';
         $perPage = Filter::perPage($filters);
         return Inertia::render('Transactions/Index',compact('filters'));
     }
@@ -366,12 +367,13 @@ class TransactionsController extends Controller
             foreach($transactionObj as $transaction) {
                 $req = ['bin_location' => $request->bin_location];
                 $transaction->doUpdate($req);
-                dd($transaction);
             }
-            return redirect()->route('transactions.index', $input);
+            //return redirect()->route('transactions.index', $input);
+            return response()->json('done');
         }else if($input['action'] == 'delete') {
             $queryObj->delete();
-            return redirect()->route('transactions.index', $input);
+            return response()->json('done');
+            //return redirect()->route('transactions.index', $input);
         }
     }
 
