@@ -29,7 +29,8 @@ class Transaction extends Model
     protected $fillable = [
         'id',
         'status_id',
-        'customer_id'
+        'customer_id',
+        'bin_location'
     ];
 
     protected $appends = [
