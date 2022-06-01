@@ -232,9 +232,7 @@ export default {
                 case 'actions':
                     switch (value) {
                         case 'Delete':
-                            alert(
-                                'this is the part where we actually delete the item'
-                            )
+                            Inertia.post(urls.transactions.bulkAction('delete'), data)
                             break
                         case 'Send Message':
                             Inertia.get(
@@ -255,7 +253,6 @@ export default {
                             break
                         case 'Bin Location':
                             let url = urls.transactions.bulkAction('bin_location')
-                            console.log(url)
                             data.bin_location = bin_location.value
                             Inertia.post(url, data)
                             .then(
