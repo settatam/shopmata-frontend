@@ -281,10 +281,10 @@ class ReportsTable extends Table
                         'data' => $transaction->days_in_stock,
                     ],
                     'profit_percent' => [
-                        'data' => $transaction->percentage_profit,
+                        'data' =>null // $transaction->est_profit,
                     ],
                     'estimated_profit' => [
-                        'key' => $transaction->estimated_profit,
+                        'key' => $transaction->est_profit,
                     ],
                     'payment_type' => [
                         'data' =>optional(optional(optional($transaction->customer)->payment_address)->payment_type)->name,
@@ -345,10 +345,5 @@ class ReportsTable extends Table
          return true;
     }
 
-    private function calcProfit($cost, $selling) {
-        if(!$cost && !$selling) return '';
-        $profit = $selling - $cost;
-        $percent = (($selling - $cost) / $cost) * 100;
-        return Numeral::number($percent)->format('0.0%');
-    }
+   
 }

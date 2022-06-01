@@ -37,7 +37,6 @@ class Transaction extends Model
         'kit_type',
         'est_profit',
         'created_date',
-        'percentage_profit'
     ];
 
 
@@ -136,7 +135,6 @@ class Transaction extends Model
         return $query->selectRaw('DATE_FORMAT(created_at, "%W") as day,  COUNT(DATE_FORMAT(created_at, "%W")) AS `dayCount`')
         ->groupBy('day');
     }
-
 
     public function scopeWithGroupedGender($query) {
         $query->join('customers', 'customers.id', '=', 'transactions.customer_id')
@@ -260,10 +258,8 @@ class Transaction extends Model
             $result = ($offer - $est_val) / 100;
             return Numeral::number($result)->format('0.0%');
         }
+        return null;
     }
-
-
-   
 
     public function scopeWithPrivateNote($query) {
         return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
@@ -377,6 +373,7 @@ class Transaction extends Model
         }
     }
 
+
     public function activities()
     {
         return $this->morphMany(Activity::class, 'activityable');
@@ -430,8 +427,6 @@ class Transaction extends Model
     	if($this->est_value && $this->offer) {
             return Numeral::number($this->offer - $this->est_value)->format('$0,0');
         }
-
-        return null;
 	}
 
     public function getPercentageProfitAttribute(){
@@ -1049,6 +1044,14 @@ class Transaction extends Model
             'type' => 'public',
             'notes' => '',
         ]);
+    }
+
+
+    private function calcProfit($cost, $selling) {
+        if(!$cost && !$selling) return '';
+        $profit = $selling - $cost;
+        $percent = (($selling - $cost) / $cost) * 100;
+        return Numeral::number($percent)->format('0.0%');
     }
 
 }
