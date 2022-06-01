@@ -95,7 +95,7 @@ class TransactionsController extends Controller
             ->find($id);
 
         $note = $transaction->getPublicNote();
-        $transaction->load('public_note.images');
+        $transaction->load('publicnote.images');
 
         $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
         //$transaction               = Transaction::with('shippingLabels')->findorFail($id);
@@ -189,7 +189,7 @@ class TransactionsController extends Controller
             if ( $transaction ) {
                 $transaction  = Transaction::findorFail($request->transaction_id);
                 Log::info("Note(s) Updated!", );
-                return response($transaction->load('public_note','private_note'),200);
+                return response($transaction->load('publicNote','privateNote'),200);
             }
 
         } catch (\Throwable $th) {
@@ -419,7 +419,7 @@ class TransactionsController extends Controller
 
                 try {
                     $customer_note = TransactionNote::firstOrNew(
-                        ['id' => optional($transaction->public_note)->id],
+                        ['id' => optional($transaction->publicNote)->id],
                     );
                     $image  = FileUploader::upload($request);
                     if ( isset($image[0]['thumb']) ){
@@ -471,6 +471,9 @@ class TransactionsController extends Controller
                 return response()->json($newKit);
             case 'tags':
                 $this->addTag($request, $id);
+                break;
+            case 'bin_location':
+                $transaction->doUpdate($input);
                 break;
             case 'messages':
                 $transaction->createNote($input['type'], $input['message']);

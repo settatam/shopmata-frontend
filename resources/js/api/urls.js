@@ -4,5 +4,6 @@ export default {
         bulkAction: (action) => `/admin/transactions/bulk-actions/${action}`,
         newKit: (id) => `/admin/transactions/${id}/create-new-kit`,
         message: (id) => `/admin/transactions/${id}/messages`,
+        bin_location: (id) => `/admin/transactions/${id}/bin_location`,
     },
 };
