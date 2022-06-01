@@ -32,21 +32,6 @@
             </div>
         </div>
 
-        <!-- <div class="flex">
-            <div class="flex flex-row space-x-2">
-                <button
-                    class="bg-purple-darken px-2 py-1 border border-transparent rounded shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
-                    type="submit">
-                    Apply
-                </button>
-
-                <button
-                    class="bg-purple-darken px-2 py-1 border border-transparent rounded shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
-                    type="submit">
-                    New Customer
-                </button>
-            </div>
-        </div> -->
 
             <button
                 class="inline-flex items-center justify-center rounded-md border border-transparent bg-purple-darken py-2 px-2 text-sm font-medium text-white shadow-sm hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-purple-darken focus:ring-offset-2 sm:w-auto"
