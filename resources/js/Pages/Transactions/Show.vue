@@ -275,7 +275,7 @@ import ShopmataTable from "../Widgets/ShopmataTable";
 import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/solid";
 import ImageSlider from "../Widgets/ImageSlider";
 import urls from "../../api/urls";
-import {Inertia} from "@inertiajs/inertia";
+import { Inertia } from "@inertiajs/inertia";
 
 const pages = [
     { name: "Transactions", href: "/admin/transactions", current: false },
@@ -287,9 +287,9 @@ const pages = [
 ];
 
 const testImages = [
-  "https://i.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY",
-  "https://i.picsum.photos/id/2/200/300.jpg?hmac=HiDjvfge5yCzj935PIMj1qOf4KtvrfqWX3j4z1huDaU",
-  "https://i.picsum.photos/id/3/200/300.jpg?hmac=o1-38H2y96Nm7qbRf8Aua54lF97OFQSHR41ATNErqFc",
+    "https://i.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY",
+    "https://i.picsum.photos/id/2/200/300.jpg?hmac=HiDjvfge5yCzj935PIMj1qOf4KtvrfqWX3j4z1huDaU",
+    "https://i.picsum.photos/id/3/200/300.jpg?hmac=o1-38H2y96Nm7qbRf8Aua54lF97OFQSHR41ATNErqFc",
 ];
 
 export default {
@@ -340,6 +340,7 @@ export default {
         function updateTransaction(data) {
             let currentData = {};
             currentData[data.field] = data["value"];
+            console.log(data);
             let url = "";
             let method = "put";
             switch (data.field) {
@@ -351,13 +352,13 @@ export default {
                     method = "post";
                     break;
                 case "message":
-                    currentData.type = data.type
-                    url =urls.transactions.message(props.transaction.id)
+                    currentData.type = data.type;
+                    url = urls.transactions.message(props.transaction.id);
                     method = "post";
                     break;
                 case "new-kit":
-                    currentData.type = data.type
-                    url = urls.transactions.newKit(props.transaction.id)
+                    currentData.type = data.type;
+                    url = urls.transactions.newKit(props.transaction.id);
                     method = "post";
                     break;
                 default:
@@ -372,10 +373,10 @@ export default {
             } else {
                 axios.post(url, currentData).then((res) => {
                     // props.transaction.value = res.data
-                    if(data.field == 'new-kit') {
-                        Inertia.visit(urls.transactions.main(res.data.id))
-                    }else{
-                        transaction.value = res.data
+                    if (data.field == "new-kit") {
+                        Inertia.visit(urls.transactions.main(res.data.id));
+                    } else {
+                        props.transaction.value = res.data;
                     }
                 });
             }
@@ -387,7 +388,7 @@ export default {
             currentTransaction,
             customerFilters,
             activityFilters,
-            testImages
+            testImages,
         };
     },
 };
