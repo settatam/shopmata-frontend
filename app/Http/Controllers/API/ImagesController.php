@@ -21,7 +21,7 @@ class ImagesController extends Controller
     }
 
     public function upload(Request $request) {
-        $images = $request->file('files');
+        $images = $request->file('file');
         $store_id = $request->store_id ?? 43;
         $store = Store::find($store_id);
         return $this->uploadImageToCloud($store, $images);
