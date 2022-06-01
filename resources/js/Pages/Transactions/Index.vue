@@ -2,10 +2,7 @@
     <!-- Page header -->
     <app-layout :navigation="navigation">
         <div id="container" class="flex flex-col mx-3 mt-4">
-            <ConfirmationModal
-                :open="openConfirmationModal"
-                @close="closeConfirmationModal"
-            >
+            <ConfirmationModal :open="openConfirmationModal" @close="closeConfirmationModal">
                 <template #header>
                     {{ confirmationHeader }}
                 </template>
@@ -15,26 +12,16 @@
             </ConfirmationModal>
 
             <div class="mt-4 sm:mt-0  sm:flex-none">
-                <button
-                    type="button"
+                <button type="button"
                     class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                    @click="filterToggle()"
-                >
+                    @click="filterToggle()">
                     Filter by:
                 </button>
             </div>
 
-            <BinLocation
-                @send="sendPayload"
-                @close="toggleModal"
-                v-if="displayModal"
-            />
+            <BinLocation @send="sendPayload" @close="toggleModal" v-if="displayModal" />
 
-            <Filter
-                v-if="filterToggleStatus"
-                @getFilters="filterValues"
-                @switchToggle="filterToggle"
-            />
+            <Filter v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle" />
             <shopmata-table :filters="tableFilters" @action="doAction" />
         </div>
     </app-layout>
@@ -83,7 +70,7 @@ export default {
         filters: Object
     },
     emits: ['switchToggle'],
-    setup (props, { navigation, transactions, emit }) {
+    setup(props, { navigation, transactions, emit }) {
         const { onClickTop, onClickBot } = notification()
         const imageExists = ref(true)
         const loading = false
@@ -107,11 +94,11 @@ export default {
         const displayModal = ref(false)
         const bin_location = ref('')
 
-        function filterToggle () {
+        function filterToggle() {
             filterToggleStatus.value = !filterToggleStatus.value
         }
 
-        function filterValues (res) {
+        function filterValues(res) {
             console.log(res)
         }
 
@@ -119,17 +106,17 @@ export default {
             // this.$emit('doNavigation', navigation)
         })
 
-        function success (list, page) {
+        function success(list, page) {
             filterLists.value = list
             pagination.value = page
             loading.value = false
         }
 
-        function checkAll () {
+        function checkAll() {
             isChecked.value = !isChecked.value
         }
 
-        function toggleModal () {
+        function toggleModal() {
             displayModal.value = !displayModal.value
         }
 
@@ -156,14 +143,14 @@ export default {
         //     }
         // }
 
-        function close () {
+        function close() {
             isDelete.value = false
             Inertia.visit('/admin/transactions', {
                 method: 'get'
             })
         }
 
-        function filterTransactions () {
+        function filterTransactions() {
             switch (filterNumber.value) {
                 case 'choose':
                     break
@@ -177,7 +164,7 @@ export default {
             }
         }
 
-        function doAction (action, selectedItems) {
+        function doAction(action, selectedItems) {
             let name = action.formGroups[0].field.attributes.name
             let value = action.formGroups[0].field.attributes.value
             selectedTransactions.value = selectedItems.map(t => t.data)
@@ -205,7 +192,7 @@ export default {
             }
         }
 
-        function closeConfirmationModal (confirmation) {
+        function closeConfirmationModal(confirmation) {
             openConfirmationModal.value = false
             if (confirmation)
                 sendAction(
@@ -214,13 +201,13 @@ export default {
                 )
         }
 
-        function sendPayload (res) {
+        function sendPayload(res) {
             bin_location.value = res
             sendAction(confirmationFor.value.name,
-                    confirmationFor.value.value)
+                confirmationFor.value.value)
         }
 
-        function sendAction (action, value) {
+        function sendAction(action, value) {
             let data = {
                 transactions: selectedTransactions.value,
                 action: value

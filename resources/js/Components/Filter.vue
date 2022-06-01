@@ -117,7 +117,7 @@ export default {
         AdjustmentsIcon,
         flatPickr
     },
-    emits: ['getFilters'],
+    emits: ['getFilters', 'switchToggle'],
     setup (props, { emit }) {
         const filterValues = reactive({
             dateOne: new Date(),
