@@ -294,7 +294,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <div class="py-2">
                 <table-pagination
@@ -308,7 +308,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import Filter from '../../Components/Filter.vue'
 import axios from 'axios'
 import Pagination from '../../Components/Pagination'
@@ -354,6 +354,11 @@ onMounted(() => {
     pageFilters.value = props.filters
     getData()
 })
+
+watch(() => props.filters, (first, second) => {
+     pageFilters.value = first
+     getData()
+});
 const bulkActions = el => {}
 
 function doAction (index, formGroupIndex) {

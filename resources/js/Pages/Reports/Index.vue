@@ -13,10 +13,13 @@
             </div>
 
             <div>
-                <FilterBy :formObject="reportForm"/>
+                <FilterBy
+                    :formObject="reportForm"
+                    @filter-changed="updateFilter"
+                />
             </div>
 
-            <shopmata-table :filters="filters"></shopmata-table>
+            <shopmata-table :filters="tableFilters"></shopmata-table>
 
             <NotificationGroup group="top" position="top">
                 <div
@@ -188,6 +191,23 @@ export default {
     },
     setup(props) {
         // console.log(props.genders);
+        const tableFilters = ref(props.filters)
+        function updateFilter(filter) {
+            let filteredData = {}
+            for(let i=0; i<filter.length; i++) {
+                if(filter[i].fields.selected.length) {
+                    filteredData[filter[i].name] = filter[i].fields.selected
+                }
+            }
+
+            tableFilters.value = filteredData
+            tableFilters.value['type'] = props.filters.type
+        }
+
+        return {
+            updateFilter,
+            tableFilters
+        }
     },
 };
 </script>
