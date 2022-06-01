@@ -16,7 +16,7 @@
                     >
                         <h1>{{ item.label }}</h1>
                     </div>
-                    <div class="pl-3 py-3 bg-white h-96 overflow-scroll">
+                    <div class="pl-3 py-3 bg-white h-96 overflow-scroll overflow-x-auto overflow-y-auto">
                         <div>
                             <div
                                 v-for="(filter, filterIndex) in item.fields.options"
