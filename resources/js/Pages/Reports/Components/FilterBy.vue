@@ -51,11 +51,11 @@ export default {
         notifications: Array,
         formObject: Object
     },
-    setup (props, {emit}) {
+    setup (props) {
         const filterLists = reactive(props.formObject.formGroups)
 
         function doChange(event) {
-            emit('filter-changed', filterLists);
+            console.log(filterLists)
         }
         return {
             filterLists,

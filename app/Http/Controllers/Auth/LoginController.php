@@ -80,7 +80,7 @@ class LoginController extends Controller
      * Handle an authentication attempt.
      *
      * @param  \Illuminate\Http\Request $request
-     *Shopmata
+     *
      * @return Response
      */
     public function authenticate(Request $request)

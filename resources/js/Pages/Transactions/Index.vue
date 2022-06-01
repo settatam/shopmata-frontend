@@ -35,11 +35,7 @@
                 @getFilters="filterValues"
                 @switchToggle="filterToggle"
             />
-            <shopmata-table
-                :filters="tableFilters"
-                @action="doAction"
-                :refresh_token="refresh_token"
-            />
+            <shopmata-table :filters="tableFilters" @action="doAction" />
         </div>
     </app-layout>
 </template>
@@ -110,7 +106,6 @@ export default {
         const filterToggleStatus = ref(false)
         const displayModal = ref(false)
         const bin_location = ref('')
-        const refresh_token = ref('');
 
         function filterToggle () {
             filterToggleStatus.value = !filterToggleStatus.value
@@ -237,9 +232,7 @@ export default {
                 case 'actions':
                     switch (value) {
                         case 'Delete':
-                            alert(
-                                'this is the part where we actually delete the item'
-                            )
+                            Inertia.post(urls.transactions.bulkAction('delete'), data)
                             break
                         case 'Send Message':
                             Inertia.get(
@@ -251,6 +244,7 @@ export default {
                             )
                             break
                         case 'Create Barcodes':
+                        case 'Rejected By Admin':
                         case 'Create Shipping Label':
                             Inertia.post(
                                 urls.transactions.bulkAction('barcode'),
@@ -258,26 +252,29 @@ export default {
                             )
                             break
                         case 'Bin Location':
-                            let url = urls.transactions.bin_location(selectedTransactions.value[0])
-                            console.log(url)
-                            axios.post(url, {bin_location:bin_location.value})
-                            break;
-                        default:
-                            Inertia.post(
-                                urls.transactions.bulkAction('status'),
-                                { ...data, ...props.filters },
-                                {
-                                    //replace: false,
-                                    onSuccess: () => {
-                                        tableFilters.value.refresh_token = Math.random()
-                                        refresh_token.value = Math.random()
-                                        //Inertia.reload()
-                                    }
-                                }
+                            let url = urls.transactions.bulkAction('bin_location')
+                            data.bin_location = bin_location.value
+                            Inertia.post(url, data)
+                            .then(
+                                displayModal.value = false
                             )
-                            break;
-                        }
+                            break
                     }
+                default:
+                    Inertia.post(
+                        urls.transactions.bulkAction('status'),
+                        { ...data, ...props.filters },
+                        {
+                            replace: false,
+                            onSuccess: () => {
+                                tableFilters.value.refreshToken = Math.random()
+                                console.log(tableFilters.value)
+                                Inertia.reload()
+                            }
+                        }
+                    )
+                    break
+            }
 
             confirmationFor.value = ''
         }
@@ -310,8 +307,7 @@ export default {
             selectedTransactions,
             toggleModal,
             sendPayload,
-            bin_location,
-            refresh_token
+            bin_location
         }
     }
 }
