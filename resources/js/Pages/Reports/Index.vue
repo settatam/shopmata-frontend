@@ -160,8 +160,10 @@ export default {
         function filterToggle() {
             displayFilter.value = !displayFilter.value;
         }
+        
 
         function sendFilters(res) {
+            console.log(res)
             tableFilters.value = { ...tableFilters.value, ...res }
             // tableFilters.value.refresh_token = Math.random()
         }

@@ -480,7 +480,8 @@ class Transaction extends Model
     public function allTags() {
         $set = '';
         $x     = 1;
-        if (is_array($this->tags)) {
+        if (null != $this->tags) {
+
             foreach($this->tags as $tag){
                 $set .= " {$tag->tag->name} ";
                 if($x < $this->tags->count()){
