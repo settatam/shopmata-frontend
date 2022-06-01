@@ -40,7 +40,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             //
             'appName' => config('app.name'),
-            'store' => Store::with('domains')->with('payment_gateways')->with('currency')->with('weight')->where('id', session()->get('store_id'))->first(),
+            'store' => Store::find(session()->get('store_id')),
             'navigation' => [
                  [
                     'name' => 'Dashboard',
@@ -88,7 +88,17 @@ class HandleInertiaRequests extends Middleware
                     'name' => 'Messages',
                     'icon' => 'InboxIcon',
                     'href' => '/admin/messages',
-                    'current' => false
+                    'current' => false,
+                    'children' => [
+                        [
+                            'name' => 'All Messages',
+                            'href' => '/admin/messages'
+                        ],
+                        [
+                            'name' => 'New Message',
+                            'href' => '/admin/messages/new',
+                        ],
+                    ]
                 ],
                 [
                     'name' => 'Transactions',

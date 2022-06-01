@@ -28,7 +28,7 @@ class StatusTableSeeder extends Seeder
         }
 
         $statuses =  [                   
-            'Kit Received'                     ,
+            'Kit Received',
             'Pending Kit request',
             'Kit Sent',
             'Kit Received - Rejected By Admin',

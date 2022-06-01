@@ -6,34 +6,20 @@
                 <SearchRow />
             </div>
 
+            <TransactionTable />
+
             <div class="">
-                <TopRow class="mt-8"/>
-            </div>
-
-            <!-- <div>
-                <ReportLayout />
-            </div> -->
-
-            <div>
-                <TransactionTable />
-                <!-- button -->
-                <div class="flex justify-end mx-2 mt-6">
-                    <button
-                        class="text-center bg-purple-darken px-6 py-2 border border-transparent rounded shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken inline-flex items-center"
-                        type="submit"
-                    >
-                        Download CSV
-                    </button>
-                </div>
+                <TopRow class="mt-8" />
             </div>
 
             <div>
-                <FilterBy />
+                <FilterBy
+                    :formObject="reportForm"
+                    @filter-changed="updateFilter"
+                />
             </div>
 
-            <div>
-                <Entries :transactions="transactions.data" />
-            </div>
+            <shopmata-table :filters="tableFilters"></shopmata-table>
 
             <NotificationGroup group="top" position="top">
                 <div
@@ -173,17 +159,18 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive } from 'vue'
-import AppLayout from '../../Layouts/AppLayout.vue'
-import axios from 'axios'
-import { SearchIcon, PlusIcon } from '@heroicons/vue/solid'
-import { Inertia } from '@inertiajs/inertia'
-import TopRow from './Components/TopRow.vue'
-import SearchRow from './Components/SearchRow.vue'
-import TransactionTable from './Components/TransactionTable.vue'
-import FilterBy from './Components/FilterBy.vue'
-import Entries from './Components/Entries.vue'
-import ReportLayout from './Components/ReportLayout.vue'
+import { ref, reactive } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
+import axios from "axios";
+import { SearchIcon, PlusIcon } from "@heroicons/vue/solid";
+import { Inertia } from "@inertiajs/inertia";
+import TopRow from "./Components/TopRow.vue";
+import SearchRow from "./Components/SearchRow.vue";
+import TransactionTable from "./Components/TransactionTable.vue";
+import FilterBy from "./Components/FilterBy.vue";
+import Entries from "./Components/Entries.vue";
+import ReportLayout from "./Components/ReportLayout.vue";
+import ShopmataTable from "../Widgets/ShopmataTable";
 
 export default {
     components: {
@@ -194,13 +181,33 @@ export default {
         FilterBy,
         Entries,
         TopRow,
-        ReportLayout
+        ReportLayout,
+        ShopmataTable,
     },
     props: {
-        notifications: Array,
-        transactions: Object,
-        navigation: Array
+        reportForm: Object,
+        navigation: Array,
+        filters: Object
     },
-    setup () {}
-}
+    setup(props) {
+        // console.log(props.genders);
+        const tableFilters = ref(props.filters)
+        function updateFilter(filter) {
+            let filteredData = {}
+            for(let i=0; i<filter.length; i++) {
+                if(filter[i].fields.selected.length) {
+                    filteredData[filter[i].name] = filter[i].fields.selected
+                }
+            }
+            filteredData.refresh_token = Math.random()
+            tableFilters.value = filteredData
+            tableFilters.value['type'] = props.filters.type
+        }
+
+        return {
+            updateFilter,
+            tableFilters
+        }
+    },
+};
 </script>

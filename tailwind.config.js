@@ -1,6 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 module.exports = {
+    important: true,
     mode: "jit",
     purge: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
@@ -54,8 +55,8 @@ module.exports = {
                     background: "#E5E5E5",
                 },
                 purplish: {
-                    light: "#F2F1FE"
-                }
+                    light: "#F2F1FE",
+                },
             },
             opacity: {
                 10: "0.1",

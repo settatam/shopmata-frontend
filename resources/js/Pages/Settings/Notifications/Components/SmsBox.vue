@@ -2,22 +2,6 @@
     <div class="flex-1 max-h-screen xl:overflow-y-auto">
         <div class="w-auto  lg:ml-7 lg:mr-2">
             <div class="px-4 md:px-8 pb-8 pt-6  mb-6 bg-white">
-                <div class="w-auto relative">
-                    <label class="block mt-4 mb-2 bg-transparent">
-                        SMS subject
-                    </label>
-                    <input
-                        type="text"
-                        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        :placeholder="order.subject"
-                        v-model.trim="order.subject"
-                        required
-                    />
-                    <error-icon
-                        class="absolute top-11 right-2.5"
-                        v-show="subjectError"
-                    />
-                </div>
                 <!-- message textarea -->
                 <div class="w-auto relative">
                     <label class="block mt-4 mb-2 bg-transparent">
@@ -87,7 +71,7 @@
                                     >
                                         <option value="">Immediately</option>
                                     </select>
-                                    
+
                                 </div>
                             </div>
                     </div>

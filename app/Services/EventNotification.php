@@ -25,13 +25,16 @@ class EventNotification
     protected $order = NULL;
     protected $data = [];
     protected $event = '';
+    protected $options;
 
     /**
      * @throws InvalidInputException
      */
-    public function __construct($event, $data) {
+    public function __construct($event, $data, $options=[]) {
           $this->data = $data;
           $this->event = $event;
+          $this->options = $options;
+
           if(!count($this->data)) {
               throw new InvalidInputException('There is no event');
           }
@@ -74,11 +77,11 @@ class EventNotification
                         $messageData['subject'] = ThemeFile::generateParsedContent($storeNotificationMessage->email_subject, $messageData);
                         $messageData['content_for_email'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
                         $emailTemplate = ThemeFile::getTemplateFor($this->data['store'], 'email');
-                        $messageData['parsed_message'] = ThemeFile::generateParsedContent($emailTemplate->content, $messageData);
+                        $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($emailTemplate->content, $messageData));
                         $this->sendEmail($messageData);
                         break;
                     case 'sms':
-                        $messageData['parsed_message'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
+                        $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData));
                         $messageData['notification_id'] = $storeNotificationMessage->id;
                         $this->sendSMS($messageData);
                         break;
@@ -95,7 +98,7 @@ class EventNotification
     public function sendEmail($data) {
 
         if(env('APP_ENV') != 'production') {
-            $data['to'] = env('DEVELOPER_EMAIL', 'jacob@enkoded.com');
+            $data['to'] = env('DEVELOPER_EMAIL', 'seth.atam@gmail.com');
         }
 
         Mail::to($data['to'])->send(new EmailSender($data));

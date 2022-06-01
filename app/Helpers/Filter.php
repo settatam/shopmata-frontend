@@ -12,7 +12,9 @@ class Filter
     const DATE_6_MONTHS = '6 months';
     const DATE_1_YEAR = '1 year';
     const DEFAULT_TIMEZONE = 'America/New_York';
-    const DEFAULT_PER_PAGE = 25;
+    const DEFAULT_PER_PAGE = 20;
+    const DEFAULT_SORTBY = 'id';
+    const DEFAULT_SORT = 'desc';
 
     static function dates($params, $setDate = false, $range=self::DATE_7_DAYS, $timezone=self::DEFAULT_TIMEZONE)
     {
@@ -104,6 +106,18 @@ class Filter
 
     static function perPage($filter){
         return data_get($filter, 'per_page') ?? self::DEFAULT_PER_PAGE;
+    }
+
+    static function sortBy($filter) {
+        return data_get($filter, 'sort_by') ?? self::DEFAULT_SORTBY;
+    }
+
+    static function sort($filter) {
+        return data_get($filter, 'sort') ?? self::DEFAULT_SORT;
+    }
+
+    static function page($filter, $default = 1) {
+        return data_get($filter, 'page') ?? $default;
     }
 
 }

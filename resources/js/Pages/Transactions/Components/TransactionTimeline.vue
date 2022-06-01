@@ -29,13 +29,21 @@
                         </select>
                     </div>
                     <div class="ml-6">
-                        <button
+                        <!-- <button
                             @click="updateTransaction('status')"
                             class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 md:ml-8 lg:mx-0 px-2"
                             type="button"
                         >
                             Confirm Status
-                        </button>
+                        </button> -->
+
+                        <Button
+                            class=""
+                            @click="updateTransaction('status')"
+                            @sendResponse="addMessage"
+                            :loadingAnimation="loadingAnimation"
+                            :buttonName="'Confirm Status'"
+                        />
                     </div>
                 </div>
             </div>
@@ -49,7 +57,7 @@
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
                             placeholder="Offer"
                             autocomplete="off"
-                            v-model="currentTransaction.final_offer"
+                            v-model="currentTransaction.offer"
                         />
                         <div class="flex flex-row ml-1">
                             <input
@@ -63,13 +71,21 @@
                         </div>
                     </div>
                     <div class="">
-                        <button
+                        <!-- <button
                             class="bg-purple-darken py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken mx-2 lg:mx-0 px-2"
                             type="button"
                             @click="updateTransaction('offer')"
                         >
                             Send Offer
-                        </button>
+                        </button> -->
+
+                        <Button
+                            class=""
+                            @click="updateTransaction('offer')"
+                            @sendResponse="addMessage"
+                            :loadingAnimation="loadingAnimation"
+                            :buttonName="'Send Offer'"
+                        />
                     </div>
                 </div>
             </div>
@@ -110,20 +126,28 @@
                         id=""
                         rows="3"
                         cols="150"
-                        @input="saveNote"
+                        @change="updateTransaction('public_note')"
                         v-model="messagePublic"
                     >
                     </textarea>
 
                     <div class="flex flex-col space-y-6 w-1/2 lg:full">
                         <div>
-                            <button
+                            <!-- <button
                                 class="bg-purple-darken w-40 px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
                                 @click="popModal()"
                             >
                                 Print Labels
-                            </button>
+                            </button> -->
+
+                            <Button
+                                class="px-10"
+                                @click="popModal()"
+                                @sendResponse="addMessage"
+                                :loadingAnimation="loadingAnimation"
+                                :buttonName="'Print Labels'"
+                            />
                         </div>
 
                         <div>
@@ -141,12 +165,21 @@
                         </div>
 
                         <div>
-                            <button
+                            <!-- <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="submit"
+                                type="button"
+                                @click="updateTransaction('new-kit')"
                             >
                                 Send New Kit
-                            </button>
+                            </button> -->
+
+                            <Button
+                                class="px-8"
+                                @click="updateTransaction('new-kit')"
+                                @sendResponse="addMessage"
+                                :loadingAnimation="loadingAnimation"
+                                :buttonName="'Send New Kit'"
+                            />
                         </div>
                     </div>
                 </div>
@@ -158,11 +191,10 @@
                         class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
                         placeholder="MET 3-2-22-Incoming via text"
                         name="private"
-                        id=""
                         rows="3"
                         cols="150"
                         v-model="messagePrivate"
-                        @input="saveNote"
+                        @change="updateTransaction('private_note')"
                     ></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
@@ -170,7 +202,7 @@
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="button"
-                                @click="updateTransaction('message')"
+                                @click="updateTransaction('cnotes')"
                             >
                                 Email (Pictures &amp; Cnotes)
                             </button>
@@ -180,25 +212,31 @@
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="button"
-                                @click="updateTransaction('status_id', 50)"
+                                @click="updateTransaction('status', 50)"
                             >
                                 Email (Offer, Cnotes &amp; Pictures)
                             </button>
                         </div>
 
                         <div>
-                            <button
-                                class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="submit"
+                            <a
+                                :href="
+                                    '/admin/transactions/' +
+                                    transaction.id +
+                                    '/label?direction=to&is_return=1'
+                                "
+                                target="_blank"
+                                class="block bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                             >
                                 Return Label
-                            </button>
+                            </a>
                         </div>
 
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
+                                @click="updateTransaction('status', 3)"
                             >
                                 Reject Offer
                             </button>
@@ -237,7 +275,11 @@
         </div>
 
         <div class="my-4">
-            <AdminImages :root="transaction" />
+            <Images
+                :payload="params"
+                :imgs="transaction.publicnote.images"
+                class="mb-8"
+            />
         </div>
 
         <!-- add item start -->
@@ -258,10 +300,11 @@ import { watch } from "vue";
 
 import debounce from "lodash/debounce";
 import AppLayout from "../../../Layouts/AppLayout.vue";
-import AdminImages from "./AdminImages.vue";
+import Images from "../../../Components/Images.vue";
 import PrintLabel from "../Components/PrintLabel.vue";
 import { notify } from "notiwind";
 import moment from "moment";
+import Button from "../../../Components/Button.vue";
 import {
     XCircleIcon,
     MinusCircleIcon,
@@ -272,8 +315,8 @@ export default {
     components: {
         AppLayout,
         PrintLabel,
-        AdminImages,
-        // AddItem,
+        Images,
+        Button,
         CheckCircleIcon,
         XCircleIcon,
         MinusCircleIcon,
@@ -289,7 +332,19 @@ export default {
         const popModal = () => {
             popUp.value = true;
         };
-        const notes = props.transaction;
+        let transaction = props.transaction;
+
+        const params = ref({
+            model: "TransactionNote",
+            model_id: transaction.pub_note ? transaction.publicnote.id : null,
+        });
+
+        const values = reactive({
+            transaction_id: transaction.id,
+            note: null,
+            type: "public_note",
+        });
+
         const transaction_id = props.root.id;
         const pickedTags = props.root.tags;
         const checkedList = computed(() => {
@@ -300,13 +355,13 @@ export default {
 
             return myArray;
         });
-        const customer_id = props.root.customer.id;
-        const messagePrivate = ref("");
-        const messagePublic = ref("");
-        let message = null;
-        let tmPrivate = null;
-        let tmPublic = null;
+        const currentTransaction = ref(props.transaction);
+
+        const messagePrivate = ref(transaction.private_note);
+        const messagePublic = ref(transaction.pub_note);
         let type = null;
+
+        const loadingAnimation = ref(false);
 
         const transactionStatus = ref("");
         const transactionOffer = reactive({
@@ -314,57 +369,20 @@ export default {
             offer: "",
         });
 
-        const currentTransaction = ref(props.transaction);
-
-        tmPublic =
-            null !== props.root.public_note ? props.root.public_note.notes : "";
-        tmPrivate =
-            null !== props.root.private_note
-                ? props.root.private_note.notes
-                : "";
-        messagePublic.value = tmPublic;
-        messagePrivate.value = tmPrivate;
-
-        function saveNote(e) {
-            if (e.target.name == "private") {
-                type = "private";
-                message = messagePrivate.value;
-            }
-
-            if (e.target.name == "public") {
-                type = "public";
-                message = messagePublic.value;
-            }
-        }
-
-        watch(
-            [messagePublic, messagePrivate],
-            debounce(function (value) {
-                axios
-                    .post("/admin/transaction/notes", {
-                        transaction_id,
-                        message: message,
-                        customer_id,
-                        type: type,
-                    })
-                    .then((res) => {
-                        successMessage.value = "Note updated";
-                        setTimeout(onClickTop, 2000);
-                    })
-                    .catch((error) => {
-                        successMessage.value = "Something went wrong.";
-                        setTimeout(onClickBot, 2000);
-                    });
-            }, 1000)
-        );
-
         function updateTransaction(event, status_id = null) {
+            console.log(messagePublic);
             let data = {};
             switch (event) {
+                case "status_id":
+                    data = {
+                        field: "status_id",
+                        value: currentTransaction.status_id,
+                    };
+                    break;
                 case "status":
                     data = {
                         field: "status_id",
-                        value: this.currentTransaction.status_id,
+                        value: status_id,
                     };
                     break;
                 case "message":
@@ -376,17 +394,36 @@ export default {
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.final_offer,
+                        value: this.currentTransaction.offer,
                     };
                     break;
                 case "sms":
                     data = {
                         field: "sms",
-                        value: this.currentTransaction.final_offer,
+                        value: this.currentTransaction.sms,
+                    };
+                    break;
+                case "private_note":
+                    data = {
+                        field: "message",
+                        value: this.messagePrivate,
+                        type: "private",
+                    };
+                    break;
+                case "public_note":
+                    data = {
+                        field: "message",
+                        value: this.messagePublic,
+                        type: "public",
+                    };
+                    break;
+                case "new-kit":
+                    data = {
+                        field: "new-kit",
+                        value: true,
                     };
                     break;
             }
-
             emit("transaction-updated", data);
         }
 
@@ -424,7 +461,9 @@ export default {
         function saveBottomTags(tag_id) {
             if (this.checkedList.includes(tag_id)) {
                 axios
-                    .post(`/admin/transactions/${transaction_id}/tags`, { tag_id })
+                    .post(`/admin/transactions/${transaction_id}/tags`, {
+                        tag_id,
+                    })
 
                     .then((res) => {
                         if (res.status == 200) {
@@ -444,7 +483,9 @@ export default {
                     });
             } else {
                 axios
-                    .post(`/admin/transactions/${transaction_id}/tags`, { tag_id })
+                    .post(`/admin/transactions/${transaction_id}/tags`, {
+                        tag_id,
+                    })
                     .then((res) => {
                         if (res.status == 200) {
                             successMessage.value = "Tag added";
@@ -475,13 +516,13 @@ export default {
             checkedList,
             messagePrivate,
             messagePublic,
-            saveNote,
             transactionStatus,
             transactionOffer,
-            notes,
             updateTransaction,
             onChange,
             currentTransaction,
+            params,
+            values,
         };
     },
 };

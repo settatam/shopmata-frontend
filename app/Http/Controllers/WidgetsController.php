@@ -33,8 +33,6 @@ class WidgetsController extends Controller
 
         $widget = new $class;
 
-//        $this->authorize($action, $widget);
-
         return $widget;
       }
 

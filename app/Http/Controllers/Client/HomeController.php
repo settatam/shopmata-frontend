@@ -25,6 +25,7 @@ class HomeController extends Controller
             $store = Store::find($store_id);
             $path = request()->path();
             $pageToFind = StorePage::nameFromPath($path);
+
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind);
                 $customer = null;
@@ -36,6 +37,8 @@ class HomeController extends Controller
 
         return view('pages.index', compact('page'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -64,9 +67,28 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($account, $id)
     {
         //
+        if(session()->has('store_id')) {
+            //This is probably a store page
+            $store_id = session()->get('store_id');
+            $store = Store::find($store_id);
+            $path = request()->path();
+            $pageToFind = StorePage::nameFromPath($path);
+
+            $transaction = Transaction::with('trStatus')->with('images')->with('offers')->find($id);
+
+            if(null !== $store) {
+                $page = $store->pageContent($pageToFind);
+                $customer = null;
+                if(Auth::check()) {
+                    $customer = Auth::user();
+                }
+            }
+        }
+
+        return view('pages.index', compact('page', 'transaction'));
     }
 
     /**

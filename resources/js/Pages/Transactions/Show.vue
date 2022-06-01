@@ -50,7 +50,7 @@
                             class="mb-4 h-full"
                         />
                     </div>
-                    <div class="w-full lg:w-1/3 ">
+                    <div class="w-full lg:w-1/3">
                         <KitInformation
                             class="mb-4 h-full"
                             :categories="transaction_categories"
@@ -63,11 +63,14 @@
                         <div>
                             <CustomerInformation
                                 :customer="transaction.customer"
-                                class="mb-4 "
+                                class="mb-4"
                             />
                         </div>
                         <div>
-                            <PaymentInformation class="mb-4" />
+                            <PaymentInformation
+                                :transaction="transaction"
+                                class="mb-4"
+                            />
                         </div>
                         <div>
                             <TrafficSource class="mb-4" />
@@ -102,30 +105,18 @@
 
                 <!-- row 5 starts -->
                 <div class="w-full">
-                    <TransactionsTable
-                        :transaction="transaction"
-                        class="mb-12"
-                    />
+                    <shopmata-table :filters="customerFilters"></shopmata-table>
                 </div>
                 <!-- row 5 ends -->
 
                 <!-- Scan row starts -->
                 <div class="w-full">
-                    <Scans
-                        class="mb-12"
-                    />
+                    <Scans class="mb-12" />
                 </div>
 
-                <!-- Scan row ends -->
-
-                <!-- row 6 starts -->
                 <div class="w-full">
-                    <Actions
-                        :transaction="transaction.activities"
-                        class="mb-12"
-                    />
+                    <ShopmataTable :filters="activityFilters" />
                 </div>
-                <!-- row 6 ends -->
             </div>
 
             <NotificationGroup group="top" position="top">
@@ -267,32 +258,43 @@
 </template>
 
 <script>
-import { ref, computed, watch, reactive } from 'vue'
-import AppLayout from '../../Layouts/AppLayout.vue'
-import axios from 'axios'
-import TransactionBox1 from './Components/TransactionBox1.vue'
-import KitInformation from './Components/KitInformation.vue'
-import CustomerInformation from './Components/CustomerInformation.vue'
-import PaymentInformation from './Components/PaymentInformation.vue'
-import TransactionTimeline from './Components/TransactionTimeline.vue'
-import ItemTable from './Components/ItemTable.vue'
-import TrafficSource from './Components/TrafficSource.vue'
-import TransactionsTable from './Components/TransactionsTable.vue'
-import Actions from './Components/Actions.vue'
-import Scans from './Components/Scans.vue'
-import { ChevronRightIcon, HomeIcon } from '@heroicons/vue/solid'
+import { ref, computed, watch, reactive } from "vue";
+import AppLayout from "../../Layouts/AppLayout.vue";
+import axios from "axios";
+import TransactionBox1 from "./Components/TransactionBox1.vue";
+import KitInformation from "./Components/KitInformation.vue";
+import CustomerInformation from "./Components/CustomerInformation.vue";
+import PaymentInformation from "./Components/PaymentInformation.vue";
+import TransactionTimeline from "./Components/TransactionTimeline.vue";
+import ItemTable from "./Components/ItemTable.vue";
+import TrafficSource from "./Components/TrafficSource.vue";
+import TransactionsTable from "./Components/TransactionsTable.vue";
+import Actions from "./Components/Actions.vue";
+import Scans from "./Components/Scans.vue";
+import ShopmataTable from "../Widgets/ShopmataTable";
+import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/solid";
+import ImageSlider from "../Widgets/ImageSlider";
+import urls from "../../api/urls";
+import { Inertia } from "@inertiajs/inertia";
 
 const pages = [
-    { name: 'Transactions', href: '/admin/transactions', current: false },
+    { name: "Transactions", href: "/admin/transactions", current: false },
     {
-        name: 'Transaction Report',
-        href: '',
-        current: true
-    }
-]
+        name: "Transaction Report",
+        href: "",
+        current: true,
+    },
+];
+
+const testImages = [
+    "https://i.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY",
+    "https://i.picsum.photos/id/2/200/300.jpg?hmac=HiDjvfge5yCzj935PIMj1qOf4KtvrfqWX3j4z1huDaU",
+    "https://i.picsum.photos/id/3/200/300.jpg?hmac=o1-38H2y96Nm7qbRf8Aua54lF97OFQSHR41ATNErqFc",
+];
 
 export default {
     components: {
+        ImageSlider,
         AppLayout,
         TransactionBox1,
         KitInformation,
@@ -306,6 +308,7 @@ export default {
         TransactionsTable,
         Actions,
         Scans,
+        ShopmataTable,
     },
     props: {
         notifications: Array,
@@ -317,51 +320,76 @@ export default {
         bottom_tags: Array,
         timeline: Array,
         navigation: Array,
-        store: Object
+        store: Object,
     },
 
-    setup (props) {
-        const open = ref(false)
-        const notifications = props.notifications
-        const transaction = props.transaction
+    setup(props) {
+        const open = ref(false);
+        const notifications = props.notifications;
+        const currentTransaction = ref(props.transaction);
+        const customerFilters = {
+            customer_id: props.transaction.customer.id,
+            type: "CustomerTransactionsTable",
+        };
+
+        const activityFilters = {
+            type: "TransactionActionsTable",
+            transaction_id: props.transaction.id,
+        };
 
         function updateTransaction(data) {
             let currentData = {};
-            currentData[data.field] = data['value'];
-            let url = '';
-            let method = 'put';
-            switch(data.field) {
-                case 'offer':
-                    url = '/admin/transactions/'+props.transaction.id+'/offer';
-                    method = 'post';
+            currentData[data.field] = data["value"];
+            console.log(data);
+            let url = "";
+            let method = "put";
+            switch (data.field) {
+                case "offer":
+                    url =
+                        "/admin/transactions/" +
+                        props.transaction.id +
+                        "/offer";
+                    method = "post";
                     break;
-                case 'message':
-                     url = '/admin/transactions/'+props.transaction.id+'/message';
-                     method = 'post';
-                     break;
+                case "message":
+                    currentData.type = data.type;
+                    url = urls.transactions.message(props.transaction.id);
+                    method = "post";
+                    break;
+                case "new-kit":
+                    currentData.type = data.type;
+                    url = urls.transactions.newKit(props.transaction.id);
+                    method = "post";
+                    break;
                 default:
-                    method = 'put';
-                    url = '/admin/transactions/'+props.transaction.id
+                    method = "put";
+                    url = "/admin/transactions/" + props.transaction.id;
             }
 
-            if(method == 'put') {
-                axios.put(url, currentData).then(res => {
-                // props.transaction.value = res.data
-                })
-            }else{
-                axios.post(url, currentData).then(res => {
-                // props.transaction.value = res.data
-                })
+            if (method == "put") {
+                axios.put(url, currentData).then((res) => {
+                    // props.transaction.value = res.data
+                });
+            } else {
+                axios.post(url, currentData).then((res) => {
+                    // props.transaction.value = res.data
+                    if (data.field == "new-kit") {
+                        Inertia.visit(urls.transactions.main(res.data.id));
+                    } else {
+                        props.transaction.value = res.data;
+                    }
+                });
             }
-
         }
-
 
         return {
             pages,
             updateTransaction,
-            transaction
-        }
-    }
-}
+            currentTransaction,
+            customerFilters,
+            activityFilters,
+            testImages,
+        };
+    },
+};
 </script>

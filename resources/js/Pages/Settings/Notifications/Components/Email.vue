@@ -3,7 +3,7 @@
               <div class="w-auto  lg:ml-7 lg:mr-2">
                   <div class="flex justify-between items-center mb-2 lg:mb-0 ">
                     <div class="flex font-semibold items-center">
-                        <inertia-link href="/settings/notifications">
+                        <inertia-link href="/admin/settings/notifications">
                           <arrow-left-icon class="w-5 h-5 mr-5"/>
                         </inertia-link>
                         <p class="text-base lg:text-2xl">{{notification.name}}</p>
@@ -36,7 +36,7 @@
                   </div>
                   <div class=" flex justify-between">
                     <button type="button" class=" rounded-md border border-gray-500 mr-4 shadow-sm px-3 lg:px-5 py-1.5 lg:py-3 bg-transparent text-base font-medium text-gray-500 focus:outline-none  sm:text-sm" >
-                        Back to default 
+                        Back to default
                     </button>
                     <button type="button" class=" rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs  lg:text-base font-medium text-white focus:outline-none sm:text-sm disabled:bg-gray-400" :class="order.subject.length>1 && order.message.length>1 ? 'bg-indigo-600': 'bg-gray-400' " :disabled='loading' @click="submit" >
                         <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{save}}

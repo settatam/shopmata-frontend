@@ -1,16 +1,14 @@
 <template>
-    <div class=" rounded-md bg-white mt-8 overflow-x-auto lg:mx-2">
+    <div class="rounded-md bg-white mt-8 overflow-x-auto lg:mx-2">
         <!-- add item start -->
         <div class="flex flex-row justify-start ml-3 mr-3 py-4">
-            <div>
-                <button
-                    class="bg-purple-darken px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                    type="submit"
-                    @click="popModal()"
-                >
-                    Add Item
-                </button>
-            </div>
+            <Button
+                class="my-1"
+                @sendResponse="addMessage"
+                :loadingAnimation="loadingAnimation"
+                :buttonName="buttonName"
+                @click="popModal()"
+            />
         </div>
 
         <AddItem
@@ -21,6 +19,7 @@
             @close="popUp = false"
             v-if="popUp"
         />
+
         <!-- add item end -->
 
         <!-- Edit modal -->
@@ -32,24 +31,23 @@
             v-if="EditPopUp"
             :item="item"
             @it-edited="pushEditValue"
-
         />
 
         <table class="min-w-full">
             <colgroup>
-                <col span="1" style="width: 5%;" />
-                <col span="1" style="width: 5%;" />
-                <col span="1" style="width: 5%;" />
-                <col span="1" style="width: 5%;" />
-                <col span="1" style="width: 5%;" />
-                <col span="1" style="width: 5%;" />
-                <col span="1" style="width: 5%;" />
-                <col span="1" style="width: 5%;" />
-                <col span="1" style="width: 5%;" />
+                <col span="1" style="width: 5%" />
+                <col span="1" style="width: 5%" />
+                <col span="1" style="width: 5%" />
+                <col span="1" style="width: 5%" />
+                <col span="1" style="width: 5%" />
+                <col span="1" style="width: 5%" />
+                <col span="1" style="width: 5%" />
+                <col span="1" style="width: 5%" />
+                <col span="1" style="width: 5%" />
             </colgroup>
 
             <!-- <thead class="border-b bg-purple-darken "> -->
-            <tr class="border-b bg-purple-darken ">
+            <tr class="border-b bg-purple-darken">
                 <th
                     class="text-xs lg:text-sm font-medium text-white px-5 mr-1 py-4 text-left"
                     scope="col"
@@ -107,27 +105,40 @@
             </tr>
             <!-- </thead> -->
             <tbody>
-                <tr v-for="(transactionItem, index) in transactionItems" :key="transactionItem.id">
+                <tr
+                    v-for="(transactionItem, index) in transactionItems"
+                    :key="transactionItem.id"
+                >
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        {{ transactionItem.category  ?  transactionItem.category.name : '----' }}
+                        {{
+                            transactionItem.category
+                                ? transactionItem.category.name
+                                : '----'
+                        }}
                     </td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                        <div
-                            
-                        >
+                        <div>
                             <ImageModal
-                                :enlargedImage="transactionItem.images.length ? transactionItem.images[0].url : null"
+                                :enlargedImage="
+                                    transactionItem.images.length
+                                        ? transactionItem.images[0].url
+                                        : null
+                                "
                                 alt=""
                                 @close="imagePopUp = false"
                                 v-if="imagePopUp"
                             />
                             <img
                                 @click="popImageModal(index)"
-                                :src="transactionItem.images.length ? transactionItem.images[0].url : null"
+                                :src="
+                                    transactionItem.images.length
+                                        ? transactionItem.images[0].url
+                                        : null
+                                "
                                 alt=""
                                 class="cursor-pointer"
                             />
@@ -166,7 +177,6 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4 whitespace-nowrap"
                     >
-                     
                         <p>
                             <span
                                 href=" "
@@ -178,7 +188,8 @@
                             /
                             <span
                                 class="cursor-pointer font-medium text-black hover:text-purple-darken"
-                                @click="deleteItem(transactionItem.id, index)">
+                                @click="deleteItem(transactionItem.id, index)"
+                            >
                                 Delete
                             </span>
                         </p>
@@ -188,10 +199,7 @@
                 <!-- total ish -->
                 <tr class="bg-gray-background border-4 border-white">
                     <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 "
-                    ></td>
-                    <td
-                        class="text-xs lg:text-sm text-black font-light px-6 py-4 "
+                        class="text-xs lg:text-sm text-black font-light px-6 py-4"
                     ></td>
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4"
@@ -202,41 +210,39 @@
                     <td
                         class="text-xs lg:text-sm text-black font-light px-6 py-4"
                     ></td>
-                    <td 
-                        class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
-                    >
-                        Total Value: {{ transactionItems.length ? transactionItems.length : 0 }}
-                    </td>
+
                     <td
                         class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        ${{ totalDwt }}
+                        {{
+                            transactionItems.length
+                                ? transactionItems.length
+                                : 0
+                        }}
                     </td>
                     <td
-                        class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        
+                        {{ totalDwt }}
                     </td>
                     <td
-                        class=" text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
+                        class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
                     >
-                        Estimated Profit: {{}}
+                        {{ root.est_value }}
+                    </td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap text-right"
+                    >
+                        Profit Percentage:
+                    </td>
+                    <td
+                        class="text-xs lg:text-sm text-black font-bold px-6 py-4 whitespace-nowrap"
+                    >
+                        {{ root.profit_percent }}
                     </td>
                 </tr>
             </tbody>
         </table>
-
-        <div class="flex flex-row justify-end ml-3 mr-3 py-4">
-            <div>
-                <button
-                    class="bg-purple-darken px-6 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken "
-                    type="submit"
-                >
-                    All Photos
-                </button>
-            </div>
-        </div>
-        
     </div>
 </template>
 
@@ -248,16 +254,19 @@ import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 import ImageModal from './ImageModal.vue'
 import EditItem from './EditItem.vue'
-import  notification from '../../../Utils/notification'
+import notification from '../../../Utils/notification'
+import Button from '../../../Components/Button.vue'
 
 export default {
-
-    components: { AppLayout, AddItem, ImageModal, EditItem },
+    components: { AppLayout, AddItem, ImageModal, EditItem, Button },
     props: ['items', 'categories', 'root'],
 
     setup (props) {
-        const  { onClickTop, onClickBot } = notification();
+        const { onClickTop, onClickBot } = notification()
         let items = props.items
+
+        const buttonName = ref('Add Item')
+        const loadingAnimation = ref(false)
 
         const successMessage = ref('')
         const transactionItems = ref(items)
@@ -278,7 +287,7 @@ export default {
         }
         // Edit modal pop up
         const EditPopUp = ref(false)
-        const EditPopModal = (i) => {
+        const EditPopModal = i => {
             item.value = i
             EditPopUp.value = true
         }
@@ -289,6 +298,14 @@ export default {
                 return (sum += parseFloat(item.dwt))
             })
             return sum.toFixed(2)
+        })
+
+        const estimatedProfit = computed(() => {
+            return root.est_val
+        })
+
+        const percentProfit = computed(() => {
+            return root.est_val
         })
 
         const totalPrice = computed(() => {
@@ -302,12 +319,12 @@ export default {
         function pushValue (res) {
             popUp.value = res.data
         }
-        
+
         function pushEditValue (res) {
             transactionItems.value = res.data.items
         }
-        
-        function Edited (res){
+
+        function Edited (res) {
             cosole.log(res)
         }
 
@@ -347,7 +364,11 @@ export default {
             deleteItem,
             pushEditValue,
             item,
-            Edited
+            Edited,
+            estimatedProfit,
+            percentProfit,
+            buttonName,
+            loadingAnimation
         }
     }
 }

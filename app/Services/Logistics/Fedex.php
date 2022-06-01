@@ -198,7 +198,7 @@ class Fedex extends Shipping
             'contact' => [
                 'personName' => $user->first_name . ' ' . $user->last_name,
 //                'emailAddress' => $user->email,
-                'phoneNumber' => $user->phone,
+                'phoneNumber' => $user->phone ?? '2679809681',
 //                'phoneExtension' => $user->extension,
                 'companyName' => $user->company_name
             ],

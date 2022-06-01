@@ -19,23 +19,27 @@ class DashBoard
         foreach($stores as $store => $store_id) {
             $response[$store]['kit'] = DB::select(
                 "SELECT counter,val, href FROM (
-                    (SELECT 'Pending Kit Request' AS counter,count(*) AS val, 'status=0' as href FROM transactions WHERE status_id=0 AND store_id = $store_id) UNION
-                    (SELECT 'Pending Phone Kit Request' AS counter,count(*) AS val, 'status=20' as href FROM transactions WHERE status_id=20 AND store_id = $store_id) UNION
-                    (SELECT 'Kit Sent' AS counter,count(*) AS val, 'status=20' as href FROM transactions WHERE status_id=1 AND store_id = $store_id) UNION
-                    (SELECT 'Kit Request Denied' AS counter,count(*) AS val, 'status=9' as href FROM transactions WHERE status_id=9 AND store_id = $store_id) UNION
-                    (SELECT 'Sent Kit' AS counter,count(*) AS val, 'status=1' as href FROM transactions WHERE status_id=1 AND store_id = $store_id) UNION
-                    (SELECT 'Kit Received' AS counter,count(*) AS val, 'status=2' as href FROM transactions WHERE status_id=2 AND store_id = $store_id) UNION
+                    (SELECT 'Pending Kit Request' AS counter,count(*) AS val, 'status=60' as href FROM transactions WHERE status_id=60 AND store_id = $store_id) UNION
+                    (SELECT 'Pending Kit Requests - Rejected By Admin' AS counter,count(*) AS val, 'status=20' as href FROM transactions WHERE status_id=20 AND store_id = $store_id) UNION
+                    (SELECT 'Kits Sent' AS counter,count(*) AS val, 'status=1' as href FROM transactions WHERE status_id=1 AND store_id = $store_id) UNION
+                    (SELECT 'Kits Received' AS counter,count(*) AS val, 'status=2' as href FROM transactions WHERE status_id=2 AND store_id = $store_id) UNION
                     (SELECT 'Kit Received Rejected By Admin' AS counter,count(*) AS val, 'status=3' as href FROM transactions WHERE status_id=3 AND store_id = $store_id) UNION
+                    (SELECT 'Returned By Admin' AS counter,count(*) AS val, 'status=24' as href FROM transactions WHERE status_id=24 AND store_id = $store_id) UNION
+                    (SELECT 'Kits Received - Refused by Customer & Fedex' AS counter,count(*) AS val, 'status=6' as href FROM transactions WHERE status_id=6 AND store_id = $store_id) UNION
+
                     (SELECT 'Offers Given' AS counter,count(*) AS val, 'status=4' as href FROM transactions WHERE status_id=4 AND store_id = $store_id) UNION
+                    (SELECT 'Offers Given - C Notes and Pictures' AS counter,count(*) AS val, 'status=50' as href FROM transactions WHERE status_id=50 AND store_id = $store_id) UNION
+
                     (SELECT 'Offers Declined' AS counter,count(*) AS val, 'tag=Declined' as href FROM transactions WHERE is_declined=1 AND store_id = $store_id) UNION
-                    (SELECT 'Customer Declined Offer' AS counter,count(*) AS val, 'status=5' as href FROM transactions WHERE status_id=5 AND store_id = $store_id) UNION
-                    (SELECT 'Offer 2 Given' AS counter,count(*) AS val, 'status=15' as href FROM transactions WHERE status_id=15 AND store_id = $store_id) UNION
-                    (SELECT 'Return Kits' AS counter,count(*) AS val, 'status=6' as href FROM transactions WHERE status_id=6 AND store_id = $store_id) UNION
-                    (SELECT 'Return kit being Processed' AS counter,count(*) AS val, 'status=6' as href FROM transactions WHERE status_id=6 AND store_id = $store_id) UNION
-                    (SELECT 'Return Kit Shipped' AS counter,count(*) AS val, 'status=6' as href FROM transactions WHERE status_id=6 AND store_id = $store_id) UNION
-                    (SELECT 'Offers Accepted' AS counter,count(*) AS val, 'status=24' as href FROM transactions WHERE status_id=24 AND store_id = $store_id) UNION
-                    (SELECT 'Awaiting Payment' AS counter,count(*) AS val, 'status=2' as href FROM transactions WHERE status_id=2 AND store_id = $store_id) UNION
-                    (SELECT 'Payments Processed' AS counter,count(*) AS val, 'status=20' as href FROM transactions WHERE status_id=20 AND store_id = $store_id)
+                    (SELECT 'Offers Declined - Send Back' AS counter,count(*) AS val, 'tag=Declined' as href FROM transactions WHERE status_id=12 AND store_id = $store_id) UNION
+
+                    (SELECT 'Offers Accepted' AS counter,count(*) AS val, 'status=24' as href FROM transactions WHERE is_accepted=1 AND store_id = $store_id) UNION
+                    (SELECT 'Payments Processed' AS counter,count(*) AS val, 'status=8' as href FROM transactions WHERE status_id=8 AND store_id = $store_id) UNION
+
+                    (SELECT '14 Day - On Hold' AS counter,count(*) AS val, 'status=25' as href FROM transactions WHERE status_id=25 AND store_id = $store_id) UNION
+
+                    (SELECT 'Ready For Melt' AS counter,count(*) AS val, 'status=13' as href FROM transactions WHERE status_id=13 AND store_id = $store_id)
+
                 ) setho"
             );
         }
@@ -46,8 +50,7 @@ class DashBoard
                     (SELECT 'Fedex Outbound' AS counter,count(*) AS val, 'status=0' as href FROM transactions WHERE status_id=0 AND store_id = $store_id) UNION
                     (SELECT 'Fedex Outbound Delivered' AS counter,count(*) AS val, 'status=0' as href FROM transactions WHERE status_id=20 AND store_id = $store_id) UNION
                     (SELECT 'Fedex Inbound' AS counter,count(*) AS val, 'status=0' as href FROM transactions WHERE status_id=1 AND store_id = $store_id) UNION
-                    (SELECT 'Fedex In Bound Delivered' AS counter,count(*) AS val, 'status=0' as href FROM transactions WHERE status_id=9 AND store_id = $store_id) UNION
-                    (SELECT 'Printed Not Incoming' AS counter,count(*) AS val, 'status=0' as href FROM transactions WHERE status_id=1 AND store_id = $store_id)
+                    (SELECT 'Fedex In Bound Delivered' AS counter,count(*) AS val, 'status=0' as href FROM transactions WHERE status_id=9 AND store_id = $store_id)
                 ) setho"
             );
         }
