@@ -478,5 +478,9 @@ const handleSearchChange = () => {
     }
 }
 
+const exportData = () => {
+    emits('export')
+}
+
 const open = ref(false)
 </script>

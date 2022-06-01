@@ -19,7 +19,10 @@
                 />
             </div>
 
-            <shopmata-table :filters="tableFilters"></shopmata-table>
+            <shopmata-table
+                :filters="tableFilters"
+                @export="exportData"
+            ></shopmata-table>
 
             <NotificationGroup group="top" position="top">
                 <div
@@ -202,6 +205,10 @@ export default {
             filteredData.refresh_token = Math.random()
             tableFilters.value = filteredData
             tableFilters.value['type'] = props.filters.type
+        }
+
+        function exportData(){
+
         }
 
         return {

@@ -351,4 +351,9 @@ class ReportsTable extends Table
         $percent = (($selling - $cost) / $cost) * 100;
         return Numeral::number($percent)->format('0.0%');
     }
+
+    public function exportable($filter, $filteredData)
+    {
+        return true;
+    }
 }
