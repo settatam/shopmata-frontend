@@ -256,10 +256,12 @@ export default {
                         case 'Bin Location':
                             let url = urls.transactions.bin_location(selectedTransactions.value[0])
                             console.log(url)
-                            axios.post(url, {bin_location:bin_location.value})
+                            Inertia.post(url, {bin_location:bin_location.value})
+                            .then(
+                                displayModal.value = false
+                            )
                             break
                     }
-
                 default:
                     Inertia.post(
                         urls.transactions.bulkAction('status'),
