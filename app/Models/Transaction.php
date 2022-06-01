@@ -223,7 +223,7 @@ class Transaction extends Model
     }
 
     public function scopeWithStatusDateTime($query) {
-        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s')) as status_date_time")
+        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s')) as status_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('is_status', true)
                 ->take(1)->latest()
@@ -231,7 +231,7 @@ class Transaction extends Model
     }
 
     public function scopeWithPaymentDateTime($query) {
-        return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s') as payment_date_time")
+        return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as payment_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Payment Processed')
                 ->take(1)->latest()
@@ -239,7 +239,7 @@ class Transaction extends Model
     }
 
     public function scopeWithReceivedDateTime($query) {
-        return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
+        return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kit Received')
                 ->take(1)
@@ -319,7 +319,7 @@ class Transaction extends Model
         $to = data_get($filter, 'to');
         $from = data_get($filter, 'from');
         if($to && $from) {
-            $query->whereBetween('created_at', [
+            $query->whereBetween('transactions.created_at', [
                 [
                     $from,
                     $to,
@@ -480,8 +480,7 @@ class Transaction extends Model
     public function allTags() {
         $set = '';
         $x     = 1;
-        if (null != $this->tags) {
-
+        if (is_array($this->tags)) {
             foreach($this->tags as $tag){
                 $set .= " {$tag->tag->name} ";
                 if($x < $this->tags->count()){

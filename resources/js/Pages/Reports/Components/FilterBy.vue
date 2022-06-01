@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { reactive } from '@vue/reactivity'
+import { reactive, watch, ref } from "vue";
 export default {
     props: {
         notifications: Array,
@@ -53,11 +53,17 @@ export default {
         filters: Object
     },
     setup (props, {emit}) {
-        const filterLists = reactive(props.formObject.formGroups)
+        const filterLists = ref(props.formObject)
 
         function doChange(event) {
             emit('filter-changed', filterLists);
         }
+
+        watch(() => props.formObject, (first, second) => {
+            filterLists.value = first;
+            console.log('filter lists assinged', filterLists.value)
+        })
+
         return {
             filterLists,
             doChange

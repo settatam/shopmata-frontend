@@ -18,9 +18,10 @@
 
             <div>
                 <FilterBy
-                    :formObject="reportForm"
+                    :formObject="filtersForm"
                     @filter-changed="updateFilter"
                     :filters="tableFilters"
+                    :refresh_token="refresh_token"
                 />
             </div>
 
@@ -152,19 +153,26 @@ export default {
         const tableFilters = ref(props.filters)
         const displayFilter = ref(true);
         const newFilters = ref({})
+        const filtersForm = ref(props.reportForm.formGroups)
+        const refresh_token = ref('refresh_token')
 
         const getFormGroup = () => {
-
+            axios.get(urls.reports.formGroup(), {
+                params: tableFilters.value
+            }).then(res => {
+                filtersForm.value = res.data.formGroups
+                refresh_token.value = Math.random()
+            })
         }
 
         function filterToggle() {
             displayFilter.value = !displayFilter.value;
         }
-        
 
         function sendFilters(res) {
             console.log(res)
             tableFilters.value = { ...tableFilters.value, ...res }
+            getFormGroup()
             // tableFilters.value.refresh_token = Math.random()
         }
 
@@ -181,7 +189,7 @@ export default {
         }
 
         function exportData(){
-            
+
         }
 
         return {
@@ -190,7 +198,9 @@ export default {
             displayFilter,
             filterToggle,
             sendFilters,
-            newFilters
+            newFilters,
+            filtersForm,
+            refresh_token
         }
     },
 };
