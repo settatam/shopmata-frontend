@@ -254,9 +254,10 @@ export default {
                             )
                             break
                         case 'Bin Location':
-                            let url = urls.transactions.bin_location(selectedTransactions.value[0])
+                            let url = urls.transactions.bulkAction('bin_location')
                             console.log(url)
-                            Inertia.post(url, {bin_location:bin_location.value})
+                            data.bin_location = bin_location.value
+                            Inertia.post(url, data)
                             .then(
                                 displayModal.value = false
                             )
