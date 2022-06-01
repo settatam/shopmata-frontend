@@ -120,7 +120,7 @@ class Filter
         return null;
     }
 
-    static function getStore($filter) {
+    static function getStoreId($filter) {
         return data_get($filter, 'store_id');
     }
 

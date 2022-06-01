@@ -23,12 +23,12 @@ class ReportsController extends Controller
         //†$filters['dates'] = Filter::dates($filters);
         $filters['type'] = 'ReportsTable';
         $dates = Filter::getDefaultYTD(Filter::DEFAULT_TIMEZONE);
-        $store = Filter::getStore($filters);
+        $store_id = Filter::getStoreId($filters);
         $to = data_get($dates, 'to');
         $from = data_get($dates, 'from');
         $stores = Store::get();
         return Inertia::render('Reports/Index',
-            compact('filters', 'reportForm', 'stores', 'to', 'from')
+            compact('filters', 'reportForm', 'stores', 'to', 'from', 'store_id')
         );
     }
 

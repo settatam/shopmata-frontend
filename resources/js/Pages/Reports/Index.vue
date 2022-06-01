@@ -20,7 +20,10 @@
                 <FilterBy :formObject="reportForm" @filter-changed="updateFilter" />
             </div>
 
-            <shopmata-table :filters="tableFilters"></shopmata-table>
+            <shopmata-table
+                :filters="tableFilters"
+                @export="exportData"
+            ></shopmata-table>
 
             <NotificationGroup group="top" position="top">
                 <div class="fixed inset-0 mt-8 flex items-start justify-end p-6 px-4 py-6 pointer-events-none">
@@ -166,6 +169,10 @@ export default {
             filteredData.refresh_token = Math.random()
             tableFilters.value = filteredData
             tableFilters.value['type'] = props.filters.type
+        }
+
+        function exportData(){
+
         }
 
         return {
