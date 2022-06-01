@@ -482,13 +482,16 @@ class Transaction extends Model
     public function allTags() {
         $set = '';
         $x     = 1;
-        foreach($this->tags as $tag){
-            $set .= " {$tag->tag->name} ";
-            if($x < $this->tags->count()){
-                $set .= ', ';
+        if (null !== $this->tags) {
+            foreach($this->tags as $tag){
+                $set .= " {$tag->tag->name} ";
+                if($x < $this->tags->count()){
+                    $set .= ', ';
+                }
+                $x++;
             }
-            $x++;
         }
+       
         return $set;
     }
 
