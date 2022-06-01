@@ -13,7 +13,7 @@
                         '--vdp-selected-bg-color':
                             'rgba(79, 70, 229, var(--tw-bg-opacity))'
                     }" id="daterange" name="daterange"
-                        class="text-start border-r-0 rounded-r-none w-full py-2  text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                        class="text-start border-r-0 rounded-r-none w-full py-2 text-center text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                         v-model="filterValues.from" :lowerLimit="filterValues.from"></flatPickr>
 
                     <span
@@ -27,7 +27,7 @@
                         '--vdp-selected-bg-color':
                             'rgba(79, 70, 229, var(--tw-bg-opacity))'
                     }" id="daterange" name="daterange"
-                        class="border-l-0 w-full rounded-l-none py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                        class="text-center border-l-0 w-full rounded-l-none py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                         v-model="filterValues.to" :lowerLimit="filterValues.from"></flatPickr>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 </label>
                 <select name="store_id" v-model="filterValues.store_id" id="store_id"
                     class="  mt-1.5  block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                    <option value="null">Select Store </option>
+                    <option value="">Select Store </option>
                     <option v-for="store in stores" :key="store.index" :value="store.id" >{{store.name}}</option>
                 </select>
             </div>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { AdjustmentsIcon } from '@heroicons/vue/outline'
 import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
@@ -98,10 +98,14 @@ export default {
         const filterValues = reactive({
             from: moment(props.from).format('YYYY-MM-DD'),
             to: moment(props.to).format('YYYY-MM-DD'),
-            store_id: null,
+            store_id: "",
             // status: null
         })
         const showFilter = ref(true)
+
+        onMounted(()=>{
+            emit('getFilters', filterValues)
+        })
 
         function submitFilters() {
             emit('getFilters', filterValues)

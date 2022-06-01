@@ -110,7 +110,7 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import axios from "axios";
 import { SearchIcon, PlusIcon } from "@heroicons/vue/solid";
@@ -151,8 +151,10 @@ export default {
         function filterToggle() {
             displayFilter.value = !displayFilter.value;
         }
+        
 
         function sendFilters(res) {
+            console.log(res)
             tableFilters.value = { ...tableFilters.value, ...res }
             // tableFilters.value.refresh_token = Math.random()
         }
