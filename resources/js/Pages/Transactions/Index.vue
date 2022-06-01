@@ -254,7 +254,8 @@ export default {
                             )
                             break
                         case 'Bin Location':
-                            let url = urls.transactions.bin_location(selectedTransactions[0])
+                            let url = urls.transactions.bin_location(selectedTransactions.value[0])
+                            console.log(url)
                             axios.post(url, {bin_location:bin_location.value})
                             break
                     }
