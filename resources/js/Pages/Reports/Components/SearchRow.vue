@@ -62,7 +62,7 @@
 
     </div>
 
-    <Filter class="my-3" v-if="displayFilter" />
+    <Filter class="my-3" v-if="displayFilter" @switchToggle="filterToggle" />
 </template>
 
 <script>
