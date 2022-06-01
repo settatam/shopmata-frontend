@@ -16,7 +16,7 @@
                     >
                         <h1>{{ item.label }}</h1>
                     </div>
-                    <div class="pl-3 py-3 bg-white h-96 overflow-scroll overflow-x-auto overflow-y-auto">
+                    <div class="pl-3 py-3 bg-white h-96 overflow-scroll">
                         <div>
                             <div
                                 v-for="(filter, filterIndex) in item.fields.options"
@@ -51,11 +51,11 @@ export default {
         notifications: Array,
         formObject: Object
     },
-    setup (props) {
+    setup (props, {emit}) {
         const filterLists = reactive(props.formObject.formGroups)
 
         function doChange(event) {
-            console.log(filterLists)
+            emit('filter-changed', filterLists);
         }
         return {
             filterLists,
