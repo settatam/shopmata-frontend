@@ -17,7 +17,11 @@
             </div> -->
 
             <div>
-                <FilterBy :formObject="reportForm" @filter-changed="updateFilter" />
+                <FilterBy
+                    :formObject="reportForm"
+                    @filter-changed="updateFilter"
+                    :filters="tableFilters"
+                />
             </div>
 
             <shopmata-table
@@ -110,7 +114,7 @@
     </app-layout>
 </template>
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import AppLayout from "../../Layouts/AppLayout.vue";
 import axios from "axios";
 import { SearchIcon, PlusIcon } from "@heroicons/vue/solid";
@@ -122,6 +126,7 @@ import Entries from "./Components/Entries.vue";
 import ReportLayout from "./Components/ReportLayout.vue";
 import ShopmataTable from "../Widgets/ShopmataTable";
 import Filter from "../../Components/Filter.vue";
+import urls from "../../api/urls";
 
 export default {
     components: {
@@ -148,6 +153,10 @@ export default {
         const displayFilter = ref(true);
         const newFilters = ref({})
 
+        const getFormGroup = () => {
+
+        }
+
         function filterToggle() {
             displayFilter.value = !displayFilter.value;
         }
@@ -170,7 +179,7 @@ export default {
         }
 
         function exportData(){
-
+            
         }
 
         return {

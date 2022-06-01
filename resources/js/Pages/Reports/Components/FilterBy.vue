@@ -49,7 +49,8 @@ import { reactive } from '@vue/reactivity'
 export default {
     props: {
         notifications: Array,
-        formObject: Object
+        formObject: Object,
+        filters: Object
     },
     setup (props, {emit}) {
         const filterLists = reactive(props.formObject.formGroups)

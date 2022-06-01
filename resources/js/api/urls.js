@@ -6,4 +6,7 @@ export default {
         message: (id) => `/admin/transactions/${id}/messages`,
         bin_location: (id) => `/admin/transactions/${id}/bin_location`,
     },
+    reports: {
+        formGroup: () => '/reports/form-group'
+    }
 };

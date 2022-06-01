@@ -36,6 +36,13 @@ class ReportsController extends Controller
         $filters = $request->input();
         return Excel::download(new ReportsExport($filters), 'reports.xlsx');
     }
+
+    public function formGroup(Request $request) {
+        $formGroup =  (new ReportFormGroup())->render($request->input());
+        return response()->json($formGroup);
+    }
+
+
 }
 
 //$age = Carbon::parse($request->date_of_birth)->diff(Carbon::now())->y;

@@ -105,7 +105,8 @@ class Transaction extends Model
             ->withTrafficSource($filter)
             ->withLead($filter)
             ->withStores($filter)
-            ->withDayOfWeek($filter);
+            ->withDayOfWeek($filter)
+            ->withDates($filter);
     }
 
     public function scopeWithTerm($query, $filter) {
@@ -313,13 +314,15 @@ class Transaction extends Model
         }
     }
 
-    public function scopeWithDates($query, $filter=null)
+    public function scopeWithDates($query, $filter=[])
     {
-        if($dates = data_get($filter, 'dates')) {
+        $to = data_get($filter, 'to');
+        $from = data_get($filter, 'from');
+        if($to && $from) {
             $query->whereBetween('created_at', [
                 [
-                    data_get($dates, 'from'),
-                    data_get($dates, 'to'),
+                    $from,
+                    $to,
                 ]
             ]);
         }
