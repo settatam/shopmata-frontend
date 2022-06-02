@@ -339,7 +339,7 @@ export default {
 
         function updateTransaction(data) {
             let currentData = {};
-            currentData[data.field] = data["value"];
+            currentData[data.field] = data.value;
             console.log(data);
             let url = "";
             let method = "put";
@@ -367,6 +367,7 @@ export default {
             }
 
             if (method == "put") {
+                console.log('We are putting here', currentData)
                 axios.put(url, currentData).then((res) => {
                     // props.transaction.value = res.data
                 });

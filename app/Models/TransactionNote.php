@@ -51,32 +51,17 @@ class TransactionNote extends Model
                 'thumbnail' => $data['thumb'],
                 'rank' => $rank,
             ]);
-            
 
-            // $note = sprintf(
-            //     '%s added a new image: %s',
-            //     Auth::user()->full_name,
-            //     $image->url
-            // );
+            $note = sprintf(
+                '%s added a new image: %s',
+                Auth::user()->full_name,
+                $image->url
+            );
 
-            //$transaction->addActivity($transaction, [], $note);
-             
-            return $transaction = Transaction::search([])
-            ->withEstValue()
-            ->withFinalOffer()
-            ->withTotalDwt()
-            ->withLabelsFrom()
-            ->withLabelsTo()
-            ->withReturnLabel()
-            ->withPrivateNote()
-            ->withPublicNote()
-            ->withPaymentType()
-            ->withStatusDateTime()
-            ->withReceivedDateTime()
-            ->withPaymentDateTime()
-            ->withPaymentDateTime()
-            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags', 'publicnote.images')
-            ->find($request->transaction_id);
+            $transaction->addActivity($transaction, [], $note);
+            $transaction->load('publicnote.images');
+
+            return $transaction->publicnote->images;
         }
 
     }

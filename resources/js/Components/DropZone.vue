@@ -61,7 +61,7 @@ export default {
     name: "UseDropzone",
     emits: ["add-image"],
     setup(props, { emit }) {
-        console.log(props.payload);
+
         const message = ref("");
         const loading = ref(false);
         const text = ref("Choose file");
@@ -73,7 +73,6 @@ export default {
         function onDrop(acceptFiles, rejectReasons) {
             loading.value = true;
             text.value = "Uploading....";
-            console.log(props.values);
             saveFiles(acceptFiles, props.payload, props.values)
                 .then((res) => {
                     emit("add-image", res);
