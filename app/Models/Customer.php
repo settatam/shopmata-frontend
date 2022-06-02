@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
-use App\Http\Helper;
+use App\Http\Helpers\Helper;
 
 class Customer extends Model
 {
