@@ -49,16 +49,16 @@ class Helper
     }
 
 
-    public function getStateId($state_abreviation)
+    static function getStateId($state_abreviation)
     {
         $state = State::where('code', $state_abreviation)->first();
         return null !== $state ? $state->id : null;
     }
 
 
-   
 
-   
+
+
 
 }
 
