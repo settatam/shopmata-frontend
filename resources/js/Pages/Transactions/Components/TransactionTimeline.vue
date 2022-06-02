@@ -370,37 +370,32 @@ export default {
         });
 
         function updateTransaction(event, status_id = null) {
-            console.log(messagePublic);
+            console.log('This is the event', currentTransaction);
             let data = {};
             switch (event) {
                 case "status_id":
-                    data = {
-                        field: "status_id",
-                        value: currentTransaction.status_id,
-                    };
-                    break;
                 case "status":
                     data = {
                         field: "status_id",
-                        value: status_id,
+                        value: currentTransaction.value.status_id,
                     };
                     break;
                 case "message":
                     data = {
                         field: "message",
-                        value: this.currentTransaction.status_id,
+                        value: this.currentTransaction.value.status_id,
                     };
                     break;
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.offer,
+                        value: this.currentTransaction.value.offer,
                     };
                     break;
                 case "sms":
                     data = {
                         field: "sms",
-                        value: this.currentTransaction.sms,
+                        value: this.currentTransaction.value.sms,
                     };
                     break;
                 case "private_note":
