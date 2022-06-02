@@ -30,26 +30,53 @@ class TransactionNote extends Model
 	}
 
     //Pass the transaction id for transaction notes
-    public function addImage(Store $store, $images, $id = null, $rank = 1)
+    public function addImage(Store $store, $request, $rank =1)
     {
-        $transaction = Transaction::find($id);
-        $note = $transaction->getPublicNote();
+        $images =  $request->file('files');
+        $note   = TransactionNote::find($request->model_id);
         if ($data = $this->uploadImageToCloud($store, $images)) {
-            $image = $note->images()->create([
+            if (null == $note) {
+                $note = TransactionNote::create([
+                    'type' => 'public',
+                    'notes' => '',
+                    'transaction_id' => $request->transaction_id
+                ]);
+            }
+
+
+           // return $note;
+
+            $note->images()->create([
                 'url' => $data['url'],
                 'thumbnail' => $data['thumb'],
                 'rank' => $rank,
             ]);
+            
 
-            $note = sprintf(
-                '%s added a new image: %s',
-                Auth::user()->full_name,
-                $image->url
-            );
+            // $note = sprintf(
+            //     '%s added a new image: %s',
+            //     Auth::user()->full_name,
+            //     $image->url
+            // );
 
-            $transaction->addActivity($transaction, [], $note);
-
-            return $image;
+            //$transaction->addActivity($transaction, [], $note);
+             
+            return $transaction = Transaction::search([])
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withReturnLabel()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->withPaymentDateTime()
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags', 'publicnote.images')
+            ->find($request->transaction_id);
         }
 
     }

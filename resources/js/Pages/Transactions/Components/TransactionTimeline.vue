@@ -277,8 +277,9 @@
         <div class="my-4">
             <Images
                 :payload="params"
-                :imgs="transaction.publicnote.images"
+                :imgs="imgs"
                 class="mb-8"
+                @image-uploaded="imageAdded"
             />
         </div>
 
@@ -332,17 +333,20 @@ export default {
         const popModal = () => {
             popUp.value = true;
         };
-        let transaction = props.transaction;
+
+        const currentTransaction = ref(props.transaction);
+
+        const imgs = ref(currentTransaction.value.publicnote.images);
+        const model_id = ref(
+            currentTransaction.value.pub_note
+                ? currentTransaction.value.publicnote.id
+                : null
+        );
 
         const params = ref({
             model: "TransactionNote",
-            model_id: transaction.pub_note ? transaction.publicnote.id : null,
-        });
-
-        const values = reactive({
-            transaction_id: transaction.id,
-            note: null,
-            type: "public_note",
+            model_id: model_id,
+            transaction_id: currentTransaction.value.id,
         });
 
         const transaction_id = props.root.id;
@@ -355,10 +359,9 @@ export default {
 
             return myArray;
         });
-        const currentTransaction = ref(props.transaction);
 
-        const messagePrivate = ref(transaction.private_note);
-        const messagePublic = ref(transaction.pub_note);
+        const messagePrivate = ref(currentTransaction.value.private_note);
+        const messagePublic = ref(currentTransaction.value.pub_note);
         let type = null;
 
         const loadingAnimation = ref(false);
@@ -368,6 +371,14 @@ export default {
             secondOffer: "",
             offer: "",
         });
+
+        function addMessage() {}
+
+        function imageAdded(response) {
+            currentTransaction.value = response.data;
+            model_id.value = response.data.publicnote.id;
+            console.log(response.data);
+        }
 
         function updateTransaction(event, status_id = null) {
             console.log(messagePublic);
@@ -506,6 +517,9 @@ export default {
         }
 
         return {
+            imgs,
+            addMessage,
+            loadingAnimation,
             popUp,
             popModal,
             transaction_id,
@@ -522,7 +536,8 @@ export default {
             onChange,
             currentTransaction,
             params,
-            values,
+            imageAdded,
+            model_id,
         };
     },
 };

@@ -54,7 +54,11 @@ class ImagesController extends Controller
 
         $model = new $class;
 
-        return $model->addImage($store, $request->file('files'), $request->model_id);
+        $trId = $request->transaction_id;
+
+        
+
+        return $model->addImage($store, $request);
 
 //        try {
 //          $response =   Image::addImage($request);
