@@ -32,7 +32,7 @@ class TransactionsController extends Controller
     }
 
     public function verifyAddress(Request $request) {
-
+      
         $request->validate([
             'email' => ['required','email','max:75','unique:customers'],
         ]);
@@ -57,9 +57,6 @@ class TransactionsController extends Controller
             return response()->json(['message'=> "Failed to save  transaction"], 422);
         }
        
-
-        //Add new Transaction
-        //Go to thank you page ...
 
     }
 
