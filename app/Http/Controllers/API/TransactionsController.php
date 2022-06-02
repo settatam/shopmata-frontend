@@ -41,7 +41,7 @@ class TransactionsController extends Controller
 
         $store = Store::find($request->store_id);
         $customer = new Customer;
-        try {
+        //try {
             $customer = Customer::createOrUpdateCustomer($store, $request);
             $transaction = Transaction::createNew($store, $request, $customer);
             $transaction_payment_address = new TransactionPaymentAddress;
@@ -54,10 +54,10 @@ class TransactionsController extends Controller
             $transaction_payment_address->save();
 
             return response()->json(null, 200);
-        } catch (\Throwable $th) {
-            \Log::Error("Failed to save  transaction  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
-            return response()->json(['message'=> "Failed to save  transaction"], 422);
-        }
+//        } catch (\Throwable $th) {
+//            \Log::Error("Failed to save  transaction  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+//            return response()->json(['message'=> "Failed to save  transaction"], 422);
+//        }
 
 
     }
