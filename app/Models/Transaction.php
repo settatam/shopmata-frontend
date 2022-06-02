@@ -384,7 +384,7 @@ class Transaction extends Model
         $transaction = new self;
         $transaction->status_id = Status::PENDING_KIT_REQUEST;
         $transaction->customer_id = $customer->id;//Customer id
-        $transaction->description = $request->description;
+        $transaction->customer_description = $request->description;
         $transaction->payment_method_id = $transaction->payment;
         $transaction->store_id = $store->id;
         $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
