@@ -39,7 +39,6 @@ class TransactionsController extends Controller
         ]);
 
         $customer = new Customer;
-        $store_id = $request->session()->get('store_id');
         try {
             $customer = Customer::createOrUpdateCustomer($store_id, $request);
             $transaction = Transaction::createNew($store_id, $request, $customer);
