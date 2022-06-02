@@ -14,7 +14,7 @@ export default {
             { Name: 'Dashboard', link: "/admin/dashboard" },
             { Name: 'Settings', link: "/admin/settings" },
             { Name: 'Reports', link: "/admin/reports" },
-            { Name: 'messages', link: "/admin/messages" },
+            { Name: 'Messages', link: "/admin/messages" },
             { Name: 'Customers', link: "/admin/customers" },
         ])
 
