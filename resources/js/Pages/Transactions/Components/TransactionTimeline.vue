@@ -336,7 +336,7 @@ export default {
 
         const params = ref({
             model: "TransactionNote",
-            model_id: transaction.pub_note ? transaction.publicnote.id : null,
+            model_id: transaction.id,
         });
 
         const values = reactive({
