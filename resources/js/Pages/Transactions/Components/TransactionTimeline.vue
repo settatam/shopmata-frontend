@@ -275,12 +275,7 @@
         </div>
 
         <div class="my-4">
-            <Images
-                :payload="params"
-                :imgs="imgs"
-                class="mb-8"
-                @image-uploaded="imageAdded"
-            />
+            <Images :payload="params" :imgs="imgs" class="mb-8" />
         </div>
 
         <!-- add item start -->
@@ -335,6 +330,7 @@ export default {
         };
 
         const currentTransaction = ref(props.transaction);
+        const transaction_id = props.root.id;
 
         const imgs = ref(currentTransaction.value.publicnote.images);
         const model_id = ref(
@@ -345,21 +341,9 @@ export default {
 
         const params = ref({
             model: "TransactionNote",
-<<<<<<< HEAD
-            model_id: model_id,
             transaction_id: currentTransaction.value.id,
-=======
-            model_id: transaction.id,
         });
 
-        const values = reactive({
-            transaction_id: transaction.id,
-            note: null,
-            type: "public_note",
->>>>>>> 4972bc61cc10ad35da7e5174bf2057f715b09dd3
-        });
-
-        const transaction_id = props.root.id;
         const pickedTags = props.root.tags;
         const checkedList = computed(() => {
             let myArray = [];
@@ -384,14 +368,8 @@ export default {
 
         function addMessage() {}
 
-        function imageAdded(response) {
-            currentTransaction.value = response.data;
-            model_id.value = response.data.publicnote.id;
-            console.log(response.data);
-        }
-
         function updateTransaction(event, status_id = null) {
-            console.log('This is the event', currentTransaction);
+            console.log("This is the event", currentTransaction);
             let data = {};
             switch (event) {
                 case "status_id":
@@ -541,7 +519,6 @@ export default {
             onChange,
             currentTransaction,
             params,
-            imageAdded,
             model_id,
         };
     },

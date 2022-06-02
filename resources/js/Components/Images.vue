@@ -59,13 +59,7 @@ export default {
         }
 
         function onAddImage(response) {
-            if (response.data.publicnote != null) {
-                images.value = response.data.publicnote.images;
-                return;
-            }
-
-            images.value = response;
-
+            images.value = response.data;
             emit("image-uploaded", response);
         }
 
