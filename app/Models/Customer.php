@@ -71,14 +71,16 @@ class Customer extends Model
     }
 
 
-    public static function createOrUpdateCustomer($store_id = null, $request)
+    public static function createOrUpdateCustomer(Store $store, $request)
     {
+        $customer = new static;
+
         $customer->first_name   = $request->first_name;
         $customer->last_name    = $request->last_name;
         $customer->email        = $request->email;
         $customer->phone_number = $request->phone_number;
         $customer->lead_id      = $request->lead_id;
-        $customer->store_id     = $store_id;
+        $customer->store_id     = $store->id;
         $customer->home_phone_number    = $request->home_work;
         $customer->customer_notes       = $request->customer_notes;
         $customer->ext                  = $request->ext;
@@ -121,7 +123,7 @@ class Customer extends Model
         $customer->dob                  = $request->dob;
         $customer->is_active    = 1;
         $customer->accepts_marketing = 1;
-    
+
         return $customer;
     }
 

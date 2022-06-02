@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\TransactionPaymentAddress;
@@ -38,10 +39,11 @@ class TransactionsController extends Controller
             //'email' => ['required','email','max:75'],
         ]);
 
+        $store = Store::find($request->store_id);
         $customer = new Customer;
         try {
-            $customer = Customer::createOrUpdateCustomer($store_id, $request);
-            $transaction = Transaction::createNew($store_id, $request, $customer);
+            $customer = Customer::createOrUpdateCustomer($store, $request);
+            $transaction = Transaction::createNew($store, $request, $customer);
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                 ['customer_id' => $customer->id ]
