@@ -1000,11 +1000,11 @@ class Transaction extends Model
 
     public function createNote($type, $message=''){
 
-       if($notes = TransactionNote::create([
+       if($notes = $this->getPublicNote($type, [
             'type' => $type,
-            'transaction_id' => $this->id,
-            'notes' => $message
+            'message' => $message
         ])) {
+           $notes->update(['notes' => $message]);
            $user = Auth::user()->full_name;
            $text = $type === TransactionNote::PUBLIC_TYPE ? Activity::TRANSACTION_ADD_PUBLIC_NOTE : Activity::TRANSACTION_ADD_PRIVATE_NOTE;
 
@@ -1013,7 +1013,6 @@ class Transaction extends Model
             $text,
             $message
            );
-
 
            $this->addActivity($this, [], $note);
        }
@@ -1037,16 +1036,21 @@ class Transaction extends Model
         return $newKit;
     }
 
-     public function getPublicNote() {
-        $note = $this->publicnote()->latest()->first();
+     public function getPublicNote($type='public', $data=[]) {
+        $note = $type == 'public' ? $this->publicnote()->latest()->first() : $this->privatenote()->latest()->first();
 
         if(null !== $note) {
             return $note;
         }
-        return $this->publicnote()->create([
-            'type' => 'public',
-            'notes' => '',
-        ]);
+        if(count($data)) {
+            $notes_data = $data;
+        }else{
+            $notes_data = [
+                'type' => $type,
+                'notes' => '',
+            ];
+        }
+        return $type == 'public' ? $this->publicnote()->create($notes_data) : $this->privatenote()->create($notes_data);
     }
 
 
