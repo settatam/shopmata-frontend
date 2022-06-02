@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\TransactionPaymentAddress;
+use App\Models\Transaction;
 
 
 
@@ -32,16 +33,16 @@ class TransactionsController extends Controller
     }
 
     public function verifyAddress(Request $request) {
-      
+
         $request->validate([
-            'email' => ['required','email','max:75','unique:customers'],
+            //'email' => ['required','email','max:75'],
         ]);
 
         $customer = new Customer;
         $store_id = $request->session()->get('store_id');
         try {
             $customer = Customer::createOrUpdateCustomer($store_id, $request);
-            $transaction = Transaction::createTransaction($store_id, $request, $customer->id);
+            $transaction = Transaction::createNew($store_id, $request, $customer);
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                 ['customer_id' => $customer->id ]
@@ -56,7 +57,7 @@ class TransactionsController extends Controller
             \Log::Error("Failed to save  transaction  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
             return response()->json(['message'=> "Failed to save  transaction"], 422);
         }
-       
+
 
     }
 

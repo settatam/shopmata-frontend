@@ -27,6 +27,7 @@ class Transaction extends Model
     const FIRST_OFFER_NOTIFICATION_NAME = 'First Offer';
     const OTHER_OFFER_NOTIFICATION_NAME = 'Other Offer';
     const PENDING_KIT_ID = 60;
+    const EVENT_NOTIFICATION_NAME = 'New Transaction';
 
     protected $fillable = [
         'id',
@@ -377,12 +378,12 @@ class Transaction extends Model
             $query->whereRaw("DAYNAME(created_at) = ?", [$dayOfWeek]);
         }
     }
-    
 
-    static function createTransaction($store_id, $request, $customer_id) {
+
+    static function createNew(Store $store, $request, Customer $customer) {
         $transaction = new self;
         $transaction->status_id           = Status::PENDING_KIT_REQUEST;
-        $transaction->customer_id         = $customer_id;//Customer id
+        $transaction->customer_id         = $customer->id;//Customer id
         $transaction->description         = $request->description;
         $transaction->payment_method_id   = $transaction->payment;
         $transaction->store_id            = $store_id;
@@ -397,6 +398,15 @@ class Transaction extends Model
                 }
             }
         }
+
+        $sendNotice = new EventNotification(
+            self::EVENT_NOTIFICATION_NAME,
+            [
+                'customer' => $customer,
+                'store' => $store,
+                'transaction' => $transaction
+            ]
+        );
 
         return $transaction;
     }
