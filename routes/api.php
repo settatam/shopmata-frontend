@@ -10,6 +10,7 @@ use App\Http\Controllers\API\StoreLocationController;
 use App\Http\Controllers\ProductsController;
 use App\Models\Status;
 use App\Http\Controllers\API\ImagesController;
+use App\Http\Controllers\API\TransactionsController;
 
 
 /*
@@ -28,6 +29,7 @@ Route::get('states', [StatesController::class, 'index']);
 Route::get('store-locations/{id}', [StoreLocationController::class, 'show']);
 
 Route::post('upload', [ImagesController::class, 'upload']);
+Route::post('verify-address', [TransactionsController::class, 'verifyAddress']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
