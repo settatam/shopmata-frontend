@@ -41,28 +41,31 @@ class ImagesController extends Controller
      */
     public function store(Request $request) {
 
-        $data = $request->input();
-        $data['model'] = 'TransactionNote';
+        // $data = $request->input();
 
-        $class = $data['model'];
+        // $data['model'] = 'TransactionNote';
 
-        if (!Str::startsWith($class, $namespace = 'App\\Models\\')) {
-          $class = $namespace . $class;
-        }
+        // $class = $data['model'];
+
+        // if (!Str::startsWith($class, $namespace = 'App\\Models\\')) {
+        //   $class = $namespace . $class;
+        // }
 
         $store = Store::find($request->session()->get('store_id'));
 
-        $model = new $class;
+        // $model = new $class;
 
-        return $model->addImage($store, $request->file('files'), $request->model_id);
+        // $trId = $request->transaction_id;
 
-//        try {
-//          $response =   Image::addImage($request);
-//          return response()->json($response,  200);
-//        } catch (\Throwable $th) {
-//            \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
-//            return response($th->getMessage() ,422);
-//        }
+        // return $model->addImage($store, $request);
+
+        try {
+            $response =   Image::uploadImage($store, $request);
+            return response()->json($response,  200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to Add image" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response($th->getMessage() ,422);
+        }
     }
 
     /**
