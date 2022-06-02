@@ -12,6 +12,7 @@ class Status extends Model
 
     protected $table = "statuses";
 
+    const PENDING_KIT_REQUEST = 60;
 
     protected $fillable = [
         'name',

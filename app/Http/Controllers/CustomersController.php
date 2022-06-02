@@ -95,9 +95,10 @@ class CustomersController extends Controller
         ]);
 
         $customer = new Customer;
+        $store_id = $request->session()->get('store_id');
 
         try {
-            Customer::createUpdate($request, $customer);
+            Customer::createOrUpdateCustomer($store_id, $request, $customer);
             \Log::info("New customer added");
             return response()->json(['message'=> "Customer added  successfully"], 200);
         } catch (\Throwable $th) {
@@ -260,8 +261,10 @@ class CustomersController extends Controller
         //     'email'        => ['required','email','max:75','unique:customers'],
         //     'phone_number' => ['required']
         // ]);
+        $store_id = $request->session()->get('store_id');
+
         try {
-            Customer::createUpdate($request, $customer);
+            Customer::createOrUpdateCustomer($store_id, $request, $customer);
             \Log::info("Customer Updated");
             return response()->json(['message'=> "Customer details updated successfully" ], 200);
         } catch (\Throwable $th) {
