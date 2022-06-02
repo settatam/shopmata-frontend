@@ -48,8 +48,9 @@ class TransactionNote extends Model
             );
 
             $transaction->addActivity($transaction, [], $note);
+            $transaction->load('publicnote.images');
 
-            return $image;
+            return $transaction->publicnote->images;
         }
 
     }
