@@ -382,12 +382,12 @@ class Transaction extends Model
 
     static function createNew(Store $store, $request, Customer $customer) {
         $transaction = new self;
-        $transaction->status_id           = Status::PENDING_KIT_REQUEST;
-        $transaction->customer_id         = $customer->id;//Customer id
-        $transaction->description         = $request->description;
-        $transaction->payment_method_id   = $transaction->payment;
-        $transaction->store_id            = $store_id;
-        $transaction->customer_categories = !empty($request->valuable) ? implode(', ', $request->valuable) : null;
+        $transaction->status_id = Status::PENDING_KIT_REQUEST;
+        $transaction->customer_id = $customer->id;//Customer id
+        $transaction->description = $request->description;
+        $transaction->payment_method_id = $transaction->payment;
+        $transaction->store_id = $store->id;
+        $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
         $transaction->save();
 
         if ( !empty( $request->photos )  ) {
@@ -407,6 +407,14 @@ class Transaction extends Model
                 'transaction' => $transaction
             ]
         );
+
+        $note = sprintf(
+            '%s %s created new transaction',
+            $customer->first_name,
+            $customer->last_name
+        );
+
+        $transaction->addActivity($transaction, ['status_id' => Status::PENDING_KIT_REQUEST]);
 
         return $transaction;
     }
