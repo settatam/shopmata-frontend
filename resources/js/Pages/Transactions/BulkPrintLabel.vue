@@ -26,7 +26,7 @@
 
 
 
-      <table class="w-full divide-y divide-gray-300">
+      <table class="w-full divide-y mt-2 divide-gray-300">
 
         <thead class="bg-purple-darken rounded-t-lg w-full divide-x divide-white">
           <tr>
@@ -97,7 +97,6 @@ export default {
   },
   components: {
     AppLayout,
-    DeleteModal,
     flatPickr
   },
   props: {
