@@ -1,11 +1,11 @@
 <template>
     <div class="grid grid-cols-2 gap-2 my-4 md:px-0 md:grid-cols-7 rounded bg-transparent">
         <!-- <div class="flex flex-row my-4 md:px-0 rounded bg-transparent space-x-6 flex-wrap"> -->
-        <button type="button"
+        <!-- <button type="button"
             class="inline-flex items-center justify-center rounded-md border border-transparent bg-purple-darken py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-purple-darken focus:ring-offset-2 sm:w-auto"
             @click="filterToggle">
             Filter by:
-        </button>
+        </button> -->
 
         <!-- <div class="">
             <input type="date" name=""
@@ -47,15 +47,15 @@
 
     </div>
 
-    <Filter class="my-3" v-if="displayFilter" @switchToggle="filterToggle" @getFilters="sendFilters" />
+    <!-- <Filter class="my-3" v-if="displayFilter" @switchToggle="filterToggle" @getFilters="sendFilters" /> -->
 </template>
 
 <script>
 import { ref } from "vue";
-import Filter from "../../../Components/Filter.vue";
+
 export default {
     components: {
-        Filter,
+        // Filter,
     },
     setup() {
         const displayFilter = ref(false);

@@ -9,6 +9,8 @@ use App\Http\Controllers\API\StatusController;
 use App\Http\Controllers\API\StoreLocationController;
 use App\Http\Controllers\ProductsController;
 use App\Models\Status;
+use App\Http\Controllers\API\ImagesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,14 +27,12 @@ Route::get('countries', [CountriesController::class, 'index']);
 Route::get('states', [StatesController::class, 'index']);
 Route::get('store-locations/{id}', [StoreLocationController::class, 'show']);
 
+Route::post('upload', [ImagesController::class, 'upload']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::get('status', [StatusController::class, 'index']);
-
-
-
-
 
 Route::post('products/upload-csv', [ProductsController::class, 'uploadCSV']);

@@ -238,7 +238,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('item/{id}/images', [TransactionItemsController::class, 'UpdateImage']);
         Route::post('item/{id}/image/delete', [TransactionItemsController::class, 'deleteImage']);
 
-        Route::get('reports/export', [ReportsController::class, 'export']);
+        Route::post('reports/export', [ReportsController::class, 'export']);
+        Route::get('reports/form-group', [ReportsController::class, 'formGroup']);
         Route::resource('reports', ReportsController::class);
 
         #Settings -> Shipping and Delivery
