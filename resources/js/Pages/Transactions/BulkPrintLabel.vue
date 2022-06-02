@@ -9,19 +9,29 @@
       </div>
 
       <div class="flex w-full flex-row space-x-2 pb-3 justify-end">
-        <button type="button" @click="sendAction"
-          class="inline-flex items-center justify-center rounded-md border border-transparent bg-purple-darken px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
-          Print Labels
-        </button>
 
-        <flatPickr :style="{
-          '--vdp-hover-bg-color':
-            'rgba(79, 70, 229, var(--tw-bg-opacity))',
-          '--vdp-selected-bg-color':
-            'rgba(79, 70, 229, var(--tw-bg-opacity))'
-        }" id="daterange" name="daterange"
-          class="text-start border  py-2 text-center text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-          v-model="shipDate" :lowerLimit="shipDate"></flatPickr>
+        <div class="flex flex-col">
+          <label class="text-center font-semibold">
+            Choose Date:
+          </label>
+
+          <flatPickr :style="{
+            '--vdp-hover-bg-color':
+              'rgba(79, 70, 229, var(--tw-bg-opacity))',
+            '--vdp-selected-bg-color':
+              'rgba(79, 70, 229, var(--tw-bg-opacity))'
+          }" id="daterange" name="daterange"
+            class="text-start border  py-2 text-center text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            v-model="shipDate" :lowerLimit="shipDate"></flatPickr>
+        </div>
+
+        <div class=" flex flex-col-reverse">
+          <button type="button" @click="sendAction"
+            class="inline-flex items-center justify-center rounded-md border border-transparent bg-purple-darken px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
+            Print Labels
+          </button>
+        </div>
+
       </div>
 
 
@@ -113,6 +123,7 @@ export default {
 
     function sendAction() {
       let params = {
+        shipping_date: shipDate.value,
         transactions: JSON.stringify(filterLists.value),
         action: 'label',
         _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')

@@ -97,7 +97,6 @@ export default {
       loading,
       transactions,
       statusStyles,
-      pagination,
       filterLists,
       sendAction
     }
