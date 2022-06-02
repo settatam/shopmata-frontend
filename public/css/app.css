@@ -3806,6 +3806,10 @@ input[type='checkbox']:focus {
 	--tw-border-opacity: 1 !important;
 	border-color: rgba(209, 213, 219, var(--tw-border-opacity)) !important;
 }
+.hover\:border-purple-darken:hover {
+	--tw-border-opacity: 1 !important;
+	border-color: rgba(67, 56, 202, var(--tw-border-opacity)) !important;
+}
 .hover\:bg-indigo-600:hover {
 	--tw-bg-opacity: 1 !important;
 	background-color: rgba(79, 70, 229, var(--tw-bg-opacity)) !important;
@@ -3889,6 +3893,10 @@ input[type='checkbox']:focus {
 .hover\:bg-indigo-100:hover {
 	--tw-bg-opacity: 1 !important;
 	background-color: rgba(224, 231, 255, var(--tw-bg-opacity)) !important;
+}
+.hover\:bg-purple-700:hover {
+	--tw-bg-opacity: 1 !important;
+	background-color: rgba(109, 40, 217, var(--tw-bg-opacity)) !important;
 }
 .hover\:bg-opacity-50:hover {
 	--tw-bg-opacity: 0.5 !important;
@@ -4118,6 +4126,10 @@ input[type='checkbox']:focus {
 }
 .focus\:ring-transparent:focus {
 	--tw-ring-color: transparent !important;
+}
+.focus\:ring-purple-500:focus {
+	--tw-ring-opacity: 1 !important;
+	--tw-ring-color: rgba(139, 92, 246, var(--tw-ring-opacity)) !important;
 }
 .focus\:ring-opacity-50:focus {
 	--tw-ring-opacity: 0.5 !important;
@@ -5005,6 +5017,12 @@ input[type='checkbox']:focus {
 
 	.md\:gap-4 {
 		gap: 1rem !important;
+	}
+
+	.md\:space-y-0 > :not([hidden]) ~ :not([hidden]) {
+		--tw-space-y-reverse: 0 !important;
+		margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse))) !important;
+		margin-bottom: calc(0px * var(--tw-space-y-reverse)) !important;
 	}
 
 	.md\:rounded-lg {
