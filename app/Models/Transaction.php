@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 use Auth;
 use Numeral\Numeral;
+use App\Http\Helper;
+
 
 
 class Transaction extends Model
@@ -374,6 +376,29 @@ class Transaction extends Model
         if($dayOfWeek = data_get($filter, 'dayOfWeek')) {
             $query->whereRaw("DAYNAME(created_at) = ?", [$dayOfWeek]);
         }
+    }
+    
+
+    static function createTransaction($store_id, $request, $customer_id) {
+        $transaction = new self;
+        $transaction->status_id           = Status::PENDING_KIT_REQUEST;
+        $transaction->customer_id         = $customer_id;//Customer id
+        $transaction->description         = $request->description;
+        $transaction->payment_method_id   = $transaction->payment;
+        $transaction->store_id            = $store_id;
+        $transaction->customer_categories = !empty($request->valuable) ? implode(', ', $request->valuable) : null;
+        $transaction->save();
+
+        if ( !empty( $request->photos )  ) {
+            foreach ( $request->photos  as $photo) {
+                if ($photo) {
+                    $imgs = new Image(['url' => $photo, 'rank' => 1]);
+                    $transaction->images()->save($imgs);
+                }
+            }
+        }
+
+        return $transaction;
     }
 
 

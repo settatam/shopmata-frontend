@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\TransactionPaymentAddress;
+
+
 
 class TransactionsController extends Controller
 {
@@ -29,12 +32,31 @@ class TransactionsController extends Controller
     }
 
     public function verifyAddress(Request $request) {
-        $email = $request->email;
-        $customer = Customer::where('email', $email)->first();
 
-        if (null !== $customer) {
-            //Add new customer
+        $request->validate([
+            'email' => ['required','email','max:75','unique:customers'],
+        ]);
+
+        $customer = new Customer;
+        $store_id = $request->session()->get('store_id');
+        try {
+            $customer = Customer::createOrUpdateCustomer($store_id, $request);
+            $transaction = Transaction::createTransaction($store_id, $request, $customer->id);
+            $transaction_payment_address = new TransactionPaymentAddress;
+            $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
+                ['customer_id' => $customer->id ]
+            );
+            $transaction_payment_address->transaction_id         =  $transaction->id;
+            $transaction_payment_address->customer_id            =  $customer->id;
+            $transaction_payment_address->payment_type_id        =  $request->payment;
+            $transaction_payment_address->save();
+
+            return response()->json(null, 200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to save  transaction  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> "Failed to save  transaction"], 422);
         }
+       
 
         //Add new Transaction
         //Go to thank you page ...
