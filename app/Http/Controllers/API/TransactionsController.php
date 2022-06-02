@@ -29,8 +29,11 @@ class TransactionsController extends Controller
     }
 
     public function verifyAddress(Request $request) {
+        dd($request->input());
         $email = $request->email;
         $customer = Customer::where('email', $email)->first();
+
+
 
         if (null !== $customer) {
             //Add new customer

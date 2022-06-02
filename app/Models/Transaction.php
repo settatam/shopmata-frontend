@@ -992,6 +992,11 @@ class Transaction extends Model
                 'to' => $to,
             ];
             $this->sms()->create($data);
+            $note = sprintf('% sent an sms: %s',
+                Auth::user()->full_name,
+                $message
+            );
+            $this->addActivity($this, [], $note);
         }else{
             //Insert to failed messages
             //Tag transaction
@@ -1029,7 +1034,10 @@ class Transaction extends Model
             'status_id' => self::PENDING_KIT_ID,
             'store_id' => $this->store->id
         ])) {
-            $note = sprintf('%s created a new kit', Auth::user()->full_name);
+            $note = sprintf(
+                '%s created a new kit',
+                Auth::user()->full_name
+            );
             $newKit->addActivity($newKit, [], $note);
         }
 
