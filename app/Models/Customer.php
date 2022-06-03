@@ -103,7 +103,7 @@ class Customer extends Model
                 'zip'        => $request->zip,
             ]
           );
-          $customer->customer_address()->save($address);
+          $customer->address()->save($address);
         }
         return $customer;
     }
