@@ -322,6 +322,7 @@ class ReportsTable extends Table
                     ],
                     'customer_pictures' => [
                         'data' => $transaction->images,
+                        'type' => 'slideshow'
                     ],
                 ];
             })
