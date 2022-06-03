@@ -39,7 +39,9 @@ class TransactionsController extends Controller
             //'email' => ['required','email','max:75'],
         ]);
 
-        $store = Store::find($request->store_id);
+        $store_id = $request->store_id ?? 43;
+
+        $store = Store::find($store_id);
         $customer = new Customer;
         //try {
             $customer = Customer::createOrUpdateCustomer($store, $request);
