@@ -23,30 +23,16 @@ class Image extends Model
     }
 
 
-    public static function addImage($request){
+    public static function uploadImage($store, $request){
         $response  = FileUploader::upload($request);
-        //return $request->all();
-        if ( $request->model && $request->model_id ) {
+        if ( $request->model ) {
             $class = "\App\Models\\".$request->model;
             if (class_exists($class)) {
-                $model =  $class::find($request->model_id);
-                if ( isset($response[0]['thumb']) ){
-                    $l_image = $response[0]['large'];
-                    $tn_image = $response[0]['thumb'];
-                    if (null !== $model) {
-                        $imgs= new Image(['url' => $l_image, 'thumbnail' =>  $tn_image, 'rank' => 1]);
-                        $model->images()->save($imgs);
-                        return $model->images;
-                    } else {
-                        $model =  $class::create($request->values);
-                        $model->images()->save($imgs);
-                        return $model->images;
-                    }
-                    
-                }
-            } else {
+                return (new $class())->addImage($store, $request);
+            } else { 
                 return false;
             }
+              
         } 
         return $response;
     }

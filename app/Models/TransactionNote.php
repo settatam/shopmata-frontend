@@ -30,12 +30,13 @@ class TransactionNote extends Model
 	}
 
     //Pass the transaction id for transaction notes
-    public function addImage(Store $store, $images, $id = null, $rank = 1)
+    public function addImage(Store $store, $request, $rank =1)
     {
-        $transaction = Transaction::find($id);
-        $note = $transaction->getPublicNote();
+        $images =  $request->file('files');
+        $transaction   = Transaction::find($request->transaction_id);
         if ($data = $this->uploadImageToCloud($store, $images)) {
-            $image = $note->images()->create([
+            $note = $this->getPublicNoteForTransaction($transaction);
+            $note->images()->create([
                 'url' => $data['url'],
                 'thumbnail' => $data['thumb'],
                 'rank' => $rank,
@@ -44,23 +45,22 @@ class TransactionNote extends Model
             $note = sprintf(
                 '%s added a new image: %s',
                 Auth::user()->full_name,
-                $image->url
+                $data['url']
             );
 
             $transaction->addActivity($transaction, [], $note);
-
-            return $image;
+            return $transaction->publicnote->images;
         }
 
     }
 
-    public function getPublicNoteForTransaction() {
-        $note = $this->transaction()->where('type', 'public')->latest()->first();
+    public function getPublicNoteForTransaction($transaction) {
+        $note = $transaction->publicnote;
 
         if(null !== $note) {
             return $note;
         }
-        return $this->transaction()->create([
+        return  $transaction->publicnote()->create([
             'type' => 'public',
             'notes' => '',
         ]);

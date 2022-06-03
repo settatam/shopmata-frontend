@@ -50,6 +50,12 @@ class ReportsTable extends Table
                 'sortable' => true,
             ],
             [
+                'key' => 'ip_address',
+                'label' => 'Ip Address',
+                'sortable' => true,
+            ],
+            
+            [
                 'key' => 'keyword',
                 'label' => 'Keyword',
                 'sortable' => true,
@@ -67,6 +73,11 @@ class ReportsTable extends Table
             [
                 'key' => 'tags',
                 'label' => 'Tags',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'age',
+                'label' => 'Age',
                 'sortable' => true,
             ],
             [
@@ -169,6 +180,11 @@ class ReportsTable extends Table
                 'label' => 'Customer Notes',
                 'sortable' => true,
             ],
+            [
+                'key' => 'customer_notes',
+                'label' => 'Customer Pictures',
+                'sortable' => true,
+            ],
         ];
     }
 
@@ -223,6 +239,9 @@ class ReportsTable extends Table
                         'data' => $transaction->customer->created_at,
                         'class' => 'block w-24'
                     ],
+                    'ip_address' => [
+                        'data' => null,
+                    ],
                     'keyword' => [
                         'data' => $transaction->keyword,
                     ],
@@ -233,7 +252,10 @@ class ReportsTable extends Table
                         'data' => optional($transaction->store)->name,
                     ],
                     'tags' => [
-                        'data' => $transaction->tags,
+                        'data' => $transaction->tags == null ? null : $transaction->allTags(),
+                    ],
+                    'age' => [
+                        'data' => optional($transaction->customer)->age,
                     ],
                     'incoming_fedex' => [
                         'data' => $transaction->incoming_tracking,
@@ -281,10 +303,10 @@ class ReportsTable extends Table
                         'data' => $transaction->days_in_stock,
                     ],
                     'profit_percent' => [
-                        'data' => $transaction->percentage_profit,
+                        'data' =>null // $transaction->est_profit,
                     ],
                     'estimated_profit' => [
-                        'key' => $transaction->estimated_profit,
+                        'key' => $transaction->est_profit,
                     ],
                     'payment_type' => [
                         'data' =>optional(optional(optional($transaction->customer)->payment_address)->payment_type)->name,
@@ -297,6 +319,9 @@ class ReportsTable extends Table
                     ],
                     'cnotes' => [
                         'data' => $transaction->pub_note,
+                    ],
+                    'customer_pictures' => [
+                        'data' => $transaction->images,
                     ],
                 ];
             })
@@ -351,4 +376,10 @@ class ReportsTable extends Table
         $percent = (($selling - $cost) / $cost) * 100;
         return Numeral::number($percent)->format('0.0%');
     }
+
+    public function exportable($filter, $filteredData)
+    {
+        return true;
+    }
+
 }

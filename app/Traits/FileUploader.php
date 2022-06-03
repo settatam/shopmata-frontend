@@ -92,7 +92,6 @@ trait FileUploader {
 
             foreach($images as $image) {
 
-
                 $name = md5($image->getClientOriginalName());
 
                 $filename = "item_" . time() . $name . '.jpg';

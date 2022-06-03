@@ -43,7 +43,6 @@ class ReportsExport implements FromCollection, WithHeadings
             ->withReceivedDateTime()
             ->withPaymentDateTime()
             ->with('payment')
-            ->take(100)
             ->get();
 
         return $transactions->map(function(Transaction $transaction) {

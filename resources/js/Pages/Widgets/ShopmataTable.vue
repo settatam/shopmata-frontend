@@ -359,7 +359,7 @@ const props = defineProps({
     refresh_token: String
 })
 
-const emits = defineEmits(['action', 'termUpdated'])
+const emits = defineEmits(['action', 'termUpdated', 'export'])
 
 const transactions = ref([])
 const title = ref('')
@@ -476,6 +476,10 @@ const handleSearchChange = () => {
         displaySpinner.value = true
         return getData()
     }
+}
+
+const exportData = () => {
+    emits('export')
 }
 
 const open = ref(false)

@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 use Auth;
 use Numeral\Numeral;
+use App\Http\Helper;
+
 
 
 class Transaction extends Model
@@ -25,6 +27,7 @@ class Transaction extends Model
     const FIRST_OFFER_NOTIFICATION_NAME = 'First Offer';
     const OTHER_OFFER_NOTIFICATION_NAME = 'Other Offer';
     const PENDING_KIT_ID = 60;
+    const EVENT_NOTIFICATION_NAME = 'New Transaction';
 
     protected $fillable = [
         'id',
@@ -37,8 +40,6 @@ class Transaction extends Model
         'kit_type',
         'est_profit',
         'created_date',
-        'percentage_profit'
-        
     ];
 
 
@@ -60,13 +61,7 @@ class Transaction extends Model
 
         $transaction = self::findOrFail($id);
         //This will become a problem if we don't have a store ....
-        $store_tag   =  StoreTag::where(
-                            [
-                                'tagable_id' => $id,
-                                'tag_id'     => $tag_id,
-                                //'store_id'  => $this->store->id
-                            ]
-                        )->first();
+        $store_tag   =  StoreTag::where([ 'tagable_id' => $id, 'tag_id' => $tag_id])->first();
         if (null !== $store_tag){
             $store_tag->delete();
             Log::info("Tag(s) deleted!", );
@@ -113,7 +108,8 @@ class Transaction extends Model
             ->withTrafficSource($filter)
             ->withLead($filter)
             ->withStores($filter)
-            ->withDayOfWeek($filter);
+            ->withDayOfWeek($filter)
+            ->withDates($filter);
     }
 
     public function scopeWithTerm($query, $filter) {
@@ -144,9 +140,9 @@ class Transaction extends Model
         ->groupBy('day');
     }
 
-
     public function scopeWithGroupedGender($query) {
         $query->join('customers', 'customers.id', '=', 'transactions.customer_id')
+              ->where('gender', '!=', null)
             ->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
     }
 
@@ -230,7 +226,7 @@ class Transaction extends Model
     }
 
     public function scopeWithStatusDateTime($query) {
-        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s')) as status_date_time")
+        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s')) as status_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('is_status', true)
                 ->take(1)->latest()
@@ -238,7 +234,7 @@ class Transaction extends Model
     }
 
     public function scopeWithPaymentDateTime($query) {
-        return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s') as payment_date_time")
+        return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as payment_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Payment Processed')
                 ->take(1)->latest()
@@ -246,7 +242,7 @@ class Transaction extends Model
     }
 
     public function scopeWithReceivedDateTime($query) {
-        return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
+        return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kit Received')
                 ->take(1)
@@ -266,10 +262,8 @@ class Transaction extends Model
             $result = ($offer - $est_val) / 100;
             return Numeral::number($result)->format('0.0%');
         }
+        return null;
     }
-
-
-   
 
     public function scopeWithPrivateNote($query) {
         return $query->addSelect(['private_note'=>TransactionNote::selectRaw('notes as private_note')
@@ -287,9 +281,9 @@ class Transaction extends Model
     }
 
     public function scopeWithStores($query, $filter) {
-        if($stores = data_get($filter, 'stores')) {
+        if($stores = data_get($filter, 'store_id')) {
             if(!is_array($stores)) $stores = [$stores];
-            $query->whereIn('store_id', $stores);
+            $query->whereIn('transactions.store_id', $stores);
         }
     }
 
@@ -323,13 +317,15 @@ class Transaction extends Model
         }
     }
 
-    public function scopeWithDates($query, $filter=null)
+    public function scopeWithDates($query, $filter=[])
     {
-        if($dates = data_get($filter, 'dates')) {
-            $query->whereBetween('created_at', [
+        $to = data_get($filter, 'to');
+        $from = data_get($filter, 'from');
+        if($to && $from) {
+            $query->whereBetween('transactions.created_at', [
                 [
-                    data_get($dates, 'from'),
-                    data_get($dates, 'to'),
+                    $from,
+                    $to,
                 ]
             ]);
         }
@@ -382,6 +378,51 @@ class Transaction extends Model
             $query->whereRaw("DAYNAME(created_at) = ?", [$dayOfWeek]);
         }
     }
+
+
+    static function createNew(Store $store, $request, Customer $customer) {
+        $transaction = new self;
+        $transaction->status_id = Status::PENDING_KIT_REQUEST;
+        $transaction->customer_id = $customer->id;//Customer id
+        $transaction->customer_description = $request->description;
+        $transaction->payment_method_id = $transaction->payment;
+        $transaction->store_id = $store->id;
+        $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
+        $transaction->save();
+
+        if ( !empty( $request->photos )  ) {
+            foreach ( $request->photos  as $photo) {
+                if ($photo) {
+                    $imgs = new Image(['url' => $photo, 'rank' => 1]);
+                    $transaction->images()->save($imgs);
+                }
+            }
+        }
+
+        $sendNotice = new EventNotification(
+            self::EVENT_NOTIFICATION_NAME,
+            [
+                'customer' => $customer,
+                'store' => $store,
+                'transaction' => $transaction
+            ]
+        );
+
+        $note = sprintf(
+            '%s %s created new transaction',
+            $customer->first_name,
+            $customer->last_name
+        );
+
+        $transaction->addActivity($transaction, ['status_id' => Status::PENDING_KIT_REQUEST]);
+
+        return $transaction;
+    }
+
+
+ 
+
+
 
     public function activities()
     {
@@ -436,8 +477,6 @@ class Transaction extends Model
     	if($this->est_value && $this->offer) {
             return Numeral::number($this->offer - $this->est_value)->format('$0,0');
         }
-
-        return null;
 	}
 
     public function getPercentageProfitAttribute(){
@@ -484,6 +523,23 @@ class Transaction extends Model
 //    public function getStatusAttribute() {
 //        return optional($this->trStatus)->name;
 //    }
+
+    public function allTags() {
+        $set = '';
+        $x     = 1;
+        if (is_array($this->tags)) {
+            foreach($this->tags as $tag){
+                $set .= " {$tag->tag->name} ";
+                if($x < $this->tags->count()){
+                    $set .= ', ';
+                }
+                $x++;
+            }
+        }
+
+        return $set;
+    }
+
 
     public function getLeadAttribute() {
         return 'google';
@@ -983,6 +1039,11 @@ class Transaction extends Model
                 'to' => $to,
             ];
             $this->sms()->create($data);
+            $note = sprintf('% sent an sms: %s',
+                Auth::user()->full_name,
+                $message
+            );
+            $this->addActivity($this, [], $note);
         }else{
             //Insert to failed messages
             //Tag transaction
@@ -991,11 +1052,11 @@ class Transaction extends Model
 
     public function createNote($type, $message=''){
 
-       if($notes = TransactionNote::create([
+       if($notes = $this->getPublicNote($type, [
             'type' => $type,
-            'transaction_id' => $this->id,
-            'notes' => $message
+            'message' => $message
         ])) {
+           $notes->update(['notes' => $message]);
            $user = Auth::user()->full_name;
            $text = $type === TransactionNote::PUBLIC_TYPE ? Activity::TRANSACTION_ADD_PUBLIC_NOTE : Activity::TRANSACTION_ADD_PRIVATE_NOTE;
 
@@ -1004,7 +1065,6 @@ class Transaction extends Model
             $text,
             $message
            );
-
 
            $this->addActivity($this, [], $note);
        }
@@ -1021,23 +1081,39 @@ class Transaction extends Model
             'status_id' => self::PENDING_KIT_ID,
             'store_id' => $this->store->id
         ])) {
-            $note = sprintf('%s created a new kit', Auth::user()->full_name);
+            $note = sprintf(
+                '%s created a new kit',
+                Auth::user()->full_name
+            );
             $newKit->addActivity($newKit, [], $note);
         }
 
         return $newKit;
     }
 
-     public function getPublicNote() {
-        $note = $this->publicnote()->latest()->first();
+     public function getPublicNote($type='public', $data=[]) {
+        $note = $type == 'public' ? $this->publicnote()->latest()->first() : $this->privatenote()->latest()->first();
 
         if(null !== $note) {
             return $note;
         }
-        return $this->publicnote()->create([
-            'type' => 'public',
-            'notes' => '',
-        ]);
+        if(count($data)) {
+            $notes_data = $data;
+        }else{
+            $notes_data = [
+                'type' => $type,
+                'notes' => '',
+            ];
+        }
+        return $type == 'public' ? $this->publicnote()->create($notes_data) : $this->privatenote()->create($notes_data);
+    }
+
+
+    private function calcProfit($cost, $selling) {
+        if(!$cost && !$selling) return '';
+        $profit = $selling - $cost;
+        $percent = (($selling - $cost) / $cost) * 100;
+        return Numeral::number($percent)->format('0.0%');
     }
 
 }

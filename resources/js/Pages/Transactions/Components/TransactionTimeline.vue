@@ -275,11 +275,7 @@
         </div>
 
         <div class="my-4">
-            <Images
-                :payload="params"
-                :imgs="transaction.publicnote.images"
-                class="mb-8"
-            />
+            <Images :payload="params" :imgs="imgs" class="mb-8" />
         </div>
 
         <!-- add item start -->
@@ -332,20 +328,22 @@ export default {
         const popModal = () => {
             popUp.value = true;
         };
-        let transaction = props.transaction;
+
+        const currentTransaction = ref(props.transaction);
+        const transaction_id = props.root.id;
+
+        const imgs = ref(currentTransaction.value.publicnote.images);
+        const model_id = ref(
+            currentTransaction.value.pub_note
+                ? currentTransaction.value.publicnote.id
+                : null
+        );
 
         const params = ref({
             model: "TransactionNote",
-            model_id: transaction.pub_note ? transaction.publicnote.id : null,
+            transaction_id: currentTransaction.value.id,
         });
 
-        const values = reactive({
-            transaction_id: transaction.id,
-            note: null,
-            type: "public_note",
-        });
-
-        const transaction_id = props.root.id;
         const pickedTags = props.root.tags;
         const checkedList = computed(() => {
             let myArray = [];
@@ -355,10 +353,9 @@ export default {
 
             return myArray;
         });
-        const currentTransaction = ref(props.transaction);
 
-        const messagePrivate = ref(transaction.private_note);
-        const messagePublic = ref(transaction.pub_note);
+        const messagePrivate = ref(currentTransaction.value.private_note);
+        const messagePublic = ref(currentTransaction.value.pub_note);
         let type = null;
 
         const loadingAnimation = ref(false);
@@ -369,38 +366,35 @@ export default {
             offer: "",
         });
 
+        function addMessage() {}
+
         function updateTransaction(event, status_id = null) {
-            console.log(messagePublic);
+            console.log("This is the event", currentTransaction);
             let data = {};
             switch (event) {
                 case "status_id":
-                    data = {
-                        field: "status_id",
-                        value: currentTransaction.status_id,
-                    };
-                    break;
                 case "status":
                     data = {
                         field: "status_id",
-                        value: status_id,
+                        value: currentTransaction.value.status_id,
                     };
                     break;
                 case "message":
                     data = {
                         field: "message",
-                        value: this.currentTransaction.status_id,
+                        value: this.currentTransaction.value.status_id,
                     };
                     break;
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.offer,
+                        value: this.currentTransaction.value.offer,
                     };
                     break;
                 case "sms":
                     data = {
                         field: "sms",
-                        value: this.currentTransaction.sms,
+                        value: this.currentTransaction.value.sms,
                     };
                     break;
                 case "private_note":
@@ -506,6 +500,9 @@ export default {
         }
 
         return {
+            imgs,
+            addMessage,
+            loadingAnimation,
             popUp,
             popModal,
             transaction_id,
@@ -522,7 +519,7 @@ export default {
             onChange,
             currentTransaction,
             params,
-            values,
+            model_id,
         };
     },
 };

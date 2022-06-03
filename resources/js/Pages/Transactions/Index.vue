@@ -21,7 +21,7 @@
 
             <BinLocation @send="sendPayload" @close="toggleModal" v-if="displayModal" />
 
-            <Filter v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle" />
+            <Filter class="mt-3" v-if="filterToggleStatus" @getFilters="filterValues" @switchToggle="filterToggle" />
             <shopmata-table :filters="tableFilters" @action="doAction" />
         </div>
     </app-layout>

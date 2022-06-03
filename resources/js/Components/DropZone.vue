@@ -61,11 +61,10 @@ export default {
     name: "UseDropzone",
     emits: ["add-image"],
     setup(props, { emit }) {
-        console.log(props.payload);
         const message = ref("");
         const loading = ref(false);
         const text = ref("Choose file");
-        const { onClickTop, onClickBot } = notification();
+        const { notifyAlert } = notification();
         const { saveFiles } = fileUploader();
 
         const url = "/admin/images";
@@ -73,19 +72,30 @@ export default {
         function onDrop(acceptFiles, rejectReasons) {
             loading.value = true;
             text.value = "Uploading....";
-            console.log(props.values);
             saveFiles(acceptFiles, props.payload, props.values)
                 .then((res) => {
                     emit("add-image", res);
                     loading.value = false;
-                    message.value = "Image uploaded successfully";
                     text.value = "Choose file";
-                    setTimeout(onClickTop, 2000);
+                    setTimeout(
+                        notifyAlert(
+                            "Image uploaded successfully",
+                            "top",
+                            "Success"
+                        ),
+                        2000
+                    );
                 })
                 .catch((err) => {
                     loading.value = false;
-                    message.value = "Error processing request";
-                    setTimeout(onClickBot, 2000);
+                    setTimeout(
+                        notifyAlert(
+                            "Error processing your request",
+                            "bottom",
+                            "Error"
+                        ),
+                        2000
+                    );
                     text.value = "Choose file";
                 });
 

@@ -53,6 +53,10 @@ class Store extends Model
     //     static::addGlobalScope(new StoreScope);
     // }
 
+    protected $appends = [
+        'base_url',
+    ];
+
     public static function store()
     {
         $userId = Auth::user()->id;
@@ -216,5 +220,12 @@ class Store extends Model
 
         return $pageContent;
 
+    }
+
+    public function getBaseUrlAttribute() {
+        return sprintf('https://%s.%s',
+            $this->slug,
+            env('APP_URL')
+        );
     }
 }
