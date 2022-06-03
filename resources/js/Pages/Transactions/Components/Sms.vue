@@ -6,7 +6,7 @@
 
         <!-- sms chatbox starts -->
         <div>
-            <div class="px-1 space-y-2 h-48 overflow-y-auto">
+            <div v-if="transaction.length > 0" class="px-1 space-y-2 h-48 overflow-y-auto">
                 <template class="bg-gray-lightest p-4 " v-for="(sms, index) in transaction.slice().reverse()"
                     :key="sms.index">
                     <div class="flex items-end justify-end" v-if="sms.is_coming">
@@ -27,6 +27,10 @@
                 </template>
             </div>
 
+            <div v-else class="bg-gray-lightest py-4">
+                <p class="text-center">No messages</p>
+            </div>
+
             <div class="mt-3 mx-1">
                 <div class="flex justify-center">
                     <h1 class="text-black font-bold text-xl pt-4">Send SMS</h1>
@@ -41,8 +45,14 @@
                             placeholder="Title" /> -->
                         <label for="description" class="sr-only">Description</label>
                         <textarea rows="2" name="description" id="description"
-                            class="block w-full border-0 py-0 resize-none placeholder-gray-500 focus:ring-0 sm:text-sm"
-                            placeholder="Write a description..." />
+                            class="block w-full border-0 py-2 resize-none placeholder-gray-500 focus:ring-0 sm:text-sm"
+                            v-model="smsMessage" placeholder="Write a description..." />
+
+                            <images-list 
+                            :images="images"
+                            v-if="images.length"
+                            @image-deleted="delete_img" 
+                        />
 
                         <!-- Spacer element to match the height of the toolbar -->
                         <div aria-hidden="true">
@@ -61,19 +71,24 @@
                     <div class="absolute bottom-0 inset-x-px">
                         <!-- Actions: These are just examples to demonstrate the concept, replace/wire these up however makes sense for your project. -->
                         <div class="flex flexwrap justify-end py-2 px-2 space-x-2 sm:px-3">
-                            
 
-                            
+
+
                         </div>
                         <div
                             class="border-t border-gray-200 px-2 py-2 flex justify-between items-center space-x-3 sm:px-3">
                             <div class="flex">
-                                <button type="button"
-                                    class="-ml-2 -my-2 rounded-full px-3 py-2 inline-flex items-center text-left text-gray-400 group">
+                                <!-- <button class="-ml-2 -my-2 rounded-full px-3 py-2 inline-flex items-center text-left text-gray-400 group"> -->
+                                <label class="hover:scale-110 cursor-pointer pl-3" for="file">
                                     <PaperClipIcon class="-ml-1 h-5 w-5 mr-2 group-hover:text-gray-500"
                                         aria-hidden="true" />
-                                </button>
+                                    <!-- </button> -->
+                                    <input type="file" class="hidden " id="file" name="image"
+                                        accept="image/gif,image/jpeg,image/jpg,image/png" multiple=""
+                                        data-original-title="upload photos">
+                                </label>
                             </div>
+
                             <!-- <div class="flex-shrink-0">
                                 <button type="submit"
                                     class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">send
@@ -83,6 +98,8 @@
                     </div>
                 </form>
             </div>
+
+
 
 
             <div class="flex justify-center">
@@ -98,43 +115,19 @@ import { computed } from '@vue/runtime-core'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import { ref, reactive } from 'vue'
 import Button from '../../../Components/Button.vue'
+import ImagesList from '../../../Components/ImageList.vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/vue/solid'
 
 export default {
-    components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon },
+    components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon, ImagesList },
     props: ['transaction', 'id'],
     setup(props) {
         const smsTimes = props.transaction
         let smsMessage = ref('');
         const buttonName = ref('Send Message')
         const loadingAnimation = ref(false)
-
         // test
-        const assignees = [
-            { name: 'Unassigned', value: null },
-            {
-                name: 'Wade Cooper',
-                value: 'wade-cooper',
-                avatar:
-                    'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-            // More items...
-        ]
-        const labels = [
-            { name: 'Unlabelled', value: null },
-            { name: 'Engineering', value: 'engineering' },
-            // More items...
-        ]
-        const dueDates = [
-            { name: 'No due date', value: null },
-            { name: 'Today', value: 'today' },
-            // More items...
-        ]
-
-        const assigned = ref(assignees[0])
-        const labelled = ref(labels[0])
-        const dated = ref(dueDates[0])
 
 
         // test
@@ -165,7 +158,8 @@ export default {
                 return formatDate(d)
             })
         })
-        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, assignees, dueDates, labels, assigned, labelled, dated }
+
+        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation }
     }
 }
 </script>
