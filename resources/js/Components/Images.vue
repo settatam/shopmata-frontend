@@ -22,11 +22,9 @@
                     <div class="">
                         <images-list
                             :images="images"
-                            v-if="images.length"
+                            v-if="imgs.length"
                             @image-deleted="delete_img"
                         />
-
-                        {{ values }}
 
                         <Dropzone
                             @add-image="onAddImage"
@@ -50,10 +48,11 @@ import ImagesList from "./ImageList.vue";
 export default {
     components: { AppLayout, Dropzone, ImagesList },
     props: ["imgs", "payload", "values"],
-    setup(props) {
+    setup(props, { emit }) {
         const display = ref("");
         const media_open = ref(true);
         const images = ref(props.imgs);
+
         const params = props.payload;
         function delete_img(index) {
             images.value.splice(index, 1);
@@ -61,6 +60,7 @@ export default {
 
         function onAddImage(response) {
             images.value = response.data;
+            emit("image-uploaded", response);
         }
 
         return { delete_img, onAddImage, media_open, images, display, params };

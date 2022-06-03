@@ -4,6 +4,7 @@ namespace App\Http\Helpers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use App\Models\Store;
+use App\Models\State;
 
 
 
@@ -48,9 +49,16 @@ class Helper
     }
 
 
-   
+    static function getStateId($state_abreviation)
+    {
+        $state = State::where('code', $state_abreviation)->first();
+        return null !== $state ? $state->id : null;
+    }
 
-   
+
+
+
+
 
 }
 

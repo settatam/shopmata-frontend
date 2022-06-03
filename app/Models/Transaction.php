@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 use Auth;
 use Numeral\Numeral;
+use App\Http\Helper;
+
 
 
 class Transaction extends Model
@@ -25,6 +27,7 @@ class Transaction extends Model
     const FIRST_OFFER_NOTIFICATION_NAME = 'First Offer';
     const OTHER_OFFER_NOTIFICATION_NAME = 'Other Offer';
     const PENDING_KIT_ID = 60;
+    const EVENT_NOTIFICATION_NAME = 'New Transaction';
 
     protected $fillable = [
         'id',
@@ -374,6 +377,46 @@ class Transaction extends Model
         if($dayOfWeek = data_get($filter, 'dayOfWeek')) {
             $query->whereRaw("DAYNAME(created_at) = ?", [$dayOfWeek]);
         }
+    }
+
+
+    static function createNew(Store $store, $request, Customer $customer) {
+        $transaction = new self;
+        $transaction->status_id = Status::PENDING_KIT_REQUEST;
+        $transaction->customer_id = $customer->id;//Customer id
+        $transaction->customer_description = $request->description;
+        $transaction->payment_method_id = $transaction->payment;
+        $transaction->store_id = $store->id;
+        $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
+        $transaction->save();
+
+        if ( !empty( $request->photos )  ) {
+            foreach ( $request->photos  as $photo) {
+                if ($photo) {
+                    $imgs = new Image(['url' => $photo, 'rank' => 1]);
+                    $transaction->images()->save($imgs);
+                }
+            }
+        }
+
+        $sendNotice = new EventNotification(
+            self::EVENT_NOTIFICATION_NAME,
+            [
+                'customer' => $customer,
+                'store' => $store,
+                'transaction' => $transaction
+            ]
+        );
+
+        $note = sprintf(
+            '%s %s created new transaction',
+            $customer->first_name,
+            $customer->last_name
+        );
+
+        $transaction->addActivity($transaction, ['status_id' => Status::PENDING_KIT_REQUEST]);
+
+        return $transaction;
     }
 
 
@@ -992,6 +1035,11 @@ class Transaction extends Model
                 'to' => $to,
             ];
             $this->sms()->create($data);
+            $note = sprintf('% sent an sms: %s',
+                Auth::user()->full_name,
+                $message
+            );
+            $this->addActivity($this, [], $note);
         }else{
             //Insert to failed messages
             //Tag transaction
@@ -1000,11 +1048,11 @@ class Transaction extends Model
 
     public function createNote($type, $message=''){
 
-       if($notes = TransactionNote::create([
+       if($notes = $this->getPublicNote($type, [
             'type' => $type,
-            'transaction_id' => $this->id,
-            'notes' => $message
+            'message' => $message
         ])) {
+           $notes->update(['notes' => $message]);
            $user = Auth::user()->full_name;
            $text = $type === TransactionNote::PUBLIC_TYPE ? Activity::TRANSACTION_ADD_PUBLIC_NOTE : Activity::TRANSACTION_ADD_PRIVATE_NOTE;
 
@@ -1013,7 +1061,6 @@ class Transaction extends Model
             $text,
             $message
            );
-
 
            $this->addActivity($this, [], $note);
        }
@@ -1030,23 +1077,31 @@ class Transaction extends Model
             'status_id' => self::PENDING_KIT_ID,
             'store_id' => $this->store->id
         ])) {
-            $note = sprintf('%s created a new kit', Auth::user()->full_name);
+            $note = sprintf(
+                '%s created a new kit',
+                Auth::user()->full_name
+            );
             $newKit->addActivity($newKit, [], $note);
         }
 
         return $newKit;
     }
 
-     public function getPublicNote() {
-        $note = $this->publicnote()->latest()->first();
+     public function getPublicNote($type='public', $data=[]) {
+        $note = $type == 'public' ? $this->publicnote()->latest()->first() : $this->privatenote()->latest()->first();
 
         if(null !== $note) {
             return $note;
         }
-        return $this->publicnote()->create([
-            'type' => 'public',
-            'notes' => '',
-        ]);
+        if(count($data)) {
+            $notes_data = $data;
+        }else{
+            $notes_data = [
+                'type' => $type,
+                'notes' => '',
+            ];
+        }
+        return $type == 'public' ? $this->publicnote()->create($notes_data) : $this->privatenote()->create($notes_data);
     }
 
 

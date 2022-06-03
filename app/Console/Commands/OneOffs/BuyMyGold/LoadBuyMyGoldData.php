@@ -89,9 +89,10 @@ class LoadBuyMyGoldData extends Command
                     $customer->email              = $order["customer_email"];
                     $customer->first_name         = data_get($names, 0);
                     $customer->last_name          = data_get($names, 1);
-                    $customer->street_address            = $order["customer_address"];
+                    $customer->street_address     = $order["customer_address"];
                     $customer->city               = $order["customer_city"];
                     $customer->state_id           = $this->getStateId($order["customer_state"]);
+                    
                     $customer->store_id           = $this->getStore($order['is_jewelry']);
                     $customer->phone_number       = $order["customer_phone"];
                     $customer->lead_id            = isset($order["lead_id"]) && $order["lead_id"] != 0 ? $order["lead_id"]: null;

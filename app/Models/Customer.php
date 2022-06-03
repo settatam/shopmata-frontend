@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
+use App\Http\Helpers\Helper;
 
 class Customer extends Model
 {
@@ -70,7 +71,45 @@ class Customer extends Model
     }
 
 
-    public static function createUpdate($request, $customer)
+    public static function createOrUpdateCustomer(Store $store, $request)
+    {
+        $customer = new static;
+
+        $customer->first_name   = $request->first_name;
+        $customer->last_name    = $request->last_name;
+        $customer->email        = $request->email;
+        $customer->phone_number = $request->phone_number;
+        $customer->lead_id      = $request->lead_id;
+        $customer->store_id     = $store->id;
+        $customer->home_phone_number    = $request->home_work;
+        $customer->customer_notes       = $request->customer_notes;
+        $customer->ext                  = $request->ext;
+        $customer->gender               = $request->gender;
+        $customer->password             = bcrypt($request->first_name);
+        $customer->dob                  = $request->dob;
+        $customer->is_active    = 1;
+        $customer->accepts_marketing = 1;
+
+        if ( $customer->save() ) {
+            $address = new Address([
+                'first_name' => $request->first_name,
+                'last_name'  => $request->last_name,
+                'state'      => $request->state,
+                'state_id'   => Helper::getStateId($request->state),
+                'city'       => $request->city,
+                'is_default' => 1,
+                'address'    => $request->address,
+                'address2'   => $request->address2,
+                'zip'        => $request->zip,
+            ]
+          );
+          $customer->customer_address()->save($address);
+        }
+        return $customer;
+    }
+
+
+    public static function createAddress($request, $customer)
     {
         $customer->first_name   = $request->first_name;
         $customer->last_name    = $request->last_name;
@@ -78,32 +117,14 @@ class Customer extends Model
         $customer->phone_number = $request->phone_number;
         $customer->lead_id      = $request->lead_id;
         $customer->home_phone_number    = $request->home_work;
-        $customer->customer_notes  = $request->customer_notes;
-        $customer->ext             = $request->ext;
-        $customer->gender    = $request->gender;
-        $customer->dob    = $request->dob;
-
-
-
+        $customer->customer_notes       = $request->customer_notes;
+        $customer->ext                  = $request->ext;
+        $customer->gender               = $request->gender;
+        $customer->dob                  = $request->dob;
         $customer->is_active    = 1;
         $customer->accepts_marketing = 1;
-        if ( $customer->save() ) {
-            $address = new Address([
-                'first_name' => $request->first_name,
-                'last_name'  => $request->last_name,
-                'state_id'   => $request->state_id,
-                'city'       => $request->city,
-                'is_default' => 1,
-                'address'    => $request->address,
-                'address2'   => $request->addressTwo,
-                'zip'        => $request->zip,
-            ]
-          );
-          $customer->customer_address()->save($address);
-          return true;
-        }
 
-        return false;
+        return $customer;
     }
 
     public static function addBehaviorTag($tag_id, $id) {
