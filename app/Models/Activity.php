@@ -43,7 +43,7 @@ class Activity extends Model
     }
 
     static function generateNote($current, $changes, $model) {
-        $user = Auth::user()->first_name . ' ' . Auth::user()->last_name;
+        $user = optional(Auth::user())->first_name . ' ' . optional(Auth::user())->last_name;
         $note = 'updated the ' . $model . 'with the following;';
         $changeText = '';
         $i=0;
@@ -92,7 +92,7 @@ class Activity extends Model
 
         return self::create([
             'user_id' => Auth::id(),
-            'agent' => Auth::user()->first_name,
+            'agent' => optional(Auth::user())->first_name,
             'status' => $status,
             'notes' => $note,
             'name' => Status::findById($current->status_id),

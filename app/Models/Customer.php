@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
 use App\Http\Helpers\Helper;
+use Carbon\Carbon;
+
 
 class Customer extends Model
 {
@@ -22,7 +24,8 @@ class Customer extends Model
     protected $appends = [
         'activation_status',
         'timezone',
-        'transaction_count'
+        'transaction_count',
+        'age'
     ];
 
     protected $fillable = [
@@ -71,9 +74,12 @@ class Customer extends Model
     }
 
 
-    public static function createOrUpdateCustomer(Store $store, $request)
-    {
-        $customer = new static;
+    public static function createOrUpdateCustomer(Store $store, $request, $customer = null)
+    {  
+        if (!$customer) {
+           $customer = new static;
+        }
+
 
         $customer->first_name   = $request->first_name;
         $customer->last_name    = $request->last_name;
@@ -103,7 +109,7 @@ class Customer extends Model
                 'zip'        => $request->zip,
             ]
           );
-          $customer->customer_address()->save($address);
+          $customer->address()->save($address);
         }
         return $customer;
     }
@@ -125,6 +131,12 @@ class Customer extends Model
         $customer->accepts_marketing = 1;
 
         return $customer;
+    }
+
+
+    public function getAgeAttribute()
+    {
+        return Carbon::parse($this->dob)->age;
     }
 
     public static function addBehaviorTag($tag_id, $id) {

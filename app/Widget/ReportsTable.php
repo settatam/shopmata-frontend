@@ -50,6 +50,12 @@ class ReportsTable extends Table
                 'sortable' => true,
             ],
             [
+                'key' => 'ip_address',
+                'label' => 'Ip Address',
+                'sortable' => true,
+            ],
+            
+            [
                 'key' => 'keyword',
                 'label' => 'Keyword',
                 'sortable' => true,
@@ -67,6 +73,11 @@ class ReportsTable extends Table
             [
                 'key' => 'tags',
                 'label' => 'Tags',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'age',
+                'label' => 'Age',
                 'sortable' => true,
             ],
             [
@@ -169,6 +180,11 @@ class ReportsTable extends Table
                 'label' => 'Customer Notes',
                 'sortable' => true,
             ],
+            [
+                'key' => 'customer_notes',
+                'label' => 'Customer Pictures',
+                'sortable' => true,
+            ],
         ];
     }
 
@@ -223,6 +239,9 @@ class ReportsTable extends Table
                         'data' => $transaction->customer->created_at,
                         'class' => 'block w-24'
                     ],
+                    'ip_address' => [
+                        'data' => null,
+                    ],
                     'keyword' => [
                         'data' => $transaction->keyword,
                     ],
@@ -234,6 +253,9 @@ class ReportsTable extends Table
                     ],
                     'tags' => [
                         'data' => $transaction->tags == null ? null : $transaction->allTags(),
+                    ],
+                    'age' => [
+                        'data' => optional($transaction->customer)->age,
                     ],
                     'incoming_fedex' => [
                         'data' => $transaction->incoming_tracking,
@@ -297,6 +319,9 @@ class ReportsTable extends Table
                     ],
                     'cnotes' => [
                         'data' => $transaction->pub_note,
+                    ],
+                    'customer_pictures' => [
+                        'data' => $transaction->images,
                     ],
                 ];
             })
