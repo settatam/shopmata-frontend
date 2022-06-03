@@ -56,13 +56,12 @@
         <!-- row 1 ends-->
 
 
-
-        <div class="flex flex-row  w-1/2">
-            <div class="flex flex-row">
+        <div class="flex flex-row">
+            <div class="flex flex-row justify-end w-full">
                 <button
                     class=" rounded-md border border-indigo-600 mr-4 shadow-sm px-4 py-3 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm bg-indigo-600 hover:bg-indigo-700 justify-centre flex"
                     @click="submitFilters()">
-                    <AdjustmentsIcon class="h-5 w-5" /> Apply Filters
+                    <AdjustmentsIcon class="h-5 w-5" /> Apply
                 </button>
 
                 <div>

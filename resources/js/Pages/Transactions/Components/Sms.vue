@@ -50,7 +50,6 @@
 
                             <images-list 
                             :images="images"
-                            v-if="images.length"
                             @image-deleted="delete_img" 
                         />
 
