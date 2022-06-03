@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Http\Resources\CustomerCollection;
+use Carbon\Carbon;
+
 
 
 
@@ -222,6 +224,7 @@ class CustomersController extends Controller
         }
 
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
+
         return Inertia::render('Customers/Show', compact('leads','store','customer', 'tags','countries'));
     }
 
