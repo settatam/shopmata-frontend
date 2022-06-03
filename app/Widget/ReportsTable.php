@@ -255,7 +255,7 @@ class ReportsTable extends Table
                         'data' => $transaction->tags == null ? null : $transaction->allTags(),
                     ],
                     'age' => [
-                        'data' => optional($transaction->customer)->age,
+                        'data' =>  Carbon::parse($this->dob)->optional($transaction->customer)->dob,
                     ],
                     'incoming_fedex' => [
                         'data' => $transaction->incoming_tracking,
@@ -297,7 +297,7 @@ class ReportsTable extends Table
                         'data' => optional(optional(optional($transaction->customer)->behavior)->tag)->name,
                     ],
                     'dob' => [
-                        'data' => optional($transaction->customer)->dob,
+                        'data' => optional($transaction->customer)->age(),
                     ],
                     'dis' => [
                         'data' => $transaction->days_in_stock,
