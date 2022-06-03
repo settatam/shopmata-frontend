@@ -321,8 +321,7 @@ class ReportsTable extends Table
                         'data' => $transaction->pub_note,
                     ],
                     'customer_pictures' => [
-                        'data' => $transaction->images,
-                        'type' => 'slideshow'
+                        'data' => $transaction->images  ?? [],
                     ],
                 ];
             })
