@@ -53,7 +53,7 @@
                             />
                         </div>
                         <div
-                            v-if="selectedItems.length && actions.length"
+                            
                             class="px-3 py-3 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16"
                         >
                             <form
@@ -61,8 +61,9 @@
                                 class="flex mr-2 items-center"
                             >
                                 <div
-                                    v-for="(formGroup,
-                                    formIndex) in action.formGroups"
+                                    v-for="(
+                                        formGroup, formIndex
+                                    ) in action.formGroups"
                                     class="mr-3"
                                 >
                                     <label v-if="formGroup.label">
@@ -111,14 +112,14 @@
                                             class="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 sm:left-6"
                                             :checked="
                                                 indeterminate ||
-                                                    selectedItems.length ===
-                                                        items.length
+                                                selectedItems.length ===
+                                                    items.length
                                             "
                                             :indeterminate="indeterminate"
                                             @change="
                                                 selectedItems = $event.target
                                                     .checked
-                                                    ? items.map(i => i.id)
+                                                    ? items.map((i) => i.id)
                                                     : []
                                             "
                                         />
@@ -160,7 +161,7 @@
                                             class="flex items-center"
                                             v-if="
                                                 item[tranIndex].type ==
-                                                    'customer_info'
+                                                'customer_info'
                                             "
                                         >
                                             <div class="ml-4">
@@ -240,7 +241,7 @@
                                             class="flex items-center"
                                             v-else-if="
                                                 item[tranIndex].type ==
-                                                    'slideshow'
+                                                'slideshow'
                                             "
                                         >
                                             <a
@@ -294,7 +295,7 @@
                                             class="flex items-center"
                                             v-else-if="
                                                 item[tranIndex].type ==
-                                                    'description'
+                                                'description'
                                             "
                                         >
                                             <span class="w-96 min-width-full">{{
@@ -339,143 +340,151 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch, onUpdated } from 'vue'
-import Filter from '../../Components/Filter.vue'
-import axios from 'axios'
-import Pagination from '../../Components/Pagination'
-import { Inertia } from '@inertiajs/inertia'
-import ImageSlider from './ImageSlider'
-import TablePagination from '../../Components/TablePagination'
-import Spinner from '../../../assets/Spinner.vue'
+import { onMounted, ref, computed, watch, onUpdated } from "vue";
+import Filter from "../../Components/Filter.vue";
+import axios from "axios";
+import Pagination from "../../Components/Pagination";
+import { Inertia } from "@inertiajs/inertia";
+import ImageSlider from "./ImageSlider";
+import TablePagination from "../../Components/TablePagination";
+import Spinner from "../../../assets/Spinner.vue";
 
 const props = defineProps({
     filters: Object,
     term: String,
-    refresh_token: String
-})
+    refresh_token: String,
+});
 
-const emits = defineEmits(['action', 'termUpdated', 'export'])
+const emits = defineEmits(["action", "termUpdated", "export"]);
 
-const transactions = ref([])
-const title = ref('')
-const description = ref('')
-let fields = ref([])
-let items = ref([])
-const actions = ref([])
-const checked = ref(false)
-const selectedItems = ref([])
-const hasCheckBox = ref(false)
+const transactions = ref([]);
+const title = ref("");
+const description = ref("");
+let fields = ref([]);
+let items = ref([]);
+const actions = ref([]);
+const checked = ref(false);
+const selectedItems = ref([]);
+const hasCheckBox = ref(false);
 const indeterminate = computed(
     () =>
         selectedItems.value.length > 0 &&
         selectedItems.value.length < items.length
-)
-const filterText = ref('Search Table')
-const bulkAction = ref('')
-const exportable = ref(false)
-const isSearchable = ref(false)
-const pagination = ref({})
-const openModal = ref(false)
-const images = ref([])
-const pageFilters = ref({})
-const searchTerm = ref(props.term)
+);
+const filterText = ref("Search Table");
+const bulkAction = ref("");
+const exportable = ref(false);
+const isSearchable = ref(false);
+const pagination = ref({});
+const openModal = ref(false);
+const images = ref([]);
+const pageFilters = ref({});
+const searchTerm = ref(props.term);
 
-const filters = props.filters
+const filters = props.filters;
 
 onMounted(() => {
-    pageFilters.value = props.filters
-    pageFilters.refresh_token = '';
-    getData()
-})
-
-watch(() => props.filters, (first, second) => {
-     pageFilters.value = first
-     getData()
+    pageFilters.value = props.filters;
+    pageFilters.refresh_token = "";
+    getData();
 });
 
-watch(() => props.filters.refresh_token, (first, second) => {
-     pageFilters.value = props.filters
-     getData()
-});
+watch(
+    () => props.filters,
+    (first, second) => {
+        pageFilters.value = first;
+        getData();
+    }
+);
 
-watch(() => props.refresh_token, (first, second) => {
-     pageFilters.value = props.filters
-     getData()
-});
+watch(
+    () => props.filters.refresh_token,
+    (first, second) => {
+        pageFilters.value = props.filters;
+        getData();
+    }
+);
 
+watch(
+    () => props.refresh_token,
+    (first, second) => {
+        pageFilters.value = props.filters;
+        getData();
+    }
+);
 
-const bulkActions = el => {}
+const bulkActions = (el) => {};
 
-function doAction (index, formGroupIndex) {
+function doAction(index, formGroupIndex) {
     //we should emit actions here ...
-    emits('action', actions.value[index], selectedItems.value)
+    emits("action", actions.value[index], selectedItems.value);
 }
 
 const getFieldIndex = (field, obj) => {
-    return obj.findIndex(e => e.key === field)
-}
+    return obj.findIndex((e) => e.key === field);
+};
 
-let cancelToken
+let cancelToken;
 
-const displaySpinner = ref(true)
+const displaySpinner = ref(true);
 
-const getData = async e => {
-    const CancelToken = axios.CancelToken
-    const source = CancelToken.source()
+const getData = async (e) => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
-    source.cancel('Operation canceled by the user.')
+    source.cancel("Operation canceled by the user.");
 
     const res = await axios.get(
-        '/admin/widgets/view',
+        "/admin/widgets/view",
         {
             params: pageFilters.value,
-            cancelToken
+            cancelToken,
         },
         {
-            cancelToken: source.token
+            cancelToken: source.token,
         }
-    )
-    displaySpinner.value = false
+    );
+    displaySpinner.value = false;
 
-    fields.value = res.data.fields
-    items.value = res.data.data.items
-    actions.value = res.data.actions
-    hasCheckBox.value = res.data.hasCheckBox
-    title.value = res.data.title
-    exportable.value = res.data.exportable
-    isSearchable.value = res.data.isSearchable
-    pagination.value = res.data.pagination
-}
+    fields.value = res.data.fields;
+    items.value = res.data.data.items;
+    actions.value = res.data.actions;
+    hasCheckBox.value = res.data.hasCheckBox;
+    title.value = res.data.title;
+    exportable.value = res.data.exportable;
+    isSearchable.value = res.data.isSearchable;
+    pagination.value = res.data.pagination;
+};
 
 const doClose = () => {
-    openModal.value = false
-}
+    openModal.value = false;
+};
 
-const doSlider = i => {
-    images.value = i
-    openModal.value = true
-}
+const doSlider = (i) => {
+    images.value = i;
+    openModal.value = true;
+};
 
-const updatePage = page => {
-    pageFilters.value.page = page
-    displaySpinner.value = true
-    getData()
-}
+const updatePage = (page) => {
+    pageFilters.value.page = page;
+    displaySpinner.value = true;
+    getData();
+};
 
 const search = () => {
     // console.log('running')
-}
+};
 
 const handleSearchChange = () => {
     if (pageFilters.value.term.length < 3) {
-        displaySpinner.value = true
-        return getData()
+        displaySpinner.value = true;
+        return getData();
     }
-}
+};
 
 const exportData = () => {
-    emits('export')
-}
+    emits("export");
+};
 
-const open = ref(false)
+const open = ref(false);
 </script>
