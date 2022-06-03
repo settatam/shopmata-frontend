@@ -255,7 +255,7 @@ class ReportsTable extends Table
                         'data' => $transaction->tags == null ? null : $transaction->allTags(),
                     ],
                     'age' => [
-                        'data' => optional($transaction->customer)->age,
+                        'data' => optional($transaction->customer)->age(),
                     ],
                     'incoming_fedex' => [
                         'data' => $transaction->incoming_tracking,
@@ -321,7 +321,7 @@ class ReportsTable extends Table
                         'data' => $transaction->pub_note,
                     ],
                     'customer_pictures' => [
-                        'data' => $transaction->images,
+                        'data' => $transaction->images  ?? [],
                     ],
                 ];
             })

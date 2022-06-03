@@ -25,7 +25,7 @@ class Customer extends Model
         'activation_status',
         'timezone',
         'transaction_count',
-        'age'
+        'customer_age'
     ];
 
     protected $fillable = [
@@ -72,6 +72,13 @@ class Customer extends Model
     {
         return $this->belongsTo(Lead::class);
     }
+
+
+    public function age()
+    {
+        return Carbon::parse($this->dob)->age;
+    }
+
 
 
     public static function createOrUpdateCustomer(Store $store, $request, $customer = null)
@@ -134,10 +141,6 @@ class Customer extends Model
     }
 
 
-    public function getAgeAttribute()
-    {
-        return Carbon::parse($this->dob)->age;
-    }
 
     public static function addBehaviorTag($tag_id, $id) {
 
