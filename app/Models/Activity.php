@@ -92,7 +92,7 @@ class Activity extends Model
 
         return self::create([
             'user_id' => Auth::id(),
-            'agent' => Auth::user()->first_name,
+            'agent' => optional(Auth::user())->first_name,
             'status' => $status,
             'notes' => $note,
             'name' => Status::findById($current->status_id),
