@@ -164,15 +164,9 @@
                                             "
                                         >
                                             <div class="ml-4">
-                                                <div
-                                                    class="font-medium text-gray-900"
-                                                >
-                                                    <inertia-link
-                                                        :href="
-                                                            item[tranIndex].href
-                                                        "
-                                                        class="text-indigo-700 font-bold"
-                                                    >
+                                                <div class="font-medium text-gray-900">
+                                                    <inertia-link :href="item[tranIndex].href"
+                                                        class="text-indigo-700 font-bold">
                                                         <span
                                                             v-if="
                                                                 item[
@@ -215,17 +209,16 @@
                                                         </span>
                                                     </inertia-link>
                                                 </div>
-                                                <div class="text-gray-500">
-                                                    {{
-                                                        item.customer_info.data
-                                                            .email
-                                                    }}
-                                                    <br />
-                                                    {{
+                                                <div class="text-gray-500 block">
+                                                    <span class="block text-indigo-600">
+                                                        <a :href="'mailto:'+item.customer_info.data.email+'?subject=Transaction #'+items[index].id.data">
+                                                        {{ item.customer_info.data.email }}
+                                                        </a>
+                                                    </span>
+                                                    <span class="block"> {{
                                                         item.customer_info.data
                                                             .address.address
                                                     }}
-                                                    <br />
                                                     {{
                                                         item.customer_info.data
                                                             .address.state.code
@@ -234,10 +227,12 @@
                                                         item.customer_info.data
                                                             .address.zip
                                                     }}
-                                                    {{
+                                                    </span>
+                                                    <span class="block"> {{
                                                         item.customer_info.data
                                                             .address.phone
                                                     }}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

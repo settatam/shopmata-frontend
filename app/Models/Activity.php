@@ -34,7 +34,8 @@ class Activity extends Model
         'notes',
         'name',
         'is_from_admin',
-        'is_status'
+        'is_status',
+        'customer_id'
     ];
 
     public function activityable()
@@ -92,6 +93,7 @@ class Activity extends Model
 
         return self::create([
             'user_id' => Auth::id(),
+            'customer_id' => optional(Auth::guard('customer'))->id(),
             'agent' => Auth::user()->first_name,
             'status' => $status,
             'notes' => $note,
