@@ -51,7 +51,7 @@ class HandleInertiaRequests extends Middleware
 //                [
 //                    'name' => 'Orders',
 //                    'icon' => 'ShoppingBagIcon',
-//                    'href' => '/admin/orders',
+//                    'href' => '/dmin/orders',
 //                    'current' => false,
 //                ],
 //                [

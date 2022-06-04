@@ -34,7 +34,8 @@ class Activity extends Model
         'notes',
         'name',
         'is_from_admin',
-        'is_status'
+        'is_status',
+        'customer_id'
     ];
 
     public function activityable()
@@ -43,7 +44,7 @@ class Activity extends Model
     }
 
     static function generateNote($current, $changes, $model) {
-        $user = Auth::user()->first_name . ' ' . Auth::user()->last_name;
+        $user = optional(Auth::user())->first_name . ' ' . optional(Auth::user())->last_name;
         $note = 'updated the ' . $model . 'with the following;';
         $changeText = '';
         $i=0;
@@ -92,10 +93,11 @@ class Activity extends Model
 
         return self::create([
             'user_id' => Auth::id(),
+            'customer_id' => optional(Auth::guard('customer'))->id(),
             'agent' => Auth::user()->first_name,
             'status' => $status,
             'notes' => $note,
-            'name' => Status::findById($current->status_id),
+            'name' => Status::findById($current->status_qid),
             'is_status' => $isStatus,
             'activityable_id' => $current->id,
             'activityable_type' => get_class($current)

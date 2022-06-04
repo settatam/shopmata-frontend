@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Http\Resources\CustomerCollection;
+use Carbon\Carbon;
+
 
 
 
@@ -94,11 +96,11 @@ class CustomersController extends Controller
             'phone_number' => ['required']
         ]);
 
-        $customer = new Customer;
-        $store_id = $request->session()->get('store_id');
+        $store_id = $request->store_id ?? 43;
+        $store = Store::find($store_id);
 
         try {
-            Customer::createOrUpdateCustomer($store_id, $request, $customer);
+            Customer::createOrUpdateCustomer($store, $request, null);
             \Log::info("New customer added");
             return response()->json(['message'=> "Customer added  successfully"], 200);
         } catch (\Throwable $th) {
@@ -216,12 +218,12 @@ class CustomersController extends Controller
         $countries = Country::where('name','United States')->with('states')->first();
         $customer  = Customer::with(['transactions','customer_address','images','payment_address','payment_address.payment_type','payment_address.state','tags','behavior'])->find($id);
 
-       // dd($customer);
         if (null === $customer) {
             throw new HttpException(404);
         }
 
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
+        dd($customer);
         return Inertia::render('Customers/Show', compact('leads','store','customer', 'tags','countries'));
     }
 
@@ -255,16 +257,19 @@ class CustomersController extends Controller
     {
 
         $customer = Customer::find($id);
+
+
         // $request->validate([
         //     'first_name'   => ['required','string'],
         //     'last_name'    => ['required','string'],
         //     'email'        => ['required','email','max:75','unique:customers'],
         //     'phone_number' => ['required']
         // ]);
-        $store_id = $request->session()->get('store_id');
+        $store_id = $request->store_id ?? 43;
+        $store = Store::find($store_id);
 
         try {
-            Customer::createOrUpdateCustomer($store_id, $request, $customer);
+            Customer::createOrUpdateCustomer($store, $request, $customer);
             \Log::info("Customer Updated");
             return response()->json(['message'=> "Customer details updated successfully" ], 200);
         } catch (\Throwable $th) {
