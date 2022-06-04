@@ -32,11 +32,8 @@ class CodeEditorController extends Controller
                 $query->where('id', $request->session()->get('store_id'));
         })->first();
 
-        $files = $theme->files;
-        $s = $files->groupBy('type');
-
-        dd($s->all());
-
+        $themeFiles = $theme->files;
+        $files = $themeFiles->groupBy('type');
 
         $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();
 
@@ -46,11 +43,8 @@ class CodeEditorController extends Controller
 //            $open_files[$i]->edited_content = $open_files[$i]->theme_file->content;
         }
 
-        count($theme_files) === 0 ? $theme_files = (object)[] : "";
-        // count($open_files) === 0 ? $open_files = (object)[] : "";
-        // $layout = $store->theme->layout[count($store->theme->layout)-1]->content;
 
-        return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files', 'theme'));
+        return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files', 'theme', $files));
     }
 
     /**
