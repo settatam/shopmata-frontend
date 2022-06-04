@@ -26,15 +26,17 @@ class CodeEditorController extends Controller
         //
         // $store = Store::with('theme')->find(session()->get('store_id'));
 
-
         $theme_files = [];
-        $theme = Theme::with('layout')
-            ->with('assets')
-            ->with('snippets')
-            ->with('templates')
+        $theme = Theme::with('files')
             ->whereHas('store', function($query) use ($request) {
-            $query->where('id', $request->session()->get('store_id'));
+                $query->where('id', $request->session()->get('store_id'));
         })->first();
+
+        if($theme->files) {
+            $theme->files->groupBy('type');
+        }
+
+        dd($theme->files->all());
 
 
         $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();

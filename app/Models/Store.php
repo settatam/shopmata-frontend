@@ -220,10 +220,6 @@ class Store extends Model
         $data = [];
         $pageContent = '';
 
-        $content_for_page = '';
-//        $data['transactions'] = Transaction::take(10)->get();
-//        $data['customer'] = Customer::find(1238);
-
         if($template) {
             $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($template, $data));
         }else{
