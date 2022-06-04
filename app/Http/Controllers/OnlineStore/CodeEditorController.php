@@ -32,11 +32,10 @@ class CodeEditorController extends Controller
                 $query->where('id', $request->session()->get('store_id'));
         })->first();
 
-        if($theme->files) {
-            $theme->files->groupBy('type');
-        }
+        $files = $theme->files();
+        $s = $files->groupBy('type');
 
-        dd($theme->files->all());
+        dd($s->all());
 
 
         $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();
