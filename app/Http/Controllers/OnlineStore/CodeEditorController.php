@@ -32,7 +32,7 @@ class CodeEditorController extends Controller
                 $query->where('id', $request->session()->get('store_id'));
         })->first();
 
-        $files = $theme->files();
+        $files = $theme->files;
         $s = $files->groupBy('type');
 
         dd($s->all());
