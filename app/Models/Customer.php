@@ -25,7 +25,6 @@ class Customer extends Model
         'activation_status',
         'timezone',
         'transaction_count',
-        'customer_age'
     ];
 
     protected $fillable = [
