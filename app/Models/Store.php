@@ -209,7 +209,7 @@ class Store extends Model
 
         if(null !== $page) {
             if($page->content) {
-                $data['content_for_page'] = $page;
+                $data['content_for_page'] = $page->content;
             }
             $template = html_entity_decode(ThemeFile::generateParsedContent($page->template->content, $data));
             $theme  = $page->theme->content;
