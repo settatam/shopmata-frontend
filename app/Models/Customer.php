@@ -117,6 +117,7 @@ class Customer extends Model
           );
           $customer->address()->save($address);
         }
+
         return $customer;
     }
 
