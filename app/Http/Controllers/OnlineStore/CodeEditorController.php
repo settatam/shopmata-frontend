@@ -233,7 +233,7 @@ class CodeEditorController extends Controller
                'theme_id' => $request->theme_id,
                'type' => ThemeFile::TYPE_ASSET,
                'image_url' => $image['url'],
-                'title' => $fileName
+               'title' => $fileName
            ];
         }else{
             $extension = '';
@@ -246,11 +246,6 @@ class CodeEditorController extends Controller
             }
 
             Storage::disk('DO')->put($store->slug . '/' . $fileName, $file->getContent(), 'public');
-//            if (Str::contains($fileName, 'js')) {
-//                $extension = '.js';
-//            } else if(Str::contains($fileName, 'css')) {
-//                $extension = '.css';
-//            }
         }
 
 //        dd($fileType);
