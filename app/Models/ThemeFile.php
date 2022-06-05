@@ -81,7 +81,7 @@ class ThemeFile extends Model
 
     static function generateParsedContent($content, $data) {
         $message = \Twig::createTemplate($content);
-        return \Twig::render($message, $data);
+        return html_entity_decode(\Twig::render($message, $data));
     }
 
     static function getFileTypeID($type) {
