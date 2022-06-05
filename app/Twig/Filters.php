@@ -12,6 +12,9 @@ class Filters extends AbstractExtension
         return [
             new TwigFilter('count_words', [$this, 'countWords']),
             new TwigFilter('asset_url', [$this, 'assetUrl']),
+            new TwigFilter('address', [$this, 'address']),
+            new TwigFilter('accept', [$this, 'accept']),
+            new TwigFilter('reject', [$this, 'reject']),
         ];
     }
 
