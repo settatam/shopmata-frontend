@@ -22,7 +22,7 @@ class Theme extends Model
     }
 
     public function templates() {
-    	return $this->hasMany(ThemeFile::class)->where('title', ThemeFile::TYPE_TEMPLATE);
+    	return $this->hasMany(ThemeFile::class)->where('type', ThemeFile::TYPE_TEMPLATE);
     }
 
     public function images() {

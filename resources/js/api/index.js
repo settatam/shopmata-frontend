@@ -20,6 +20,18 @@ export const postAsNativeForm = ((action, params) => {
     form.submit();
 })
 
+export const fileUploader = (action, params) => {
+    let formData = new FormData()
+    for (let key in params) {
+        formData.append(key, params[key]);
+    }
+    return axios.post(action, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    })
+}
+
 export const getTransactionActionType = (action) => {
     switch (action) {
         case '':
