@@ -89,7 +89,7 @@ class Customer extends Model
         $customer->first_name   = $input['first_name'];
         $customer->last_name    = $input['last_name'];
         $customer->email        = $input['email'];
-        $customer->phone_number = $input['phone_number'];
+        $customer->phone_number = $input['phone'];
         $customer->lead_id      = $input['lead_id'];
         $customer->store_id     = $store->id;
         $customer->customer_notes       = $input['description'];
