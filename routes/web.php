@@ -96,6 +96,7 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::post('customer/login', [LoginController::class, 'customerLogin']);
     Route::get('thank-you', [ClientHomeController::class, 'index']);
     Route::get('thank-you/{id}', [ClientHomeController::class, 'index']);
+    Route::post('customer/verify-address', [ClientHomeController::class, 'verifyAddress']);
 });
 
 

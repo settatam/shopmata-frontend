@@ -91,10 +91,16 @@ class Activity extends Model
             $status = Status::findById($changes['status_id']);
         }
 
+        if(Auth::id()) {
+            $firstname = Auth::user()->first_name;
+        }else{
+            $firstname = Auth::guard('customer')->user()->first_name;
+        }
+
         return self::create([
             'user_id' => Auth::id(),
             'customer_id' => optional(Auth::guard('customer'))->id(),
-            'agent' => Auth::user()->first_name,
+            'agent' => $firstname,
             'status' => $status,
             'notes' => $note,
             'name' => Status::findById($current->status_qid),
