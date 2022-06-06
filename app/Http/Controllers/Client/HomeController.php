@@ -154,7 +154,7 @@ class HomeController extends Controller
             $transaction_payment_address->payment_type_id        =  $request->payment;
             $transaction_payment_address->save();
 
-            return response()->json(null, 200);
+            return response()->json($transaction, 200);
 //        } catch (\Throwable $th) {
 //            \Log::Error("Failed to save  transaction  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
 //            return response()->json(['message'=> "Failed to save  transaction"], 422);
