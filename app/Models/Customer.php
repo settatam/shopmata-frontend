@@ -9,7 +9,7 @@ use App\Http\Helpers\Helper;
 use Carbon\Carbon;
 
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
     use HasFactory;
 
