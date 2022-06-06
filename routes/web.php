@@ -330,6 +330,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::get('online-store/code-editor', [CodeEditorController::class, 'index']);
         Route::post('online-store/code-editor', [CodeEditorController::class, 'store']);
+        Route::post('online-store/code-editor/uploader', [CodeEditorController::class, 'uploader']);
         Route::put('online-store/code-editor/{id}', [CodeEditorController::class, 'update']);
         Route::get('online-store/code-editor/{id}', [CodeEditorController::class, 'show']);
         Route::get('online-store/editor', [CodeEditorController::class, 'index']);

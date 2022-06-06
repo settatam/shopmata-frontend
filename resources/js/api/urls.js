@@ -9,5 +9,8 @@ export default {
     reports: {
         formGroup: () => `/admin/reports/form-group`,
         export: () => `/admin/reports/export`
+    },
+    assets: {
+        uploader: () => '/admin/online-store/code-editor/uploader',
     }
 };

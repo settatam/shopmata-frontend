@@ -12,6 +12,9 @@ class Filters extends AbstractExtension
         return [
             new TwigFilter('count_words', [$this, 'countWords']),
             new TwigFilter('asset_url', [$this, 'assetUrl']),
+            new TwigFilter('address', [$this, 'address']),
+            new TwigFilter('accept', [$this, 'accept']),
+            new TwigFilter('reject', [$this, 'reject']),
         ];
     }
 
@@ -21,10 +24,22 @@ class Filters extends AbstractExtension
     }
 
     public static function assetUrl($asset) {
-        if(session()-has('store_id')) {
+        if(session()->has('store_id')) {
             $store = Store::find(session()->get('store_id'));
-            return 'https://fashionerize.nyc3.digitaloceanspaces.com/'.$store->slug.'/'.$asset;
+            return 'https://fashionerize.nyc3.cdn.digitaloceanspaces.com/'.$store->slug.'/'.$asset;
         }
         return $asset;
+    }
+
+    public function address($address) {
+        return '<address> This is my store address </address>';
+    }
+
+    public function accept($button) {
+        return '<button> This is my reject button </button>';
+    }
+
+    public function reject($address) {
+        return '<button> THis is the reject button</button>';
     }
 }

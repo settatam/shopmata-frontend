@@ -49,7 +49,6 @@ class EventNotification
      */
     public function getAndSendMessages() {
         $storeNotificationMessages = StoreNotificationMessage::getAllMessages($this->data['store']->id, $this->event);
-
         $messageData = [];
 
         if(count($storeNotificationMessages)) {
@@ -77,7 +76,8 @@ class EventNotification
                         $messageData['subject'] = ThemeFile::generateParsedContent($storeNotificationMessage->email_subject, $messageData);
                         $messageData['content_for_email'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
                         $emailTemplate = ThemeFile::getTemplateFor($this->data['store'], 'email');
-                        $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($emailTemplate->content, $messageData));
+                        $templateContent = null !== $emailTemplate ? $emailTemplate->content : '';
+                        $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($templateContent, $messageData));
                         $this->sendEmail($messageData);
                         break;
                     case 'sms':
@@ -91,7 +91,6 @@ class EventNotification
         } else {
 //            throw new InvalidInputException('There are no messages for this event in the selected store');
         }
-
 
     }
 
@@ -114,6 +113,7 @@ class EventNotification
     }
 
     public function sendSMS($data){
+
         $renderedMessage = $data['parsed_message'];
         if(strlen($renderedMessage) > 160) {
 //            throw new InvalidInputException("An SMS has a maximum character length of 160");
@@ -134,7 +134,6 @@ class EventNotification
         } catch(SMSException $e) {
            // throw new InvalidInputException($e);
         }
-
 
         //Save the sent message in a database ..
         if(Sms::create([

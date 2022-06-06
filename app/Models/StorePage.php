@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class StorePage extends Model
 {
+    //Every page should have a template.
+    //The template should contain a section for page variable for the page content to fill
+    //
+
     use HasFactory;
 
     protected $fillable = [

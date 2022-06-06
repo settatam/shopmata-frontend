@@ -219,7 +219,10 @@ export default {
                 case 'actions':
                     switch (value) {
                         case 'Delete':
-                            Inertia.post(urls.transactions.bulkAction('delete'), data)
+                            axios.post(urls.transactions.bulkAction('delete'), data)
+                            .then(result=>{
+                                tableFilters.refresh_token = Math.random()
+                            })
                             break
                         case 'Send Message':
                             Inertia.get(
@@ -243,11 +246,9 @@ export default {
                             data.bin_location = bin_location.value
                             axios.post(url, data).then((res) => {
                                 tableFilters.refresh_token = Math.random()
-                                console.log(tableFilters);
                                 displayModal.value = false;
                                 confirmationFor.value = {}
                             })
-
                             break;
                         default:
                             Inertia.post(

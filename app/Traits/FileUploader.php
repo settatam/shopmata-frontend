@@ -86,47 +86,55 @@ trait FileUploader {
         return $response;
 	}
 
-    public function uploadImageToCloud(Store $store, $images, $rank=1) {
+    public function uploadImageToCloud(Store $store, $images, $filename='', $rank=1) {
         $slug = $store->slug;
         $rank = 0;
 
-            foreach($images as $image) {
+        if(!is_array($images)) {
+            $images = [$images];
+        }
 
+        foreach($images as $image) {
+            if(!$filename) {
                 $name = md5($image->getClientOriginalName());
-
                 $filename = "item_" . time() . $name . '.jpg';
                 $filename_thumb = "item_" . time() . $name . '_thumb.jpg';
-
-                try {
-                    $image_normal = Image::make($image)->widen(1000, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })->encode('jpg');
-                } catch (\Intervention\Image\Exception\NotReadableException $e) {
-                    $response = ['status' => 1, 'message' => 'Could not create image'];
-                    return $response;
-                }
-                try {
-                    $image_thumb = Image::make($image)->resize(100, 100, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })->encode('jpg');
-                } catch (\Intervention\Image\Exception\NotReadableException $e) {
-                    $response = ['status' => 1, 'message' => 'Could not create image'];
-                    return $response;
-                }
-
-                $image_normal = $image_normal->stream();
-                $image_thumb = $image_thumb->stream();
-
-                Storage::disk('DO')->put($slug . '/' . $filename, $image_normal->__toString(), 'public');
-                Storage::disk('DO')->put($slug . '/' . $filename_thumb, $image_thumb->__toString(), 'public');
-
-                return [
-                    'url' => env('DO_URL') . $slug . '/' . $filename,
-                    'thumb' => env('DO_URL') . $slug . '/' . $filename_thumb,
-                ];
             }
 
+            try {
+                $image_normal = Image::make($image)->widen(1000, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->encode('jpg');
+            } catch (\Intervention\Image\Exception\NotReadableException $e) {
+                $response = ['status' => 1, 'message' => 'Could not create image'];
+                return $response;
+            }
+            try {
+                $image_thumb = Image::make($image)->resize(100, 100, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->encode('jpg');
+            } catch (\Intervention\Image\Exception\NotReadableException $e) {
+                return ['status' => 1, 'message' => 'Could not create image'];
+            }
+
+            $image_normal = $image_normal->stream();
+            $image_thumb = $image_thumb->stream();
+
+            Storage::disk('DO')->put($slug . '/' . $filename, $image_normal->__toString(), 'public');
+            Storage::disk('DO')->put($slug . '/' . $filename_thumb, $image_thumb->__toString(), 'public');
+
+            return [
+                'url' => env('DO_URL') . $slug . '/' . $filename,
+                'thumb' => env('DO_URL') . $slug . '/' . $filename_thumb,
+            ];
+        }
+
 	}
+
+    public function uploadAssetToCloud(Store $store, $file) {
+        $slug = $store->slug;
+        Storage::disk('DO')->put($slug . '/' . $file, 'public');
+    }
 
     public function addImage(Store $store, $images, $id=null, $rank=1) {
         if($id) {
