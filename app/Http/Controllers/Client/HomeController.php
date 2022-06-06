@@ -38,7 +38,7 @@ class HomeController extends Controller
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transactions'] = Transaction::with('images')
                     ->with('customer')
-                    ->withPaymentProcessed()
+                    ->withPaymentDateTime()
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->get();
