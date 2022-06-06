@@ -140,8 +140,8 @@ class Customer extends Authenticatable
             $address = new Address([
                 'first_name' => $input['first_name'],
                 'last_name'  => $input['last_name'],
-                'state'      => $input['state'],
-                'state_id'   => Helper::getStateId($request->state),
+                'state'      => isset($input['state']) ?  $input['state'] : null,
+                'state_id'   => $input['state_id'],
                 'city'       => $input['city'],
                 'is_default' => 1,
                 'address'    => $input['address'],
