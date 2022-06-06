@@ -37,6 +37,10 @@ class Theme extends Model
     	return $this->hasMany(ThemeFile::class);
     }
 
+    public function store_theme() {
+        return $this->belongsTo(StoreTheme::class, 'id', 'theme_id');
+    }
+
 
     public function themeContent() {
         $body_content = $this->sections();

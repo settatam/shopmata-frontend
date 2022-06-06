@@ -14,4 +14,8 @@ class StoreTheme extends Model
     {
         static::addGlobalScope(new StoreScope);
     }
+
+    public function theme() {
+        return $this->belongsTo(Theme::class, 'theme_id', 'id');
+    }
 }
