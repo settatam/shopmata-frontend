@@ -21,6 +21,7 @@ class HomeController extends Controller
     public function index($account)
     {
         //
+        Auth::logout();
         if(session()->has('store_id')) {
             //This is probably a store page
             $store_id = session()->get('store_id');
