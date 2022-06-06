@@ -26,10 +26,20 @@ class HomeController extends Controller
             $store_id = session()->get('store_id');
             $store = Store::find($store_id);
             $path = request()->path();
+
             $pageToFind = StorePage::nameFromPath($path);
 
+            $data = [];
+
+            if($pageToFind == 'transactions') {
+                $data['customer'] = Auth::guard('customer')->user();
+                $data['transactions'] = Transaction::with('images')
+                    ->where('customer_id', $data['customer']->id)
+                    ->get();
+            }
+
             if(null !== $store) {
-                $page = $store->pageContent($pageToFind);
+                $page = $store->pageContent($pageToFind, $data);
                 $customer = null;
                 if(Auth::check()) {
                     $customer = Auth::user();
