@@ -48,7 +48,7 @@ class TransactionsController extends Controller
             $input['first_name'] = $request->first_name ?? $request->firstname;
             $input['last_name'] = $request->last_name ?? $request->lastname;
             $customer = Customer::addNew($store, $input);
-
+            dd($customer);
             Auth::guard('customer')->loginUsingId($customer->id);
 
             $transaction = Transaction::createNew($store, $request, $customer);
