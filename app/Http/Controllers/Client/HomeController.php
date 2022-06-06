@@ -38,8 +38,6 @@ class HomeController extends Controller
                     ->with('customer')
                     ->where('customer_id', $data['customer']->id)
                     ->get();
-
-                dd($data['transactions']);
             }
 
             if(null !== $store) {
