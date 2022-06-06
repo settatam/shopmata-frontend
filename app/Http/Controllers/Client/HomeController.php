@@ -36,6 +36,8 @@ class HomeController extends Controller
                 $data['transactions'] = Transaction::with('images')
                     ->where('customer_id', $data['customer']->id)
                     ->get();
+
+                dd($data['transactions']);
             }
 
             if(null !== $store) {
@@ -151,7 +153,13 @@ class HomeController extends Controller
             $input = $request->input();
             $input['first_name'] = $request->first_name ?? $request->firstname;
             $input['last_name'] = $request->last_name ?? $request->lastname;
-            $customer = Customer::addNew($store, $input);
+
+            $customer = Customer::where('email', $input['email'])->first();
+
+            if(null === $customer) {
+                $customer = Customer::addNew($store, $input);
+            }
+
             Auth::guard('customer')->loginUsingId($customer->id);
 
             $transaction = Transaction::createNew($store, $request, $customer);
