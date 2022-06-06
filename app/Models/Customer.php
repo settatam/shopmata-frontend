@@ -90,7 +90,7 @@ class Customer extends Model
         $customer->last_name    = $input['last_name'];
         $customer->email        = $input['email'];
         $customer->phone_number = $input['phone'];
-        $customer->lead_id      = $input['lead_id'];
+//        $customer->lead_id      = $input['lead_id'];
         $customer->store_id     = $store->id;
         $customer->customer_notes       = $input['description'];
         $customer->password             = bcrypt($input['first_name']);
