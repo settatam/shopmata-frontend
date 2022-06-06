@@ -259,7 +259,7 @@ class ReportsTable extends Table
                         'data' => optional($transaction->trStatus)->name,
                     ],
                     'customer_since' => [
-                        'data' => $transaction->customer->created_at->format('Y-m-d'), //2022-05-16T20:42:21.000000Z
+                        'data' => optional(optional($transaction->customer)->created_at)->format('Y m d'), //2022-05-16T20:42:21.000000Z
                         'class' => 'block w-24'
                     ],
                     'ip_address' => [
