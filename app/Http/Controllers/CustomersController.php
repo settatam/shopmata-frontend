@@ -223,7 +223,6 @@ class CustomersController extends Controller
         }
 
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
-        dd($customer);
         return Inertia::render('Customers/Show', compact('leads','store','customer', 'tags','countries'));
     }
 
