@@ -87,8 +87,8 @@ class Customer extends Model
         }
 
 
-        $customer->first_name   = $request->first_name;
-        $customer->last_name    = $request->last_name;
+        $customer->first_name   = $request->firstname;
+        $customer->last_name    = $request->lastname;
         $customer->email        = $request->email;
         $customer->phone_number = $request->phone_number;
         $customer->lead_id      = $request->lead_id;
