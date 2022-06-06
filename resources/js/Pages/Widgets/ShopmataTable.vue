@@ -254,7 +254,7 @@
                                                 <img
                                                     class="h-10 w-10"
                                                     :src="
-                                                        item.pictures.data[0]
+                                                        item[tranIndex].data[0]
                                                             .url
                                                     "
                                                     alt=""
