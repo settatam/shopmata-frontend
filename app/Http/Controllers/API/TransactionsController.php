@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\TransactionPaymentAddress;
 use App\Models\Transaction;
-
+use Auth;
 
 
 class TransactionsController extends Controller
