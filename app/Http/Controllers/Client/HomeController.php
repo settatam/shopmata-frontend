@@ -33,12 +33,12 @@ class HomeController extends Controller
             $pageToFind = StorePage::nameFromPath($path);
 
             $data = [];
-            $data['seth'] = 'Atam';
 
             if($pageToFind == 'transactions') {
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transactions'] = Transaction::with('images')
                     ->with('customer')
+                    ->withPaymentProcessed()
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->get();
