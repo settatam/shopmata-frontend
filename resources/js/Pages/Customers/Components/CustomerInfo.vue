@@ -639,8 +639,6 @@ export default {
         const selectedCountry = ref(customer.country_id);
         const selectedState = ref(customer.state_id);
         const selectedDob = ref(moment(customer.dob).format("MM-DD-YYYY"));
-        // const selectedTags = ref( customer.tags ? customer.tags[customer.tags.length - 1].id : '')
-        console.log(address);
         const selectedTags = ref(customer.tags);
         const CustomerInfo = reactive({
             customerDifficulty:
