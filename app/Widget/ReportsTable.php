@@ -66,6 +66,21 @@ class ReportsTable extends Table
                 'sortable' => true,
             ],
             [
+                'key' => 'hold_date',
+                'label' => 'Hold Date',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'return_tracking',
+                'label' => 'Return tracking',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'outgoing_tracking',
+                'label' => 'Outgoing tracking',
+                'sortable' => true,
+            ],
+            [
                 'key' => 'website',
                 'label' => 'Website',
                 'sortable' => true,
@@ -73,6 +88,11 @@ class ReportsTable extends Table
             [
                 'key' => 'tags',
                 'label' => 'Tags',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'insurance_value',
+                'label' => 'Insurance value',
                 'sortable' => true,
             ],
             [
@@ -202,6 +222,9 @@ class ReportsTable extends Table
             ->withTotalDwt()
             ->withLabelsFrom()
             ->withLabelsTo()
+            ->withOutgoingTracking()
+            ->withReturnTracking()
+            ->withHoldDate()
             ->withPrivateNote()
             ->withPublicNote()
             ->withPaymentType()
@@ -236,7 +259,7 @@ class ReportsTable extends Table
                         'data' => optional($transaction->trStatus)->name,
                     ],
                     'customer_since' => [
-                        'data' => $transaction->customer->created_at,
+                        'data' => optional(optional($transaction->customer)->created_at)->format('Y m d'), //2022-05-16T20:42:21.000000Z
                         'class' => 'block w-24'
                     ],
                     'ip_address' => [
@@ -248,8 +271,20 @@ class ReportsTable extends Table
                     'lead' => [
                         'data' => $transaction->lead,
                     ],
+                    'hold_date' => [
+                        'data' => $transaction->lead,
+                    ],
+                    'return_tracking' => [
+                        'data' => null,
+                    ],
+                    'outgoing_tracking' => [
+                        'data' => null,
+                    ],
                     'website' => [
                         'data' => optional($transaction->store)->name,
+                    ],
+                    'insurance_value' => [
+                        'data' => $transaction->insurance_value,
                     ],
                     'tags' => [
                         'data' => $transaction->tags == null ? null : $transaction->allTags(),
@@ -321,9 +356,8 @@ class ReportsTable extends Table
                         'data' => $transaction->pub_note,
                     ],
                     'customer_pictures' => [
-                        //'data' => $transaction->images,
-                       // 'type' => 'slideshow'
-
+                        'data' => $transaction->customer->images,
+                        'type' => 'slideshow'
                     ],
                 ];
             })
