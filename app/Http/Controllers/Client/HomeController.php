@@ -34,6 +34,7 @@ class HomeController extends Controller
             if($pageToFind == 'transactions') {
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transactions'] = Transaction::with('images')
+                    ->with('customer')
                     ->where('customer_id', $data['customer']->id)
                     ->get();
 
