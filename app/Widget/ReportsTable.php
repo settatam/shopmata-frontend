@@ -66,6 +66,16 @@ class ReportsTable extends Table
                 'sortable' => true,
             ],
             [
+                'key' => 'hold_date',
+                'label' => 'Hold Date',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'return_tracking',
+                'label' => 'Return tracking',
+                'sortable' => true,
+            ],
+            [
                 'key' => 'website',
                 'label' => 'Website',
                 'sortable' => true,
@@ -73,6 +83,11 @@ class ReportsTable extends Table
             [
                 'key' => 'tags',
                 'label' => 'Tags',
+                'sortable' => true,
+            ],
+            [
+                'key' => 'insurance_value',
+                'label' => 'Insurance value',
                 'sortable' => true,
             ],
             [
@@ -248,8 +263,17 @@ class ReportsTable extends Table
                     'lead' => [
                         'data' => $transaction->lead,
                     ],
+                    'hold_date' => [
+                        'data' => $transaction->lead,
+                    ],
+                    'return_tracking' => [
+                        'data' => null,
+                    ],
                     'website' => [
                         'data' => optional($transaction->store)->name,
+                    ],
+                    'insurance_value' => [
+                        'data' => null,
                     ],
                     'tags' => [
                         'data' => $transaction->tags == null ? null : $transaction->allTags(),
@@ -321,8 +345,8 @@ class ReportsTable extends Table
                         'data' => $transaction->pub_note,
                     ],
                     'customer_pictures' => [
-                        //'data' => $transaction->images,
-                        //'type' => 'slideshow'
+                        'data' => $transaction->customer->images,
+                        'type' => 'slideshow'
                     ],
                 ];
             })

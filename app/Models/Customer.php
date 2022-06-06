@@ -79,7 +79,7 @@ class Customer extends Authenticatable
         return Carbon::parse($this->dob)->age;
     }
 
-    public static function addNew(Store $store, $input,)
+    public static function addNew(Store $store, $input)
     {
         $customer = new static;
 
