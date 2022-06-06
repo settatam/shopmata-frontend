@@ -23,7 +23,7 @@ class HomeController extends Controller
     {
         //
         if(!Auth::guard('customer')->check()) {
-            return redirect('customer.login');
+            return redirect('customer/login');
         }
         if(session()->has('store_id')) {
             //This is probably a store page
@@ -61,7 +61,7 @@ class HomeController extends Controller
 
     public function logout() {
         Auth::guard('customer')->logout();
-        return redirect('customer.login');
+        return redirect('customer/login');
     }
 
 
