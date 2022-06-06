@@ -160,7 +160,7 @@ export default {
     setup(props) {
         const payload = ref({
             model: "Customer",
-            model_id: props.customer.id,
+            customer_id: props.customer.id,
         });
 
         return {

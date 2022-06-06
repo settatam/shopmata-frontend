@@ -12,6 +12,7 @@ export default () => {
             if (typeof payload != null) {
                 formData.append("model", payload.model);
                 formData.append("transaction_id", payload.transaction_id);
+                formData.append("customer_id", payload.customer_id);
             }
 
             return formData;

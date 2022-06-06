@@ -22,7 +22,7 @@
                     <div class="">
                         <images-list
                             :images="images"
-                            v-if="imgs.length"
+                            v-if="images.length"
                             @image-deleted="delete_img"
                         />
 
