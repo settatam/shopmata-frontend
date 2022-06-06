@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
 use App\Http\Helpers\Helper;
 use Carbon\Carbon;
+use App\Traits\FileUploader;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 class Customer extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, FileUploader;
 
     protected $table = 'customers';
 
@@ -74,10 +76,29 @@ class Customer extends Authenticatable
     }
 
 
+   
+
+
     public function age()
     {
         return Carbon::parse($this->dob)->age;
     }
+
+    public function addImage(Store $store, $request, $rank =1)
+    {
+        $images =  $request->file('files');
+        $customer   = Customer::find($request->customer_id);
+        if ($data = $this->uploadImageToCloud($store, $images)) {
+
+            $customer->images()->create([
+                'url' => $data['url'],
+                'thumbnail' => $data['thumb'],
+                'rank' => $rank,
+            ]);
+            return $customer->images;
+        }
+    }
+
 
     public static function addNew(Store $store, $input)
     {
