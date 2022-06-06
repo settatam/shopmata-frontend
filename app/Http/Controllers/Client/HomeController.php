@@ -160,7 +160,9 @@ class HomeController extends Controller
                 $customer = Customer::addNew($store, $input);
             }
 
-            Auth::guard('customer')->loginUsingId($customer->id);
+            if(!Auth::guard('customer')->check()) {
+                Auth::guard('customer')->loginUsingId($customer->id);
+            }
 
             $transaction = Transaction::createNew($store, $request, $customer);
             $transaction_payment_address = new TransactionPaymentAddress;
