@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\OnlineStore;
 
+use App\Models\ThemeFileVersion;
 use Inertia\Inertia;
 use App\Models\Store;
 use App\Models\ThemeFile;
@@ -12,9 +13,14 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\OpenEditorPage;
 use Illuminate\Support\Facades\Log;
 use App\Models\Theme;
+use Illuminate\Support\Str;
+use App\Traits\FileUploader;
+use Illuminate\Support\Facades\Storage;
+use App\Models\StoreTheme;
 
 class CodeEditorController extends Controller
 {
+    use FileUploader;
     /**
      * Display a listing of the resource.
      *
@@ -24,32 +30,28 @@ class CodeEditorController extends Controller
     public function index(Request $request)
     {
         //
-        // $store = Store::with('theme')->find(session()->get('store_id'));
+        $store = Store::with('theme')->find(session()->get('store_id'));
 
-
+        $theme_id = $request->theme_id;
         $theme_files = [];
-        $theme = Theme::with('layout')
-            ->with('assets')
-            ->with('snippets')
-            ->with('templates')
-            ->whereHas('store', function($query) use ($request) {
-            $query->where('id', $request->session()->get('store_id'));
-        })->first();
+        $theme = Theme::with(['files' => function($query) use ($store, $request){
+            $query->where('store_id', $store->id);
+        }])->find($theme_id);
 
+        $filesGroup = $theme->files->groupBy('type');
+        $files = $filesGroup->all();
 
-        $open_files = OpenEditorPage::with('theme_file')->orderBy('id', 'asc')->get();
-
-        for($i=0; $i<sizeof($open_files); $i++) {
-//            $open_files[$i]->content = $open_files[$i]->theme_file->content;
-//            $open_files[$i]->name = $open_files[$i]->theme_file->title;
-//            $open_files[$i]->edited_content = $open_files[$i]->theme_file->content;
+        foreach(ThemeFile::fileTypes() as $type) {
+            if(!array_key_exists($type, $files)) $files[$type] = [];
         }
+
+        $open_files = OpenEditorPage::forStore($store);
 
         count($theme_files) === 0 ? $theme_files = (object)[] : "";
         // count($open_files) === 0 ? $open_files = (object)[] : "";
         // $layout = $store->theme->layout[count($store->theme->layout)-1]->content;
 
-        return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files', 'theme'));
+        return Inertia::render('OnlineStore/CodeEditor', compact('theme_files', 'open_files', 'theme', 'files', 'theme_id'));
     }
 
     /**
@@ -78,8 +80,7 @@ class CodeEditorController extends Controller
                 'content' => "nullable|string",
                 'type' => "nullable|string",
                 'asset_url' => 'nullable|string',
-                'type_id' => "required|numeric",
-                'theme_id' => "nullable|numeric",
+//                'type_id' => "required|numeric",
             ]);
 
             if ($validator->fails()) {
@@ -92,7 +93,8 @@ class CodeEditorController extends Controller
                 return response()->json(['notification' => $notification], 400);
             }
 
-            $data['store_id'] = session('store_id');
+            $data['type_id'] = ThemeFile::getFileTypeID($data['type']);
+            $data['store_id'] = session()->get('store_id');
             $data['user_id'] = Auth::id();
 
             if ($theme = ThemeFile::create($data)) {
@@ -115,7 +117,8 @@ class CodeEditorController extends Controller
                 if($open_file->save($data)) {
                     $open_file->load('theme_file');
                     $open_file->content = $open_file->theme_file->content;
-                    $open_file->name = $open_file->theme_file->title;
+                    $open_file->title = $open_file->theme_file->title;
+                    $open_file->name = $open_file->title;
                     $open_file->edited_content = $open_file->theme_file->content;
                     Log::info(Auth::id() . ' opened a new page', $data);
                     return response()->json([
@@ -184,6 +187,7 @@ class CodeEditorController extends Controller
                 $open_file->load('theme_file');
                 $open_file->content = $open_file->theme_file->content;
                 $open_file->name = $open_file->theme_file->title;
+                $open_file->title = $open_file->theme_file->title;
                 $open_file->edited_content = $open_file->theme_file->content;
                 Log::info(Auth::id() . ' opened a new page', $data);
                 return response()->json($open_file);
@@ -207,6 +211,68 @@ class CodeEditorController extends Controller
     public function edit($id)
     {
         //
+    }
+
+    public function uploader(Request $request) {
+
+        $file = $request->file('files');
+        $mimeType = $file->getMimeType();
+        $fileName = $file->getClientOriginalName();
+
+        $store = Store::find(session()->get('store_id'));
+
+        $imageMimes = ThemeFIle::getImageMimes();
+        if(in_array($mimeType, $imageMimes)) {
+            //File is an image
+           $image = $this->uploadImageToCloud($store, $file, $fileName);
+           $data = [
+               'theme_id' => $request->theme_id,
+               'type' => ThemeFile::TYPE_ASSET,
+               'image_url' => $image['url'],
+               'title' => $fileName,
+               'store_id' => session()->get('store_id')
+           ];
+           $themeFile = ThemeFile::create(
+               $data
+           );
+
+           Log::Info(Auth::id() . ' created a new asset', $data);
+
+        }else{
+            $extension = '';
+            if(Str::contains($fileName, [
+                'css.twig',
+                'js.twig'
+            ])) {
+                //Conversion should take place
+                $fileContent = $file->getContent();
+                $filename = Str::replace($fileName, '.twig');
+
+            }
+
+            Storage::disk('DO')->put($store->slug . '/' . $fileName, $file->getContent(), 'public');
+            $data = [
+                'theme_id' => $request->theme_id,
+                'type' => ThemeFile::TYPE_ASSET,
+                'title' => $fileName,
+                'content' => $file->getContent(),
+                'store_id' => session()->get('store_id')
+           ];
+            $themeFile = ThemeFile::create(
+                $data
+            );
+
+            ThemeFileVersion::create(
+                [
+                    'theme_file_id' => $themeFile->id,
+                    'user_id' => Auth::id(),
+                    'content' => $file->getContent()
+                ]
+            );
+
+            Log::Info(Auth::id() . ' created a new asset', $data);
+        }
+
     }
 
     /**
@@ -239,17 +305,7 @@ class CodeEditorController extends Controller
 
             $storeId = session('store_id');
 
-            $theme = ThemeFile::find($id);
-
-            if ($theme === null || $theme->store_id !== $storeId) {
-                $notification = [
-                    "title" => "Failed to Update Theme",
-                    "type" => "success",
-                    "message" => "Invalid Theme File",
-                ];
-
-                return response()->json(['notification' => $notification], 400);
-            }
+            $theme = ThemeFile::find($data['theme_file_id']);
 
             unset($data['id']);
 

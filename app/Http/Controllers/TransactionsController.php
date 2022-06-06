@@ -370,7 +370,7 @@ class TransactionsController extends Controller
             }
             //return redirect()->route('transactions.index', $input);
             return response()->json('done');
-        }else if($input['action'] == 'delete') {
+        }else if($input['action'] == 'Delete') {
             $queryObj->delete();
             return response()->json('done');
             //return redirect()->route('transactions.index', $input);
@@ -483,7 +483,7 @@ class TransactionsController extends Controller
             case 'tags':
                 $this->addTag($request, $id);
                 break;
-            
+
             case 'messages':
                 $transaction->createNote($input['type'], $input['message']);
             case 'status':

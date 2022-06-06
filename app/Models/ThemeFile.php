@@ -81,7 +81,28 @@ class ThemeFile extends Model
 
     static function generateParsedContent($content, $data) {
         $message = \Twig::createTemplate($content);
-        return \Twig::render($message, $data);
+        return html_entity_decode(\Twig::render($message, $data));
+    }
+
+    static function getFileTypeID($type) {
+        return array_search($type, self::fileTypes())+1;
+    }
+
+    static function fileTypes() {
+        return [
+            self::TYPE_LAYOUT,
+            self::TYPE_TEMPLATE,
+            self::TYPE_SNIPPET,
+            self::TYPE_ASSET
+        ];
+    }
+
+    static function getImageMimes() {
+        return ['image/jpeg','image/gif','image/png', 'image/jpg'];
+    }
+
+    static function getTextMimes() {
+
     }
 
 }

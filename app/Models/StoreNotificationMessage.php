@@ -12,21 +12,21 @@ class StoreNotificationMessage extends Model
     protected $fillable = [
                         'message',
                         'store_notification_id',
-                        'store_id',            
-                        'user_id',  
+                        'store_id',
+                        'user_id',
                         'channel',
                         'email_subject' ,
-                        'is_custom'   
+                        'is_custom'
                     ];
 
 
-    public static function addNotification($request, $user) 
+    public static function addNotification($request, $user)
     {
 
         $store_notification = null;
 
         if ( !$request->store_notification_id ) {
-            $store_notification = StoreNotification::addNotification($request);  
+            $store_notification = StoreNotification::addNotification($request);
             $request->store_notification_id = $store_notification->id;
         }
 
@@ -60,8 +60,6 @@ class StoreNotificationMessage extends Model
     public function getCustomMessages($store_id) {
         return $this->where(['store_id'=>$store_id, 'is_custom' =>true])->get();
     }
-
-
 
     public static function getAllMessages($store_id, $event){
         return self::with('store_notification')->whereHas('store_notification', function($q) use ($event, $store_id) {

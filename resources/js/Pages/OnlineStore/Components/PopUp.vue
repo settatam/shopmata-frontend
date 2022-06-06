@@ -109,7 +109,7 @@
                   >
                     Upload a file
                   </p>
-                  <p
+                  <a
                     class="
                       lg:mr-11
                       mr-5
@@ -120,12 +120,13 @@
                       ml-4
                       py-2
                       w-4.5/10
+                      cursor-pointer
                     "
                     :class="activeBlank ? 'text-black bg-white' : ''"
                     @click="toggleBtn"
                   >
                     Create a blank file
-                  </p>
+                  </a>
                 </div>
 
                 <div v-if="activeUpload">
@@ -143,7 +144,7 @@
                       @click="filecount"
                       >Choose a file</label
                     >
-                    <input id="file-upload" type="file" multiple /><span
+                    <input id="file-upload" ref="file" type="file"  @change="doFileUpload($event)"/><span
                       class="mt-2"
                       v-if="this.count == 0"
                     >
@@ -330,7 +331,7 @@ import { CheckIcon } from "@heroicons/vue/outline";
 
 export default {
   props: ["text", "creatingContent", "loading"],
-  emits: ["close", "createFile"],
+  emits: ["close", "createFile", "uploadFile"],
   components: {
     Dialog,
     DialogOverlay,
@@ -355,8 +356,9 @@ export default {
     addOption: function () {
       this.creatingContent.title = this.creatingContent.title + this.selected;
     },
-    filecount() {
-      var fi = document.getElementById("file-upload");
+
+      filecount() {
+      let fi = document.getElementById("file-upload");
       if (fi.files.length < 0) {
         this.count = 0;
       } else {
@@ -386,11 +388,17 @@ export default {
       this.selected = "";
     },
   },
-  setup() {
+  setup(props, {emit}) {
     const open = ref(true);
 
+    const doFileUpload = (event) => {
+        emit('uploadFile', event.target.files[0], true);
+        open.value = false;
+    }
+
     return {
-      open,
+        open,
+        doFileUpload
     };
   },
 };

@@ -53,7 +53,7 @@
                             />
                         </div>
                         <div
-                            
+                            v-if="selectedItems.length && actions.length"
                             class="px-3 py-3 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16"
                         >
                             <form
