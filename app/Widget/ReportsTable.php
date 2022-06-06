@@ -76,6 +76,11 @@ class ReportsTable extends Table
                 'sortable' => true,
             ],
             [
+                'key' => 'outgoing_tracking',
+                'label' => 'Outgoing tracking',
+                'sortable' => true,
+            ],
+            [
                 'key' => 'website',
                 'label' => 'Website',
                 'sortable' => true,
@@ -217,6 +222,9 @@ class ReportsTable extends Table
             ->withTotalDwt()
             ->withLabelsFrom()
             ->withLabelsTo()
+            ->withOutgoingTracking()
+            ->withReturnTracking()
+            ->withHoldDate()
             ->withPrivateNote()
             ->withPublicNote()
             ->withPaymentType()
@@ -251,7 +259,7 @@ class ReportsTable extends Table
                         'data' => optional($transaction->trStatus)->name,
                     ],
                     'customer_since' => [
-                        'data' => $transaction->customer->created_at,
+                        'data' => $transaction->customer->created_at->format('Y-m-d'), //2022-05-16T20:42:21.000000Z
                         'class' => 'block w-24'
                     ],
                     'ip_address' => [
@@ -269,11 +277,14 @@ class ReportsTable extends Table
                     'return_tracking' => [
                         'data' => null,
                     ],
+                    'outgoing_tracking' => [
+                        'data' => null,
+                    ],
                     'website' => [
                         'data' => optional($transaction->store)->name,
                     ],
                     'insurance_value' => [
-                        'data' => null,
+                        'data' => $transaction->insurance_value,
                     ],
                     'tags' => [
                         'data' => $transaction->tags == null ? null : $transaction->allTags(),
