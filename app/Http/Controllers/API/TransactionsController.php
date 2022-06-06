@@ -47,11 +47,11 @@ class TransactionsController extends Controller
             $input = $request->input();
             $input['first_name'] = $request->first_name ?? $request->firstname;
             $input['last_name'] = $request->last_name ?? $request->lastname;
-            $customer = Customer::createOrUpdateCustomer($store, $input);
+            $customer = Customer::addNew($store, $input);
 
             Auth::guard('customer')->loginUsingId($customer->id);
 
-            $transaction = Transaction::addNew($store, $request, $customer);
+            $transaction = Transaction::createNew($store, $request, $customer);
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                 ['customer_id' => $customer->id ]
