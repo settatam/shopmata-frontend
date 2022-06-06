@@ -27,6 +27,8 @@ class HomeController extends Controller
             $store_id = session()->get('store_id');
             $store = Store::find($store_id);
             $path = request()->path();
+            $orderBy = $request->order_by ?? 'desc';
+            $sortBy = $request->sort_by ?? 'created_at';
 
             $pageToFind = StorePage::nameFromPath($path);
 
@@ -37,6 +39,7 @@ class HomeController extends Controller
                 $data['transactions'] = Transaction::with('images')
                     ->with('customer')
                     ->where('customer_id', $data['customer']->id)
+                    ->orderBy($sortBy, $orderBy)
                     ->get();
             }
 
