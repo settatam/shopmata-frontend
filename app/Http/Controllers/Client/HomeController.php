@@ -10,6 +10,7 @@ use Auth;
 use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\TransactionPaymentAddress;
+use Illuminate\Routing\Route;
 
 class HomeController extends Controller
 {
@@ -51,6 +52,11 @@ class HomeController extends Controller
         }
 
         return view('pages.index', compact('page'));
+    }
+
+    public function logout() {
+        Auth::guard('customer')->logout();
+        return redirect('customer.login');
     }
 
 
