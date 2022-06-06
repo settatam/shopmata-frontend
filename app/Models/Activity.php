@@ -92,7 +92,7 @@ class Activity extends Model
         }
 
         if(Auth::id()) {
-            $firstname = Auth::user()->first_name
+            $firstname = Auth::user()->first_name;
         }else{
             $firstname = Auth::guard('customer')->first_name;
         }
