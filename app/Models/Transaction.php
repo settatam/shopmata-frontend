@@ -182,6 +182,21 @@ class Transaction extends Model
 //        ]);EstPri
 //    }
 
+    public function scopeWithReturnTracking($query) {
+        return null;
+    }
+
+
+    public function scopeWithOutgoingTracking($query) {
+        return null;
+    }
+
+
+    public function scopeWithHoldDate($query) {
+        return null;
+    }
+
+
     public function scopeWithEstValue($query) {
         return $query->addSelect(['est_value'=>TransactionItem::selectRaw('sum(price) as est_val')
                 ->whereColumn('transactions.id', 'transaction_items.transaction_id')
