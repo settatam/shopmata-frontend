@@ -51,7 +51,7 @@ class TransactionsController extends Controller
 
             Auth::guard('customer')->loginUsingId($customer->id);
 
-            $transaction = Transaction::createNew($store, $request, $customer);
+            $transaction = Transaction::addNew($store, $request, $customer);
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                 ['customer_id' => $customer->id ]
