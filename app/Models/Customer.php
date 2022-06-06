@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
 use App\Http\Helpers\Helper;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 class Customer extends Authenticatable
