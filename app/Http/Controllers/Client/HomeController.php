@@ -33,6 +33,7 @@ class HomeController extends Controller
             $pageToFind = StorePage::nameFromPath($path);
 
             $data = [];
+            $data['seth'] = 'Atam';
 
             if($pageToFind == 'transactions') {
                 $data['customer'] = Auth::guard('customer')->user();
