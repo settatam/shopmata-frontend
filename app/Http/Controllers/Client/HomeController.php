@@ -22,9 +22,6 @@ class HomeController extends Controller
     public function index($account)
     {
         //
-        if(!Auth::guard('customer')->check()) {
-            return redirect('customer/login');
-        }
         if(session()->has('store_id')) {
             //This is probably a store page
             $store_id = session()->get('store_id');
@@ -38,6 +35,10 @@ class HomeController extends Controller
             $data = [];
 
             if($pageToFind == 'transactions') {
+                if(!Auth::guard('customer')->check()) {
+                    return redirect('customer/login');
+                }
+
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transactions'] = Transaction::with('images')
                     ->with('customer')
