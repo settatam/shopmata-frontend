@@ -101,7 +101,7 @@ class Customer extends Model
                 'city'       => $input['state'],
                 'is_default' => 1,
                 'address'    => $input['address'],
-                'address2'   => $input['address2'],
+                'address2'   => $input['apt'],
                 'zip'        => $input['zip'],
             ]
           );
