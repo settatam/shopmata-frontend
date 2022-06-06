@@ -114,39 +114,39 @@ class Customer extends Authenticatable
 
 
 
-    public static function createOrUpdateCustomer($store_id, Request $request, $customer = null)
+    public static function createOrUpdateCustomer($store_id, $input, $customer = null)
     {
         if (!$customer) {
            $customer = new static;
         }
 
 
-        $customer->first_name   = $request->firstname;
-        $customer->last_name    = $request->lastname;
-        $customer->email        = $request->email;
-        $customer->phone_number = $request->phone_number;
-        $customer->lead_id      = $request->lead_id;
+        $customer->first_name   = $input['first_name'];
+        $customer->last_name    = $input['last_name'];
+        $customer->email        = $input['email'];
+        $customer->phone_number = $input['phone_number'];
+        $customer->lead_id      = $input['lead_id'];
         $customer->store_id     = $store_id;
-        $customer->home_phone_number    = $request->home_work;
-        $customer->customer_notes       = $request->customer_notes;
-        $customer->ext                  = $request->ext;
-        $customer->gender               = $request->gender;
-        $customer->password             = bcrypt($request->first_name);
-        $customer->dob                  = $request->dob;
+        $customer->home_phone_number    = $input['home_work'];
+        $customer->customer_notes       = $input['customer_notes'];
+        $customer->ext                  = $input['ext'];
+        $customer->gender               = $input['gender'];
+        $customer->password             = bcrypt($input['first_name']);
+        $customer->dob                  = $input['dob'];
         $customer->is_active    = 1;
         $customer->accepts_marketing = 1;
 
         if ( $customer->save() ) {
             $address = new Address([
-                'first_name' => $request->first_name,
-                'last_name'  => $request->last_name,
-                'state'      => $request->state,
+                'first_name' => $input['first_name'],
+                'last_name'  => $input['last_name'],
+                'state'      => $input['state'],
                 'state_id'   => Helper::getStateId($request->state),
-                'city'       => $request->city,
+                'city'       => $input['city'],
                 'is_default' => 1,
-                'address'    => $request->address,
-                'address2'   => $request->address2,
-                'zip'        => $request->zip,
+                'address'    => $input['address'],
+                'address2'   => $input['address2'],
+                'zip'        => $input['zip'],
             ]
           );
           $customer->address()->save($address);
