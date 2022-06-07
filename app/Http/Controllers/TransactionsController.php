@@ -430,7 +430,7 @@ class TransactionsController extends Controller
 
                 try {
                     $customer_note = TransactionNote::firstOrNew(
-                        ['id' => optional($transaction->publicNote)->id],
+                        ['id' => optional($transaction->publicNote)->id]
                     );
                     $image  = FileUploader::upload($request);
                     if ( isset($image[0]['thumb']) ){
