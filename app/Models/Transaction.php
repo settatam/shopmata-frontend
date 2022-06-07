@@ -64,7 +64,7 @@ class Transaction extends Model
         $store_tag   =  StoreTag::where([ 'tagable_id' => $id, 'tag_id' => $tag_id])->first();
         if (null !== $store_tag){
             $store_tag->delete();
-            Log::info("Tag(s) deleted!", );
+            Log::info("Tag(s) deleted!");
             return true;
         } else {
             $tags  = new StoreTag(['tag_id' => $tag_id]);
@@ -786,7 +786,6 @@ class Transaction extends Model
                 }
             }
 
-            dd($shippingLabel);
         }
 
         return false;
@@ -1053,7 +1052,17 @@ class Transaction extends Model
                 'from' => $from,
                 'to' => $to,
             ];
-            $this->sms()->create($data);
+            $sms = $this->sms()->create($data);
+
+            if ( !empty($images) ) {
+                foreach ($images as $key => $image) {
+                    $sms->images()->create([
+                        'url' => $image,
+                        'rank' => 1,
+                    ]);
+                }
+            }
+
             $note = sprintf('% sent an sms: %s',
                 Auth::user()->full_name,
                 $message
