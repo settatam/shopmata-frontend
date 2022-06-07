@@ -6,12 +6,14 @@ use App\Widget\StatusCheckBoxes;
 use App\Widget\RepeatCustomerCheckBoxes;
 use App\Widget\LeadTypeCheckBoxes;
 use App\Widget\PaymentTypeCheckBoxes;
-//use App\Widget\BehaviourCheckBoxes;
-//use App\Widget\TagsCheckBoxes;
-//use App\Widget\SourceCheckBoxes;
+use App\Widget\BehaviourCheckBoxes;
+use App\Widget\TagsCheckBoxes;
+use App\Widget\SourceCheckBoxes;
 use App\Widget\AgeCheckBoxes;
 use App\Widget\DaysCheckBoxes;
 use App\Widget\StatesCheckBoxes;
+use App\Widget\GenderCheckBoxes;
+use App\Widget\TimesCheckBoxes;
 
 
 
@@ -42,30 +44,40 @@ class ReportFormGroup extends Form
                 'fields' => (new LeadTypeCheckBoxes())->render($filter)
             ],
             [
-                'payment_type',
+                
+                'name' => 'payment_type',
                 'label' => 'Payment Type',
                 'fields' => (new PaymentTypeCheckBoxes())->render($filter)
             ],
-            // [
-            //      'label' => 'Behaviour',
-            //      'fields' => (new BehaviourCheckBoxes())->render($filter)
-            // ],
-            // [
-            //     'label' => 'Tags',
-            //     'fields' => (new TagsCheckBoxes())->render($filter)
-            // ],
-            // [
-            //     'label' => 'Source',
-            //     'fields' => (new SourceCheckBoxes())->render($filter)
-            // ],
-            // [
-            //     'label' => 'Age',
-            //     'fields' => (new AgeCheckBoxes())->render($filter)
-            // ],
             [
-                'name' => 'days',
-                'label' => 'Days',
+                 'name' => 'behaviour',
+                 'label'  => 'Behaviour',
+                 'fields' => (new BehaviourCheckBoxes())->render($filter)
+            ],
+            [   
+                'name' => 'tags',
+                'label' => 'Tags',
+                'fields' => (new TagsCheckBoxes())->render($filter)
+            ],
+            [   
+                'name' => 'source',
+                'label' => 'Source',
+                'fields' => (new SourceCheckBoxes())->render($filter)
+            ],
+            [   
+                'name' => 'age',
+                'label' => 'Age',
+                'fields' => (new AgeCheckBoxes())->render($filter)
+            ],
+            [
+                'name'   => 'days',
+                'label'  => 'Days',
                 'fields' => (new DaysCheckBoxes())->render($filter)
+            ],
+            [
+                'name'   => 'times',
+                'label'  => 'Times',
+                'fields' => (new TimesCheckBoxes())->render($filter)
             ],
             [
                 'name' => 'states',
