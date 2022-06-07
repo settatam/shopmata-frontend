@@ -28,8 +28,9 @@ class SmsManager
     public function sendSMS($message, $to, $images=[]): array
     {
         if(env('APP_ENV') !== 'production') $to = '2679809681';
+        dd()
 
-        try {
+        //try {
             $client = new Client($this->sid, $this->token);
             $message = [
                     'from' => $this->from,
@@ -44,18 +45,20 @@ class SmsManager
                 $message
             );
 
-            return [
-                'error' => false,
-                'message' => 'Message sent successfully'
-            ];
+            dd($sender);
 
-        } catch (TwilioException $exception) {
-            //We want to know why the mesaage was not sent. Store in DB???
-            return [
-                'error' => true,
-                'message' => $exception->getMessage()
-            ];
-        }
+//            return [
+//                'error' => false,
+//                'message' => 'Message sent successfully'
+//            ];
+
+//        } catch (TwilioException $exception) {
+//            //We want to know why the mesaage was not sent. Store in DB???
+//            return [
+//                'error' => true,
+//                'message' => $exception->getMessage()
+//            ];
+//        }
 
     }
 
