@@ -160,7 +160,7 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder=""
                                 required
-                                v-model="CustomerInfo.addressTwo"
+                                v-model="CustomerInfo.address2"
                             />
                         </div>
                     </div>
@@ -639,8 +639,6 @@ export default {
         const selectedCountry = ref(customer.country_id);
         const selectedState = ref(customer.state_id);
         const selectedDob = ref(moment(customer.dob).format("MM-DD-YYYY"));
-        // const selectedTags = ref( customer.tags ? customer.tags[customer.tags.length - 1].id : '')
-        console.log(address);
         const selectedTags = ref(customer.tags);
         const CustomerInfo = reactive({
             customerDifficulty:
@@ -650,7 +648,7 @@ export default {
             first_name: customer.first_name,
             last_name: customer.last_name,
             address: null != address ? address.address : null,
-            addressTwo: null != address ? address.address2 : null,
+            address2: null != address ? address.address2 : null,
             city: null != address ? address.city : null,
             state_id: null != address ? address.state_id : 0,
             zip: null != address ? address.zip : null,

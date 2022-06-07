@@ -99,6 +99,8 @@ trait FileUploader {
                 $name = md5($image->getClientOriginalName());
                 $filename = "item_" . time() . $name . '.jpg';
                 $filename_thumb = "item_" . time() . $name . '_thumb.jpg';
+            }else{
+                 $filename_thumb = $image->getClientOriginalName() . '_thumb.jpg';
             }
 
             try {

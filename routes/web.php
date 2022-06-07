@@ -92,10 +92,12 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('transactions', [ClientHomeController::class, 'index']);
     Route::get('transactions/{id}', [ClientHomeController::class, 'show']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
-    Route::get('customer/login', [ClientHomeController::class, 'index']);
+    Route::get('customer/login', [ClientHomeController::class, 'index'])->name('customer.login');
+    Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');
     Route::post('customer/login', [LoginController::class, 'customerLogin']);
     Route::get('thank-you', [ClientHomeController::class, 'index']);
     Route::get('thank-you/{id}', [ClientHomeController::class, 'index']);
+    Route::post('customer/verify-address', [ClientHomeController::class, 'verifyAddress']);
 });
 
 

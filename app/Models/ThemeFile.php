@@ -85,15 +85,16 @@ class ThemeFile extends Model
     }
 
     static function getFileTypeID($type) {
+        return array_search($type, self::fileTypes())+1;
+    }
 
-        $types = [
-            1 => self::TYPE_LAYOUT,
-            2 => self::TYPE_TEMPLATE,
-            3 => self::TYPE_SNIPPET,
-            4 => self::TYPE_ASSET
+    static function fileTypes() {
+        return [
+            self::TYPE_LAYOUT,
+            self::TYPE_TEMPLATE,
+            self::TYPE_SNIPPET,
+            self::TYPE_ASSET
         ];
-
-        return array_search($type, $types);
     }
 
     static function getImageMimes() {

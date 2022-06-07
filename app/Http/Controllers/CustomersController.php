@@ -40,7 +40,7 @@ class CustomersController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 20;
         $countries = Country::all();
         $data      = [];
@@ -98,9 +98,11 @@ class CustomersController extends Controller
 
         $store_id = $request->store_id ?? 43;
         $store = Store::find($store_id);
+        $input = $request->input();
+
 
         try {
-            Customer::createOrUpdateCustomer($store, $request, null);
+            Customer::createOrUpdateCustomer($store, $input, null);
             \Log::info("New customer added");
             return response()->json(['message'=> "Customer added  successfully"], 200);
         } catch (\Throwable $th) {
@@ -112,7 +114,7 @@ class CustomersController extends Controller
 
 
 
-    
+
 
         /**
      * Update the specified resource in storage.
@@ -153,12 +155,12 @@ class CustomersController extends Controller
                     TransactionPaymentAddress::UpdateCustomerPayment($request, $id);
                    } catch (\Throwable $th) {
                       return response($th->getMessage() ,422);
-                      
+
                    }
                 break;
 
             case 'leads':
-                   
+
                 try {
                     $lead = new Lead;
                     $lead->name = $request->name;
@@ -169,9 +171,9 @@ class CustomersController extends Controller
                     \Log::Error("Failed to Add lead" . collect($request->all())  ."  Error: " .$th->getMessage() );
                     return response($th->getMessage() ,422);
                 }
-                
+
                 break;
-           
+
             case 'tags':
                 $this->addTag($request->tag_id, $id);
                 break;
@@ -223,7 +225,6 @@ class CustomersController extends Controller
         }
 
         $customer->customer_since = \Carbon\Carbon::parse($customer->created_at)->diffForHumans();
-        dd($customer);
         return Inertia::render('Customers/Show', compact('leads','store','customer', 'tags','countries'));
     }
 
@@ -267,9 +268,11 @@ class CustomersController extends Controller
         // ]);
         $store_id = $request->store_id ?? 43;
         $store = Store::find($store_id);
+        $input = $request->input();
+
 
         try {
-            Customer::createOrUpdateCustomer($store, $request, $customer);
+            Customer::createOrUpdateCustomer($store, $input, $customer);
             \Log::info("Customer Updated");
             return response()->json(['message'=> "Customer details updated successfully" ], 200);
         } catch (\Throwable $th) {
@@ -306,5 +309,41 @@ class CustomersController extends Controller
         }
 
         return Inertia::render('Customers/Index', compact('customers', 'data'));
+    }
+
+    public function verifyAddress(Request $request) {
+
+        $request->validate([
+            //'email' => ['required','email','max:75'],
+        ]);
+
+        $store_id = $request->store_id ?? 43;
+
+        $store = Store::find($store_id);
+        $customer = new Customer;
+        //try {
+            $input = $request->input();
+            $input['first_name'] = $request->first_name ?? $request->firstname;
+            $input['last_name'] = $request->last_name ?? $request->lastname;
+            $customer = Customer::addNew($store, $input);
+            Auth::guard('customer')->loginUsingId($customer->id);
+
+            $transaction = Transaction::createNew($store, $request, $customer);
+            $transaction_payment_address = new TransactionPaymentAddress;
+            $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
+                ['customer_id' => $customer->id ]
+            );
+            $transaction_payment_address->transaction_id         =  $transaction->id;
+            $transaction_payment_address->customer_id            =  $customer->id;
+            $transaction_payment_address->payment_type_id        =  $request->payment;
+            $transaction_payment_address->save();
+
+            return response()->json(null, 200);
+//        } catch (\Throwable $th) {
+//            \Log::Error("Failed to save  transaction  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
+//            return response()->json(['message'=> "Failed to save  transaction"], 422);
+//        }
+
+
     }
 }

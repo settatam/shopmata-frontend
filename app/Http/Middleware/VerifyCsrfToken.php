@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/register',
-        '/admin/reports/export'
+        '/admin/reports/export',
+        'customer/verify-address'
     ];
 }

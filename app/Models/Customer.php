@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
 use App\Http\Helpers\Helper;
 use Carbon\Carbon;
+use App\Traits\FileUploader;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, FileUploader;
 
     protected $table = 'customers';
 
@@ -73,46 +76,98 @@ class Customer extends Model
     }
 
 
+   
+
+
     public function age()
     {
         return Carbon::parse($this->dob)->age;
     }
 
+    public function addImage(Store $store, $request, $rank =1)
+    {
+        $images =  $request->file('files');
+        $customer   = Customer::find($request->customer_id);
+        if ($data = $this->uploadImageToCloud($store, $images)) {
 
-
-    public static function createOrUpdateCustomer(Store $store, $request, $customer = null)
-    {  
-        if (!$customer) {
-           $customer = new static;
+            $customer->images()->create([
+                'url' => $data['url'],
+                'thumbnail' => $data['thumb'],
+                'rank' => $rank,
+            ]);
+            return $customer->images;
         }
+    }
 
 
-        $customer->first_name   = $request->first_name;
-        $customer->last_name    = $request->last_name;
-        $customer->email        = $request->email;
-        $customer->phone_number = $request->phone_number;
-        $customer->lead_id      = $request->lead_id;
+    public static function addNew(Store $store, $input)
+    {
+        $customer = new static;
+
+        $customer->first_name   = $input['first_name'];
+        $customer->last_name    = $input['last_name'];
+        $customer->email        = $input['email'];
+        $customer->phone_number = $input['phone'];
         $customer->store_id     = $store->id;
-        $customer->home_phone_number    = $request->home_work;
-        $customer->customer_notes       = $request->customer_notes;
-        $customer->ext                  = $request->ext;
-        $customer->gender               = $request->gender;
-        $customer->password             = bcrypt($request->first_name);
-        $customer->dob                  = $request->dob;
+        //$customer->customer_notes  = $input['description'];
+        $customer->password = bcrypt($input['first_name']);
         $customer->is_active    = 1;
         $customer->accepts_marketing = 1;
 
         if ( $customer->save() ) {
             $address = new Address([
-                'first_name' => $request->first_name,
-                'last_name'  => $request->last_name,
-                'state'      => $request->state,
-                'state_id'   => Helper::getStateId($request->state),
-                'city'       => $request->city,
+                'first_name' => $input['first_name'],
+                'last_name'  => $input['last_name'],
+                'state'      => $input['state'],
+                'state_id'   => Helper::getStateId($input['state']),
+                'city'       => $input['state'],
                 'is_default' => 1,
-                'address'    => $request->address,
-                'address2'   => $request->address2,
-                'zip'        => $request->zip,
+                'address'    => $input['address'],
+                'address2'   => $input['apt'],
+                'zip'        => $input['zip'],
+            ]
+          );
+          $customer->address()->save($address);
+        }
+
+        return $customer;
+    }
+
+
+
+    public static function createOrUpdateCustomer($store_id, $input, $customer = null)
+    {
+        if (!$customer) {
+           $customer = new static;
+        }
+
+
+        $customer->first_name   = $input['first_name'];
+        $customer->last_name    = $input['last_name'];
+        $customer->email        = $input['email'];
+        $customer->phone_number = $input['phone_number'];
+        $customer->lead_id      = $input['lead_id'];
+        $customer->store_id     = $store_id;
+        $customer->home_phone_number    = $input['home_work'];
+        $customer->customer_notes       = $input['customer_notes'];
+        $customer->ext                  = $input['ext'];
+        $customer->gender               = $input['gender'];
+        $customer->password             = bcrypt($input['first_name']);
+        $customer->dob                  = $input['dob'];
+        $customer->is_active    = 1;
+        $customer->accepts_marketing = 1;
+
+        if ( $customer->save() ) {
+            $address = new Address([
+                'first_name' => $input['first_name'],
+                'last_name'  => $input['last_name'],
+                'state'      => isset($input['state']) ?  $input['state'] : null,
+                'state_id'   => $input['state_id'],
+                'city'       => $input['city'],
+                'is_default' => 1,
+                'address'    => $input['address'],
+                'address2'   => $input['address2'],
+                'zip'        => $input['zip'],
             ]
           );
           $customer->address()->save($address);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\OnlineStore;
 
+use App\Models\ThemeFileVersion;
 use Inertia\Inertia;
 use App\Models\Store;
 use App\Models\ThemeFile;
@@ -15,6 +16,7 @@ use App\Models\Theme;
 use Illuminate\Support\Str;
 use App\Traits\FileUploader;
 use Illuminate\Support\Facades\Storage;
+use App\Models\StoreTheme;
 
 class CodeEditorController extends Controller
 {
@@ -32,24 +34,18 @@ class CodeEditorController extends Controller
 
         $theme_id = $request->theme_id;
         $theme_files = [];
-        $theme = Theme::with('layout')
-            ->with('assets')
-            ->with('snippets')
-            ->with('templates')
-            ->find($theme_id);
+        $theme = Theme::with(['files' => function($query) use ($store, $request){
+            $query->where('store_id', $store->id);
+        }])->find($theme_id);
 
-        $files['layout'] = $theme->layout;
-        $files['template'] = $theme->templates;
-        $files['asset'] = $theme->assets;
-        $files['snippet'] = $theme->snippets;
+        $filesGroup = $theme->files->groupBy('type');
+        $files = $filesGroup->all();
+
+        foreach(ThemeFile::fileTypes() as $type) {
+            if(!array_key_exists($type, $files)) $files[$type] = [];
+        }
 
         $open_files = OpenEditorPage::forStore($store);
-
-        for($i=0; $i<sizeof($open_files); $i++) {
-//            $open_files[$i]->content = $open_files[$i]->theme_file->content;
-//            $open_files[$i]->name = $open_files[$i]->theme_file->title;
-//            $open_files[$i]->edited_content = $open_files[$i]->theme_file->content;
-        }
 
         count($theme_files) === 0 ? $theme_files = (object)[] : "";
         // count($open_files) === 0 ? $open_files = (object)[] : "";
@@ -98,7 +94,7 @@ class CodeEditorController extends Controller
             }
 
             $data['type_id'] = ThemeFile::getFileTypeID($data['type']);
-            $data['store_id'] = session('store_id');
+            $data['store_id'] = session()->get('store_id');
             $data['user_id'] = Auth::id();
 
             if ($theme = ThemeFile::create($data)) {
@@ -233,8 +229,15 @@ class CodeEditorController extends Controller
                'theme_id' => $request->theme_id,
                'type' => ThemeFile::TYPE_ASSET,
                'image_url' => $image['url'],
-               'title' => $fileName
+               'title' => $fileName,
+               'store_id' => session()->get('store_id')
            ];
+           $themeFile = ThemeFile::create(
+               $data
+           );
+
+           Log::Info(Auth::id() . ' created a new asset', $data);
+
         }else{
             $extension = '';
             if(Str::contains($fileName, [
@@ -242,13 +245,33 @@ class CodeEditorController extends Controller
                 'js.twig'
             ])) {
                 //Conversion should take place
+                $fileContent = $file->getContent();
                 $filename = Str::replace($fileName, '.twig');
+
             }
 
             Storage::disk('DO')->put($store->slug . '/' . $fileName, $file->getContent(), 'public');
-        }
+            $data = [
+                'theme_id' => $request->theme_id,
+                'type' => ThemeFile::TYPE_ASSET,
+                'title' => $fileName,
+                'content' => $file->getContent(),
+                'store_id' => session()->get('store_id')
+           ];
+            $themeFile = ThemeFile::create(
+                $data
+            );
 
-//        dd($fileType);
+            ThemeFileVersion::create(
+                [
+                    'theme_file_id' => $themeFile->id,
+                    'user_id' => Auth::id(),
+                    'content' => $file->getContent()
+                ]
+            );
+
+            Log::Info(Auth::id() . ' created a new asset', $data);
+        }
 
     }
 
