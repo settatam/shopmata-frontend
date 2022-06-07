@@ -1042,18 +1042,30 @@ class Transaction extends Model
         return array_values($response);
     }
 
-    public function sendSMS($message) {
+    public function sendSMS($input) {
         $smsMessage = new SmsManager();
         $to = $this->customer->phone_number;
         $from = $this->store->sms_send_from;
-        $sender = $smsMessage->sendSMS($message, $to);
+        $message = $input['message'];
+        $images  = $input['images'];
+        $sender = $smsMessage->sendSMS($message, $to, $images);
         if(!$sender['error']) {
             $data = [
                 'message' => $message,
                 'from' => $from,
                 'to' => $to,
             ];
-            $this->sms()->create($data);
+            $sms = $this->sms()->create($data);
+
+            if ( !empty($images) ) {
+                foreach ($images as $key => $image) {
+                    $sms->images()->create([
+                        'url' => $image,
+                        'rank' => $rank,
+                    ]);
+                }
+            }
+
             $note = sprintf('% sent an sms: %s',
                 Auth::user()->full_name,
                 $message
