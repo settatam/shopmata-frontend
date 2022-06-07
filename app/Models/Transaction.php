@@ -435,7 +435,7 @@ class Transaction extends Model
     }
 
 
- 
+
 
 
 
@@ -786,7 +786,6 @@ class Transaction extends Model
                 }
             }
 
-            dd($shippingLabel);
         }
 
         return false;
@@ -1042,12 +1041,10 @@ class Transaction extends Model
         return array_values($response);
     }
 
-    public function sendSMS($input) {
+    public function sendSMS($message, $images=[]) {
         $smsMessage = new SmsManager();
         $to = $this->customer->phone_number;
         $from = $this->store->sms_send_from;
-        $message = $input['message'];
-        $images  = $input['images'];
         $sender = $smsMessage->sendSMS($message, $to, $images);
         if(!$sender['error']) {
             $data = [

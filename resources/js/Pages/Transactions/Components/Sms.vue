@@ -167,7 +167,7 @@ function addMessage() {
     loadingAnimation.value = true
 
     axios.post(urls.transactions.sms(props.id), {
-        message: smsMessage.value
+        message: smsMessage.value,images: largeImagesUrls.value
     }).then((res) => {
         loadingAnimation.value = false
     })
