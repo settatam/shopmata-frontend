@@ -472,7 +472,8 @@ class TransactionsController extends Controller
                     }
                     break;
             case 'sms':
-                $transaction->sendSms($input['message']);
+                $images = $request->images ?? [];
+                $transaction->sendSms($input['message'], $images);
                 break;
             case 'offer':
                 $transaction->addOffer($input['offer']);
