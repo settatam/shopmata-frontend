@@ -6,7 +6,7 @@
 
         <!-- sms chatbox starts -->
         <div>
-            <div v-if="transaction.length > 0" class="px-1 space-y-2 h-48 overflow-y-auto">
+            <div v-if="transaction.length > 0" class="px-3 space-y-2 h-48 overflow-y-auto">
                 <template class="bg-gray-lightest p-4 " v-for="(sms, index) in transaction.slice().reverse()"
                     :key="sms.index">
                     <div class="flex items-end justify-end" v-if="sms.is_coming">
