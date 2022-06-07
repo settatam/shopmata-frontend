@@ -74,6 +74,7 @@ export default {
             text.value = "Uploading....";
             saveFiles(acceptFiles, props.payload, props.values)
                 .then((res) => {
+                    console.log(res)
                     emit("add-image", res);
                     loading.value = false;
                     text.value = "Choose file";

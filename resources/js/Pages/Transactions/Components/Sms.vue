@@ -48,10 +48,7 @@
                             class="block w-full border-0 py-2 resize-none placeholder-gray-500 focus:ring-0 sm:text-sm"
                             v-model="smsMessage" placeholder="Write a description..." />
 
-                            <images-list 
-                            :images="images"
-                            @image-deleted="delete_img" 
-                        />
+                        <images-list />
 
                         <!-- Spacer element to match the height of the toolbar -->
                         <div aria-hidden="true">
@@ -82,8 +79,8 @@
                                     <PaperClipIcon class="-ml-1 h-5 w-5 mr-2 group-hover:text-gray-500"
                                         aria-hidden="true" />
                                     <!-- </button> -->
-                                    <input type="file" class="hidden " id="file" name="image"
-                                        accept="image/gif,image/jpeg,image/jpg,image/png" multiple=""
+                                    <input @change="uploadImage($event)" type="file" class="hidden " id="file"
+                                        name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple=""
                                         data-original-title="upload photos">
                                 </label>
                             </div>
@@ -111,12 +108,14 @@
 
 <script>
 import { computed } from '@vue/runtime-core'
+import axios from 'axios'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import { ref, reactive } from 'vue'
 import Button from '../../../Components/Button.vue'
 import ImagesList from '../../../Components/ImageList.vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/vue/solid'
+import fileUploader from "../../../Utils/fileUploader";
 
 export default {
     components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon, ImagesList },
@@ -126,10 +125,29 @@ export default {
         let smsMessage = ref('');
         const buttonName = ref('Send Message')
         const loadingAnimation = ref(false)
+        const url = "/admin/images";
+        const previewImage = ref(null)
+        const { saveFiles } = fileUploader();
+
+        // test
+        function uploadImage(event) {
+            /* let data = new FormData();
+            data.append('file', event.target.files[0]); */
+
+            // const image = event.target.files[0];
+            // const reader = new FileReader(image);
+            // reader.readAsDataURL(image);
+            // reader.onload = event => {
+            //     previewImage.value = event.target.result;
+            //     console.log(this.previewImage);
+            // };
+            let acceptFiles = event.target.files
+            saveFiles(Array.from(acceptFiles), {model: 'sms', transaction_id: 12803}, null)
+            .then((res)=>console.log(res))
+        }
+
         // test
 
-
-        // test
 
         function formatDate(date) {
             var hours = date.getHours()
@@ -146,7 +164,7 @@ export default {
             loadingAnimation.value = true
             axios.post('/admin/transactions/' + props.id + '/sms', {
                 message: smsMessage.value
-            }).then(res => {
+            }).then((res) => {
                 loadingAnimation.value = false
             })
         }
@@ -158,7 +176,7 @@ export default {
             })
         })
 
-        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation }
+        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, uploadImage, previewImage }
     }
 }
 </script>
