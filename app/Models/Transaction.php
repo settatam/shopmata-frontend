@@ -64,7 +64,7 @@ class Transaction extends Model
         $store_tag   =  StoreTag::where([ 'tagable_id' => $id, 'tag_id' => $tag_id])->first();
         if (null !== $store_tag){
             $store_tag->delete();
-            Log::info("Tag(s) deleted!", );
+            Log::info("Tag(s) deleted!");
             return true;
         } else {
             $tags  = new StoreTag(['tag_id' => $tag_id]);
@@ -1061,7 +1061,7 @@ class Transaction extends Model
                 foreach ($images as $key => $image) {
                     $sms->images()->create([
                         'url' => $image,
-                        'rank' => $rank,
+                        'rank' => 1,
                     ]);
                 }
             }

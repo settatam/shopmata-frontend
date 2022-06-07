@@ -162,7 +162,7 @@ class TransactionsController extends Controller
         try {
             $transaction = Transaction::find($request->transaction_id);
             $customer_note = TransactionNote::firstOrNew(
-                ['id' => optional($transaction->public_note)->id],
+                ['id' => optional($transaction->public_note)->id]
             );
             $customer_note->transaction_id = $request->transaction_id;
             $customer_note->customer_id    = $request->customer_id;
@@ -189,7 +189,7 @@ class TransactionsController extends Controller
 
             if ( $transaction ) {
                 $transaction  = Transaction::findorFail($request->transaction_id);
-                Log::info("Note(s) Updated!", );
+                Log::info("Note(s) Updated!");
                 return response($transaction->load('publicNote','privateNote'),200);
             }
 
@@ -206,7 +206,7 @@ class TransactionsController extends Controller
     {
         try {
             Image::deleteImage($request);
-            Log::info("Image(s) Delete!", );
+            Log::info("Image(s) Delete!");
             return response("Image deleted ",200);
         } catch (\Throwable $th) {
             \Log::Error("Failed to delete  image" . collect($request->all())  ."  Error: " .$th->getMessage() );
@@ -472,7 +472,7 @@ class TransactionsController extends Controller
                     }
                     break;
             case 'sms':
-                $transaction->sendSms($input['message']);
+                $transaction->sendSms($input);
                 break;
             case 'offer':
                 $transaction->addOffer($input['offer']);
