@@ -34,6 +34,8 @@ class ReportsController extends Controller
     }
 
     public function export(Request $request) {
+        ini_set('memory_limit', -1);
+        ini_set('max_execution_time', 300);
         $filters = $request->input();
         return Excel::download(new ReportsExport($filters), 'reports.xlsx');
     }

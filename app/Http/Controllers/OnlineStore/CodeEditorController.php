@@ -251,6 +251,7 @@ class CodeEditorController extends Controller
             }
 
             Storage::disk('DO')->put($store->slug . '/' . $fileName, $file->getContent(), 'public');
+
             $data = [
                 'theme_id' => $request->theme_id,
                 'type' => ThemeFile::TYPE_ASSET,
