@@ -127,6 +127,7 @@ export default {
         const url = "/admin/images";
         let images = ref([])
         const { saveFiles } = fileUploader();
+        const largeImagesUrls = ref([])
 
         function previewImages(event) {
             let acceptFiles = event.target.files
@@ -134,59 +135,52 @@ export default {
                 .then((res) => {
                     images.value = res.data
                     console.log(images.value)
+                }).then(() => {
+                    largeImagesUrls.value = []
+                    images.value.filter((image) => {
+                        largeImagesUrls.value.push(image.large)
+                    })
                 })
                 .catch((err) => console.log(err))
         }
 
-        const largeImagesUrls = computed(()=>{
-            const newnew = []
-            images.value.filter((image)=>{
-                newnew.push(image.large)
-            })
-            
 
-            return newnew
-        })
+    function delete_img(index) {
+    images.value.splice(index)
+}
+
+// test
 
 
+function formatDate(date) {
+    var hours = date.getHours()
+    var minutes = date.getMinutes()
+    var ampm = hours >= 12 ? 'pm' : 'am'
+    hours = hours % 12
+    hours = hours ? hours : 12 // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    var strTime = hours + ':' + minutes + ' ' + ampm
+    return date.getMonth() + 1 + '/' + date.getDate() + '  ' + strTime
+}
 
-        function delete_img(index) {
-            images.value.splice(index)
-        }
+function addMessage() {
+    loadingAnimation.value = true
 
-        // test
+    axios.post(urls.transactions.sms(props.id), {
+        message: smsMessage.value
+    }).then((res) => {
+        loadingAnimation.value = false
+    })
+}
 
+const formattedTimes = computed(() => {
+    return smsTimes.map(item => {
+        let d = new Date(Date.parse(item.created_at))
+        return formatDate(d)
+    })
+})
 
-        function formatDate(date) {
-            var hours = date.getHours()
-            var minutes = date.getMinutes()
-            var ampm = hours >= 12 ? 'pm' : 'am'
-            hours = hours % 12
-            hours = hours ? hours : 12 // the hour '0' should be '12'
-            minutes = minutes < 10 ? '0' + minutes : minutes
-            var strTime = hours + ':' + minutes + ' ' + ampm
-            return date.getMonth() + 1 + '/' + date.getDate() + '  ' + strTime
-        }
-
-        function addMessage() {
-            loadingAnimation.value = true
-            uploadImage()
-
-            axios.post(urls.transactions.sms(props.id), {
-                message: smsMessage.value, largeImagesUrls
-            }).then((res) => {
-                loadingAnimation.value = false
-            })
-        }
-
-        const formattedTimes = computed(() => {
-            return smsTimes.map(item => {
-                let d = new Date(Date.parse(item.created_at))
-                return formatDate(d)
-            })
-        })
-
-        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
+return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
     }
 }
 </script>
