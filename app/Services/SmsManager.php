@@ -25,18 +25,23 @@ class SmsManager
     /**
      * @throws SMSException
      */
-    public function sendSMS($message, $to): array
+    public function sendSMS($message, $to, $images=[]): array
     {
         if(env('APP_ENV') !== 'production') $to = '2679809681';
 
         try {
             $client = new Client($this->sid, $this->token);
-            $sender =  $client->messages->create(
-                $to,
-                [
+            $message = [
                     'from' => $this->from,
                     'body' => $message
-                ]
+                ];
+
+            if(count($images)) {
+                $message['mediaUrl'] = $images;
+            }
+            $sender =  $client->messages->create(
+                $to,
+                $message
             );
 
             return [
