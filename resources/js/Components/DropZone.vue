@@ -72,9 +72,9 @@ export default {
         function onDrop(acceptFiles, rejectReasons) {
             loading.value = true;
             text.value = "Uploading....";
+            console.log()
             saveFiles(acceptFiles, props.payload, props.values)
                 .then((res) => {
-                    console.log(res)
                     emit("add-image", res);
                     loading.value = false;
                     text.value = "Choose file";
