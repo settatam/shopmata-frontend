@@ -73,12 +73,13 @@ trait FileUploader {
 
                 // $rank++;
 
-                $response[] = ['status'=>0,
-                            'message'=>'Image Created',
-                            'thumb'=>$data['thumb'],
-                            'large'=>$data['url'],
-                            'alt'=>'',
-                            'id'=>$insert->id,
+                $response[] = [
+                    'status'=>0,
+                    'message'=>'Image Created',
+                    'thumb'=>$data['thumb'],
+                    'large'=>$data['url'],
+                    'alt'=>'',
+                    'id'=>$insert->id,
                 ];
             }
         }

@@ -35,6 +35,7 @@ class HomeController extends Controller
             $data = [];
 
             if($pageToFind == 'transactions') {
+
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
                 }
