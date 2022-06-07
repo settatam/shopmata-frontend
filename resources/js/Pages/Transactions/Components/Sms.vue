@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed, watch } from '@vue/runtime-core'
 import axios from 'axios'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import { ref, reactive } from 'vue'
@@ -114,7 +114,7 @@ import ImagesList from '../../../Components/ImageList.vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/vue/solid'
 import fileUploader from "../../../Utils/fileUploader";
-import urls from '../../api/urls'
+import urls from '../../../api/urls'
 
 export default {
     components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon, ImagesList },
@@ -137,6 +137,18 @@ export default {
                 })
                 .catch((err) => console.log(err))
         }
+
+        const largeImagesUrls = computed(()=>{
+            const newnew = []
+            images.value.filter((image)=>{
+                newnew.push(image.large)
+            })
+            
+
+            return newnew
+        })
+
+
 
         function delete_img(index) {
             images.value.splice(index)
@@ -161,7 +173,7 @@ export default {
             uploadImage()
 
             axios.post(urls.transactions.sms(props.id), {
-                message: smsMessage.value
+                message: smsMessage.value, largeImagesUrls
             }).then((res) => {
                 loadingAnimation.value = false
             })
@@ -174,7 +186,7 @@ export default {
             })
         })
 
-        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img }
+        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
     }
 }
 </script>
