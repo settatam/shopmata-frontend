@@ -6,7 +6,7 @@
 
         <!-- sms chatbox starts -->
         <div>
-            <div v-if="transaction.length > 0" class="px-1 space-y-2 h-48 overflow-y-auto">
+            <div v-if="transaction.length > 0" class="px-3 space-y-2 h-48 overflow-y-auto">
                 <template class="bg-gray-lightest p-4 " v-for="(sms, index) in transaction.slice().reverse()"
                     :key="sms.index">
                     <div class="flex items-end justify-end" v-if="sms.is_coming">
@@ -48,11 +48,6 @@
                             class="block w-full border-0 py-2 resize-none placeholder-gray-500 focus:ring-0 sm:text-sm"
                             v-model="smsMessage" placeholder="Write a description..." />
 
-                            <images-list 
-                            :images="images"
-                            @image-deleted="delete_img" 
-                        />
-
                         <!-- Spacer element to match the height of the toolbar -->
                         <div aria-hidden="true">
                             <div class="py-2">
@@ -82,8 +77,8 @@
                                     <PaperClipIcon class="-ml-1 h-5 w-5 mr-2 group-hover:text-gray-500"
                                         aria-hidden="true" />
                                     <!-- </button> -->
-                                    <input type="file" class="hidden " id="file" name="image"
-                                        accept="image/gif,image/jpeg,image/jpg,image/png" multiple=""
+                                    <input @change="previewImages($event)" type="file" class="hidden " id="file"
+                                        name="image" accept="image/gif,image/jpeg,image/jpg,image/png" multiple=""
                                         data-original-title="upload photos">
                                 </label>
                             </div>
@@ -96,9 +91,9 @@
                         </div>
                     </div>
                 </form>
+
+                <images-list class="mx-3" :images="images" v-if="images.length" @image-deleted="delete_img" />
             </div>
-
-
 
 
             <div class="flex justify-center">
@@ -110,13 +105,16 @@
 </template>
 
 <script>
-import { computed } from '@vue/runtime-core'
+import { computed, watch } from '@vue/runtime-core'
+import axios from 'axios'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import { ref, reactive } from 'vue'
 import Button from '../../../Components/Button.vue'
 import ImagesList from '../../../Components/ImageList.vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/vue/solid'
+import fileUploader from "../../../Utils/fileUploader";
+import urls from '../../../api/urls'
 
 export default {
     components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon, ImagesList },
@@ -126,39 +124,63 @@ export default {
         let smsMessage = ref('');
         const buttonName = ref('Send Message')
         const loadingAnimation = ref(false)
-        // test
+        const url = "/admin/images";
+        let images = ref([])
+        const { saveFiles } = fileUploader();
+        const largeImagesUrls = ref([])
 
-
-        // test
-
-        function formatDate(date) {
-            var hours = date.getHours()
-            var minutes = date.getMinutes()
-            var ampm = hours >= 12 ? 'pm' : 'am'
-            hours = hours % 12
-            hours = hours ? hours : 12 // the hour '0' should be '12'
-            minutes = minutes < 10 ? '0' + minutes : minutes
-            var strTime = hours + ':' + minutes + ' ' + ampm
-            return date.getMonth() + 1 + '/' + date.getDate() + '  ' + strTime
+        function previewImages(event) {
+            let acceptFiles = event.target.files
+            saveFiles(Array.from(acceptFiles))
+                .then((res) => {
+                    images.value = res.data
+                    console.log(images.value)
+                }).then(() => {
+                    largeImagesUrls.value = []
+                    images.value.filter((image) => {
+                        largeImagesUrls.value.push(image.large)
+                    })
+                })
+                .catch((err) => console.log(err))
         }
 
-        function addMessage() {
-            loadingAnimation.value = true
-            axios.post('/admin/transactions/' + props.id + '/sms', {
-                message: smsMessage.value
-            }).then(res => {
-                loadingAnimation.value = false
-            })
-        }
 
-        const formattedTimes = computed(() => {
-            return smsTimes.map(item => {
-                let d = new Date(Date.parse(item.created_at))
-                return formatDate(d)
-            })
-        })
+    function delete_img(index) {
+    images.value.splice(index)
+}
 
-        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation }
+// test
+
+
+function formatDate(date) {
+    var hours = date.getHours()
+    var minutes = date.getMinutes()
+    var ampm = hours >= 12 ? 'pm' : 'am'
+    hours = hours % 12
+    hours = hours ? hours : 12 // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    var strTime = hours + ':' + minutes + ' ' + ampm
+    return date.getMonth() + 1 + '/' + date.getDate() + '  ' + strTime
+}
+
+function addMessage() {
+    loadingAnimation.value = true
+
+    axios.post(urls.transactions.sms(props.id), {
+        message: smsMessage.value
+    }).then((res) => {
+        loadingAnimation.value = false
+    })
+}
+
+const formattedTimes = computed(() => {
+    return smsTimes.map(item => {
+        let d = new Date(Date.parse(item.created_at))
+        return formatDate(d)
+    })
+})
+
+return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
     }
 }
 </script>
