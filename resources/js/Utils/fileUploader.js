@@ -4,12 +4,10 @@ export default () => {
     const saveFiles = (files, payload = null, values = null) => {
         const formData = new FormData();
 
-        //console.log(values);
-
         files.map((file) => {
             formData.append("files[]", file);
             formData.append("type", "image");
-            if (typeof payload != null) {
+            if (payload) {
                 formData.append("model", payload.model);
                 formData.append("transaction_id", payload.transaction_id);
                 formData.append("customer_id", payload.customer_id);

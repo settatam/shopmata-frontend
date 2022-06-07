@@ -5,6 +5,7 @@ export default {
         newKit: (id) => `/admin/transactions/${id}/create-new-kit`,
         message: (id) => `/admin/transactions/${id}/messages`,
         bin_location: (id) => `/admin/transactions/${id}/bin_location`,
+        sms: (id) => `/admin/transactions/${id}/sms`
     },
     reports: {
         formGroup: () => `/admin/reports/form-group`,

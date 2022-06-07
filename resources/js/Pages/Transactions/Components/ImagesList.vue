@@ -1,27 +1,16 @@
 <template>
     <!-- image modal start -->
-   <ImageModal
-        :enlargedImage="images[selected].url"
-        @close="popUp = false"
-        v-if="popUp"
-    />
+    <ImageModal :enlargedImage="images[selected].url" @close="popUp = false" v-if="popUp" />
     <!-- image modal ends -->
     <ul role="list" class="divide-y divide-gray-200 w-100">
-        <li
-            v-for="(image, index) in images"
-            :key="image.id"
-            class="flex justify-between border-b border-gray-300"
-            :id="'image_' + image.id"
-        >
-          
-            <div class="w-3/10 py-3">
-                <img
-                    @click="popModal(index)"
-                    class="h-10 w-10 cursor-pointer"
-                    :src="image.url"
-                    alt=""
-                />
+        <li v-for="(image, index) in images" :key="image.id" class="flex justify-between border-b border-gray-300"
+            :id="'image_' + image.id">
+
+            <div v-if="image.url" class="w-3/10 py-3">
+                <img @click="popModal(index)" class="h-10 w-10 cursor-pointer" :src="image.url" alt="" />
             </div>
+
+
             <div class="flex-grow w-5/10">
                 <!-- <div class="border-r border-l px-6 py-3 border-gray-300">
                     <input
@@ -33,17 +22,10 @@
                 </div> -->
             </div>
             <div class="flex items-center px-2 py-3 justify-around w-2/10">
-                <LoadingSpinner
-                    v-if="loading == index"
-                    class="w-6 h-6 ml-8 text-purple-background"
-                />
+                <LoadingSpinner v-if="loading == index" class="w-6 h-6 ml-8 text-purple-background" />
 
-                <TrashIcon
-                    v-else
-                    class="w-6 h-6 text-red-500 cursor-pointer"
-                    :id="image.id"
-                    @click="deleteImg(image.id, index)"
-                />
+                <TrashIcon v-else class="w-6 h-6 text-red-500 cursor-pointer" :id="image.id"
+                    @click="deleteImg(image.id, index)" />
             </div>
         </li>
     </ul>
@@ -55,7 +37,7 @@ import { ref, reactive } from 'vue'
 import axios from 'axios'
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 import ImageModal from './ImageModal.vue'
-import  notification from '../../../Utils/notification'
+import notification from '../../../Utils/notification'
 
 export default {
     components: {
@@ -67,8 +49,8 @@ export default {
         'images',
     ],
     emits: ['image-deleted'],
-    setup (props, { emit }) {
-        const  { onClickTop, onClickBot } = notification();
+    setup(props, { emit }) {
+        const { onClickTop, onClickBot } = notification();
         const popUp = ref(false)
         const selected = ref(null)
         const message = ref('')
@@ -79,7 +61,7 @@ export default {
 
         const loading = ref(null)
 
-        function deleteImg (id, index) {
+        function deleteImg(id, index) {
             loading.value = index
             axios
                 .post('/admin/transaction/image/delete', { image_id: id })
@@ -98,7 +80,7 @@ export default {
                 })
         }
 
-    
+
 
         return {
             deleteImg,
