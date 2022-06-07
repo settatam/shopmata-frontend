@@ -4,9 +4,9 @@
             <h2 class="text-xs font-bold  text-purple-darken">FILTER BY:</h2>
         </div>
 
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="flex flex-wrap">
             <div
-                class="w-full my-2 border  bg-white"
+                class="my-2 border bg-white"
                 v-for="(item, mainIndex) in filterLists"
                 :key="mainIndex"
             >
