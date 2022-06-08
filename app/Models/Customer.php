@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Traits\FileUploader;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Numeral\Numeral;
 
 
 class Customer extends Authenticatable
@@ -28,6 +29,7 @@ class Customer extends Authenticatable
         'activation_status',
         'timezone',
         'transaction_count',
+        'dob'
     ];
 
     protected $fillable = [
@@ -49,7 +51,7 @@ class Customer extends Authenticatable
         'customer_notes',
         'gender',
         'home_phone_number',
-        'ext'
+        'ext',
 
     ];
 
@@ -74,9 +76,6 @@ class Customer extends Authenticatable
     {
         return $this->belongsTo(Lead::class);
     }
-
-
-   
 
 
     public function age()
@@ -140,7 +139,6 @@ class Customer extends Authenticatable
         if (!$customer) {
            $customer = new static;
         }
-
 
         $customer->first_name   = $input['first_name'];
         $customer->last_name    = $input['last_name'];
@@ -243,6 +241,7 @@ class Customer extends Authenticatable
         return $this->morphOne(StoreTag::class, 'tagable')->where('type','behavior');
     }
 
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
@@ -305,12 +304,24 @@ class Customer extends Authenticatable
         return count($this->transactions);
     }
 
+    public function scopeTotalPayout() {
+        $totalPayout = 0;
+        return Numeral::number($totalPayout)->format('$0,0.00');
+    }
+
     public function getNameAttribute() {
         return $this->first_name  . ' ' . $this->last_name;
     }
 
     public function getPhoneAttribute() {
         return optional($this->address)->phone;
+    }
+
+    public function getAgeAttribute() {
+        if(null !== $this->dob) {
+            return \Carbon\Carbon::parse($this->dob)->age;
+        }
+        return '';
     }
 
 //    public function getStateAttribute() {

@@ -203,6 +203,21 @@ class Transaction extends Model
         ]);
     }
 
+    public function getEstimatedProfit() {
+        if($this->est_value && $this->offer) {
+            return Numeral::number($this->offer - $this->est_value)->format('$0,0.00');
+        }
+        return '';
+    }
+
+    public function getProfitPercent() {
+        if($this->est_value && $this->offer) {
+            $percent = (($this->offer - $this->est_value) / $this->est_value) * 100;
+            return round($percent, 2) . '%';
+        }
+        return '';
+    }
+
     public function scopeWithPaymentType($query) {
         return $query->addSelect(['transaction_payment_type'=>PaymentType::selectRaw('name as transaction_payment_type')
                 ->whereColumn('transactions.payment_method_id', 'payment_types.id')
@@ -299,14 +314,6 @@ class Transaction extends Model
                 ->where('transaction_notes.type', 'public')
                 ->take(1)->latest()
         ]);
-    }
-
-    public function getProfitPercent($offer, $est_val) {
-        if(isset($est_val) && isset($offer)) {
-            $result = ($offer - $est_val) / 100;
-            return Numeral::number($result)->format('0.0%');
-        }
-        return null;
     }
 
     public function scopeWithPrivateNote($query) {
@@ -525,7 +532,7 @@ class Transaction extends Model
 
     public function getPercentageProfitAttribute(){
         if($this->est_value && $this->offer) {
-            return $this->getProfitPercent($this->offer, $this->est_value);
+            return $this->getProfitPercent();
         }
 
         return null;
@@ -557,12 +564,12 @@ class Transaction extends Model
 //        return optional($this->paymentTy)->name;
 //    }
 
-//    public function getEstimatedProfitAttribute() {
-//        if($this->est_value && $this->final_offer) {
-//            return round(($this->value - $this->final_offer), 2);
-//        }
-//        return '';
-//    }
+    public function getEstimatedProfitAttribute() {
+        if($this->est_value && $this->final_offer) {
+            return round(($this->value - $this->final_offer), 2);
+        }
+        return '';
+    }
 
 //    public function getStatusAttribute() {
 //        return optional($this->trStatus)->name;

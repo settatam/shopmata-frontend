@@ -54,7 +54,7 @@ class ReportsTable extends Table
                 'label' => 'Ip Address',
                 'sortable' => true,
             ],
-            
+
             [
                 'key' => 'keyword',
                 'label' => 'Keyword',
@@ -166,8 +166,8 @@ class ReportsTable extends Table
                 'sortable' => true,
             ],
             [
-                'key' => 'DIS',
-                'label' => 'days_in_stock',
+                'key' => 'days_in_stock',
+                'label' => 'DIS',
                 'sortable' => true,
             ],
             [
@@ -215,7 +215,7 @@ class ReportsTable extends Table
             ->with('address')
             ->with('images')
             ->with('trStatus')
-            ->with('customer')
+            ->with('customer.behavior')
             ->with('store')
             ->withFinalOffer()
             ->withEstValue()
@@ -247,10 +247,10 @@ class ReportsTable extends Table
                         'href' => '/admin/transactions/'.$transaction->id
                     ],
                     'final_offer' => [
-                        'data' => Numeral::number($transaction->offer)->format('$0.0'),
+                        'data' => Numeral::number($transaction->offer)->format('$0,0.00'),
                     ],
                     'est_val' => [
-                        'data' => Numeral::number($transaction->est_value)->format('$0.0'),
+                        'data' => Numeral::number($transaction->est_value)->format('$0,0.00'),
                     ],
                     'numberOfTransactions' => [
                         'data' => $transaction->customer->transaction_count,
@@ -338,10 +338,10 @@ class ReportsTable extends Table
                         'data' => $transaction->days_in_stock,
                     ],
                     'profit_percent' => [
-                        'data' =>null // $transaction->est_profit,
+                        'data' => $transaction->getProfitPercent(),
                     ],
                     'estimated_profit' => [
-                        'key' => $transaction->est_profit,
+                        'data' => $transaction->getEstimatedProfit(),
                     ],
                     'payment_type' => [
                         'data' =>optional(optional(optional($transaction->customer)->payment_address)->payment_type)->name,
