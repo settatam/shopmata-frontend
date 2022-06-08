@@ -7,11 +7,11 @@ use App\Models\Transaction;
 class AgeCheckBoxes extends CheckBox
 {
     public function options($filter) {
-       // $ages  = [];
+        $ages  = [];
        // return $ages->map(function (Transaction $transaction) use ($filter) {
             return [
-                'label' => null,
-                'value' => null
+                'label' => 0,
+                'value' => 0
             ];
        // });
     }

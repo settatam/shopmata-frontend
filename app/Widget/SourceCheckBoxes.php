@@ -7,11 +7,11 @@ use App\Models\Transaction;
 class SourceCheckBoxes extends CheckBox
 {
     public function options($filter) {
-        //$sources  = [];
+        $sources  = [];
        // return $sources->map(function (Transaction $transaction) use ($filter) {
             return [
-                'label' => null,
-                'value' => null
+                'label' => 0,
+                'value' => 0
             ];
        // });
     }
