@@ -283,9 +283,9 @@ class LoginController extends Controller
     {
         $this->guard('customer')->logout();
 
-        $request->session()->flush();
-
-        $request->session()->regenerate();
+//        $request->session()->flush();
+//
+//        $request->session()->regenerate();
 
         return redirect('/customer/login');
     }

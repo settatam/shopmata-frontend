@@ -40,7 +40,6 @@ class HomeController extends Controller
                     return redirect('customer/login');
                 }
 
-
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transactions'] = Transaction::with('images')
                     ->with('customer')
