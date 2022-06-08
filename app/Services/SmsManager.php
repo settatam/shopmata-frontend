@@ -31,17 +31,18 @@ class SmsManager
 
         try {
             $client = new Client($this->sid, $this->token);
+
             $messageToSend = [
-                    'to' => $to,
                     'from' => $this->from,
                     'body' => $message
                 ];
 
-            if(!empty($images)) {
+            if(count($images)) {
                 $messageToSend['mediaUrl'] = $images;
             }
 
             $sender =  $client->messages->create(
+                $to,
                 $messageToSend
             );
 
