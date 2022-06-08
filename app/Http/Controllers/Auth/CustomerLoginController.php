@@ -45,6 +45,7 @@ class CustomerLoginController extends Controller
 
     public function customerLogin(Request $request) {
         $credentials = $request->only('email', 'password');
+
         $storeId = request('storeId');
         $validator = Validator::make($credentials, [
             'email' => ['required', 'string', 'email'],
@@ -56,7 +57,8 @@ class CustomerLoginController extends Controller
             ->first();
 
         if(null !== $customer) {
-            if(Auth::guard('customer')->attempt($credentials)) {
+//            if(Auth::guard('customer')->attempt($credentials)) {
+            if(Auth::guard('customer')->loginUsingId($customer->id)) {
                 //
                 dd('We are authenticated');
             }else{
