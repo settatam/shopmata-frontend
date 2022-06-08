@@ -61,6 +61,8 @@ class CustomerLoginController extends Controller
 //            if(Auth::guard('customer')->attempt($credentials)) {
             if (Auth::guard('customer')->loginUsingId($customer->id)) {
                 return redirect('/transactions');
+            }else{
+                return redirect('/customer/login');
             }
         }
     }
