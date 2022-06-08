@@ -252,6 +252,7 @@ class Transaction extends Model
         return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as payment_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Payment Processed')
+                ->where('is_status', 1)
                 ->take(1)->latest()
         ]);
     }
@@ -259,7 +260,35 @@ class Transaction extends Model
     public function scopeWithReceivedDateTime($query) {
         return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
-                ->where('status', 'Kit Received')
+                ->where('status', 'Kits Received')
+                ->where('is_status', 1)
+                ->take(1)
+        ]);
+    }
+
+    public function scopeWithKitSentDateTime($query) {
+        return $query->addSelect(['kit_sent_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as kit_sent_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('status', 'Kit Sent')
+                ->where('is_status', 1)
+                ->take(1)
+        ]);
+    }
+
+    public function scopeWithOfferGivenDateTime($query) {
+        return $query->addSelect(['offer_given_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as offer_given_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('status', 'Offers Given')
+                ->where('is_status', 1)
+                ->take(1)
+        ]);
+    }
+
+    public function scopeWithOfferAcceptedDateTime($query) {
+        return $query->addSelect(['offer_accepted_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as offer_given_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('status', 'Offer Accepted')
+                ->where('is_status', 1)
                 ->take(1)
         ]);
     }
@@ -840,37 +869,37 @@ class Transaction extends Model
                 'date' => '',
                 'name' => 'Kit Requested',
                 'icon' => TransactionHistory::OUTSTANDING_ICON,
-                'color' => 'black'
+                'color' => 'text-black'
             ],
             'kit_sent' => [
                 'date' => '',
                 'name' => 'Kit Sent',
                 'icon' => TransactionHistory::OUTSTANDING_ICON,
-                'color' => 'black'
+                'color' => 'text-black'
             ],
             'package_received' => [
                 'date' => '',
                 'name' => 'Package Received',
                 'icon' => TransactionHistory::OUTSTANDING_ICON,
-                'color' => 'black'
+                'color' => 'text-black'
             ],
             'offer_given' => [
                 'date' => '',
                 'name' => 'Offer Given',
                 'icon' => TransactionHistory::OUTSTANDING_ICON,
-                'color' => 'black'
+                'color' => 'text-black'
             ],
             'offer_accepted' => [
                 'date' => '',
                 'name' => 'Offer Accepted',
                 'icon' => TransactionHistory::OUTSTANDING_ICON,
-                'color' => 'black'
+                'color' => 'text-black'
             ],
             'payment_processed' => [
                 'date' => '',
                 'name' => 'Payment Processed',
                 'icon' => TransactionHistory::OUTSTANDING_ICON,
-                'color' => 'black'
+                'color' => 'text-black'
             ],
 //            'shipment_declined' => [
 //                'date' => '',
@@ -892,32 +921,38 @@ class Transaction extends Model
 //            ],
 
         ];
-        if($history = $this->hasHistory(TransactionHistory::UPDATED)) {
-            $response['kit_requested']['date'] = $history->created_at;
-            $response['kit_requested']['color'] = 'green';
+        if($this->created_at) {
+            $response['kit_requested']['date'] = $this->created_at;
+            $response['kit_requested']['class'] = 'text-green-darker';
             $response['kit_requested']['icon'] = TransactionHistory::SUCCESS_ICON;
         }
 
-        if($history = $this->hasHistory(TransactionHistory::FULFILLED)) {
-            $response['kit_sent']['date'] = $history->created_at;
-            $response['kit_sent']['color'] = 'green';
+        if($this->kit_sent_date_time) {
+            $response['kit_sent']['date'] = $this->kit_sent_date_time;
+            $response['kit_sent']['class'] = 'text-green-darker';
             $response['kit_sent']['icon'] = TransactionHistory::SUCCESS_ICON;
         }
 
-        if($history = $this->hasHistory(TransactionHistory::SHIPMENT_DECLINED)) {
+        if($this->received_date_time) {
+            $response['package_received']['date'] = $this->received_date_time;
+            $response['package_received']['class'] = 'text-green-darker';
+            $response['package_received']['icon'] = TransactionHistory::SUCCESS_ICON;
+        }
+
+        if($this->shipment_declined_date_time) {
 
             $response['shipment_declined'] = [
-                'date' => $history->created_at,
+                'date' => $this->shipment_declined_date_time,
                 'icon' => 'XCircle',
                 'name'=>'Shipment Rejected',
-                'color' => 'red'
+                'class' => 'text-red-darker'
             ];
 
-            if($history = $this->hasHistory(TransactionHistory::SHIPMENT_RETURNED)) {
+            if($this->shipment_returned_date_time) {
 
                 $response['shipment_returned'] = [
-                    'date' => $history->created_at,
-                    'color' => TransactionHistory::DECLINED_COLOR,
+                    'date' => $this->shipment_returned_date_time,
+                    'class' => 'text-red-darker',
                     'name'=>'Item Returned',
                     'icon' => TransactionHistory::DECLINED_ICON,
                 ];
@@ -926,18 +961,18 @@ class Transaction extends Model
 
                 $response['shipment_returned'] = [
                     'date' => '',
-                    'color' => TransactionHistory::DECLINED_COLOR,
+                    'class' => 'text-red-darker',
                     'icon' => TransactionHistory::DECLINED_ICON,
                     'name' => 'Item Returned'
                 ];
             }
         }
 
-        if($history = $this->hasHistory(TransactionHistory::OFFER_GIVEN)) {
+        if($this->offer_given_date_time) {
 
-            $response['offer_given']['date'] = $history->created_at;
+            $response['offer_given']['date'] = $this->offer_given_date_time;
             $response['offer_given']['icon'] = TransactionHistory::SUCCESS_ICON;
-            $response['offer_given']['color'] = TransactionHistory::SUCCESS_COLOR;
+            $response['offer_given']['class'] = TransactionHistory::SUCCESS_COLOR;
 
 //            if(in_array('Offer #2 Given', $attributes)) {
 //                    $response[] = [
@@ -959,46 +994,46 @@ class Transaction extends Model
 //                ];
 //            }
 
-            if($history = $this->hasHistory(TransactionHistory::OFFER_ACCEPTED)) {
+            if($this->offer_accepted_date_time) {
                 $response['offer_accepted'] = [
-                    'date' => $history->created_at,
+                    'date' => $this->offer_accepted_date_time,
                     'name'=>'Offer Accepted',
-                    'color' => TransactionHistory::SUCCESS_COLOR,
+                    'class' => TransactionHistory::SUCCESS_COLOR,
                     'icon' => TransactionHistory::SUCCESS_ICON,
                 ];
             }
-            if (!$this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
+            if ($this->offer_declined_date_time) {
                 $response['offer_declined'] = [
-                    'date' => $history->created_at,
+                    'date' => $this->offer_declined_date_time,
                     'name'=>'Offer Declined',
-                    'color' => TransactionHistory::DECLINED_ICON,
+                    'class' => TransactionHistory::DECLINED_ICON,
                     'icon' => TransactionHistory::DECLINED_COLOR,
                 ];
             }
 
-            if($history = $this->hasHistory(TransactionHistory::OFFER_PAID)) {
+            if($this->payment_date_time) {
                 $response['payment_processed'] = [
-                    'date' => $history->created_at,
+                    'date' => $this->payment_date_time,
                     'name'=>'Payment Processed',
-                    'color' => TransactionHistory::SUCCESS_COLOR,
+                    'class' => TransactionHistory::SUCCESS_COLOR,
                     'icon' => TransactionHistory::SUCCESS_ICON,
                 ];
             }
 
-            if($history = $this->hasHistory(TransactionHistory::OFFER_DECLINED)) {
+            if($this->offer_declined_date_time) {
 
                 $response['offer_declined'] = [
-                    'date' => $history->created_at,
+                    'date' => $this->offer_declined_date_time,
                     'name'=>'Offer Declined',
-                    'color' => TransactionHistory::DECLINED_COLOR,
+                    'class' => TransactionHistory::DECLINED_COLOR,
                     'icon' => TransactionHistory::DECLINED_ICON,
                 ];
 
-                if($history = $this->hasHistory(TransactionHistory::SHIPMENT_RETURNED)) {
+                if($this->shipment_returned_date_time) {
                     $response['shipment_returned'] = [
-                        'date' => $history->created_at,
+                        'date' => $this->shipment_returned_date_time,
                         'name'=>'Shipment Returned',
-                        'color' => TransactionHistory::DECLINED_COLOR,
+                        'class' => TransactionHistory::DECLINED_COLOR,
                         'icon' => TransactionHistory::DECLINED_ICON,
                     ];
                 }else{

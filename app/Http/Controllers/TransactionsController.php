@@ -88,10 +88,12 @@ class TransactionsController extends Controller
             ->withPrivateNote()
             ->withPublicNote()
             ->withPaymentType()
+            ->withPaymentDateTime()
+            ->withOfferGivenDateTime()
+            ->withOfferAcceptedDateTime()
+            ->withKitSentDateTime()
             ->withStatusDateTime()
             ->withReceivedDateTime()
-            ->withPaymentDateTime()
-            ->withPaymentDateTime()
             ->with('customer','customer.address','customer.lead','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
             ->find($id);
 
@@ -99,7 +101,6 @@ class TransactionsController extends Controller
         $transaction->load('publicnote.images');
 
         $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
-        //$transaction               = Transaction::with('shippingLabels')->findorFail($id);
         $statuses                    = Status::orderBy('sort_order')->get();
         $store_id                    = session('store_id');
         $transaction_item_categories = Category::where(['store_id' => $store_id, 'type' => 'transaction_item_category' ])->get();
@@ -507,6 +508,7 @@ class TransactionsController extends Controller
             ->withPaymentDateTime()
             ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
             ->find($id);
+
 
         return response()->json($transaction);
     }
