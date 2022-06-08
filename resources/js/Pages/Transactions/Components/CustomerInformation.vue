@@ -50,7 +50,7 @@
                 }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
-                Lead: <span class="font-normal">{{ customer.lead.name }}</span>
+                Lead: <span class="font-normal">{{ customer.lead }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 DOB: <span class="font-normal">{{ customer.dob }}</span>
