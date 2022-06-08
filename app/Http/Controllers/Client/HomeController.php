@@ -50,7 +50,6 @@ class HomeController extends Controller
                     ->get();
             }
 
-            dd($data);
 
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data);
