@@ -60,7 +60,7 @@ class CustomerLoginController extends Controller
         if (null !== $customer) {
 //            if(Auth::guard('customer')->attempt($credentials)) {
             if (Auth::guard('customer')->loginUsingId($customer->id)) {
-                return redirect('/transactions')
+                return redirect('/transactions');
             }
         }
     }
