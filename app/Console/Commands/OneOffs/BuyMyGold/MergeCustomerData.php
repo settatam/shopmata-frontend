@@ -48,35 +48,38 @@ class MergeCustomerData extends Command
         $bar = $this->output->createProgressBar(count($d['data']));
 
         foreach($d['data'] as $customer) {
-//            if(!$customer['tag_id']) {
-//                $bar->advance();
-//                continue;
-//            }
-//            $traffic = SeoTraffic::find($customer['tag_id']);
-//            if(null !== $traffic) {
+            if(!$customer['tag_id']) {
+                $bar->advance();
+                continue;
+            }
+            $traffic = SeoTraffic::find($customer['tag_id']);
+            if(null !== $traffic) {
                 $trans = Transaction::whereHas('customer', function($q) use ($customer) {
                     $q->where('email', $customer['customer_email']);
                 })->first();
                 if(null !== $trans) {
 
-                    $trans->address->firstOrNew([
-                        'addressable_id' => $trans->id
-                    ]);
+                    $trans->seo_traffic_id = $traffic->id;
+                    $trans->save();
 
-                    $trans->address->address = $customer['customer_address'];
-                    $trans->address->address2 = $customer['customer_address2'];
-                    $trans->address->phone = $customer['customer_phone'];
-                    $trans->address->city = $customer['customer_city'];
-                    $trans->address->state = $customer['customer_state'];
-                    $trans->address->postal_code = $customer['customer_zip'];
-                    $trans->address->addressable_type = Transaction::class;
-                    $trans->address->save();
+//                    $trans->address->firstOrNew([
+//                        'addressable_id' => $trans->id
+//                    ]);
+//
+//                    $trans->address->address = $customer['customer_address'];
+//                    $trans->address->address2 = $customer['customer_address2'];
+//                    $trans->address->phone = $customer['customer_phone'];
+//                    $trans->address->city = $customer['customer_city'];
+//                    $trans->address->state = $customer['customer_state'];
+//                    $trans->address->postal_code = $customer['customer_zip'];
+//                    $trans->address->addressable_type = Transaction::class;
+//                    $trans->address->save();
 
                 }
                 $bar->advance();
             }
 
-//        }
+        }
         $bar->finish();
     }
 }

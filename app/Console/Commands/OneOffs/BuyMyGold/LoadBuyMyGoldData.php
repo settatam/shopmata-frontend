@@ -67,7 +67,7 @@ class LoadBuyMyGoldData extends Command
 //                    $transaction->id              = $order['order_id'];
                     $transaction->status_id       = ($order['status_id']) ? $order['status_id'] : 60;
                     $transaction->customer_id     = $order['user_id'];//Customer id
-                    $transaction->tags            = $order['tags'];
+//                    $transaction->tags            = $order['tags'];
                     $transaction->comments        = $order['values'];
                     $transaction->insurance_value = $order['ship_insurance'];
                     $transaction->payment_method_id = $order['pay_method'];
@@ -92,7 +92,7 @@ class LoadBuyMyGoldData extends Command
                     $customer->street_address     = $order["customer_address"];
                     $customer->city               = $order["customer_city"];
                     $customer->state_id           = $this->getStateId($order["customer_state"]);
-                    
+
                     $customer->store_id           = $this->getStore($order['is_jewelry']);
                     $customer->phone_number       = $order["customer_phone"];
                     $customer->lead_id            = isset($order["lead_id"]) && $order["lead_id"] != 0 ? $order["lead_id"]: null;
@@ -191,8 +191,8 @@ class LoadBuyMyGoldData extends Command
                     }
 
                     if ($order["date_update"]  !== "0000-00-00 00:00:00"){
-                        $transaction->histories()->create([
-                            'event' => "UPDATED" ,
+                        $transaction->addActivity([
+                            'event' => "UPDATED",
                             'created_at' => $order["date_update"]
                         ]);
                     }

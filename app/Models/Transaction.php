@@ -7,6 +7,7 @@ use App\Services\Logistics\Fedex;
 use App\Services\Logistics\Shipping;
 use App\Services\SmsManager;
 use App\Widget\TransactionsTable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -40,6 +41,7 @@ class Transaction extends Model
         'kit_type',
         'est_profit',
         'created_date',
+        'hold_date'
     ];
 
 
@@ -264,7 +266,7 @@ class Transaction extends Model
     }
 
     public function scopeWithPaymentDateTime($query) {
-        return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as payment_date_time")
+        return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%Y-%m-%d %H:%i:%s') as payment_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Payment Processed')
                 ->where('is_status', 1)
@@ -348,6 +350,13 @@ class Transaction extends Model
 
     public function scopeWithTransactions($query) {
         $query->selectRaw('transactions.*');
+    }
+
+    public function getHoldDateAttribute() {
+        if(isset($this->payment_date_time)) {
+            return \Carbon\Carbon::parse($this->payment_date_time)->addDays(14)->format('m-d-Y H:i:s');
+        }
+        return '';
     }
 
     public function scopeWithTransactionCount($query, $filter=null) {
