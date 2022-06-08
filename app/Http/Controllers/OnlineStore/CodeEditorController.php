@@ -221,7 +221,7 @@ class CodeEditorController extends Controller
 
         $store = Store::find(session()->get('store_id'));
 
-        $imageMimes = ThemeFIle::getImageMimes();
+        $imageMimes = ThemeFile::getImageMimes();
         if(in_array($mimeType, $imageMimes)) {
             //File is an image
            $image = $this->uploadImageToCloud($store, $file, $fileName);
