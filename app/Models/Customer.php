@@ -29,7 +29,6 @@ class Customer extends Authenticatable
         'activation_status',
         'timezone',
         'transaction_count',
-        'dob'
     ];
 
     protected $fillable = [
