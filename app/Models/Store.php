@@ -216,7 +216,7 @@ class Store extends Model
         }else{
             $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
         }
-        
+
         $pageContent = '';
 
         if($template) {
