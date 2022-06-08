@@ -43,7 +43,8 @@ class CustomerLoginController extends Controller
         return redirect('/login');
     }
 
-    public function customerLogin(Request $request) {
+    public function customerLogin(Request $request)
+    {
         $credentials = $request->only('email', 'password');
 
         $storeId = request('storeId');
@@ -56,17 +57,12 @@ class CustomerLoginController extends Controller
             ->where('store_id', $request->session()->get('store_id'))
             ->first();
 
-        if(null !== $customer) {
+        if (null !== $customer) {
 //            if(Auth::guard('customer')->attempt($credentials)) {
-            if(Auth::guard('customer')->loginUsingId($customer->id)) {
-                //
-                dd('We are authenticated');
-            }else{
-                dd('We are not authenticated');
+            if (Auth::guard('customer')->loginUsingId($customer->id)) {
+                return redirect('/transactions')
             }
         }
-
-        dd('The user was not found');
     }
 
 }
