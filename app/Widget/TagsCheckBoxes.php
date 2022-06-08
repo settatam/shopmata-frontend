@@ -10,8 +10,8 @@ class TagsCheckBoxes extends CheckBox
        // $tags  = [];
        // return $tags->map(function (Transaction $transaction) use ($filter) {
             return [
-                'label' => null,
-                'value' => null
+                'label' => 0,
+                'value' => 0
             ];
         //});
     }

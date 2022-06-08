@@ -36,7 +36,7 @@ class SmsManager
                     'body' => $message
                 ];
 
-            if(count($images)) {
+            if(!empty($images)) {
                 $message['mediaUrl'] = $images;
             }
             $sender =  $client->messages->create(
