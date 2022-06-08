@@ -196,6 +196,7 @@ class Store extends Model
     public function pageContent($name, $data=[]) {
 
         $page = $this->pages()->where('name', $name)->first();
+        $pageContent = '';
 
         $content = '<p> This page could not be found!</p>';
         $template = '';
@@ -216,8 +217,6 @@ class Store extends Model
         }else{
             $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
         }
-
-        $pageContent = '';
 
         if($template) {
             $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($template, $data));
