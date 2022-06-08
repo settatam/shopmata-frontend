@@ -40,6 +40,7 @@ class HomeController extends Controller
                     return redirect('customer/login');
                 }
 
+
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transactions'] = Transaction::with('images')
                     ->with('customer')
@@ -48,6 +49,8 @@ class HomeController extends Controller
                     ->orderBy($sortBy, $orderBy)
                     ->get();
             }
+
+            dd($data);
 
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data);
