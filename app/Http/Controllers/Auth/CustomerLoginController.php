@@ -17,6 +17,8 @@ use App\Models\Customer;
 class CustomerLoginController extends Controller
 {
     use AuthenticatesUsers;
+
+    protected $redirectTo = '/transactions';
     //
     /**
      * Create a new controller instance.
