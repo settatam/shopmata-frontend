@@ -29,6 +29,7 @@ class Customer extends Authenticatable
         'activation_status',
         'timezone',
         'transaction_count',
+        'age'
     ];
 
     protected $fillable = [
@@ -320,6 +321,10 @@ class Customer extends Authenticatable
         if(null !== $this->dob) {
             return \Carbon\Carbon::parse($this->dob)->age;
         }
+        return '';
+    }
+
+    public function getDobAttribute() {
         return '';
     }
 
