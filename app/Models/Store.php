@@ -198,8 +198,6 @@ class Store extends Model
         $page = $this->pages()->where('name', $name)->first();
         $pageContent = '';
 
-        dd($data);
-
         $content = '<p> This page could not be found!</p>';
         $template = '';
 
