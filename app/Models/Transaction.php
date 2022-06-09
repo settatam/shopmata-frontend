@@ -1096,15 +1096,14 @@ class Transaction extends Model
         $smsMessage = new SmsManager();
         $to = $this->customer->phone_number;
         $from = $this->store->sms_send_from;
-       // $sender = $smsMessage->sendSMS($message, $to, $images);
-       // $sms = $this->sms()->create($data);
-
-        $data = [
-            'message' => $message,
-            'from' => $from,
-            'to' => $to,
-        ];
-        $sms = $this->sms()->create($data);
+        $sender = $smsMessage->sendSMS($message, $to, $images);
+        if(!$sender['error']) {
+            $data = [
+                'message' => $message,
+                'from' => $from,
+                'to' => $to,
+            ];
+            $sms = $this->sms()->create($data);
 
             if ( !empty($images) ) {
                 foreach ($images as $key => $image) {
@@ -1114,7 +1113,16 @@ class Transaction extends Model
                     ]);
                 }
             }
-        
+
+            $note = sprintf('% sent an sms: %s',
+                Auth::user()->full_name,
+                $message
+            );
+            $this->addActivity($this, [], $note);
+        }else{
+            //Insert to failed messages
+            //Tag transaction
+        }
     }
 
     public function createNote($type, $message=''){
