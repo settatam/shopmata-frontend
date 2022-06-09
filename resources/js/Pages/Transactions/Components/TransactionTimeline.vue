@@ -65,7 +65,7 @@
                                 class="text-xs my-2 mx-2"
                                 name="2ndoffer"
                                 id="2ndoffer"
-                                v-model="transaction.offers.length"
+                                v-model="currentTransaction.offers.length"
                             />
                             <label class="mt-1" for="2ndoffer">2nd Offer</label>
                         </div>
@@ -388,7 +388,7 @@ export default {
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.value.offer,
+                        value: this.currentTransaction.offer,
                     };
                     break;
                 case "sms":
