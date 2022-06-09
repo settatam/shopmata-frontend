@@ -31,6 +31,7 @@ class HomeController extends Controller
             $sortBy = $request->sort_by ?? 'created_at';
 
             $pageToFind = StorePage::nameFromPath($path);
+            $pageType = 'page';
 
             $data = [];
 
@@ -49,7 +50,7 @@ class HomeController extends Controller
                     ->get();
 
             }else if($pageToFind == 'transactions.detail') {
-
+                $pageType = 'template';
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transactions'] = Transaction::with('images')
                     ->with('customer')
@@ -62,7 +63,7 @@ class HomeController extends Controller
 
 
             if(null !== $store) {
-                $page = $store->pageContent($pageToFind, $data);
+                $page = $store->pageContent($pageToFind, $data, $pageType);
                 $customer = null;
                 if(Auth::check()) {
                     $customer = Auth::user();
