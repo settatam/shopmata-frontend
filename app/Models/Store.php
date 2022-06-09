@@ -236,7 +236,7 @@ class Store extends Model
             $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
         }
 
-        dd($pageTemplate);
+        dd($template);
 
         if($template) {
             $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($pageTemplate, $data));
