@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Auth;
 
 class StoresController extends Controller
 {
@@ -28,7 +29,7 @@ class StoresController extends Controller
     public function create()
     {
         //
-        Inertia::render('Stores/Create', compact('stores'));
+        Inertia::render('Stores/Create');
     }
 
     /**

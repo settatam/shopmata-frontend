@@ -36,7 +36,8 @@ class Activity extends Model
         'name',
         'is_from_admin',
         'is_status',
-        'customer_id'
+        'customer_id',
+        'created_at'
     ];
 
     public function activityable()
@@ -112,7 +113,7 @@ class Activity extends Model
         ]);
     }
 
-    static function systemAdd(Transaction $current, $date, $isStatus=0, $note='') {
+    static function systemAdd(Transaction $current, $date, $note='') {
         $c = User::where('email', 'seth@cashinmybag.com')->first();
 
         Auth::loginById($c->id);
@@ -126,9 +127,10 @@ class Activity extends Model
             'status' => $status,
             'notes' => $note,
             'name' => Status::findById($current->status_id),
-            'is_status' => $isStatus,
+            'is_status' => 1,
             'activityable_id' => $current->id,
-            'activityable_type' => get_class($current)
+            'activityable_type' => get_class($current),
+            'created_at' => $date
         ]);
     }
 
