@@ -1,7 +1,8 @@
 <template>
+
+    <app-layout :navigation="navigation"></app-layout>
     <div class="flex-1 flex flex-col xl:overflow-hidden lg:flex-row mt-5 px-4 lg:px-0">
         <!-- Secondary sidebar -->
-        <Nav page="General"></Nav>
         <!-- Main content -->
         <div class="flex-1 max-h-screen xl:overflow-y-auto">
             <div class="w-auto lg:ml-7 lg:mr-2">
@@ -348,3 +349,37 @@
         </div>
     </div>
 </template>
+
+<script>
+import { ref, reactive } from 'vue'
+import AppLayout from '../../Layouts/AppLayout.vue'
+
+export default {
+
+
+    setup() {
+        const store_details = reactive({
+            name: "",
+            account_email: "",
+            customer_email: "",
+            business_name: "",
+            phone: "",
+            industry_id: "",
+            country_id: "",
+            city: "",
+            state_id: "",
+            zip: "",
+            timezone_id: "",
+            unit_id: "",
+            default_weight_unit: "",
+            order_id_prefix: "",
+            order_id_suffix: "",
+            currency_id: "",
+
+        })
+
+        return {store_details}
+    }
+}
+
+</script>
