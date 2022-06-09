@@ -381,13 +381,13 @@ export default {
                 case "message":
                     data = {
                         field: "message",
-                        value: this.currentTransaction.value.status_id,
+                        value: currentTransaction.value.status_id,
                     };
                     break;
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.offer,
+                        value: currentTransaction.value.offer,
                     };
                     break;
                 case "sms":
