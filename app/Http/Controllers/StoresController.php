@@ -28,7 +28,7 @@ class StoresController extends Controller
     public function create()
     {
         //
-        Inertia::render('Stores/Create', compact('stores'));
+        Inertia::render('Stores/Create');
     }
 
     /**
