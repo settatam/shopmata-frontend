@@ -9,19 +9,17 @@ class Sms extends Model
 {
     use HasFactory;
 
+    
+
     protected $fillable = [
         'id',
+        'smsable_id',
+        'smsable_type',
         'message',
         'from',
         'to',
-        'is_read',
-        'created_at',
-        'user_id',
-        'smsable_id',
-        'smsable_type',
-        'is_coming',
         'payload',
-        'notification_id'
+        'user_id'
     ];
 
 

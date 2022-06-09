@@ -15,11 +15,15 @@ class SmsManager
     private $token;
     public $from;
 
-    public function __construct()
+    public function __construct(Store $store)
     {
         $this->sid = config('twilio.sid');
         $this->token = config('twilio.token');
-        $this->from = config('twilio.from');
+        $this->from = $store->sms_send_from;
+
+        if(!$this->from) {
+            throw new \Exception('You need to have a from number to send SMS');
+        }
     }
 
     /**
@@ -29,7 +33,7 @@ class SmsManager
     {
         if(env('APP_ENV') !== 'production') $to = '2679809681';
 
-        try {
+//        try {
             $client = new Client($this->sid, $this->token);
 
             $messageToSend = [
@@ -46,18 +50,19 @@ class SmsManager
                 $messageToSend
             );
 
+
             return [
                 'error' => false,
                 'message' => 'Message sent successfully'
             ];
 
-        } catch (TwilioException $exception) {
-            //We want to know why the mesaage was not sent. Store in DB???
-            return [
-                'error' => true,
-                'message' => $exception->getMessage()
-            ];
-        }
+//        } catch (TwilioException $exception) {
+//            //We want to know why the mesaage was not sent. Store in DB???
+//            return [
+//                'error' => true,
+//                'message' => $exception->getMessage()
+//            ];
+//        }
 
     }
 
