@@ -29,7 +29,7 @@ class SmsManager
     {
         if(env('APP_ENV') !== 'production') $to = '2679809681';
 
-        try {
+//        try {
             $client = new Client($this->sid, $this->token);
 
             $messageToSend = [
@@ -46,18 +46,19 @@ class SmsManager
                 $messageToSend
             );
 
+
             return [
                 'error' => false,
                 'message' => 'Message sent successfully'
             ];
 
-        } catch (TwilioException $exception) {
-            //We want to know why the mesaage was not sent. Store in DB???
-            return [
-                'error' => true,
-                'message' => $exception->getMessage()
-            ];
-        }
+//        } catch (TwilioException $exception) {
+//            //We want to know why the mesaage was not sent. Store in DB???
+//            return [
+//                'error' => true,
+//                'message' => $exception->getMessage()
+//            ];
+//        }
 
     }
 
