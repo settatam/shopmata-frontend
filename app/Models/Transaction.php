@@ -284,7 +284,7 @@ class Transaction extends Model
         ]);
     }
 
-    public function scopeWithReceivedDateTime($query) {
+    public function scopeWithReturnedDateTime($query) {
         return $query->addSelect(['returned_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as returned_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kit Returned')
