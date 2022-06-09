@@ -15,11 +15,15 @@ class SmsManager
     private $token;
     public $from;
 
-    public function __construct()
+    public function __construct(Store $store)
     {
         $this->sid = config('twilio.sid');
         $this->token = config('twilio.token');
-        $this->from = config('twilio.from');
+        $this->from = $store->sms_send_from;
+
+        if(!this->from) {
+            throw new \Exception('You need to have a from number to send SMS');
+        }
     }
 
     /**
