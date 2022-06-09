@@ -19,4 +19,10 @@ class StoreTag extends Model
     public function tag(){
         return $this->belongsTo(Tag::class);
     }
+
+    public function scopeWithGroupBehavior($query) {
+       return $query->selectRaw("tag_id, COUNT(tag_id) AS `behaviorCount`")
+           ->where('type', 'behavior')
+           ->groupBy('tag_id');
+    }
 }

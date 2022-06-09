@@ -3,16 +3,20 @@
 namespace App\Widget;
 
 use App\Models\Transaction;
+use App\Models\StoreTag;
 
 class BehaviourCheckBoxes extends CheckBox
 {
     public function options($filter) {
-        $behavious  = [];
-       // return $behavious->map(function (Transaction $transaction) use ($filter) {
+        $behaviors  = StoreTag::where('type', 'behavior')
+            ->withGroupBehavior()
+            ->get();
+        dd($behaviors);
+        return $behaviors->map(function (StoreTag $tag) use ($filter) {
             return [
-                'label' => 0,
+                'label' => $tag,
                 'value' => 0
             ];
-        //});
+        });
     }
 }
