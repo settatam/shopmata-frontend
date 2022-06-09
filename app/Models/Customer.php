@@ -324,9 +324,9 @@ class Customer extends Authenticatable
         return '';
     }
 
-    public function getDobAttribute() {
-        return '';
-    }
+//    public function getDobAttribute() {
+//        return '';
+//    }
 
 //    public function getStateAttribute() {
 ////        return optional($this->address)->state->code;
