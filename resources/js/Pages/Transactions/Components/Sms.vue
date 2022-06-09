@@ -115,6 +115,8 @@ import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } f
 import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/vue/solid'
 import fileUploader from "../../../Utils/fileUploader";
 import urls from '../../../api/urls'
+import { notify } from "notiwind";
+import notification from "../../../Utils/notification";
 
 export default {
     components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon, ImagesList },
@@ -128,6 +130,7 @@ export default {
         let images = ref([])
         const { saveFiles } = fileUploader();
         const largeImagesUrls = ref([])
+        const { notifyAlert } = notification();
 
         function previewImages(event) {
             let acceptFiles = event.target.files
@@ -145,42 +148,61 @@ export default {
         }
 
 
-    function delete_img(index) {
-    images.value.splice(index)
-}
+        function delete_img(index) {
+            images.value.splice(index)
+        }
 
-// test
+        // test
 
 
-function formatDate(date) {
-    var hours = date.getHours()
-    var minutes = date.getMinutes()
-    var ampm = hours >= 12 ? 'pm' : 'am'
-    hours = hours % 12
-    hours = hours ? hours : 12 // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0' + minutes : minutes
-    var strTime = hours + ':' + minutes + ' ' + ampm
-    return date.getMonth() + 1 + '/' + date.getDate() + '  ' + strTime
-}
+        function formatDate(date) {
+            var hours = date.getHours()
+            var minutes = date.getMinutes()
+            var ampm = hours >= 12 ? 'pm' : 'am'
+            hours = hours % 12
+            hours = hours ? hours : 12 // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes
+            var strTime = hours + ':' + minutes + ' ' + ampm
+            return date.getMonth() + 1 + '/' + date.getDate() + '  ' + strTime
+        }
 
-function addMessage() {
-    loadingAnimation.value = true
-
-    axios.post(urls.transactions.sms(props.id), {
-        message: smsMessage.value,images: largeImagesUrls.value
-    }).then((res) => {
-        loadingAnimation.value = false
+        function addMessage() {
+            loadingAnimation.value = true
+            axios.post(urls.transactions.sms(props.id), {
+                message: smsMessage.value, images: largeImagesUrls.value
+            }).then((res) => {
+                loadingAnimation.value = false
+                smsMessage.value = ""
+                images.value = []
+                setTimeout(
+                    notifyAlert(
+                        "SMS sent successfully",
+                        "top",
+                        "Success"
+                    ),
+                    2000
+                );
+            }).catch(err => {
+                loadingAnimation.value = false
+                setTimeout(
+                    notifyAlert(
+                        "Error processing your request",
+                        "bottom",
+                        "Error"
+                    ),
+                    2000);
     })
-}
 
-const formattedTimes = computed(() => {
-    return smsTimes.map(item => {
-        let d = new Date(Date.parse(item.created_at))
-        return formatDate(d)
-    })
-})
+        }
 
-return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
+        const formattedTimes = computed(() => {
+            return smsTimes.map(item => {
+                let d = new Date(Date.parse(item.created_at))
+                return formatDate(d)
+            })
+        })
+
+        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
     }
 }
 </script>

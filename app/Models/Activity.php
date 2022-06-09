@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Auth;
+use App\Models\User;
 
 class Activity extends Model
 {
@@ -91,6 +92,7 @@ class Activity extends Model
             $status = Status::findById($changes['status_id']);
         }
 
+
         if(Auth::id()) {
             $firstname = Auth::user()->first_name;
         }else{
@@ -103,7 +105,27 @@ class Activity extends Model
             'agent' => $firstname,
             'status' => $status,
             'notes' => $note,
-            'name' => Status::findById($current->status_qid),
+            'name' => Status::findById($current->status_id),
+            'is_status' => $isStatus,
+            'activityable_id' => $current->id,
+            'activityable_type' => get_class($current)
+        ]);
+    }
+
+    static function systemAdd(Transaction $current, $date, $isStatus=0, $note='') {
+        $c = User::where('email', 'seth@cashinmybag.com')->first();
+
+        Auth::loginById($c->id);
+        $firstname = Auth::user()->first_name;
+
+        $status = Status::findById($current->status_id);
+
+        return self::create([
+            'user_id' => Auth::id(),
+            'agent' => $firstname,
+            'status' => $status,
+            'notes' => $note,
+            'name' => Status::findById($current->status_id),
             'is_status' => $isStatus,
             'activityable_id' => $current->id,
             'activityable_type' => get_class($current)

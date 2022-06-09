@@ -224,7 +224,6 @@ class ReportsTable extends Table
             ->withLabelsTo()
             ->withOutgoingTracking()
             ->withReturnTracking()
-            ->withHoldDate()
             ->withPrivateNote()
             ->withPublicNote()
             ->withPaymentType()
@@ -272,7 +271,7 @@ class ReportsTable extends Table
                         'data' => $transaction->lead,
                     ],
                     'hold_date' => [
-                        'data' => $transaction->lead,
+                        'data' => $transaction->hold_date,
                     ],
                     'return_tracking' => [
                         'data' => null,

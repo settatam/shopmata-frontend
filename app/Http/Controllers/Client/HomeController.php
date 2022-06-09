@@ -49,6 +49,7 @@ class HomeController extends Controller
                     ->get();
             }
 
+
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data);
                 $customer = null;

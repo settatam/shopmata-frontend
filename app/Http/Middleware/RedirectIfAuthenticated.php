@@ -22,10 +22,9 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if($guard == 'customer' && Auth::guard('customer')->check()) {
+            if(Auth::guard('customer')->check()) {
                 return redirect('/transactions');
-            }
-            if (Auth::guard($guard)->check()) {
+            }else if(Auth::guard($guard)->check()) {
                 return redirect(RouteServiceProvider::HOME);
             }
         }

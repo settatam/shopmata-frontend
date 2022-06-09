@@ -281,12 +281,12 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->guard()->logout();
+        $this->guard('customer')->logout();
 
-        $request->session()->flush();
+//        $request->session()->flush();
+//
+//        $request->session()->regenerate();
 
-        $request->session()->regenerate();
-
-        return redirect('/login');
+        return redirect('/customer/login');
     }
 }
