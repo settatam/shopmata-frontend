@@ -229,21 +229,18 @@ class Store extends Model
 
         $pageTemplate = '';
 
-        dd($data);
-
         if(null !== $page) {
             $pageTemplate = html_entity_decode(ThemeFile::generateParsedContent($template, $data));
+        }else{
+            $pageTemplate = '<p> This page could not be found!</p>';
         }
-
 
         $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
 
         if($pageTemplate) {
             $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($pageTemplate, $data));
-        }else{
-            $data['content_for_page'] = '<p> This page could not be found!</p>';
         }
-
+        
         if($theme) {
             $pageContent = html_entity_decode(ThemeFile::generateParsedContent($theme, $data));
         }
