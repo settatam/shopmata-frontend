@@ -172,6 +172,7 @@ export default {
                 message: smsMessage.value, images: largeImagesUrls.value
             }).then((res) => {
                 loadingAnimation.value = false
+                smsMessage.value = ""
                 images.value = []
                 setTimeout(
                     notifyAlert(
