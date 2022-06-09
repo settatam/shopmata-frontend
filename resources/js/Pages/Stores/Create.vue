@@ -355,9 +355,12 @@ import { ref, reactive } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 
 export default {
-
-
+    components:{
+        AppLayout
+    },
+    props: ['navigation'],
     setup() {
+
         const store_details = reactive({
             name: "",
             account_email: "",
