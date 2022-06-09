@@ -193,7 +193,7 @@ class Store extends Model
      * @param $data An array of objects. array contains transactions, transaction, product, collections, customer
      * @return string
      */
-    public function pageContent($name, $data=[]) {
+    public function pageContent($name, $data=[], $type='page') {
 
         $page = $this->pages()->where('name', $name)->first();
         $pageContent = '';
@@ -203,10 +203,10 @@ class Store extends Model
 
         //Build the template with page content
 
-        if($page->content) {
-            $data['content_for_page'] = $page->content;
-            $template = html_entity_decode(ThemeFile::generateParsedContent($page->template->content, $data));
-        }
+//        if($page->content) {
+//            $data['content_for_page'] = $page->content;
+//            $template = html_entity_decode(ThemeFile::generateParsedContent($page->template->content, $data));
+//        }
 
         if(null !== $page) {
             if($page->content) {
