@@ -743,7 +743,7 @@ class Transaction extends Model
             );
             $this->sendOffer();
             $this->addActivity($this, [], $note);
-            
+
         }
     }
 
