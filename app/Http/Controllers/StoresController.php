@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Store;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class StoresController extends Controller
 {
@@ -14,6 +16,8 @@ class StoresController extends Controller
     public function index()
     {
         //
+        $stores = Store::where('user_id', Auth::id())->get();
+        Inertia::render('Stores/Index', compact('stores'));
     }
 
     /**
@@ -24,6 +28,7 @@ class StoresController extends Controller
     public function create()
     {
         //
+        Inertia::render('Stores/Create', compact('stores'));
     }
 
     /**
