@@ -41,7 +41,8 @@ class Transaction extends Model
         'kit_type',
         'est_profit',
         'created_date',
-        'hold_date'
+        'hold_date',
+        'final_offer'
     ];
 
 
@@ -757,6 +758,13 @@ class Transaction extends Model
                 'transaction' => $this
             ]
         );
+    }
+
+    public function getFinalOfferAttribute() {
+        if(isset($this->offer)) {
+            return Numeral::number($this->offer)->format('$0,00.00');
+        }
+        return '';
     }
 
     public function sendNotes() {

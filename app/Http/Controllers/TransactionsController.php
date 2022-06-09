@@ -530,6 +530,7 @@ class TransactionsController extends Controller
 
         return redirect('transactions.index');
     }
+
 }
 
 
