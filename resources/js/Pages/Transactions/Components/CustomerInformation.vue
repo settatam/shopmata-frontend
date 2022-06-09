@@ -49,8 +49,11 @@
                     customer.email
                 }}</span>
             </p>
-            <p class="font-bold text-xs lg:text-sm text-black">
+            <p v-if="customer.lead.name" class="font-bold text-xs lg:text-sm text-black">
                 Lead: <span class="font-normal">{{ customer.lead.name }}</span>
+            </p>
+            <p v-else class="font-bold text-xs lg:text-sm text-black">
+                Lead: <span class="font-normal"></span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 DOB: <span class="font-normal">{{ customer.dob }}</span>
