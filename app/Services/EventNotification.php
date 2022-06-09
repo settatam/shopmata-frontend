@@ -128,7 +128,7 @@ class EventNotification
         }
 
         //Create a class to send the SMS and call the sender statically ...
-        $smsSender = new SmsManager();
+        $smsSender = new SmsManager($data[store]);
         try {
             $smsSender->sendSMSForStore($data['store'], $renderedMessage, $data['customer']->phone_number);
         } catch(SMSException $e) {

@@ -1093,7 +1093,7 @@ class Transaction extends Model
     }
 
     public function sendSMS($message, $images=[]) {
-        $smsMessage = new SmsManager();
+        $smsMessage = new SmsManager($this->store);
         $to = $this->customer->phone_number;
         $from = $this->store->sms_send_from;
         $sender = $smsMessage->sendSMS($message, $to, $images);
