@@ -224,19 +224,22 @@ class Store extends Model
             $template = $page->template->content;
         }else if($type == 'template') {
             $page = ThemeFile::query()->where('title', $name.'.twig')->where('store_id', $this->id)->first();
-            dd($page);
             $template = $page->content;
         }
 
+        $pageTemplate = '';
+
         if(null !== $page) {
-            $template = html_entity_decode(ThemeFile::generateParsedContent($template, $data));
+            $pageTemplate = html_entity_decode(ThemeFile::generateParsedContent($template, $data));
             $theme  = $page->theme->content;
         }else{
             $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
         }
 
+        dd($pageTemplate);
+
         if($template) {
-            $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($template, $data));
+            $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($pageTemplate, $data));
         }else{
             $data['content_for_page'] = '<p> This page could not be found!</p>';
         }
