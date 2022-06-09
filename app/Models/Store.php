@@ -223,7 +223,7 @@ class Store extends Model
             }
             $template = $page->template->content;
         }else if($type == 'template') {
-            $page = $this->where('title', $name)->where('store_id', $this->id)->first();
+            $page = $this->where('name', $name)->where('store_id', $this->id)->first();
             $template = $page->content;
         }
 
