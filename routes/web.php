@@ -93,7 +93,7 @@ Route::get('test', function () {
 Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('/', [ClientHomeController::class, 'index']);
     Route::get('transactions', [ClientHomeController::class, 'index']);
-    Route::get('transactions/{id}', [ClientHomeController::class, 'show']);
+    Route::get('transactions/{id}', [ClientHomeController::class, 'index']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
     Route::get('customer/login', [ClientHomeController::class, 'index'])->name('customer.login');
     Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');

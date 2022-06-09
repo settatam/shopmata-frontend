@@ -47,6 +47,16 @@ class HomeController extends Controller
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->get();
+            }else if($pageToFind == 'transactions.detail') {
+
+                $data['customer'] = Auth::guard('customer')->user();
+                $data['transactions'] = Transaction::with('images')
+                    ->with('customer')
+                    ->withFinalOffer()
+                    ->withPaymentDateTime()
+                    ->where('customer_id', $data['customer']->id)
+                    ->orderBy($sortBy, $orderBy)
+                    ->get();
             }
 
 
