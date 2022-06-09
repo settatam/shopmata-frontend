@@ -138,7 +138,7 @@ class SearchTable extends Table
         return $this->data->lastPage();
     }
 
-    public function actions() {
+    public function actions($filter) {
         return  [
             'Create Shipping Label',
             'Create Barcodes',
