@@ -741,16 +741,14 @@ class Transaction extends Model
                 $offerNote,
                 Numeral::number($amount)->format('$0.0')
             );
-
+            $this->sendOffer();
             $this->addActivity($this, [], $note);
-
-
-            //Send Email about offer ...
+            
         }
     }
 
     public function sendOffer(){
-        $notification_name = '';
+        $notification_name = 'Transaction Offer';
         return new EventNotification(
             $notification_name,
             [
