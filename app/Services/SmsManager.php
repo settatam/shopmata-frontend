@@ -21,7 +21,7 @@ class SmsManager
         $this->token = config('twilio.token');
         $this->from = $store->sms_send_from;
 
-        if(!this->from) {
+        if(!$this->from) {
             throw new \Exception('You need to have a from number to send SMS');
         }
     }
