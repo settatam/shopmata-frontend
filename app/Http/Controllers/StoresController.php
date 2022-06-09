@@ -18,7 +18,7 @@ class StoresController extends Controller
     {
         //
         $stores = Store::where('user_id', Auth::id())->get();
-        Inertia::render('Stores/Index', compact('stores'));
+        return Inertia::render('Stores/Index', compact('stores'));
     }
 
     /**
@@ -28,8 +28,7 @@ class StoresController extends Controller
      */
     public function create()
     {
-        //
-        Inertia::render('Stores/Create');
+        return Inertia::render('Stores/Create');
     }
 
     /**
