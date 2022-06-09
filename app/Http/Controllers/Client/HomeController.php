@@ -19,7 +19,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($account)
+    public function index($account, $id=null)
     {
         //
         if(session()->has('store_id')) {
@@ -52,13 +52,13 @@ class HomeController extends Controller
             }else if($pageToFind == 'transactions.detail') {
                 $pageType = 'template';
                 $data['customer'] = Auth::guard('customer')->user();
-                $data['transactions'] = Transaction::with('images')
+                $data['transaction'] = Transaction::with('images')
                     ->with('customer')
                     ->withFinalOffer()
                     ->withPaymentDateTime()
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
-                    ->get();
+                    ->find($id);
             }
 
 
