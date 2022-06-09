@@ -284,6 +284,15 @@ class Transaction extends Model
         ]);
     }
 
+    public function scopeWithReceivedDateTime($query) {
+        return $query->addSelect(['returned_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as returned_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('status', 'Kit Returned')
+                ->where('is_status', 1)
+                ->take(1)
+        ]);
+    }
+
     public function scopeWithKitSentDateTime($query) {
         return $query->addSelect(['kit_sent_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as kit_sent_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')

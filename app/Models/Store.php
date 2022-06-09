@@ -209,13 +209,6 @@ class Store extends Model
         $content = '<p> This page could not be found!</p>';
         $template = '';
 
-        //Build the template with page content
-
-//        if($page->content) {
-//            $data['content_for_page'] = $page->content;
-//            $template = html_entity_decode(ThemeFile::generateParsedContent($page->template->content, $data));
-//        }
-
         if($type == 'page') {
             $page = $this->pages()->where('name', $name)->first();
             if(null !== $page) {
@@ -240,7 +233,7 @@ class Store extends Model
         if($pageTemplate) {
             $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($pageTemplate, $data));
         }
-        
+
         if($theme) {
             $pageContent = html_entity_decode(ThemeFile::generateParsedContent($theme, $data));
         }
