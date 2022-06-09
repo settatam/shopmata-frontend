@@ -187,6 +187,14 @@ class Store extends Model
         return Navigation::with('items')->where('store_id', $this->id)->get();
     }
 
+    public function getThemeFiles() {
+
+    }
+
+    public function getThemeFile() {
+
+    }
+
 
     /**
      * @param $name
@@ -208,11 +216,19 @@ class Store extends Model
 //            $template = html_entity_decode(ThemeFile::generateParsedContent($page->template->content, $data));
 //        }
 
-        if(null !== $page) {
-            if($page->content) {
-                $data['content_for_page'] = $page->content;
+        if($type == 'page') {
+            $page = $this->pages()->where('name', $name)->first();
+            if(null !== $page) {
+                if($page->content) $data['content_for_page'] = $page->content;
             }
-            $template = html_entity_decode(ThemeFile::generateParsedContent($page->template->content, $data));
+            $template = $page->template->content;
+        }else if($type == 'template') {
+            $page = $this->where('title', $name)->where('store_id', $this->id)->first();
+            $template = $page->content;
+        }
+
+        if(null !== $page) {
+            $template = html_entity_decode(ThemeFile::generateParsedContent($template, $data));
             $theme  = $page->theme->content;
         }else{
             $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
