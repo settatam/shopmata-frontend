@@ -424,7 +424,7 @@ class TransactionsController extends Controller
     {
         //
         $input = $request->input();
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::withFinalOffer()->find($id);
 
         //How do we perform validation here???
 
@@ -530,6 +530,7 @@ class TransactionsController extends Controller
 
         return redirect('transactions.index');
     }
+
 }
 
 

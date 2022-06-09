@@ -41,7 +41,8 @@ class Transaction extends Model
         'kit_type',
         'est_profit',
         'created_date',
-        'hold_date'
+        'hold_date',
+        'final_offer'
     ];
 
 
@@ -741,16 +742,14 @@ class Transaction extends Model
                 $offerNote,
                 Numeral::number($amount)->format('$0.0')
             );
-
+            $this->sendOffer();
             $this->addActivity($this, [], $note);
 
-
-            //Send Email about offer ...
         }
     }
 
     public function sendOffer(){
-        $notification_name = '';
+        $notification_name = 'Transaction Offer';
         return new EventNotification(
             $notification_name,
             [
@@ -759,6 +758,13 @@ class Transaction extends Model
                 'transaction' => $this
             ]
         );
+    }
+
+    public function getFinalOfferAttribute() {
+        if(isset($this->offer)) {
+            return Numeral::number($this->offer)->format('$0,00.00');
+        }
+        return '';
     }
 
     public function sendNotes() {
