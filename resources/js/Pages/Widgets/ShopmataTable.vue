@@ -252,7 +252,7 @@
                                                 "
                                             >
                                                 <img
-                                                    class="h-10 w-10"
+                                                    class="h-24"
                                                     :src="
                                                         item[tranIndex].data[0]
                                                             .url
