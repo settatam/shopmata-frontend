@@ -369,7 +369,6 @@ export default {
         function addMessage() {}
 
         function updateTransaction(event, status_id = null) {
-            console.log("This is the event", currentTransaction);
             let data = {};
             switch (event) {
                 case "status_id":
@@ -394,7 +393,7 @@ export default {
                 case "sms":
                     data = {
                         field: "sms",
-                        value: this.currentTransaction.value.sms,
+                        value: this.currentTransaction.sms,
                     };
                     break;
                 case "private_note":
