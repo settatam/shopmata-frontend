@@ -253,6 +253,8 @@
                         :class="loading ? 'bg-gray-400' : 'bg-indigo-600'" @click="submit" :disabled="loading">
                         <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{ save }}
                     </button>
+
+
                     <NotificationGroup group="top" position="top">
                         <div class="fixed inset-0 mt-8 flex items-start justify-end p-6 px-4 py-6 pointer-events-none">
                             <div class="w-full max-w-sm">
@@ -376,6 +378,8 @@ export default {
     props: ['navigation'],
     setup() {
 
+        const save = ref('Save Changes')
+        const loading = ref(false)
         const store_details = reactive({
             name: "",
             account_email: "",
@@ -396,7 +400,7 @@ export default {
 
         })
 
-        return { store_details }
+        return { store_details, save, loading }
     }
 }
 
