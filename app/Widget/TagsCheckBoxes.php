@@ -7,12 +7,12 @@ use App\Models\Transaction;
 class TagsCheckBoxes extends CheckBox
 {
     public function options($filter) {
-       // $tags  = [];
-       // return $tags->map(function (Transaction $transaction) use ($filter) {
+        $tags  = Transaction::withGroupedTags()->get();
+        return $tags->map(function ($tag) use ($filter) {
             return [
-                'label' => 0,
-                'value' => 0
+                'label' => $tag->name . ' -  ' . $tag->tagCount,
+                'value' => $tag->tag_id
             ];
-        //});
+        });
     }
 }
