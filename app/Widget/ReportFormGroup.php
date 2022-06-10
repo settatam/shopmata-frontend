@@ -44,20 +44,20 @@ class ReportFormGroup extends Form
                 'label' => 'Source',
                 'fields' => (new SourceCheckBoxes())->render($filter)
             ],
-            // [
-            //     'label' => 'Age',
-            //     'fields' => (new AgeCheckBoxes())->render($filter)
-            // ],
+            [
+                'label' => 'Age',
+                'fields' => (new AgeCheckBoxes())->render($filter)
+            ],
             // [
             //     'name' => 'days',
             //     'label' => 'Days',
             //     'fields' => (new DaysCheckBoxes())->render($filter)
             // ],
-            // [
-            //     'name' => 'states',
-            //     'label' => 'States',
-            //     'fields' => (new StatesCheckBoxes())->render($filter)
-            // ]
+            [
+                'name' => 'states',
+                'label' => 'States',
+                'fields' => (new StatesCheckBoxes())->render($filter)
+            ]
         ];
     }
 }

@@ -43,8 +43,8 @@ class StoresController extends Controller
         $countries  = Country::where('status', 1)->get();
         $countries->load('states');
         $currencies = Currency::all(); //should by cached
-        $units = Unit::all(); //should be cached
-        $timezones = Timezone::all(); //should be cached
+        $units      = Unit::all(); //should be cached
+        $timezones  = Timezone::all(); //should be cached
         //$user       = $request->user();
         //$store      = null !== $user ? Store::find($user->store_id) : null;
         return Inertia::render('Stores/Create', compact('industries', 'methods', 'countries','currencies','units','timezones'));
