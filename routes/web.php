@@ -147,7 +147,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('stores', StoresController::class)->names([
             'index' => 'stores.index',
             'show' => 'stores.show',
-            'create' => 'stores.create'
+            'create' => 'stores.create',
+            'stores' => 'stores.store',
+            
         ]);
 
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
