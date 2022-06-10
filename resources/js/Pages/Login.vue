@@ -134,8 +134,7 @@
                                             v$.password.$error,
                                         'border-gray-300':
                                             !v$.password.$error,
-                                    }" id="password" name="password" type="password"
-                                        autocomplete="current-password"
+                                    }" id="password" name="password" type="password" autocomplete="current-password"
                                         class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         v-model="user.password" />
                                 </div>
