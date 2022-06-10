@@ -9,7 +9,7 @@ class BehaviourCheckBoxes extends CheckBox
 {
     public function options($filter) {
 
-       $behaviors =  Transaction::query()
+       $behaviors =  Transaction::search($filter)
             ->join('customers', 'customer_id', '=', 'customers.id')
             ->join('store_tags', 'store_tags.tagable_id', 'customers.id')
             ->join('tags', 'tags.id', 'store_tags.tag_id')
