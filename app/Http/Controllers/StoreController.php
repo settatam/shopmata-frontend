@@ -18,7 +18,8 @@ class StoreController extends Controller
     }
 
     public function store(RegisterStep2Request $request)
-    {
+    {  
+        
        return  $this->registerStep2($request);
     }
 
