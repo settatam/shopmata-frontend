@@ -57,8 +57,17 @@ class StoresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+
+        $input = $request->all();
+        try {
+            Store::addUpdateStore($input);
+            \Log::info("Store Added" . collect($request->all()));
+            return response()->json(['message'=> "Store added" ], 200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to add  store" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> $th->getMessage()], 422);
+        }
     }
 
     /**

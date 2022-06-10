@@ -517,7 +517,7 @@ export default {
                 return;
             }
             loading.value = !loading.value;
-            axios.post(urls.create_store.create,)
+            axios.post(urls.create_store.create, )
                 .then((res) => {
                     setTimeout(
                     notifyAlert(
