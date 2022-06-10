@@ -33,6 +33,8 @@ class Table extends Widget
 
     protected $shouldChangeStatus = false;
 
+    protected $showPagination = true;
+
     protected $data;
 
     public function __construct($filter=null, $data=[])
@@ -219,6 +221,10 @@ class Table extends Widget
           return $this->shouldChangeStatus;
     }
 
+    public function showPagination() {
+          return $this->showPagination;
+    }
+
     public function pagination() {
           return [
               'total' => $this->data->total(),
@@ -230,6 +236,7 @@ class Table extends Widget
               'last_page_url' => $this->data->url($this->data->lastPage()),
               'path' => $this->data->path(),
               'links' => $this->data->linkCollection()->toArray(),
+              'show_pagination' => $this->showPagination()
           ];
     }
 
