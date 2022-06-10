@@ -2275,6 +2275,9 @@ select {
 .flex-wrap {
 	flex-wrap: wrap !important;
 }
+.place-items-center {
+	place-items: center !important;
+}
 .content-center {
 	align-content: center !important;
 }
@@ -3323,6 +3326,9 @@ select {
 }
 .font-extrabold {
 	font-weight: 800 !important;
+}
+.font-thin {
+	font-weight: 100 !important;
 }
 .font-light {
 	font-weight: 300 !important;
@@ -4953,6 +4959,10 @@ input[type='checkbox']:focus {
 
 	.md\:w-5 {
 		width: 1.25rem !important;
+	}
+
+	.md\:w-4\/6 {
+		width: 66.666667% !important;
 	}
 
 	.md\:w-2\/5 {
