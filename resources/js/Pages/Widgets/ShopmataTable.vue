@@ -380,6 +380,7 @@ const openModal = ref(false);
 const images = ref([]);
 const pageFilters = ref({});
 const searchTerm = ref(props.term);
+const showPagination = ref(true)
 
 const filters = props.filters;
 
@@ -454,6 +455,8 @@ const getData = async (e) => {
     exportable.value = res.data.exportable;
     isSearchable.value = res.data.isSearchable;
     pagination.value = res.data.pagination;
+    showPagination.value = res.data.show_pagination
+
 };
 
 const doClose = () => {
