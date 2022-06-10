@@ -40,7 +40,7 @@ class StoresController extends Controller
         $countries->load('states');
         //$user       = $request->user();
         //$store      = null !== $user ? Store::find($user->store_id) : null;
-        return Inertia\Inertia::render('Stores/Create', compact('industries', 'methods', 'countries','store'));
+        return Inertia::render('Stores/Create', compact('industries', 'methods', 'countries'));
     }
 
     /**
