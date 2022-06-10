@@ -47,7 +47,7 @@ class StoresController extends Controller
         $timezones = Timezone::all(); //should be cached
         //$user       = $request->user();
         //$store      = null !== $user ? Store::find($user->store_id) : null;
-        return Inertia::render('Stores/Create', compact('industries', 'methods', 'countries'));
+        return Inertia::render('Stores/Create', compact('industries', 'methods', 'countries','currencies','units','timezones'));
     }
 
     /**
