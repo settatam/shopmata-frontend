@@ -16,6 +16,7 @@ class Filters extends AbstractExtension
             new TwigFilter('address', [$this, 'address']),
             new TwigFilter('accept', [$this, 'accept']),
             new TwigFilter('reject', [$this, 'reject']),
+            new TwigFilter('money_format', [$this, 'moneyFormat']),
         ];
     }
 
@@ -33,12 +34,12 @@ class Filters extends AbstractExtension
     }
 
     public function address($address) {
-        return sprintf('<address> %s <br> %s <br> %s $s %s </address>',
-        $address.address,
-                $address.address2,
-                $address.city,
-                $address.state,
-                $address.zip
+        return sprintf('<address> %s <br> %s <br> %s %s %s </address>',
+            $address->address,
+            $address->address2,
+            $address->city,
+            $address->state,
+            $address->zip
         );
     }
 
@@ -50,7 +51,7 @@ class Filters extends AbstractExtension
         return '<button> THis is the reject button</button>';
     }
 
-    public function money_format($money) {
+    public function moneyFormat($money) {
         return Numeral::number($money)->format('$0,0.00');
     }
  }
