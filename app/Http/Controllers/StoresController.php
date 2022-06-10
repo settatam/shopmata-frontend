@@ -40,7 +40,7 @@ class StoresController extends Controller
     {   
         $industries = StoreIndustry::orderBy('name', 'asc')->get();
         $methods    = SalesMethod::orderBy('name', 'asc')->get();
-        $countries  = Country::where('status', 1)->get();
+        $countries  = Country::where('status', 1)->first();
         $countries->load('states');
         $currencies = Currency::all(); //should by cached
         $units      = Unit::all(); //should be cached
