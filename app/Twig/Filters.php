@@ -4,6 +4,7 @@ namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Numeral\Numeral;
 
 class Filters extends AbstractExtension
 {
@@ -32,7 +33,13 @@ class Filters extends AbstractExtension
     }
 
     public function address($address) {
-        return '<address> This is my store address </address>';
+        return sprintf('<address> %s <br> %s <br> %s $s %s </address>',
+        $address.address,
+                $address.address2,
+                $address.city,
+                $address.state,
+                $address.zip
+        );
     }
 
     public function accept($button) {
@@ -42,4 +49,8 @@ class Filters extends AbstractExtension
     public function reject($button) {
         return '<button> THis is the reject button</button>';
     }
-}
+
+    public function money_format($money) {
+        return Numeral::number($money)->format('$0,0.00');
+    }
+ }

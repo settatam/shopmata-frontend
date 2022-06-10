@@ -497,11 +497,6 @@ class Transaction extends Model
         return $transaction;
     }
 
-
-
-
-
-
     public function activities()
     {
         return $this->morphMany(Activity::class, 'activityable');
@@ -1202,7 +1197,6 @@ class Transaction extends Model
         }
         return $type == 'public' ? $this->publicnote()->create($notes_data) : $this->privatenote()->create($notes_data);
     }
-
 
     private function calcProfit($cost, $selling) {
         if(!$cost && !$selling) return '';
