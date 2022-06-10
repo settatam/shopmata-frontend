@@ -170,7 +170,7 @@ class Transaction extends Model
     }
 
     public function scopeWithGroupedTags($query) {
-        $query->join('store_tags', 'store_tags.tagable_id', 'customers.id')
+        $query->join('store_tags', 'store_tags.tagable_id', 'transaction.id')
           ->join('tags', 'tags.id', 'store_tags.tag_id')
           ->where('store_tags.tagable_type', 'App\Models\Transaction')
           ->selectRaw("tag_id, tags.name, COUNT(tag_id) AS `tagCount`")
