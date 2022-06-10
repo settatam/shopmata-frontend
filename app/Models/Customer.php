@@ -74,6 +74,14 @@ class Customer extends Authenticatable
     }
 
 
+    public function scopeWithGroupedBehavior($query) {
+        $query->join('store_tags', 'store_tags.tagable_id', '=', 'customers.id')
+            ->where('type', 'behavior')
+            ->join('tags', 'store_tags.tag_id', '=', 'tags.id')
+            ->selectRaw("tags.name, store_tags.tag_id, COUNT(store_tags.tag_id) AS `tagIdCount`")->groupBy('tag_id');
+    }
+
+
     public function lead()
     {
         return $this->belongsTo(Lead::class);

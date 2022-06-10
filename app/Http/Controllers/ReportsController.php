@@ -19,7 +19,9 @@ class ReportsController extends Controller
     public function index(Request $request)
     {
         $filters = $request->input();
-       $reportForm = (new ReportFormGroup())->render($filters);
+
+        //dd(Customer::withGroupedBehavior()->get());
+        $reportForm = (new ReportFormGroup())->render($filters);
         //†$filters['dates'] = Filter::dates($filters);
         $filters['type'] = 'ReportsTable';
         $dates = Filter::getDefaultMTD(Filter::DEFAULT_TIMEZONE);

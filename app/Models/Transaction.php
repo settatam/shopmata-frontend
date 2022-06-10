@@ -149,6 +149,8 @@ class Transaction extends Model
             ->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
     }
 
+    
+
     public function scopeWithGroupedStates($query) {
         $query->join('addresses', 'addresses.addressable_id', '=', 'transactions.id')
             ->join('states', 'addresses.state_id', '=', 'states.id')
