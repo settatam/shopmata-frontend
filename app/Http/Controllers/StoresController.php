@@ -10,6 +10,8 @@ use App\Models\Currency;
 use App\Models\Unit;
 use App\Models\Timezone;
 
+use App\Http\Helpers\Helper;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Auth;
@@ -58,8 +60,10 @@ class StoresController extends Controller
     public function store(Request $request)
     {   
 
-        $input = $request->all();
+        
         try {
+            $input = $request->all();
+            $input['slug'] = Helper::generateSlug($input['name']);
             $store = Store::addUpdateStore($input);
             \Log::info("Store Added" . collect($request->all()));
             return response()->json(['message'=> "Store added" ], 200);
