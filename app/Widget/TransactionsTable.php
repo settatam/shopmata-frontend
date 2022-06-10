@@ -155,13 +155,6 @@ class TransactionsTable extends Table
                         ],
 
                         [
-                            'key' => 'message',
-                            'label' => 'Message',
-                            'sortable' => true,
-                            'html' => true
-                        ],
-
-                        [
                             'key' => 'Categories',
                             'label' => 'Categories',
                             'sortable' => false,
@@ -303,9 +296,6 @@ class TransactionsTable extends Table
                             ];
                         default:
                             $extras = [
-                                'message' => [
-                                        'data' => 'This is a messager',
-                                ],
                                 'categories' => [
                                     'data' => $transaction->customer_categories,
                                 ],
