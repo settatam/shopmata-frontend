@@ -14,7 +14,7 @@ export default {
     assets: {
         uploader: () => "/admin/online-store/code-editor/uploader",
     },
-    create_store: {
-        create: () => `/admin/store/create`,
+    createstore: {
+        create: () => "/admin/stores",
     },
 };
