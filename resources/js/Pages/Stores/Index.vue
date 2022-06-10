@@ -24,7 +24,7 @@
                         </div>
                     </div>
 
-                    <inertia-link class="flex-col flex justify-center cursor-pointer" :href="'/admin/dashboard/'+ store.id">
+                    <inertia-link class="flex-col flex justify-center cursor-pointer" :href="'/admin/dashboard/store_id='+ store.id">
                         <ArrowNarrowRightIcon class=" text-gray-500 w-8" />
                     </inertia-link>
                 </div>
