@@ -8,7 +8,7 @@ use App\Models\SalesMethod;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Unit;
-use App\Models\TimeZone;
+use App\Models\Timezone;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -40,11 +40,10 @@ class StoresController extends Controller
     {   
         $industries = StoreIndustry::orderBy('name', 'asc')->get();
         $methods    = SalesMethod::orderBy('name', 'asc')->get();
-        $countries  = Country::where('status', 1)->get();
-        $countries->load('states');
+        $countries  = Country::with('states')->where('status', 1)->first();
         $currencies = Currency::all(); //should by cached
-        $units = Unit::all(); //should be cached
-        $timezones = Timezone::all(); //should be cached
+        $units      = Unit::all(); //should be cached
+        $timezones  = Timezone::all(); //should be cached
         //$user       = $request->user();
         //$store      = null !== $user ? Store::find($user->store_id) : null;
         return Inertia::render('Stores/Create', compact('industries', 'methods', 'countries','currencies','units','timezones'));
@@ -57,8 +56,17 @@ class StoresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+
+        $input = $request->all();
+        try {
+            Store::addUpdateStore($input);
+            \Log::info("Store Added" . collect($request->all()));
+            return response()->json(['message'=> "Store added" ], 200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to add  store" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> $th->getMessage()], 422);
+        }
     }
 
     /**

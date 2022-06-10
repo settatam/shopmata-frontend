@@ -53,11 +53,11 @@ class ReportFormGroup extends Form
             //     'label' => 'Days',
             //     'fields' => (new DaysCheckBoxes())->render($filter)
             // ],
-            // [
-            //     'name' => 'states',
-            //     'label' => 'States',
-            //     'fields' => (new StatesCheckBoxes())->render($filter)
-            // ]
+            [
+                'name' => 'states',
+                'label' => 'States',
+                'fields' => (new StatesCheckBoxes())->render($filter)
+            ]
         ];
     }
 }
