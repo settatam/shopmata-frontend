@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Store;
+use App\Models\StoreIndustry;
+use App\Models\SalesMethod;
+use App\Models\Country;
+use App\Models\Currency;
+use App\Models\Unit;
+use App\Models\TimeZone;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Auth;
+
+
+
 
 class StoresController extends Controller
 {
@@ -27,8 +37,17 @@ class StoresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return Inertia::render('Stores/Create');
+    {   
+        $industries = StoreIndustry::orderBy('name', 'asc')->get();
+        $methods    = SalesMethod::orderBy('name', 'asc')->get();
+        $countries  = Country::where('status', 1)->get();
+        $countries->load('states');
+        $currencies = Currency::all(); //should by cached
+        $units = Unit::all(); //should be cached
+        $timezones = Timezone::all(); //should be cached
+        //$user       = $request->user();
+        //$store      = null !== $user ? Store::find($user->store_id) : null;
+        return Inertia::render('Stores/Create', compact('industries', 'methods', 'countries','currencies','units','timezones'));
     }
 
     /**
