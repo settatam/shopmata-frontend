@@ -76,7 +76,7 @@
                                     <EyeIcon
                                         class="w-5 h-5 font-semibold mr-2.5"
                                     />
-                                    <p>Preview</p>
+                                    <p><a :href="'/admin/settings/notification'+notification.id+'/preview'"> Preview</a></p>
                                 </div>
                                 <button
                                     type="button"
@@ -441,7 +441,7 @@ export default {
     },
     setup({ email, sms, notification }) {
         const order = reactive({
-            subject: notification.name,
+            subject: email ? email.email_subject : null,
             sms_message: sms ? sms.message : null,
             email_message: email ? email.message : null,
             store_notification_id: notification.id,
