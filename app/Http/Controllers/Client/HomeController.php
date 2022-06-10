@@ -43,6 +43,8 @@ class HomeController extends Controller
 
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transactions'] = Transaction::with('images')
+                    ->with('status')
+                    ->withStatusDateTime()
                     ->with('customer')
                     ->withPaymentDateTime()
                     ->where('customer_id', $data['customer']->id)
