@@ -57,7 +57,7 @@
                 <div class="flex flex-row justify-end w-full">
                     <div class="flex flex-col-reverse">
                         <button
-                            class=" rounded-md border border-indigo-600 mr-4 shadow-sm px-4 py-3 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm bg-indigo-600 hover:bg-indigo-700 justify-centre flex"
+                            class=" rounded-md border border-indigo-600 mb-1 mr-4 shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm bg-indigo-600 hover:bg-indigo-700 justify-centre flex"
                             @click="submitFilters()">
                             <AdjustmentsIcon class="h-5 w-5" /> Apply
                         </button>

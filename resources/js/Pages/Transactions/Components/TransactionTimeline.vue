@@ -65,7 +65,7 @@
                                 class="text-xs my-2 mx-2"
                                 name="2ndoffer"
                                 id="2ndoffer"
-                                v-model="transaction.offers.length"
+                                v-model="currentTransaction.offers.length"
                             />
                             <label class="mt-1" for="2ndoffer">2nd Offer</label>
                         </div>
@@ -369,7 +369,6 @@ export default {
         function addMessage() {}
 
         function updateTransaction(event, status_id = null) {
-            console.log("This is the event", currentTransaction);
             let data = {};
             switch (event) {
                 case "status_id":
@@ -382,19 +381,19 @@ export default {
                 case "message":
                     data = {
                         field: "message",
-                        value: this.currentTransaction.value.status_id,
+                        value: currentTransaction.value.status_id,
                     };
                     break;
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.value.offer,
+                        value: currentTransaction.value.offer,
                     };
                     break;
                 case "sms":
                     data = {
                         field: "sms",
-                        value: this.currentTransaction.value.sms,
+                        value: this.currentTransaction.sms,
                     };
                     break;
                 case "private_note":

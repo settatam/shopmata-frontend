@@ -245,14 +245,14 @@
                                             "
                                         >
                                             <a
-                                                class="h-10 w-10 flex-shrink-0 cursor-pointer"
+                                                class="h-24 w-24 flex-shrink-0 cursor-pointer"
                                                 v-if="item[tranIndex].data.length"
                                                 @click="
                                                     doSlider(item[tranIndex].data)
                                                 "
                                             >
                                                 <img
-                                                    class="h-10 w-10"
+                                                    class="max-w-full h-24"
                                                     :src="
                                                         item[tranIndex].data[0]
                                                             .url

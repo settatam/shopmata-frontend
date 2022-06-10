@@ -191,8 +191,8 @@ class LoadBuyMyGoldData extends Command
                     }
 
                     if ($order["date_update"]  !== "0000-00-00 00:00:00"){
-                        $transaction->addActivity([
-                            'event' => "UPDATED",
+                        $transaction->histories()->create([
+                            'event' => "UPDATED" ,
                             'created_at' => $order["date_update"]
                         ]);
                     }

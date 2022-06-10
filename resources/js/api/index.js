@@ -2,10 +2,11 @@ import axios from 'axios'
 import urls from "./urls";
 import {Inertia} from "@inertiajs/inertia";
 
-export const postAsNativeForm = ((action, params) => {
+export const postAsNativeForm = ((action, params, target=null) => {
     let form  = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', action);
+    if(target) form.setAttribute('target', target);
     for (let key in params) {
         if (params.hasOwnProperty(key)) {
             let hiddenField = document.createElement('input');

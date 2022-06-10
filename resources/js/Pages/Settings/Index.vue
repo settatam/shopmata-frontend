@@ -436,7 +436,6 @@ export default {
         TransitionRoot,
         ChevronRightIcon,
         HomeIcon
-        //ErrorIcon
     },
 
     setup({ store, states }) {

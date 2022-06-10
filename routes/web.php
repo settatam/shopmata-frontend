@@ -46,6 +46,7 @@ use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\TransactionsItemsController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TransactionItemsController;
+use App\Http\Controllers\StoresController;
 
 use App\Http\Controllers\WidgetsController;
 
@@ -92,7 +93,7 @@ Route::get('test', function () {
 Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('/', [ClientHomeController::class, 'index']);
     Route::get('transactions', [ClientHomeController::class, 'index']);
-    Route::get('transactions/{id}', [ClientHomeController::class, 'show']);
+    Route::get('transactions/{id}', [ClientHomeController::class, 'index']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
     Route::get('customer/login', [ClientHomeController::class, 'index'])->name('customer.login');
     Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');
@@ -142,6 +143,13 @@ Route::post('staff/registration/new', [StaffsController::class, 'createStaff']);
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::prefix('admin')->group(function () {
+
+        Route::resource('stores', StoresController::class)->names([
+            'index' => 'stores.index',
+            'show' => 'stores.show',
+            'create' => 'stores.create'
+        ]);
+
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard/data', [DashboardController::class, 'getData']);
         Route::get('/get/user/store/products', [StoreController::class, 'getStoreProducts']);

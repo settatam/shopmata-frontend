@@ -212,6 +212,7 @@ export default {
                 transactions: selectedTransactions.value,
                 action: value
             }
+            console.log(data);
             switch (action) {
                 case 'status':
                     console.log('This is the status')

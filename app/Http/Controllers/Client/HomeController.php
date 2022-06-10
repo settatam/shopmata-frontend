@@ -19,7 +19,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($account)
+    public function index($account, $id=null)
     {
         //
         if(session()->has('store_id')) {
@@ -31,6 +31,7 @@ class HomeController extends Controller
             $sortBy = $request->sort_by ?? 'created_at';
 
             $pageToFind = StorePage::nameFromPath($path);
+            $pageType = 'page';
 
             $data = [];
 
@@ -47,11 +48,26 @@ class HomeController extends Controller
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->get();
+
+            }else if($pageToFind == 'transactions.detail') {
+                $pageType = 'template';
+                $data['customer'] = Auth::guard('customer')->user();
+                $data['transaction'] = Transaction::with('images')
+                    ->with('customer')
+                    ->withFinalOffer()
+                    ->withPaymentDateTime()
+                    ->withKitSentDateTime()
+                    ->withOfferGivenDateTime()
+                    ->withReturnedDateTime()
+                    ->withReceivedDateTime()
+                    ->where('customer_id', $data['customer']->id)
+                    ->orderBy($sortBy, $orderBy)
+                    ->find($id);
             }
 
 
             if(null !== $store) {
-                $page = $store->pageContent($pageToFind, $data);
+                $page = $store->pageContent($pageToFind, $data, $pageType);
                 $customer = null;
                 if(Auth::check()) {
                     $customer = Auth::user();

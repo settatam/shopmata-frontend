@@ -36,10 +36,10 @@ class Filters extends AbstractExtension
     }
 
     public function accept($button) {
-        return '<button> This is my reject button </button>';
+        return '<button> This is my accept button </button>';
     }
 
-    public function reject($address) {
+    public function reject($button) {
         return '<button> THis is the reject button</button>';
     }
 }

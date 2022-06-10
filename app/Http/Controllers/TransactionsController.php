@@ -292,8 +292,10 @@ class TransactionsController extends Controller
             case 'label':
                  foreach($transactions as $transaction) {
                     $tr = Transaction::find($transaction['id']);
-
+                    //We must ensure the user has a full address
                     if($shippingLabel = $tr->getShippingLabel($transaction['direction'], true)) {
+                        //Update the status to Kit Sent
+                        $tr->doUpdate(['status_id' => 1]);
                         $printables[] = [
                             'label' => $shippingLabel,
                             'qty' => $transaction['qty']
@@ -422,7 +424,7 @@ class TransactionsController extends Controller
     {
         //
         $input = $request->input();
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::withFinalOffer()->find($id);
 
         //How do we perform validation here???
 
@@ -528,6 +530,7 @@ class TransactionsController extends Controller
 
         return redirect('transactions.index');
     }
+
 }
 
 

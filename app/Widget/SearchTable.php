@@ -55,12 +55,6 @@ class SearchTable extends Table
                 'sortable' => false,
                 'html' => true
               ],
-            [
-                'key' => 'Whatever',
-                'label' => 'whatever',
-                'sortable' => true,
-                'html' => true
-              ],
               [
                 'key' => 'customer_info',
                 'label' => 'Customer Info',
@@ -83,7 +77,7 @@ class SearchTable extends Table
             ->orWhereHas('customer', function($q) use ($term){
                 $q->where('first_name', 'LIKE', $term)
                     ->orWhere('last_name', 'LIKE', $term);
-            })->with('transStatus')
+            })->with('transStatus')->with('customer.address')
             ->with('images')
             ->orderBy(Filter::sortBy($filter), Filter::sort($filter))
             ->paginate(Filter::perPage($filter));
@@ -116,14 +110,11 @@ class SearchTable extends Table
                     'categories' => [
                         'data' => $transaction->customer_categories,
                     ],
-                    'whatever' => [
-                        'data' => 'This is whatever',
-                        ],
                     'customer_info' => [
                         'data' => $transaction->customer,
                         'type' => 'customer_info',
                         'href' => '/admin/customers/'.$transaction->customer->id
-                        ]
+                    ],
                 ];
 
             })
@@ -138,7 +129,7 @@ class SearchTable extends Table
         return $this->data->lastPage();
     }
 
-    public function actions() {
+    public function actions($filter) {
         return  [
             'Create Shipping Label',
             'Create Barcodes',
