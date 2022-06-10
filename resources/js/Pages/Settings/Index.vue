@@ -118,8 +118,7 @@
                                 <select
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="" v-model="store_details.country_id" required>
-                                    <option v-for="(country, index) in this
-                                    .countries" :key="index" :value="country.id">
+                                    <option v-for="(country, index) in countries" :key="index" :value="country.id">
                                         {{ country.name }}
                                     </option>
                                 </select>

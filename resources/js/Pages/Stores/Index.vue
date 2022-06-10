@@ -49,7 +49,7 @@ export default {
         HomeIcon,
         ArrowNarrowRightIcon
     },
-    props: ['navigation', 'store', 'stores'],
+    props: ['navigation', 'store', 'stores' ],
     setup() {
         return {}
     }
