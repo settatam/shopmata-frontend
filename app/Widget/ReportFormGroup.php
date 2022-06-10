@@ -44,10 +44,10 @@ class ReportFormGroup extends Form
                 'label' => 'Source',
                 'fields' => (new SourceCheckBoxes())->render($filter)
             ],
-            [
-                'label' => 'Age',
-                'fields' => (new AgeCheckBoxes())->render($filter)
-            ],
+            // [
+            //     'label' => 'Age',
+            //     'fields' => (new AgeCheckBoxes())->render($filter)
+            // ],
             // [
             //     'name' => 'days',
             //     'label' => 'Days',

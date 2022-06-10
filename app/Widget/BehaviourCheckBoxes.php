@@ -6,11 +6,12 @@ namespace App\Widget;
 use App\Models\Transaction;
 use App\Models\StoreTag;
 
+
 class BehaviourCheckBoxes extends CheckBox
 {
     public function options($filter) {
 
-       $behaviors =  Transaction::query()
+       $behaviors =  Transaction::search($filter)
             ->join('customers', 'customer_id', '=', 'customers.id')
             ->join('store_tags', 'store_tags.tagable_id', 'customers.id')
             ->where('type', 'behavior')
