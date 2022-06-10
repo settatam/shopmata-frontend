@@ -396,16 +396,16 @@ export default {
             business_name: "",
             phone: "",
             industry_id: "",
-            country_id: "",
+            country_id: "1",
             city: "",
             state_id: "",
             zip: "",
-            timezone_id: "",
-            unit_id: "",
+            timezone_id: "0",
+            unit_id: "1",
             default_weight_unit: "",
             order_id_prefix: "",
             order_id_suffix: "",
-            currency_id: "",
+            currency_id: "97",
         })
         const rules = computed(() => {
             return {
@@ -517,16 +517,16 @@ export default {
                 return;
             }
             loading.value = !loading.value;
-            axios.post(urls.create_store.create, )
+            axios.post(urls.create_store.create, { payload: store_details })
                 .then((res) => {
                     setTimeout(
-                    notifyAlert(
-                        "Store created",
-                        "top",
-                        "Success"
-                    ),
-                    2000
-                );
+                        notifyAlert(
+                            "Store created",
+                            "top",
+                            "Success"
+                        ),
+                        2000
+                    );
                     Inertia.visit("/admin/stores", {
                         method: "get",
                     });
@@ -534,12 +534,12 @@ export default {
                 .catch((error) => {
                     loading.value = false;
                     setTimeout(
-                    notifyAlert(
-                        "Error processing your request",
-                        "bottom",
-                        "Error"
-                    ),
-                    2000);
+                        notifyAlert(
+                            "Error processing your request",
+                            "bottom",
+                            "Error"
+                        ),
+                        2000);
                 });
         }
 
