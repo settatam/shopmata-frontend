@@ -169,6 +169,14 @@ class Transaction extends Model
                ->selectRaw("leads.name, customers.lead_id, COUNT(customers.lead_id) AS `leadIdCount`")->groupBy('lead_id');
     }
 
+    public function scopeWithGroupedTags($query) {
+        $query->join('store_tags', 'store_tags.tagable_id', 'customers.id')
+          ->join('tags', 'tags.id', 'store_tags.tag_id')
+          ->where('store_tags.tagable_type', 'App\Models\Transaction')
+          ->selectRaw("tag_id, tags.name, COUNT(tag_id) AS `tagCount`")
+          ->groupBy('store_tags.tag_id');
+    }
+
     public function scopeWithGroupedRepeatCustomer($query, $repeat=true) {
         $query->selectRaw("COUNT(customer_id) AS `numberOfTransactions`")->groupBy('customer_id');
         if($repeat) {
@@ -666,9 +674,6 @@ class Transaction extends Model
     {
         return $this->hasOne(TransactionPaymentAddress::class);
     }
-
-
-
 
     public function sms()
     {
