@@ -87,8 +87,7 @@
                             <select
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder="" v-model="store_details.country_id" required>
-                                <option v-for="(country, index) in this
-                                .countries" :key="index" :value="country.id">
+                                <option v-for="(country, index) in countries" :key="index" :value="country.id">
                                     {{ country.name }}
                                 </option>
                             </select>
@@ -111,7 +110,7 @@
                                     placeholder="" v-model="store_details.state_id" required>
                                     <option value="">Choose a State</option>
                                     <option v-for="(state,
-                                    index) in country_state" :key="index" :value="state.id">
+                                    index) in states" :key="index" :value="state.id">
                                         {{ state.name }}
                                     </option>
                                 </select>
@@ -249,6 +248,8 @@
                                 placeholder="" v-model="store_details.customer_email" required />
                         </div>
                     </div>
+
+
                     <button class="text-white rounded-md px-8 py-3 float-right my-5"
                         :class="loading ? 'bg-gray-400' : 'bg-indigo-600'" @click="submit" :disabled="loading">
                         <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{ save }}
@@ -355,8 +356,12 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onBeforeMount, watch, computed } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
+import LoadingSpinner from '../../Components/LoadingSpinner.vue'
+import useVuelidate from "@vuelidate/core";
+import { required, email, helpers, numeric } from "@vuelidate/validators";
+import urls from '../../api/urls';
 import {
     Dialog,
     DialogOverlay,
@@ -366,6 +371,7 @@ import {
 import { notify } from 'notiwind'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
+import notification from '../../Utils/notification'
 
 export default {
     components: {
@@ -373,13 +379,16 @@ export default {
         Dialog,
         DialogOverlay,
         TransitionChild,
-        TransitionRoot
+        TransitionRoot,
+        LoadingSpinner,
     },
-    props: ['navigation'],
-    setup() {
+    props: ['navigation', 'countries', 'currencies', 'industries', 'timezones', 'units'],
+    setup(props) {
 
         const save = ref('Save Changes')
         const loading = ref(false)
+        const states = ref([])
+        const { notifyAlert } = notification();
         const store_details = reactive({
             name: "",
             account_email: "",
@@ -397,10 +406,144 @@ export default {
             order_id_prefix: "",
             order_id_suffix: "",
             currency_id: "",
-
         })
+        const rules = computed(() => {
+            return {
+                name: {
+                    required: helpers.withMessage(
+                        "Please enter a name",
+                        required
+                    ),
+                },
+                account_email: {
+                    required: helpers.withMessage(
+                        "Please enter an account email address",
+                        required
+                    ),
+                    email,
+                },
+                customer_email: {
+                    required: helpers.withMessage(
+                        "Please enter a customer email address",
+                        required
+                    ),
+                    email,
+                },
+                phone: {
+                    required: helpers.withMessage(
+                        "Please enter a phone number",
+                        required
+                    ),
+                    numeric,
+                },
+                business_name: {
+                    required: helpers.withMessage(
+                        "Please enter a businessname",
+                        required
+                    ),
+                },
+                industry_id: {
+                    required: helpers.withMessage(
+                        "Please enter a name",
+                        required
+                    ), numeric
+                },
+                country_id: {
+                    required: helpers.withMessage(
+                        "Please select a country",
+                        required
+                    ), numeric
+                },
+                city: {
+                    required: helpers.withMessage(
+                        "Please enter a city",
+                        required
+                    ),
+                },
+                state_id: {
+                    required: helpers.withMessage(
+                        "Please select a state",
+                        required
+                    ), numeric
+                },
+                zip: {
+                    required: helpers.withMessage(
+                        "Please enter a zip/post code",
+                        required
+                    ), numeric
+                },
+                timezone_id: {
+                    required: helpers.withMessage(
+                        "Please select a timezone",
+                        required
+                    ), numeric
+                },
+                unit_id: {
+                    required: helpers.withMessage(
+                        "Please enter a Unit ID",
+                        required)
+                },
+                default_weight_unit: {
+                    required: helpers.withMessage(
+                        "Please enter a default weight unit",
+                        required
+                    ),
+                },
+                order_id_prefix: {
+                    required: helpers.withMessage(
+                        "Please enter an order id prefix",
+                        required
+                    ),
+                },
+                order_id_suffix: {
+                    required: helpers.withMessage(
+                        "Please enter an order id suffix",
+                        required
+                    ),
+                },
+                currency_id: {
+                    required: helpers.withMessage(
+                        "Please select a currency ID",
+                        required
+                    ),
+                },
+            }
+        })
+        const v$ = useVuelidate(rules, store_details);
 
-        return { store_details, save, loading }
+        function createStore() {
+            this.v$.$validate();
+            if (this.v$.$error) {
+                return;
+            }
+            loading.value = !loading.value;
+            axios.post(urls.create_store.create,)
+                .then((res) => {
+                    setTimeout(
+                    notifyAlert(
+                        "Store created",
+                        "top",
+                        "Success"
+                    ),
+                    2000
+                );
+                    Inertia.visit("/admin/stores", {
+                        method: "get",
+                    });
+                })
+                .catch((error) => {
+                    loading.value = false;
+                    setTimeout(
+                    notifyAlert(
+                        "Error processing your request",
+                        "bottom",
+                        "Error"
+                    ),
+                    2000);
+                });
+        }
+
+        return { store_details, save, loading, states, v$ }
     }
 }
 

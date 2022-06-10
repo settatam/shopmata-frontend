@@ -1,25 +1,17 @@
 <template>
     <div class="min-h-screen bg-white flex">
-        <div
-            class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24"
-        >
+        <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div>
-                    <img
-                        class="h-12 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                        alt="Workflow"
-                    />
+                    <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                        alt="Workflow" />
                     <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
                         Sign in to your account
                     </h2>
                     <p class="mt-2 text-sm text-gray-600">
                         Or
                         {{ " " }}
-                        <inertia-link
-                            href="register"
-                            class="font-medium text-indigo-600 hover:text-indigo-500"
-                        >
+                        <inertia-link href="register" class="font-medium text-indigo-600 hover:text-indigo-500">
                             start your 14-day free trial
                         </inertia-link>
                     </p>
@@ -107,79 +99,48 @@
                     </div>
 
                     <div class="mt-6">
-                        <form
-                            action="#"
-                            method="POST"
-                            class="space-y-6"
-                            v-on:submit.prevent="loginUser"
-                        >
+                        <form action="#" method="POST" class="space-y-6" v-on:submit.prevent="loginUser">
                             <div>
-                                <label
-                                    for="email"
-                                    class="block text-sm font-medium text-gray-700"
-                                >
+                                <label for="email" class="block text-sm font-medium text-gray-700">
                                     Email address
                                 </label>
                                 <div class="mt-1">
-                                    <input
-                                        :class="{
-                                            'border-red-600': v$.email.$error,
-                                            'border-gray-300': !v$.email.$error,
-                                        }"
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autocomplete="email"
+                                    <input :class="{
+                                        'border-red-600': v$.email.$error,
+                                        'border-gray-300': !v$.email.$error,
+                                    }" id="email" name="email" type="email" autocomplete="email"
                                         class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        v-model="user.email"
-                                    />
+                                        v-model="user.email" />
                                 </div>
                                 <div class="mt-1">
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.email.$error"
-                                    >
+                                    <p class="text-red-600 text-xs" v-if="v$.email.$error">
                                         {{ v$.email.$errors[0].$message }}
                                     </p>
                                 </div>
                                 <div mt-1>
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="loginError"
-                                    >
+                                    <p class="text-red-600 text-xs" v-if="loginError">
                                         Invalid username/password
                                     </p>
                                 </div>
                             </div>
 
                             <div class="space-y-1">
-                                <label
-                                    for="password"
-                                    class="block text-sm font-medium text-gray-700"
-                                >
+                                <label for="password" class="block text-sm font-medium text-gray-700">
                                     Password
                                 </label>
                                 <div class="mt-1">
-                                    <input
-                                        :class="{
-                                            'border-red-600':
-                                                v$.password.$error,
-                                            'border-gray-300':
-                                                !v$.password.$error,
-                                        }"
-                                        id="password"
-                                        name="password"
-                                        type="password"
+                                    <input :class="{
+                                        'border-red-600':
+                                            v$.password.$error,
+                                        'border-gray-300':
+                                            !v$.password.$error,
+                                    }" id="password" name="password" type="password"
                                         autocomplete="current-password"
                                         class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        v-model="user.password"
-                                    />
+                                        v-model="user.password" />
                                 </div>
                                 <div class="mt-1">
-                                    <p
-                                        class="text-red-600 text-xs"
-                                        v-if="v$.password.$error"
-                                    >
+                                    <p class="text-red-600 text-xs" v-if="v$.password.$error">
                                         {{ v$.password.$errors[0].$message }}
                                     </p>
                                 </div>
@@ -187,52 +148,35 @@
 
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
-                                    <input
-                                        id="remember-me"
-                                        name="remember-me"
-                                        type="checkbox"
-                                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                    />
-                                    <label
-                                        for="remember-me"
-                                        class="ml-2 block text-sm text-gray-900"
-                                    >
+                                    <input id="remember-me" name="remember-me" type="checkbox"
+                                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
+                                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">
                                         Remember me
                                     </label>
                                 </div>
 
                                 <div class="text-sm">
-                                    <inertia-link
-                                        href="password/reset"
-                                        class="font-medium text-indigo-600 hover:text-indigo-500"
-                                    >
+                                    <inertia-link href="password/reset"
+                                        class="font-medium text-indigo-600 hover:text-indigo-500">
                                         Forgot your password?
                                     </inertia-link>
                                 </div>
                             </div>
 
                             <div>
-                                <button
-                                    v-if="!v$.$error"
-                                    :disabled="loading"
-                                    :class="{
-                                        disabled: loading,
-                                        'opacity-25 cursor-not-allowed':
-                                            loading,
-                                    }"
-                                    type="submit"
-                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >
-                                <LoadingSpinner v-if="loading"/>
+                                <button v-if="!v$.$error" :disabled="loading" :class="{
+                                    disabled: loading,
+                                    'opacity-25 cursor-not-allowed':
+                                        loading,
+                                }" type="submit"
+                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <LoadingSpinner v-if="loading" />
 
                                     Sign in
                                 </button>
 
-                                <button
-                                    v-else
-                                    type="submit"
-                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >
+                                <button v-else type="submit"
+                                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     Sign in
                                 </button>
                             </div>
@@ -242,11 +186,9 @@
             </div>
         </div>
         <div class="hidden lg:block relative w-0 flex-1">
-            <img
-                class="absolute inset-0 h-full w-full object-cover"
+            <img class="absolute inset-0 h-full w-full object-cover"
                 src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
-                alt=""
-            />
+                alt="" />
         </div>
     </div>
 </template>
@@ -274,7 +216,7 @@ export default {
             search: "",
         };
     },
-    components:{LoadingSpinner},
+    components: { LoadingSpinner },
     setup() {
         const loading = ref(false);
         const user = reactive({

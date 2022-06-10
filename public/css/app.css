@@ -1938,6 +1938,9 @@ select {
 .w-4\.5\/10 {
 	width: 45% !important;
 }
+.w-1\/2 {
+	width: 50% !important;
+}
 .w-36 {
 	width: 9rem !important;
 }
