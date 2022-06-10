@@ -388,6 +388,7 @@ export default {
         const save = ref('Save Changes')
         const loading = ref(false)
         const states = ref([])
+        const { notifyAlert } = notification();
         const store_details = reactive({
             name: "",
             account_email: "",
@@ -518,12 +519,27 @@ export default {
             loading.value = !loading.value;
             axios.post(urls.create_store.create,)
                 .then((res) => {
+                    setTimeout(
+                    notifyAlert(
+                        "Store created",
+                        "top",
+                        "Success"
+                    ),
+                    2000
+                );
                     Inertia.visit("/admin/stores", {
                         method: "get",
                     });
                 })
                 .catch((error) => {
                     loading.value = false;
+                    setTimeout(
+                    notifyAlert(
+                        "Error processing your request",
+                        "bottom",
+                        "Error"
+                    ),
+                    2000);
                 });
         }
 
