@@ -20,8 +20,8 @@ class BehaviourCheckBoxes extends CheckBox
 
         return $behaviors->map(function ($tag) use ($filter) {
             return [
-                'label' => $tag->name,
-                'value' => $tag->behaviorCount
+                'label' => $tag->name . ' -  (' . $tag->behaviorCount . ')',
+                'value' => $tag->tag_id
             ];
         });
     }
