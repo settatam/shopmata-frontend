@@ -122,8 +122,6 @@ class HomeController extends Controller
             $path = request()->path();
             $pageToFind = StorePage::nameFromPath($path);
 
-            dd($pageToFind);
-
             $transaction = Transaction::with('trStatus')->with('images')->with('offers')->find($id);
 
             if(null !== $store) {
