@@ -60,7 +60,7 @@ class StoresController extends Controller
 
         $input = $request->all();
         try {
-            Store::addUpdateStore($input);
+            $store = Store::addUpdateStore($input);
             \Log::info("Store Added" . collect($request->all()));
             return response()->json(['message'=> "Store added" ], 200);
         } catch (\Throwable $th) {

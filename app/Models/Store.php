@@ -250,11 +250,8 @@ class Store extends Model
     }
 
 
-    public function addUpdateStore($input, $store = null) {
-        if (!$store) {
-            $store  = new static;            
-        }
-
+    public static  function addUpdateStore($input) {
+        $store  = new self;            
         $store->create($input);
         return $store;
     }
