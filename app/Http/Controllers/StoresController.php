@@ -8,7 +8,7 @@ use App\Models\SalesMethod;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Unit;
-use App\Models\TimeZone;
+use App\Models\Timezone;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
