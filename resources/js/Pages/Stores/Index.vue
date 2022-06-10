@@ -24,9 +24,9 @@
                         </div>
                     </div>
 
-                    <a class="flex-col flex justify-center cursor-pointer" :href="/dashboard">
+                    <inertia-link class="flex-col flex justify-center cursor-pointer" :href="'/admin/dashboard/'+ store.id">
                         <ArrowNarrowRightIcon class=" text-gray-500 w-8" />
-                    </a>
+                    </inertia-link>
                 </div>
 
 
@@ -41,6 +41,7 @@
 <script>
 import AppLayout from '../../Layouts/AppLayout.vue'
 import { HomeIcon, ArrowNarrowRightIcon } from '@heroicons/vue/outline'
+import { Inertia } from '@inertiajs/inertia'
 
 export default {
     components: {
