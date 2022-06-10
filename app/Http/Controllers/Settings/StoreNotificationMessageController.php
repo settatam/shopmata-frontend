@@ -9,10 +9,6 @@ use App\Http\Controllers\Controller;
 
 class StoreNotificationMessageController extends Controller
 {
-    
-
-    
-
     /**
      * Store a newly created resource in storage.
      *
@@ -21,7 +17,7 @@ class StoreNotificationMessageController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         // $request->validate([
         //     'subject'=>['required'],
         //     'message'=>['required'],

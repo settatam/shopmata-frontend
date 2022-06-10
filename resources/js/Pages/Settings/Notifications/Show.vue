@@ -76,7 +76,7 @@
                                     <EyeIcon
                                         class="w-5 h-5 font-semibold mr-2.5"
                                     />
-                                    <p><a :href="'/admin/settings/notification'+notification.id+'/preview'"> Preview</a></p>
+                                    <p><a :href="'/admin/settings/notification/'+notification.id+'/preview'"> Preview</a></p>
                                 </div>
                                 <button
                                     type="button"
