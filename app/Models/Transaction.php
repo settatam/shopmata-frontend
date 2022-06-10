@@ -130,7 +130,7 @@ class Transaction extends Model
     }
 
     public function scopeWithDaysInStock($query) {
-        return $query->selectRaw("DATEDIFF(NOW(), created_at) AS dis");
+        return $query->selectRaw("DATEDIFF(NOW(), transactions.created_at) AS dis");
     }
 
     public function scopeWithGroupedStatus($query) {
@@ -139,7 +139,7 @@ class Transaction extends Model
     }
 
     public function scopeWithGroupedDates($query) {
-        return $query->selectRaw('DATE_FORMAT(created_at, "%W") as day,  COUNT(DATE_FORMAT(created_at, "%W")) AS `dayCount`')
+        return $query->selectRaw('DATE_FORMAT(transactions.created_at, "%W") as day,  COUNT(DATE_FORMAT(created_at, "%W")) AS `dayCount`')
         ->groupBy('day');
     }
 
@@ -455,7 +455,7 @@ class Transaction extends Model
 
     public function scopeWithDayOfWeek($query, $filter=null) {
         if($dayOfWeek = data_get($filter, 'dayOfWeek')) {
-            $query->whereRaw("DAYNAME(created_at) = ?", [$dayOfWeek]);
+            $query->whereRaw("DAYNAME(transactions.created_at) = ?", [$dayOfWeek]);
         }
     }
 
@@ -498,11 +498,6 @@ class Transaction extends Model
 
         return $transaction;
     }
-
-
-
-
-
 
     public function activities()
     {
@@ -1204,7 +1199,6 @@ class Transaction extends Model
         }
         return $type == 'public' ? $this->publicnote()->create($notes_data) : $this->privatenote()->create($notes_data);
     }
-
 
     private function calcProfit($cost, $selling) {
         if(!$cost && !$selling) return '';
