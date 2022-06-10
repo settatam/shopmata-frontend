@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\EventNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Scopes\StoreScope;
@@ -11,6 +12,7 @@ use App\Traits\FileUploader;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Numeral\Numeral;
+use Illuminate\Support\Str;
 
 
 class Customer extends Authenticatable
@@ -323,6 +325,26 @@ class Customer extends Authenticatable
         }
         return '';
     }
-    
+
+    public function generateLoginTokenForEmail(Store $store) {
+        if($token = LoginToken::createNew($this, 'email', '600')) {
+            $sender = (new EventNotification('Email Login Token', [
+                'customer' => $this,
+                'store' => $store,
+                'token' => $token
+            ]));
+        }
+    }
+
+    public function generateLoginTokenForSms(Store $store) {
+        if($token = LoginToken::createNew($this, 'sms', 600)) {
+            $sender = (new EventNotification('Sms Login Token', [
+                'customer' => $this,
+                'store' => $store,
+                'token' => $token
+            ]));
+        }
+    }
+
 
 }

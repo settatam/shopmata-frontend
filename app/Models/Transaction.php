@@ -169,6 +169,14 @@ class Transaction extends Model
                ->selectRaw("leads.name, customers.lead_id, COUNT(customers.lead_id) AS `leadIdCount`")->groupBy('lead_id');
     }
 
+    public function scopeWithGroupedTags($query) {
+        $query->join('store_tags', 'store_tags.tagable_id', 'transactions.id')
+          ->join('tags', 'tags.id', 'store_tags.tag_id')
+          ->where('store_tags.tagable_type', 'App\Models\Transaction')
+          ->selectRaw("tag_id, tags.name, COUNT(tag_id) AS `tagCount`")
+          ->groupBy('store_tags.tag_id');
+    }
+
     public function scopeWithGroupedRepeatCustomer($query, $repeat=true) {
         $query->selectRaw("COUNT(customer_id) AS `numberOfTransactions`")->groupBy('customer_id');
         if($repeat) {
@@ -279,6 +287,15 @@ class Transaction extends Model
         return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kits Received')
+                ->where('is_status', 1)
+                ->take(1)
+        ]);
+    }
+
+    public function scopeWithReturnedDateTime($query) {
+        return $query->addSelect(['returned_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as returned_date_time")
+                ->whereColumn('transactions.id', 'activities.activityable_id')
+                ->where('status', 'Kit Returned')
                 ->where('is_status', 1)
                 ->take(1)
         ]);
@@ -657,9 +674,6 @@ class Transaction extends Model
     {
         return $this->hasOne(TransactionPaymentAddress::class);
     }
-
-
-
 
     public function sms()
     {

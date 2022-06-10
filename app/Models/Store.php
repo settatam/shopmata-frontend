@@ -187,13 +187,21 @@ class Store extends Model
         return Navigation::with('items')->where('store_id', $this->id)->get();
     }
 
+    public function getThemeFiles() {
+
+    }
+
+    public function getThemeFile() {
+
+    }
+
 
     /**
      * @param $name
      * @param $data An array of objects. array contains transactions, transaction, product, collections, customer
      * @return string
      */
-    public function pageContent($name, $data=[]) {
+    public function pageContent($name, $data=[], $type='page') {
 
         $page = $this->pages()->where('name', $name)->first();
         $pageContent = '';
@@ -201,27 +209,29 @@ class Store extends Model
         $content = '<p> This page could not be found!</p>';
         $template = '';
 
-        //Build the template with page content
-
-        if($page->content) {
-            $data['content_for_page'] = $page->content;
-            $template = html_entity_decode(ThemeFile::generateParsedContent($page->template->content, $data));
+        if($type == 'page') {
+            $page = $this->pages()->where('name', $name)->first();
+            if(null !== $page) {
+                if($page->content) $data['content_for_page'] = $page->content;
+            }
+            $template = $page->template->content;
+        }else if($type == 'template') {
+            $page = ThemeFile::query()->where('title', $name.'.twig')->where('store_id', $this->id)->first();
+            $template = $page->content;
         }
+
+        $pageTemplate = '';
 
         if(null !== $page) {
-            if($page->content) {
-                $data['content_for_page'] = $page->content;
-            }
-            $template = html_entity_decode(ThemeFile::generateParsedContent($page->template->content, $data));
-            $theme  = $page->theme->content;
+            $pageTemplate = html_entity_decode(ThemeFile::generateParsedContent($template, $data));
         }else{
-            $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
+            $pageTemplate = '<p> This page could not be found!</p>';
         }
 
-        if($template) {
-            $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($template, $data));
-        }else{
-            $data['content_for_page'] = '<p> This page could not be found!</p>';
+        $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
+
+        if($pageTemplate) {
+            $data['content_for_page'] =  html_entity_decode(ThemeFile::generateParsedContent($pageTemplate, $data));
         }
 
         if($theme) {
