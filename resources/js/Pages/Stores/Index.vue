@@ -24,7 +24,7 @@
                         </div>
                     </div>
 
-                    <a class="flex-col flex justify-center cursor-pointer">
+                    <a class="flex-col flex justify-center cursor-pointer" :href="/dashboard">
                         <ArrowNarrowRightIcon class=" text-gray-500 w-8" />
                     </a>
                 </div>
