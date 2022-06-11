@@ -31,10 +31,10 @@ class OpenEditorPage extends Model
 
         return $files->map(function(OpenEditorPage $page){
             return [
-                'title' => $page->theme_file->title,
-                'content' => $page->theme_file->content,
+                'title' => optional($page->theme_file)->title,
+                'content' => optional($page->theme_file)->content,
                 'id' => $page->id,
-                'edited_content' => $page->theme_file->content
+                'edited_content' => optional($page->theme_file)->content
             ];
         });
     }

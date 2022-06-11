@@ -95,6 +95,9 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('transactions', [ClientHomeController::class, 'index']);
     Route::get('transactions/{id}', [ClientHomeController::class, 'index']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
+    Route::get('my-settings', [ClientHomeController::class, 'index']);
+    Route::post('my-settings', [ClientHomeController::class, 'settings']);
+    Route::get('track-my-kit', [ClientHomeController::class, 'index']);
     Route::get('customer/login', [ClientHomeController::class, 'index'])->name('customer.login');
     Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');
     Route::post('customer/login', [CustomerLoginController::class, 'customerLogin']);
@@ -149,7 +152,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             'show' => 'stores.show',
             'create' => 'stores.create',
             'stores' => 'stores.store',
-            
+
         ]);
 
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
