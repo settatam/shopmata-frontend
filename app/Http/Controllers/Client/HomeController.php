@@ -66,7 +66,8 @@ class HomeController extends Controller
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
             }else if($pageToFind == 'my-settings') {
-                dd('this is the my settings page');
+                $pageType = 'template';
+                $data['customer'] = Auth::guard('customer')->user();
             }
                 $pageType = 'template';
                 $data['customer'] = Auth::guard('customer')->user();
@@ -81,8 +82,7 @@ class HomeController extends Controller
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
-
-
+                
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data, $pageType);
                 $customer = null;
