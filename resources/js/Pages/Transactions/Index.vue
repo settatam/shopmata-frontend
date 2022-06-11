@@ -238,7 +238,7 @@ export default {
                         case 'Rejected By Admin':
                         case 'Create Shipping Label':
                         case 'Create Return Label':
-                            let postData = JSON.stringify({ ...data, ...props.filters })
+                            let postData = { ...data, ...props.filters }
                             api.postAsNativeForm(
                                 urls.transactions.bulkAction('barcode'),
                                 postData,

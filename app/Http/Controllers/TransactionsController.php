@@ -323,8 +323,8 @@ class TransactionsController extends Controller
 //        }
 
         $input = $request->input();
-        dd($input);
-        $queryObj = Transaction::whereIn('id', $input['transactions']);
+        $requestTransactions = is_array($input['transactions']) ? $input['transactions'] : explode(',', $input['transactions']);
+        $queryObj = Transaction::whereIn('id', $requestTransactions);
         $transactionObj = $queryObj->get();
 
         if($input['action'] == 'Create Barcodes') {

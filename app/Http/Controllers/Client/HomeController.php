@@ -67,6 +67,8 @@ class HomeController extends Controller
                     ->find($id);
             }else if($pageToFind == 'my-settings') {
                 $pageType = 'template';
+                $customer = Auth::guard('customer')->user();
+                $customer->load('address');
                 $data['customer'] = Auth::guard('customer')->user();
             }
                 $pageType = 'template';
@@ -82,7 +84,7 @@ class HomeController extends Controller
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
-                
+
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data, $pageType);
                 $customer = null;
@@ -100,7 +102,9 @@ class HomeController extends Controller
         return redirect('customer/login');
     }
 
-
+    public function settings(Request $request){
+        dd($request->input());
+    }
 
     /**
      * Show the form for creating a new resource.
