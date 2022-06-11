@@ -225,7 +225,7 @@ export default {
         }
 
         const formattedTimes = computed(() => {
-            return trSmses.map(item => {
+            return trSmses.value.map(item => {
                 let d = new Date(Date.parse(item.created_at))
                 return formatDate(d)
             })
