@@ -1,10 +1,10 @@
 <template>
 
     <app-layout :navigation="navigation">
-        <div class="flex-1 flex flex-col  lg:flex-row mt-5 px-4 lg:px-0">
+        <div class="flex-1 flex flex-col  lg:flex-row my-8 px-4 py-5 lg:px-0">
             <!-- Secondary sidebar -->
             <!-- Main content -->
-            <div class="flex-1 max-h-screen">
+            <div class="flex-1">
                 <div class="w-auto lg:ml-7 lg:mr-2">
                     <div class="p-8 bg-white">
                         <h1 class="text-2xl mb-2 font-semibold">
@@ -47,7 +47,7 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder="" v-model="store_details.industry_id" required>
                                 <option value="">Choose Industry</option>
-                                <option v-for="(industry, index) in industries" :key="index" :value="industry.id">
+                                <option v-for="industry in industries" :key="industry.index" :value="industry.id">
                                     {{ industry.name }}
                                 </option>
                             </select>
@@ -87,8 +87,11 @@
                             <select
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder="" v-model="store_details.country_id" required>
-                                <option v-for="(country, index) in countries" :key="index" :value="country.id">
+                                <!-- <option v-for="(country, index) in countries" :key="index" :value="country.id">
                                     {{ country.name }}
+                                </option> -->
+                                <option :key="countries.index" :value="countries.id">
+                                    {{ countries.name }}
                                 </option>
                             </select>
                         </div>
@@ -109,8 +112,7 @@
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="" v-model="store_details.state_id" required>
                                     <option value="">Choose a State</option>
-                                    <option v-for="(state,
-                                    index) in states" :key="index" :value="state.id">
+                                    <option v-for="state in states" :key="state.index" :value="state.id">
                                         {{ state.name }}
                                     </option>
                                 </select>
@@ -142,7 +144,7 @@
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder="" v-model="store_details.timezone_id" required>
                                 <option value="0">Select Timezone</option>
-                                <option v-for="(timezone, index) in timezones" :key="index" :value="timezone.id">
+                                <option v-for="timezone in timezones" :key="timezone.index" :value="timezone.id">
                                     {{ timezone.text }}
                                 </option>
                             </select>
@@ -155,7 +157,7 @@
                                 <select
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="" v-model="store_details.unit_id" required>
-                                    <option v-for="(unit, index) in units" :key="index" :value="unit.id">
+                                    <option v-for="unit in units" :key="unit.index" :value="unit.id">
                                         {{ unit.unit }}
                                     </option>
                                 </select>
@@ -213,7 +215,7 @@
                             <select
                                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder="" v-model="store_details.currency_id" required>
-                                <option v-for="(currency, index) in currencies" :key="index" :value="currency.id">
+                                <option v-for="currency in currencies" :key="currency.index" :value="currency.id">
                                     {{ currency.symbol_left + ' ' }}
                                     {{ currency.title }} ({{
                                             currency.code
@@ -250,9 +252,9 @@
                     </div>
 
 
-                    <button class="text-white rounded-md px-8 py-3 float-right my-5"
-                        :class="loading ? 'bg-gray-400' : 'bg-indigo-600'" @click="submit" :disabled="loading">
-                        <i class="fas fa-spinner fa-pulse text-white m-1" v-if="loading"></i>{{ save }}
+                    <button class="text-white flex flex-row rounded-md px-8 py-3 float-right my-2 bg-purple-darken" @click="submit"
+                        :disabled="loading">
+                        <LoadingSpinner v-if="loading" />{{ save }}
                     </button>
 
 
@@ -387,7 +389,7 @@ export default {
 
         const save = ref('Save Changes')
         const loading = ref(false)
-        const states = ref([])
+        const states = props.countries.states
         const { notifyAlert } = notification();
         const store_details = reactive({
             name: "",
@@ -509,15 +511,16 @@ export default {
                 },
             }
         })
-        const v$ = useVuelidate(rules, store_details);
+        // const v$ = useVuelidate(rules, store_details);
 
-        function createStore() {
-            this.v$.$validate();
-            if (this.v$.$error) {
-                return;
-            }
+        function submit() {
+            // console.log('works')
+            // this.v$.$validate();
+            // if (this.v$.$error) {
+            //     return;
+            // }
             loading.value = !loading.value;
-            axios.post(urls.create_store.create, { payload: store_details })
+            axios.post(urls.createstore.create(),store_details)
                 .then((res) => {
                     setTimeout(
                         notifyAlert(
@@ -543,7 +546,7 @@ export default {
                 });
         }
 
-        return { store_details, save, loading, states, v$ }
+        return { store_details, save, loading, states, submit }
     }
 }
 

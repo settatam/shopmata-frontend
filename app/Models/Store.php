@@ -248,4 +248,11 @@ class Store extends Model
             env('APP_URL')
         );
     }
+
+
+    public static  function addUpdateStore($input) {
+        $store  = new self;            
+        $store->create($input);
+        return $store;
+    }
 }

@@ -103,7 +103,7 @@ class NotificationsController extends Controller
      */
     public function preview($id)
     {
-
+    
         $data['transaction'] = Transaction::whereHas('customer')->first();
         $data['transactions'] = Transaction::whereHas('customer')->take(5)->get();
         $data['customer'] = $data['transaction']->customer;

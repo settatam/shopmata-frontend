@@ -6,6 +6,7 @@ namespace App\Widget;
 use App\Models\Transaction;
 use App\Models\StoreTag;
 
+
 class BehaviourCheckBoxes extends CheckBox
 {
     public function options($filter) {

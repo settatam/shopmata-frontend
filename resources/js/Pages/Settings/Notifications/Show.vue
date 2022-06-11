@@ -70,7 +70,7 @@
                                 </p>
                             </div>
                             <div class="flex items-center mb-0 lg:mb-5">
-                                <div
+                                <a :href="previewLink"
                                     class="text-indigo-700 mr-7 hidden lg:flex"
                                 >
                                     <EyeIcon
@@ -83,7 +83,7 @@
                                         > Preview
                                         </a>
                                     </p>
-                                </div>
+                                </a>
                                 <button
                                     type="button"
                                     class="disabled:bg-gray-400 rounded-md border border-transparent shadow-sm px-4 lg:px-7 py-3 text-xs lg:text-base font-medium text-white sm:text-sm"
@@ -461,6 +461,7 @@ export default {
         const loading = ref(false);
         const save = ref("Save");
         const successMessage = ref("");
+        const previewLink = ref("/settings/notifications/" + notification.id + "/preview");
 
         const submit = () => {
             loading.value = true;
@@ -486,6 +487,7 @@ export default {
             successMessage,
             onClickTop,
             onClickBot,
+            previewLink
         };
     },
 };
