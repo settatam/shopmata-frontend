@@ -7,7 +7,7 @@ export default () => {
         files.map((file) => {
             formData.append("files[]", file);
             formData.append("type", "image");
-            if (payload) {
+            if (null !== payload) {
                 formData.append("model", payload.model);
                 formData.append("transaction_id", payload.transaction_id);
                 formData.append("customer_id", payload.customer_id);
