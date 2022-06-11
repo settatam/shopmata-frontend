@@ -144,7 +144,6 @@ export default {
     components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, ImageSlider, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon, ImagesList },
     props: ['smses', 'id'],
     setup(props) {
-        const smsTimes = props.transaction
         let smsMessage = ref('');
         const buttonName = ref('Send Message')
         const loadingAnimation = ref(false)
@@ -226,13 +225,13 @@ export default {
         }
 
         const formattedTimes = computed(() => {
-            return smsTimes.map(item => {
+            return trSmses.map(item => {
                 let d = new Date(Date.parse(item.created_at))
                 return formatDate(d)
             })
         })
 
-        return { doSlider, openModal, smsTimes, trSmses, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
+        return { doSlider, openModal, trSmses, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
     }
 }
 </script>
