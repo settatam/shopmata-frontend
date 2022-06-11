@@ -12,7 +12,6 @@ export default () => {
                 formData.append("transaction_id", payload.transaction_id);
                 formData.append("customer_id", payload.customer_id);
             }
-
             return formData;
         });
 
@@ -32,7 +31,7 @@ export default () => {
 
     const deleteImage = (args = {}) => {
         const { image_id, image_url, index, loading, url, message, images } =
-            args;
+        args;
         const { onClickTop, onClickBot } = notification();
         loading.value = index;
         return axios
