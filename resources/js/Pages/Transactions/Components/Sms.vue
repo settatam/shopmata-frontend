@@ -10,6 +10,7 @@
 
         <!-- sms chatbox starts -->
         <div>
+
             <div v-if="trSmses.length > 0" class="px-3 space-y-2 h-48 overflow-y-auto">
                 <template class="bg-gray-lightest p-4 " v-for="(sms, index) in trSmses.slice().reverse()"
                     :key="sms.index">
@@ -19,31 +20,32 @@
                                 <p class="text-xs py-2">
                                     {{ formattedTimes[index] }}
                                 </p>
-                                <span>{{ sms.message }}</span>
+                                <span>{{ sms.message }} {{ sms.images }}</span>
 
-                                {{ sms.images }}
-                                 <div
-                                    class=""
-                                    v-if="sms.images.length"
-                                >
-                                    <a
-                                        class="h-24 w-24 flex-shrink-0 cursor-pointer"
-                                        @click="doSlider(sms.images)"
-                                    >
-                                        <img
-                                            class="max-w-full h-24"
-                                            :src="sms.images[0].url"
-                                            alt=""
-                                        />
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div v-else class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start">
-                        <p class="text-xs py-2">{{ formattedTimes[index] }}</p>
-                        <p>{{ sms.message }}</p>
+                    <div v-else class="  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start">
+                        <div  class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start">
+                            <p class="text-xs py-2">{{ formattedTimes[index] }}</p>
+                            <p>{{ sms.message }}</p>
+                        </div>
+                        <div
+                                class="mx-3"
+                                v-if="sms.images.length"
+                            >
+                                <a
+                                    class="h-24 w-24 flex-shrink-0 cursor-pointer"
+                                    @click="doSlider(sms.images)"
+                                >
+                                    <img
+                                        class="max-w-full h-24"
+                                        :src="sms.images[0].url"
+                                        alt=""
+                                    />
+                                </a>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -155,6 +157,7 @@ export default {
         const { saveFiles }   = fileUploader();
         const largeImagesUrls = ref([])
         const { notifyAlert } = notification();
+        console.log(trSmses)
 
         function previewImages(event) {
             let acceptFiles = event.target.files
@@ -174,6 +177,10 @@ export default {
         function delete_img(index) {
             images.value.splice(index)
         }
+
+        const doClose = () => {
+           openModal.value = false;
+        };
 
 
         const doSlider = (i) => {
@@ -232,7 +239,7 @@ export default {
             })
         })
 
-        return { doSlider, openModal, trSmses, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
+        return { doClose, doSlider, openModal, trSmses, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
     }
 }
 </script>
