@@ -18,7 +18,6 @@ class OffersGivenCnotesandPictures extends Form
     {
         return [
             [
-                'label' => '',
                 'field' => (new OffersGivenCnotesandPicturesActions())->render($filter)
             ]
         ];

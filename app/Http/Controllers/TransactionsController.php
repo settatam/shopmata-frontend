@@ -323,6 +323,7 @@ class TransactionsController extends Controller
 //        }
 
         $input = $request->input();
+        dd($input);
         $queryObj = Transaction::whereIn('id', $input['transactions']);
         $transactionObj = $queryObj->get();
 
@@ -333,8 +334,9 @@ class TransactionsController extends Controller
             return Inertia::render('Transactions/BulkPrintBarcode', [
                 'transactions' => $transactionObj
             ]);
-        }else if($input['action'] == 'Create Shipping Label' ) {
+        }else if($input['action'] == 'Create Shipping Label' || $input['action'] == 'Create Return Label') {
             $direction = str_replace('label', '', $input['action']);
+
             $to = $transactionObj->map(function(Transaction $transaction) {
                 return [
                     'id' => $transaction->id,
@@ -343,17 +345,20 @@ class TransactionsController extends Controller
                 ];
             });
 
-            $from = $transactionObj->map(function(Transaction $transaction) {
-                return [
-                    'id' => $transaction->id,
-                    'qty' => 1,
-                    'direction' => 'from'
-                ];
-            });
+            $from = collect([]);
+
+            if($input['action'] == 'Create Shipping Label') {
+                $from = $transactionObj->map(function(Transaction $transaction) {
+                    return [
+                        'id' => $transaction->id,
+                        'qty' => 1,
+                        'direction' => 'from'
+                    ];
+                });
+            }
 
             $merged = $to->merge($from)->sortBy('id');
             $transactions = $merged->values()->all();
-
             return Inertia::render('Transactions/BulkPrintLabel', compact('transactions'));
         }else if(is_numeric($input['action'])) {
             foreach($transactionObj as $transaction) {

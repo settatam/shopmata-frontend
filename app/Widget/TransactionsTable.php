@@ -9,6 +9,7 @@ use App\Widget\Filter\StatusFilter;
 use App\Widget\Filter\PendingKitActions;
 use App\Widget\{DefaultStatus, PendingKit, KitSent, KitReceived, KitReceivedRefusedbyCustomerFedex, PendingKitRequestsRejectedbyAdmin, ReturnedbyAdmin, OffersGiven, OffersGivenCnotesandPictures, OffersAccepted, PaymentsProcessed, ReadyForMelt };
 use App\Widget\StatusForm;
+use App\Widget\OffersDeclined;
 
 
 class TransactionsTable extends Table
@@ -360,6 +361,9 @@ class TransactionsTable extends Table
                     case 20:
                         $actions[] = (new KitReceivedRefusedbyCustomerFedex())->render($filter);
                         break;
+                        case 19:
+                        $actions[] = (new OffersDeclined())->render($filter);
+                        break;
                     case 4:
                         $actions[] = (new OffersGiven())->render($filter);
                         break;
@@ -375,7 +379,7 @@ class TransactionsTable extends Table
                     case 13:
                         $actions[] = (new ReadyForMelt())->render($filter);
                         break;
-                    case null:
+                    default:
                        $actions[] = (new DefaultStatus())->render($filter);
                        break;
 

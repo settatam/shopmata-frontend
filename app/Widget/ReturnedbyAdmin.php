@@ -18,7 +18,6 @@ class ReturnedbyAdmin extends Form
     {
         return [
             [
-                'label' => '',
                 'field' => (new ReturnedbyAdminActions())->render($filter)
             ]
         ];

@@ -237,11 +237,14 @@ export default {
                         case 'Create Barcodes':
                         case 'Rejected By Admin':
                         case 'Create Shipping Label':
-                            Inertia.post(
+                        case 'Create Return Label':
+                            let postData = JSON.stringify({ ...data, ...props.filters })
+                            api.postAsNativeForm(
                                 urls.transactions.bulkAction('barcode'),
-                                { ...data, ...props.filters }
+                                postData,
+                                '_blank'
                             )
-                            break
+                            break;
                         case 'Bin Location':
                             let url = urls.transactions.bulkAction('bin_location')
                             data.bin_location = bin_location.value
