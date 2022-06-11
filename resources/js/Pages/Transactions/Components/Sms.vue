@@ -1,13 +1,17 @@
 <template>
     <div class=" rounded-md bg-white lg:mx-2">
+        <ImageSlider :images="images" :open="openModal" @close="doClose">
+        </ImageSlider>
+
+
         <div class="text-xl px-4 rounded-t-md w-full font-bold flex justify-center text-black">
             <h1>SMS</h1>
         </div>
 
         <!-- sms chatbox starts -->
         <div>
-            <div v-if="transaction.length > 0" class="px-3 space-y-2 h-48 overflow-y-auto">
-                <template class="bg-gray-lightest p-4 " v-for="(sms, index) in transaction.slice().reverse()"
+            <div v-if="trSmses.length > 0" class="px-3 space-y-2 h-48 overflow-y-auto">
+                <template class="bg-gray-lightest p-4 " v-for="(sms, index) in trSmses.slice().reverse()"
                     :key="sms.index">
                     <div class="flex items-end justify-end" v-if="sms.is_coming">
                         <div class="flex flex-col w-1/2 max-w-xs mx-2 order-1 items-end">
@@ -16,6 +20,23 @@
                                     {{ formattedTimes[index] }}
                                 </p>
                                 <span>{{ sms.message }}</span>
+
+                                {{ sms.images }}
+                                 <div
+                                    class=""
+                                    v-if="sms.images.length"
+                                >
+                                    <a
+                                        class="h-24 w-24 flex-shrink-0 cursor-pointer"
+                                        @click="doSlider(sms.images)"
+                                    >
+                                        <img
+                                            class="max-w-full h-24"
+                                            :src="sms.images[0].url"
+                                            alt=""
+                                        />
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -110,6 +131,8 @@ import axios from 'axios'
 import AppLayout from '../../../Layouts/AppLayout.vue'
 import { ref, reactive } from 'vue'
 import Button from '../../../Components/Button.vue'
+import ImageSlider from "../../Widgets/ImageSlider";
+
 import ImagesList from '../../../Components/ImageList.vue'
 import { Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/vue/solid'
@@ -119,16 +142,17 @@ import { notify } from "notiwind";
 import notification from "../../../Utils/notification";
 
 export default {
-    components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon, ImagesList },
-    props: ['transaction', 'id'],
+    components: { AppLayout, Button, Listbox, ListboxButton, ListboxLabel, ListboxOption, ListboxOptions, ImageSlider, CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon, ImagesList },
+    props: ['smses', 'id'],
     setup(props) {
-        const smsTimes = props.transaction
         let smsMessage = ref('');
         const buttonName = ref('Send Message')
         const loadingAnimation = ref(false)
         const url = "/admin/images";
-        let images = ref([])
-        const { saveFiles } = fileUploader();
+        const openModal = ref(false);
+        const images = ref([]);
+        const trSmses = ref(props.smses)
+        const { saveFiles }   = fileUploader();
         const largeImagesUrls = ref([])
         const { notifyAlert } = notification();
 
@@ -137,7 +161,6 @@ export default {
             saveFiles(Array.from(acceptFiles))
                 .then((res) => {
                     images.value = res.data
-                    console.log(images.value)
                 }).then(() => {
                     largeImagesUrls.value = []
                     images.value.filter((image) => {
@@ -151,6 +174,12 @@ export default {
         function delete_img(index) {
             images.value.splice(index)
         }
+
+
+        const doSlider = (i) => {
+            images.value = i;
+            openModal.value = true;
+        };
 
         // test
 
@@ -174,6 +203,7 @@ export default {
                 loadingAnimation.value = false
                 smsMessage.value = ""
                 images.value = []
+                trSmses.value = res.data.sms
                 setTimeout(
                     notifyAlert(
                         "SMS sent successfully",
@@ -196,13 +226,13 @@ export default {
         }
 
         const formattedTimes = computed(() => {
-            return smsTimes.map(item => {
+            return trSmses.value.map(item => {
                 let d = new Date(Date.parse(item.created_at))
                 return formatDate(d)
             })
         })
 
-        return { smsTimes, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
+        return { doSlider, openModal, trSmses, formatDate, formattedTimes, smsMessage, addMessage, buttonName, loadingAnimation, url, images, previewImages, delete_img, largeImagesUrls }
     }
 }
 </script>

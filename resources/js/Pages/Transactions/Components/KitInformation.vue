@@ -94,7 +94,7 @@
 
         <!-- sms start -->
         <div>
-            <Sms :transaction="transaction.sms" :id="transaction.id" class="my-4" />
+            <Sms :smses="transaction.sms" :id="transaction.id" class="my-4" />
         </div>
     </div>
 </template>
