@@ -65,7 +65,22 @@ class HomeController extends Controller
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
+            }else if($pageToFind == 'my-settings') {
+                dd('this is the my settings page');
             }
+                $pageType = 'template';
+                $data['customer'] = Auth::guard('customer')->user();
+                $data['transaction'] = Transaction::with('images')
+                    ->with('customer')
+                    ->withFinalOffer()
+                    ->withPaymentDateTime()
+                    ->withKitSentDateTime()
+                    ->withOfferGivenDateTime()
+                    ->withReturnedDateTime()
+                    ->withReceivedDateTime()
+                    ->where('customer_id', $data['customer']->id)
+                    ->orderBy($sortBy, $orderBy)
+                    ->find($id);
 
 
             if(null !== $store) {
