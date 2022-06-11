@@ -20,10 +20,11 @@
                                     {{ formattedTimes[index] }}
                                 </p>
                                 <span>{{ sms.message }}</span>
+
+                                {{ sms.images }}
                                  <div
                                     class=""
                                     v-if="sms.images.length"
-                                    
                                 >
                                     <a
                                         class="h-24 w-24 flex-shrink-0 cursor-pointer"
