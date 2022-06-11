@@ -30,7 +30,7 @@ class DashBoard
                     (SELECT 'Offers Given' AS counter,count(*) AS val, 'status=4' as href FROM transactions WHERE status_id=4 AND store_id = $store_id) UNION
                     (SELECT 'Offers Given - C Notes and Pictures' AS counter,count(*) AS val, 'status=50' as href FROM transactions WHERE status_id=50 AND store_id = $store_id) UNION
 
-                    (SELECT 'Offers Declined' AS counter,count(*) AS val, 'tag=Declined' as href FROM transactions WHERE is_declined=1 AND store_id = $store_id) UNION
+                    (SELECT 'Offers Declined' AS counter,count(*) AS val, 'status=19' as href FROM transactions WHERE status_id=19 AND store_id = $store_id) UNION
                     (SELECT 'Offers Declined - Send Back' AS counter,count(*) AS val, 'tag=Declined' as href FROM transactions WHERE status_id=12 AND store_id = $store_id) UNION
 
                     (SELECT 'Offers Accepted' AS counter,count(*) AS val, 'status=24' as href FROM transactions WHERE is_accepted=1 AND store_id = $store_id) UNION

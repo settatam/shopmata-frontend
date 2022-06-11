@@ -149,7 +149,7 @@ class Transaction extends Model
             ->selectRaw("gender, COUNT(gender) AS `genderCount`")->groupBy('gender');
     }
 
-    
+
 
     public function scopeWithGroupedStates($query) {
         $query->join('addresses', 'addresses.addressable_id', '=', 'transactions.id')
@@ -736,6 +736,9 @@ class Transaction extends Model
     }
 
     public function addOffer($amount) {
+        //This is a band-aid
+        $this->final_offer = $amount;
+        $this->save();
         $notification_name = '';
         if($this->offers()->create([
             'offer' => $amount

@@ -186,10 +186,6 @@ class LoadBuyMyGoldData extends Command
                     $cusAddress->save();
 
 
-                    foreach ($transaction->histories as $history) {
-                        $history->delete();
-                    }
-
                     if ($order["date_update"]  !== "0000-00-00 00:00:00"){
                         $transaction->histories()->create([
                             'event' => "UPDATED" ,
@@ -205,6 +201,10 @@ class LoadBuyMyGoldData extends Command
                     }
 
                     if ($order["date_kit_denied"]  !== "0000-00-00 00:00:00"){
+
+                        $transaction->is_rejected = 1;
+                        $transaction->save();
+
                         $transaction->histories()->create([
                             'event' => "KIT DENIED" ,
                             'created_at' => $order["date_kit_denied"]
@@ -240,10 +240,17 @@ class LoadBuyMyGoldData extends Command
                     }
 
                     if ($order["date_offer_accepted"]  !== "0000-00-00 00:00:00"){
+                        $transaction->is_accepted = 1;
+                        $transaction->final_offer = $order['offer_amount'];
+                        $transaction->save();
                         $transaction->histories()->create([ 'event' =>'OFFER ACCEPTED', 'created_at' => $order["date_offer_accepted"] ]);
                     }
 
                     if ($order["date_offer_declined"]  !== "0000-00-00 00:00:00"){
+                        $transaction->is_declined = 1;
+                        $transaction->final_offer = $order['offer_amount'];
+                        $transaction->save();
+
                         $transaction->histories()->create([ 'event' => 'OFFER DECLINED', 'created_at' => $order["date_offer_declined"]]);
                     }
 
