@@ -67,7 +67,7 @@ class HomeController extends Controller
                     ->withOfferGivenDateTime()
                     ->withReturnedDateTime()
                     ->withReceivedDateTime()
-                    ->where('customer_id', $data['customer']->id)
+                    //->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
                 dd($data['transaction']);
