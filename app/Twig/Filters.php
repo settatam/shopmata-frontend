@@ -67,7 +67,7 @@ class Filters extends AbstractExtension
                         <b>'.$transaction->customer->first_name.', when you receive your kit ...</b>
                         <p>Follow the instructions inside to learn how to properly pack and return your items to us. Everything you need is provided in this kit including a pre-paid and insured shipping label. We have an <a href="/faqs">FAQ</a> that answers the most common questions and if you have any more please <a href="/contact-us.html">contact us</a>.</p>';
             case 4:
-                return '<h1 class="grey"><?php echo $first_name; ?>, we love what you sent us! Here is our offer:</h1><div class="our-offer">
+                return '<h1 class="grey">' .$transaction->customer->first_name. ', we love what you sent us! Here is our offer:</h1><div class="our-offer">
 	<b>'.$transaction->final_offer.'</b></div>';
             default:
                 return 'this is another test for the rest of the statuses';
