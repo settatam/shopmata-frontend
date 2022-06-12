@@ -59,6 +59,7 @@ class Filters extends AbstractExtension
 
     public function statusNote($transaction) {
         $status_id = $transaction->status_id;
+        dd($status_id);
         switch($status_id) {
             case 60:
                 return '<h1>We have received your request for a kit!</h1>
