@@ -325,8 +325,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::delete('customers/{id}',      [CustomersController::class, 'destroy']);
         Route::post('customer/{id}/{extra}', [CustomersController::class, 'extras']);
 
-
-
         Route::post('images', [ImagesController::class, 'store']);
         Route::post('image/delete', [ImagesController::class, 'destroy']);
 
@@ -339,8 +337,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         //Widgets
 
         Route::get('widgets/view', [WidgetsController::class, 'view'])->name('widget.view');
-
-
 
         ## Online Store
 

@@ -52,6 +52,10 @@ class HomeController extends Controller
                     ->get();
 
             }else if($pageToFind == 'transactions.detail') {
+                if(!Auth::guard('customer')->check()) {
+                    return redirect('customer/login');
+                }
+
                 $pageType = 'template';
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transaction'] = Transaction::with('images')
@@ -66,6 +70,10 @@ class HomeController extends Controller
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
             }else if($pageToFind == 'my-settings') {
+                if(!Auth::guard('customer')->check()) {
+                    return redirect('customer/login');
+                }
+                
                 $pageType = 'template';
                 $customer = Auth::guard('customer')->user();
                 $customer->load('address');

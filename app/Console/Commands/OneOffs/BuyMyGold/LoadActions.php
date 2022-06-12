@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
 use App\Models\Activity;
 use App\Http\Helpers\Helper;
+use Illuminate\Support\Facades\Auth;
 
 
 class LoadActions extends Command

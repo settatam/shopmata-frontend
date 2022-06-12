@@ -29,6 +29,10 @@ class Transaction extends Model
     const OTHER_OFFER_NOTIFICATION_NAME = 'Other Offer';
     const PENDING_KIT_ID = 60;
     const EVENT_NOTIFICATION_NAME = 'New Transaction';
+    const KIT_RECEIVED_STATUS = 'Kit Received';
+    const OFFER_GIVEN_STATUS = 'Offer Given';
+    const KIT_SENT_STATUS = 'Kit Sent';
+    const PAYMENT_PROCESSED_STATUS = 'Payment Processed';
 
     protected $fillable = [
         'id',
