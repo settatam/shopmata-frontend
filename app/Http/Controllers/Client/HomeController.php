@@ -70,7 +70,7 @@ class HomeController extends Controller
                     //->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
-                dd($data['transaction']);
+                //dd($data['transaction']);
             }else if($pageToFind == 'my-settings') {
 
                 if(!Auth::guard('customer')->check()) {
