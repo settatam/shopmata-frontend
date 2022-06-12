@@ -70,28 +70,16 @@ class HomeController extends Controller
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
             }else if($pageToFind == 'my-settings') {
+
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
                 }
-                
+
                 $pageType = 'template';
                 $customer = Auth::guard('customer')->user();
                 $customer->load('address');
                 $data['customer'] = Auth::guard('customer')->user();
             }
-                $pageType = 'template';
-                $data['customer'] = Auth::guard('customer')->user();
-                $data['transaction'] = Transaction::with('images')
-                    ->with('customer')
-                    ->withFinalOffer()
-                    ->withPaymentDateTime()
-                    ->withKitSentDateTime()
-                    ->withOfferGivenDateTime()
-                    ->withReturnedDateTime()
-                    ->withReceivedDateTime()
-                    ->where('customer_id', $data['customer']->id)
-                    ->orderBy($sortBy, $orderBy)
-                    ->find($id);
 
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data, $pageType);
