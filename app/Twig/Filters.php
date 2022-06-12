@@ -79,7 +79,7 @@ class Filters extends AbstractExtension
                 break;
             case 8:
                 return '<h1 class="green">Offer Accepted!</h1>
-                        <p>Wonderful '.$transaction->customer->first_name.'!,  We will send your payment of '. $transaction->final_offer .' to you within one business day. You will receive one last notification from us when it is sent. Thank you again for your business, and please think of us again next time you have something to sell! If you have any questions please <a href="/contact-us">contact us</a>.</p>'
+                        <p>Wonderful '.$transaction->customer->first_name.'!,  We will send your payment of '. $transaction->final_offer .' to you within one business day. You will receive one last notification from us when it is sent. Thank you again for your business, and please think of us again next time you have something to sell! If you have any questions please <a href="/contact-us">contact us</a>.</p>';
             case 24:
             case 1:
                 $message = '<h1><?php echo $first_name; ?>, we have received your items!</h1>';
