@@ -284,7 +284,7 @@ class Transaction extends Model
         return $query->addSelect(['payment_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%Y-%m-%d %H:%i:%s') as payment_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Payment Processed')
-                ->where('is_status', 1)
+//                ->where('is_status', 1)
                 ->take(1)->latest()
         ]);
     }
@@ -302,7 +302,7 @@ class Transaction extends Model
         return $query->addSelect(['returned_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as returned_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kit Returned')
-                ->where('is_status', 1)
+//                ->where('is_status', 1)
                 ->take(1)
         ]);
     }
@@ -311,7 +311,7 @@ class Transaction extends Model
         return $query->addSelect(['kit_sent_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as kit_sent_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kit Sent')
-                ->where('is_status', 1)
+//                ->where('is_status', 1)
                 ->take(1)
         ]);
     }
@@ -319,8 +319,8 @@ class Transaction extends Model
     public function scopeWithOfferGivenDateTime($query) {
         return $query->addSelect(['offer_given_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as offer_given_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
-                ->where('status', 'Offers Given')
-                ->where('is_status', 1)
+                ->where('status', 'Offer Given')->orWhere('status', 'Offer Given (Cnotes & Picture)')
+//                ->where('is_status', 1)
                 ->take(1)
         ]);
     }
@@ -329,7 +329,7 @@ class Transaction extends Model
         return $query->addSelect(['offer_accepted_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as offer_given_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Offer Accepted')
-                ->where('is_status', 1)
+//                ->where('is_status', 1)
                 ->take(1)
         ]);
     }

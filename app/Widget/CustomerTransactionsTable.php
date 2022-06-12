@@ -116,4 +116,9 @@ class CustomerTransactionsTable extends Table
         return false;
     }
 
+    public function showPagination()
+    {
+        return false;
+    }
+
 }

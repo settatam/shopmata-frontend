@@ -1,6 +1,7 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
     <div
+        v-if="meta.show_pagination"
         class="bg-transparent  py-3 flex items-center justify-between border-t border-gray-200"
     >
         <div class="flex-1 flex justify-between sm:hidden">

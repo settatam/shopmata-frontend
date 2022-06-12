@@ -5,6 +5,7 @@ namespace App\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Numeral\Numeral;
+use App\Models\Store;
 
 class Filters extends AbstractExtension
 {

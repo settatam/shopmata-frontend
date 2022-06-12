@@ -227,21 +227,21 @@ class Table extends Widget
 
     public function pagination() {
           return [
-              //'total' => $this->data->total(),
-              //'per_page' => $this->data->perPage(),
-              //'current_page' => $this->data->currentPage(),
-              //'from' => (($this->data->currentPage()-1) * $this->data->perPage()) + 1,
-              //'to' => (($this->data->currentPage()) * $this->data->perPage()) < $this->data->total() ? $this->data->currentPage() * $this->data->perPage() : $this->data->total() ,
-              //'first_page_url' => $this->data->url(1),
-              //'last_page_url' => $this->data->url($this->data->lastPage()),
-              //'path' => $this->data->path(),
-              //'links' => $this->data->linkCollection()->toArray(),
-              //'show_pagination' => $this->showPagination()
+              'total' => $this->data->total(),
+              'per_page' => $this->data->perPage(),
+              'current_page' => $this->data->currentPage(),
+              'from' => (($this->data->currentPage()-1) * $this->data->perPage()) + 1,
+              'to' => (($this->data->currentPage()) * $this->data->perPage()) < $this->data->total() ? $this->data->currentPage() * $this->data->perPage() : $this->data->total() ,
+              'first_page_url' => $this->data->url(1),
+              'last_page_url' => $this->data->url($this->data->lastPage()),
+              'path' => $this->data->path(),
+              'links' => $this->data->linkCollection()->toArray(),
+              'show_pagination' => $this->showPagination()
           ];
     }
 
     protected function paginatorLinks() {
-//          $totalPages = $this->data->total() / ;
+          //$totalPages = $this->data->total();
     }
 
 }

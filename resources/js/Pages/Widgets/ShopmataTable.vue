@@ -380,7 +380,7 @@ const openModal = ref(false);
 const images = ref([]);
 const pageFilters = ref({});
 const searchTerm = ref(props.term);
-const showPagination = ref(true)
+const showPagination = ref(false)
 
 const filters = props.filters;
 
