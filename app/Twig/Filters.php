@@ -83,7 +83,7 @@ class Filters extends AbstractExtension
             case 24:
             case 1:
             case 2:
-                $message = '<h1><?php echo $first_name; ?>, we have received your items!</h1>';
+                $message = '<h1>' .$transaction->customer->first_name. ', we have received your items!</h1>';
                 $message .= '<p>Your items have arrived and an expert appraiser will review them shortly. If we have any questions we will reach out to you. Please review your <a href="/my-settings">settings</a> to make sure we have the right contact and payment information for you. We will send an offer to you for this transaction within 1 business day.</p>';
                 if(!$transaction->hasPaymentInfo) {
                     $message .= '<div class="red payment-info-notice">
