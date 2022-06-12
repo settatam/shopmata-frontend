@@ -60,6 +60,7 @@ class HomeController extends Controller
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transaction'] = Transaction::with('images')
                     ->with('customer')
+                    ->with('status')
                     ->withFinalOffer()
                     ->withPaymentDateTime()
                     ->withKitSentDateTime()

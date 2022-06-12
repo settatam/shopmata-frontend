@@ -53,6 +53,7 @@ class EventNotification
 
         if(count($storeNotificationMessages)) {
 
+            $this->data['store']->load('address');
             $messageData['store'] = $this->data['store'];
             $messageData['user'] = isset($this->data['user']) ? $this->data['user'] : NULL;
             $messageData['customer'] = isset($this->data['customer']) ? $this->data['customer'] : NULL;

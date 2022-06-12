@@ -18,6 +18,7 @@ class Filters extends AbstractExtension
             new TwigFilter('accept', [$this, 'accept']),
             new TwigFilter('reject', [$this, 'reject']),
             new TwigFilter('money_format', [$this, 'moneyFormat']),
+            new TwigFilter('status_note', [$this, 'StatusNote']),
         ];
     }
 
@@ -54,5 +55,22 @@ class Filters extends AbstractExtension
 
     public function moneyFormat($money) {
         return Numeral::number($money)->format('$0,0.00');
+    }
+
+    public function statusNote($transaction) {
+        $status_id = $transaction->status_id;
+        switch($status_id) {
+            case 60:
+                return '<h1>We have received your request for a kit!</h1>
+                        <b>Here is what happens next ...</b>
+                        <p>Within one business day we will ship an appraisal kit to you. It will take 2-3 days to arrive. If you do not want to wait you can also <a href="/track-my-kit.html?kit=<?php echo $transaction_id; ?>">download</a> and print your own kit.</p>
+                        <b>'.$transaction->customer->first_name.', when you receive your kit ...</b>
+                        <p>Follow the instructions inside to learn how to properly pack and return your items to us. Everything you need is provided in this kit including a pre-paid and insured shipping label. We have an <a href="/faqs">FAQ</a> that answers the most common questions and if you have any more please <a href="/contact-us.html">contact us</a>.</p>';
+            case 1:
+                return '<h1> This is a test for the rest of the statuses</h1>';
+            default:
+                return 'this is another test for the rest of the statuses';
+
+        }
     }
  }
