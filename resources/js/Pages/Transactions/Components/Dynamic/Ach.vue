@@ -60,7 +60,7 @@
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.account_number"
-                placeholder="Account Number"
+                placeholder="city"
             />
         </div>
         <div class="mt-1">
@@ -168,14 +168,14 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     props: {
-        transaction: Object,
+        customer: Object,
     },
     components: {
         LoadingSpinner,
     },
     setup(props) {
         const loading = ref(false);
-        let payment = props.transaction.payment_address;
+        let payment = props.customer.payment_address;
         const paymentInfo = reactive({
             payment_method: "ACH",
             bank_name: payment.bank_name,
@@ -230,11 +230,11 @@ export default {
             loading.value = true;
             axios
                 .post(
-                    `/admin/transactions/${props.transaction.id}/payment`,
+                    `/admin/customer/${props.customer.id}/payment`,
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
+                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
                         method: "get",
                     });
                 })

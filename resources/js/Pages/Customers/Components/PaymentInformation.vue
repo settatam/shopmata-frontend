@@ -45,7 +45,7 @@
             <div class="mx-auto w-full">
                 <keep-alive>
                     <component
-                        :customer="customer"
+                        :transaction="transaction"
                         :states="states"
                         :is="checkPaymentMethod"
                     />
@@ -65,7 +65,7 @@ import PaymentMethod from "../../../Components/PaymentMethod.vue";
 
 export default {
     props: {
-        customer: Object,
+        transaction: Object,
         states: Array,
     },
     components: { Check, PaymentMethod },
@@ -73,7 +73,7 @@ export default {
     setup(props) {
         const isEdit = ref(false);
         const payment_method = ref("choose");
-        let name = props.customer.payment_address.payment_type.name;
+        let name = props.transaction.payment_address.payment_type.name;
         let checkPaymentMethod = computed(() => {
             switch (payment_method.value) {
                 case "Check":

@@ -3,115 +3,120 @@
         <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
-                for="bank_name"
-                >BANK NAME:</label
+                for="payable_to"
+                >PAYABLE TO:</label
             >
             <input
                 :class="{
-                    'border-red-600': v$.bank_name.$error,
-                    'border-gray-300': !v$.bank_name.$error,
+                    'border-red-600': v$.check_name.$error,
+                    'border-gray-300': !v$.check_name.$error,
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="paymentInfo.bank_name"
-                placeholder="Bank Name"
+                v-model="paymentInfo.check_name"
+                placeholder="Make check payable to"
             />
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.bank_name.$error">
-                {{ v$.bank_name.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.check_name.$error">
+                {{ v$.payable_to.$errors[0].$message }}
             </p>
         </div>
 
         <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
-                for="routing_number"
-                >ROUTING NUMBER:</label
+                for="address"
+                >ADDRESS:</label
             >
             <input
                 :class="{
-                    'border-red-600': v$.routing_number.$error,
-                    'border-gray-300': !v$.routing_number.$error,
+                    'border-red-600': v$.check_address.$error,
+                    'border-gray-300': !v$.check_address.$error,
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="paymentInfo.routing_number"
-                placeholder="Routing Number (9 Digit Number)"
+                v-model="paymentInfo.check_address"
+                placeholder="Send Check to this Street"
             />
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.routing_number.$error">
-                {{ v$.routing_number.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.check_address.$error">
+                {{ v$.check_address.$errors[0].$message }}
+            </p>
+        </div>
+
+        <div class="flex flex-col space-y-2">
+            <label class="font-semibold mt-2 w-full bg-transparent" for="city"
+                >CITY:</label
+            >
+            <input
+                :class="{
+                    'border-red-600': v$.check_city.$error,
+                    'border-gray-300': !v$.check_city.$error,
+                }"
+                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
+                type="text"
+                v-model="paymentInfo.check_city"
+                placeholder="city"
+            />
+        </div>
+        <div class="mt-1">
+            <p class="text-red-600 text-xs" v-if="v$.check_city.$error">
+                {{ v$.check_city.$errors[0].$message }}
             </p>
         </div>
 
         <div class="flex flex-col space-y-2">
             <label
                 class="font-semibold mt-2 w-full bg-transparent"
-                for="account_number"
-                >ACCOUNT NUMBER:</label
+                for="state_id"
+                >STATE:</label
             >
-            <input
-                :class="{
-                    'border-red-600': v$.account_number.$error,
-                    'border-gray-300': !v$.account_number.$error,
-                }"
+            <select
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                v-model="paymentInfo.account_number"
-                placeholder="Account Number"
-            />
+                name="state"
+                id=""
+                v-model="paymentInfo.check_state_id"
+                :class="{
+                    'border-red-600': v$.check_state_id.$error,
+                    'border-gray-300': !v$.check_state_id.$error,
+                }"
+            >
+                <option value="">Choose a State</option>
+                <option
+                    v-for="(state, index) in states"
+                    :key="index"
+                    :value="state.id"
+                >
+                    {{ state.name }}
+                </option>
+            </select>
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.account_number.$error">
-                {{ v$.account_number.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.check_state_id.$error">
+                {{ v$.check_state_id.$errors[0].$message }}
             </p>
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="account_name"
-                >ACCOUNT NAME:</label
+            <label class="font-semibold w-full mt-2 bg-transparent" for="zip"
+                >ZIP:</label
             >
             <input
                 :class="{
-                    'border-red-600': v$.account_name.$error,
-                    'border-gray-300': !v$.account_name.$error,
+                    'border-red-600': v$.check_zip.$error,
+                    'border-gray-300': !v$.check_zip.$error,
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
-                v-model="paymentInfo.account_name"
-                placeholder="Account name (your name here)"
+                v-model="paymentInfo.check_zip"
+                placeholder="Zip/Postal"
             />
         </div>
         <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.account_name.$error">
-                {{ v$.account_name.$errors[0].$message }}
-            </p>
-        </div>
-
-        <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold w-full mt-2 bg-transparent"
-                for="account_type"
-                >ACCOUNT TYPE:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.account_type.$error,
-                    'border-gray-300': !v$.account_type.$error,
-                }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                v-model="paymentInfo.account_type"
-                placeholder="Account type (Checking, Savings)"
-            />
-        </div>
-        <div class="mt-1">
-            <p class="text-red-600 text-xs" v-if="v$.account_type.$error">
-                {{ v$.account_type.$errors[0].$message }}
+            <p class="text-red-600 text-xs" v-if="v$.check_zip.$error">
+                {{ v$.check_zip.$errors[0].$message }}
             </p>
         </div>
 
@@ -168,52 +173,41 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     props: {
-        transaction: Object,
+        customer: Object,
+        states: Object,
     },
     components: {
         LoadingSpinner,
     },
     setup(props) {
         const loading = ref(false);
-        let payment = props.transaction.payment_address;
+        let payment = props.customer.payment_address;
         const paymentInfo = reactive({
-            payment_method: "ACH",
-            bank_name: payment.bank_name,
-            routing_number: payment.routing_number,
-            account_number: payment.account_number,
-            account_name: payment.account_name,
-            account_type: payment.account_type,
+            payment_method: "Check",
+            check_name: payment.check_name,
+            check_address: payment.check_address,
+            check_city: payment.check_city,
+            check_state_id: payment.check_state_id || "",
+            check_zip: payment.check_zip,
         });
 
         const rules = computed(() => {
             return {
-                bank_name: {
-                    required: helpers.withMessage(
-                        "Enter a bank name",
-                        required
-                    ),
+                check_name: {
+                    required: helpers.withMessage("Enter a name", required),
                 },
-                routing_number: {
-                    required: helpers.withMessage(
-                        "Enter a routing number",
-                        required
-                    ),
+                check_address: {
+                    required: helpers.withMessage("Enter an address", required),
                 },
-                account_number: {
-                    required: helpers.withMessage(
-                        "Select a account number",
-                        required
-                    ),
+                check_city: {
+                    required: helpers.withMessage("Enter a city", required),
                 },
-                account_name: {
-                    required: helpers.withMessage(
-                        " Enter a account name",
-                        required
-                    ),
+                check_state_id: {
+                    required: helpers.withMessage("Select a state", required),
                 },
-                account_type: {
+                check_zip: {
                     required: helpers.withMessage(
-                        "Enter an account type",
+                        "Enter a postal code",
                         required
                     ),
                 },
@@ -223,6 +217,7 @@ export default {
         const v$ = useVuelidate(rules, paymentInfo);
 
         function submit() {
+            console.log(true);
             this.v$.$validate();
             if (this.v$.$error) {
                 return;
@@ -230,16 +225,17 @@ export default {
             loading.value = true;
             axios
                 .post(
-                    `/admin/transactions/${props.transaction.id}/payment`,
+                    `/admin/customer/${props.customer.id}/payment`,
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
+                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
                         method: "get",
                     });
                 })
                 .catch((error) => {
                     loading.value = false;
+                    //successMessage.value = "Error processing your request";
                     //setTimeout(onClickBot, 2000);
                 });
         }
