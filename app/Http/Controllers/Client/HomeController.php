@@ -78,6 +78,8 @@ class HomeController extends Controller
                     return redirect('customer/login');
                 }
 
+                $data['customer'] = Auth::guard('customer')->user();
+
                 $transactionObj = Transaction::with('images')
                     ->with('customer')
                     ->with('status')
@@ -99,7 +101,7 @@ class HomeController extends Controller
                 $pageType = 'template';
                 $customer = Auth::guard('customer')->user();
                 $customer->load('address', 'transactions.payment_address');
-                $data['customer'] = Auth::guard('customer')->user();
+
             }
 
             if(null !== $store) {

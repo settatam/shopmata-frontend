@@ -43,6 +43,8 @@
             </div>
 
             <div class="mx-auto w-full">
+                <Check></Check>
+                <
                 <keep-alive>
                     <component
                         :customer="customer"
