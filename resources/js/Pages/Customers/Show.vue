@@ -5,44 +5,28 @@
                 <ol role="list" class="flex items-center space-x-4">
                     <li>
                         <div>
-                            <a
-                                href="/admin/dashboard"
-                                class="text-gray-400 hover:text-gray-500"
-                            >
-                                <HomeIcon
-                                    class="flex-shrink-0 h-5 w-5"
-                                    aria-hidden="true"
-                                />
+                            <a href="/admin/dashboard" class="text-gray-400 hover:text-gray-500">
+                                <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                                 <span class="sr-only">Customers</span>
                             </a>
                         </div>
                     </li>
                     <li v-for="page in pages" :key="page.name">
                         <div class="flex items-center">
-                            <ChevronRightIcon
-                                class="flex-shrink-0 h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                            />
-                            <a
-                                :href="page.href"
-                                class="ml-4 text-base font-medium text-gray-400 hover:text-gray-700 mt-1"
-                                :aria-current="
+                            <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <a :href="page.href"
+                                class="ml-4 text-base font-medium text-gray-400 hover:text-gray-700 mt-1" :aria-current="
                                     page.current ? 'page' : undefined
-                                "
-                                >{{ page.name }}</a
-                            >
+                                ">{{ page.name }}</a>
                         </div>
                     </li>
                     <li>
                         <div class="flex items-center">
-                            <ChevronRightIcon
-                                class="flex-shrink-0 h-5 w-5 text-gray-400"
-                                aria-hidden="true"
-                            />
-                            <a
-                                href="/admin/customers"
-                                class="ml-4 text-base font-medium text-gray-500 hover:text-gray-700 mt-1"
-                                >{{ customer?.first_name }}
+                            <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                            <a href="/admin/customers"
+                                class="ml-4 text-base font-medium text-gray-500 hover:text-gray-700 mt-1">{{
+                                        customer?.first_name
+                                }}
                                 {{ customer?.last_name }}
                             </a>
                         </div>
@@ -52,20 +36,15 @@
 
             <div class="mx-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <CustomerInfo
-                        :customer="customer"
-                        :leads="leads"
-                        :states="countries.states"
-                        :tags="tags"
-                    />
+                    <CustomerInfo :customer="customer" :leads="leads" :states="countries.states" :tags="tags" />
                 </div>
 
                 <div>
                     <CustomerSales :customer="customer" />
-                    <PaymentInformation
+                    <!-- <PaymentInformation
                         :states="countries.states"
                         :customer="customer"
-                    />
+                    /> -->
                 </div>
             </div>
         </div>
@@ -75,10 +54,7 @@
         </div>
 
         <div>
-            <TransactionTable
-                :transactions="customer.transactions"
-                class="m-4"
-            />
+            <TransactionTable :transactions="customer.transactions" class="m-4" />
         </div>
     </app-layout>
 </template>

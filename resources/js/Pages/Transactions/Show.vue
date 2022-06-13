@@ -68,7 +68,7 @@
                         </div>
                         <div>
                             <PaymentInformation
-                                :transaction="transaction"
+                                :customer="transaction.customer"
                                 class="mb-4"
                             />
                         </div>
