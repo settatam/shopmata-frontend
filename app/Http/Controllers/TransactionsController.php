@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Filter;
 use App\Models\Activity;
 use App\Models\EventCondition;
+use App\Models\State;
 use App\Services\EventNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -99,6 +100,7 @@ class TransactionsController extends Controller
 
         $note = $transaction->getPublicNote();
         $transaction->load('publicnote.images');
+        $states = State::where('country_id', 1)->get();
 
         $transaction->profit_percent = $transaction->getProfitPercent($transaction->offer, $transaction->est_value);
         $statuses                    = Status::orderBy('sort_order')->get();
@@ -108,7 +110,7 @@ class TransactionsController extends Controller
         $top_tags                    = Tag::where(['store_id' => $store_id, 'group_id' => 1])->get();
         $bottom_tags                 = Tag::where(['store_id' => $store_id, 'group_id' => 2])->get();
         $timeline = $transaction->historyTimeline();
-        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','top_tags','bottom_tags','timeline'));
+        return Inertia::render('Transactions/Show', compact('transaction','transaction_item_categories','transaction_categories','statuses','top_tags','bottom_tags','timeline', 'states'));
     }
 
 
