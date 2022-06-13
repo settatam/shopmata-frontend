@@ -18,7 +18,8 @@ class Filters extends AbstractExtension
             new TwigFilter('accept', [$this, 'accept']),
             new TwigFilter('reject', [$this, 'reject']),
             new TwigFilter('money_format', [$this, 'moneyFormat']),
-            new TwigFilter('status_note', [$this, 'StatusNote']),
+            new TwigFilter('status_note', [$this, 'statusNote']),
+            new TwigFilter('status_length', [$this, 'statusLength']),
         ];
     }
 
@@ -57,6 +58,29 @@ class Filters extends AbstractExtension
         return Numeral::number($money)->format('$0,0.00');
     }
 
+    public function statusLength($transaction) {
+        if($transaction->payment_date_time) return 0%;
+        if($transaction->is_declined || $transaction->is_accepted) return 30%;
+        $status_id = (int)$transaction->status_id;
+        switch($status_id) {
+            case 4:
+            case 15:
+            case 50:
+                return '50%';
+                break;
+            case 8:
+            case 6:
+                return '30%';
+            case 24:
+            case 1:
+            case 2:
+                return '70%'
+            default:
+                return '90%';
+
+        }
+    }
+
     public function statusNote($transaction) {
         $status_id = (int)$transaction->status_id;
         switch($status_id) {
@@ -88,13 +112,16 @@ class Filters extends AbstractExtension
                 if(!$transaction->hasPaymentInfo) {
                     $message .= '<div class="red payment-info-notice">
 		                            <i class="fa fa-fw fa-warning"></i>
-                                    <b>Attention <?php echo $first_name; ?> &mdash; you have not told us how you want to be paid.</b>
+                                    <b>Attention '.$transaction->customer->first_name.' &mdash; you have not told us how you want to be paid.</b>
                                      <p>Please take a moment and fill out your <a href="/my-settings">payment information</a> so we know how you would like to be paid. You will not be able to accept our offer without providing your information.</p>
                                   </div>';
                 }
                 $message .= '<b>Here is what happens next ...</b>
                     <p>Once our appraiser reviews your items we will either provide you with an offer, or decline your items. If we decline your items they will be sent back to you promptly. If we are interested in purchasing your items we will provide you with an offer. You will then have the opportunity to accept or decline or offer. If you accept your payment will be sent within 1 business day. If you decline we will return your items to you promptly, at our expense. We will send you or decision very soon, keep an eye on your email and if you have any questions please <a href="/contact-us">contact us</a>.</p>';
                 return $message;
+            case 6:
+                return '<h1 class="red">Offer Declined</h1>
+                        <p>'.$transaction->customer->first_name.' we have received your request to decline this transaction. We will return your items to you promptly at our expense. Your items will be sent within one business day. We will let you know when your items ship. Thanks again for your interest and we are sorry that we could not make you an acceptable offer. If you have any questions please <a href="/contact-us.html">contact us</a>.</p>';
             default:
                 return 'this is another test for the rest of the statuses';
 
