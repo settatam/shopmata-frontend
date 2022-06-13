@@ -54,10 +54,8 @@ class CustomerLoginController extends Controller
         ]);
 
         $customer = Customer::where('email', $request->email)
-            //->where('store_id', $request->session()->get('store_id'))
+            ->where('store_id', $request->session()->get('store_id'))
             ->first();
-
-        dd($customer);
 
         if (null !== $customer) {
 //            if(Auth::guard('customer')->attempt($credentials)) {
