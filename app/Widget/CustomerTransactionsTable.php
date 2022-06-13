@@ -95,7 +95,7 @@ class CustomerTransactionsTable extends Table
                         'data' => $transaction->payment_type,
                         ],
                     'status' => [
-                        'data' => $transaction->status->name,
+                        'data' => optional($transaction->status)->name,
                     ],
 
                 ];
