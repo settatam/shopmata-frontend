@@ -85,14 +85,13 @@
                         @change="updateTransaction('public_note')" v-model="messagePublic">
                     </textarea>
 
-                    <div class="flex flex-col space-y-6 w-1/2 lg:full">
+                    <div class="flex flex-col space-y-3 w-1/2 lg:full">
                         <!-- <div> -->
                         <button
-                            class="bg-purple-darken w-40 flex flex-row px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                            type="submit" @click="popModal()">
-                            <LoadiningSpinner v-if="loading" /> Print Labels
+                            class="bg-purple-darken w-40 flex flex-row justify-center px-2 md:px-4 py-3 border text-center border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                            type="submit" @click="popModal()"> Print Labels
                         </button>
-                        
+
                         <!-- <div class="w-full">
                             <Button class="w-full" @click="popModal()" @sendResponse="addMessage" :loadingAnimation="loadingAnimation"
                                 :buttonName="'Print Labels'" />
@@ -100,7 +99,7 @@
 
 
                         <!-- <div> -->
-                        <a class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                        <a class="bg-purple-darken w-40 px-2 md:px-6 py-3 text-center border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                             :href="
                                 '/admin/transactions/' +
                                 transaction.id +
