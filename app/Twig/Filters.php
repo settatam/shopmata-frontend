@@ -59,8 +59,8 @@ class Filters extends AbstractExtension
     }
 
     public function statusLength($transaction) {
-        if($transaction->payment_date_time) return 0%;
-        if($transaction->is_declined || $transaction->is_accepted) return 30%;
+        if($transaction->payment_date_time) return '0%';
+        if($transaction->is_declined || $transaction->is_accepted) return '30%';
         $status_id = (int)$transaction->status_id;
         switch($status_id) {
             case 4:
