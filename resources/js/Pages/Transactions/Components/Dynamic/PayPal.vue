@@ -54,10 +54,12 @@ import {
 import useVuelidate from "@vuelidate/core";
 import LoadingSpinner from "../../../../Components/LoadingSpinner.vue";
 import { Inertia } from "@inertiajs/inertia";
+import axios from "axios";
 
 export default {
     props: {
         customer: Object,
+        transaction: Object,
     },
     components: {
         LoadingSpinner,
@@ -93,9 +95,10 @@ export default {
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
+                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
                         method: "get",
                     });
+                    // window.location.href = `/admin/transactions/${props.transaction.id}`
                 })
                 .catch((error) => {
                     loading.value = false;

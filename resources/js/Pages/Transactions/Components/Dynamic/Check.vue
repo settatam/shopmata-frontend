@@ -175,6 +175,7 @@ export default {
     props: {
         customer: Object,
         states: Object,
+        transaction: Object
     },
     components: {
         LoadingSpinner,
@@ -229,14 +230,12 @@ export default {
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
+                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
                         method: "get",
                     });
                 })
                 .catch((error) => {
                     loading.value = false;
-                    //successMessage.value = "Error processing your request";
-                    //setTimeout(onClickBot, 2000);
                 });
         }
 

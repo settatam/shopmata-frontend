@@ -48,6 +48,7 @@
                         :customer="customer"
                         :states="states"
                         :is="checkPaymentMethod"
+                        :transaction="transaction"
                     />
                 </keep-alive>
             </div>
@@ -56,7 +57,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Check from "./Dynamic/Check.vue";
 import PayPal from "./Dynamic/PayPal.vue";
 import Ach from "./Dynamic/Ach.vue";
@@ -68,10 +69,32 @@ export default {
     props: {
         customer: Object,
         states: Array,
+        transaction: Object
     },
     components: { Check, PaymentMethod },
 
     setup(props) {
+        const transaction_id = ref(12628);
+        onMounted(() => {
+           getData()
+        })
+
+        const getData = async () => {
+            //const cancelToken = axios.cancelToken;
+            //const source = cancelToken.source();
+        //source.cancel("Operation canceled by the user.");
+        const res = await axios.get(
+            urls.paymentInformation.get(transaction_id.value),
+            {
+                //cancelToken,
+            },
+            {
+                //cancelToken: source.token,
+            }
+        );
+
+        };
+
         const isEdit = ref(false);
         const payment_method = ref("choose");
         let name = props.customer.payment_address.payment_type.name;

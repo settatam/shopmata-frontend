@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white mt-7 mb-7 mx-auto rounded-md">
+    <!-- <div class="bg-white mt-7 mb-7 mx-auto rounded-md">
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1 class="text-xl">
                 Payment Information
@@ -46,16 +46,17 @@
                 <keep-alive>
                     <component
                         :customer="customer"
+                        :transaction="transaction"
                         :states="states"
                         :is="checkPaymentMethod"
                     />
                 </keep-alive>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
-<script>
+<!-- <script>
 import { ref, computed } from "vue";
 import Check from "./Dynamic/Check.vue";
 import PayPal from "./Dynamic/PayPal.vue";
@@ -65,7 +66,7 @@ import PaymentMethod from "../../../Components/PaymentMethod.vue";
 
 export default {
     props: {
-        customer: Object,
+        transaction: Object,
         states: Array,
     },
     components: { Check, PaymentMethod },
@@ -97,4 +98,4 @@ export default {
         return { isEdit, toggleEdit, payment_method, checkPaymentMethod };
     },
 };
-</script>
+</script> -->

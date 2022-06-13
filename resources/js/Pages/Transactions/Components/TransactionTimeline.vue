@@ -4,26 +4,14 @@
             <h1 class="text-white">Transaction Timeline</h1>
         </div>
 
-        <div
-            class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8"
-        >
+        <div class="flex flex-col md:flex-col lg:flex-row lg:space-x-2 justify-between px-8">
             <div class="my-4 flex flex-row sm" id="statusgroup">
                 <label class="pt-2" for="">Status: </label>
-                <div
-                    class="flex flex-col md:flex lg:flex-row sm:space-x-0 lg:space-x-12 space-y-3 lg:space-y-0"
-                >
+                <div class="flex flex-col md:flex lg:flex-row sm:space-x-0 lg:space-x-12 space-y-3 lg:space-y-0">
                     <div>
-                        <select
-                            class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
-                            name="transaction_status"
-                            v-model="currentTransaction.status_id"
-                            @change="onChange($event)"
-                        >
-                            <option
-                                v-for="status in statuses"
-                                :key="status.index"
-                                :value="status.status_id"
-                            >
+                        <select class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
+                            name="transaction_status" v-model="currentTransaction.status_id" @change="onChange($event)">
+                            <option v-for="status in statuses" :key="status.index" :value="status.status_id">
                                 {{ status.name }}
                             </option>
                         </select>
@@ -37,13 +25,8 @@
                             Confirm Status
                         </button> -->
 
-                        <Button
-                            class=""
-                            @click="updateTransaction('status')"
-                            @sendResponse="addMessage"
-                            :loadingAnimation="loadingAnimation"
-                            :buttonName="'Confirm Status'"
-                        />
+                        <Button class="" @click="updateTransaction('status')" @sendResponse="addMessage"
+                            :loadingAnimation="loadingAnimation" :buttonName="'Confirm Status'" />
                     </div>
                 </div>
             </div>
@@ -52,21 +35,12 @@
                 <label class="pt-2" for="">Offer: </label>
                 <div class="flex flex-col lg:flex-row space-x-8 lg:space-x-6">
                     <div class="flex flex-col lg:ml-0 ml-8">
-                        <input
-                            type="search"
+                        <input type="search"
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
-                            placeholder="Offer"
-                            autocomplete="off"
-                            v-model="currentTransaction.offer"
-                        />
+                            placeholder="Offer" autocomplete="off" v-model="currentTransaction.offer" />
                         <div class="flex flex-row ml-1">
-                            <input
-                                type="checkbox"
-                                class="text-xs my-2 mx-2"
-                                name="2ndoffer"
-                                id="2ndoffer"
-                                v-model="transaction.offers.length"
-                            />
+                            <input type="checkbox" class="text-xs my-2 mx-2" name="2ndoffer" id="2ndoffer"
+                                v-model="transaction.offers.length" />
                             <label class="mt-1" for="2ndoffer">2nd Offer</label>
                         </div>
                     </div>
@@ -79,36 +53,23 @@
                             Send Offer
                         </button> -->
 
-                        <Button
-                            class=""
-                            @click="updateTransaction('offer')"
-                            @sendResponse="addMessage"
-                            :loadingAnimation="loadingAnimation"
-                            :buttonName="'Send Offer'"
-                        />
+                        <Button class="" @click="updateTransaction('offer')" @sendResponse="addMessage"
+                            :loadingAnimation="loadingAnimation" :buttonName="'Send Offer'" />
                     </div>
                 </div>
             </div>
         </div>
 
-        <div
-            class="flex flex-col lg:flex-row text-black text-xs pl-4 md:text-sm"
-        >
+        <div class="flex flex-col lg:flex-row text-black text-xs pl-4 md:text-sm">
             <div class="flex flex-col p-4 lg:w-1/3">
                 <div v-for="status in timeline" :key="status.index">
-                    <p
-                        :class="{
-                            'text-black': !status.date,
-                            'text-green-darker': status.date,
-                        }"
-                        class=""
-                    >
+                    <p :class="{
+                        'text-black': !status.date,
+                        'text-green-darker': status.date,
+                    }" class="">
                         {{ status.name }}:
-                        <component
-                            :is="status.icon"
-                            class="mx-2 flex-shrink-0 inline-flex h-6 w-6"
-                            aria-hidden="true"
-                        />
+                        <component :is="status.icon" class="mx-2 flex-shrink-0 inline-flex h-6 w-6"
+                            aria-hidden="true" />
                         <span v-if="status.date">
                             {{ moment(status.date).format("MM-DD-YYYY") }}
                         </span>
@@ -119,48 +80,33 @@
 
             <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
-                    <textarea
-                        class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-40"
-                        placeholder="Customer notes"
-                        name="public"
-                        id=""
-                        rows="3"
-                        cols="150"
-                        @change="updateTransaction('public_note')"
-                        v-model="messagePublic"
-                    >
+                    <textarea class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-52"
+                        placeholder="Customer notes" name="public" id="" rows="3" cols="150"
+                        @change="updateTransaction('public_note')" v-model="messagePublic">
                     </textarea>
 
-                    <div class="flex flex-col space-y-6 w-1/2 lg:full">
+                    <div class="flex flex-col space-y-3 w-1/2 lg:full">
                         <!-- <div> -->
-                            <!-- <button
-                                class="bg-purple-darken w-40 px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="submit"
-                                @click="popModal()"
-                            >
-                                Print Labels
-                            </button> -->
+                        <button
+                            class="bg-purple-darken w-40 flex flex-row justify-center px-2 md:px-4 py-3 border text-center border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                            type="submit" @click="popModal()"> Print Labels
+                        </button>
 
-                            <Button
-                                @click="popModal()"
-                                @sendResponse="addMessage"
-                                :loadingAnimation="loadingAnimation"
-                                :buttonName="'Print Labels'"
-                            />
-                        <!-- </div> -->
+                        <!-- <div class="w-full">
+                            <Button class="w-full" @click="popModal()" @sendResponse="addMessage" :loadingAnimation="loadingAnimation"
+                                :buttonName="'Print Labels'" />
+                        </div> -->
+
 
                         <!-- <div> -->
-                            <a
-                                class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                :href="
-                                    '/admin/transactions/' +
-                                    transaction.id +
-                                    '/barcode'
-                                "
-                                target="_blank"
-                            >
-                                Print Barcodes
-                            </a>
+                        <a class="bg-purple-darken w-40 px-2 md:px-6 py-3 text-center border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                            :href="
+                                '/admin/transactions/' +
+                                transaction.id +
+                                '/barcode'
+                            " target="_blank">
+                            Print Barcodes
+                        </a>
                         <!-- </div> -->
 
                         <div>
@@ -172,13 +118,8 @@
                                 Send New Kit
                             </button> -->
 
-                            <Button
-                                class="px-8"
-                                @click="updateTransaction('new-kit')"
-                                @sendResponse="addMessage"
-                                :loadingAnimation="loadingAnimation"
-                                :buttonName="'Send New Kit'"
-                            />
+                            <Button class="px-8" @click="updateTransaction('new-kit')" @sendResponse="addMessage"
+                                :loadingAnimation="loadingAnimation" :buttonName="'Send New Kit'" />
                         </div>
                     </div>
                 </div>
@@ -186,23 +127,15 @@
                 <!-- textarea 2 -->
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
-                    <textarea
-                        class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
-                        placeholder="MET 3-2-22-Incoming via text"
-                        name="private"
-                        rows="3"
-                        cols="150"
-                        v-model="messagePrivate"
-                        @change="updateTransaction('private_note')"
-                    ></textarea>
+                    <textarea class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
+                        placeholder="MET 3-2-22-Incoming via text" name="private" rows="3" cols="150"
+                        v-model="messagePrivate" @change="updateTransaction('private_note')"></textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="button"
-                                @click="updateTransaction('cnotes')"
-                            >
+                                type="button" @click="updateTransaction('cnotes')">
                                 Email (Pictures &amp; Cnotes)
                             </button>
                         </div>
@@ -210,23 +143,18 @@
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="button"
-                                @click="updateTransaction('status', 50)"
-                            >
+                                type="button" @click="updateTransaction('status', 50)">
                                 Email (Offer, Cnotes &amp; Pictures)
                             </button>
                         </div>
 
                         <div>
-                            <a
-                                :href="
-                                    '/admin/transactions/' +
-                                    transaction.id +
-                                    '/label?direction=to&is_return=1'
-                                "
-                                target="_blank"
-                                class="block bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                            >
+                            <a :href="
+                                '/admin/transactions/' +
+                                transaction.id +
+                                '/label?direction=to&is_return=1'
+                            " target="_blank"
+                                class="block bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken">
                                 Return Label
                             </a>
                         </div>
@@ -234,9 +162,7 @@
                         <div>
                             <button
                                 class="bg-purple-darken w-40 px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="submit"
-                                @click="updateTransaction('status', 3)"
-                            >
+                                type="submit" @click="updateTransaction('status', 3)">
                                 Reject Offer
                             </button>
                         </div>
@@ -245,30 +171,13 @@
             </div>
         </div>
 
-        <div
-            class="flex flex-col flex-wrap lg:flex-row my-4 mx-8 space-x-4 py-4 w-full"
-        >
+        <div class="flex flex-col flex-wrap lg:flex-row my-4 mx-8 space-x-4 py-4 w-full">
             <div class="ml-4 lg:ml-0" v-for="tag in bottom_tags" :key="tag.id">
-                <input
-                    v-if="checkedList.includes(tag.id)"
-                    checked
-                    @change="saveBottomTags(tag.id)"
-                    type="checkbox"
-                    :id="tag.id"
-                    :name="tag.name"
-                    class="mx-2"
-                    :value="tag.id"
-                />
+                <input v-if="checkedList.includes(tag.id)" checked @change="saveBottomTags(tag.id)" type="checkbox"
+                    :id="tag.id" :name="tag.name" class="mx-2" :value="tag.id" />
 
-                <input
-                    v-else
-                    @change="saveBottomTags(tag.id)"
-                    type="checkbox"
-                    :id="tag.id"
-                    :name="tag.name"
-                    class="mx-2"
-                    :value="tag.id"
-                />
+                <input v-else @change="saveBottomTags(tag.id)" type="checkbox" :id="tag.id" :name="tag.name"
+                    class="mx-2" :value="tag.id" />
                 <label :for="tag.id">{{ tag.name }}</label>
             </div>
         </div>
@@ -279,11 +188,7 @@
 
         <!-- add item start -->
 
-        <PrintLabel
-            :transaction="transaction"
-            @close="popUp = false"
-            v-if="popUp"
-        />
+        <PrintLabel :transaction="transaction" @close="popUp = false" v-if="popUp" />
 
         <!-- add item end -->
     </div>
@@ -300,6 +205,7 @@ import PrintLabel from "../Components/PrintLabel.vue";
 import { notify } from "notiwind";
 import moment from "moment";
 import Button from "../../../Components/Button.vue";
+import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 import {
     XCircleIcon,
     MinusCircleIcon,
@@ -315,6 +221,7 @@ export default {
         CheckCircleIcon,
         XCircleIcon,
         MinusCircleIcon,
+        LoadingSpinner
     },
     props: ["transaction", "bottom_tags", "statuses", "root", "timeline"],
     emits: ["transaction-updated"],
@@ -322,6 +229,7 @@ export default {
         this.moment = moment;
     },
     setup(props, { emit }) {
+        const loading = ref(false)
         const popUp = ref(false);
         const successMessage = ref("");
         const popModal = () => {
@@ -365,7 +273,7 @@ export default {
             offer: "",
         });
 
-        function addMessage() {}
+        function addMessage() { }
 
         function updateTransaction(event, status_id = null) {
             console.log("This is the event", currentTransaction);
@@ -519,6 +427,7 @@ export default {
             currentTransaction,
             params,
             model_id,
+            loading
         };
     },
 };

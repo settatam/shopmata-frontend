@@ -47,6 +47,7 @@ use App\Http\Controllers\TransactionsItemsController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TransactionItemsController;
 use App\Http\Controllers\StoresController;
+use App\Models\TransactionPaymentAddressController;
 
 use App\Http\Controllers\WidgetsController;
 
@@ -394,6 +395,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('settings/store-users/response', [PlansAndPermissionsController::class, 'response']);
 
         Route::resource('settings/store-users', PlansAndPermissionsController::class);
+
+        Route::get('payment-information/{id}', [TransactionPaymentAddressController::class, 'editor']);
 
 
         //    Route::get('settings/store-users', [PlansAndPermissionsController::class, 'index'])->name('permissions.list');
