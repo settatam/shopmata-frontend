@@ -89,11 +89,11 @@ class Filters extends AbstractExtension
                     $message .= '<div class="red payment-info-notice">
 		                            <i class="fa fa-fw fa-warning"></i>
                                     <b>Attention <?php echo $first_name; ?> &mdash; you have not told us how you want to be paid.</b>
-                                     <p>Please take a moment and fill out your <a href="/my-settings.html">payment information</a> so we know how you would like to be paid. You will not be able to accept our offer without providing your information.</p>
+                                     <p>Please take a moment and fill out your <a href="/my-settings">payment information</a> so we know how you would like to be paid. You will not be able to accept our offer without providing your information.</p>
                                   </div>';
                 }
                 $message .= '<b>Here is what happens next ...</b>
-                    <p>Once our appraiser reviews your items we will either provide you with an offer, or decline your items. If we decline your items they will be sent back to you promptly. If we are interested in purchasing your items we will provide you with an offer. You will then have the opportunity to accept or decline or offer. If you accept your payment will be sent within 1 business day. If you decline we will return your items to you promptly, at our expense. We will send you or decision very soon, keep an eye on your email and if you have any questions please <a href="/contact-us.html">contact us</a>.</p>';
+                    <p>Once our appraiser reviews your items we will either provide you with an offer, or decline your items. If we decline your items they will be sent back to you promptly. If we are interested in purchasing your items we will provide you with an offer. You will then have the opportunity to accept or decline or offer. If you accept your payment will be sent within 1 business day. If you decline we will return your items to you promptly, at our expense. We will send you or decision very soon, keep an eye on your email and if you have any questions please <a href="/contact-us">contact us</a>.</p>';
                 return $message;
             default:
                 return 'this is another test for the rest of the statuses';
