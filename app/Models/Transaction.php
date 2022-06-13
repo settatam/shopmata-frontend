@@ -49,6 +49,18 @@ class Transaction extends Model
         'final_offer'
     ];
 
+    protected $declinedStatuses =  [
+            12, 19, 6
+   ];
+
+    protected $acceptedStatuses =  [
+            5,8
+    ];
+
+    protected $rejectedStatuses =  [
+            20,3
+   ];
+
 
     protected static function booted()
     {
@@ -706,6 +718,11 @@ class Transaction extends Model
         $inputCollection = $this->input;
             //convert back to an array
             if($this->update($this->input)) {
+
+                $this->updateDeclinedOffer();
+                $this->updateAcceptedOffer();
+                $this->updateRejectedOffer();
+
                 //Log the update
                 $changes = $this->getChanges();
                 if(count($changes)) {
@@ -1233,6 +1250,33 @@ class Transaction extends Model
         }
 
         return false;
+    }
+
+    public function updateDeclinedOffer() {
+        if(in_array($this->status_id, $this->declinedStatuses)) {
+            $this->is_declined = 1;
+            $this->is_accepted = 0;
+            $this->is_rejected = 0;
+            $this->save();
+        }
+    }
+
+    public function updateAcceptedOffer() {
+        if(in_array($this->status_id, $this->acceptedStatuses)) {
+            $this->is_declined = 0;
+            $this->is_accepted = 1;
+            $this->is_rejected = 0;
+            $this->save();
+        }
+    }
+
+    public function updateRejectedOffer() {
+        if(in_array($this->status_id, $this->rejectedStatuses)) {
+            $this->is_declined = 0;
+            $this->is_accepted = 0;
+            $this->is_rejected = 1;
+            $this->save();
+        }
     }
 
 }
