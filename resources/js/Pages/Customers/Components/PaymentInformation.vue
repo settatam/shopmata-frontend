@@ -46,6 +46,7 @@
                 <keep-alive>
                     <component
                         :customer="customer"
+                        :transaction="transaction"
                         :states="states"
                         :is="checkPaymentMethod"
                     />
@@ -65,7 +66,7 @@ import PaymentMethod from "../../../Components/PaymentMethod.vue";
 
 export default {
     props: {
-        customer: Object,
+        transaction: Object,
         states: Array,
     },
     components: { Check, PaymentMethod },

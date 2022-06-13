@@ -175,6 +175,7 @@ export default {
     props: {
         customer: Object,
         states: Object,
+        transaction: Object
     },
     components: {
         LoadingSpinner,
@@ -229,7 +230,7 @@ export default {
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
+                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
                         method: "get",
                     });
                 })
