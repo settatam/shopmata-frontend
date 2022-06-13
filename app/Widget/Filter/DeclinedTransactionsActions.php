@@ -35,8 +35,8 @@ class DeclinedTransactionsActions extends Select
                 'value' => 5
             ],
             [
-                'text' => 'Print Return Label',
-                'value' => 'Print Return Label'
+                'text' => 'Create Return Label',
+                'value' => 'Create Return Label'
             ],
         ];
     }
