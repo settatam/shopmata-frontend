@@ -236,8 +236,6 @@ export default {
                 })
                 .catch((error) => {
                     loading.value = false;
-                    //successMessage.value = "Error processing your request";
-                    //setTimeout(onClickBot, 2000);
                 });
         }
 

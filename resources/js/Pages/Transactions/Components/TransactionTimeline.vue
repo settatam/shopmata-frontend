@@ -87,21 +87,17 @@
 
                     <div class="flex flex-col space-y-6 w-1/2 lg:full">
                         <!-- <div> -->
-                        <!-- <button
-                                class="bg-purple-darken w-40 px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
-                                type="submit"
-                                @click="popModal()"
-                            >
-                                Print Labels
-                            </button> -->
+                        <button
+                            class="bg-purple-darken w-40 flex flex-row px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
+                            type="submit" @click="popModal()">
+                            <LoadiningSpinner v-if="loading" /> Print Labels
+                        </button>
+                        
                         <!-- <div class="w-full">
                             <Button class="w-full" @click="popModal()" @sendResponse="addMessage" :loadingAnimation="loadingAnimation"
                                 :buttonName="'Print Labels'" />
                         </div> -->
 
-                        <button>
-                            
-                        </button>
 
                         <!-- <div> -->
                         <a class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
@@ -210,6 +206,7 @@ import PrintLabel from "../Components/PrintLabel.vue";
 import { notify } from "notiwind";
 import moment from "moment";
 import Button from "../../../Components/Button.vue";
+import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
 import {
     XCircleIcon,
     MinusCircleIcon,
@@ -225,6 +222,7 @@ export default {
         CheckCircleIcon,
         XCircleIcon,
         MinusCircleIcon,
+        LoadingSpinner
     },
     props: ["transaction", "bottom_tags", "statuses", "root", "timeline"],
     emits: ["transaction-updated"],
@@ -232,6 +230,7 @@ export default {
         this.moment = moment;
     },
     setup(props, { emit }) {
+        const loading = ref(false)
         const popUp = ref(false);
         const successMessage = ref("");
         const popModal = () => {
@@ -429,6 +428,7 @@ export default {
             currentTransaction,
             params,
             model_id,
+            loading
         };
     },
 };
