@@ -53,8 +53,6 @@ class CustomerLoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        dd($request->session()->get('store_id'));
-
         $customer = Customer::where('email', $request->email)
             ->where('store_id', $request->session()->get('store_id'))
             ->first();
