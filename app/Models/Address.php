@@ -35,11 +35,9 @@ class Address extends Model
         'state_id'
     ];
 
-    protected function appends() {
-        return [
-            'apt_suite'
-        ];
-    }
+    protected $appends = [
+        'apt_suite'
+    ];
 
     public function addressable()
     {
