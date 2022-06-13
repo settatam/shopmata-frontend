@@ -28,6 +28,10 @@ class Filters extends AbstractExtension
       return count(explode(' ', $sentence));
     }
 
+    public function payment_type($transaction) {
+
+    }
+
     public static function assetUrl($asset) {
         if(session()->has('store_id')) {
             $store = Store::find(session()->get('store_id'));

@@ -17,4 +17,8 @@ export default {
     createstore: {
         create: () => "/admin/stores",
     },
+    paymentInformation: {
+        get: (id) => `/admin/payment-information/${id}`,
+        save: (id) => `/admin/payment-information/${id}`
+    }
 };

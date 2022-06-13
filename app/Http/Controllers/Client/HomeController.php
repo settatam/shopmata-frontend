@@ -67,6 +67,7 @@ class HomeController extends Controller
                     ->withOfferGivenDateTime()
                     ->withReturnedDateTime()
                     ->withReceivedDateTime()
+                    ->withPaymentType()
                     //->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
@@ -75,6 +76,24 @@ class HomeController extends Controller
 
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
+                }
+
+                $transactionObj = Transaction::with('images')
+                    ->with('customer')
+                    ->with('status')
+                    ->withFinalOffer()
+                    ->withPaymentDateTime()
+                    ->withKitSentDateTime()
+                    ->withOfferGivenDateTime()
+                    ->withReturnedDateTime()
+                    ->withReceivedDateTime()
+                    ->withPaymentType()
+                    ->where('customer_id', $data['customer']->id);
+
+                if(!$id) {
+                    $data['transaction'] = $transactionObj->orderBy('id', 'desc')->first();
+                }else{
+                    $data['transaction'] = $transactionObj->find($id);
                 }
 
                 $pageType = 'template';
@@ -215,10 +234,12 @@ class HomeController extends Controller
             }
 
             $transaction = Transaction::createNew($store, $request, $customer);
+
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                 ['customer_id' => $customer->id ]
             );
+
             $transaction_payment_address->transaction_id         =  $transaction->id;
             $transaction_payment_address->customer_id            =  $customer->id;
             $transaction_payment_address->payment_type_id        =  $request->payment;

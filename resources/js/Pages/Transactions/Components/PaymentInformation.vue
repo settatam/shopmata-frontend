@@ -62,6 +62,7 @@ import PayPal from "./Dynamic/PayPal.vue";
 import Ach from "./Dynamic/Ach.vue";
 import Venmo from "./Dynamic/Venmo.vue";
 import PaymentMethod from "../../../Components/PaymentMethod.vue";
+import urls from "../../../api/urls";
 
 export default {
     props: {
