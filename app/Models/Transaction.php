@@ -1218,5 +1218,22 @@ class Transaction extends Model
         return Numeral::number($percent)->format('0.0%');
     }
 
+    public function isValidPaymentAddress() {
+        $this->load('payment_address');
+        if(null !== $this->payment_address) return false;
+        switch($this->payment_address->payment_type_id) {
+            case 2: //paypal address
+                if($this->payment_address->paypal_address) return true;
+            case 1: //
+                if($this->payment_address->check_name && $this->payment_address->check_address && $this->payment_address->check_city && !$this->payment_address->zip && $this->payment_address->state) return true;
+            case 3:
+                if($this->payment_address->routing_number && $this->payment_address->account_number && $this->payment_address->account_name) return true;
+            default:
+                return false;
+        }
+
+        return false;
+    }
+
 }
 

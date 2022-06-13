@@ -79,7 +79,7 @@ class HomeController extends Controller
 
                 $pageType = 'template';
                 $customer = Auth::guard('customer')->user();
-                $customer->load('address');
+                $customer->load('address', 'transactions.payment_address');
                 $data['customer'] = Auth::guard('customer')->user();
             }
 
