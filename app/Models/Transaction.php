@@ -49,6 +49,18 @@ class Transaction extends Model
         'final_offer'
     ];
 
+    protected $declinedStatuses =  [
+            12, 19, 6
+   ];
+
+    protected $acceptedStatuses =  [
+            4,5,8
+    ];
+
+    protected $rejectedStatuses =  [
+            20,3
+   ];
+
 
     protected static function booted()
     {
@@ -273,7 +285,7 @@ class Transaction extends Model
     }
 
     public function scopeWithStatusDateTime($query) {
-        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s')) as status_date_time")
+        return $query->addSelect(['status_date_time'=>Activity::selectRaw("CONCAT(`status`, ' - ', DATE_FORMAT(activities.created_at, '%Y-%m-%d %H:%i:%s')) as status_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('is_status', true)
                 ->take(1)->latest()
@@ -290,7 +302,7 @@ class Transaction extends Model
     }
 
     public function scopeWithReceivedDateTime($query) {
-        return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as received_date_time")
+        return $query->addSelect(['received_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%Y-%m-%d %H:%i:%s') as received_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kits Received')
                 ->where('is_status', 1)
@@ -308,7 +320,7 @@ class Transaction extends Model
     }
 
     public function scopeWithKitSentDateTime($query) {
-        return $query->addSelect(['kit_sent_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as kit_sent_date_time")
+        return $query->addSelect(['kit_sent_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%Y-%m-%d %H:%i:%s') as kit_sent_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Kit Sent')
 //                ->where('is_status', 1)
@@ -317,7 +329,7 @@ class Transaction extends Model
     }
 
     public function scopeWithOfferGivenDateTime($query) {
-        return $query->addSelect(['offer_given_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as offer_given_date_time")
+        return $query->addSelect(['offer_given_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%Y-%m-%d %H:%i:%s') as offer_given_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Offer Given')->orWhere('status', 'Offer Given (Cnotes & Picture)')
 //                ->where('is_status', 1)
@@ -326,7 +338,7 @@ class Transaction extends Model
     }
 
     public function scopeWithOfferAcceptedDateTime($query) {
-        return $query->addSelect(['offer_accepted_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%m-%d-%Y %H:%i:%s') as offer_given_date_time")
+        return $query->addSelect(['offer_accepted_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%Y-%m-%d %H:%i:%s') as offer_given_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where('status', 'Offer Accepted')
 //                ->where('is_status', 1)
@@ -706,6 +718,11 @@ class Transaction extends Model
         $inputCollection = $this->input;
             //convert back to an array
             if($this->update($this->input)) {
+
+                $this->updateDeclinedOffer();
+                $this->updateAcceptedOffer();
+                $this->updateRejectedOffer();
+
                 //Log the update
                 $changes = $this->getChanges();
                 if(count($changes)) {
@@ -1233,6 +1250,35 @@ class Transaction extends Model
         }
 
         return false;
+    }
+
+    public function updateDeclinedOffer() {
+        if(in_array($this->status_id, $this->declinedStatuses)) {
+            $this->is_declined = 1;
+            $this->is_accepted = 0;
+            $this->is_rejected = 0;
+            $this->save();
+        }
+    }
+
+    public function updateAcceptedOffer() {
+        if(in_array($this->status_id, $this->acceptedStatuses)) {
+            $this->is_declined = 0;
+            $this->is_rejected = 0;
+            if ($this->status == 5 || $this->status == 8){
+                $this->is_accepted = 1;
+            }
+            $this->save();
+        }
+    }
+
+    public function updateRejectedOffer() {
+        if(in_array($this->status_id, $this->rejectedStatuses)) {
+            $this->is_declined = 0;
+            $this->is_accepted = 0;
+            $this->is_rejected = 1;
+            $this->save();
+        }
     }
 
 }

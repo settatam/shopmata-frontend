@@ -68,6 +68,7 @@
                         </div>
                         <div>
                             <PaymentInformation
+                                :customer="transaction.customer"
                                 :transaction="transaction"
                                 :states="states"
                                 class="mb-4"

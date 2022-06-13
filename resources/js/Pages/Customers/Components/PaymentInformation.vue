@@ -45,6 +45,10 @@
             <div class="mx-auto w-full">
                 <keep-alive>
                     <component
+<<<<<<< HEAD
+=======
+                        :customer="customer"
+>>>>>>> 47d123e43a4f66832df1ca09d2e183bbc90325ed
                         :transaction="transaction"
                         :states="states"
                         :is="checkPaymentMethod"
