@@ -69,9 +69,15 @@ class Filters extends AbstractExtension
             case 8:
             case 6:
                 return '30%';
+                break;
+            case 8:
+            case 6:
+                return '30%';
             case 24:
             case 1:
             case 2:
+                return '50%';
+            case 3:
                 return '70%';
             default:
                 return '90%';
