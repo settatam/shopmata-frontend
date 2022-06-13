@@ -48,6 +48,7 @@
                         :customer="customer"
                         :states="states"
                         :is="checkPaymentMethod"
+                        :transaction="transaction"
                     />
                 </keep-alive>
             </div>
@@ -67,6 +68,7 @@ export default {
     props: {
         customer: Object,
         states: Array,
+        transaction: Object
     },
     components: { Check, PaymentMethod },
 
