@@ -66,7 +66,7 @@ class CustomerTransactionsTable extends Table
     public function data($filter=[]) {
 
         $this->data = Transaction::search($filter)
-            ->with('transStatus')
+            ->with('status')
             ->with('images')
             ->paginate(Filter::perPage($filter));
 
@@ -95,7 +95,7 @@ class CustomerTransactionsTable extends Table
                         'data' => $transaction->payment_type,
                         ],
                     'status' => [
-                        'data' => $transaction->status,
+                        'data' => $transaction->status->name,
                     ],
 
                 ];
