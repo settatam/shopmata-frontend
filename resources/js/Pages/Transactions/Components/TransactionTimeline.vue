@@ -65,7 +65,7 @@
                                 class="text-xs my-2 mx-2"
                                 name="2ndoffer"
                                 id="2ndoffer"
-                                v-model="currentTransaction.offers.length"
+                                v-model="transaction.offers.length"
                             />
                             <label class="mt-1" for="2ndoffer">2nd Offer</label>
                         </div>
@@ -132,7 +132,7 @@
                     </textarea>
 
                     <div class="flex flex-col space-y-6 w-1/2 lg:full">
-                        <div>
+                        <!-- <div> -->
                             <!-- <button
                                 class="bg-purple-darken w-40 px-2 md:px-4 py-2 border border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 type="submit"
@@ -142,15 +142,14 @@
                             </button> -->
 
                             <Button
-                                class="px-10"
                                 @click="popModal()"
                                 @sendResponse="addMessage"
                                 :loadingAnimation="loadingAnimation"
                                 :buttonName="'Print Labels'"
                             />
-                        </div>
+                        <!-- </div> -->
 
-                        <div>
+                        <!-- <div> -->
                             <a
                                 class="bg-purple-darken w-40 px-2 md:px-6 py-2 border border-transparent rounded-md shadow-sm md:text-sm text-xs font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                                 :href="
@@ -162,7 +161,7 @@
                             >
                                 Print Barcodes
                             </a>
-                        </div>
+                        <!-- </div> -->
 
                         <div>
                             <!-- <button
@@ -369,6 +368,7 @@ export default {
         function addMessage() {}
 
         function updateTransaction(event, status_id = null) {
+            console.log("This is the event", currentTransaction);
             let data = {};
             switch (event) {
                 case "status_id":
@@ -381,19 +381,19 @@ export default {
                 case "message":
                     data = {
                         field: "message",
-                        value: currentTransaction.value.status_id,
+                        value: this.currentTransaction.value.status_id,
                     };
                     break;
                 case "offer":
                     data = {
                         field: "offer",
-                        value: currentTransaction.value.offer,
+                        value: this.currentTransaction.value.offer,
                     };
                     break;
                 case "sms":
                     data = {
                         field: "sms",
-                        value: this.currentTransaction.sms,
+                        value: this.currentTransaction.value.sms,
                     };
                     break;
                 case "private_note":
