@@ -171,6 +171,10 @@ class Store extends Model
         return $this->morphOne(Address::class, 'addressable');
     }
 
+    public function address() {
+        return $this->morphOne(Address::class, 'addressable');
+    }
+
     public function pages() {
         return $this->hasMany(StorePage::class);
     }
@@ -251,7 +255,7 @@ class Store extends Model
 
 
     public static  function addUpdateStore($input) {
-        $store  = new self;            
+        $store  = new self;
         $store->create($input);
         return $store;
     }
