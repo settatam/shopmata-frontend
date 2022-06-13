@@ -35,6 +35,11 @@ class Address extends Model
         'state_id'
     ];
 
+    protected function appends() {
+        return [
+            'apt_suite'
+        ];
+    }
 
     public function addressable()
     {
@@ -45,6 +50,8 @@ class Address extends Model
         return $this->belongsTo(State::class, 'state_id', 'id');
     }
 
-
+    public function getAptSuiteAttribute() {
+        return $this->address2;
+    }
 
 }
