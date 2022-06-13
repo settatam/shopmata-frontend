@@ -18,4 +18,7 @@ export default {
     createstore: {
         create: () => "/admin/stores",
     },
+    customers: {
+        information: () => `/admin/customers/${id}`,
+    },
 };
