@@ -69,6 +69,7 @@
                         <div>
                             <PaymentInformation
                                 :customer="transaction.customer"
+                                :states="states"
                                 class="mb-4"
                             />
                         </div>
@@ -321,6 +322,7 @@ export default {
         timeline: Array,
         navigation: Array,
         store: Object,
+        states: Array,
     },
 
     setup(props) {

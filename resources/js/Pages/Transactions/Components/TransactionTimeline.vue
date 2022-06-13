@@ -142,7 +142,6 @@
                             </button> -->
 
                             <Button
-                                
                                 @click="popModal()"
                                 @sendResponse="addMessage"
                                 :loadingAnimation="loadingAnimation"
