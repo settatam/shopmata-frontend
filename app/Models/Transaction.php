@@ -54,7 +54,7 @@ class Transaction extends Model
    ];
 
     protected $acceptedStatuses =  [
-            5,8
+            4,5,8
     ];
 
     protected $rejectedStatuses =  [
