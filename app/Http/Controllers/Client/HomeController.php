@@ -72,7 +72,7 @@ class HomeController extends Controller
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
                 //dd($data['transaction']);
-            }else if($pageToFind == 'my-settings') {
+            }else if($pageToFind == 'my-settings' || $pageToFind == 'my-settings.details') {
 
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
@@ -83,6 +83,7 @@ class HomeController extends Controller
                 $transactionObj = Transaction::with('images')
                     ->with('customer')
                     ->with('status')
+                    ->with('payment_address')
                     ->withFinalOffer()
                     ->withPaymentDateTime()
                     ->withKitSentDateTime()

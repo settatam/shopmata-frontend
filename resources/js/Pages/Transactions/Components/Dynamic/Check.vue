@@ -173,16 +173,14 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     props: {
-        customer: Object,
-        states: Object,
-        transaction: Object
+        method: Object
     },
     components: {
         LoadingSpinner,
     },
     setup(props) {
         const loading = ref(false);
-        let payment = props.customer.payment_address;
+        let payment = props.method;
         const paymentInfo = reactive({
             payment_method: "Check",
             check_name: payment.check_name,
@@ -230,9 +228,9 @@ export default {
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
-                        method: "get",
-                    });
+                    // Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
+                    //     method: "get",
+                    // });
                 })
                 .catch((error) => {
                     loading.value = false;

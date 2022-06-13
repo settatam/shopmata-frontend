@@ -60,7 +60,7 @@
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 v-model="paymentInfo.account_number"
-                placeholder="city"
+                placeholder="Account Number"
             />
         </div>
         <div class="mt-1">
@@ -168,16 +168,14 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     props: {
-        customer: Object,
-        transaction: Object,
-
+        method: Object,
     },
     components: {
         LoadingSpinner,
     },
     setup(props) {
         const loading = ref(false);
-        let payment = props.customer.payment_address;
+        let payment = props.method;
         const paymentInfo = reactive({
             payment_method: "ACH",
             bank_name: payment.bank_name,
