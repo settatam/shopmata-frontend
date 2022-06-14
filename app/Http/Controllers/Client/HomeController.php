@@ -212,7 +212,8 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateSettings(Request $request)
-    {
+    {   
+        return 77777;
         $customer = $request->user();
         $input    = $request->all();
         $store_id = $request->store_id;
