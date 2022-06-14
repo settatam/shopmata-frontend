@@ -194,7 +194,7 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($account, Request $request, $id)
+    public function update($account, $id)
     {
         
     }
