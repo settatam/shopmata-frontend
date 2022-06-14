@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CountriesController;
 use App\Http\Controllers\API\StatesController;
 use App\Http\Controllers\API\StatusController;
+use App\Http\Controllers\Client\HomeController;
 
 use App\Http\Controllers\API\StoreLocationController;
 use App\Http\Controllers\ProductsController;
@@ -30,6 +31,8 @@ Route::get('store-locations/{id}', [StoreLocationController::class, 'show']);
 
 Route::post('upload', [ImagesController::class, 'upload']);
 Route::post('verify-address', [TransactionsController::class, 'verifyAddress']);
+Route::post('my-settings', [HomeController::class, 'updateSettings']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -1,7 +1,7 @@
 <template>
-    <div class="bg-white mt-7 mb-7 mx-auto rounded-md">
+    <div class="bg-white mt-7 mb-7 mx-2 rounded-md">
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
-            <h1 class="text-xl">
+            <h1 class="">
                 Payment Information
                 <span
                     class="cursor-pointer hover:text-gray-400"

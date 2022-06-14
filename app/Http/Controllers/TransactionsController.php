@@ -95,7 +95,7 @@ class TransactionsController extends Controller
             ->withKitSentDateTime()
             ->withStatusDateTime()
             ->withReceivedDateTime()
-            ->with('customer','customer.address','customer.lead','customer.state','items','items.category','items.images','histories','offers','sms','sms.images','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
+            ->with('customer','customer.address','customer.lead','customer.state','items','items.category','items.images','histories','offers','sms','sms.images','images', 'activities','payment_address','payment_address.state','payment_address.payment_type','tags')
             ->find($id);
 
         $note = $transaction->getPublicNote();
@@ -492,6 +492,13 @@ class TransactionsController extends Controller
                 return response()->json($newKit);
             case 'tags':
                 $this->addTag($request, $id);
+                break;
+            case 'payment':
+                try {
+                    TransactionPaymentAddress::UpdateCustomerPayment($input, $id);
+                } catch (\Throwable $th) {
+                    return response($th->getMessage() ,422);
+                }
                 break;
 
             case 'messages':

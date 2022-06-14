@@ -74,7 +74,7 @@ export default {
     setup(props) {
         const isEdit = ref(false);
         const payment_method = ref("choose");
-        let name = props.customer.payment_address.payment_type.name;
+        let name = props.transaction.payment_address.payment_type.name;
         let checkPaymentMethod = computed(() => {
             switch (payment_method.value) {
                 case "Check":
