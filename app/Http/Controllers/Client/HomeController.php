@@ -128,7 +128,7 @@ class HomeController extends Controller
     public function settings(Request $request){
         $customer = $request->user();
 
-        return $customer;
+        return \Auth::user();
         $input    = $request->all();
         $store_id = $request->store_id;
         $store = Store::find($store_id);
