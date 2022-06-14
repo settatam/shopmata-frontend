@@ -201,7 +201,7 @@ class HomeController extends Controller
             }
             return response()->json(null, 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to make update"], 422);
+            return response()->json(['message'=> $th->getMessage()], 422);
             //throw $th;
         } 
     }
