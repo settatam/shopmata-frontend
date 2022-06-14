@@ -11,6 +11,6 @@ class TransactionPaymentAddressController extends Model
     use HasFactory;
 
     public function index($id) {
-        $address =
+        //$address =
     }
 }

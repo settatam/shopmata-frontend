@@ -14,7 +14,23 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/register',
         '/admin/reports/export',
-        'customer/verify-address',
-        'admin/transactions/bulk-actions/barcode'
+        //'customer/verify-address',
+        'admin/transactions/bulk-actions/barcode',
+        '/transactions/*'
     ];
+
+    /**
+     * Determine if the session and input CSRF tokens match.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function tokensMatch($request)
+    {
+        $token = $this->getTokenFromRequest($request);
+
+        return is_string($request->session()->token()) &&
+               is_string($token) &&
+               hash_equals($request->session()->token(), $token);
+    }
 }
