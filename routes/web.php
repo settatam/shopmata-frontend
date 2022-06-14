@@ -28,6 +28,7 @@ use App\Http\Controllers\Settings\PaymentsController;
 use App\Http\Controllers\Settings\PayoutSettingsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\Client\HomeController as Home;
 
 
 use App\Http\Controllers\Settings\ShippingController;
@@ -127,7 +128,7 @@ Route::post('login', [LoginController::class, 'authenticate']);
 Route::get('password/reset', [LoginController::class, 'ForgotPassword']);
 
 Route::post('register', [RegisterController::class, 'RegisterUser']);
-Route::post('api/my-settings', [HomeController::class, 'updateSettings']);
+Route::post('api/my-settings', [Home::class, 'updateSettings']);
 
 
 
