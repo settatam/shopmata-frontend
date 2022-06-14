@@ -127,13 +127,14 @@ Route::post('login', [LoginController::class, 'authenticate']);
 Route::get('password/reset', [LoginController::class, 'ForgotPassword']);
 
 Route::post('register', [RegisterController::class, 'RegisterUser']);
-Route::post('my-settings', [ClientHomeController::class, 'updateSettings']);
 
 
 
 //Create Store here
 
 Route::post('store', ['StoreController', 'store'])->name('create-new-store');
+Route::post('my-settings', [ClientHomeController::class, 'updateSettings']);
+
 
 Route::group(['prefix' => 'auth'], function () {
     Route::get("get-started/{step}", [HomeController::class, 'getStarted']);
