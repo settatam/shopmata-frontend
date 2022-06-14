@@ -29,6 +29,7 @@ use App\Http\Controllers\Settings\PayoutSettingsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\ReportsController;
 
+
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\ShippingRatesController;
@@ -96,9 +97,9 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('transactions/{id}', [ClientHomeController::class, 'index']);
     Route::post('transactions/{id}', [ClientHomeController::class, 'update']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
-    Route::get('my-settings', [ClientHomeController::class, 'index']);
+    Route::get('my-settings',      [ClientHomeController::class, 'index']);
     Route::get('my-settings/{id}', [ClientHomeController::class, 'index']);
-    Route::post('my-settings', [ClientHomeController::class, 'settings']);
+    Route::post('my-settings',     [ClientHomeController::class, 'settings']);
     Route::get('track-my-kit', [ClientHomeController::class, 'index']);
     Route::get('customer/login', [ClientHomeController::class, 'index'])->name('customer.login');
     Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');
@@ -128,9 +129,11 @@ Route::get('password/reset', [LoginController::class, 'ForgotPassword']);
 Route::post('register', [RegisterController::class, 'RegisterUser']);
 
 
+
 //Create Store here
 
 Route::post('store', ['StoreController', 'store'])->name('create-new-store');
+
 
 Route::group(['prefix' => 'auth'], function () {
     Route::get("get-started/{step}", [HomeController::class, 'getStarted']);
@@ -406,6 +409,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('settings/store-locations', StoreLocationController::class);
     });
 });
+
+
 
 Route::get('check-migrations', function() {
    return response()->json([

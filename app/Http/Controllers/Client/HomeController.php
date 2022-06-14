@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\TransactionPaymentAddress;
 use Illuminate\Routing\Route;
+use App\Models\State;
 
 class HomeController extends Controller
 {
@@ -78,6 +79,8 @@ class HomeController extends Controller
                     return redirect('customer/login');
                 }
 
+                $data['states'] = State::where('country_id', 1)->get();
+
                 $data['customer'] = Auth::guard('customer')->user();
 
                 $transactionObj = Transaction::with('images')
@@ -123,7 +126,24 @@ class HomeController extends Controller
     }
 
     public function settings(Request $request){
-        dd($request->input());
+        $customer =  Auth::guard('customer')->user();        
+        $input    = $request->all();
+        $input['phone_number'] = $request->phone;
+        $store = Store::find($customer->store_id);
+
+        try {
+            $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
+            $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
+            if ( null !== $transactions ) {
+                foreach($transactions as $transaction){
+                    TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+                }
+            }
+            return response()->json( $customer, 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message'=> $th->getMessage()], 422);
+            //throw $th;
+        }
     }
 
     /**
@@ -194,9 +214,10 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($account, $id)
+    public function update($account, Request $request, $id)
     {
-        
+        $transaction = Transaction::find($id);
+        return $transaction->doUpdate($request->input());
     }
 
 
@@ -208,24 +229,25 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateSettings(Request $request)
-    {
+    {   
+        return 33333;
         $customer = $request->user();
         $input    = $request->all();
         $store_id = $request->store_id;
         $store = Store::find($store_id);
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
-            $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
-            if ( null !== $transactions ) {
-                foreach($transactions as $transaction){
-                    TransactionPaymentAddress::doUpdate($transaction->id,  $input);
-                }
-            }
+            // $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
+            // if ( null !== $transactions ) {
+            //     foreach($transactions as $transaction){
+            //         TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+            //     }
+            // }
             return response()->json(null, 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed to make update"], 422);
+            return response()->json(['message'=> $th->getMessage()], 422);
             //throw $th;
-        } 
+        }
     }
 
     /**

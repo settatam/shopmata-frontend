@@ -157,7 +157,6 @@ export default {
         const { saveFiles }   = fileUploader();
         const largeImagesUrls = ref([])
         const { notifyAlert } = notification();
-        console.log(trSmses)
 
         function previewImages(event) {
             let acceptFiles = event.target.files
@@ -187,9 +186,6 @@ export default {
             images.value = i;
             openModal.value = true;
         };
-
-        // test
-
 
         function formatDate(date) {
             var hours = date.getHours()
