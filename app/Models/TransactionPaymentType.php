@@ -14,6 +14,7 @@ class TransactionPaymentType extends Model
         'name'
     ];
 
+    const CHECK_ID = 1;
 
     public static $paymentTypes = [
         '1' => 'Check',
@@ -29,7 +30,7 @@ class TransactionPaymentType extends Model
 
 
 
-    
+
 }
 
 

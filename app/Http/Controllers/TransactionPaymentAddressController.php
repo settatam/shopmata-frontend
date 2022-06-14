@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\PaymentType;
 use App\Models\State;
+use App\Models\Transaction;
+use App\Models\TransactionPaymentType;
 use Illuminate\Http\Request;
 use App\Models\TransactionPaymentAddress;
 
@@ -19,6 +21,12 @@ class TransactionPaymentAddressController extends Controller
         //
         $data['payment_types'] = PaymentType::get();
         $data['payment_address'] = TransactionPaymentAddress::where('transaction_id', $id)->first();
+        if(null === $data['payment_address']) {
+            $data['payment_address'] = TransactionPaymentAddress::create([
+                'transaction_id' => $id,
+                'payment_type_id' => TransactionPaymentType::CHECK_ID
+            ]);
+        }
         $data['states'] = State::where('country_id', 1)->orderBy('name')->get();
         return response()->json($data);
     }
