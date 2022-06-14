@@ -132,7 +132,7 @@ class HomeController extends Controller
         $store = Store::find($customer->store_id);
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
-            $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
+            $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
             return $transaction;
             // if ( null !== $transactions ) {
             //     foreach($transactions as $transaction){
