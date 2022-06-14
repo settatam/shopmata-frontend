@@ -198,6 +198,7 @@ class HomeController extends Controller
     public function update(Request $request, $id)
     {
         //
+        dd($request->input());
     }
 
     /**
