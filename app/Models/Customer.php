@@ -142,12 +142,8 @@ class Customer extends Authenticatable
         return $customer;
     }
 
-
-
-    
-
     public  function createOrUpdateCustomer($store, $input, $customer = null)
-    {   
+    {
         $input['store_id']  = $store->id;
         $input['is_active']   = 1;
         $input['accepts_marketing'] = 1;
@@ -159,7 +155,7 @@ class Customer extends Authenticatable
             $customer->update($input);
             $customer->address()->update($this->addFields($input));
         }
-        
+
         return $customer;
     }
 

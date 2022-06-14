@@ -194,9 +194,10 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($account, $id)
+    public function update($account, Request $request, $id)
     {
-        
+        $transaction = Transaction::find($id);
+        return $transaction->doUpdate($request->input());
     }
 
 
@@ -225,7 +226,7 @@ class HomeController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message'=> "Failed to make update"], 422);
             //throw $th;
-        } 
+        }
     }
 
     /**
