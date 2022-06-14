@@ -128,6 +128,7 @@ class HomeController extends Controller
     public function settings(Request $request){
         $customer =  Auth::guard('customer')->user();        
         $input    = $request->all();
+        $input['phone_number'] = $request->phone;
         $store = Store::find($customer->store_id);
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
