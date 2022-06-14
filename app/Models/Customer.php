@@ -159,6 +159,7 @@ class Customer extends Authenticatable
         return $address = [
             'first_name' => $input['first_name'],
             'last_name'  => $input['last_name'],
+            'phone'      => $input['phone'],
             'state'      => isset($input['state']) ? $input['state'] : null,
             'state_id'   => isset($input['state_id']) ? $input['state_id'] : null,
             'city'       => $input['city'],
