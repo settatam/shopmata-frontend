@@ -219,12 +219,12 @@ class HomeController extends Controller
         $store = Store::find($store_id);
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
-            $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
-            if ( null !== $transactions ) {
-                foreach($transactions as $transaction){
-                    TransactionPaymentAddress::doUpdate($transaction->id,  $input);
-                }
-            }
+            // $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
+            // if ( null !== $transactions ) {
+            //     foreach($transactions as $transaction){
+            //         TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+            //     }
+            // }
             return response()->json(null, 200);
         } catch (\Throwable $th) {
             return response()->json(['message'=> $th->getMessage()], 422);
