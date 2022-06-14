@@ -98,6 +98,8 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::post('transactions/{id}', [ClientHomeController::class, 'update']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
     Route::get('my-settings', [ClientHomeController::class, 'index']);
+    Route::post('my-settings', [ClientHomeController::class, 'updateSettings']);
+
     Route::get('my-settings/{id}', [ClientHomeController::class, 'index']);
     Route::post('my-settings', [ClientHomeController::class, 'settings']);
     Route::get('track-my-kit', [ClientHomeController::class, 'index']);
@@ -133,7 +135,6 @@ Route::post('register', [RegisterController::class, 'RegisterUser']);
 //Create Store here
 
 Route::post('store', ['StoreController', 'store'])->name('create-new-store');
-Route::post('my-settings', [ClientHomeController::class, 'updateSettings']);
 
 
 Route::group(['prefix' => 'auth'], function () {
@@ -410,6 +411,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('settings/store-locations', StoreLocationController::class);
     });
 });
+
+
 
 Route::get('check-migrations', function() {
    return response()->json([
