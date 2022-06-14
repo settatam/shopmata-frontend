@@ -133,7 +133,6 @@ Route::post('register', [RegisterController::class, 'RegisterUser']);
 //Create Store here
 
 Route::post('store', ['StoreController', 'store'])->name('create-new-store');
-Route::post('my-settings', [ClientHomeController::class, 'updateSettings']);
 
 
 Route::group(['prefix' => 'auth'], function () {
@@ -410,6 +409,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('settings/store-locations', StoreLocationController::class);
     });
 });
+
+Route::post('my-settings', [ClientHomeController::class, 'updateSettings']);
+
 
 Route::get('check-migrations', function() {
    return response()->json([
