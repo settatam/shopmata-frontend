@@ -140,7 +140,6 @@ class HomeController extends Controller
             $store = Store::find($store_id);
             $path = request()->path();
             $pageToFind = StorePage::nameFromPath($path);
-
             $transaction = Transaction::with('trStatus')->with('images')->with('offers')->find($id);
 
             if(null !== $store) {
@@ -175,7 +174,36 @@ class HomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSettings(Request $request)
+    {
+        $customer = $request->user();
+        $input    = $request->all();
+        $store_id = $request->store_id;
+        $store = Store::find($store_id);
+
+        try {
+            $customer     = Customer::createOrUpdateCustomer($store, $input, $customer);
+            $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
+            if ( null !== $transactions ) {
+                foreach($treansactions as $transaction){
+                    TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+                }
+            }
+            return response()->json(null, 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+        } 
     }
 
     /**

@@ -113,16 +113,15 @@ class Customer extends Authenticatable
     {
         $customer = new static;
 
-        $customer->first_name   = $input['first_name'];
-        $customer->last_name    = $input['last_name'];
-        $customer->email        = $input['email'];
-        $customer->phone_number = $input['phone'];
-        $customer->store_id     = $store->id;
-        //$customer->customer_notes  = $input['description'];
-        $customer->password = bcrypt($input['first_name']);
-        $customer->is_active    = 1;
+        $customer->first_name      = $input['first_name'];
+        $customer->last_name       = $input['last_name'];
+        $customer->email           = $input['email'];
+        $customer->phone_number    = $input['phone'];
+        $customer->store_id        = $store->id;
+        $customer->customer_notes  = $input['description'];
+        $customer->password        = bcrypt($input['first_name']);
+        $customer->is_active       = 1;
         $customer->accepts_marketing = 1;
-
         if ( $customer->save() ) {
             $address = new Address([
                 'first_name' => $input['first_name'],
@@ -145,32 +144,23 @@ class Customer extends Authenticatable
 
 
     public static function createOrUpdateCustomer($store_id, $input, $customer = null)
-    {
+    {   
+        $input['store_id']  = $store->id;
+        $input['is_active']   = 1;
+        $input['accepts_marketing'] = 1;
         if (!$customer) {
            $customer = new static;
+           $customer->create($input);
+        } else {
+            $customer->update($input);
         }
 
-        $customer->first_name   = $input['first_name'];
-        $customer->last_name    = $input['last_name'];
-        $customer->email        = $input['email'];
-        $customer->phone_number = $input['phone_number'];
-        $customer->lead_id      = $input['lead_id'];
-        $customer->store_id     = $store_id;
-        $customer->home_phone_number    = $input['home_work'];
-        $customer->customer_notes       = $input['customer_notes'];
-        $customer->ext                  = $input['ext'];
-        $customer->gender               = $input['gender'];
-        $customer->password             = bcrypt($input['first_name']);
-        $customer->dob                  = $input['dob'];
-        $customer->is_active    = 1;
-        $customer->accepts_marketing = 1;
-
-        if ( $customer->save() ) {
+        if ( $customer) {
             $address = new Address([
                 'first_name' => $input['first_name'],
                 'last_name'  => $input['last_name'],
-                'state'      => isset($input['state']) ?  $input['state'] : null,
-                'state_id'   => $input['state_id'],
+                'state'      => isset($input['state'])    ?  $input['state'] : null,
+                'state_id'   => isset($input['state_id']) ?  $input['state_id'] : null,
                 'city'       => $input['city'],
                 'is_default' => 1,
                 'address'    => $input['address'],

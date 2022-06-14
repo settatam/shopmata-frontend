@@ -88,6 +88,8 @@ export default {
             }
         });
 
+        console.log(checkPaymentMethod)
+
         function toggleEdit() {
             payment_method.value = null != name ? name : "choose";
             isEdit.value = !isEdit.value;

@@ -49,7 +49,7 @@ class TransactionPaymentAddress extends Model
     public static function UpdateCustomerPayment($input, $transaction_id) {
         $payment_type = TransactionPaymentType::where('name', $input['payment_method'])->first();
         $input['payment_type_id'] = null != $payment_type ? $payment_type->id : null;
-        self::doUpdate($customer_id,  $input);
+        self::doUpdate($transaction_id,  $input);
     }
 
 
