@@ -133,7 +133,7 @@ class HomeController extends Controller
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
             $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
-            return $transaction;
+            return $transactions;
             // if ( null !== $transactions ) {
             //     foreach($transactions as $transaction){
             //         TransactionPaymentAddress::doUpdate($transaction->id,  $input);
