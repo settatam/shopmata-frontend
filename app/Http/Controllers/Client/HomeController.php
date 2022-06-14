@@ -130,16 +130,16 @@ class HomeController extends Controller
         $input    = $request->all();
         $input['phone_number'] = $request->phone;
         $store = Store::find($customer->store_id);
+
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
             $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
-            return $transactions;
-            // if ( null !== $transactions ) {
-            //     foreach($transactions as $transaction){
-            //         TransactionPaymentAddress::doUpdate($transaction->id,  $input);
-            //     }
-            // }
-            return response()->json(null, 200);
+            if ( null !== $transactions ) {
+                foreach($transactions as $transaction){
+                    TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+                }
+            }
+            return response()->json( $customer, 200);
         } catch (\Throwable $th) {
             return response()->json(['message'=> $th->getMessage()], 422);
             //throw $th;
