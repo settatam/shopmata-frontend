@@ -125,7 +125,7 @@ class HomeController extends Controller
         return redirect('customer/login');
     }
 
-    public function settings(Request $request){
+    public function settings($account, Request $request){
         dd($request->input());
     }
 

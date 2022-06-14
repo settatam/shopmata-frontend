@@ -64,6 +64,7 @@ use App\Http\Controllers\NotificationsController as NewNotificationsController;
 //Client
 
 use App\Http\Controllers\Client\HomeController as ClientHomeController;
+use Illuminate\Support\Facades\View;
 
 //Shopmata Routes
 
@@ -80,8 +81,11 @@ use App\Http\Controllers\Shopmata\HomeController as ShopmataHomeController;
 |
 */
 
+
 Route::get('test', function () {
-    return view('emails.sender');
+    $name = 'Seth';
+    $view = View::make('pages.pdf', compact('name'))->render();
+    dd($view);
 })->name('landing');
 
 
@@ -91,6 +95,7 @@ Route::get('test', function () {
 //    };
 //
 //};
+
 
 Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('/', [ClientHomeController::class, 'index']);
