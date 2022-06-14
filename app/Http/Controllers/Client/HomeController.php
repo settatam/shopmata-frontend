@@ -145,8 +145,25 @@ class HomeController extends Controller
         return redirect('customer/login');
     }
 
-    public function settings($account, Request $request){
-        dd($request->input());
+    public function settings(Request $request){
+        $customer =  Auth::guard('customer')->user();
+        $input    = $request->all();
+        $input['phone_number'] = $request->phone;
+        $store = Store::find($customer->store_id);
+
+        try {
+            $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
+            $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
+            if ( null !== $transactions ) {
+                foreach($transactions as $transaction){
+                    TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+                }
+            }
+            return response()->json( $customer, 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message'=> $th->getMessage()], 422);
+            //throw $th;
+        }
     }
 
     /**
@@ -233,18 +250,19 @@ class HomeController extends Controller
      */
     public function updateSettings(Request $request)
     {
+        return 33333;
         $customer = $request->user();
         $input    = $request->all();
         $store_id = $request->store_id;
         $store = Store::find($store_id);
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
-            $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
-            if ( null !== $transactions ) {
-                foreach($transactions as $transaction){
-                    TransactionPaymentAddress::doUpdate($transaction->id,  $input);
-                }
-            }
+            // $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
+            // if ( null !== $transactions ) {
+            //     foreach($transactions as $transaction){
+            //         TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+            //     }
+            // }
             return response()->json(null, 200);
         } catch (\Throwable $th) {
             return response()->json(['message'=> $th->getMessage()], 422);

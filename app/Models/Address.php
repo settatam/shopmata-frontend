@@ -23,7 +23,6 @@ class Address extends Model
         'address2',
         'zip',
         'country',
-        'state',
         'first_name',
         'last_name',
         'addressable_type',
@@ -32,7 +31,8 @@ class Address extends Model
         'extension',
         'store_id',
         'dob',
-        'state_id'
+        'state_id',
+        'phone'
     ];
 
     protected $appends = [

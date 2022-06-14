@@ -39,16 +39,11 @@ class Customer extends Authenticatable
         'store_id',
         'country',
         'state_id',
-        'phone',
-        'city',
+        'phone_number',
         'first_name',
         'last_name',
-        'phone',
-        'street_address',
-        'street_address2',
         'accepts_marketing',
         'is_active',
-        'zip',
         'password',
         'customer_notes',
         'gender',
@@ -143,8 +138,8 @@ class Customer extends Authenticatable
     }
 
     public  function createOrUpdateCustomer($store, $input, $customer = null)
-    {
-        $input['store_id']  = $store->id;
+    {   
+        $input['store_id']    = $store->id;
         $input['is_active']   = 1;
         $input['accepts_marketing'] = 1;
 
@@ -164,12 +159,12 @@ class Customer extends Authenticatable
         return $address = [
             'first_name' => $input['first_name'],
             'last_name'  => $input['last_name'],
-            'state'      => isset($input['state']) ? isset($input['state']) : null,
-            'state_id'   => isset($input['state_id']) ? $input['state_id'] : Helper::getStateId($input['state']),
+            'phone'      => $input['phone'],
+            'state'      => isset($input['state']) ? $input['state'] : null,
+            'state_id'   => isset($input['state_id']) ? $input['state_id'] : null,
             'city'       => $input['city'],
             'is_default' => 1,
             'address'    => $input['address'],
-            'address2'    => $input['address2'],
             'address2'   => $input['address2'],
             'zip'        => $input['zip'],
         ];
