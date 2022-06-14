@@ -76,14 +76,14 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     props: {
-        customer: Object,
+        transaction: Object,
     },
     components: {
         LoadingSpinner,
     },
     setup(props) {
         const loading = ref(false);
-        let payment = props.customer.payment_address;
+        let payment = props.transaction.payment_address;
 
         const paymentInfo = reactive({
             payment_method: "Venmo",
@@ -108,11 +108,11 @@ export default {
             loading.value = true;
             axios
                 .post(
-                    `/admin/customer/${props.customer.id}/payment`,
+                    `/admin/transactions/${props.customer.id}/payment`,
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
+                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
                         method: "get",
                     });
                 })

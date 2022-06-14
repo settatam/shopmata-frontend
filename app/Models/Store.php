@@ -253,10 +253,14 @@ class Store extends Model
         );
     }
 
+    public  function updateStore($input) {
+        $store = $this->update($input);
+        return $store;
+    }
 
-    public static  function addUpdateStore($input) {
-        $store  = new self;
-        $store->create($input);
+
+    public   function  addStore($input) {
+        $store = $this->create($input);
         return $store;
     }
 }
