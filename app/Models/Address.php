@@ -23,7 +23,6 @@ class Address extends Model
         'address2',
         'zip',
         'country',
-        'state',
         'first_name',
         'last_name',
         'addressable_type',

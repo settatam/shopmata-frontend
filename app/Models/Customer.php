@@ -164,7 +164,6 @@ class Customer extends Authenticatable
             'city'       => $input['city'],
             'is_default' => 1,
             'address'    => $input['address'],
-            'address2'    => $input['address2'],
             'address2'   => $input['address2'],
             'zip'        => $input['zip'],
         ];
