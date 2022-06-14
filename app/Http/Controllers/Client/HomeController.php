@@ -191,17 +191,17 @@ class HomeController extends Controller
         $input    = $request->all();
         $store_id = $request->store_id;
         $store = Store::find($store_id);
-
         try {
-            $customer     = Customer::createOrUpdateCustomer($store, $input, $customer);
+            $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
             $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
             if ( null !== $transactions ) {
-                foreach($treansactions as $transaction){
+                foreach($transactions as $transaction){
                     TransactionPaymentAddress::doUpdate($transaction->id,  $input);
                 }
             }
             return response()->json(null, 200);
         } catch (\Throwable $th) {
+            return response()->json(['message'=> "Failed to make update"], 422);
             //throw $th;
         } 
     }

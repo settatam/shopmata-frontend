@@ -60,6 +60,4 @@ class TransactionPaymentAddress extends Model
         );
     }
 
-
-
 }

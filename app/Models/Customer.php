@@ -54,6 +54,7 @@ class Customer extends Authenticatable
         'gender',
         'home_phone_number',
         'ext',
+        'customerDifficulty'
 
     ];
 
@@ -143,35 +144,39 @@ class Customer extends Authenticatable
 
 
 
-    public static function createOrUpdateCustomer($store_id, $input, $customer = null)
+    
+
+    public  function createOrUpdateCustomer($store, $input, $customer = null)
     {   
         $input['store_id']  = $store->id;
         $input['is_active']   = 1;
         $input['accepts_marketing'] = 1;
+
         if (!$customer) {
-           $customer = new static;
-           $customer->create($input);
-        } else {
+            $customer = $this->create($input);
+            $customer->address()->save($this->addFields($input));
+        } else  {
             $customer->update($input);
+            $customer->address()->update($this->addFields($input));
         }
-
-        if ( $customer) {
-            $address = new Address([
-                'first_name' => $input['first_name'],
-                'last_name'  => $input['last_name'],
-                'state'      => isset($input['state'])    ?  $input['state'] : null,
-                'state_id'   => isset($input['state_id']) ?  $input['state_id'] : null,
-                'city'       => $input['city'],
-                'is_default' => 1,
-                'address'    => $input['address'],
-                'address2'   => $input['address2'],
-                'zip'        => $input['zip'],
-            ]
-          );
-          $customer->address()->save($address);
-        }
-
+        
         return $customer;
+    }
+
+
+    public function addFields($input) {
+        return $address = [
+            'first_name' => $input['first_name'],
+            'last_name'  => $input['last_name'],
+            'state'      => isset($input['state']) ? isset($input['state']) : null,
+            'state_id'   => isset($input['state_id']) ? $input['state_id'] : Helper::getStateId($input['state']),
+            'city'       => $input['city'],
+            'is_default' => 1,
+            'address'    => $input['address'],
+            'address2'    => $input['address2'],
+            'address2'   => $input['address2'],
+            'zip'        => $input['zip'],
+        ];
     }
 
 

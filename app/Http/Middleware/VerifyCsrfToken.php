@@ -15,6 +15,7 @@ class VerifyCsrfToken extends Middleware
         '/register',
         '/admin/reports/export',
         'customer/verify-address',
+        'my-settings',
         'admin/transactions/bulk-actions/barcode'
     ];
 }
