@@ -13,6 +13,7 @@
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
+                id="address"
                 v-model="paymentInfo.venmo_address"
                 placeholder="My Venmo address is"
             />
@@ -28,6 +29,7 @@
             <div class="">
                 <button
                     class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
+                    @click="cancelPayment"
                 >
                     Cancel
                 </button>
@@ -77,14 +79,14 @@ import { Inertia } from "@inertiajs/inertia";
 export default {
     props: {
         method: Object,
+        loading: Boolean
     },
     components: {
         LoadingSpinner,
     },
-    setup(props) {
-        const loading = ref(false);
+    emits: ['payment-updated', 'cancel-payment'],
+    setup(props, {emit}) {
         let payment = props.method;
-
         const paymentInfo = reactive({
             payment_method: "Venmo",
             venmo_address: payment.venmo_address,
@@ -105,28 +107,19 @@ export default {
             if (this.v$.$error) {
                 return;
             }
-            loading.value = true;
-            axios
-                .post(
-                    `/admin/customer/${props.customer.id}/payment`,
-                    paymentInfo
-                )
-                .then((res) => {
-                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
-                        method: "get",
-                    });
-                })
-                .catch((error) => {
-                    loading.value = false;
-                    //setTimeout(onClickBot, 2000);
-                });
+
+            emit('payment-updated', paymentInfo)
+        }
+
+        function cancelPayment() {
+            emit('cancel-payment')
         }
 
         return {
             v$,
             paymentInfo,
-            loading,
             submit,
+            cancelPayment
         };
     },
 };

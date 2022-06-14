@@ -15,6 +15,7 @@
                 type="text"
                 v-model="paymentInfo.check_name"
                 placeholder="Make check payable to"
+                id="payable_to"
             />
         </div>
         <div class="mt-1">
@@ -38,6 +39,7 @@
                 type="text"
                 v-model="paymentInfo.check_address"
                 placeholder="Send Check to this Street"
+                id="address"
             />
         </div>
         <div class="mt-1">
@@ -57,6 +59,7 @@
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
+                id="city"
                 v-model="paymentInfo.check_city"
                 placeholder="city"
             />
@@ -76,7 +79,7 @@
             <select
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 name="state"
-                id=""
+                id="state_id"
                 v-model="paymentInfo.check_state_id"
                 :class="{
                     'border-red-600': v$.check_state_id.$error,
@@ -112,6 +115,7 @@
                 type="text"
                 v-model="paymentInfo.check_zip"
                 placeholder="Zip/Postal"
+                id="zip"
             />
         </div>
         <div class="mt-1">
@@ -125,6 +129,7 @@
             <div class="">
                 <button
                     class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
+                    @click="cancelPayment"
                 >
                     Cancel
                 </button>
@@ -173,13 +178,15 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     props: {
-        method: Object
+        method: Object,
+        states: Array,
+        loading: Boolean
     },
     components: {
         LoadingSpinner,
     },
-    setup(props) {
-        const loading = ref(false);
+    emits: ['payment-updated', 'cancel-payment'],
+    setup(props, {emit}) {
         let payment = props.method;
         const paymentInfo = reactive({
             payment_method: "Check",
@@ -216,32 +223,23 @@ export default {
         const v$ = useVuelidate(rules, paymentInfo);
 
         function submit() {
-            console.log(true);
             this.v$.$validate();
             if (this.v$.$error) {
                 return;
             }
-            loading.value = true;
-            axios
-                .post(
-                    `/admin/customer/${props.customer.id}/payment`,
-                    paymentInfo
-                )
-                .then((res) => {
-                    // Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
-                    //     method: "get",
-                    // });
-                })
-                .catch((error) => {
-                    loading.value = false;
-                });
+
+            emit('payment-updated', paymentInfo)
+        }
+
+        function cancelPayment() {
+            emit('cancel-payment')
         }
 
         return {
             v$,
             paymentInfo,
-            loading,
             submit,
+            cancelPayment
         };
     },
 };

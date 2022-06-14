@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentType;
+use App\Models\State;
 use Illuminate\Http\Request;
 use App\Models\TransactionPaymentAddress;
 
@@ -18,6 +19,7 @@ class TransactionPaymentAddressController extends Controller
         //
         $data['payment_types'] = PaymentType::get();
         $data['payment_address'] = TransactionPaymentAddress::where('transaction_id', $id)->first();
+        $data['states'] = State::where('country_id', 1)->orderBy('name')->get();
         return response()->json($data);
     }
 
@@ -37,9 +39,13 @@ class TransactionPaymentAddressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         //
+        $method = TransactionPaymentAddress::firstOrNew(['transaction_id' => $id]);
+        $method->fill($request->input());
+        $method->save();
+        return response()->json($method);
     }
 
     /**

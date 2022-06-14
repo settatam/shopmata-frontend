@@ -80,8 +80,8 @@
 
             <div class="flex flex-col lg:w-2/3 mx-4">
                 <div class="my-2 mx-1 flex flex-row space-x-4">
-                    <textarea class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-52"
-                        placeholder="Customer notes" name="public" id="" rows="3" cols="150"
+                    <textarea class="shadow-sm block sm:text-sm border-gray-300 rounded-md h-52 w-full"
+                        placeholder="Customer notes" name="public" id=""
                         @change="updateTransaction('public_note')" v-model="messagePublic">
                     </textarea>
 
@@ -127,9 +127,10 @@
                 <!-- textarea 2 -->
 
                 <div class="my-2 mx-1 flex flex-row space-x-4">
-                    <textarea class="shadow-sm block sm:text-sm border-gray-300 rounded-md"
-                        placeholder="MET 3-2-22-Incoming via text" name="private" rows="3" cols="150"
-                        v-model="messagePrivate" @change="updateTransaction('private_note')"></textarea>
+                    <textarea class="shadow-sm block sm:text-sm border-gray-300 rounded-md w-full"
+                        placeholder="MET 3-2-22-Incoming via text" name="private"
+                        v-model="messagePrivate" @change="updateTransaction('private_note')">
+                    </textarea>
 
                     <div class="flex flex-col space-y-2 w-1/2 lg:full">
                         <div>

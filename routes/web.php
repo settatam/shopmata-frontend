@@ -396,6 +396,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::resource('settings/store-users', PlansAndPermissionsController::class);
 
         Route::get('payment-information/{id}', [TransactionPaymentAddressController::class, 'index']);
+        Route::post('payment-information/{id}', [TransactionPaymentAddressController::class, 'store']);
 
 
         //    Route::get('settings/store-users', [PlansAndPermissionsController::class, 'index'])->name('permissions.list');
