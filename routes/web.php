@@ -29,6 +29,7 @@ use App\Http\Controllers\Settings\PayoutSettingsController;
 use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\ReportsController;
 
+
 use App\Http\Controllers\Settings\ShippingController;
 use App\Http\Controllers\Settings\ShippingProfileController;
 use App\Http\Controllers\Settings\ShippingRatesController;
@@ -125,6 +126,8 @@ Route::post('login', [LoginController::class, 'authenticate']);
 Route::get('password/reset', [LoginController::class, 'ForgotPassword']);
 
 Route::post('register', [RegisterController::class, 'RegisterUser']);
+Route::post('api/my-settings', [HomeController::class, 'updateSettings']);
+
 
 
 //Create Store here
