@@ -150,11 +150,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::prefix('admin')->group(function () {
 
         Route::resource('stores', StoresController::class)->names([
-            'index' => 'stores.index',
-            'show' => 'stores.show',
+            'index'  => 'stores.index',
+            'show'   => 'stores.show',
             'create' => 'stores.create',
             'stores' => 'stores.store',
-
         ]);
 
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -373,13 +372,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::get('editor-pages/{id}', [OpenEditorPagesController::class, 'show']);
         Route::delete('online-store/editor-pages/{id}', [OpenEditorPagesController::class, 'destroy']);
-
         Route::get('online-store/themes', [ThemeController::class, 'index']);
-
         Route::post('store/create', [StoreController::class, 'store']);
         Route::put('store/{id}', [StoreController::class, 'update']);
 
-        Route::put('store', [StoreController::class, 'update']);
 
 
         Route::get('store/pages/generate-slug/{title}', [PagesController::class, 'generateSlug']);
@@ -387,6 +383,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('store/pages/code-editor/{id?}', [PagesController::class, 'codeEditor']);
         Route::resource('store/pages', PagesController::class);
         Route::resource('store/blog', StoreBlogController::class);
+        Route::put('store', [StoreController::class, 'update']);
+
         ##Store Domains
 
         Route::resource('store/domains', StoreDomainsController::class);

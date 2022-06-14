@@ -173,7 +173,7 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     props: {
-        customer: Object,
+        transaction: Object,
         states: Object,
     },
     components: {
@@ -181,14 +181,14 @@ export default {
     },
     setup(props) {
         const loading = ref(false);
-        let payment = props.customer.payment_address;
+        let payment = props.transaction.payment_address;
         const paymentInfo = reactive({
             payment_method: "Check",
-            check_name: payment.check_name,
-            check_address: payment.check_address,
-            check_city: payment.check_city,
+            check_name: payment.check_name || null,
+            check_address: payment.check_address || null,
+            check_city: payment.check_city || null,
             check_state_id: payment.check_state_id || "",
-            check_zip: payment.check_zip,
+            check_zip: payment.check_zip || null,
         });
 
         const rules = computed(() => {
@@ -225,11 +225,11 @@ export default {
             loading.value = true;
             axios
                 .post(
-                    `/admin/customer/${props.customer.id}/payment`,
+                    `/admin/transctions/${props.transaction.id}/payment`,
                     paymentInfo
                 )
                 .then((res) => {
-                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
+                    Inertia.visit(`/admin/transactions/${props.transaction.id}`, {
                         method: "get",
                     });
                 })

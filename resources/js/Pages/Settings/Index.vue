@@ -394,6 +394,8 @@ import Search from '../Search.vue'
 import Nav from './Nav'
 import axios from 'axios'
 import { notify } from 'notiwind'
+import notification from "../../Utils/notification";
+
 import {
     Dialog,
     DialogOverlay,
@@ -403,6 +405,7 @@ import {
 import { ChevronRightIcon } from '@heroicons/vue/solid'
 import { HomeIcon } from '@heroicons/vue/outline'
 import { Inertia } from '@inertiajs/inertia'
+import { FLIPPED_ALIAS_KEYS } from '@babel/types'
 
 const statusStyles = {
     success: 'bg-green-100 text-green-800',
@@ -445,6 +448,8 @@ export default {
         const save = ref('Save Changes')
         const loading = ref(false)
         const successMessage = ref('')
+        const { notifyAlert } = notification();
+
         function onClickTop() {
             notify(
                 {
@@ -484,22 +489,27 @@ export default {
                 })
         })
         const submit = () => {
-            axios.put('/store', store_details).then(res => {
-                loading.value = true
-                if (res.status == 200) {
-                    successMessage.value = res.data.notification.message
-                    setTimeout(onClickTop, 2000)
-                    save.value = 'Saving'
-                    setTimeout(loadingFn, 3000)
-                } else if (res.status == 422) {
-                    successMessage.value = res.data.notification.message
-                    setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
-                } else {
-                    successMessage.value = 'Error processing your request'
-                    setTimeout(onClickBot, 2000)
-                    setTimeout(errorFn, 3000)
-                }
+            loading.value = true
+            axios.patch('/admin/stores/' + store.id, store_details).then(res => {
+                loading.value = false
+                setTimeout(
+                    notifyAlert(
+                        "Settings updated successfully",
+                        "top",
+                        "Success"
+                    ),
+                    2000
+                );
+            }).catch(() => {
+                loading.value = false
+                setTimeout(
+                    notifyAlert(
+                        "Error processing your request",
+                        "bottom",
+                        "Error"
+                    ),
+                    2000
+                );
             })
         }
         return {

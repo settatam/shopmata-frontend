@@ -65,7 +65,7 @@ class StoresController extends Controller
             $input = $request->all();
             $input['slug'] = Helper::generateSlug($input['name']);
             $input['user_id'] = Auth::id();
-            $store = Store::addUpdateStore($input);
+            $store = (new Store)->addStore($input);
             \Log::info("Store Added" . collect($request->all()));
             return response()->json(['message'=> "Store added" ], 200);
         } catch (\Throwable $th) {
@@ -105,7 +105,18 @@ class StoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $input = $request->all();
+            $input['slug'] = Helper::generateSlug($input['name']);
+            $input['user_id'] = Auth::id();
+            $store = Store::find($id);
+            $store->update($input);
+            \Log::info("Store Added" . collect($request->all()));
+            return response()->json(['message'=> "Store update" ], 200);
+        } catch (\Throwable $th) {
+            \Log::Error("Failed to update  store" . collect($request->all())  ."  Error: " .$th->getMessage() );
+            return response()->json(['message'=> $th->getMessage()], 422);
+        }
     }
 
     /**

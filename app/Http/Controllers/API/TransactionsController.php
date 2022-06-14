@@ -53,13 +53,14 @@ class TransactionsController extends Controller
             $transaction = Transaction::createNew($store, $request, $customer);
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
-                ['customer_id' => $customer->id ]
+                ['transaction_id' => $transaction->id ]
             );
             $transaction_payment_address->transaction_id         =  $transaction->id;
             $transaction_payment_address->customer_id            =  $customer->id;
             $transaction_payment_address->payment_type_id        =  $request->payment;
             $transaction_payment_address->save();
-
+                
+    
             return response()->json(null, 200);
 //        } catch (\Throwable $th) {
 //            \Log::Error("Failed to save  transaction  with" . collect($request->all())  ."  Error: " .$th->getMessage() );

@@ -99,10 +99,8 @@ class CustomersController extends Controller
         $store_id = $request->store_id ?? 43;
         $store = Store::find($store_id);
         $input = $request->input();
-
-
         try {
-            Customer::createOrUpdateCustomer($store, $input, null);
+            (new Customer())->createOrUpdateCustomer($store, $input);
             \Log::info("New customer added");
             return response()->json(['message'=> "Customer added  successfully"], 200);
         } catch (\Throwable $th) {
@@ -258,8 +256,6 @@ class CustomersController extends Controller
     {
 
         $customer = Customer::find($id);
-
-
         // $request->validate([
         //     'first_name'   => ['required','string'],
         //     'last_name'    => ['required','string'],
@@ -269,10 +265,8 @@ class CustomersController extends Controller
         $store_id = $request->store_id ?? 43;
         $store = Store::find($store_id);
         $input = $request->input();
-
-
         try {
-            Customer::createOrUpdateCustomer($store, $input, $customer);
+            (new Customer())->createOrUpdateCustomer($store, $input, $customer);
             \Log::info("Customer Updated");
             return response()->json(['message'=> "Customer details updated successfully" ], 200);
         } catch (\Throwable $th) {

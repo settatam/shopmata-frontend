@@ -296,7 +296,7 @@ export default {
                 case "offer":
                     data = {
                         field: "offer",
-                        value: currentTransaction.value.offer,
+                        value: this.currentTransaction.value.offer,
                     };
                     break;
                 case "sms":
