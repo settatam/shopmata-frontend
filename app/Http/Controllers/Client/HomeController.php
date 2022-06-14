@@ -213,7 +213,7 @@ class HomeController extends Controller
      */
     public function updateSettings(Request $request)
     {   
-        return 77777;
+        return 33333;
         $customer = $request->user();
         $input    = $request->all();
         $store_id = $request->store_id;
