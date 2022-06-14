@@ -126,12 +126,9 @@ class HomeController extends Controller
     }
 
     public function settings(Request $request){
-        $customer = $request->user();
-
-        return Auth::guard('customer')->user();
+        $customer =  Auth::guard('customer')->user();        
         $input    = $request->all();
-        $store_id = $request->store_id;
-        $store = Store::find($store_id);
+        $store = Store::find($customer->store_id);
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
             $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
