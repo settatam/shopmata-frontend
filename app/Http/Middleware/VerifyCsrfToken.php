@@ -15,7 +15,8 @@ class VerifyCsrfToken extends Middleware
         '/register',
         '/admin/reports/export',
         //'customer/verify-address',
-        'admin/transactions/bulk-actions/barcode'
+        'admin/transactions/bulk-actions/barcode',
+        'transactions/*'
     ];
 
     /**
@@ -28,7 +29,7 @@ class VerifyCsrfToken extends Middleware
     {
         $token = $this->getTokenFromRequest($request);
 
-        dd($request->input());
+//        dd($request->input());
 
         return is_string($request->session()->token()) &&
                is_string($token) &&
