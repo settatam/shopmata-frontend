@@ -29,8 +29,6 @@ use App\Http\Resources\CustomerCollection;
 use Carbon\Carbon;
 
 
-
-
 class CustomersController extends Controller
 {
     /**

@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\TransactionPaymentAddress;
 use Illuminate\Routing\Route;
+use App\Models\State;
 
 class HomeController extends Controller
 {
@@ -77,6 +78,8 @@ class HomeController extends Controller
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
                 }
+
+                $data['states'] = State::where('country_id', 1)->get();
 
                 $data['customer'] = Auth::guard('customer')->user();
 
