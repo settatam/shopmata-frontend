@@ -16,7 +16,7 @@ class VerifyCsrfToken extends Middleware
         '/admin/reports/export',
         //'customer/verify-address',
         'admin/transactions/bulk-actions/barcode',
-        '/transactions/*'
+        //'/transactions/*'
     ];
 
     /**
