@@ -159,8 +159,8 @@ class Customer extends Authenticatable
         return $address = [
             'first_name' => $input['first_name'],
             'last_name'  => $input['last_name'],
-            'state'      => isset($input['state']) ? isset($input['state']) : null,
-            'state_id'   => isset($input['state_id']) ? $input['state_id'] : Helper::getStateId($input['state']),
+            'state'      => isset($input['state']) ? $input['state'] : null,
+            'state_id'   => isset($input['state_id']) ? $input['state_id'] : null,
             'city'       => $input['city'],
             'is_default' => 1,
             'address'    => $input['address'],
