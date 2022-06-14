@@ -148,7 +148,7 @@ class Customer extends Authenticatable
 
     public  function createOrUpdateCustomer($store, $input, $customer = null)
     {   
-        $input['store_id']  = $store->id;
+        $input['store_id']    = $store->id;
         $input['is_active']   = 1;
         $input['accepts_marketing'] = 1;
 

@@ -127,7 +127,7 @@ Route::post('login', [LoginController::class, 'authenticate']);
 Route::get('password/reset', [LoginController::class, 'ForgotPassword']);
 
 Route::post('register', [RegisterController::class, 'RegisterUser']);
-Route::post('api/my-settings', [Home::class, 'updateSettings']);
+Route::post('my-settings', [Home::class, 'updateSettings']);
 
 
 
