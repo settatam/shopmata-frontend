@@ -28,7 +28,7 @@ class VerifyCsrfToken extends Middleware
     {
         $token = $this->getTokenFromRequest($request);
 
-        dd($request);
+        dd($request->input());
 
         return is_string($request->session()->token()) &&
                is_string($token) &&
