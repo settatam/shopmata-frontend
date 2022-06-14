@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\TransactionPaymentAddress;
 use Illuminate\Routing\Route;
+use App\Models\State;
 
 class HomeController extends Controller
 {
@@ -67,20 +68,44 @@ class HomeController extends Controller
                     ->withOfferGivenDateTime()
                     ->withReturnedDateTime()
                     ->withReceivedDateTime()
+                    ->withPaymentType()
                     //->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
                 //dd($data['transaction']);
-            }else if($pageToFind == 'my-settings') {
+            }else if($pageToFind == 'my-settings' || $pageToFind == 'my-settings.details') {
 
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
                 }
 
+                $data['states'] = State::where('country_id', 1)->get();
+
+                $data['customer'] = Auth::guard('customer')->user();
+
+                $transactionObj = Transaction::with('images')
+                    ->with('customer')
+                    ->with('status')
+                    ->with('payment_address')
+                    ->withFinalOffer()
+                    ->withPaymentDateTime()
+                    ->withKitSentDateTime()
+                    ->withOfferGivenDateTime()
+                    ->withReturnedDateTime()
+                    ->withReceivedDateTime()
+                    ->withPaymentType()
+                    ->where('customer_id', $data['customer']->id);
+
+                if(!$id) {
+                    $data['transaction'] = $transactionObj->orderBy('id', 'desc')->first();
+                }else{
+                    $data['transaction'] = $transactionObj->find($id);
+                }
+
                 $pageType = 'template';
                 $customer = Auth::guard('customer')->user();
                 $customer->load('address', 'transactions.payment_address');
-                $data['customer'] = Auth::guard('customer')->user();
+
             }
 
             if(null !== $store) {
@@ -172,9 +197,10 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($account, Request $request, $id)
     {
-        
+        $transaction = Transaction::find($id);
+        return $transaction->doUpdate($request->input());
     }
 
 
@@ -203,7 +229,7 @@ class HomeController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message'=> $th->getMessage()], 422);
             //throw $th;
-        } 
+        }
     }
 
     /**
@@ -243,10 +269,12 @@ class HomeController extends Controller
             }
 
             $transaction = Transaction::createNew($store, $request, $customer);
+
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
                 ['customer_id' => $customer->id ]
             );
+
             $transaction_payment_address->transaction_id         =  $transaction->id;
             $transaction_payment_address->customer_id            =  $customer->id;
             $transaction_payment_address->payment_type_id        =  $request->payment;

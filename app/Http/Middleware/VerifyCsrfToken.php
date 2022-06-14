@@ -14,8 +14,10 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/register',
         '/admin/reports/export',
+        'admin/transactions/bulk-actions/barcode',
         'customer/verify-address',
         'my-settings',
         'admin/transactions/bulk-actions/barcode'
     ];
+
 }

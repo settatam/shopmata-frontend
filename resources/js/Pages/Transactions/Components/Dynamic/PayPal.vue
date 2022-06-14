@@ -7,7 +7,9 @@
                 'border-gray-300': !v$.paypal_address.$error,
             }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                type="text" v-model="paymentInfo.paypal_address" placeholder="My paypal address is..." />
+                type="text" v-model="paymentInfo.paypal_address" placeholder="My paypal address is..."
+                id="address"
+            />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.paypal_address.$error">
@@ -18,7 +20,9 @@
         <!-- submit -->
         <div class="flex justify-between w-2/3 mx-auto pt-8 mt-8">
             <div class="">
-                <button class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3">
+                <button class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
+                @click="cancelPayment"
+                >
                     Cancel
                 </button>
             </div>
@@ -44,6 +48,7 @@
 
 <script>
 import { ref, reactive, computed } from "vue";
+import urls from "../../../../api/urls";
 import {
     required,
     maxLength,
@@ -54,17 +59,19 @@ import {
 import useVuelidate from "@vuelidate/core";
 import LoadingSpinner from "../../../../Components/LoadingSpinner.vue";
 import { Inertia } from "@inertiajs/inertia";
+import axios from "axios";
 
 export default {
     props: {
-        customer: Object,
+        method: Object,
     },
     components: {
         LoadingSpinner,
     },
-    setup(props) {
+    emits: ['payment-updated', 'cancel-payment'],
+    setup(props, {emit}) {
         const loading = ref(false);
-        let payment = props.customer.payment_address;
+        let payment = props.method;
 
         const paymentInfo = reactive({
             payment_method: "PayPal",
@@ -86,29 +93,18 @@ export default {
             if (this.v$.$error) {
                 return;
             }
-            loading.value = true;
-            axios
-                .post(
-                    `/admin/customer/${props.customer.id}/payment`,
-                    paymentInfo
-                )
-                .then((res) => {
-                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
-                        method: "get",
-                    });
-                })
-                .catch((error) => {
-                    loading.value = false;
+            emit('payment-updated', paymentInfo)
+        }
 
-                    //setTimeout(onClickBot, 2000);
-                });
+        function cancelPayment() {
+            emit('cancel-payment')
         }
 
         return {
             v$,
             paymentInfo,
-            loading,
             submit,
+            cancelPayment
         };
     },
 };

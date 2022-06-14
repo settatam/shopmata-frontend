@@ -52,7 +52,7 @@ use App\Http\Controllers\StoresController;
 use App\Http\Controllers\WidgetsController;
 
 use App\Http\Controllers\Auth\CustomerLoginController;
-
+use App\Http\Controllers\TransactionPaymentAddressController;
 
 
 use App\Http\Controllers\MessagesController;
@@ -95,9 +95,10 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('/', [ClientHomeController::class, 'index']);
     Route::get('transactions', [ClientHomeController::class, 'index']);
     Route::get('transactions/{id}', [ClientHomeController::class, 'index']);
-    Route::put('transactions/{id}', [ClientHomeController::class, 'update']);
+    Route::post('transactions/{id}', [ClientHomeController::class, 'update']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
     Route::get('my-settings', [ClientHomeController::class, 'index']);
+    Route::get('my-settings/{id}', [ClientHomeController::class, 'index']);
     Route::post('my-settings', [ClientHomeController::class, 'settings']);
     Route::get('track-my-kit', [ClientHomeController::class, 'index']);
     Route::get('customer/login', [ClientHomeController::class, 'index'])->name('customer.login');
@@ -394,6 +395,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('settings/store-users/response', [PlansAndPermissionsController::class, 'response']);
 
         Route::resource('settings/store-users', PlansAndPermissionsController::class);
+
+        Route::get('payment-information/{id}', [TransactionPaymentAddressController::class, 'index']);
+        Route::post('payment-information/{id}', [TransactionPaymentAddressController::class, 'store']);
 
 
         //    Route::get('settings/store-users', [PlansAndPermissionsController::class, 'index'])->name('permissions.list');
