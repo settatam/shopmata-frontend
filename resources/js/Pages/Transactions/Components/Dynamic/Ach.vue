@@ -13,6 +13,7 @@
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
+                id="bank_name"
                 v-model="paymentInfo.bank_name"
                 placeholder="Bank Name"
             />
@@ -36,6 +37,7 @@
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
+                id="routing_number"
                 v-model="paymentInfo.routing_number"
                 placeholder="Routing Number (9 Digit Number)"
             />
@@ -59,8 +61,9 @@
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
+                id="account_number"
                 v-model="paymentInfo.account_number"
-                placeholder="city"
+                placeholder="Account Number"
             />
         </div>
         <div class="mt-1">
@@ -82,6 +85,7 @@
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
+                id="account_name"
                 v-model="paymentInfo.account_name"
                 placeholder="Account name (your name here)"
             />
@@ -105,6 +109,7 @@
                 }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
                 type="text"
+                id="account_type"
                 v-model="paymentInfo.account_type"
                 placeholder="Account type (Checking, Savings)"
             />
@@ -120,6 +125,7 @@
             <div class="">
                 <button
                     class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
+                    @click="cancelPayment"
                 >
                     Cancel
                 </button>
@@ -165,17 +171,19 @@ import {
 import useVuelidate from "@vuelidate/core";
 import LoadingSpinner from "../../../../Components/LoadingSpinner.vue";
 import { Inertia } from "@inertiajs/inertia";
+import urls from "../../../../api/urls";
 
 export default {
     props: {
-        customer: Object,
+        method: Object,
     },
     components: {
         LoadingSpinner,
     },
-    setup(props) {
-        const loading = ref(false);
-        let payment = props.customer.payment_address;
+    emits: ['payment-updated'],
+    setup(props, {emit}) {
+        let payment = props.method;
+
         const paymentInfo = reactive({
             payment_method: "ACH",
             bank_name: payment.bank_name,
@@ -222,32 +230,23 @@ export default {
 
         const v$ = useVuelidate(rules, paymentInfo);
 
+        function cancelPayment() {
+            emit('cancel-payment')
+        }
+
         function submit() {
             this.v$.$validate();
-            if (this.v$.$error) {
-                return;
-            }
-            loading.value = true;
-            axios
-                .post(
-                    `/admin/customer/${props.customer.id}/payment`,
-                    paymentInfo
-                )
-                .then((res) => {
-                    Inertia.visit(`/admin/customers/${props.customer.id}`, {
-                        method: "get",
-                    });
-                })
-                .catch((error) => {
-                    loading.value = false;
-                    //setTimeout(onClickBot, 2000);
-                });
+            // if (this.v$.$errors) {
+            //     return;
+            // }
+
+            emit('payment-updated', paymentInfo)
         }
 
         return {
             v$,
             paymentInfo,
-            loading,
+            cancelPayment,
             submit,
         };
     },

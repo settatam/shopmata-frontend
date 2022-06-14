@@ -1265,7 +1265,7 @@ class Transaction extends Model
         if(in_array($this->status_id, $this->acceptedStatuses)) {
             $this->is_declined = 0;
             $this->is_rejected = 0;
-            if ($this->status == 5 || $this->status == 8){
+            if ($this->status_id == 5 || $this->status_id == 8){
                 $this->is_accepted = 1;
             }
             $this->save();

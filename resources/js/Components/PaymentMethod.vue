@@ -3,7 +3,7 @@
         <p
             class="font-bold text-xs lg:text-sm text-black"
             :key="key"
-            v-for="(map, key) in html"
+            v-for="(map, key) in methodList"
         >
             {{ key }} :
             <span class="ml-2 font-normal">{{ map }}</span>
@@ -12,53 +12,56 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 
 export default {
     props: {
-        payment: Object,
+        method: Object,
         payment_method_name: String,
     },
 
-    setup({ payment, payment_method_name }) {
-        let payments = {
-            Check: {
-                "Pay Method": payment_method_name,
-                "Payable to": payment.check_name,
-                Address: payment.check_address,
-                City: payment.check_city,
-                Zip: payment.check_zip,
-                State: payment.state ? payment.state.name : "",
-            },
-            Venmo: {
-                "Pay Method": payment_method_name,
-                "Venmo address": payment.venmo_address,
-            },
-            PayPal: {
-                "Pay Method": payment_method_name,
-                "Paypal address": payment.paypal_address,
-            },
-            ACH: {
-                "Pay Method": payment_method_name,
-                "Bank Name": payment.bank_name,
-                "Routing Number": payment.routing_number,
-                "Account Number": payment.account_number,
-                "Account Name": payment.account_name,
-                "Account Type": payment.account_type,
-            },
-        };
+    setup(props) {
 
-        const html = ref("");
-        let e = "";
-        for (const key in payments) {
-            if (payments.hasOwnProperty.call(payments, payment_method_name)) {
-                e = payments[payment_method_name];
-            }
-        }
+        const methodList = computed(() => {
+            let methodData = {};
+            switch (props.payment_method_name) {
+                case 'Check':
+                   methodData = {
+                        "Pay Method": props.payment_method_name,
+                        "Payable to": props.method.check_name,
+                        Address: props.method.check_address,
+                        City: props.method.check_city,
+                        Zip: props.method.check_zip,
+                        State: props.method.state ? props.method.state.name : "",
+                    }
+                    break;
+                case 'Venmo':
+                    methodData = {
+                        "Pay Method": props.payment_method_name,
+                        "Venmo address": props.method.venmo_address,
+                    }
+                    break;
+                case 'PayPal':
+                    methodData = {
+                        "Pay Method": props.payment_method_name,
+                        "Paypal address": props.method.paypal_address,
+                    }
+                    break;
+                case 'ACH':
+                    methodData = {
+                        "Pay Method": props.payment_method_name,
+                        "Bank Name": props.method.bank_name,
+                        "Routing Number": props.method.routing_number,
+                        "Account Number": props.method.account_number,
+                        "Account Name": props.method.account_name,
+                        "Account Type": props.method.account_type,
+                    }
+                    break;
+                }
+            return methodData;
+        })
 
-        html.value = e;
-
-        return { html };
+        return { methodList };
     },
 };
 </script>
