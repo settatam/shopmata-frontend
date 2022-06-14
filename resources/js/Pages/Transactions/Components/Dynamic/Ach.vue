@@ -1,22 +1,13 @@
 <template>
     <div class="px-4 space-y-3 w-full pb-8">
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="bank_name"
-                >BANK NAME:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.bank_name.$error,
-                    'border-gray-300': !v$.bank_name.$error,
-                }"
+            <label class="font-semibold mt-2 w-full bg-transparent" for="bank_name">BANK NAME:</label>
+            <input :class="{
+                'border-red-600': v$.bank_name.$error,
+                'border-gray-300': !v$.bank_name.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                id="bank_name"
-                v-model="paymentInfo.bank_name"
-                placeholder="Bank Name"
-            />
+                type="text" id="bank_name" v-model="paymentInfo.bank_name" placeholder="Bank Name" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.bank_name.$error">
@@ -25,22 +16,14 @@
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="routing_number"
-                >ROUTING NUMBER:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.routing_number.$error,
-                    'border-gray-300': !v$.routing_number.$error,
-                }"
+            <label class="font-semibold mt-2 w-full bg-transparent" for="routing_number">ROUTING NUMBER:</label>
+            <input :class="{
+                'border-red-600': v$.routing_number.$error,
+                'border-gray-300': !v$.routing_number.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                id="routing_number"
-                v-model="paymentInfo.routing_number"
-                placeholder="Routing Number (9 Digit Number)"
-            />
+                type="text" id="routing_number" v-model="paymentInfo.routing_number"
+                placeholder="Routing Number (9 Digit Number)" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.routing_number.$error">
@@ -49,22 +32,13 @@
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="account_number"
-                >ACCOUNT NUMBER:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.account_number.$error,
-                    'border-gray-300': !v$.account_number.$error,
-                }"
+            <label class="font-semibold mt-2 w-full bg-transparent" for="account_number">ACCOUNT NUMBER:</label>
+            <input :class="{
+                'border-red-600': v$.account_number.$error,
+                'border-gray-300': !v$.account_number.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                id="account_number"
-                v-model="paymentInfo.account_number"
-                placeholder="Account Number"
-            />
+                type="text" id="account_number" v-model="paymentInfo.account_number" placeholder="Account Number" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.account_number.$error">
@@ -73,22 +47,14 @@
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="account_name"
-                >ACCOUNT NAME:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.account_name.$error,
-                    'border-gray-300': !v$.account_name.$error,
-                }"
+            <label class="font-semibold mt-2 w-full bg-transparent" for="account_name">ACCOUNT NAME:</label>
+            <input :class="{
+                'border-red-600': v$.account_name.$error,
+                'border-gray-300': !v$.account_name.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                id="account_name"
-                v-model="paymentInfo.account_name"
-                placeholder="Account name (your name here)"
-            />
+                type="text" id="account_name" v-model="paymentInfo.account_name"
+                placeholder="Account name (your name here)" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.account_name.$error">
@@ -97,22 +63,14 @@
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold w-full mt-2 bg-transparent"
-                for="account_type"
-                >ACCOUNT TYPE:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.account_type.$error,
-                    'border-gray-300': !v$.account_type.$error,
-                }"
+            <label class="font-semibold w-full mt-2 bg-transparent" for="account_type">ACCOUNT TYPE:</label>
+            <input :class="{
+                'border-red-600': v$.account_type.$error,
+                'border-gray-300': !v$.account_type.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                id="account_type"
-                v-model="paymentInfo.account_type"
-                placeholder="Account type (Checking, Savings)"
-            />
+                type="text" id="account_type" v-model="paymentInfo.account_type"
+                placeholder="Account type (Checking, Savings)" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.account_type.$error">
@@ -123,35 +81,24 @@
         <!-- submit -->
         <div class="flex justify-between w-2/3 mx-auto pt-8 mt-8">
             <div class="">
-                <button
-                    class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
-                    @click="cancelPayment"
-                >
+                <button class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
+                    @click="cancelPayment">
                     Cancel
                 </button>
             </div>
             <div class="">
-                <button
-                    v-if="!v$.$error"
-                    :disabled="loading"
-                    type="submit"
-                    :class="{
-                        disabled: loading,
-                        'opacity-25 cursor-not-allowed': loading,
-                    }"
+                <button v-if="!v$.$error" :disabled="loading" type="submit" :class="{
+                    disabled: loading,
+                    'opacity-25 cursor-not-allowed': loading,
+                }"
                     class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    @click="submit"
-                >
+                    @click="submit">
                     <LoadingSpinner v-if="loading" />
                     Save
                 </button>
 
                 <!-- else -->
-                <button
-                    v-else
-                    type="button"
-                    class="bg-indigo-600 text-white rounded-md px-8 py-3"
-                >
+                <button v-else type="button" class="bg-indigo-600 text-white rounded-md px-8 py-3">
                     Save
                 </button>
             </div>
@@ -181,7 +128,7 @@ export default {
         LoadingSpinner,
     },
     emits: ['payment-updated'],
-    setup(props, {emit}) {
+    setup(props, { emit }) {
         let payment = props.method;
 
         const paymentInfo = reactive({
@@ -236,10 +183,9 @@ export default {
 
         function submit() {
             this.v$.$validate();
-            // if (this.v$.$errors) {
-            //     return;
-            // }
-
+            if (this.v$.$errors) {
+                return;
+            }
             emit('payment-updated', paymentInfo)
         }
 
