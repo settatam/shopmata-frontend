@@ -25,4 +25,19 @@ class TokenController extends Controller
         }
     }
 
+
+    public function loginWithToken(Request $request)
+    {   
+        $token = $request->token;
+
+        try {
+           // $customer = Customer::find($customer_id);
+            $store    = Store::find(session('store_id'));
+            //$customer->generateLoginTokenForEmail($store);
+            return response()->json(['message'=> "Link sent" ], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message'=> $th->getMessage()], 422);
+        }
+    }
+
 }
