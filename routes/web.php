@@ -57,6 +57,7 @@ use App\Http\Controllers\TransactionPaymentAddressController;
 
 use App\Http\Controllers\MessagesController;
 
+use App\Http\Controllers\PDFController;
 
 use App\Http\Controllers\NotificationsController as NewNotificationsController;
 
@@ -115,6 +116,9 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 // 	return Inertia\Inertia::render('Dashboard');
 // })->name('dashboard');
+
+Route::get('pdf', [PDFController::class, 'index']);
+
 
 Route::get('login', [LoginController::class, 'getLogin'])->name('login');
 Route::get('logout', [LoginController::class, 'logout']);

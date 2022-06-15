@@ -139,9 +139,9 @@ class HomeController extends Controller
                     TransactionPaymentAddress::doUpdate($transaction->id,  $input);
                 }
             }
-            return response()->json( $customer, 200);
+            return response()->json($customer, 200);
         } catch (\Throwable $th) {
-            return response()->json(['message'=> $th->getMessage()], 422);
+            return response()->json(['message'=> "Failed"], 422);
             //throw $th;
         }
     }
