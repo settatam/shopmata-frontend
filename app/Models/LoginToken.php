@@ -19,6 +19,8 @@ class LoginToken extends Model
     ];
 
     static function createNew($user, $type='email', $duration=3600) {
+        //update all existing tokens to be inactive
+        self::where('tokenable_id', $user->id)->where('tokenable_type', get_class($user))->update(['is_active' => 0]);
         return self::create([
             'tokenable_id' => $user->id,
             'tokenable_type' => get_class($user),

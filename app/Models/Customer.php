@@ -135,7 +135,7 @@ class Customer extends Authenticatable
     }
 
     public  function createOrUpdateCustomer($store, $input, $customer = null)
-    {   
+    {
         $input['store_id']    = $store->id;
         $input['is_active']   = 1;
         $input['accepts_marketing'] = 1;
@@ -318,6 +318,7 @@ class Customer extends Authenticatable
     }
 
     public function generateLoginTokenForEmail(Store $store) {
+        $token = null;
         if($token = LoginToken::createNew($this, 'email', '600')) {
             $sender = (new EventNotification('Email Login Token', [
                 'customer' => $this,
@@ -325,10 +326,13 @@ class Customer extends Authenticatable
                 'token' => $token
             ]));
         }
+
+        return $token;
     }
 
     public function generateLoginTokenForSms(Store $store) {
         if($token = LoginToken::createNew($this, 'sms', 600)) {
+            $this->load('loginToken');
             $sender = (new EventNotification('Sms Login Token', [
                 'customer' => $this,
                 'store' => $store,
@@ -337,5 +341,8 @@ class Customer extends Authenticatable
         }
     }
 
+    public function loginToken() {
+        return $this->morphOne(LoginToken::class, 'tokenable')->where('is_active', 1);
+    }
 
 }
