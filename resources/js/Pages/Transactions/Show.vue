@@ -30,7 +30,6 @@
                 <div class="flex flex-col lg:flex-row w-full h-full mb-12">
                     <div class="w-full lg:w-1/3">
                         <TransactionBox1 :transaction="trans" :store="store" class="mb-4 h-full" />
-                        {{ trans.status_date_time }}
                     </div>
                     <div class="w-full lg:w-1/3">
                         <KitInformation class="mb-4 h-full" :categories="transaction_categories" :transaction="trans"
