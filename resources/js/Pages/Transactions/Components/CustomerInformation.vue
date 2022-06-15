@@ -11,11 +11,11 @@
                 {{ customer.id }})</inertia-link>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
-                <span class="font-normal">{{ customer.address.address }}</span>
+                <!-- <span class="font-normal">{{ customer.address.address }}</span> -->
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 2:
-                <span class="font-normal">{{ customer.address.address2 }}</span>
+                <!-- <span class="font-normal">{{ customer.address.address2 }}</span> -->
             </p>
             <p v-if="customer.state" class="font-bold text-xs lg:text-sm text-black">
                 City, State, Zip:
