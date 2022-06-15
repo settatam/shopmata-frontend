@@ -851,7 +851,7 @@ class Transaction extends Model
 
         if(null !== $labels) return $labels;
 
-
+        dd($this->createLabel($direction));
 
         if($shippingLabel = $this->createLabel($direction)) {
             if(!$shippingLabel->hasErrors()) {
@@ -899,8 +899,10 @@ class Transaction extends Model
             $recipientAddress = $this->store->shippingAddress;
         }else if($type == Shipping::SHIPPING_TYPE_TO) {
             $recipientAddress = $this->customer->address;
-            $shipperAddress = $this->store->shippingAddress;
+            $shipperAddress = $this->store->address;
         }
+
+        dd($this->store->address);
 
         if(null !== $shipperAddress && null !== $recipientAddress) {
             $fedex = new Fedex();
@@ -910,6 +912,7 @@ class Transaction extends Model
             //We can set weight, amount and all the other properties ...
             try{
                 $fedexLabel =  $fedex->getLabel();
+
                 return $fedexLabel;
             }catch (\Exception $e) {
                // dd($e->getMessage());
