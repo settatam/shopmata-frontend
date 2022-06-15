@@ -538,7 +538,7 @@ class TransactionsController extends Controller
             ->withReceivedDateTime()
             ->withPaymentDateTime()
             ->withPaymentDateTime()
-            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','sms.images','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
+            ->with('customer','customer.address','customer.lead','customer.state','items','items.category','items.images','histories','offers','sms','sms.images','images', 'activities','payment_address','payment_address.state','payment_address.payment_type','tags')
             ->find($id);
 
 
