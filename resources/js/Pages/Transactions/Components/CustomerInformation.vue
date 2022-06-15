@@ -5,10 +5,20 @@
         </div>
 
         <div class="p-4 space-y-2">
-            <inertia-link class="text-purple-darken 2xl font-bold" :href="'/admin/customers/' + customer.id">{{
-                    customer.first_name
-            }} {{ customer.last_name }} (ID
-                {{ customer.id }})</inertia-link>
+            <inertia-link
+                class="text-purple-darken 2xl font-bold"
+                :href="'/admin/customers/' + customer.id"
+                >{{ customer.first_name }} {{ customer.last_name }} (ID
+                {{ customer.id }})</inertia-link
+            >
+            |
+
+            <a
+                class="text-purple-darken 2xl font-bold"
+                @click.prevent="sendLink($event)"
+                href="#"> 
+                {{tokenLinkText}}
+             </a>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
                 <span class="font-normal">{{ customer.address.address }}</span>
@@ -62,13 +72,56 @@
 </template>
 
 <script>
+import axios from "axios";
 import AppLayout from "../../../Layouts/AppLayout.vue";
+import { ref } from '@vue/reactivity';
+import notification from "../../../Utils/notification";
+
 
 export default {
     props: ["customer"],
     components: { AppLayout },
-    setup() {
-        return {};
+    setup(props) {
+        const tokenLinkText = ref("Send login link");
+        const loading       = ref(false);
+        const { notifyAlert } = notification();
+
+        function sendLink() {
+            if(loading.value) return;
+            tokenLinkText.value = "Sending........"
+            axios.get('/admin/token/link/' + props.customer.id)
+            .then((res) => {
+                tokenLinkText.value = "Send login link"
+                loading.value = false;
+                setTimeout(
+                    notifyAlert(
+                        "Link sent",
+                        "top",
+                        "Success"
+                    ),
+                    2000
+                );
+                return;
+
+            }).catch((err) => {
+                tokenLinkText.value = "Send login link"
+                loading.value = false;
+                setTimeout(
+                    notifyAlert(
+                        "Error sending link",
+                        "bottom",
+                        "Error"
+                    ),
+                    2000
+                );
+            })
+        }
+
+        return {
+            tokenLinkText,
+            sendLink,
+            loading
+        };
     },
 };
 </script>

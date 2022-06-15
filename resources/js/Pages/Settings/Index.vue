@@ -450,26 +450,8 @@ export default {
         const successMessage = ref('')
         const { notifyAlert } = notification();
 
-        function onClickTop() {
-            notify(
-                {
-                    group: 'top',
-                    title: 'Success',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
-        function onClickBot() {
-            notify(
-                {
-                    group: 'bottom',
-                    title: 'Error',
-                    text: successMessage.value
-                },
-                4000
-            )
-        }
+        
+        
         const loadingFn = () => {
             loading.value = false
             save.value = 'Save Changes'
@@ -522,8 +504,7 @@ export default {
             store_details,
             submit,
             loading,
-            onClickTop,
-            onClickBot
+            
         }
     }
 }
