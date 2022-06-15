@@ -27,21 +27,14 @@
                 Address 2:
                 <span class="font-normal">{{ customer.address.address2 }}</span>
             </p>
-            <p
-                v-if="customer.state"
-                class="font-bold text-xs lg:text-sm text-black"
-            >
+            <p v-if="customer.state" class="font-bold text-xs lg:text-sm text-black">
                 City, State, Zip:
-                <span class="font-normal"
-                    >{{ customer.address.city }}, {{ customer.address.state }},
-                    {{ customer.address.zip }}</span
-                >
+                <span class="font-normal">{{ customer.address.city }}, {{ customer.address.state }},
+                    {{ customer.address.zip }}</span>
             </p>
             <p v-else class="font-bold text-xs lg:text-sm text-black">
                 City, State, Zip:
-                <span class="font-normal"
-                    >{{ customer.zip }}, {{ customer.zip }}</span
-                >
+                <span class="font-normal">{{ customer.zip }}, {{ customer.zip }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Phone:
@@ -53,14 +46,14 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Email:
-                <span class="font-normal text-purple-darken">{{
-                    customer.email
-                }}</span>
+                <a class="font-normal text-purple-darken">{{
+                        customer.email
+                }}</a>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Lead:
                 <span class="font-normal">{{
-                    null != customer.lead ? customer.lead.name : ""
+                        null != customer.lead ? customer.lead.name : ""
                 }}</span>
             </p>
 
@@ -94,18 +87,28 @@ export default {
             tokenLinkText.value = "Sending........"
             axios.get('/admin/token/link/' + props.customer.id)
             .then((res) => {
-                tokenLinkText.value = "link Sent"
-                setTimeout(()=>{
-                   tokenLinkText.value = "Send login link"
-                   loading.value = false;
-                }, 8000)
+                tokenLinkText.value = "Send login link"
+                loading.value = false;
+                setTimeout(
+                    notifyAlert(
+                        "Link sent",
+                        "top",
+                        "Success"
+                    ),
+                    2000
+                );
 
             }).catch((err) => {
                 tokenLinkText.value = "Send login link"
-                setTimeout(()=>{
-                   tokenLinkText.value = "Error sending link"
-                   loading.value = false;
-                }, 8000)
+                loading.value = false;
+                setTimeout(
+                    notifyAlert(
+                        "Error sending link",
+                        "bottom",
+                        "Error"
+                    ),
+                    2000
+                );
             })
         }
 
