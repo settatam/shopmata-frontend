@@ -3,7 +3,7 @@
     <div align="center">
     	<img src="https://fashionerize.nyc3.cdn.digitaloceanspaces.com/BuyMyGold/kit-return-card-1.jpg" width="690" />
     	<br/>
-        {{ $name }}
+        {{ '' }}
 	    <br/>
 {{--    	<img src="https://buymygold.com/api/express-pdf?oid=<?php echo $oid; ?>&pass=<?php echo $pass; ?>&render=barcode" height="88" />--}}
     	<br/>
