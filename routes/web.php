@@ -69,6 +69,7 @@ use Illuminate\Support\Facades\View;
 //Shopmata Routes
 
 use App\Http\Controllers\Shopmata\HomeController as ShopmataHomeController;
+use App\Http\Controllers\TokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -180,7 +181,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('products/search', [ProductsController::class, 'tableSearch']);
 
         //Search
-        Route::get('search', [SearchController::class, 'index']);
+        
+        Route::get('search',    [SearchController::class, 'index']);
+        Route::get('token/link/{customer_id}', [TokenController::class, 'sendLink']);
 
         #Collections
         Route::prefix('collections')->group(function () {
@@ -230,6 +233,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         #Settings -> General
         Route::get('settings/general', [GeneralController::class, 'index'])->name('settings.general');
         Route::put('settings/general', [SettingsController::class, 'updateStore'])->name('settings.updateStore');
+        Route::get('settings/general', [SettingsController::class, 'updateStore'])->name('settings.updateStore');
+
 
         #Settings -> Plan and Permissions
         Route::get('settings/plan-and-permissions', [SettingsController::class, 'permissions'])->name('settings.permissions');

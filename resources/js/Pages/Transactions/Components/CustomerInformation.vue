@@ -11,6 +11,14 @@
                 >{{ customer.first_name }} {{ customer.last_name }} (ID
                 {{ customer.id }})</inertia-link
             >
+            |
+
+            <inertia-link
+                class="text-purple-darken 2xl font-bold"
+                @click="sendLink"
+                href="#"> 
+                {{tokenLinkText}}
+             </inertia-link>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
                 <span class="font-normal">{{ customer.address.address }}</span>
@@ -71,13 +79,41 @@
 </template>
 
 <script>
+import axios from "axios";
 import AppLayout from "../../../Layouts/AppLayout.vue";
+import { ref } from '@vue/reactivity';
 
 export default {
     props: ["customer"],
     components: { AppLayout },
-    setup() {
-        return {};
+    setup(props) {
+        const tokenLinkText = ref("Send login link");
+        const loading       = ref(false);
+        function sendLink() {
+            if(loading.value) return;
+            tokenLinkText.value = "Sending........"
+            axios.get('/admin/token/link/' + props.customer.id)
+            .then((res) => {
+                tokenLinkText.value = "link Sent"
+                setTimeout(()=>{
+                   tokenLinkText.value = "Send login link"
+                   loading.value = false;
+                }, 8000)
+
+            }).catch((err) => {
+                tokenLinkText.value = "Send login link"
+                setTimeout(()=>{
+                   tokenLinkText.value = "Error sending link"
+                   loading.value = false;
+                }, 8000)
+            })
+        }
+
+        return {
+            tokenLinkText,
+            sendLink,
+            loading
+        };
     },
 };
 </script>

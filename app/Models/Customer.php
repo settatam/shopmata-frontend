@@ -92,7 +92,6 @@ class Customer extends Authenticatable
         $images =  $request->file('files');
         $customer   = Customer::find($request->customer_id);
         if ($data = $this->uploadImageToCloud($store, $images)) {
-
             $customer->images()->create([
                 'url' => $data['url'],
                 'thumbnail' => $data['thumb'],
