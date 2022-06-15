@@ -279,7 +279,6 @@ export default {
         function addMessage() { }
 
         function updateTransaction(event, status_id = null) {
-            // console.log("This is the event", currentTransaction);
             let data = {};
             switch (event) {
                 case "status_id":

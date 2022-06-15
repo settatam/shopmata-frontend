@@ -30,6 +30,7 @@
                 <div class="flex flex-col lg:flex-row w-full h-full mb-12">
                     <div class="w-full lg:w-1/3">
                         <TransactionBox1 :transaction="trans" :store="store" class="mb-4 h-full" />
+                        {{ trans.status_date_time }}
                     </div>
                     <div class="w-full lg:w-1/3">
                         <KitInformation class="mb-4 h-full" :categories="transaction_categories" :transaction="trans"
@@ -233,7 +234,6 @@ export default {
 
     setup(props) {
         const notifications = props.notifications;
-        // let testhis = ref(2)
         let trans = ref(props.transaction)
         const customerFilters = {
             customer_id: props.transaction.customer.id,
@@ -248,8 +248,6 @@ export default {
         function updateTransaction(data) {
             let currentData = {};
             currentData[data.field] = data.value;
-            // testhis.value += 1
-            // console.log(testhis);
             let url = "";
             let method = "put";
             switch (data.field) {
@@ -276,34 +274,28 @@ export default {
             }
 
             if (method == "put") {
-                console.log('We are putting here', currentData)
                 axios.put(url, currentData).then((res) => {
                     trans.value = res.data
-                    console.log("new trans", trans.value.status_date_time)
-                    
                 });
             }
-            // else {
-            //     axios.post(url, currentData).then((res) => {
-            //         // props.transaction.value = res.data
-            //         if (data.field == "new-kit") {
-            //             Inertia.visit(urls.transactions.main(res.data.id));
-            //         } else {
-            //             props.transaction.value = res.data;
-            //         }
-            //     });
-            // }
+            else {
+                axios.post(url, currentData).then((res) => {
+                    if (data.field == "new-kit") {
+                        Inertia.visit(urls.transactions.main(res.data.id));
+                    } else {
+                        props.transaction.value = res.data;
+                    }
+                });
+            }
         }
 
         return {
             pages,
             updateTransaction,
-            // currentTransaction,
             customerFilters,
             activityFilters,
             testImages,
             trans,
-            // testhis
         };
     },
 };

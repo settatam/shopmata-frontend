@@ -12,7 +12,7 @@
             <p class="font-bold text-xs lg:text-sm text-black">
                 Status:
                 <span class="font-normal">
-                    {{ tran.status_date_time }}</span>
+                    {{ transaction.status_date_time }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Lead: <span class="font-normal"> {{ transaction.lead }}</span>
@@ -30,7 +30,7 @@
             <p class="font-bold text-xs lg:text-sm text-black">
                 Incoming Tracking#:
                 <span class="font-normal text-purple-darken">{{
-                transaction.incoming_tracking
+                        transaction.incoming_tracking
                 }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
@@ -103,14 +103,14 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import { ref } from 'vue'
 export default {
     props: ["transaction", "store"],
     setup(props) {
         const tran = ref(props.transaction)
-        console.log("transaction box 1", tran)
-        return { tran
-};
+        return {
+            tran
+        };
     },
 };
 </script>
