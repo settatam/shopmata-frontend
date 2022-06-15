@@ -15,7 +15,7 @@
         </div>
 
         <!-- submit -->
-        <div class="flex justify-between w-2/3 mx-auto pt-8 mt-8">
+        <div class="flex justify-between space-x-3 w-2/3 mx-auto pt-8 mt-8">
             <div class="">
                 <button class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
                     @click="cancelPayment">
