@@ -296,6 +296,7 @@ class TransactionsController extends Controller
                     $tr = Transaction::find($transaction['id']);
                     //We must ensure the user has a full address
                     if($shippingLabel = $tr->getShippingLabel($transaction['direction'], true)) {
+                        dd($shippingLabel);
                         //Update the status to Kit Sent
                         $tr->doUpdate(['status_id' => 1]);
                         $printables[] = [
@@ -303,7 +304,7 @@ class TransactionsController extends Controller
                             'qty' => $transaction['qty']
                         ];
                     }else{
-
+                        dd('something happened');
                     }
                  }
 
