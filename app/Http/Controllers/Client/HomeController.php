@@ -234,34 +234,7 @@ class HomeController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateSettings(Request $request)
-    {
-        return 33333;
-        $customer = $request->user();
-        $input    = $request->all();
-        $store_id = $request->store_id;
-        $store = Store::find($store_id);
-        try {
-            $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
-            // $transactions = $customer->transaction()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
-            // if ( null !== $transactions ) {
-            //     foreach($transactions as $transaction){
-            //         TransactionPaymentAddress::doUpdate($transaction->id,  $input);
-            //     }
-            // }
-            return response()->json(null, 200);
-        } catch (\Throwable $th) {
-            return response()->json(['message'=> $th->getMessage()], 422);
-            //throw $th;
-        }
-    }
+   
 
     /**
      * Remove the specified resource from storage.
