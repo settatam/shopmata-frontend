@@ -5,11 +5,8 @@
             <input :class="{
                 'border-red-600': v$.paypal_address.$error,
                 'border-gray-300': !v$.paypal_address.$error,
-            }"
-                class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                type="text" v-model="paymentInfo.paypal_address" placeholder="My paypal address is..."
-                id="address"
-            />
+            }" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                type="text" v-model="paymentInfo.paypal_address" placeholder="My paypal address is..." id="address" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.paypal_address.$error">
@@ -21,8 +18,7 @@
         <div class="flex justify-between w-2/3 mx-auto pt-8 mt-8">
             <div class="">
                 <button class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
-                @click="cancelPayment"
-                >
+                    @click="cancelPayment">
                     Cancel
                 </button>
             </div>
@@ -30,8 +26,7 @@
                 <button v-if="!v$.$error" :disabled="loading" type="submit" :class="{
                     disabled: loading,
                     'opacity-25 cursor-not-allowed': loading,
-                }"
-                    class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                }" class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     @click="submit">
                     <LoadingSpinner v-if="loading" />
                     Save
@@ -69,7 +64,7 @@ export default {
         LoadingSpinner,
     },
     emits: ['payment-updated', 'cancel-payment'],
-    setup(props, {emit}) {
+    setup(props, { emit }) {
         const loading = ref(false);
         let payment = props.method;
 

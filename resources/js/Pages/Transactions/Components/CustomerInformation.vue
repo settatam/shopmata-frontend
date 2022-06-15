@@ -5,12 +5,10 @@
         </div>
 
         <div class="p-4 space-y-2">
-            <inertia-link
-                class="text-purple-darken 2xl font-bold"
-                :href="'/admin/customers/' + customer.id"
-                >{{ customer.first_name }} {{ customer.last_name }} (ID
-                {{ customer.id }})</inertia-link
-            >
+            <inertia-link class="text-purple-darken 2xl font-bold" :href="'/admin/customers/' + customer.id">{{
+                    customer.first_name
+            }} {{ customer.last_name }} (ID
+                {{ customer.id }})</inertia-link>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
                 <span class="font-normal">{{ customer.address.address }}</span>
@@ -19,21 +17,14 @@
                 Address 2:
                 <span class="font-normal">{{ customer.address.address2 }}</span>
             </p>
-            <p
-                v-if="customer.state"
-                class="font-bold text-xs lg:text-sm text-black"
-            >
+            <p v-if="customer.state" class="font-bold text-xs lg:text-sm text-black">
                 City, State, Zip:
-                <span class="font-normal"
-                    >{{ customer.address.city }}, {{ customer.address.state }},
-                    {{ customer.address.zip }}</span
-                >
+                <span class="font-normal">{{ customer.address.city }}, {{ customer.address.state }},
+                    {{ customer.address.zip }}</span>
             </p>
             <p v-else class="font-bold text-xs lg:text-sm text-black">
                 City, State, Zip:
-                <span class="font-normal"
-                    >{{ customer.zip }}, {{ customer.zip }}</span
-                >
+                <span class="font-normal">{{ customer.zip }}, {{ customer.zip }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Phone:
@@ -45,14 +36,14 @@
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Email:
-                <span class="font-normal text-purple-darken">{{
-                    customer.email
-                }}</span>
+                <a class="font-normal text-purple-darken">{{
+                        customer.email
+                }}</a>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Lead:
                 <span class="font-normal">{{
-                    null != customer.lead ? customer.lead.name : ""
+                        null != customer.lead ? customer.lead.name : ""
                 }}</span>
             </p>
 

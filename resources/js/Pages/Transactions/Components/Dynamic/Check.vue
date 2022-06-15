@@ -1,22 +1,13 @@
 <template>
     <div class="px-4 space-y-3 w-full pb-8">
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="payable_to"
-                >PAYABLE TO:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.check_name.$error,
-                    'border-gray-300': !v$.check_name.$error,
-                }"
+            <label class="font-semibold mt-2 w-full bg-transparent" for="payable_to">PAYABLE TO:</label>
+            <input :class="{
+                'border-red-600': v$.check_name.$error,
+                'border-gray-300': !v$.check_name.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                v-model="paymentInfo.check_name"
-                placeholder="Make check payable to"
-                id="payable_to"
-            />
+                type="text" v-model="paymentInfo.check_name" placeholder="Make check payable to" id="payable_to" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.check_name.$error">
@@ -25,22 +16,13 @@
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="address"
-                >ADDRESS:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.check_address.$error,
-                    'border-gray-300': !v$.check_address.$error,
-                }"
+            <label class="font-semibold mt-2 w-full bg-transparent" for="address">ADDRESS:</label>
+            <input :class="{
+                'border-red-600': v$.check_address.$error,
+                'border-gray-300': !v$.check_address.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                v-model="paymentInfo.check_address"
-                placeholder="Send Check to this Street"
-                id="address"
-            />
+                type="text" v-model="paymentInfo.check_address" placeholder="Send Check to this Street" id="address" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.check_address.$error">
@@ -49,20 +31,13 @@
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label class="font-semibold mt-2 w-full bg-transparent" for="city"
-                >CITY:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.check_city.$error,
-                    'border-gray-300': !v$.check_city.$error,
-                }"
+            <label class="font-semibold mt-2 w-full bg-transparent" for="city">CITY:</label>
+            <input :class="{
+                'border-red-600': v$.check_city.$error,
+                'border-gray-300': !v$.check_city.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                id="city"
-                v-model="paymentInfo.check_city"
-                placeholder="city"
-            />
+                type="text" id="city" v-model="paymentInfo.check_city" placeholder="city" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.check_city.$error">
@@ -71,27 +46,15 @@
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label
-                class="font-semibold mt-2 w-full bg-transparent"
-                for="state_id"
-                >STATE:</label
-            >
+            <label class="font-semibold mt-2 w-full bg-transparent" for="state_id">STATE:</label>
             <select
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                name="state"
-                id="state_id"
-                v-model="paymentInfo.check_state_id"
-                :class="{
+                name="state" id="state_id" v-model="paymentInfo.check_state_id" :class="{
                     'border-red-600': v$.check_state_id.$error,
                     'border-gray-300': !v$.check_state_id.$error,
-                }"
-            >
+                }">
                 <option value="">Choose a State</option>
-                <option
-                    v-for="(state, index) in states"
-                    :key="index"
-                    :value="state.id"
-                >
+                <option v-for="(state, index) in states" :key="index" :value="state.id">
                     {{ state.name }}
                 </option>
             </select>
@@ -103,20 +66,13 @@
         </div>
 
         <div class="flex flex-col space-y-2">
-            <label class="font-semibold w-full mt-2 bg-transparent" for="zip"
-                >ZIP:</label
-            >
-            <input
-                :class="{
-                    'border-red-600': v$.check_zip.$error,
-                    'border-gray-300': !v$.check_zip.$error,
-                }"
+            <label class="font-semibold w-full mt-2 bg-transparent" for="zip">ZIP:</label>
+            <input :class="{
+                'border-red-600': v$.check_zip.$error,
+                'border-gray-300': !v$.check_zip.$error,
+            }"
                 class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                type="text"
-                v-model="paymentInfo.check_zip"
-                placeholder="Zip/Postal"
-                id="zip"
-            />
+                type="text" v-model="paymentInfo.check_zip" placeholder="Zip/Postal" id="zip" />
         </div>
         <div class="mt-1">
             <p class="text-red-600 text-xs" v-if="v$.check_zip.$error">
@@ -127,35 +83,24 @@
         <!-- submit -->
         <div class="flex justify-between w-2/3 mx-auto pt-8 mt-8">
             <div class="">
-                <button
-                    class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
-                    @click="cancelPayment"
-                >
+                <button class="text-gray-400 bg-gray-100 border border-gray-400 rounded-md px-6 py-3"
+                    @click="cancelPayment">
                     Cancel
                 </button>
             </div>
             <div class="">
-                <button
-                    v-if="!v$.$error"
-                    :disabled="loading"
-                    type="submit"
-                    :class="{
-                        disabled: loading,
-                        'opacity-25 cursor-not-allowed': loading,
-                    }"
+                <button v-if="!v$.$error" :disabled="loading" type="submit" :class="{
+                    disabled: loading,
+                    'opacity-25 cursor-not-allowed': loading,
+                }"
                     class="disabled:bg-gray-400 w-full flex justify-center py-3 px-12 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    @click="submit"
-                >
+                    @click="submit">
                     <LoadingSpinner v-if="loading" />
                     Save
                 </button>
 
                 <!-- else -->
-                <button
-                    v-else
-                    type="button"
-                    class="bg-indigo-600 text-white rounded-md px-8 py-3"
-                >
+                <button v-else type="button" class="bg-indigo-600 text-white rounded-md px-8 py-3">
                     Save
                 </button>
             </div>
@@ -186,7 +131,7 @@ export default {
         LoadingSpinner,
     },
     emits: ['payment-updated', 'cancel-payment'],
-    setup(props, {emit}) {
+    setup(props, { emit }) {
         let payment = props.method;
         const paymentInfo = reactive({
             payment_method: "Check",

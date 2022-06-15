@@ -12,8 +12,7 @@
             <p class="font-bold text-xs lg:text-sm text-black">
                 Status:
                 <span class="font-normal">
-                    {{ transaction.status_date_time }}</span
-                >
+                    {{ transaction.status_date_time }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Lead: <span class="font-normal"> {{ transaction.lead }}</span>
@@ -31,7 +30,7 @@
             <p class="font-bold text-xs lg:text-sm text-black">
                 Incoming Tracking#:
                 <span class="font-normal text-purple-darken">{{
-                    transaction.incoming_tracking
+                        transaction.incoming_tracking
                 }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
@@ -44,8 +43,7 @@
                 Return Tracking#:
                 <span class="font-normal text-purple-darken">
                     {{ transaction.return_tracking }}
-                </span
-                >
+                </span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Estimated Value:
@@ -62,8 +60,7 @@
             <p class="font-bold text-xs lg:text-sm text-black">
                 Payment Type:
                 <span class="font-normal">
-                    {{ transaction.transaction_payment_type }}</span
-                >
+                    {{ transaction.transaction_payment_type }}</span>
             </p>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Payment Date:
@@ -72,16 +69,9 @@
                 </span>
             </p>
 
-            <p
-                v-if="transaction.tags"
-                class="font-bold text-xs lg:text-sm text-black"
-            >
+            <p v-if="transaction.tags" class="font-bold text-xs lg:text-sm text-black">
                 Tags:
-                <span
-                    v-for="item in transaction.tags"
-                    :key="item.index"
-                    class="font-normal"
-                    >{{ item.tag_id }},
+                <span v-for="item in transaction.tags" :key="item.index" class="font-normal">{{ item.tag_id }},
                 </span>
             </p>
             <p v-else class="font-bold text-xs lg:text-sm text-black">
@@ -113,10 +103,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 export default {
     props: ["transaction", "store"],
-    setup() {
-        return {};
+    setup(props) {
+        const tran = ref(props.transaction)
+        return {
+            tran
+        };
     },
 };
 </script>

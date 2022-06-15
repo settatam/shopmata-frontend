@@ -82,11 +82,7 @@ use App\Http\Controllers\Shopmata\HomeController as ShopmataHomeController;
 */
 
 
-Route::get('test', function () {
-    $name = 'Seth';
-    $view = View::make('pages.pdf', compact('name'))->render();
-    dd($view);
-})->name('landing');
+
 
 
 //$shopmataRoutes = function() {
@@ -125,20 +121,16 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
 Route::get('pdf', [PDFController::class, 'index']);
 
 
-Route::get('login', [LoginController::class, 'getLogin'])->name('login');
-Route::get('logout', [LoginController::class, 'logout']);
-Route::post('logout', [LoginController::class, 'logout']);
-
+Route::get('login',           [LoginController::class,    'getLogin'])->name('login');
+Route::get('logout',          [LoginController::class,    'logout']);
+Route::post('logout',         [LoginController::class,    'logout']);
 Route::get('register/step-2', [RegisterController::class, 'registerStep2'])->name('register-step-2');
 Route::get('register/step-3', [RegisterController::class, 'registerStep3'])->name('register-step-3');
-Route::get('register', [RegisterController::class, 'getRegister'])->name('register');
-Route::post('login', [LoginController::class, 'authenticate']);
-Route::get('password/reset', [LoginController::class, 'ForgotPassword']);
+Route::get('register',        [RegisterController::class, 'getRegister'])->name('register');
+Route::post('login',          [LoginController::class,    'authenticate']);
+Route::get('password/reset',  [LoginController::class,    'ForgotPassword']);
 
 Route::post('register', [RegisterController::class, 'RegisterUser']);
-
-
-
 //Create Store here
 
 Route::post('store', ['StoreController', 'store'])->name('create-new-store');
