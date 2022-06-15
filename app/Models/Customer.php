@@ -5,14 +5,12 @@ namespace App\Models;
 use App\Services\EventNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Scopes\StoreScope;
 use App\Http\Helpers\Helper;
 use Carbon\Carbon;
 use App\Traits\FileUploader;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Numeral\Numeral;
-use Illuminate\Support\Str;
 
 
 class Customer extends Authenticatable
