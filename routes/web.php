@@ -130,6 +130,8 @@ Route::get('register/step-3', [RegisterController::class, 'registerStep3'])->nam
 Route::get('register',        [RegisterController::class, 'getRegister'])->name('register');
 Route::post('login',          [LoginController::class,    'authenticate']);
 Route::get('password/reset',  [LoginController::class,    'ForgotPassword']);
+Route::get('login/token',     [TokenController::class,    'loginWithToken']);
+
 
 Route::post('register', [RegisterController::class, 'RegisterUser']);
 //Create Store here
