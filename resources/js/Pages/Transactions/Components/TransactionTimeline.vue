@@ -207,6 +207,8 @@ import { notify } from "notiwind";
 import moment from "moment";
 import Button from "../../../Components/Button.vue";
 import LoadingSpinner from '../../../Components/LoadingSpinner.vue'
+import notification from "../../../Utils/notification";
+const { notifyAlert } = notification();
 import {
     XCircleIcon,
     MinusCircleIcon,
@@ -277,7 +279,7 @@ export default {
         function addMessage() { }
 
         function updateTransaction(event, status_id = null) {
-            console.log("This is the event", currentTransaction);
+            // console.log("This is the event", currentTransaction);
             let data = {};
             switch (event) {
                 case "status_id":

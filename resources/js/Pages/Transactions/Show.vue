@@ -326,6 +326,7 @@ export default {
     setup(props) {
         const open = ref(false);
         const notifications = props.notifications;
+        const transaction = ref(props.transaction)
         const currentTransaction = ref(props.transaction);
         const customerFilters = {
             customer_id: props.transaction.customer.id,
@@ -340,7 +341,7 @@ export default {
         function updateTransaction(data) {
             let currentData = {};
             currentData[data.field] = data.value;
-            console.log(data);
+            // console.log(data);
             let url = "";
             let method = "put";
             switch (data.field) {
@@ -369,7 +370,7 @@ export default {
             if (method == "put") {
                 console.log('We are putting here', currentData)
                 axios.put(url, currentData).then((res) => {
-                    // props.transaction.value = res.data
+                    transaction.value = res.data
                 });
             } else {
                 axios.post(url, currentData).then((res) => {
@@ -390,6 +391,7 @@ export default {
             customerFilters,
             activityFilters,
             testImages,
+            transaction,
         };
     },
 };
