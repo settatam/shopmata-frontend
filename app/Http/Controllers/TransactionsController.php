@@ -232,6 +232,21 @@ class TransactionsController extends Controller
         //How do we perform validation here???
         $transaction = Transaction::find($id);
         if($transaction->doUpdate($input)) {
+            $transaction = Transaction::search([])
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->withPaymentDateTime()
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','sms.images','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
+            ->find($id);
             return response()->json($transaction);
         }
     }
@@ -296,6 +311,7 @@ class TransactionsController extends Controller
                     $tr = Transaction::find($transaction['id']);
                     //We must ensure the user has a full address
                     if($shippingLabel = $tr->getShippingLabel($transaction['direction'], true)) {
+                        dd($shippingLabel);
                         //Update the status to Kit Sent
                         $tr->doUpdate(['status_id' => 1]);
                         $printables[] = [
@@ -303,7 +319,7 @@ class TransactionsController extends Controller
                             'qty' => $transaction['qty']
                         ];
                     }else{
-
+                        dd('something happened');
                     }
                  }
 

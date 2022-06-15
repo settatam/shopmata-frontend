@@ -51,7 +51,20 @@ class HomeController extends Controller
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->get();
+            }else if($pageToFind == 'thank-you.detail') {
+                if(!Auth::guard('customer')->check()) {
+                    return redirect('customer/login');
+                }
 
+                $pageType = 'template';
+                $data['customer'] = Auth::guard('customer')->user();
+                $data['transaction'] = Transaction::with('images')
+                    ->with('customer')
+                    ->with('status')
+                    ->withPaymentType()
+                    //->where('customer_id', $data['customer']->id)
+                    ->orderBy($sortBy, $orderBy)
+                    ->find($id);
             }else if($pageToFind == 'transactions.detail') {
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
@@ -72,7 +85,7 @@ class HomeController extends Controller
                     //->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
-                //dd($data['transaction']);
+
             }else if($pageToFind == 'my-settings' || $pageToFind == 'my-settings.details') {
 
                 if(!Auth::guard('customer')->check()) {
@@ -126,7 +139,7 @@ class HomeController extends Controller
     }
 
     public function settings(Request $request){
-        $customer =  Auth::guard('customer')->user();        
+        $customer =  Auth::guard('customer')->user();
         $input    = $request->all();
         $input['phone_number'] = $request->phone;
         $store = Store::find($customer->store_id);
@@ -229,7 +242,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateSettings(Request $request)
-    {   
+    {
         return 33333;
         $customer = $request->user();
         $input    = $request->all();

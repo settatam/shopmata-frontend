@@ -52,4 +52,17 @@ class Address extends Model
         return $this->address2;
     }
 
+    public function checkAddressIsValid() {
+        if(
+            $this->address &&
+            $this->city &&
+            $this->state_id &&
+            $this->city &&
+            $this->zip
+        ) return true;
+
+        return false;
+
+    }
+
 }
