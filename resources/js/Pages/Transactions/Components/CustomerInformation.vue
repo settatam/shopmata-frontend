@@ -13,12 +13,12 @@
             >
             |
 
-            <inertia-link
+            <a
                 class="text-purple-darken 2xl font-bold"
-                @click="sendLink"
+                @click.prevent="sendLink($event)"
                 href="#"> 
                 {{tokenLinkText}}
-             </inertia-link>
+             </a>
             <p class="font-bold text-xs lg:text-sm text-black">
                 Address 1:
                 <span class="font-normal">{{ customer.address.address }}</span>
@@ -75,6 +75,8 @@
 import axios from "axios";
 import AppLayout from "../../../Layouts/AppLayout.vue";
 import { ref } from '@vue/reactivity';
+import notification from "../../../Utils/notification";
+
 
 export default {
     props: ["customer"],
@@ -82,6 +84,8 @@ export default {
     setup(props) {
         const tokenLinkText = ref("Send login link");
         const loading       = ref(false);
+        const { notifyAlert } = notification();
+
         function sendLink() {
             if(loading.value) return;
             tokenLinkText.value = "Sending........"
@@ -97,6 +101,7 @@ export default {
                     ),
                     2000
                 );
+                return;
 
             }).catch((err) => {
                 tokenLinkText.value = "Send login link"
