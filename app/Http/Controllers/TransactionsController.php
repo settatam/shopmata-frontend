@@ -232,6 +232,21 @@ class TransactionsController extends Controller
         //How do we perform validation here???
         $transaction = Transaction::find($id);
         if($transaction->doUpdate($input)) {
+            $transaction = Transaction::search([])
+            ->withEstValue()
+            ->withFinalOffer()
+            ->withTotalDwt()
+            ->withLabelsFrom()
+            ->withLabelsTo()
+            ->withPrivateNote()
+            ->withPublicNote()
+            ->withPaymentType()
+            ->withStatusDateTime()
+            ->withReceivedDateTime()
+            ->withPaymentDateTime()
+            ->withPaymentDateTime()
+            ->with('customer','customer.state','items','items.category','items.images','histories','offers','sms','sms.images','images', 'activities','customer.payment_address','customer.payment_address.payment_type','tags')
+            ->find($id);
             return response()->json($transaction);
         }
     }

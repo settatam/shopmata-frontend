@@ -65,7 +65,6 @@ class HomeController extends Controller
                     //->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
-                //dd($data['transaction']);
             }else if($pageToFind == 'transactions.detail') {
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
@@ -86,7 +85,7 @@ class HomeController extends Controller
                     //->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
-                //dd($data['transaction']);
+
             }else if($pageToFind == 'my-settings' || $pageToFind == 'my-settings.details') {
 
                 if(!Auth::guard('customer')->check()) {
