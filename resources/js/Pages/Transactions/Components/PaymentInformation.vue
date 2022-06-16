@@ -1,76 +1,44 @@
 <template>
-    <div class="bg-white mt-7 mb-7 mx-2 rounded-md">
+    <div class="bg-white mt-7 mb-7 lg:mx-2 rounded-md">
         <div class="rounded-t-md w-full bg-purple-darken p-4 text-white">
             <h1 class="">
                 Payment Information
-                <span
-                    class="cursor-pointer hover:text-gray-400"
-                    @click="toggleEdit()"
-                >
+                <span class="cursor-pointer hover:text-gray-400" @click="toggleEdit()">
                     [ Edit ]
                 </span>
             </h1>
         </div>
 
         <div v-if="!isEdit" class="p-6 space-y-3 text-gray-lighter">
-            <payment-method
-                :payment_method_name="checkPaymentMethod"
-                :method="method"
-            />
+            <payment-method :payment_method_name="checkPaymentMethod" :method="method" />
         </div>
 
         <div v-else>
             <div class="py-4 px-4 space-y-2 flex flex-col">
-                <label
-                    class="font-semibold w-full mt-2 bg-transparent"
-                    for="pay_method"
-                    >PAYMENT METHOD:
+                <label class="font-semibold w-full mt-2 bg-transparent" for="pay_method">PAYMENT METHOD:
                 </label>
                 <select
                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border-gray-300 rounded-md"
-                    name="pay_method"
-                    id="pay_method"
-                    v-model="method.payment_type_id"
-                >
+                    name="pay_method" id="pay_method" v-model="method.payment_type_id">
                     <option value="">Choose Method</option>
-                    <option v-for="option in options"
-                            :key="option.id"
-                            :value="option.id"
-                    >
+                    <option v-for="option in options" :key="option.id" :value="option.id">
                         {{ option.name }}
                     </option>
                 </select>
             </div>
 
             <div class="mx-auto w-full">
-                <Check
-                    @payment-updated="updatePayment"
-                    @cancel-payment="isEdit=!isEdit"
-                    :method="method"
-                    :states="states"
-                    :loading="loading"
-                    v-if="method.payment_type_id == getIdForMethod('Check')"
-                ></Check>
-                <PayPal
-                    @payment-updated="updatePayment"
-                    :method="method"
-                    :loading="loading"
-                    @cancel-payment="isEdit=!isEdit"
-                    v-if="method.payment_type_id == getIdForMethod('PayPal')">
+                <Check @payment-updated="updatePayment" @cancel-payment="isEdit=!isEdit" :method="method"
+                    :states="states" :loading="loading" v-if="method.payment_type_id == getIdForMethod('Check')">
+                </Check>
+                <PayPal @payment-updated="updatePayment" :method="method" :loading="loading"
+                    @cancel-payment="isEdit=!isEdit" v-if="method.payment_type_id == getIdForMethod('PayPal')">
                 </PayPal>
-                <Venmo
-                    @payment-updated="updatePayment"
-                    :method="method"
-                    :loading="loading"
-                    @cancel-payment="isEdit=!isEdit"
-                    v-if="method.payment_type_id == getIdForMethod('Venmo')">
+                <Venmo @payment-updated="updatePayment" :method="method" :loading="loading"
+                    @cancel-payment="isEdit=!isEdit" v-if="method.payment_type_id == getIdForMethod('Venmo')">
                 </Venmo>
-                <Ach
-                    @payment-updated="updatePayment"
-                    :method="method"
-                    :loading="loading"
-                    @cancel-payment="isEdit=!isEdit"
-                    v-if="method.payment_type_id == getIdForMethod('ACH')">
+                <Ach @payment-updated="updatePayment" :method="method" :loading="loading"
+                    @cancel-payment="isEdit=!isEdit" v-if="method.payment_type_id == getIdForMethod('ACH')">
                 </Ach>
             </div>
         </div>

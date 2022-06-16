@@ -58,8 +58,9 @@
 
                 <!-- row 4 -->
                 <div class="w-full">
-                    <TransactionTimeline class="mb-12" :root="trans" :transaction="trans" :bottom_tags="bottom_tags"
-                        :statuses="statuses" :timeline="timeline" @transactionUpdated="updateTransaction" />
+                    <TransactionTimeline class="mb-12" :root="trans" :transaction="trans" :loading="loading"
+                        :bottom_tags="bottom_tags" :statuses="statuses" :timeline="timeline"
+                        @transactionUpdated="updateTransaction" />
                 </div>
                 <!-- row 4 starts -->
 
@@ -238,6 +239,7 @@ export default {
             customer_id: props.transaction.customer.id,
             type: "CustomerTransactionsTable",
         };
+        const loading = ref(false)
 
         const activityFilters = {
             type: "TransactionActionsTable",
@@ -245,12 +247,15 @@ export default {
         };
 
         function updateTransaction(data) {
+            // loading.value = true
+
             let currentData = {};
             currentData[data.field] = data.value;
             let url = "";
             let method = "put";
             switch (data.field) {
                 case "offer":
+                    
                     url =
                         "/admin/transactions/" +
                         props.transaction.id +
@@ -275,12 +280,14 @@ export default {
             if (method == "put") {
                 axios.put(url, currentData).then((res) => {
                     trans.value = res.data
+                    loading.value = false
                 });
             }
             else {
                 axios.post(url, currentData).then((res) => {
                     if (data.field == "new-kit") {
                         Inertia.visit(urls.transactions.main(res.data.id));
+                        loading.value = false
                     } else {
                         props.transaction.value = res.data;
                     }
@@ -295,6 +302,7 @@ export default {
             activityFilters,
             testImages,
             trans,
+            loading
         };
     },
 };

@@ -4,6 +4,30 @@
 
     <div id="container" class="flex flex-col mx-3">
 
+      <!-- nav start -->
+      <nav class="flex pt-8" aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-4">
+          <li>
+            <div>
+              <a href="/admin/dashboard" class="text-gray-400 hover:text-gray-500">
+                <HomeIcon class="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                <span class="sr-only">Settings</span>
+              </a>
+            </div>
+          </li>
+          <li v-for="page in pages" :key="page.name">
+            <div class="flex items-center">
+              <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+              <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="
+                                        page.current ? 'page' : undefined
+                                    ">{{ page.name }}</a>
+            </div>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- nav end -->
+
       <div class="mt-2">
         <h1 class="my-3 font-bold text-xl">Print Shipping Labels</h1>
       </div>
@@ -34,9 +58,27 @@
 
       </div>
 
+      <div class="bg-red-500 py-3" v-if="trans == null && store_without_address">
+        <ul>
+          <li v-if="store_without_address">
+            <span class=" py-1 my-1 px-3 text-white">This store does not
+              have an address, click <a class="underline cursor-pointer" href="/admin/settings">here</a> to fix </span>
+          </li>
+
+          <li v-if="trans == !null">
+            <p class=" py-1 my-1 px-3 text-white">The following customers do not have an address, click on them to fix
+            </p>
+
+            <a v-for="tran in trans" :key="tran.index" :href="'admin/customers/' + tran.customer.id">/{{
+              tran.customer.id
+              }}</a>
+          </li>
+        </ul>
+      </div>
 
 
-      <table class="w-full divide-y mt-2 divide-gray-300">
+
+      <table class="w-full divide-y mt-2 divide-gray-300" v-if="trans != null && !store_without_address">
 
         <thead class="bg-purple-darken rounded-t-lg w-full divide-x divide-white">
           <tr>
@@ -85,6 +127,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
 import { Inertia } from '@inertiajs/inertia'
+import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/solid";
 import { postAsNativeForm } from "../../api";
 import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
@@ -95,6 +138,15 @@ const statusStyles = {
   processing: 'bg-yellow-100 text-yellow-800',
   failed: 'bg-gray-100 text-gray-800'
 }
+
+const pages = [
+  { name: "Transactions", href: "/admin/transactions?status=60", current: false },
+  {
+    name: "Bulk Print Label",
+    href: "",
+    current: true,
+  },
+];
 
 const options = [
   { text: 'To', value: 'to' },
@@ -107,18 +159,23 @@ export default {
   },
   components: {
     AppLayout,
-    flatPickr
+    flatPickr,
+    ChevronRightIcon,
+    HomeIcon
   },
   props: {
     notifications: Array,
     transactions: Object,
-    navigation: Array
+    navigation: Array,
+    trans: Array,
+    store_without_address: Object,
   },
   setup({ navigation, transactions }) {
     const loading = false
     const notifications = notifications
     const filterLists = ref(transactions)
     const shipDate = ref(moment(new Date()).format('YYYY-MM-DD'))
+    console.log(true);
 
 
     function sendAction() {
@@ -156,7 +213,8 @@ export default {
       filterLists,
       sendAction,
       options,
-      shipDate
+      shipDate,
+      pages
     }
   }
 }

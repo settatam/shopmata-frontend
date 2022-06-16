@@ -27,24 +27,14 @@
                     </div>
 
                     <div v-else class="  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start">
-                        <div  class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start">
+                        <div class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start">
                             <p class="text-xs py-2">{{ formattedTimes[index] }}</p>
                             <p>{{ sms.message }}</p>
                         </div>
-                        <div
-                                class="mx-3"
-                                v-if="sms.images.length"
-                            >
-                                <a
-                                    class="h-24 w-24 flex-shrink-0 cursor-pointer"
-                                    @click="doSlider(sms.images)"
-                                >
-                                    <img
-                                        class="max-w-full h-24"
-                                        :src="sms.images[0].url"
-                                        alt=""
-                                    />
-                                </a>
+                        <div class="mx-3" v-if="sms.images.length">
+                            <a class="h-24 w-24 flex-shrink-0 cursor-pointer" @click="doSlider(sms.images)">
+                                <img class="max-w-full h-24" :src="sms.images[0].url" alt="" />
+                            </a>
                         </div>
                     </div>
                 </template>
@@ -154,7 +144,7 @@ export default {
         const openModal = ref(false);
         const images = ref([]);
         const trSmses = ref(props.smses)
-        const { saveFiles }   = fileUploader();
+        const { saveFiles } = fileUploader();
         const largeImagesUrls = ref([])
         const { notifyAlert } = notification();
 
@@ -178,7 +168,7 @@ export default {
         }
 
         const doClose = () => {
-           openModal.value = false;
+            openModal.value = false;
         };
 
 
@@ -224,7 +214,7 @@ export default {
                         "Error"
                     ),
                     2000);
-    })
+            })
 
         }
 
