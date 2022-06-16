@@ -3,7 +3,7 @@
   <app-layout :navigation="navigation">
 
     <div id="container" class="flex flex-col mx-3">
-      
+
       <div class="mt-2">
         <h1 class="my-3 font-bold text-xl">Print Shipping Labels</h1>
       </div>
@@ -28,28 +28,29 @@
         <div class=" flex flex-col-reverse">
           <button type="button" @click="sendAction"
             class="inline-flex items-center justify-center rounded-md border border-transparent bg-purple-darken px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
-            Print Labels 
+            Print Labels
           </button>
         </div>
 
       </div>
 
-      <div class="bg-red-700">
-          <h5></h5>
-          <ul>
-            <li>
-                <a class="py-1 my-1 px-3 flex justify-between text-white" href="/admin/transactions?status=60"><span>Pending Kit Request</span></a>
-            </li>
-            <li>
-                <a class="py-1 my-1 px-3 flex justify-between " href="/admin/transactions?status=60"><span>Pending Kit Request</span></a>
-            </li>
+      <div class="bg-red-700 py-3" v-if="trans==null && store_without_address">
+        <ul>
+          <li v-if="trans==null">
+            <span class=" py-1 my-1 px-3 text-white">This store does not
+              have an address, click <a class="underline cursor-pointer" href="/admin/settings">here</a> to fix </span>
+          </li>
 
-          </ul>
+          <li v-if="store_without_address">
+            <span class=" py-1 my-1 px-3 text-white">The following customers do not have an address, select them to fix </span>
+          </li>
+
+        </ul>
       </div>
 
 
 
-      <table class="w-full divide-y mt-2 divide-gray-300">
+      <table class="w-full divide-y mt-2 divide-gray-300" v-if="trans != null && !store_without_address">
 
         <thead class="bg-purple-darken rounded-t-lg w-full divide-x divide-white">
           <tr>
