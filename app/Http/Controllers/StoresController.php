@@ -110,7 +110,7 @@ class StoresController extends Controller
             $input['slug'] = Helper::generateSlug($input['name']);
             $input['user_id'] = Auth::id();
             $store = Store::find($id);
-            $store->update($input);
+            $store->updateStore($store, $input);
             \Log::info("Store Added" . collect($request->all()));
             return response()->json(['message'=> "Store update" ], 200);
         } catch (\Throwable $th) {

@@ -354,7 +354,7 @@ class TransactionsController extends Controller
         $store = Store::find(session('store_id'));
 
         if(null !== $store) {
-           if ( !optional($store->address)->checkAddressIsValid() ) {
+           if ( !optional($store->store_address)->checkAddressIsValid() ) {
                $store_without_address =  true;
            }
         }
@@ -367,6 +367,7 @@ class TransactionsController extends Controller
         }
 
         if ( !empty($transactions_without_address) ) {
+            $transactionObj = $transactionObj->whereNotIn('id',$transactions_without_address);
             $trans = Transaction::find($transactions_without_address);
             $trans->load('customer');
         }
@@ -380,7 +381,6 @@ class TransactionsController extends Controller
             ]);
         }else if($input['action'] == 'Create Shipping Label' || $input['action'] == 'Create Return Label') {
             $direction = str_replace('label', '', $input['action']);
-
             $to = $transactionObj->map(function(Transaction $transaction) {
                 return [
                     'id' => $transaction->id,
@@ -392,7 +392,6 @@ class TransactionsController extends Controller
             $from = collect([]);
 
             if($input['action'] == 'Create Shipping Label') {
-
                 $from = $transactionObj->map(function(Transaction $transaction) {
                     return [
                         'id' => $transaction->id,
