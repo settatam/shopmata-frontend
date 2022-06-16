@@ -38,9 +38,10 @@ class CustomersController extends Controller
      */
     public function index(Request $request)
     {
-
+        
         $pageSize  = $request->has('pageSize') ? $request->pageSize : 20;
         $countries = Country::all();
+
         $data      = [];
         $from_date = Helper::formatDate($request->from_date);
         $to_date   = Helper::formatDate($request->to_date);
