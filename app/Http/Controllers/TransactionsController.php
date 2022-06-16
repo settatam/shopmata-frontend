@@ -349,12 +349,12 @@ class TransactionsController extends Controller
         $transactionObj = $queryObj->get();
 
         $transactions_without_address = [];
-        $store_without_address = null;
+        $store_without_address = false;
         $store = Store::find(session('store_id'));
 
         if(null !== $store) {
            if ( !optional($store->address)->checkAddressIsValid() ) {
-               $store_without_address =  $store;
+               $store_without_address =  true;
            }
         }
 
