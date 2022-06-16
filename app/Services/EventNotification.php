@@ -98,17 +98,17 @@ class EventNotification
     public function sendEmail($data) {
 
         if(env('APP_ENV') != 'production') {
-            $data['to'] = env('DEVELOPER_EMAIL', 'jacob.atam@gmail.com');
+            $data['to'] = env('DEVELOPER_EMAIL', 'seth.atam@gmail.com');
         }
 
         Mail::to($data['to'])->send(new EmailSender($data));
 
         $emailNotificationMessageSent = new EmailNotificationMessageSent();
 
-        $emailNotificationMessageSent->sent_to  = $data['to'];
+        $emailNotificationMessageSent->sent_to = $data['to'];
         $emailNotificationMessageSent->store_id = $data['store']->id;
-        $emailNotificationMessageSent->subject  = $data['subject'];
-        $emailNotificationMessageSent->message  = $data['parsed_message'];
+        $emailNotificationMessageSent->subject = $data['subject'];
+        $emailNotificationMessageSent->message = $data['parsed_message'];
 
         $emailNotificationMessageSent->save();
     }

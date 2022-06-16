@@ -15,7 +15,7 @@ use App\Models\Category;
 use App\Models\Image;
 use App\Models\Status;
 use App\Models\Tag;
-use App\Models\StoreTag;
+use App\Models\Store;
 use App\Models\TransactionItem;
 use App\Models\StoreNotification;
 use Illuminate\Support\Facades\Log;
@@ -341,13 +341,38 @@ class TransactionsController extends Controller
 //        }
 
         $input = $request->input();
+
+        $trans = null;
+        
         $requestTransactions = is_array($input['transactions']) ? $input['transactions'] : explode(',', $input['transactions']);
         $queryObj = Transaction::whereIn('id', $requestTransactions);
         $transactionObj = $queryObj->get();
 
+        $transactions_without_address = [];
+        $store_without_address = null;
+        $store = Store::find(session('store_id'));
+
+        if(null !== $store) {
+           if ( !optional($store->address)->checkAddressIsValid() ) {
+               $store_without_address =  $store;
+           }
+        }
+
+
+        foreach ($transactionObj as $key => $transaction) {
+            if(!optional(optional($transaction->customer)->address)->checkAddressIsValid()) {
+                $transactions_without_address[] = $transaction->id;
+            }
+        }
+
+        if ( !empty($transactions_without_address) ) {
+            $trans = Transaction::find($transactions_without_address);
+            $trans->load('customer');
+        }
+
         if($input['action'] == 'Create Barcodes') {
             $transactionObj->map(function(Transaction $transaction){
-                    $transaction->qty = 5;
+                $transaction->qty = 5;
             });
             return Inertia::render('Transactions/BulkPrintBarcode', [
                 'transactions' => $transactionObj
@@ -366,6 +391,7 @@ class TransactionsController extends Controller
             $from = collect([]);
 
             if($input['action'] == 'Create Shipping Label') {
+
                 $from = $transactionObj->map(function(Transaction $transaction) {
                     return [
                         'id' => $transaction->id,
@@ -377,7 +403,8 @@ class TransactionsController extends Controller
 
             $merged = $to->merge($from)->sortBy('id');
             $transactions = $merged->values()->all();
-            return Inertia::render('Transactions/BulkPrintLabel', compact('transactions'));
+
+            return Inertia::render('Transactions/BulkPrintLabel', compact('transactions','trans','store_without_address'));
         }else if(is_numeric($input['action'])) {
             foreach($transactionObj as $transaction) {
                 $transaction->doUpdate(['status_id' => $input['action']]);
