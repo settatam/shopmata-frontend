@@ -25,8 +25,9 @@
                             Confirm Status
                         </button> -->
 
-                        <Button class="" @click="updateTransaction('status')" @sendResponse="addMessage"
-                            :loadingAnimation="loading" :buttonName="'Confirm Status'" />
+                        <Button class="" @click="updateTransaction('status'); statusLoading  = true"
+                            @sendResponse="addMessage" :loadingAnimation="statusLoading"
+                            :buttonName="'Confirm Status'" />
                     </div>
                 </div>
             </div>
@@ -54,7 +55,7 @@
                         </button> -->
 
                         <Button class="" @click="updateTransaction('offer')" @sendResponse="addMessage"
-                            :loadingAnimation="loadingAnimation" :buttonName="'Send Offer'" />
+                            :loadingAnimation="loading" :buttonName="'Send Offer'" />
                     </div>
                 </div>
             </div>
@@ -90,7 +91,7 @@
                         <button
                             class="bg-purple-darken w-40 flex flex-row justify-center px-2 md:px-4 py-3 border text-center border-transparent rounded-md shadow-sm text-xs md:text-sm font-medium text-white hover:bg-purple-darken focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-darken"
                             type="submit" @click="popModal()"> Print Labels
-                            
+
                         </button>
 
                         <!-- <div class="w-full">
@@ -235,6 +236,7 @@ export default {
     setup(props, { emit }) {
         // const loading = ref(false)
         const popUp = ref(false);
+        const statusLoading = ref(props.loading)
         const successMessage = ref("");
         const popModal = () => {
             popUp.value = true;
@@ -280,6 +282,7 @@ export default {
         function addMessage() { }
 
         function updateTransaction(event, status_id = null) {
+            // loading = true
             let data = {};
             switch (event) {
                 case "status_id":
@@ -430,6 +433,7 @@ export default {
             currentTransaction,
             params,
             model_id,
+            statusLoading,
             // loading
         };
     },
