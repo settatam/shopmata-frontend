@@ -73,6 +73,7 @@ class Address extends Model
             'phone'      => $input['phone'],
             'state'      => isset($input['state']) ? $input['state'] : null,
             'state_id'   => isset($input['state_id']) ? $input['state_id'] : null,
+            'country_id'   => isset($input['country_id']) ? $input['country_id'] : null,
             'city'       => $input['city'],
             'is_default' => 1,
             'address'    => $input['address'],
