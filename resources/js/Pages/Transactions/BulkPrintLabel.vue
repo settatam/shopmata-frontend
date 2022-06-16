@@ -34,15 +34,18 @@
 
       </div>
 
-      <div class="bg-red-700 py-3" v-if="trans==null && store_without_address">
+      <div class="bg-red-500 py-3" v-if="trans==null && store_without_address">
         <ul>
-          <li v-if="trans==null">
+          <li v-if="store_without_address">
             <span class=" py-1 my-1 px-3 text-white">This store does not
               have an address, click <a class="underline cursor-pointer" href="/admin/settings">here</a> to fix </span>
           </li>
 
-          <li v-if="store_without_address">
-            <span class=" py-1 my-1 px-3 text-white">The following customers do not have an address, select them to fix </span>
+          <li v-if="trans==!null">
+            <p class=" py-1 my-1 px-3 text-white">The following customers do not have an address, click on them to fix
+            </p>
+
+            <a v-for="tran in trans" :key="tran.index" :href="'admin/customers/' + tran.customer.id">/{{tran.customer.id}}</a>
           </li>
 
         </ul>
