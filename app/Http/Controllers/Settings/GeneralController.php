@@ -40,18 +40,15 @@ class GeneralController extends Controller
     {
         //
         $store = Store::find(session('store_id'));
-        $countries = Country::where('status', 1)->get(); //Should be cached
-        if($store->country_id) {
-            $states = State::where('country_id', $store->country_id)->get();
-        }else{
-            $states = [];
-        }
+        $countries = Country::first(); //Should be cached
+        $states =  $countries->states;
+        
         $currencies = Currency::all(); //should by cached
         $units = Unit::all(); //should be cached
         $industries = StoreIndustry::all(); //Should be cached
         $timezones = Timezone::all(); //should be cached
-        $store->load('address');
-        return Inertia::render('Settings/Index', compact('store', 'countries', 'currencies', 'units', 'industries', 'timezones', 'states'));
+        $store->load('store_address');
+        return Inertia::render('Settings/Index', compact('store', 'countries', 'currencies', 'units', 'industries', 'states','timezones'));
     }
 
     /**
