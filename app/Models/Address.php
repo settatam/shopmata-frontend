@@ -14,7 +14,7 @@ class Address extends Model
     const LOCATION_ADDRESS_TYPE = 'location';
 
     protected $fillable = [
-        'user_id',
+        
         'country',
         'state',
         'city',
