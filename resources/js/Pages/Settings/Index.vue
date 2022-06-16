@@ -447,7 +447,6 @@ export default {
         errors: Object,
         states: Array,
         navigation: Array,
-        add: Array
     },
     components: {
         Nav,
@@ -460,7 +459,7 @@ export default {
         HomeIcon
     },
 
-    setup({ store, states, add }) {
+    setup({ store, states }) {
         const open = ref(false)
         const state = ref(states)
         const country_state = ref({})
@@ -469,7 +468,6 @@ export default {
         const successMessage = ref('')
         const { notifyAlert } = notification();
 
-        console.log(add)
 
         const store_details = reactive({
             name: store.name,
