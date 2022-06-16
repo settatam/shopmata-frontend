@@ -126,7 +126,8 @@ export default {
     notifications: Array,
     transactions: Object,
     navigation: Array,
-    trans: Array
+    trans: Array,
+    store_without_address: Object,
   },
   setup({ navigation, transactions }) {
     const loading = false
