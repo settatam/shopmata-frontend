@@ -50,6 +50,7 @@ class GeneralController extends Controller
         $units = Unit::all(); //should be cached
         $industries = StoreIndustry::all(); //Should be cached
         $timezones = Timezone::all(); //should be cached
+        $store->load('address');
         return Inertia::render('Settings/Index', compact('store', 'countries', 'currencies', 'units', 'industries', 'timezones', 'states'));
     }
 

@@ -95,6 +95,24 @@
                                     <span class="text-indigo-700 cursor-pointer">shipping settings</span>
                                 </inertia-link>
                             </p>
+
+                            <div class="required w-full mb-4">
+                                <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                                  Address
+                                </label>
+                                <input type="text"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="" v-model="store_details.address.address" required />
+                            </div>
+
+                             <div class="required w-full mb-4">
+                                <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                                    Address 2 
+                                </label>
+                                <input type="text"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="" v-model="store_details.address.address2" required />
+                            </div>
                             <div class="required w-full mb-4">
                                 <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                                     Legal Name of Business
@@ -109,7 +127,7 @@
                                 </label>
                                 <input type="tel"
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                    placeholder="" v-model="store_details.phone" required />
+                                    placeholder="" v-model="store_details.address.phone" required />
                             </div>
                             <div class="required w-full mb-4">
                                 <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -130,7 +148,7 @@
                                     </label>
                                     <input type="text"
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                        placeholder="" v-model="store_details.city" required />
+                                        placeholder="" v-model="store_details.address.city" required />
                                 </div>
                                 <div class="mx-2 w-full">
                                     <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
@@ -138,7 +156,7 @@
                                     </label>
                                     <select
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                        placeholder="" v-model="store_details.state_id" required>
+                                        placeholder="" v-model="store_details.address.state_id" required>
                                         <option value="">Choose a State</option>
                                         <option v-for="(state,
                                         index) in country_state" :key="index" :value="state.id">
@@ -152,7 +170,7 @@
                                     </label>
                                     <input type="text"
                                         class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                        placeholder="" v-model="store_details.zip" required />
+                                        placeholder="" v-model="store_details.address.zip" required />
                                 </div>
                             </div>
 
