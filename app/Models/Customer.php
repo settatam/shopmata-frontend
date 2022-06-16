@@ -142,30 +142,15 @@ class Customer extends Authenticatable
 
         if (!$customer) {
             $customer = $this->create($input);
-            $customer->address()->save($this->addFields($input));
+            $customer->address()->save($this->address->addFields($input));
         } else  {
             $customer->update($input);
-            $customer->address()->update($this->addFields($input));
+            $customer->address()->update($this->address->addFields($input));
         }
 
         return $customer;
     }
 
-
-    public function addFields($input) {
-        return $address = [
-            'first_name' => $input['first_name'],
-            'last_name'  => $input['last_name'],
-            'phone'      => $input['phone'],
-            'state'      => isset($input['state']) ? $input['state'] : null,
-            'state_id'   => isset($input['state_id']) ? $input['state_id'] : null,
-            'city'       => $input['city'],
-            'is_default' => 1,
-            'address'    => $input['address'],
-            'address2'   => $input['address2'],
-            'zip'        => $input['zip'],
-        ];
-    }
 
 
     public static function createAddress($request, $customer)

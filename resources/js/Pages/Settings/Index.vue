@@ -95,6 +95,24 @@
                                     <span class="text-indigo-700 cursor-pointer">shipping settings</span>
                                 </inertia-link>
                             </p>
+
+                            <div class="required w-full mb-4">
+                                <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                                  Address
+                                </label>
+                                <input type="text"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="" v-model="store_details.address" required />
+                            </div>
+
+                             <div class="required w-full mb-4">
+                                <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
+                                    Address 2 
+                                </label>
+                                <input type="text"
+                                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="" v-model="store_details.address2" required />
+                            </div>
                             <div class="required w-full mb-4">
                                 <label class="block text-gray-600 font-semibold mb-2 bg-transparent">
                                     Legal Name of Business
@@ -118,8 +136,8 @@
                                 <select
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="" v-model="store_details.country_id" required>
-                                    <option v-for="(country, index) in countries" :key="index" :value="country.id">
-                                        {{ country.name }}
+                                    <option  :value="countries.id">
+                                        {{ countries.name }}
                                     </option>
                                 </select>
                             </div>
@@ -141,7 +159,7 @@
                                         placeholder="" v-model="store_details.state_id" required>
                                         <option value="">Choose a State</option>
                                         <option v-for="(state,
-                                        index) in country_state" :key="index" :value="state.id">
+                                        index) in states" :key="index" :value="state.id">
                                             {{ state.name }}
                                         </option>
                                     </select>
@@ -244,6 +262,7 @@
                                 <select
                                     class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="" v-model="store_details.currency_id" required>
+                                    <option value="">Choose currency</option>
                                     <option v-for="(currency, index) in currencies" :key="index" :value="currency.id">
                                         {{ currency.symbol_left + ' ' }}
                                         {{ currency.title }} ({{
@@ -444,11 +463,32 @@ export default {
         const open = ref(false)
         const state = ref(states)
         const country_state = ref({})
-        const store_details = reactive(store)
         const save = ref('Save Changes')
         const loading = ref(false)
         const successMessage = ref('')
         const { notifyAlert } = notification();
+
+        console.log(states)
+
+        const store_details = reactive({
+            name: store.name,
+            account_email: store.account_email,
+            customer_email: store.customer_email,
+            phone: null != store.store_address ? store.store_address.phone : null,
+            industry_id: store.industry_id,
+            address: null != store.store_address ? store.store_address.address : null ,
+            address2: null != store.store_address ? store.store_address.address2 : null ,
+            country_id: null != store.store_address ? store.store_address.country_id : 1,
+            city: null != store.store_address ? store.store_address.city : null ,
+            zip: null != store.store_address ? store.store_address.zip : null ,
+            state_id: null != store.store_address ? store.store_address.state_id: "",
+            default_weight_unit: store.default_weight_unit,
+            order_id_suffix: store.order_id_suffix,
+            unit_id:  store.unit_id,
+            currency_id:  store.currency_id || "",
+            timezone_id: store.timezone_id
+
+        })
 
         
         
@@ -463,13 +503,13 @@ export default {
         onBeforeMount(() => {
             country_state.value = state.value
         })
-        watch(store_details, newVal => {
-            axios
-                .get(`/api/states?country_id=${newVal.country_id}`)
-                .then(res => {
-                    country_state.value = res.data.data
-                })
-        })
+        // watch(store_details, newVal => {
+        //     axios
+        //         .get(`/api/states?country_id=${newVal.country_id}`)
+        //         .then(res => {
+        //             country_state.value = res.data.data
+        //         })
+        // })
         const submit = () => {
             loading.value = true
             axios.patch('/admin/stores/' + store.id, store_details).then(res => {
