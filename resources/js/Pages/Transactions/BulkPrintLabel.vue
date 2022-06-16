@@ -3,7 +3,7 @@
   <app-layout :navigation="navigation">
 
     <div id="container" class="flex flex-col mx-3">
-      Police
+      
       <div class="mt-2">
         <h1 class="my-3 font-bold text-xl">Print Shipping Labels</h1>
       </div>
@@ -28,10 +28,23 @@
         <div class=" flex flex-col-reverse">
           <button type="button" @click="sendAction"
             class="inline-flex items-center justify-center rounded-md border border-transparent bg-purple-darken px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
-            Print Labels
+            Print Labels 
           </button>
         </div>
 
+      </div>
+
+      <div class="bg-red-700">
+          <h5></h5>
+          <ul>
+            <li>
+                <a class="py-1 my-1 px-3 flex justify-between text-white" href="/admin/transactions?status=60"><span>Pending Kit Request</span></a>
+            </li>
+            <li>
+                <a class="py-1 my-1 px-3 flex justify-between " href="/admin/transactions?status=60"><span>Pending Kit Request</span></a>
+            </li>
+
+          </ul>
       </div>
 
 
@@ -112,13 +125,15 @@ export default {
   props: {
     notifications: Array,
     transactions: Object,
-    navigation: Array
+    navigation: Array,
+    trans: Array
   },
   setup({ navigation, transactions }) {
     const loading = false
     const notifications = notifications
     const filterLists = ref(transactions)
     const shipDate = ref(moment(new Date()).format('YYYY-MM-DD'))
+    console.log(true);
 
 
     function sendAction() {
