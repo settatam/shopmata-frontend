@@ -341,13 +341,18 @@ class TransactionsController extends Controller
 //        }
 
         $input = $request->input();
+        
         $requestTransactions = is_array($input['transactions']) ? $input['transactions'] : explode(',', $input['transactions']);
         $queryObj = Transaction::whereIn('id', $requestTransactions);
         $transactionObj = $queryObj->get();
 
+        foreach ($transactionObj as $key => $value) {
+            
+        }
+
         if($input['action'] == 'Create Barcodes') {
             $transactionObj->map(function(Transaction $transaction){
-                    $transaction->qty = 5;
+                $transaction->qty = 5;
             });
             return Inertia::render('Transactions/BulkPrintBarcode', [
                 'transactions' => $transactionObj
@@ -366,6 +371,7 @@ class TransactionsController extends Controller
             $from = collect([]);
 
             if($input['action'] == 'Create Shipping Label') {
+
                 $from = $transactionObj->map(function(Transaction $transaction) {
                     return [
                         'id' => $transaction->id,
