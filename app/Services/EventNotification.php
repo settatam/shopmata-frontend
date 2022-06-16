@@ -109,11 +109,10 @@ class EventNotification
         $emailNotificationMessageSent->store_id = $data['store']->id;
         $emailNotificationMessageSent->subject = $data['subject'];
         $emailNotificationMessageSent->message = $data['parsed_message'];
-
         $emailNotificationMessageSent->save();
     }
 
-    public function sendSMS($data){
+    public function sendSMS($data) {
 
         $renderedMessage = $data['parsed_message'];
         if(strlen($renderedMessage) > 160) {
