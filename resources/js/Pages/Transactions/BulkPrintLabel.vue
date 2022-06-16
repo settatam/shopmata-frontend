@@ -34,9 +34,26 @@
 
       </div>
 
+      <div class="bg-red-500 py-3" v-if="trans==null && store_without_address">
+        <ul>
+          <li v-if="store_without_address">
+            <span class=" py-1 my-1 px-3 text-white">This store does not
+              have an address, click <a class="underline cursor-pointer" href="/admin/settings">here</a> to fix </span>
+          </li>
+
+          <li v-if="trans==!null">
+            <p class=" py-1 my-1 px-3 text-white">The following customers do not have an address, click on them to fix
+            </p>
+
+            <a v-for="tran in trans" :key="tran.index" :href="'admin/customers/' + tran.customer.id">/{{tran.customer.id}}</a>
+          </li>
+
+        </ul>
+      </div>
 
 
-      <table class="w-full divide-y mt-2 divide-gray-300">
+
+      <table class="w-full divide-y mt-2 divide-gray-300" v-if="trans != null && !store_without_address">
 
         <thead class="bg-purple-darken rounded-t-lg w-full divide-x divide-white">
           <tr>
@@ -112,13 +129,16 @@ export default {
   props: {
     notifications: Array,
     transactions: Object,
-    navigation: Array
+    navigation: Array,
+    trans: Array,
+    store_without_address: Object,
   },
   setup({ navigation, transactions }) {
     const loading = false
     const notifications = notifications
     const filterLists = ref(transactions)
     const shipDate = ref(moment(new Date()).format('YYYY-MM-DD'))
+    console.log(true);
 
 
     function sendAction() {
