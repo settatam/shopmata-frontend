@@ -294,7 +294,7 @@ export default {
 
         const totalDwt = computed(() => {
             let sum = 0
-            items.forEach(item => {
+            transactionItems.value.forEach(item => {
                 return (sum += parseFloat(item.dwt))
             })
             return sum.toFixed(2)
@@ -310,7 +310,7 @@ export default {
 
         const totalPrice = computed(() => {
             let sum = 0
-            items.forEach(item => {
+            transactionItems.value.forEach(item => {
                 return (sum += parseFloat(item.price))
             })
             return sum.toFixed(2)
