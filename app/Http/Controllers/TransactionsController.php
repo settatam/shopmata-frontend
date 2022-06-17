@@ -307,11 +307,12 @@ class TransactionsController extends Controller
                 return view('pages.barcode', compact('printables'));
                 break;
             case 'label':
+                $errorTransactions = [];
                  foreach($transactions as $transaction) {
                     $tr = Transaction::find($transaction['id']);
                     //We must ensure the user has a full address
+
                     if($shippingLabel = $tr->getShippingLabel($transaction['direction'], true)) {
-                        dd($shippingLabel);
                         //Update the status to Kit Sent
                         $tr->doUpdate(['status_id' => 1]);
                         $printables[] = [
@@ -319,11 +320,11 @@ class TransactionsController extends Controller
                             'qty' => $transaction['qty']
                         ];
                     }else{
-                        dd('something happened');
+                        //dd('something happened');
                     }
                  }
 
-                 return view('pages.label', compact('printables'));
+                 return view('pages.label', compact('printables', 'errorTransactions'));
                  break;
             default:
                 dd($request->action);
@@ -343,7 +344,7 @@ class TransactionsController extends Controller
         $input = $request->input();
 
         $trans = null;
-        
+
         $requestTransactions = is_array($input['transactions']) ? $input['transactions'] : explode(',', $input['transactions']);
         $queryObj = Transaction::whereIn('id', $requestTransactions);
         $transactionObj = $queryObj->get();

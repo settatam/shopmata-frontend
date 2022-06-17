@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Store;
 use App\Models\State;
 
-
-
-
 class Helper
 {
 
@@ -24,7 +21,6 @@ class Helper
     public static function generateSlug($str){
         return str_replace(" ","-", $str);
     }
-
 
     public static function getApiData($url)
     {
@@ -54,11 +50,6 @@ class Helper
         $state = State::where('code', $state_abreviation)->first();
         return null !== $state ? $state->id : null;
     }
-
-
-
-
-
 
 }
 

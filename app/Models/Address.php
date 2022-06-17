@@ -55,7 +55,6 @@ class Address extends Model
     public function checkAddressIsValid() {
         if(
             $this->address &&
-            $this->city &&
             $this->state_id &&
             $this->city &&
             $this->zip
