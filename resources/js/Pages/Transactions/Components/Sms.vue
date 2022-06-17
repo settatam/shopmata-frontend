@@ -30,7 +30,9 @@
                         <div class="bg-gray-300  mx-4 my-2 w-3/4 p-2 rounded-lg flex flex-col justify-start">
                             <p class="text-xs py-2">{{ formattedTimes[index] }}</p>
                             <p>{{ sms.message }}</p>
-                            <img class="max-w-full h-24 py-2" :src="sms.images[0].url" alt="" />
+                            <a class="h-24 w-24 flex-shrink-0 py-2 cursor-pointer" @click="doSlider(sms.images)">
+                                <img class="max-w-full h-24" :src="sms.images[0].url" alt="" />
+                            </a>
                         </div>
                         <!-- <div class="mx-3" v-if="sms.images.length">
                             <a class="h-24 w-24 flex-shrink-0 cursor-pointer" @click="doSlider(sms.images)">
