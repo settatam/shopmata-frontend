@@ -27,7 +27,8 @@ class EventCondition extends Model
     }
     
     public static function addCondition($input) {
-       $input['event_id'] = $input['status_id'];
+       $input['field']  = $input['status_id'];
+       $input['model']  = 'App\\Models\\'. $input['model'];
        $input['action'] = 'updated';
        $event = self::create($input);
        return $event;
