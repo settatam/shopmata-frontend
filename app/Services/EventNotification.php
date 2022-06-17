@@ -123,7 +123,7 @@ class EventNotification
             $data['customer']->address->phone = '2679809681';
         }
 
-        if(is_null($data['customer']->phone_number)) {
+        if(is_null($data['customer']->address->phone)) {
             return;
         }
 
@@ -145,7 +145,7 @@ class EventNotification
         };
         $smsMessage = new SMSMessage();
         $smsMessage->from = $smsSender->from;
-        $smsMessage->to = $data['customer']->phone_number;
+        $smsMessage->to = $data['customer']->address->phone;
         $smsMessage->store_id = $data['store']->id;
         $smsMessage->customer_id = $data['customer']->id;
         $smsMessage->message = $renderedMessage;
