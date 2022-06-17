@@ -9,7 +9,7 @@ class EventCondition extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'event_id', 'action', 'condition', 'model','action', 'field'];
+    protected $fillable = ['id', 'event_id', 'action', 'condition', 'model','action', 'field'];
 
 
     public static function check($model, $field, $value, $action, $condition='==') {
