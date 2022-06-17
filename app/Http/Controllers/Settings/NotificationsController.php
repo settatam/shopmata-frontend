@@ -26,6 +26,7 @@ use App\Models\Timezone;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\EmailMarketingSetting;
+use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -92,7 +93,9 @@ class NotificationsController extends Controller
         $email = StoreNotificationMessage::where(['store_notification_id' => $id,'channel' => 'email'])->first();
         $sms   = StoreNotificationMessage::where(['store_notification_id' => $id,'channel' => 'sms'])->first();
         $notification = StoreNotification::find($id);
-        return Inertia::render('Settings/Notifications/Show',compact('email','notification','sms'));
+
+        $statuses  = Status::orderBy('sort_order')->get();
+        return Inertia::render('Settings/Notifications/Show',compact('email','notification','sms','statuses'));
     }
 
     /**

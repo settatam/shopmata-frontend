@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Settings;
 use Illuminate\Http\Request;
 use App\Models\StoreNotificationMessage;
 use App\Http\Controllers\Controller;
-
+use App\Models\EventCondition;
 
 class StoreNotificationMessageController extends Controller
 {
@@ -24,8 +24,10 @@ class StoreNotificationMessageController extends Controller
         //     'store_notification_id'=>['required']
         // ]);
         $user = $request->user();
+        $input  = $request->all();
         try {
             StoreNotificationMessage::addNotification($request, $user);
+            EventCondition::addCondition($input);
             \Log::info("Updated store  notifications with".  collect($request->all()));
             return response()->json(['message' => "Notification saved successfully."], 200);
         } catch (\Throwable $th) {
