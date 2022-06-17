@@ -25,8 +25,8 @@
                             Confirm Status
                         </button> -->
 
-                        <Button class="" @click="updateTransaction('status')"  @sendResponse="addMessage" :loadingAnimation="loading"
-                            :buttonName="'Confirm Status'" />
+                        <Button class="" @click="updateTransaction('status')" @sendResponse="addMessage"
+                            :loadingAnimation="loading" :buttonName="'Confirm Status'" />
                     </div>
                 </div>
             </div>
