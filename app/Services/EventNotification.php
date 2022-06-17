@@ -14,8 +14,10 @@ use App\Models\ThemeFile;
 use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Twig\Environment;
+use Illuminate\Support\Facades\Auth;
 
 
 class EventNotification
@@ -135,21 +137,18 @@ class EventNotification
            // throw new InvalidInputException($e);
         }
 
-        //Save the sent message in a database ..
+        //Move this away from here
+
         if(Sms::create([
             'from' => $smsSender->from,
             'to' => $data['customer']->phone_number,
-            ''
-        ])){
-
-        };
-        $smsMessage = new SMSMessage();
-        $smsMessage->from = $smsSender->from;
-        $smsMessage->to = $data['customer']->phone_number;
-        $smsMessage->store_id = $data['store']->id;
-        $smsMessage->customer_id = $data['customer']->id;
-        $smsMessage->message = $renderedMessage;
-        $smsMessage->save();
+            'store_id' => $data['store']->id,
+            'message' => $renderedMessage,
+            'smsable_id' => $data['transaction']->id,
+            'smsable_type' => Transaction::class
+        ])) {
+            Log::info(Auth::id() . ' created a new SMS message');
+        }
 
     }
 }
