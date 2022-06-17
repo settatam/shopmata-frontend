@@ -247,7 +247,7 @@ export default {
         };
 
         function updateTransaction(data) {
-            // loading.value = true
+            loading.value = true
 
             let currentData = {};
             currentData[data.field] = data.value;
