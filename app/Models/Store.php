@@ -12,19 +12,14 @@ class Store extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id',
+    protected $fillable = [
+                            'user_id',
     						'name',
     						'slug',
     						'name',
     						'account_email',
     						'customer_email',
     						'business_name',
-    						'address',
-    						'address2',
-    						'city',
-    						'state',
-    						'country_id',
-                            'state_id',
     						'timezone_id',
     						'unit_id',
     						'default_weight_unit_id',
@@ -34,7 +29,6 @@ class Store extends Model
     						'meta_description',
     						'meta_title',
     						'phone',
-    						'zip',
     						'store_domain',
     						'industry_id',
     						'order_id_suffix',
@@ -171,7 +165,7 @@ class Store extends Model
         return $this->morphOne(Address::class, 'addressable');
     }
 
-    public function address() {
+    public function store_address() {
         return $this->morphOne(Address::class, 'addressable');
     }
 
@@ -253,14 +247,20 @@ class Store extends Model
         );
     }
 
-    public  function updateStore($input) {
-        $store = $this->update($input);
+    public  function updateStore($store, $input) {
+        $store->update($input);
+        $store->store_address()->updateOrCreate(
+            ['addressable_id' => $store->id],  
+            $input
+        );
+        
         return $store;
     }
 
 
     public   function  addStore($input) {
         $store = $this->create($input);
+        $this->address()->update($this->address->addFields($input));
         return $store;
     }
 }

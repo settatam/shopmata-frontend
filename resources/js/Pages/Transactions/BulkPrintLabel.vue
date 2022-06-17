@@ -58,7 +58,7 @@
 
       </div>
 
-      <div class="bg-red-500 py-3" v-if="trans == null && store_without_address">
+      <div class="bg-red-500 py-3" v-if="trans != null || store_without_address">
         <ul>
           <li v-if="store_without_address">
             <span class=" py-1 my-1 px-3 text-white">This store does not
@@ -78,7 +78,7 @@
 
 
 
-      <table class="w-full divide-y mt-2 divide-gray-300" v-if="trans != null && !store_without_address">
+      <table class="w-full divide-y mt-2 divide-gray-300" v-if="!store_without_address">
 
         <thead class="bg-purple-darken rounded-t-lg w-full divide-x divide-white">
           <tr>
