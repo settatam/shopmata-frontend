@@ -851,8 +851,6 @@ class Transaction extends Model
 
         if(null !== $labels) return $labels;
 
-        dd($this->createLabel($direction));
-
         if($shippingLabel = $this->createLabel($direction)) {
             if(!$shippingLabel->hasErrors()) {
                 if($label = $this->shippingLabels()->create([
@@ -901,8 +899,6 @@ class Transaction extends Model
             $recipientAddress = $this->customer->address;
             $shipperAddress = $this->store->address;
         }
-
-        dd($this->store->address);
 
         if(null !== $shipperAddress && null !== $recipientAddress) {
             $fedex = new Fedex();

@@ -320,7 +320,7 @@ class TransactionsController extends Controller
                             'qty' => $transaction['qty']
                         ];
                     }else{
-                        dd('something happened');
+                        //dd('something happened');
                     }
                  }
 
@@ -344,7 +344,7 @@ class TransactionsController extends Controller
         $input = $request->input();
 
         $trans = null;
-        
+
         $requestTransactions = is_array($input['transactions']) ? $input['transactions'] : explode(',', $input['transactions']);
         $queryObj = Transaction::whereIn('id', $requestTransactions);
         $transactionObj = $queryObj->get();

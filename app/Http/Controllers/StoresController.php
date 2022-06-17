@@ -39,7 +39,7 @@ class StoresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         $industries = StoreIndustry::orderBy('name', 'asc')->get();
         $methods    = SalesMethod::orderBy('name', 'asc')->get();
         $countries  = Country::with('states')->where('status', 1)->first();
@@ -58,9 +58,8 @@ class StoresController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
 
-        
         try {
             $input = $request->all();
             $input['slug'] = Helper::generateSlug($input['name']);
