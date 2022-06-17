@@ -120,10 +120,10 @@ class EventNotification
         }
 
         if(env('APP_ENV') != 'production') {
-            $data['customer']->address->phone = '2679809681';
+            $data['customer']->phone_number = '2679809681';
         }
 
-        if(is_null($data['customer']->address->phone)) {
+        if(is_null($data['customer']->phone_number)) {
             return;
         }
 
@@ -138,14 +138,14 @@ class EventNotification
         //Save the sent message in a database ..
         if(Sms::create([
             'from' => $smsSender->from,
-            'to' => $data['customer']->address->phone,
+            'to' => $data['customer']->phone_number,
             ''
         ])){
 
         };
         $smsMessage = new SMSMessage();
         $smsMessage->from = $smsSender->from;
-        $smsMessage->to = $data['customer']->address->phone;
+        $smsMessage->to = $data['customer']->phone_number;
         $smsMessage->store_id = $data['store']->id;
         $smsMessage->customer_id = $data['customer']->id;
         $smsMessage->message = $renderedMessage;
