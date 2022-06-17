@@ -236,7 +236,7 @@ export default {
     setup(props, { emit }) {
         // const loading = ref(false)
         const popUp = ref(false);
-        const statusLoading = ref(props.loading)
+        let statusLoading = ref(props.loading)
         const successMessage = ref("");
         const popModal = () => {
             popUp.value = true;
