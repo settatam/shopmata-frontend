@@ -9,7 +9,7 @@ class EventCondition extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'action', 'condition', 'model','action', 'field','store_notification_id'];
+    protected $fillable = ['id', 'action', 'condition', 'model','action', 'field', 'value', 'store_notification_id'];
 
 
     public static function check($model, $field, $value, $action, $condition='==') {
@@ -27,7 +27,7 @@ class EventCondition extends Model
     }
     
     public static function addCondition($input) {
-       $input['field']  = $input['status_id'];
+       $input['value']  = $input['status_id'];
        $input['model']  = 'App\\Models\\'. $input['model'];
        $input['store_notification_id']  = $input['store_notification_id'];
        $input['action'] = 'updated';
