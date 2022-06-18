@@ -286,7 +286,7 @@ export default {
                 case "status":
                     data = {
                         field: "status_id",
-                        value: currentTransaction.value.status_id,
+                        value: status_id ?? currentTransaction.value.status_id,
                     };
                     break;
                 case "message":
