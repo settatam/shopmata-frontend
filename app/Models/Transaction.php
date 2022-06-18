@@ -737,7 +737,9 @@ class Transaction extends Model
                                 $checkForEvent->notification->name,
                                 [
                                     'customer' => $this->customer,
-                                    'store' => $this->store
+                                    'store' => $this->store,
+                                    'transaction' => $this,
+                                    'user' => Auth::user()
                                 ]
                             );
                         }
