@@ -458,7 +458,7 @@ export default {
             sms_message: sms ? sms.message : null,
             email_message: email ? email.message : null,
             store_notification_id: notification.id,
-            status_id: notification.event_condition ?  notification.event_condition.value: null,
+            status_id: notification.event_condition ?  notification.event_condition.value: "",
             condition: "==",
             model: "Transaction",
             field: "status_id",
