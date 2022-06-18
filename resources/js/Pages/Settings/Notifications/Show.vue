@@ -481,6 +481,7 @@ export default {
                     setTimeout(onClickTop("Notification added"), 2000);
                 })
                 .catch((error) => {
+                    loading.value = false;
                     setTimeout(onClickBot("Something went wrong"), 2000);
                 });
         };
