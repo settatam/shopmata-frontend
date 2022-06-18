@@ -9,7 +9,7 @@ class EventCondition extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'action', 'condition', 'model','action', 'field'];
+    protected $fillable = ['id', 'action', 'condition', 'model','action', 'field','store_notification_id'];
 
 
     public static function check($model, $field, $value, $action, $condition='==') {
@@ -30,7 +30,10 @@ class EventCondition extends Model
        $input['field']  = $input['status_id'];
        $input['model']  = 'App\\Models\\'. $input['model'];
        $input['action'] = 'updated';
-       $event = self::create($input);
+       $event = self::updateOrCreate(
+           ['store_notification_id' => $input['store_notification_id']],
+           $input
+        );
        return $event;
     }
 
