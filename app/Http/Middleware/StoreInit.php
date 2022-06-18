@@ -26,23 +26,32 @@ class StoreInit
             'me'
         ];
 
+
         if(env('APP_ENV') !== 'development') {
 
-            Request::macro('subdomain', function () {
-                return current(explode('.', $this->getHost()));
-            });
+            $url = URL::to('/');
+            $storeDomain = StoreDomain::with('store')->where('name', $url)->first();
 
-
-            if($subdomain = $request->subdomain()) {
-                if(in_array($subdomain, $protectedUrls)) return $next($request);
-                $storeDomain = Store::where('slug', $subdomain)->first();
-                if(null !== $storeDomain) {
-                    session()->put('store_id', $storeDomain->id);
-                }else{
-                  abort(404);
-
-                }
+            if(null !== $storeDomain) {
+                $store = $storeDomain->store;
+                session()->put('store_id', $storeDomain->store->id);
+            }else{
+                abort(404);
             }
+
+//            Request::macro('subdomain', function () {
+//                return current(explode('.', $this->getHost()));
+//            });
+
+//            if($subdomain = $request->subdomain()) {
+//                if(in_array($subdomain, $protectedUrls)) return $next($request);
+//                $storeDomain = Store::where('slug', $subdomain)->first();
+//                if(null !== $storeDomain) {
+//                    session()->put('store_id', $storeDomain->id);
+//                }else{
+//                  abort(404);
+//                }
+//            }
         }
         return $next($request);
     }
