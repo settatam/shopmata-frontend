@@ -93,7 +93,7 @@ const pages = [
   { name: "Transactions", href: "/admin/transactions?status=60", current: false },
   {
     name: "Bulk Print Barcode",
-    href: "",
+    href: "#",
     current: true,
   },
 ];

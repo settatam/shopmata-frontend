@@ -189,12 +189,14 @@
                                         >
                                             <div class="w-4.5/10 lg:w-3/10">
                                                 <select
-                                                    name="options"
+                                                    name="model"
                                                     id=""
                                                     class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none mb-2 lg:mb-0"
+                                                    v-model="order.model"
+
                                                 >
-                                                    <option value="">
-                                                        Immediately
+                                                    <option value="Transaction">
+                                                        Transaction
                                                     </option>
                                                 </select>
                                             </div>
@@ -203,22 +205,25 @@
                                                     name="conditions"
                                                     id=""
                                                     class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium w-full text-gray-700 hover:bg-gray-50 focus:outline-none"
-                                                >
-                                                    <option value="">
-                                                        Immediately
-                                                    </option>
+                                                    v-model="order.condition"
+
+                                                >   
+                                                    <option  value="==">==</option>
+                                                    
                                                 </select>
                                             </div>
                                             <div
                                                 class="w-4.5/10 lg:w-3/10 mb-2"
                                             >
                                                 <select
-                                                    name="state"
+                                                    name="status_id"
                                                     id=""
                                                     class="rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 w-full hover:bg-gray-50 focus:outline-none"
+                                                    v-model="order.status_id"
                                                 >
-                                                    <option value="">
-                                                        Immediately
+                                                    <option  value="">Choose Status</option>
+                                                    <option v-for="status in statuses" :key="status.index" :value="status.status_id">
+                                                        {{ status.name }}
                                                     </option>
                                                 </select>
                                             </div>
@@ -435,6 +440,7 @@ export default {
         navigation: Array,
         sms: Object,
         email: Object,
+        statuses: Array
     },
     components: {
         AppLayout,
@@ -451,6 +457,9 @@ export default {
             sms_message: sms ? sms.message : null,
             email_message: email ? email.message : null,
             store_notification_id: notification.id,
+            status_id: "",
+            condition: "==",
+            model: "Transaction",
             channels: ["sms", "email"],
         });
 
@@ -472,6 +481,7 @@ export default {
                     setTimeout(onClickTop("Notification added"), 2000);
                 })
                 .catch((error) => {
+                    loading.value = false;
                     setTimeout(onClickBot("Something went wrong"), 2000);
                 });
         };

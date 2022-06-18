@@ -25,9 +25,8 @@
                             Confirm Status
                         </button> -->
 
-                        <Button class="" @click="updateTransaction('status'); statusLoading  = true"
-                            @sendResponse="addMessage" :loadingAnimation="statusLoading"
-                            :buttonName="'Confirm Status'" />
+                        <Button class="" @click="updateTransaction('status')" @sendResponse="addMessage"
+                            :loadingAnimation="loading" :buttonName="'Confirm Status'" />
                     </div>
                 </div>
             </div>
@@ -234,9 +233,7 @@ export default {
         this.moment = moment;
     },
     setup(props, { emit }) {
-        // const loading = ref(false)
         const popUp = ref(false);
-        let statusLoading = ref(props.loading)
         const successMessage = ref("");
         const popModal = () => {
             popUp.value = true;
@@ -433,7 +430,7 @@ export default {
             currentTransaction,
             params,
             model_id,
-            statusLoading,
+            // statusLoading,
             // loading
         };
     },
