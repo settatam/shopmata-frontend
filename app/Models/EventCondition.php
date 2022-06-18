@@ -29,6 +29,7 @@ class EventCondition extends Model
     public static function addCondition($input) {
        $input['field']  = $input['status_id'];
        $input['model']  = 'App\\Models\\'. $input['model'];
+       $input['store_notification_id']  = $input['store_notification_id'];
        $input['action'] = 'updated';
        $event = self::updateOrCreate(
            ['store_notification_id' => $input['store_notification_id']],
