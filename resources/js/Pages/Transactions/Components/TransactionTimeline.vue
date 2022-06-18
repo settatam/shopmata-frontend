@@ -281,6 +281,7 @@ export default {
         function updateTransaction(event, status_id = null) {
             // loading = true
             let data = {};
+            console.log(status_id);
             switch (event) {
                 case "status_id":
                 case "status":
