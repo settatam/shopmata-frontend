@@ -25,6 +25,13 @@ class StoreNotification extends Model
     }
 
 
+    public function event_condition() {
+        return $this->hasOne(EventCondition::class);
+    }
+
+    
+
+
     public static function addNotification($request) 
     {
         $user = $request->user();
