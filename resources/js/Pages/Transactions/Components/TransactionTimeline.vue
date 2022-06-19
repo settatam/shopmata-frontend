@@ -10,7 +10,7 @@
                 <div class="flex flex-col md:flex lg:flex-row sm:space-x-0 lg:space-x-12 space-y-3 lg:space-y-0">
                     <div>
                         <select class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-8 w-full"
-                            name="transaction_status" v-model="currentTransaction.status_id" @change="onChange($event)">
+                            name="transaction_status" v-model="transaction.status_id" @change="onChange($event)">
                             <option v-for="status in statuses" :key="status.index" :value="status.status_id">
                                 {{ status.name }}
                             </option>
@@ -229,9 +229,11 @@ export default {
     },
     props: ["transaction", "bottom_tags", "statuses", "root", "timeline", "loading"],
     emits: ["transaction-updated"],
+
     created: function () {
         this.moment = moment;
     },
+
     setup(props, { emit }) {
         const popUp = ref(false);
         const successMessage = ref("");
@@ -241,8 +243,8 @@ export default {
 
         const currentTransaction = ref(props.transaction);
         const transaction_id = props.root.id;
-
         const imgs = ref(currentTransaction.value.publicnote.images);
+
         const model_id = ref(
             currentTransaction.value.pub_note
                 ? currentTransaction.value.publicnote.id
@@ -276,6 +278,10 @@ export default {
             offer: "",
         });
 
+        watch(props.transaction.status_id, (currentValue, oldValue) => {
+            console.log('transaction has been changed', currentValue)
+        })
+
         function addMessage() { }
 
         function updateTransaction(event, status_id = null) {
@@ -287,7 +293,7 @@ export default {
                 case "status":
                     data = {
                         field: "status_id",
-                        value: status_id ?? currentTransaction.value.status_id,
+                        value: status_id ?? props.transaction.status_id,
                     };
                     break;
                 case "message":
