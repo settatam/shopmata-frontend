@@ -46,7 +46,6 @@ class Transaction extends Model
         'est_profit',
         'created_date',
         'hold_date',
-        'has_payment_type'
     ];
 
     protected $declinedStatuses =  [
