@@ -452,14 +452,16 @@ export default {
         ErrorIcon,
     },
     setup({ email, sms, notification }) {
+        console.log(notification.event_condition)
         const order = reactive({
             subject: email ? email.email_subject : null,
             sms_message: sms ? sms.message : null,
             email_message: email ? email.message : null,
             store_notification_id: notification.id,
-            status_id: "",
+            status_id: notification.event_condition ?  notification.event_condition.value: "",
             condition: "==",
             model: "Transaction",
+            field: "status_id",
             channels: ["sms", "email"],
         });
 
