@@ -127,7 +127,7 @@ class Filters extends AbstractExtension
                 return '<h1 class="red">Offer Declined</h1>
                         <p>'.$transaction->customer->first_name.' we have received your request to decline this transaction. We will return your items to you promptly at our expense. Your items will be sent within one business day. We will let you know when your items ship. Thanks again for your interest and we are sorry that we could not make you an acceptable offer. If you have any questions please <a href="/contact-us.html">contact us</a>.</p>';
             default:
-                return 'this is another test for the rest of the statuses';
+                return '<h1> Unknown Status</h1><p>Your transaction is in an unknown status. PLease contact us to find out more about your kit.</p>';
 
         }
     }
