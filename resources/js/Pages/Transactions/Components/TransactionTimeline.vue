@@ -37,7 +37,7 @@
                     <div class="flex flex-col lg:ml-0 ml-8">
                         <input type="search"
                             class="py-3 text-sm text-black rounded-md focus:outline-none focus:bg-white mx-2 sm:w-1/3 md:w-full lg:w-full"
-                            placeholder="Offer" autocomplete="off" v-model="currentTransaction.offer" />
+                            placeholder="Offer" autocomplete="off" v-model="transaction.offer" @change="updateTransaction('offer')" />
                         <div class="flex flex-row ml-1">
                             <input type="checkbox" class="text-xs my-2 mx-2" name="2ndoffer" id="2ndoffer"
                                 v-model="transaction.offers.length" />
@@ -53,7 +53,7 @@
                             Send Offer
                         </button> -->
 
-                        <Button class="" @click="updateTransaction('offer')" @sendResponse="addMessage"
+                        <Button class="" @click="updateTransaction('send-offer')" @sendResponse="addMessage"
                             :loadingAnimation="loading" :buttonName="'Send Offer'" />
                     </div>
                 </div>
@@ -278,7 +278,7 @@ export default {
             offer: "",
         });
 
-        watch(props.transaction.status_id, (currentValue, oldValue) => {
+        watch(props.transaction.offer, (currentValue, oldValue) => {
             console.log('transaction has been changed', currentValue)
         })
 
@@ -287,7 +287,6 @@ export default {
         function updateTransaction(event, status_id = null) {
             // loading = true
             let data = {};
-            console.log(status_id);
             switch (event) {
                 case "status_id":
                 case "status":
@@ -299,13 +298,19 @@ export default {
                 case "message":
                     data = {
                         field: "message",
-                        value: this.currentTransaction.value.status_id,
+                        value: props.transaction.status_id,
                     };
                     break;
                 case "offer":
                     data = {
                         field: "offer",
-                        value: this.currentTransaction.value.offer,
+                        value: props.transaction.offer,
+                    };
+                    break;
+                case "send-offer":
+                    data = {
+                        field: "send-offer",
+                        value: props.transaction.offer,
                     };
                     break;
                 case "sms":

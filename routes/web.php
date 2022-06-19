@@ -121,7 +121,6 @@ Route::domain('{account}.'.env('APP_URL'))->group(function () {
 
 Route::get('pdf', [PDFController::class, 'index']);
 
-
 Route::get('login',           [LoginController::class,    'getLogin'])->name('login');
 Route::get('logout',          [LoginController::class,    'logout']);
 Route::post('logout',         [LoginController::class,    'logout']);
@@ -154,6 +153,9 @@ Route::get('staff/registration/new', [StaffsController::class, 'registration']);
 Route::post('staff/registration/new', [StaffsController::class, 'createStaff']);
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
+
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
     Route::prefix('admin')->group(function () {
 
         Route::resource('stores', StoresController::class)->names([
@@ -183,7 +185,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('products/search', [ProductsController::class, 'tableSearch']);
 
         //Search
-        
+
         Route::get('search',    [SearchController::class, 'index']);
         Route::get('token/link/{customer_id}', [TokenController::class, 'sendLink']);
 

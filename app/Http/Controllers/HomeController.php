@@ -18,19 +18,22 @@ class HomeController extends Controller
     */
     public function getStarted($step = null){
         switch ($step) {
-            case '2':        
+            case '2':
                 return Inertia::render('Home/GetStarted-2');
                 break;
-            case '3':        
+            case '3':
                 return Inertia::render('Home/Tips');
                 break;
-            
+
             default:
                 return Inertia::render('Home/GetStarted');
                 break;
         }
     }
 
+    public function index() {
+        return redirect('/admin/dashboard');
+    }
 
     public function passwordRecovery(){
         return Inertia::render('Home/PasswordRecovery');
@@ -49,7 +52,7 @@ class HomeController extends Controller
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'store_domain' => ['required', 'string'],
             ]);
-    
+
             if ($validator->fails()) {
                 $notification = [
                     "title" => "Validation Errors",
@@ -63,7 +66,7 @@ class HomeController extends Controller
             session(['email' => $data['email']]);
             session(['store' => $data['store']]);
             session(['store_domain' => $data['store_domain']]);
-            
+
             $notification = [
                 "title" => "Store Initialized",
                 "type" => "success",
@@ -110,7 +113,7 @@ class HomeController extends Controller
             }
 
             $url = config("app.url")."/auth/change-password?email=$email"."&t=$token";
-                
+
             //change the remember_token
             $user->remember_token = $token;
             $user->save();
@@ -153,7 +156,7 @@ class HomeController extends Controller
                 'email' => ['required', 'string', 'email', 'max:255'],
                 'token' => ['required', 'string'],
             ]);
-    
+
             if ($validator->fails()) {
                 $notification = [
                     "title" => "Validation Errors",
@@ -187,7 +190,7 @@ class HomeController extends Controller
             $user->password = Hash::make($data['password']);
             $user->remember_token = '';
             $user->save();
-            
+
             $notification = [
                 "title" => "Password Changed",
                 "type" => "failed",
@@ -213,6 +216,6 @@ class HomeController extends Controller
 
             return response()->json(['notification' => $notification ], 500);
         }
-        
+
     }
 }

@@ -528,6 +528,9 @@ class TransactionsController extends Controller
                 $transaction->sendSms($input['message'], $request->images);
                 break;
             case 'offer':
+                $transaction->updateOffer($input['offer']);
+                break;
+            case 'send-offer':
                 $transaction->addOffer($input['offer']);
                 break;
             case 'create-new-kit':

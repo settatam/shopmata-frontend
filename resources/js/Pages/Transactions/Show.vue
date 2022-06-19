@@ -255,11 +255,17 @@ export default {
             let method = "put";
             switch (data.field) {
                 case "offer":
-                    
                     url =
                         "/admin/transactions/" +
                         props.transaction.id +
                         "/offer";
+                    method = "post";
+                    break;
+                case "send-offer":
+                    url =
+                        "/admin/transactions/" +
+                        props.transaction.id +
+                        "/send-offer";
                     method = "post";
                     break;
                 case "message":

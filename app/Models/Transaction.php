@@ -756,13 +756,14 @@ class Transaction extends Model
         return Activity::addNew($transaction, $changes, 'transaction', $note);
     }
 
-    public function addOffer($amount) {
+    public function addOffer($amount, $update_only=false) {
         //This is a band-aid
         $this->final_offer = $amount;
         $this->save();
         $notification_name = '';
         if($this->offers()->create([
-            'offer' => $amount
+            'offer' => $amount,
+            'status' => !$update_only ? 'created' : 'sent'
         ])) {
 
             $isSecondOffer = $this->offers()->count() > 1;
@@ -781,9 +782,23 @@ class Transaction extends Model
                 $offerNote,
                 Numeral::number($amount)->format('$0.0')
             );
-            $this->sendOffer();
+
+            if(!$update_only) {
+                $this->sendOffer();
+            }
+
             $this->addActivity($this, [], $note);
 
+        }
+    }
+
+    public function updateOffer($amount) {
+        $offer = $this->offers()->orderBy('id', 'desc')->first();
+        if(null !== $offer) {
+            $offer->offer = $amount;
+            $offer->save();
+        }else{
+            $this->addOffer($amount, true);
         }
     }
 
