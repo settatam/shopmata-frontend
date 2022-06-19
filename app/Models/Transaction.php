@@ -730,6 +730,7 @@ class Transaction extends Model
                 foreach($this->getChanges() as $index => $input) {
                     //Create Activity Entry
                     $checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated');
+                    //For when a model is added to a another model
                     //$checkForEvent = EventCondition::check(get_class(), TransactionOffer::class, TransactionOffer::FINAL_OFFER, 'added');
                     if(null !== $checkForEvent) {
                         if(null !== $checkForEvent->notification) {
