@@ -30,37 +30,13 @@ use App\Http\Controllers\Settings\PlansAndPermissionsController;
 use App\Http\Controllers\ReportsController;
 
 
-use App\Http\Controllers\Settings\ShippingController;
-use App\Http\Controllers\Settings\ShippingProfileController;
-use App\Http\Controllers\Settings\ShippingRatesController;
-use App\Http\Controllers\Settings\StoreNotificationMessageController;
-use App\Http\Controllers\Settings\StoreLocationController;
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\StaffsController;
-use App\Http\Controllers\StoreBlogController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\StoreDomainsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CollectionsController;
-use App\Http\Controllers\OnlineStore\EditorController;
-use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\TransactionsItemsController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\TransactionItemsController;
-use App\Http\Controllers\StoresController;
-
-use App\Http\Controllers\WidgetsController;
-
 use App\Http\Controllers\Auth\CustomerLoginController;
 use App\Http\Controllers\TransactionPaymentAddressController;
-
-
-use App\Http\Controllers\MessagesController;
-
 use App\Http\Controllers\PDFController;
-
-use App\Http\Controllers\NotificationsController as NewNotificationsController;
-
 //Client
 
 use App\Http\Controllers\Client\HomeController as ClientHomeController;
@@ -149,19 +125,19 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
+//Route::group(['middleware' => ['auth', 'verified']], function () {
+//
+//    Route::get('/', [HomeController::class, 'index'])->name('home');
+//
+//});
 
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-
-});
 
 
-
-Route::get('check-migrations', function() {
-   return response()->json([
-       'tables' => \Illuminate\Support\Facades\DB::table('migrations')->get()
-   ]);
-});
+//Route::get('check-migrations', function() {
+//   return response()->json([
+//       'tables' => \Illuminate\Support\Facades\DB::table('migrations')->get()
+//   ]);
+//});
 
 
 
