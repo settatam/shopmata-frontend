@@ -45,7 +45,7 @@ class Address extends Model
         return $this->morphTo();
     }
 
-    public function province() {
+    public function state() {
         return $this->belongsTo(State::class, 'state_id', 'id');
     }
 
