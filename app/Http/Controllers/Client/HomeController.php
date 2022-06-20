@@ -20,7 +20,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($account, $id=null)
+    public function index(Request $request, $id=null)
     {
         //
         if(session()->has('store_id')) {
