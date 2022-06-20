@@ -19,6 +19,8 @@ class PDFController extends Controller
     public function trackKit($id)
     {
         $transaction = Transaction::find($id);
+        $store = Store::find(session()->get('store_id'));
+        dd($store->shippingAddress());
         $shippingLabel = $transaction->getShippingLabel('to');
         dd($shippingLabel);
 
