@@ -35,6 +35,7 @@ class HomeController extends Controller
             $pageType = 'page';
 
             $data = [];
+            $data['store'] = $store;
 
             if($pageToFind == 'transactions') {
 
