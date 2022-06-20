@@ -89,6 +89,7 @@ import AppLayout from '../../Layouts/AppLayout.vue'
 import axios from 'axios'
 import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/solid";
 import { Inertia } from '@inertiajs/inertia'
+import { postAsNativeForm } from "../../api";
 const statusStyles = {
   success: 'bg-green-100 text-green-800',
   processing: 'bg-yellow-100 text-yellow-800',
@@ -118,10 +119,6 @@ export default {
     const notifications = notifications
     const filterLists = ref(transactions)
 
-    function postAsNativeForm(action, params) {
-
-    }
-
     function sendAction() {
       let params = {
         transactions: JSON.stringify(filterLists.value),
@@ -140,6 +137,7 @@ export default {
       statusStyles,
       filterLists,
       sendAction,
+      postAsNativeForm
     }
   }
 }
