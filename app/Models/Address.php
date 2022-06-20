@@ -14,7 +14,7 @@ class Address extends Model
     const LOCATION_ADDRESS_TYPE = 'location';
 
     protected $fillable = [
-        
+
         'country',
         'state',
         'city',
@@ -36,7 +36,8 @@ class Address extends Model
     ];
 
     protected $appends = [
-        'apt_suite'
+        'apt_suite',
+        'street_address'
     ];
 
     public function addressable()
@@ -50,6 +51,10 @@ class Address extends Model
 
     public function getAptSuiteAttribute() {
         return $this->address2;
+    }
+
+    public function getStreetAddressAttribute() {
+        return $this->address;
     }
 
     public function checkAddressIsValid() {
