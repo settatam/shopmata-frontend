@@ -165,7 +165,7 @@ class Store extends Model
         $address = $this->address;;
         $address->company_name = $this->name;
         $address->country = $address->resolvedCountry->iso_code_2;
-        $address->state = $this->resolvedState->code;
+        $address->state = $this->state;
         return $address;
     }
 
