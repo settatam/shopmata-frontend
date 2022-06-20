@@ -23,6 +23,7 @@ class HomeController extends Controller
     public function index($account, $id=null)
     {
         //
+        dd('THis is the home');
         if(session()->has('store_id')) {
             //This is probably a store page
             $store_id = session()->get('store_id');
@@ -234,7 +235,7 @@ class HomeController extends Controller
     }
 
 
-   
+
 
     /**
      * Remove the specified resource from storage.
