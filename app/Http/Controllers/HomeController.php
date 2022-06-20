@@ -32,7 +32,7 @@ class HomeController extends Controller
     }
 
     public function index() {
-        return redirect('/admin/dashboard');
+        //return redirect('/admin/dashboard');
     }
 
     public function passwordRecovery(){

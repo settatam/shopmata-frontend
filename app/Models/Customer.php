@@ -309,7 +309,7 @@ class Customer extends Authenticatable
                 'customer' => $this,
                 'store' => $store,
                 'token' => $token
-            ]));
+            ], ['for' => 'customer']));
         }
 
         return $token;

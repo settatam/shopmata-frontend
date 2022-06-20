@@ -50,8 +50,8 @@ class StoreUserInvite extends Model
             }
     }
 
-    private function generateInviteToken($store_id, $email) {
-        return base64_encode($store_id . ':' .$email);
+    private function generateInviteToken($store, $email) {
+        return base64_encode($store->id . ':' .$email);
     }
 
     public static function createNewInvite(Store $store, StoreUser $user) {
@@ -67,7 +67,7 @@ class StoreUserInvite extends Model
         }
 
         $invite->store_user_id = $user->id;
-        $invite->token = $this->generateInviteToken($store->id, $user->email);
+        $invite->token = $invite->generateInviteToken($store, $user->email);
         $invite->status = self::PENDING;
 
         if($invite->save()) {
@@ -76,6 +76,8 @@ class StoreUserInvite extends Model
             $notify = (new EventNotification('Store User Invite', [
                 'store' => $store,
                 'user' => $user,
+            ], [
+                'for' => 'store'
             ]));
         }
     }

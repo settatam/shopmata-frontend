@@ -44,9 +44,7 @@ class EventNotification
 //              throw new InvalidInputException("You must attach a store and customer to an event notification");
           }
 
-          if(!isset($this->options['for']))  {
-              $this->options['for'] = 'customer';
-          }else{
+          if(!isset($this->options['for'])) {
               $this->options['for'] = 'transaction';
           }
 
