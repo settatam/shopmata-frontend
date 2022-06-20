@@ -49,6 +49,14 @@ class Address extends Model
         return $this->belongsTo(State::class, 'state_id', 'id');
     }
 
+    public function resolved_state() {
+        return $this->belongsTo(State::class, 'state_id', 'id');
+    }
+
+    public function country() {
+        return $this->belongsTo(State::class, 'country_id', 'id');
+    }
+
     public function getAptSuiteAttribute() {
         return $this->address2;
     }

@@ -95,7 +95,6 @@ class HomeController extends Controller
                 }
 
                 $data['states'] = State::where('country_id', 1)->get();
-
                 $data['customer'] = Auth::guard('customer')->user();
 
                 $transactionObj = Transaction::with('images')

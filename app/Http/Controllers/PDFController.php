@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Spipu\Html2Pdf\Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use App\Models\Transaction;
 
 
 class PDFController extends Controller
@@ -15,8 +16,12 @@ class PDFController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function trackKit($id)
     {
+        $transaction = Transaction::find($id);
+        $shippingLabel = $transaction->getShippingLabel('to');
+        dd($shippingLabel);
+
         $view = \View::make('pages.pdf')->render();
 
         try {
@@ -29,9 +34,9 @@ class PDFController extends Controller
             $formatter = new ExceptionFormatter($e);
             echo $formatter->getHtmlMessage();
         }
-        
-        
+
+
     }
 
-   
+
 }

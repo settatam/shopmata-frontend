@@ -43,6 +43,7 @@ use App\Http\Controllers\TokenController;
 
 
 //Route::domain('{account}.'.env('APP_URL'))->group(function () {
+    Route::get('transactions/{id}/track-my-kit', [PDFController::class, 'trackKit']);
     Route::get('/', [ClientHomeController::class, 'index']);
     Route::get('transactions', [ClientHomeController::class, 'index']);
     Route::get('transactions/{id}', [ClientHomeController::class, 'index']);
@@ -67,7 +68,7 @@ use App\Http\Controllers\TokenController;
 // 	return Inertia\Inertia::render('Dashboard');
 // })->name('dashboard');
 
-Route::get('pdf', [PDFController::class, 'index']);
+
 
 Route::get('login',           [LoginController::class,    'getLogin'])->name('login');
 Route::get('logout',          [LoginController::class,    'logout']);

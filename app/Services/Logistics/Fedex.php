@@ -164,8 +164,8 @@ class Fedex extends Shipping
                 ],
                 'city' => $user->city,
                 'stateOrProvinceCode' => $user->state,
-                'postalCode' => $user->postal_code,
-                'countryCode' => $user->country,
+                'postalCode' => $user->zip ?? $user->postal_code,
+                'countryCode' => $user->country ?? 'US',
                 'residential' => $user->isResidential ?? true
             ],
             'contact' => [
@@ -192,7 +192,7 @@ class Fedex extends Shipping
                 'city' => $user->city,
                 'stateOrProvinceCode' => $user->state,
                 'postalCode' => $user->postal_code,
-                'countryCode' => $user->country,
+                'countryCode' => $user->country ?? 'US',
                 'residential' => $user->isResidential ?? false
             ],
             'contact' => [

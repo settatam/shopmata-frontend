@@ -162,7 +162,11 @@ class Store extends Model
     }
 
     public function shippingAddress() {
-        return $this->morphOne(Address::class, 'addressable');
+        $address = $this->address;
+        $address->company_name = $this->name;
+        $address->country = $this->country->code;
+        $address->state = $this->state;
+        return $address;
     }
 
     public function store_address() {

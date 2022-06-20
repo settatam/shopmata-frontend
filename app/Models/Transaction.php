@@ -328,8 +328,10 @@ class Transaction extends Model
     public function scopeWithOfferGivenDateTime($query) {
         return $query->addSelect(['offer_given_date_time'=>Activity::selectRaw("DATE_FORMAT(activities.created_at, '%Y-%m-%d %H:%i:%s') as offer_given_date_time")
                 ->whereColumn('transactions.id', 'activities.activityable_id')
-                ->where('status', 'Offer Given')->orWhere('status', 'Offer Given (Cnotes & Picture)')
-//                ->where('is_status', 1)
+                ->where(function($query) {
+                    $query->where('status', 'Offer Given')
+                        ->orWhere('status', 'Offer Given (Cnotes & Picture)')
+                    })
                 ->take(1)
         ]);
     }
@@ -867,6 +869,7 @@ class Transaction extends Model
         if(null !== $labels) return $labels;
 
         if($shippingLabel = $this->createLabel($direction)) {
+            dd($shippingLabel);
             if(!$shippingLabel->hasErrors()) {
                 if($label = $this->shippingLabels()->create([
                     'tracking_number' => $shippingLabel->getTrackingNumber(),
@@ -909,10 +912,10 @@ class Transaction extends Model
         //Check to see if both shipping addresses exist
         if ($type == Shipping::SHIPPING_TYPE_FROM){
             $shipperAddress = $this->customer->address;
-            $recipientAddress = $this->store->shippingAddress;
+            $recipientAddress = $this->store->shippingAddress();
         }else if($type == Shipping::SHIPPING_TYPE_TO) {
             $recipientAddress = $this->customer->address;
-            $shipperAddress = $this->store->address;
+            $shipperAddress = $this->store->shippingAddress();
         }
 
         if(null !== $shipperAddress && null !== $recipientAddress) {
