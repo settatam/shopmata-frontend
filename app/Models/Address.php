@@ -69,7 +69,6 @@ class Address extends Model
 
     }
 
-
     public function addFields($input) {
         return $address = [
             'first_name' => $input['first_name'],

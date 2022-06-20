@@ -55,9 +55,7 @@ class HomeController extends Controller
                 if(!Auth::guard('customer')->check()) {
                     return redirect('customer/login');
                 }
-                $store->load('address');
-                dd($store);
-
+                $data['store']->load('address');
                 $pageType = 'template';
                 $data['customer'] = Auth::guard('customer')->user();
                 $data['transaction'] = Transaction::with('images')
