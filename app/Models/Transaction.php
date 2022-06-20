@@ -330,7 +330,7 @@ class Transaction extends Model
                 ->whereColumn('transactions.id', 'activities.activityable_id')
                 ->where(function($query) {
                     $query->where('status', 'Offer Given')
-                        ->orWhere('status', 'Offer Given (Cnotes & Picture)')
+                        ->orWhere('status', 'Offer Given (Cnotes & Picture)');
                     })
                 ->take(1)
         ]);
