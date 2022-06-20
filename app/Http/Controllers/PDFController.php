@@ -7,6 +7,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use App\Models\Transaction;
+use App\Models\Store;
 
 
 class PDFController extends Controller
