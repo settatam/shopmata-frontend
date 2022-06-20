@@ -18,19 +18,19 @@ class TokenController extends Controller
      */
     public function sendLink(Request $request, $customer_id)
     {
-        try {
+//        try {
             $customer = Customer::find($customer_id);
             $store    = Store::find(session('store_id'));
             $customer->generateLoginTokenForEmail($store);
             return response()->json(['message'=> "Link sent" ], 200);
-        } catch (\Throwable $th) {
-            return response()->json(['message'=> $th->getMessage()], 422);
-        }
+//        } catch (\Throwable $th) {
+//            return response()->json(['message'=> $th->getMessage()], 422);
+//        }
     }
 
 
     public function loginWithToken(Request $request)
-    {   
+    {
         $token = $request->token;
         $login_token = LoginToken::where('token', $token)->firstOrFail();
 

@@ -27,6 +27,11 @@
 
       <!-- nav end -->
 
+      <div>
+        <p class="mt-2">Click <a href="/admin/transactions?status=60"
+            class="text-purple-darken font-bold underline text-xl">HERE</a> to go back to the transactions page</p>
+      </div>
+
       <div class="mt-2">
         <h1 class="my-3 font-bold text-xl">Print Barcodes</h1>
       </div>

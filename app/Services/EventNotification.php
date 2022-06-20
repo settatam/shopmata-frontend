@@ -43,6 +43,16 @@ class EventNotification
           if(!isset($data['store_id'], $data['customer_id'])) {
 //              throw new InvalidInputException("You must attach a store and customer to an event notification");
           }
+
+          if(!isset($this->options['for']))  {
+              $this->options['for'] = 'customer';
+          }else{
+              $this->options['for'] = 'transaction';
+          }
+
+          $this->options['smsable_id'] = $this->data[$this->options['for']]->id;
+          $this->options['smsable_type'] = get_class($this->data[$this->options['for']]);
+
           $this->getAndSendMessages();
     }
 
@@ -144,8 +154,8 @@ class EventNotification
             'to' => $data['customer']->phone_number,
             'store_id' => $data['store']->id,
             'message' => $renderedMessage,
-            'smsable_id' => $data['transaction']->id,
-            'smsable_type' => Transaction::class
+            'smsable_id' => $this->options['smsable_id'],
+            'smsable_type' => $this->options['smsable_type']
         ])) {
             Log::info(Auth::id() . ' created a new SMS message');
         }

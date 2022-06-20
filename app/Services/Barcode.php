@@ -40,7 +40,7 @@ class Barcode
 		$y += 5;
 		$font_size = 8;
 		imagettftext($i, $font_size, 0, 185, $y, $text, $font, $transaction->customer->address->street_address); $y += $line_height;
-		imagettftext($i, $font_size, 0, 185, $y, $text, $font, $transaction->customer->address->city.', '.$transaction->customer->address->state->code .', '.$transaction->customer->address->zip); $y += $line_height;
+		imagettftext($i, $font_size, 0, 185, $y, $text, $font, $transaction->customer->address->city.', '.$transaction->customer->address->state .', '.$transaction->customer->address->zip); $y += $line_height;
 		/* remove phone number from label requested July 2019 *//* if (!empty($order_info['customer_phone'])) { imagettftext($i, $font_size, 0, 150, $y, $text, $font, $order_info['customer_phone']); $y += $line_height; } */
 		// imagettftext($i, $font_size, 0, 150, $y, $text, $font, $order_info['customer_email']); $y += $line_height;
 
