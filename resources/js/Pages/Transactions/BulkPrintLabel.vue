@@ -19,14 +19,19 @@
             <div class="flex items-center">
               <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
               <a :href="page.href" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" :aria-current="
-                                        page.current ? 'page' : undefined
-                                    ">{{ page.name }}</a>
+                page.current ? 'page' : undefined
+              ">{{ page.name }}</a>
             </div>
           </li>
         </ol>
       </nav>
 
       <!-- nav end -->
+
+      <div>
+        <p class="mt-2">Click <a href="/admin/transactions?status=60"
+            class="text-purple-darken font-bold underline text-xl">HERE</a> to go back to the transactions page</p>
+      </div>
 
       <div class="mt-2">
         <h1 class="my-3 font-bold text-xl">Print Shipping Labels</h1>
@@ -70,8 +75,8 @@
             </p>
 
             <a v-for="tran in trans" :key="tran.index" :href="'admin/customers/' + tran.customer.id">/{{
-              tran.customer.id
-              }}</a>
+                tran.customer.id
+            }}</a>
           </li>
         </ul>
       </div>
