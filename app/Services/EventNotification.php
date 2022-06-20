@@ -82,19 +82,23 @@ class EventNotification
 
                 switch ($storeNotificationMessage->channel) {
                     case 'email':
-                        $messageData['notification_id'] = $storeNotificationMessage->id;
-                        $messageData['to'] = ($storeNotificationMessage->is_customer) ? $this->data['customer']->email : $this->data['user']->email;
-                        $messageData['subject'] = ThemeFile::generateParsedContent($storeNotificationMessage->email_subject, $messageData);
-                        $messageData['content_for_email'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
-                        $emailTemplate = ThemeFile::getTemplateFor($this->data['store'], 'email');
-                        $templateContent = null !== $emailTemplate ? $emailTemplate->content : '';
-                        $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($templateContent, $messageData));
-                        $this->sendEmail($messageData);
+                        if($storeNotificationMessage->message) {
+                            $messageData['notification_id'] = $storeNotificationMessage->id;
+                            $messageData['to'] = ($storeNotificationMessage->is_customer) ? $this->data['customer']->email : $this->data['user']->email;
+                            $messageData['subject'] = ThemeFile::generateParsedContent($storeNotificationMessage->email_subject, $messageData);
+                            $messageData['content_for_email'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
+                            $emailTemplate = ThemeFile::getTemplateFor($this->data['store'], 'email');
+                            $templateContent = null !== $emailTemplate ? $emailTemplate->content : '';
+                            $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($templateContent, $messageData));
+                            $this->sendEmail($messageData);
+                        }
                         break;
                     case 'sms':
-                        $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData));
-                        $messageData['notification_id'] = $storeNotificationMessage->id;
-                        $this->sendSMS($messageData);
+                        if($storeNotificationMessage->message) {
+                            $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData));
+                            $messageData['notification_id'] = $storeNotificationMessage->id;
+                            $this->sendSMS($messageData);
+                        }
                         break;
                     default:
                 }
