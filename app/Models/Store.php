@@ -162,10 +162,10 @@ class Store extends Model
     }
 
     public function shippingAddress() {
-        $address = $this->address;
+        $address = $this->address;;
         $address->company_name = $this->name;
-        $address->country = $this->country->code;
-        $address->state = $this->state;
+        $address->country = $address->resolvedCountry->iso_code_2;
+        $address->state = $this->resolvedState->code;
         return $address;
     }
 

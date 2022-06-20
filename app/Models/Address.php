@@ -57,6 +57,10 @@ class Address extends Model
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
 
+    public function resolvedCountry() {
+        return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
+
     public function getAptSuiteAttribute() {
         return $this->address2;
     }
