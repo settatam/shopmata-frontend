@@ -1,35 +1,8 @@
 <?php
 
-use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\BrandsController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CustomersController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DiscountsController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImagesController;
-use App\Http\Controllers\OnlineStore\CodeEditorController;
-use App\Http\Controllers\OnlineStore\LocationController;
-use App\Http\Controllers\OnlineStore\NavigationController;
-use App\Http\Controllers\OnlineStore\OpenEditorPagesController;
-use App\Http\Controllers\OnlineStore\StoreUserController;
-use App\Http\Controllers\OnlineStore\ThemeController;
-use App\Http\Controllers\OrderCustomerNoteController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\PagesController;
-use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\Settings\EmailMarketingSettingsController;
-use App\Http\Controllers\Settings\GeneralController;
-use App\Http\Controllers\Settings\GiftCardsController;
-use App\Http\Controllers\Settings\NotificationsController;
-use App\Http\Controllers\Settings\PaymentsController;
-use App\Http\Controllers\Settings\PayoutSettingsController;
-use App\Http\Controllers\Settings\PlansAndPermissionsController;
-use App\Http\Controllers\ReportsController;
-
-
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\StoreDomainsController;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +17,6 @@ use Illuminate\Support\Facades\View;
 
 //Shopmata Routes
 
-use App\Http\Controllers\Shopmata\HomeController as ShopmataHomeController;
 use App\Http\Controllers\TokenController;
 
 /*
@@ -100,9 +72,6 @@ Route::get('pdf', [PDFController::class, 'index']);
 Route::get('login',           [LoginController::class,    'getLogin'])->name('login');
 Route::get('logout',          [LoginController::class,    'logout']);
 Route::post('logout',         [LoginController::class,    'logout']);
-Route::get('register/step-2', [RegisterController::class, 'registerStep2'])->name('register-step-2');
-Route::get('register/step-3', [RegisterController::class, 'registerStep3'])->name('register-step-3');
-Route::get('register',        [RegisterController::class, 'getRegister'])->name('register');
 Route::post('login',          [LoginController::class,    'authenticate']);
 Route::get('password/reset',  [LoginController::class,    'ForgotPassword']);
 Route::get('login/token',     [TokenController::class,    'loginWithToken']);
@@ -124,20 +93,6 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('initiate-store-registration', [HomeController::class, 'initializeStore']);
 });
 
-
-//Route::group(['middleware' => ['auth', 'verified']], function () {
-//
-//    Route::get('/', [HomeController::class, 'index'])->name('home');
-//
-//});
-
-
-
-//Route::get('check-migrations', function() {
-//   return response()->json([
-//       'tables' => \Illuminate\Support\Facades\DB::table('migrations')->get()
-//   ]);
-//});
 
 
 
