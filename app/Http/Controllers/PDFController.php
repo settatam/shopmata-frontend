@@ -21,7 +21,7 @@ class PDFController extends Controller
     {
         $transaction = Transaction::find($id);
         $store = Store::find(session()->get('store_id'));
-        dd($store->shippingAddress());
+        dd($transaction->customer->address);
         $shippingLabel = $transaction->getShippingLabel('to');
         dd($shippingLabel);
 
