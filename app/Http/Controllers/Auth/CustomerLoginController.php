@@ -58,10 +58,15 @@ class CustomerLoginController extends Controller
         if (null !== $customer) {
 //            if(Auth::guard()->attempt($credentials)) {
             if (Auth::loginUsingId($customer->id)) {
-                //return redirect('/transactions');
                 if($request->ajax()) {
                     return response()->json($customer);
+                }else{
+                    return redirect('/transactions');
                 }
+            }else{
+                return response()->json(['errors' => [
+                'Could not login the user'
+            ]], 422);
             }
         }else{
             return response()->json(['errors' => [
