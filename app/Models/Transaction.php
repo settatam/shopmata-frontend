@@ -875,10 +875,10 @@ class Transaction extends Model
 
         if ($direction == Shipping::SHIPPING_TYPE_FROM){
             $shipperAddress = $this->customer->address;
-            $recipientAddress = $this->store->shippingAddress;
+            $recipientAddress = $this->store->shippingAddress();
         }else if($direction == Shipping::SHIPPING_TYPE_TO) {
             $recipientAddress = $this->customer->address;
-            $shipperAddress = $this->store->address;
+            $shipperAddress = $this->store->shippingAddress();
         }
 
         if(!$recipientAddress || !$shipperAddress)  {
@@ -898,7 +898,7 @@ class Transaction extends Model
                     $labelType = ($is_return) ? ' return ' : '';
                     $note = sprintf(
                         '%s created a new %s shipping label %s with tracking number %s',
-                        Auth::guard('customer')->user()->full_name,
+                        Auth::guard()->user()->full_name,
                         $labelType,
                         $direction,
                         $shippingLabel->getTrackingNumber()

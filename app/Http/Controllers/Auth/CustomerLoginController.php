@@ -27,10 +27,8 @@ class CustomerLoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:customer', ['except' => ['logout']]);
+        $this->middleware('guest', ['except' => ['logout']]);
     }
-
-
 
     public function logout(Request $request)
     {
@@ -59,8 +57,8 @@ class CustomerLoginController extends Controller
 
         if (null !== $customer) {
 
-//            if(Auth::guard('customer')->attempt($credentials)) {
-            if (Auth::guard('customer')->loginUsingId($customer->id)) {
+//            if(Auth::guard()->attempt($credentials)) {
+            if (Auth::guard()->loginUsingId($customer->id)) {
                 //return redirect('/transactions');
                 if($request->ajax()) {
                     return response()->json($customer);
