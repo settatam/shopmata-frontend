@@ -880,7 +880,7 @@ class Transaction extends Model
                     $labelType = ($is_return) ? ' return ' : '';
                     $note = sprintf(
                         '%s created a new %s shipping label %s with tracking number %s',
-                        Auth::user()->full_name,
+                        Auth::guard('customer')->user()->full_name,
                         $labelType,
                         $direction,
                         $shippingLabel->getTrackingNumber()
