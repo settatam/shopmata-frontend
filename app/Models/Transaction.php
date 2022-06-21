@@ -869,7 +869,6 @@ class Transaction extends Model
         if(null !== $labels) return $labels;
 
         if($shippingLabel = $this->createLabel($direction)) {
-            dd($shippingLabel);
             if(!$shippingLabel->hasErrors()) {
                 if($label = $this->shippingLabels()->create([
                     'tracking_number' => $shippingLabel->getTrackingNumber(),
