@@ -24,7 +24,7 @@ class PDFController extends Controller
         $shippingLabel = $transaction->getShippingLabel('to');
         //base64Label
         $barcode = Barcode::generate($transaction);
-        $label = $shippingLabel->base64Label;
+        $label = $shippingLabel->raw_data;
 
         $view = \View::make('pages.pdf', compact('barcode', 'label'))->render();
 
