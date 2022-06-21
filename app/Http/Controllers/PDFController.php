@@ -17,12 +17,11 @@ class PDFController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function trackKit($id)
+    public function trackKit(Request $request, $id)
     {
         $transaction = Transaction::find($id);
         $store = Store::find(session()->get('store_id'));
         $shippingLabel = $transaction->getShippingLabel('to');
-        //base64Label
         $barcode = Barcode::generate($transaction);
         $label = $shippingLabel->raw_data;
 
@@ -32,7 +31,11 @@ class PDFController extends Controller
             $html2pdf = new Html2Pdf('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
             $html2pdf->pdf->SetDisplayMode('fullpage');
             $html2pdf->writeHTML($view);
-            $html2pdf->output('my-appraisal-kit.pdf');
+            if($request->has('download')) {
+                $html2pdf->output('my-appraisal-kit.pdf', 'D');
+            }else{
+                $html2pdf->output('my-appraisal-kit.pdf');
+            }
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);
