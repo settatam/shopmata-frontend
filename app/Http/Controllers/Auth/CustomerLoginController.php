@@ -56,7 +56,7 @@ class CustomerLoginController extends Controller
             ->first();
 
         if (null !== $customer) {
-
+            return response()->json('there is something here');
 //            if(Auth::guard()->attempt($credentials)) {
             if (Auth::guard()->loginUsingId($customer->id)) {
                 //return redirect('/transactions');
@@ -69,6 +69,10 @@ class CustomerLoginController extends Controller
                 'Authentication Failed'
             ]], 422);
         }
+
+        return response()->json(['errors' => [
+                'This email does not exist'
+            ]], 422);
 
         //return redirect('/customer/login');
     }
