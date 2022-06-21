@@ -58,13 +58,20 @@ class CustomerLoginController extends Controller
             ->first();
 
         if (null !== $customer) {
+            if($request->ajax()) {
+                return response()->json($customer);
+            }
 //            if(Auth::guard('customer')->attempt($credentials)) {
             if (Auth::guard('customer')->loginUsingId($customer->id)) {
                 return redirect('/transactions');
             }
+        }else{
+            return response()->json(['errors' => [
+                'Authentication Failed'
+            ]], 422);
         }
 
-        return redirect('/customer/login');
+        //return redirect('/customer/login');
     }
 
 }
