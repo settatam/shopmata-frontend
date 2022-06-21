@@ -61,16 +61,6 @@ class Customer extends Authenticatable
         return $this->id;
     }
 
-      /**
-     * Get the user's full name.
-     *
-     * @return string
-     */
-    public function getFullNameAttribute()
-    {
-        return "{$this->first_name} {$this->last_name}";
-    }
-
     public function addresses()
     {
         return $this->morphMany(Address::class, 'addressable');
