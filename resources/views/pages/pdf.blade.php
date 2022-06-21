@@ -5,7 +5,7 @@
     	<br/>
         {{ '' }}
 	    <br/>
-{{--    	<img src="https://buymygold.com/api/express-pdf?oid=<?php echo $oid; ?>&pass=<?php echo $pass; ?>&render=barcode" height="88" />--}}
+        <img src="data:image/png;base64, {{ $barcode }}" height="88"/>
     	<br/>
 
     </div>
@@ -20,7 +20,7 @@
 
 <page backtop="10mm" backbottom="10mm" style="font-size: 14pt">
 	<div align="center">
-{{--    	<img src="https://buymygold.com/api/express-pdf?oid=<?php echo $oid; ?>&pass=<?php echo $pass; ?>&render=fedex" width="690" />--}}
+        <img src="data:image/png;base64, {{ $label }}" width="690"/>
 		<br/>
 	</div>
 </page>
