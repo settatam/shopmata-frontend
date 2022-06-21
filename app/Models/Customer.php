@@ -32,6 +32,8 @@ class Customer extends Authenticatable
         'age'
     ];
 
+    protected $hidden = ['password'];
+
     protected $fillable = [
         'user_id',
         'store_id',
@@ -48,8 +50,26 @@ class Customer extends Authenticatable
         'home_phone_number',
         'ext',
         'customerDifficulty'
-
     ];
+
+     /**
+     * Returns an ID that can uniquely identify a user identity.
+     * @return string|int an ID that uniquely identifies a user identity.
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+      /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 
     public function addresses()
     {
