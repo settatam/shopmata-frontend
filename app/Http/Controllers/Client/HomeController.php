@@ -39,11 +39,11 @@ class HomeController extends Controller
 
             if($pageToFind == 'transactions') {
 
-                if(!Auth::guard()->check()) {
+                if(!Auth::check()) {
                     return redirect('customer/login');
                 }
 
-                $data['customer'] = Auth::guard()->user();
+                $data['customer'] = Auth::user();
                 $data['customer']->load('address');
                 $data['transactions'] = Transaction::with('images')
                     ->with('status')
@@ -54,12 +54,12 @@ class HomeController extends Controller
                     ->orderBy($sortBy, $orderBy)
                     ->get();
             }else if($pageToFind == 'thank-you.detail') {
-                if(!Auth::guard()->check()) {
+                if(!Auth::check()) {
                     return redirect('customer/login');
                 }
                 $data['store']->load('address');
                 $pageType = 'template';
-                $data['customer'] = Auth::guard()->user();
+                $data['customer'] = Auth::user();
                 $data['transaction'] = Transaction::with('images')
                     ->with('customer')
                     ->with('status')
@@ -68,12 +68,12 @@ class HomeController extends Controller
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
             }else if($pageToFind == 'transactions.detail') {
-                if(!Auth::guard()->check()) {
+                if(!Auth::check()) {
                     return redirect('customer/login');
                 }
 
                 $pageType = 'template';
-                $data['customer'] = Auth::guard()->user();
+                $data['customer'] = Auth::user();
                 $data['transaction'] = Transaction::with('images')
                     ->with('customer')
                     ->with('status')
@@ -90,12 +90,12 @@ class HomeController extends Controller
 
             }else if($pageToFind == 'my-settings' || $pageToFind == 'my-settings.details') {
 
-                if(!Auth::guard()->check()) {
+                if(!Auth::check()) {
                     return redirect('customer/login');
                 }
 
                 $data['states'] = State::where('country_id', 1)->get();
-                $data['customer'] = Auth::guard()->user();
+                $data['customer'] = Auth::user();
 
                 $transactionObj = Transaction::with('images')
                     ->with('customer')
@@ -117,7 +117,7 @@ class HomeController extends Controller
                 }
 
                 $pageType = 'template';
-                $customer = Auth::guard()->user();
+                $customer = Auth::user();
                 $customer->load('address', 'transactions.payment_address');
 
             }
@@ -135,12 +135,12 @@ class HomeController extends Controller
     }
 
     public function logout() {
-        Auth::guard('customer')->logout();
+        Auth::logout();
         return redirect('customer/login');
     }
 
     public function settings(Request $request){
-        $customer =  Auth::guard()->user();
+        $customer =  Auth::user();
         $input    = $request->all();
         $input['phone_number'] = $request->phone;
         $store = Store::find($customer->store_id);
@@ -269,8 +269,8 @@ class HomeController extends Controller
                 $customer = Customer::addNew($store, $input);
             }
 
-            if(!Auth::guard()->check()) {
-                Auth::guard()->loginUsingId($customer->id);
+            if(!Auth::check()) {
+                Auth::loginUsingId($customer->id);
             }
 
             $transaction = Transaction::createNew($store, $request, $customer);
