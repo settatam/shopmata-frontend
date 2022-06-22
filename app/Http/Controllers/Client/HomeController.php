@@ -271,12 +271,15 @@ class HomeController extends Controller
             }
 
             $address = $customer->address()->firstOrNew([
+                'first_name' => data_get('first_name'),
+                'last_name' => data_get('last_name'),
                 'address' => data_get($input, 'address'),
                 'address2' => data_get($input, 'address2'),
                 'state' => data_get($input, 'state'),
                 'country_id' => 1,
                 'zip' => data_get($input, 'zip'),
-                'phone' => data_get($input, 'phone')
+                'phone' => data_get($input, 'phone'),
+                'state_id' => Helper::getStateId(data_get($input, 'state'))
             ]);
 
             $address->save();
