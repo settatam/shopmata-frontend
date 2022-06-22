@@ -63,6 +63,8 @@ class EventNotification
 
         if(count($storeNotificationMessages)) {
 
+            $messageData['is_customer'] = $storeNotificationMessages[0]->store_notification->is_customer;
+
             $this->data['store']->load('address');
             $messageData['store'] = $this->data['store'];
             $messageData['user'] = isset($this->data['user']) ? $this->data['user'] : NULL;
@@ -72,19 +74,19 @@ class EventNotification
 
             foreach($storeNotificationMessages as $storeNotificationMessage) {
                 //Check to see if the message is for customer or for a user ...
-                if($storeNotificationMessage->is_customer && null === $this->data['customer']) {
-                    throw new \Exception('You need a customer object');
-                }
-
-                if(!$storeNotificationMessage->is_customer && null === $this->data['user']) {
-                    throw new \Exception('You need a user or customer object');
-                }
+//                if($storeNotificationMessage->is_customer && null === $this->data['customer']) {
+//                    throw new \Exception('You need a customer object');
+//                }
+//
+//                if(!$storeNotificationMessage->is_customer && null === $this->data['user']) {
+//                    throw new \Exception('You need a user or customer object');
+//                }
 
                 switch ($storeNotificationMessage->channel) {
                     case 'email':
                         if($storeNotificationMessage->message) {
                             $messageData['notification_id'] = $storeNotificationMessage->id;
-                            $messageData['to'] = ($storeNotificationMessage->is_customer) ? $this->data['customer']->email : $this->data['user']->email;
+                            $messageData['to'] = ($storeNotificationMessage->store_notification->is_customer) ? $this->data['customer']->email : $this->data['user']->email;
                             $messageData['subject'] = ThemeFile::generateParsedContent($storeNotificationMessage->email_subject, $messageData);
                             $messageData['content_for_email'] = ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData);
                             $emailTemplate = ThemeFile::getTemplateFor($this->data['store'], 'email');
@@ -97,6 +99,7 @@ class EventNotification
                         if($storeNotificationMessage->message) {
                             $messageData['parsed_message'] = html_entity_decode(ThemeFile::generateParsedContent($storeNotificationMessage->message, $messageData));
                             $messageData['notification_id'] = $storeNotificationMessage->id;
+                            $messageData['is_customer'] = $storeNotificationMessage->is_customer;
                             $this->sendSMS($messageData);
                         }
                         break;
@@ -134,12 +137,18 @@ class EventNotification
         }
 
         if(env('APP_ENV') != 'production') {
-            $data['customer']->phone_number = '2679809681';
+            if($data['is_customer']) {
+                $data['customer']->phone_number = env('DEVELOPER_PHONE', '2679809681');
+            }else{
+                $data['user']->phone_number = env('DEVELOPER_PHONE', '2679809681');;
+                $data['customer'] = $data['user'];
+            }
+
         }
 
-        if(is_null($data['customer']->phone_number)) {
-            return;
-        }
+//        if(is_null($data['customer']->phone_number)) {
+//            return;
+//        }
 
         //Create a class to send the SMS and call the sender statically ...
         $smsSender = new SmsManager($data['store']);
