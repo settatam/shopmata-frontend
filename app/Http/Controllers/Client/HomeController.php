@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\Helper;
 use App\Models\Store;
 use App\Models\StorePage;
 use Illuminate\Http\Request;
@@ -268,6 +269,17 @@ class HomeController extends Controller
             if(null === $customer) {
                 $customer = Customer::addNew($store, $input);
             }
+
+            $address = $customer->address()->firstOrNew([
+                'address' => data_get($input, 'address'),
+                'address2' => data_get($input, 'address2'),
+                'state' => data_get($input, 'state'),
+                'country_id' => 1,
+                'zip' => data_get($input, 'zip'),
+                'phone' => data_get($input, 'phone')
+            ]);
+
+            $address->save();
 
             if(!Auth::check()) {
                 Auth::loginUsingId($customer->id);
