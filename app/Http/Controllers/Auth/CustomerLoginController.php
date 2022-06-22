@@ -44,7 +44,7 @@ class CustomerLoginController extends Controller
 
     public function loginWithToken(Request $request) {
         if($request->has('token')) {
-            $tokenExists = LoginToken::where('token', $request->token)->where('is_active', 1);
+            $tokenExists = LoginToken::where('token', $request->token)->where('is_active', 1)->first();
             if(null !== $tokenExists) {
                 if($tokenExists->tokenable_type === Customer::class) {
                     if(Auth::loginUsingId($tokenExists->tokenable_id)) {
