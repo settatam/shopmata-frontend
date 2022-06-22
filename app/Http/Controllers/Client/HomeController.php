@@ -271,8 +271,8 @@ class HomeController extends Controller
             }
 
             $address = $customer->address()->firstOrNew([
-                'first_name' => data_get('first_name'),
-                'last_name' => data_get('last_name'),
+                'first_name' => data_get($input, 'first_name'),
+                'last_name' => data_get($input, 'last_name'),
                 'address' => data_get($input, 'address'),
                 'address2' => data_get($input, 'address2'),
                 'state' => data_get($input, 'state'),
