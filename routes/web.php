@@ -41,6 +41,7 @@ use App\Http\Controllers\TokenController;
 //
 //};
 
+Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginWithToken']);
 
 //Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('transactions/{id}/track-my-kit', [PDFController::class, 'trackKit']);

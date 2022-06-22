@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoginToken;
 use Illuminate\Http\Request;
 
 use App\Models\Login;
@@ -39,6 +40,22 @@ class CustomerLoginController extends Controller
         $request->session()->regenerate();
 
         return redirect('/login');
+    }
+
+    public function loginWithToken(Request $request) {
+        if($request->has('token')) {
+            $tokenExists = LoginToken::where('token', $request->token)->where('is_active', 1);
+            if(null !== $tokenExists) {
+                if($tokenExists->tokenable_type === Customer::class) {
+                    if(Auth::loginUsingId($tokenExists->tokenable_id)) {
+                        $tokenExists->is_active = 0;
+                        $tokenExists->save();
+                        return redirect('/transactions');
+                    }
+                }
+            }
+        }
+        return redirect('/customer/login');
     }
 
     public function customerLogin(Request $request)
