@@ -21,6 +21,8 @@ class Fedex extends Shipping
     protected $packagingType = '';
     protected $specialServices = [];
     public $errors = [];
+    protected $customer_references = [];
+    protected $invoiceNumber;
 
 
     public function verifyAddress() {
@@ -209,7 +211,7 @@ class Fedex extends Shipping
         return [
             'mergeLabelDocOption' =>  'LABELS_ONLY', //"NONE" "LABELS_AND_DOCS" "LABELS_ONLY"
             'requestedShipment' => [
-                'shipDatestamp' => date('Y-m-d H:i:s'), //Date
+                'shipDatestamp' => $this->getShippingDate(), //Date
                 'totalDeclaredValue' => [
                     'amount' => $this->getDeclaredValue(),
                     'currency' => $this->getCurrency(),
@@ -243,13 +245,31 @@ class Fedex extends Shipping
     protected function getRequestedPackageLineItems() {
         return [
                     [
-                        'sequenceNumber' => 1,
-                            'weight' => [
-                                'units' => 'LB',
-                                'value' => 1
-                            ]
+//                        'sequenceNumber' => 1,
+                        'weight' => [
+                            'units' => 'LB',
+                            'value' => 1
+                        ],
+                        'customerReferences' => $this->getInvoiceReference()
                     ]
             ];
+    }
+
+    public function setInvoiceNumber($value) {
+        $this->invoiceNumber = $value;
+    }
+
+    public function getInvoiceReference() : array {
+        return [
+            [
+                'customerReferenceType' => 'INVOICE_NUMBER',
+                'value' => $this->invoiceNumber
+            ]
+        ];
+    }
+
+    public function setShippingDate($value) {
+        $this->shippingDate = $value;
     }
 
     protected function getLabelSpecification() {

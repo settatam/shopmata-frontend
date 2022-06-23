@@ -31,7 +31,8 @@ class Shipping
     protected $currency;
     protected $totalWeight;
     protected $isTest = false;
-    protected $hasErrors = false;
+    public $hasErrors = false;
+    protected $shippingDate;
 
     public function setSenderName($value) {
         $this->senderName = $value;
@@ -215,6 +216,20 @@ class Shipping
 
     public function hasErrors() {
         return $this->hasErrors;
+    }
+
+    public function getShippingDate() {
+        //Ensure date is not in the past
+
+        if(!$this->shippingDate) {
+            return date('Y-m-d');
+        }
+
+        return $this->shippingDate;
+    }
+
+    public function setShippingDate($value) {
+        $this->shippingDate = $value;
     }
 
 }
