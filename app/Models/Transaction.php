@@ -851,7 +851,7 @@ class Transaction extends Model
         return $this->hasOne(ShippingLabel::class)->where('type',  Shipping::SHIPPING_TYPE_TO);
     }
 
-    public function getShippingLabel($direction, $is_return=false) {
+    public function getShippingLabel($direction, $is_return=false, $shippingDate=null) {
 
         if($direction != 'to' && $direction != 'from') return 'Direction must be to customer or from customer';
 
@@ -887,7 +887,7 @@ class Transaction extends Model
             return $label;
         }
 
-        if($shippingLabel = $this->createLabel($shipperAddress, $recipientAddress)) {
+        if($shippingLabel = $this->createLabel($shipperAddress, $recipientAddress, $shippingDate)) {
             if(!$shippingLabel->hasErrors()) {
                 if($label = $this->shippingLabels()->create([
                     'tracking_number' => $shippingLabel->getTrackingNumber(),
@@ -898,7 +898,7 @@ class Transaction extends Model
                     $labelType = ($is_return) ? ' return ' : '';
                     $note = sprintf(
                         '%s created a new %s shipping label %s with tracking number %s',
-                        Auth::guard()->user()->full_name,
+                        Auth::user()->full_name,
                         $labelType,
                         $direction,
                         $shippingLabel->getTrackingNumber()
@@ -928,9 +928,14 @@ class Transaction extends Model
 
     }
 
-    public function createLabel(Address $shipperAddress, Address $recipientAddress)
+    public function createLabel(Address $shipperAddress, Address $recipientAddress, $shippingDate)
     {
+        if(!$shippingDate) $shippingDate = date('Y-m-d');
+
         $fedex = new Fedex();
+
+        $fedex->setShippingDate($shippingDate);
+        $fedex->setInvoiceNumber($this->id);
         $fedex->setShipper($shipperAddress);
         $fedex->setRecipient($recipientAddress);
 
@@ -944,7 +949,6 @@ class Transaction extends Model
         }
 
     }
-
 
     public function hasHistory($value) {
         return $this->histories()->where('event', $value)->first();
