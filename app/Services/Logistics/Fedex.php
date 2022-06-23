@@ -277,7 +277,7 @@ class Fedex extends Shipping
 				'labelFormatType' => 'COMMON2D', // valid values COMMON2D, LABEL_DATA_ONLY
 				'imageType' => 'PNG',  // valid values DPL, EPL2, PDF, ZPLII and PNG
 				//'labelStockType' => 'PAPER_4X6'
-                'labelStockType' => 'PAPER_8.5X11_TOP_HALF_LABEL'
+                'labelStockType' => 'PAPER_85X11_BOTTOM_HALF_LABEL'
         ];
     }
 
