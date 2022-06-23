@@ -22,7 +22,7 @@ class PDFController extends Controller
     {
         $transaction = Transaction::find($id);
         $store = Store::find(session()->get('store_id'));
-        $shippingLabel = $transaction->getShippingLabel('to');
+        $shippingLabel = $transaction->getShippingLabel('from');
         $barcode = Barcode::generate($transaction);
         $label = $shippingLabel->raw_data;
 
