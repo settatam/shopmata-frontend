@@ -490,10 +490,13 @@ class Transaction extends Model
             if(!is_array($photos)) {
                 $photos = explode(',', $request->photos);
             }
-            foreach ( $photos  as $photo) {
+            foreach ( $photos  as $index => $photo) {
                 if ($photo) {
-                    $imgs = new Image(['url' => $photo, 'rank' => 1]);
-                    $transaction->images()->save($imgs);
+//                    $imgs = new Image(['url' => $photo, 'rank' => 1]);
+                    $transaction->images()->create([
+                        'url' => $photo,
+                        'rank' => $index
+                    ]);
                 }
             }
         }

@@ -15,7 +15,14 @@ class Image extends Model
 
     protected $table = "images";
 
-    protected $fillable = ['url', 'rank', 'image','imageable_type','imageable_id','thumbnail'];
+    protected $fillable = [
+        'url',
+        'rank',
+        'image',
+        'imageable_type',
+        'imageable_id',
+        'thumbnail'
+    ];
 
     public function imageable()
     {
@@ -29,11 +36,11 @@ class Image extends Model
             $class = "\App\Models\\".$request->model;
             if (class_exists($class)) {
                 return (new $class())->addImage($store, $request);
-            } else { 
+            } else {
                 return false;
             }
-              
-        } 
+
+        }
         return $response;
     }
 
@@ -42,7 +49,7 @@ class Image extends Model
     {
         if ($request->filled('image_id')){
             $image =  self::find($request->image_id);
-            
+
         } elseif($request->filled('image_url')) {
             Storage::disk('DO')->delete($request->image_url);
             Storage::disk('DO')->delete($request->image_url.'_thumb');
