@@ -476,6 +476,7 @@ class Transaction extends Model
 
 
     static function createNew(Store $store, $request, Customer $customer) {
+        dd($request->input());
         $transaction = new self;
         $transaction->status_id = Status::PENDING_KIT_REQUEST;
         $transaction->customer_id = $customer->id;//Customer id
@@ -484,6 +485,7 @@ class Transaction extends Model
         $transaction->store_id = $store->id;
         $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
         $transaction->save();
+
 
         if ( !empty( $request->photos )  ) {
             $photos = $request->photos;
