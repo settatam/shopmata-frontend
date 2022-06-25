@@ -476,7 +476,6 @@ class Transaction extends Model
 
 
     static function createNew(Store $store, $request, Customer $customer) {
-        dd($request->input());
         $transaction = new self;
         $transaction->status_id = Status::PENDING_KIT_REQUEST;
         $transaction->customer_id = $customer->id;//Customer id
@@ -484,21 +483,21 @@ class Transaction extends Model
         $transaction->payment_method_id = $transaction->payment;
         $transaction->store_id = $store->id;
         $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
+        $transaction->comments = $request->description;
         $transaction->save();
 
 
         if ( !empty( $request->photos )  ) {
             $photos = $request->photos;
-            if(!is_array($photos)) {
-                $photos = explode(',', $request->photos);
-            }
-            foreach ( $photos  as $index => $photo) {
+            foreach ( $request->photos  as $index => $photo) {
                 if ($photo) {
-//                    $imgs = new Image(['url' => $photo, 'rank' => 1]);
-                    $transaction->images()->create([
-                        'url' => $photo,
-                        'rank' => $index
-                    ]);
+                    $photos = explode(',', $photo);
+                    foreach($photos as $img) {
+                        $transaction->images()->create([
+                            'url' => $img,
+                            'rank' => $index
+                        ]);
+                    }
                 }
             }
         }
