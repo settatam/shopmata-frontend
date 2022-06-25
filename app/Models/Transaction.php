@@ -486,7 +486,11 @@ class Transaction extends Model
         $transaction->save();
 
         if ( !empty( $request->photos )  ) {
-            foreach ( $request->photos  as $photo) {
+            $photos = $request->photos;
+            if(!is_array($photos)) {
+                $photos = explode(',', $request->photos);
+            }
+            foreach ( $photos  as $photo) {
                 if ($photo) {
                     $imgs = new Image(['url' => $photo, 'rank' => 1]);
                     $transaction->images()->save($imgs);
