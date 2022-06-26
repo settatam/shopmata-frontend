@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Helpers\Helper;
 use Carbon\Carbon;
 use App\Traits\FileUploader;
+use Auth;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Numeral\Numeral;
@@ -338,6 +339,15 @@ class Customer extends Authenticatable
 
     public function loginToken() {
         return $this->morphOne(LoginToken::class, 'tokenable')->where('is_active', 1);
+    }
+
+    public static function loginUsingToken($token) {
+        $tokenExists = LoginToken::whereHas('customer')->where('token', $token)->first();
+        if($tokenExists) {
+            Auth::LoginUsingId($token->customer->id);
+            return Auth::user();
+        }
+        return false;
     }
 
 }

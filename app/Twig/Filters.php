@@ -20,6 +20,10 @@ class Filters extends AbstractExtension
             new TwigFilter('money_format', [$this, 'moneyFormat']),
             new TwigFilter('status_note', [$this, 'statusNote']),
             new TwigFilter('status_length', [$this, 'statusLength']),
+            new TwigFilter('salutation', [$this, 'salutation']),
+            new TwigFilter('return_label', [$this, 'returnLabel']),
+            new TwigFilter('kit_by_mail', [$this, 'kitByMail']),
+            new TwigFilter('kit_by_print', [$this, 'kitByPrint']),
         ];
     }
 
@@ -28,7 +32,32 @@ class Filters extends AbstractExtension
       return count(explode(' ', $sentence));
     }
 
-    public function payment_type($transaction) {
+    public static function returnLabel($transaction) {
+        $label = $transaction->getReturnLabel();
+        $trackingNumber = null;
+        if(null !== $label) {
+           $trackingNumber =  $label->tracking_number;
+           return sprintf('Your tracking number is: <a href="https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=%s"', $label->tracking_number);
+        }
+
+        return '';
+    }
+
+    public static function salutation($store) {
+        $store->load('address');
+        $store->load('meta');
+        return sprintf('<p>Sincerely, </p> %s Team <br> %s %s <br> %s %s %s',
+            $store->getMeta('shipping_display_name'),
+            $store->address->street_address,
+            $store->address->apt_suite,
+            $store->address->city,
+            $store->address->resolvedState->code,
+            $store->address->zip
+        );
+    }
+
+    public function payment_type($store) {
+
 
     }
 
@@ -50,13 +79,31 @@ class Filters extends AbstractExtension
         );
     }
 
-    public function accept($button) {
+    public static function accept($button) {
         return '<button> This is my accept button </button>';
     }
 
-    public function reject($button) {
+    public static function reject($button) {
         return '<button> THis is the reject button</button>';
     }
+
+    public static function kitByMail($transaction) {
+        //create login token ...
+        $text = 'Mail My Free Appraisal Kit';
+        $url = $transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
+        return self::mail_button($text, $url);
+    }
+
+    public static function kitByPrint($transaction) {
+        //create login token ...
+        $text = 'Print Your Free Appraisal Kit';
+        $url = $transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
+        return self::mail_button($text, $url);
+    }
+
+    public static function mail_button($text,$url='#',$background='#dbf0f1',$textcolor='#000000',$border='#0066aa') {
+		return '<a style="background: '.$background.';border: 1px solid '.$border.';box-shadow: inset 1px 1px 0px #fff1cb;color: '.$textcolor.';display: inline-block;vertical-align: middle;padding: 0px 2em;font-size: 13px;line-height: 34px;text-decoration: none;border-radius: 3px;margin-bottom:5px;outline: none;cursor: pointer;text-transform: none;font-weight: normal;" href="'.$url.'">&nbsp;'.$text.'&nbsp;</a>';
+	}
 
     public function moneyFormat($money) {
         return Numeral::number($money)->format('$0,0.00');
