@@ -67,6 +67,7 @@ class Customer extends Authenticatable
         return $this->morphMany(Address::class, 'addressable');
     }
 
+
     public function address()
     {
         return $this->morphOne(Address::class, 'addressable');
@@ -313,12 +314,12 @@ class Customer extends Authenticatable
         return '';
     }
 
-    public function generateLoginTokenForEmail(Store $store) {
+    public function generateLoginTokenForEmail() {
         $token = null;
         if($token = LoginToken::createNew($this, 'email', '600')) {
             $sender = (new EventNotification('Email Login Token', [
                 'customer' => $this,
-                'store' => $store,
+                'store' => $this->store,
                 'token' => $token
             ], ['for' => 'customer']));
         }
@@ -342,9 +343,11 @@ class Customer extends Authenticatable
     }
 
     public static function loginUsingToken($token) {
-        $tokenExists = LoginToken::whereHas('customer')->where('token', $token)->first();
-        if($tokenExists) {
-            Auth::LoginUsingId($token->customer->id);
+        $token = LoginToken::whereHas('customer')->where('token', $token)->first();
+        if(null !== $token) {
+            if(Auth::LoginUsingId($token->customer->id)) {
+                //session()->put('store_id', Auth::user()->store->id);
+            }
             return Auth::user();
         }
         return false;

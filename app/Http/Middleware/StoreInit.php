@@ -2,12 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Customer;
 use App\Models\Store;
 use App\Models\StoreDomain;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
+use Auth;
 
 class StoreInit
 {
@@ -27,7 +29,15 @@ class StoreInit
         ];
 
 
-        if(env('APP_ENV') !== 'development') {
+        if($request->token && !Auth::check()) {
+            if($customer = Customer::loginUsingToken($request->token)) {
+                //Customer is logged in
+            }else{
+                abort(404);
+            }
+        }
+
+        //if(env('APP_ENV') !== 'development') {
 
             $url = URL::to('/');
             $storeDomain = StoreDomain::with('store')->where('name', $url)->first();
@@ -52,7 +62,7 @@ class StoreInit
 //                  abort(404);
 //                }
 //            }
-        }
+        //}
         return $next($request);
     }
 }
