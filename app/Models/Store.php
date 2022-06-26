@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Scopes\StoreScope;
 use Illuminate\Support\Str;
+use App\Traits\HasMeta;
 
 class Store extends Model
 {
-    use HasFactory;
+    use HasFactory, HasMeta;
 
     protected $fillable = [
                             'user_id',

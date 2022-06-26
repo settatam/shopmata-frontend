@@ -97,7 +97,7 @@ class Filters extends AbstractExtension
     public static function kitByMail($transaction) {
         //create login token ...
         $text = 'Mail My Free Appraisal Kit';
-        $url = $transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
+        $url = 'https://'.$transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
         return self::mail_button($text, $url);
     }
 
