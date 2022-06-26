@@ -24,6 +24,7 @@ class Filters extends AbstractExtension
             new TwigFilter('return_label', [$this, 'returnLabel']),
             new TwigFilter('kit_by_mail', [$this, 'kitByMail']),
             new TwigFilter('kit_by_print', [$this, 'kitByPrint']),
+            new TwigFilter('payment_information', [$this, 'paymentInformation']),
         ];
     }
 
@@ -85,6 +86,12 @@ class Filters extends AbstractExtension
 
     public static function reject($button) {
         return '<button> THis is the reject button</button>';
+    }
+
+    public static function paymentInformation($transaction) {
+        $text = 'Access Your Payment Method';
+        $url = $url = $transaction->store->store_domain . '/my-settings';
+        return self::mail_button($text, $url);
     }
 
     public static function kitByMail($transaction) {
