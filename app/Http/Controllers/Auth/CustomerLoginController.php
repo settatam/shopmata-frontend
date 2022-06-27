@@ -81,11 +81,11 @@ class CustomerLoginController extends Controller
                         ->update(['engageable_id' => Auth::id()]);
                 }
                 return response()->json($customer);
-                if($request->ajax()) {
-                    return response()->json($customer);
-                }else{
-                    return redirect('/transactions');
-                }
+//                if($request->ajax()) {
+//                    return response()->json($customer);
+//                }else{
+//                    return redirect('/transactions');
+//                }
             }else{
                 return response()->json(['errors' => [
                 'Could not login the user'

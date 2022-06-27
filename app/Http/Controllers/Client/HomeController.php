@@ -188,7 +188,7 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($account, $id)
+    public function show($id)
     {
         //
         if(session()->has('store_id')) {
@@ -229,7 +229,7 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($account, Request $request, $id)
+    public function update(Request $request, $id)
     {
         $transaction = Transaction::find($id);
         return $transaction->doUpdate($request->input());
