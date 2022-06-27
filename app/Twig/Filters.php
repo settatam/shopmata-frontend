@@ -17,6 +17,8 @@ class Filters extends AbstractExtension
             new TwigFilter('address', [$this, 'address']),
             new TwigFilter('accept', [$this, 'accept']),
             new TwigFilter('reject', [$this, 'reject']),
+            new TwigFilter('link', [$this, 'link']),
+            new TwigFilter('mail_heading', [$this, 'mailHeading']),
             new TwigFilter('money_format', [$this, 'moneyFormat']),
             new TwigFilter('status_note', [$this, 'statusNote']),
             new TwigFilter('status_length', [$this, 'statusLength']),
@@ -80,24 +82,36 @@ class Filters extends AbstractExtension
         );
     }
 
-    public static function accept($button) {
-        return '<button> This is my accept button </button>';
+    public static function accept($transaction) {
+        $store = $transaction->store;
+        $token = $transaction->customer->generateLoginTokenForEmail(false);
+        $url = 'https://' . $store->store_domain . '/transactions/' . $transaction->id . '?accept=1&token='.$token->token;
+        return self::mail_button('SELL', $url);
     }
 
-    public static function reject($button) {
-        return '<button> THis is the reject button</button>';
+    public static function link($transaction) {
+        $store = $transaction->store;
+        $token = $transaction->customer->generateLoginTokenForEmail(false);
+        return 'https://' . $store->store_domain . '/transactions/' . $transaction->id . '?token='.$token->token;
+    }
+
+    public static function reject($transaction) {
+        $store = $transaction->store;
+        $token = $transaction->customer->generateLoginTokenForEmail(false);
+        $url = 'https://' . $store->store_domain . '/transactions/' . $transaction->id . '?decline=1&token='.$token->token;
+        return self::mail_button('DENY', $url, '#bcbec0','#FFFFFF','#555555');
     }
 
     public static function paymentInformation($transaction) {
         $text = 'Access Your Payment Method';
-        $url = $url = $transaction->store->store_domain . '/my-settings';
+        $url = $transaction->store->store_domain . '/my-settings';
         return self::mail_button($text, $url);
     }
 
     public static function kitByMail($transaction) {
         //create login token ...
         $text = 'Mail My Free Appraisal Kit';
-        $url = 'https://'.$transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
+        $url = $transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
         return self::mail_button($text, $url);
     }
 
@@ -106,6 +120,12 @@ class Filters extends AbstractExtension
         $text = 'Print Your Free Appraisal Kit';
         $url = $transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
         return self::mail_button($text, $url);
+    }
+
+    public function mailHeading($text) {
+        return sprintf('<p style="margin: 15px 0"><span style="text-decoration: underline; font-weight: bold; font-size: 20px">%s</span></p>',
+            $text
+        );
     }
 
     public static function mail_button($text,$url='#',$background='#dbf0f1',$textcolor='#000000',$border='#0066aa') {
