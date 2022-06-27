@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\Customer;
+use App\Models\StoreEngagement;
 
 class CustomerLoginController extends Controller
 {
