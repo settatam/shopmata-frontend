@@ -19,7 +19,7 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
 
-    protected $redirectTo = '/admin/dashboard';
+    protected $redirectTo = '/transactions';
 
     /**
      * Create a new controller instance.
@@ -32,13 +32,14 @@ class LoginController extends Controller
         //$this->middleware('guest:customer', ['except' => ['logout']]);
     }
 
-
-
     public function getLogin() {
-        return \Inertia\Inertia::render('Login');
+        $store = Store::find(session()->get('store_id'));
+        $pageToFind = 'login';
+        $pageType = 'template';
+        $data = [];
+        $page = $store->pageContent($pageToFind, $data, $pageType);
+        return view('pages.index', compact('page'));
     }
-
-
 
     public function ForgotPassword(){
         return \Inertia\Inertia::render('Auth/ForgotPassword');
@@ -65,7 +66,7 @@ class LoginController extends Controller
             ->first();
 
         if(null !== $customer) {
-            if(Auth::guard('customer')->attempt($credentials)) {
+            if(Auth::attempt($credentials)) {
                 //
                 dd('We are authenticated');
             }else{

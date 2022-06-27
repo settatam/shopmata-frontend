@@ -54,7 +54,8 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('my-settings/{id}', [ClientHomeController::class, 'index']);
     Route::post('my-settings',     [ClientHomeController::class, 'settings']);
     Route::get('track-my-kit', [ClientHomeController::class, 'index']);
-    Route::get('customer/login', [ClientHomeController::class, 'index'])->name('customer.login');
+    Route::get('customer/login', [CustomerLoginController::class, 'getLogin'])->name('customer.login');
+    Route::get('login', [CustomerLoginController::class, 'getLogin'])->name('customer.login');
     Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');
     Route::post('customer/login', [CustomerLoginController::class, 'customerLogin']);
     Route::get('thank-you', [ClientHomeController::class, 'index']);
@@ -71,7 +72,6 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
 
 
 
-Route::get('login',           [LoginController::class,    'getLogin'])->name('login');
 Route::get('logout',          [LoginController::class,    'logout']);
 Route::post('logout',         [LoginController::class,    'logout']);
 Route::post('login',          [LoginController::class,    'authenticate']);

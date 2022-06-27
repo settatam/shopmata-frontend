@@ -345,7 +345,7 @@ class Customer extends Authenticatable
     public static function loginUsingToken($token, $is_test=false) {
 
         if($is_test) {
-            if(Auth::LoginUsingId(3032)) {
+            if(Auth::LoginUsingId(704)) {
                 //session()->put('store_id', Auth::user()->store->id);
             }
             return Auth::user();
