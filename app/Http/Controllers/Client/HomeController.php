@@ -75,7 +75,7 @@ class HomeController extends Controller
 
                 $pageType = 'template';
                 $data['customer'] = Auth::user();
-                $data['transaction'] = Transaction::with('images')
+                $transaction = Transaction::with('images')
                     ->with('customer')
                     ->with('status')
                     ->withFinalOffer()
@@ -88,6 +88,18 @@ class HomeController extends Controller
                     //->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
+
+                if($request->has('accept') && $request->accept == 1) {
+                    $transaction->doUpdate([
+                        'status_id' => 5
+                    ]);
+                }else if($request->has('deny') && $request->deny == 1) {
+                    $transaction->doUpdate([
+                        'status_id' => 6
+                    ]);
+                }
+
+                $data['transaction'] = $transaction;
 
             }else if($pageToFind == 'my-settings' || $pageToFind == 'my-settings.details') {
 

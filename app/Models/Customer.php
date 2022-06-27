@@ -30,7 +30,8 @@ class Customer extends Authenticatable
         'activation_status',
         'timezone',
         'transaction_count',
-        'age'
+        'age',
+        'full_name'
     ];
 
     protected $hidden = ['password'];
