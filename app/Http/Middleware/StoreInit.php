@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use Auth;
+use Browser;
+use App\Models\StoreEngagement;
+use App\Models\StoreEngagementPage;
 
 class StoreInit
 {
@@ -37,32 +40,38 @@ class StoreInit
             }
         }
 
-        //if(env('APP_ENV') !== 'development') {
+        $url = URL::to('/');
+        $storeDomain = StoreDomain::with('store')->where('name', $url)->first();
 
-            $url = URL::to('/');
-            $storeDomain = StoreDomain::with('store')->where('name', $url)->first();
+        if(null !== $storeDomain) {
+            $store = $storeDomain->store;
+            session()->put('store_id', $storeDomain->store->id);
 
-            if(null !== $storeDomain) {
-                $store = $storeDomain->store;
-                session()->put('store_id', $storeDomain->store->id);
-            }else{
-                abort(404);
-            }
+            if ($request->session()->has('store_engagement_id')) {
+                    $store_engagement_id = session('store_engagement_id');
+                    $data_pages = [
+                        'store_engagement_id' => $store_engagement_id,
+                        'page_url' => $request->path(),
+                        'query_params' => json_encode($request->all())
+                    ];
+                    StoreEngagementPage::createOrUpdate($data_pages);
+                }else{
+                    $store_engagement = StoreEngagement::createOrUpdate($data, null);
+                    if (null !== $store_engagement) {
+                        session(['store_engagement_id' => $store_engagement->id]);
+                        $data_pages = [
+                            'store_engagement_id' => $store_engagement->id,
+                            'page_url' => $request->path(),
+                            'query_params' => json_encode($request->all())
+                        ];
+                        StoreEngagementPage::createOrUpdate($data_pages);
+                    }
+                }
 
-//            Request::macro('subdomain', function () {
-//                return current(explode('.', $this->getHost()));
-//            });
+        }else{
+            abort(404);
+        }
 
-//            if($subdomain = $request->subdomain()) {
-//                if(in_array($subdomain, $protectedUrls)) return $next($request);
-//                $storeDomain = Store::where('slug', $subdomain)->first();
-//                if(null !== $storeDomain) {
-//                    session()->put('store_id', $storeDomain->id);
-//                }else{
-//                  abort(404);
-//                }
-//            }
-        //}
         return $next($request);
     }
 }

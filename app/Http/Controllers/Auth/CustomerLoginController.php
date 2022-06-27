@@ -75,6 +75,10 @@ class CustomerLoginController extends Controller
         if (null !== $customer) {
 //            if(Auth::guard()->attempt($credentials)) {
             if (Auth::loginUsingId($customer->id)) {
+                if($request->session()->has('store_engagement_id')) {
+                    StoreEngagement::find($request->session()->get('store_engagement_id'))
+                        ->update(['engageable_id' => Auth::id()]);
+                }
                 if($request->ajax()) {
                     return response()->json($customer);
                 }else{
