@@ -34,7 +34,6 @@ class CustomerLoginController extends Controller
 
     public function getLogin() {
         $store = Store::find(session()->get('store_id'));
-        dd($store);
         $pageToFind = 'customer.login';
         $pageType = 'page';
         $data = [];
