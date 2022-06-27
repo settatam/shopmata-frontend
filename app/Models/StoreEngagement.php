@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Browser;
 use Auth;
-use Customer;
+use App\Models\Customer;
 
 class StoreEngagement extends Model
 {
