@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Browser;
 use Auth;
-use User;
+use Customer;
 
 class StoreEngagement extends Model
 {
@@ -51,7 +51,7 @@ class StoreEngagement extends Model
             'platform'         => Browser::platformName(),
             'platform_version' => Browser::platformVersion(),
             'device_family'    => Browser::deviceFamily(),
-            'engageable_type' => User::class,
+            'engageable_type' => Customer::class,
             'engageable_id' => Auth::check() ? Auth::id() : null,
             'ip_address' => $ip,
             'store_id' => $store_id,
