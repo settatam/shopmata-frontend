@@ -80,6 +80,7 @@ class CustomerLoginController extends Controller
                     StoreEngagement::find($request->session()->get('store_engagement_id'))
                         ->update(['engageable_id' => Auth::id()]);
                 }
+                return response()->json($customer);
                 if($request->ajax()) {
                     return response()->json($customer);
                 }else{
