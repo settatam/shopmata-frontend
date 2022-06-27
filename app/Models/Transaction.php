@@ -726,16 +726,13 @@ class Transaction extends Model
             //convert back to an array
             if($this->update($this->input)) {
 
-                $this->updateDeclinedOffer();
-                $this->updateAcceptedOffer();
-                $this->updateRejectedOffer();
-
                 //Log the update
                 $changes = $this->getChanges();
                 if(count($changes)) {
                     $dd = $this->addActivity($currentObj, $changes);
                 }
                 $this->load('trStatus');
+                $this->load('publicnote.images');
                 foreach($this->getChanges() as $index => $input) {
                     //Create Activity Entry
                     $checkForEvent = EventCondition::check(get_class(), $index, $input, 'updated');
@@ -754,6 +751,10 @@ class Transaction extends Model
                             );
                         }
                     }
+
+                    $this->updateDeclinedOffer();
+                    $this->updateAcceptedOffer();
+                    $this->updateRejectedOffer();
                 }
             }else{
                 //Log Failure
