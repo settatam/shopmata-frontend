@@ -85,7 +85,7 @@ class HomeController extends Controller
                     ->withReturnedDateTime()
                     ->withReceivedDateTime()
                     ->withPaymentType()
-                    //->where('customer_id', $data['customer']->id)
+                    ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->find($id);
 
