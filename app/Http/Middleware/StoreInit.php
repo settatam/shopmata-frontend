@@ -46,6 +46,7 @@ class StoreInit
         if(null !== $storeDomain) {
             $store = $storeDomain->store;
             session()->put('store_id', $storeDomain->store->id);
+            $data = StoreEngagement::fields($request->ip(), $storeDomain->store->id);
 
             if ($request->session()->has('store_engagement_id')) {
                     $store_engagement_id = session('store_engagement_id');
