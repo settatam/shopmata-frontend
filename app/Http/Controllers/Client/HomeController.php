@@ -93,7 +93,7 @@ class HomeController extends Controller
                     $transaction->doUpdate([
                         'status_id' => 5
                     ]);
-                }else if($request->has('deny') && $request->deny == 1) {
+                }else if($request->has('decline') && $request->decline == 1) {
                     $transaction->doUpdate([
                         'status_id' => 6
                     ]);
