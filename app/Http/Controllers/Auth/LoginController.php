@@ -32,15 +32,6 @@ class LoginController extends Controller
         //$this->middleware('guest:customer', ['except' => ['logout']]);
     }
 
-    public function getLogin() {
-        $store = Store::find(session()->get('store_id'));
-        $pageToFind = 'login';
-        $pageType = 'template';
-        $data = [];
-        $page = $store->pageContent($pageToFind, $data, $pageType);
-        return view('pages.index', compact('page'));
-    }
-
     public function ForgotPassword(){
         return \Inertia\Inertia::render('Auth/ForgotPassword');
     }
