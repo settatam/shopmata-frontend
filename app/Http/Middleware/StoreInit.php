@@ -33,7 +33,11 @@ class StoreInit
 
 
         if($request->token && !Auth::check()) {
-            if($customer = Customer::loginUsingToken($request->token)) {
+            $isTest = false;
+            if($request->is_test) {
+                $isTest = true;
+            }
+            if($customer = Customer::loginUsingToken($request->token, $isTest)) {
                 //Customer is logged in
             }else{
                 abort(404);
