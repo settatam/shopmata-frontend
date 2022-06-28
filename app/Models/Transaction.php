@@ -484,6 +484,7 @@ class Transaction extends Model
         $transaction->store_id = $store->id;
         $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
         $transaction->comments = $request->description;
+        $transaction->engagement_id = session()->get('store_engagement_id');
         $transaction->save();
 
 
