@@ -37,6 +37,7 @@ class HomeController extends Controller
 
             $data = [];
             $data['store'] = $store;
+            $data['customer'] = Auth::check() ? Auth::user() : null;
 
             if($pageToFind == 'transactions') {
 
@@ -137,10 +138,6 @@ class HomeController extends Controller
 
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data, $pageType);
-                $customer = null;
-                if(Auth::check()) {
-                    $customer = Auth::user();
-                }
             }
         }
 
