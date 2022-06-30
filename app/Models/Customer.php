@@ -315,14 +315,16 @@ class Customer extends Authenticatable
         return '';
     }
 
-    public function generateLoginTokenForEmail() {
+    public function generateLoginTokenForEmail($notify = true) {
         $token = null;
         if($token = LoginToken::createNew($this, 'email', '600')) {
-            $sender = (new EventNotification('Email Login Token', [
-                'customer' => $this,
-                'store' => $this->store,
-                'token' => $token
-            ], ['for' => 'customer']));
+            if($notify) {
+                $sender = (new EventNotification('Email Login Token', [
+                    'customer' => $this,
+                    'store' => $this->store,
+                    'token' => $token
+                ], ['for' => 'customer']));
+            }
         }
 
         return $token;
