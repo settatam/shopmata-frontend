@@ -111,14 +111,16 @@ class Filters extends AbstractExtension
     public static function kitByMail($transaction) {
         //create login token ...
         $text = 'Mail My Free Appraisal Kit';
-        $url = $transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
+        $token = $transaction->customer->generateLoginTokenForEmail(false);
+        $url = $transaction->store->store_domain . '/thank-you/'.$transaction->id . '?token='.$token->token;
         return self::mail_button($text, $url);
     }
 
     public static function kitByPrint($transaction) {
         //create login token ...
         $text = 'Print Your Free Appraisal Kit';
-        $url = $transaction->store->store_domain . '/' . $transaction->id . '/thank-you';
+        $token = $transaction->customer->generateLoginTokenForEmail(false);
+        $url = $transaction->store->store_domain . '/thank-you/'.$transaction->id . '?token='.$token->token;
         return self::mail_button($text, $url);
     }
 
