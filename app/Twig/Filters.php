@@ -104,7 +104,7 @@ class Filters extends AbstractExtension
 
     public static function paymentInformation($transaction) {
         $text = 'Access Your Payment Method';
-        $url = $transaction->store->store_domain . '/my-settings';
+        $url = 'https://'.$transaction->store->store_domain . '/my-settings';
         return self::mail_button($text, $url);
     }
 
