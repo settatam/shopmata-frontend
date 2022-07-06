@@ -112,7 +112,7 @@ class Filters extends AbstractExtension
         //create login token ...
         $text = 'Mail My Free Appraisal Kit';
         $token = $transaction->customer->generateLoginTokenForEmail(false);
-        $url = $transaction->store->store_domain . '/thank-you/'.$transaction->id . '?token='.$token->token;
+        $url = 'https://'.$transaction->store->store_domain . '/thank-you/'.$transaction->id . '?token='.$token->token;
         return self::mail_button($text, $url);
     }
 
@@ -120,7 +120,7 @@ class Filters extends AbstractExtension
         //create login token ...
         $text = 'Print Your Free Appraisal Kit';
         $token = $transaction->customer->generateLoginTokenForEmail(false);
-        $url = $transaction->store->store_domain . '/thank-you/'.$transaction->id . '?download=1&token='.$token->token;
+        $url = 'https://'.$transaction->store->store_domain . '/thank-you/'.$transaction->id . '?download=1&token='.$token->token;
         return self::mail_button($text, $url);
     }
 
