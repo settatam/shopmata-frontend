@@ -116,6 +116,7 @@ class HomeController extends Controller
                     ->with('customer')
                     ->with('status')
                     ->with('payment_address')
+                    ->with('address')
                     ->withFinalOffer()
                     ->withPaymentDateTime()
                     ->withKitSentDateTime()
@@ -280,7 +281,7 @@ class HomeController extends Controller
                 $customer = Customer::addNew($store, $input);
             }
 
-            $address = $customer->address()->firstOrNew([
+            $customerAddress = [
                 'first_name' => data_get($input, 'first_name'),
                 'last_name' => data_get($input, 'last_name'),
                 'address' => data_get($input, 'address'),
@@ -290,8 +291,9 @@ class HomeController extends Controller
                 'zip' => data_get($input, 'zip'),
                 'phone' => data_get($input, 'phone'),
                 'state_id' => Helper::getStateId(data_get($input, 'state'))
-            ]);
+            ];
 
+            $address = $customer->address()->firstOrNew($customerAddress);
             $address->save();
 
             if(!Auth::check()) {
@@ -299,6 +301,7 @@ class HomeController extends Controller
             }
 
             $transaction = Transaction::createNew($store, $request, $customer);
+            $transaction->address()->firstOrNew($customerAddress);
 
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
@@ -309,14 +312,14 @@ class HomeController extends Controller
             $transaction_payment_address->customer_id = $customer->id;
             $transaction_payment_address->payment_type_id = $request->payment;
 
-            if($request->payment == 1) {
-
-                $transaction_payment_address->check_address = data_get($input, 'address');
-                $transaction_payment_address->check_address_2 = data_get($input, 'address2');
-                $transaction_payment_address->check_city = data_get($input, 'city');
-                $transaction_payment_address->check_state_id = Helper::getStateId(data_get($input, 'state'));
-                $transaction_payment_address->check_zip = data_get($input, 'zip');
-            }
+//            if($request->payment == 1) {
+//
+//                $transaction_payment_address->check_address = data_get($input, 'address');
+//                $transaction_payment_address->check_address_2 = data_get($input, 'address2');
+//                $transaction_payment_address->check_city = data_get($input, 'city');
+//                $transaction_payment_address->check_state_id = Helper::getStateId(data_get($input, 'state'));
+//                $transaction_payment_address->check_zip = data_get($input, 'zip');
+//            }
 
             $transaction_payment_address->save();
 
