@@ -157,27 +157,39 @@ class HomeController extends Controller
         $input['phone_number'] = $request->phone;
         $store = Store::find($customer->store_id);
 
-//        try {
+        try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
             $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15])->get();
             if ( null !== $transactions ) {
                 foreach($transactions as $transaction){
-                    //TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+                    TransactionPaymentAddress::doUpdate($transaction->id,  $input);
                     if(null !== $transaction->address) {
                         $transaction->address->update($input);
                     }else{
+                        $customerAddress = [
+                            'first_name' => data_get($input, 'first_name'),
+                            'last_name' => data_get($input, 'last_name'),
+                            'address' => data_get($input, 'address'),
+                            'address2' => data_get($input, 'address2'),
+                            'country_id' => 1,
+                            'zip' => data_get($input, 'zip'),
+                            'phone' => data_get($input, 'phone'),
+                            'state_id' => data_get($input, 'state_id')
+                        ];
                         $transaction->address()->firstOrNew(
-                            $input
+                            $customerAddress
                         );
                         $transaction->save();
                     }
+
+
                 }
             }
             return response()->json($customer, 200);
-//        } catch (\Throwable $th) {
-//            return response()->json(['message'=> "Failed"], 422);
-//            //throw $th;
-//        }
+        } catch (\Throwable $th) {
+            return response()->json(['message'=> "Failed"], 422);
+            //throw $th;
+        }
     }
 
     /**
