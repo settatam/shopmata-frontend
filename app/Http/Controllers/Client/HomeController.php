@@ -159,10 +159,18 @@ class HomeController extends Controller
 
         try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
-            $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15,50])->get();
+            $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15])->get();
             if ( null !== $transactions ) {
                 foreach($transactions as $transaction){
                     TransactionPaymentAddress::doUpdate($transaction->id,  $input);
+                    if(null !== $transaction->address) {
+                        $transaction->address->update($input);
+                    }else{
+                        $transaction->address()->firstOrNew(
+                            $input
+                        );
+                        $transaction->save();
+                    }
                 }
             }
             return response()->json($customer, 200);
