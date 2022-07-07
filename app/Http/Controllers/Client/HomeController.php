@@ -157,7 +157,7 @@ class HomeController extends Controller
         $input['phone_number'] = $request->phone;
         $store = Store::find($customer->store_id);
 
-        try {
+//        try {
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
             $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15])->get();
             if ( null !== $transactions ) {
@@ -186,10 +186,10 @@ class HomeController extends Controller
                 }
             }
             return response()->json($customer, 200);
-        } catch (\Throwable $th) {
-            return response()->json(['message'=> "Failed"], 422);
-            //throw $th;
-        }
+//        } catch (\Throwable $th) {
+//            return response()->json(['message'=> "Failed"], 422);
+//            //throw $th;
+//        }
     }
 
     /**
