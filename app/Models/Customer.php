@@ -155,10 +155,10 @@ class Customer extends Authenticatable
 
         if (null === $customer) {
             $customer = $this->create($input);
-            $customer->address()->save($this->address->addFields($input));
+            $customer->address()->save($customer->address->addFields($input));
         } else  {
             $customer->update($input);
-            $customer->address()->update($this->address->addFields($input));
+            $customer->address()->update($customer->address->addFields($input));
         }
 
         return $customer;
