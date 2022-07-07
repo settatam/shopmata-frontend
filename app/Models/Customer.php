@@ -153,7 +153,7 @@ class Customer extends Authenticatable
         $input['is_active']   = 1;
         $input['accepts_marketing'] = 1;
 
-        if (!$customer) {
+        if (null === $customer) {
             $customer = $this->create($input);
             $customer->address()->save($this->address->addFields($input));
         } else  {
