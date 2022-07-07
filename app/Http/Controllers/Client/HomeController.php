@@ -176,10 +176,10 @@ class HomeController extends Controller
                             'phone' => data_get($input, 'phone'),
                             'state_id' => data_get($input, 'state_id')
                         ];
-                        $transaction->address()->firstOrNew(
+                        $transaction->address()->create(
                             $customerAddress
                         );
-                        $transaction->address->save();
+                        //$transaction->address->save();
                     }
 
 
