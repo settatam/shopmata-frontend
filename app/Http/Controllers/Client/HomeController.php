@@ -179,7 +179,7 @@ class HomeController extends Controller
                         $transaction->address()->firstOrNew(
                             $customerAddress
                         );
-                        $transaction->save();
+                        $transaction->address()->save();
                     }
 
 
