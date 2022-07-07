@@ -278,6 +278,8 @@ export default {
                     url = urls.transactions.newKit(props.transaction.id);
                     method = "post";
                     break;
+                case "send-message":
+
                 default:
                     method = "put";
                     url = "/admin/transactions/" + props.transaction.id;

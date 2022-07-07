@@ -305,9 +305,19 @@ class HomeController extends Controller
                 ['transaction_id' => $transaction->id ]
             );
 
-            $transaction_payment_address->transaction_id         =  $transaction->id;
-            $transaction_payment_address->customer_id            =  $customer->id;
-            $transaction_payment_address->payment_type_id        =  $request->payment;
+            $transaction_payment_address->transaction_id = $transaction->id;
+            $transaction_payment_address->customer_id = $customer->id;
+            $transaction_payment_address->payment_type_id = $request->payment;
+
+            if($request->payment == 1) {
+
+                $transaction_payment_address->check_address = data_get($input, 'address');
+                $transaction_payment_address->check_address_2 = data_get($input, 'address2');
+                $transaction_payment_address->check_city = data_get($input, 'city');
+                $transaction_payment_address->check_state_id = Helper::getStateId(data_get($input, 'state'));
+                $transaction_payment_address->check_zip = data_get($input, 'zip');
+            }
+
             $transaction_payment_address->save();
 
             return response()->json($transaction, 200);
