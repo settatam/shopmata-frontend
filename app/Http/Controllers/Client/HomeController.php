@@ -158,27 +158,28 @@ class HomeController extends Controller
         $store = Store::find($customer->store_id);
 
 //        try {
+            $customerAddress = [
+                'first_name' => data_get($input, 'first_name'),
+                'last_name' => data_get($input, 'last_name'),
+                'address' => data_get($input, 'address'),
+                'address2' => data_get($input, 'address2'),
+                'city' => data_get($input, 'city'),
+                'country_id' => 1,
+                'zip' => data_get($input, 'zip'),
+                'phone' => data_get($input, 'phone'),
+                'state_id' => data_get($input, 'state_id')
+            ];
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
+            $customer->address->fill($customerAddress);
+            $customer->save();
             $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15])->get();
             if ( count($transactions )) {
                 foreach($transactions as $transaction){
                     TransactionPaymentAddress::doUpdate($transaction->id,  $input);
-
                     if($request->payment_type_id == 1) {
                         if(null !== $transaction->address) {
                             $transaction->address->update($input);
                         }else{
-                            $customerAddress = [
-                                'first_name' => data_get($input, 'first_name'),
-                                'last_name' => data_get($input, 'last_name'),
-                                'address' => data_get($input, 'address'),
-                                'address2' => data_get($input, 'address2'),
-                                'city' => data_get($input, 'city'),
-                                'country_id' => 1,
-                                'zip' => data_get($input, 'zip'),
-                                'phone' => data_get($input, 'phone'),
-                                'state_id' => data_get($input, 'state_id')
-                            ];
                             $transaction->address()->create(
                                 $customerAddress
                             );
