@@ -36,7 +36,8 @@ class Address extends Model
 
     protected $appends = [
         'apt_suite',
-        'street_address'
+        'street_address',
+        'state_id'
     ];
 
     public function addressable()
@@ -78,6 +79,13 @@ class Address extends Model
 
         return false;
 
+    }
+
+    public function getStateCodeAttribute() {
+        if(isset($this->resolvedState) && null !== $this->resolvedState) {
+            return $this->resolvedState->code;
+        }
+        return null;
     }
 
     public function addFields($input) {
