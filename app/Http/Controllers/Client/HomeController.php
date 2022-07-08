@@ -327,7 +327,7 @@ class HomeController extends Controller
             }
 
             $transaction = Transaction::createNew($store, $request, $customer);
-            $transaction->address()->firstOrNew($customerAddress);
+            $transaction->address()->create($customerAddress);
 
             $transaction_payment_address = new TransactionPaymentAddress;
             $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
