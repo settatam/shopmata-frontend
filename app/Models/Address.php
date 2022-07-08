@@ -37,7 +37,7 @@ class Address extends Model
     protected $appends = [
         'apt_suite',
         'street_address',
-        'state_id'
+        'state_code'
     ];
 
     public function addressable()
