@@ -187,7 +187,6 @@ class HomeController extends Controller
                             );
                         }
                     }
-
                 }
             }
             return response()->json($customer, 200);
