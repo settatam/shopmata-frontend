@@ -153,7 +153,6 @@ class HomeController extends Controller
 
     public function settings(Request $request){
         $customer =  Auth::user();
-        dd($customer);
         $input    = $request->all();
         $input['phone_number'] = $request->phone;
         $store = Store::find($customer->store_id);
