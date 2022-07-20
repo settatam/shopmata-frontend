@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Logistics;
+ini_set("soap.wsdl_cache_enabled", "0");
 
 use App\Models\Customer;
 use App\Models\Address;
@@ -76,7 +77,9 @@ class Fedex extends Shipping
         $this->setParams('receiveCity', $user->city);
     }
 
-    public function getLabel() {
+
+
+    public function getLabelT() {
         $this->setParams('declaredValue',
             [
                 'currency' => 'USD',
@@ -98,7 +101,7 @@ class Fedex extends Shipping
                         'recipients' => $this->recipients,
                         'packagingType' => $this->getPackagingType(),
                         'shippingChargesPayment' => [
-                            'paymentType' => 'SENDER',
+                            'paymentType' => $this->getPayer(),
                             'payor' => [
                                 'accountNumber' => $this->accountNumber()
                             ]
@@ -207,6 +210,23 @@ class Fedex extends Shipping
         ];
     }
 
+    public function addressForXml($address) {
+        return  array(
+				'Contact' => array(
+					'PersonName' => $address['contact']['personName'],
+					'CompanyName' => $address['contact']['companyName'],
+					'PhoneNumber' => $address['contact']['phoneNumber']
+				),
+				'Address' => array(
+					'StreetLines' => implode(' ', $address['address']['streetLines']),
+					'City' => $address['address']['city'],
+					'StateOrProvinceCode' => $address['address']['stateOrProvinceCode'],
+					'PostalCode' => $address['address']['postalCode'],
+					'CountryCode' => 'US'
+				)
+			);
+    }
+
     public function getShipmentData() {
         return [
             'mergeLabelDocOption' =>  'LABELS_ONLY', //"NONE" "LABELS_AND_DOCS" "LABELS_ONLY"
@@ -242,17 +262,133 @@ class Fedex extends Shipping
         ];
     }
 
+    public function getLabelsFromServer() {
+        $data['date'] = $this->getShippingDate();
+        $data['sender'] = $this->shipper;
+        $data['receiver'] = $this->recipients;
+
+        $response = Http::post('https://app.sellmyjewelry.com/api/get-labels', $data);
+        return $response->getBody();
+    }
+
+    public function getXMLData() {
+        return [
+            'ShipTimestamp' => date("Y-m-d")."T".date("H:i:s").'-05:00',
+			'DropoffType' => 'REGULAR_PICKUP', // valid values REGULAR_PICKUP, REQUEST_COURIER, DROP_BOX, BUSINESS_SERVICE_CENTER and
+			'ServiceType' => 'FEDEX_2_DAY', // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
+			'PackagingType' => 'FEDEX_ENVELOPE', // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
+			'Shipper' => $this->addressForXml($this->shipper),
+			'Recipient' => $this->addressForXml($this->recipients[0]),
+			'ShippingChargesPayment' => array(
+				'PaymentType' => $this->getPayer(),
+		        'Payor' => array(
+					'ResponsibleParty' => array(
+						'AccountNumber' => $this->accountForXML(),
+						'Contact' => null,
+						'Address' => array(
+							'CountryCode' => 'US'
+						)
+					)
+				)
+			),
+			// 'ShipmentSpecialServiceType' => $ship_type == 'FEDEX_GROUND' ? '' : 'FEDEX_ONE_RATE',
+			'LabelSpecification' => array(
+				'LabelFormatType' => 'COMMON2D', // valid values COMMON2D, LABEL_DATA_ONLY
+				'ImageType' => 'PNG',  // valid values DPL, EPL2, PDF, ZPLII and PNG
+				'LabelStockType' => 'PAPER_4X6'
+			),
+
+			'PackageCount' => 1,
+			'PackageDetail' => 'INDIVIDUAL_PACKAGES',
+			'SpecialServicesRequested'=> [
+				'SpecialServiceTypes'=>[
+					'FEDEX_ONE_RATE'
+				],
+			],
+			'RequestedPackageLineItems' => array(
+				'0' => array(
+					'SequenceNumber'=>1,
+					'GroupPackageCount'=>1,
+					'Weight' => array(
+						'Value' => 1,
+						'Units' => 'LB'
+					),
+
+					'CustomerReferences' => array(
+						'0' => array(
+							'CustomerReferenceType' => 'INVOICE_NUMBER',
+							'Value' => $this->invoiceNumber
+						),
+					),
+				)
+			)
+        ];
+    }
+
+    private function credentials() {
+		return array(
+			'WebAuthenticationDetail' => array(
+				'ParentCredential' => array(
+					'Key' => config('logistics.fedex.key'),
+					'Password' => config('logistics.fedex.pass')
+				),
+				'UserCredential' => array(
+					'Key' => config('logistics.fedex.key'),
+					'Password' => config('logistics.fedex.pass')
+				),
+			),
+			'ClientDetail' => array(
+				'AccountNumber' => config('logistics.fedex.account'),
+				'MeterNumber' => config('logistics.fedex.meter')
+			),
+		);
+	}
+
+    public function getLabel() {
+		$client = new \SoapClient(public_path()."/fedex/ShipService_v21.wsdl", array('trace' => 1));
+        $request = $this->credentials();
+
+        $version =  array(
+			'ServiceId' => 'ship',
+			'Major' => '21',
+			'Intermediate' => '0',
+			'Minor' => '0'
+		);
+
+        $request['Version'] = $version;
+		$request['RequestedShipment'] = $this->getXMLData();
+
+        try {
+            $response = @$client->processShipment($request);
+            if($response->HighestSeverity == "SUCCESS") {
+                $this->trackingNumber = !empty($response->CompletedShipmentDetail->MasterTrackingId->TrackingNumber)?$response->CompletedShipmentDetail->MasterTrackingId->TrackingNumber:'';
+                $this->base64Label = base64_encode($response->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image);
+                $this->hasErrors = false;
+                return $this;
+            }else{
+                $this->hasErrors = true;
+                $this->errors = ['There was an error'];
+                return $this;
+            }
+            //dd($request->__)
+        } catch (SoapFault $exception) {
+            $this->hasErrors = true;
+            $this->errors = ['There was an error'];
+            return $this;
+        }
+	}
+
     protected function getRequestedPackageLineItems() {
         return [
-                    [
-//                        'sequenceNumber' => 1,
-                        'weight' => [
-                            'units' => 'LB',
-                            'value' => 1
-                        ],
-                        'customerReferences' => $this->getInvoiceReference()
-                    ]
-            ];
+            [
+//              'sequenceNumber' => 1,
+                'weight' => [
+                    'units' => 'LB',
+                    'value' => 1
+                ],
+                'customerReferences' => $this->getInvoiceReference()
+            ]
+        ];
     }
 
     public function setInvoiceNumber($value) {
@@ -276,8 +412,7 @@ class Fedex extends Shipping
         return [
 				'labelFormatType' => 'COMMON2D', // valid values COMMON2D, LABEL_DATA_ONLY
 				'imageType' => 'PNG',  // valid values DPL, EPL2, PDF, ZPLII and PNG
-				//'labelStockType' => 'PAPER_4X6'
-                'labelStockType' => 'PAPER_85X11_BOTTOM_HALF_LABEL'
+				'labelStockType' => 'PAPER_8.5X11_BOTTOM_HALF_LABEL'
         ];
     }
 
@@ -291,11 +426,15 @@ class Fedex extends Shipping
         return ['value' => config('logistics.fedex.account')];
     }
 
+    protected function accountForXML() {
+        return config('logistics.fedex.account');
+    }
+
     protected function getShippingChargesPayment() {
         return [
-            'paymentType' => 'SENDER',
+            'paymentType' => $this->getPayer(),
             'payor' => [
-                'accountNumber' => $this->accountNumber()
+                'accountNumber' => $this->accountForXML()
             ]
         ];
     }
@@ -305,7 +444,8 @@ class Fedex extends Shipping
     }
 
     protected function getServiceType() {
-        return $this->serviceType ?? config('logistics.fedex.serviceType');
+        //return $this->serviceType ?? config('logistics.fedex.serviceType');
+        return 'FEDEX_GROUND';
     }
 
     //$label_size='PAPER_8.5X11_TOP_HALF_LABEL',$label_type='PDF',$ship_type='FEDEX_GROUND'
