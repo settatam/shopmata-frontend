@@ -60,6 +60,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::post('customer/login', [CustomerLoginController::class, 'customerLogin']);
     Route::get('thank-you', [ClientHomeController::class, 'index']);
     Route::get('thank-you/{id}', [ClientHomeController::class, 'index']);
+    Route::get('{id}/thank-you', [ClientHomeController::class, 'fix']);
     Route::post('customer/verify-address', [ClientHomeController::class, 'verifyAddress']);
 //});
 

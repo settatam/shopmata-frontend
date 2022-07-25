@@ -376,6 +376,7 @@ class Fedex extends Shipping
             $this->errors = ['There was an error'];
             return $this;
         }
+
 	}
 
     protected function getRequestedPackageLineItems() {
