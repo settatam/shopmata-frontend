@@ -164,9 +164,11 @@ class Store extends Model
 
     public function shippingAddress() {
         $address = $this->address;
-        $address->company_name = $this->name;
+        $address->company_name = $this->getMeta('shipping_display_name');
         $address->country = $address->resolvedCountry->iso_code_2;
         $address->state = $this->state;
+        $address->first_name = '';
+        $address->last_name = '';
         return $address;
     }
 
