@@ -181,7 +181,7 @@ class HomeController extends Controller
                             $transaction->address->fill($customerAddress);
                             $transaction->address->save();
                         }else{
-                            $transaction- >address()->create(
+                            $transaction->address()->create(
                                 $customerAddress
                             );
                         }
