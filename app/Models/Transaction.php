@@ -957,7 +957,6 @@ class Transaction extends Model
             //We can set weight, amount and all the other properties ...
         //try{
             $fedexLabel =  $fedex->getLabel();
-            dd($fedexLabel);
             return $fedexLabel;
 //        }catch (\Exception $e) {
 //            dd($e->getMessage());
