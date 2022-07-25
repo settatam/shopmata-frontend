@@ -33,6 +33,15 @@ class Shipping
     protected $isTest = false;
     public $hasErrors = false;
     protected $shippingDate;
+    protected $payer;
+
+    public function setPayer($value) {
+       return $this->payer = $value;
+    }
+
+    public function getPayer() {
+        return $this->payer;
+    }
 
     public function setSenderName($value) {
         $this->senderName = $value;
