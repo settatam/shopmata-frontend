@@ -282,9 +282,9 @@ class Customer extends Authenticatable
         ]);
     }
 
-    public function shippingAddress() {
-        return $this->morphOne(Address::class, 'addressable');
-    }
+//    public function shippingAddress() {
+//        return $this->morphOne(Address::class, 'addressable');
+//    }
 
     public function payment_address()
     {
