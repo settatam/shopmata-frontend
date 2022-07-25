@@ -865,39 +865,42 @@ class Transaction extends Model
 
         if($direction != 'to' && $direction != 'from') return 'Direction must be to customer or from customer';
 
-        if($is_return) {
-            $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', true)->latest()->first();
-        }else{
-            switch ($direction) {
-                case Shipping::SHIPPING_TYPE_TO:
-                    $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', false)->latest()->first();
-                    break;
-                case Shipping::SHIPPING_TYPE_FROM:
-                    $labels = $this->shippingLabels()->where('to_customer', false)->latest()->first();
-                    break;
-            }
-        }
+//        if($is_return) {
+//            $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', true)->latest()->first();
+//        }else{
+//            switch ($direction) {
+//                case Shipping::SHIPPING_TYPE_TO:
+//                    $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', false)->latest()->first();
+//                    break;
+//                case Shipping::SHIPPING_TYPE_FROM:
+//                    $labels = $this->shippingLabels()->where('to_customer', false)->latest()->first();
+//                    break;
+//            }
+//        }
 
         $recipientAddress = null;
         $shipperAddress = null;
 
-        if(null !== $labels) return $labels;
+        //if(null !== $labels) return $labels;
 
         if ($direction == Shipping::SHIPPING_TYPE_FROM){
-            $shipperAddress = $this->customer->address;
+            $shipperAddress = $this->customer->shippingAddress();
             $recipientAddress = $this->store->shippingAddress();
+            $payer = 'RECIPIENT';
         }else if($direction == Shipping::SHIPPING_TYPE_TO) {
-            $recipientAddress = $this->customer->address;
+            $recipientAddress = $this->customer->shippingAddress();
             $shipperAddress = $this->store->shippingAddress();
+            $payer = 'SENDER';
         }
 
         if(!$recipientAddress || !$shipperAddress)  {
             $label = new \stdClass();
             $label->has_errors = true;
+            $label->noaddress = true;
             return $label;
         }
 
-        if($shippingLabel = $this->createLabel($shipperAddress, $recipientAddress, $shippingDate)) {
+        if($shippingLabel = $this->createLabel($shipperAddress, $recipientAddress, $shippingDate, $payer)) {
             if(!$shippingLabel->hasErrors()) {
                 if($label = $this->shippingLabels()->create([
                     'tracking_number' => $shippingLabel->getTrackingNumber(),
@@ -938,25 +941,27 @@ class Transaction extends Model
 
     }
 
-    public function createLabel(Address $shipperAddress, Address $recipientAddress, $shippingDate)
+    public function createLabel(Address $shipperAddress, Address $recipientAddress, $shippingDate, $payer)
     {
         if(!$shippingDate) $shippingDate = date('Y-m-d');
 
         $fedex = new Fedex();
-
+        $invoiceNumber = $this->id . ' - ' . $this->store->url;
+        $fedex->setPayer($payer);
         $fedex->setShippingDate($shippingDate);
-        $fedex->setInvoiceNumber($this->id);
+        $fedex->setInvoiceNumber($invoiceNumber);
         $fedex->setShipper($shipperAddress);
         $fedex->setRecipient($recipientAddress);
 
+
             //We can set weight, amount and all the other properties ...
-        try{
+        //try{
             $fedexLabel =  $fedex->getLabel();
             return $fedexLabel;
-        }catch (\Exception $e) {
-            // dd($e->getMessage());
-            return false;
-        }
+//        }catch (\Exception $e) {
+//            dd($e->getMessage());
+//            return false;
+//        }
 
     }
 
@@ -1211,7 +1216,7 @@ class Transaction extends Model
         }
     }
 
-    public function createNote($type, $message=''){
+    public function createNote($type, $message='') {
 
        if($notes = $this->getPublicNote($type, [
             'type' => $type,
