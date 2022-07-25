@@ -360,6 +360,7 @@ class Fedex extends Shipping
 
         try {
             $response = @$client->processShipment($request);
+            dd($response);
             if($response->HighestSeverity == "SUCCESS") {
                 $this->trackingNumber = !empty($response->CompletedShipmentDetail->MasterTrackingId->TrackingNumber)?$response->CompletedShipmentDetail->MasterTrackingId->TrackingNumber:'';
                 $this->base64Label = base64_encode($response->CompletedShipmentDetail->CompletedPackageDetails->Label->Parts->Image);
