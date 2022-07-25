@@ -364,4 +364,12 @@ class Customer extends Authenticatable
         return false;
     }
 
+    public function shippingAddress() {
+        $address = $this->address;
+        $address->company_name = 'WBGAS';
+        $address->country = 'US';
+        $address->state = $address->resolvedState->code;
+        return $address;
+    }
+
 }
