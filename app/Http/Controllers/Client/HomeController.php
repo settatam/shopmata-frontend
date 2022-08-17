@@ -266,10 +266,11 @@ class HomeController extends Controller
     public function update(Request $request, $id)
     {
         $transaction = Transaction::find($id);
-        return $transaction->doUpdate($request->input());
+        if( $transaction->status_id == 4) {
+            return $transaction->doUpdate($request->input());
+        }
+         return $transaction;
     }
-
-
 
 
     /**
