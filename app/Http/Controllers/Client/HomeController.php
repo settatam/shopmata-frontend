@@ -92,13 +92,18 @@ class HomeController extends Controller
                     ->find($id);
 
                 if($request->has('accept') && $request->accept == 1) {
-                    $transaction->doUpdate([
-                        'status_id' => 5
-                    ]);
+                    if($transaction->status_id == 4) {
+                       $transaction->doUpdate([
+                            'status_id' => 5
+                        ]);
+                    }
+
                 }else if($request->has('decline') && $request->decline == 1) {
-                    $transaction->doUpdate([
-                        'status_id' => 6
-                    ]);
+                    if($transaction->status_id == 4) {
+                        $transaction->doUpdate([
+                            'status_id' => 6
+                        ]);
+                    }
                 }
 
                 $data['transaction'] = $transaction;
