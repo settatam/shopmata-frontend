@@ -202,6 +202,7 @@ class Filters extends AbstractExtension
                     <p>Once our appraiser reviews your items we will either provide you with an offer, or decline your items. If we decline your items they will be sent back to you promptly. If we are interested in purchasing your items we will provide you with an offer. You will then have the opportunity to accept or decline or offer. If you accept your payment will be sent within 1 business day. If you decline we will return your items to you promptly, at our expense. We will send you or decision very soon, keep an eye on your email and if you have any questions please <a href="/contact-us">contact us</a>.</p>';
                 return $message;
             case 6:
+            case 19:
                 return '<h1 class="red">Offer Declined</h1>
                         <p>'.$transaction->customer->first_name.' we have received your request to decline this transaction. We will return your items to you promptly at our expense. Your items will be sent within one business day. We will let you know when your items ship. Thanks again for your interest and we are sorry that we could not make you an acceptable offer. If you have any questions please <a href="/contact-us.html">contact us</a>.</p>';
             default:
