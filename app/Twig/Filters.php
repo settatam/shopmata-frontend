@@ -164,6 +164,9 @@ class Filters extends AbstractExtension
     public function statusNote($transaction) {
         $status_id = (int)$transaction->status_id;
         switch($status_id) {
+            case 8:
+                return '<h1 class="green">Your Payment is processed!</h1>
+                        <p>Congratulations on the sale '.$transaction->customer->first_name.'! Your payment for this transaction has been sent.</p>';
             case 60:
                 return '<h1>We have received your request for a kit!</h1>
                         <b>Here is what happens next ...</b>
@@ -180,8 +183,7 @@ class Filters extends AbstractExtension
                         <p>If you accept our offer of ' .$transaction->final_offer. ' you will get paid by the end of the day. </p>
                         <button class="accept-offer">Accept Offer</button>
                         <br/><br/><p>If you decline our offer we will ship your items back to you at our expense.</p><button class="decline-offer">Decline Offer</button><p>If you have any questions before making your decision please <a href="/contact-us">contact us</a>.</p>';
-            case 8:
-                case 5:
+            case 5:
                 return '<h1 class="green">Offer Accepted!</h1>
                         <p>Wonderful '.$transaction->customer->first_name.'!,  We will send your payment of '. $transaction->final_offer .' to you within one business day. You will receive one last notification from us when it is sent. Thank you again for your business, and please think of us again next time you have something to sell! If you have any questions please <a href="/contact-us">contact us</a>.</p>';
             case 24:
