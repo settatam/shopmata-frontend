@@ -150,8 +150,6 @@ class HomeController extends Controller
             }
         }
 
-        dd('finally');
-
         return view('pages.index', compact('page'));
     }
 
