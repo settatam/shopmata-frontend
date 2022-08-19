@@ -45,7 +45,6 @@ class HomeController extends Controller
                     return redirect('customer/login?q=couldnot');
                 }
 
-                dd('We are here ');
 
                 $data['customer'] = Auth::user();
                 $data['customer']->load('address');
@@ -57,6 +56,8 @@ class HomeController extends Controller
                     ->where('customer_id', $data['customer']->id)
                     ->orderBy($sortBy, $orderBy)
                     ->get();
+
+                dd('here again');
             }else if($pageToFind == 'thank-you.detail') {
                 if(!Auth::check()) {
                     return redirect('customer/login');
