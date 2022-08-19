@@ -146,8 +146,8 @@ class HomeController extends Controller
             }
 
             if(null !== $store) {
-                dd('in the sotre area');
                 $page = $store->pageContent($pageToFind, $data, $pageType);
+                dd('after the store area');
             }
         }
 
