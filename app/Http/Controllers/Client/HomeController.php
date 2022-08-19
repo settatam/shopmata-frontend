@@ -178,7 +178,8 @@ class HomeController extends Controller
             $customer = (new Customer())->createOrUpdateCustomer($store, $input, $customer);
             $customer->address->fill($customerAddress);
             $customer->address->save();
-            $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15])->get();
+            $transactions = $customer->transactions()->take(1)->orderBy('id', 'desc')->get();
+            //$transactions = Transaction::where('customer_id', )
             if ( count($transactions )) {
                 foreach($transactions as $transaction) {
                     TransactionPaymentAddress::doUpdate($transaction->id,  $input);
