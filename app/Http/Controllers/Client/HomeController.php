@@ -29,6 +29,7 @@ class HomeController extends Controller
             //This is probably a store page
             $store_id = session()->get('store_id');
             $store = Store::find($store_id);
+            dd($store);
             $path = request()->path();
             $orderBy = $request->order_by ?? 'desc';
             $sortBy = $request->sort_by ?? 'created_at';
@@ -57,7 +58,6 @@ class HomeController extends Controller
                     ->orderBy($sortBy, $orderBy)
                     ->get();
 
-                dd('here again');
             }else if($pageToFind == 'thank-you.detail') {
                 if(!Auth::check()) {
                     return redirect('customer/login');
