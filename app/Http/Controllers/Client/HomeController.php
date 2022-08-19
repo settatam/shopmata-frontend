@@ -41,9 +41,9 @@ class HomeController extends Controller
             $data['customer'] = Auth::check() ? Auth::user() : null;
 
             if($pageToFind == 'transactions') {
-
+                //dd(Auth::user());
                 if(!Auth::check()) {
-                    return redirect('customer/login');
+                    return redirect('customer/login?q=couldnot');
                 }
 
                 $data['customer'] = Auth::user();
@@ -179,7 +179,7 @@ class HomeController extends Controller
             $customer->address->save();
             $transactions = $customer->transactions()->whereIn('status_id',[2,60,1,4,5,15])->get();
             if ( count($transactions )) {
-                foreach($transactions as $transaction){
+                foreach($transactions as $transaction) {
                     TransactionPaymentAddress::doUpdate($transaction->id,  $input);
                     if($request->payment_type_id == 1) {
                         if(null !== $transaction->address) {
