@@ -45,7 +45,6 @@ class HomeController extends Controller
                     return redirect('customer/login?q=couldnot');
                 }
 
-
                 $data['customer'] = Auth::user();
                 $data['customer']->load('address');
                 $data['transactions'] = Transaction::with('images')
@@ -147,6 +146,7 @@ class HomeController extends Controller
 
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data, $pageType);
+                dd($page);
             }
         }
 
