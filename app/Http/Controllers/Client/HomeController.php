@@ -45,6 +45,8 @@ class HomeController extends Controller
                     return redirect('customer/login?q=couldnot');
                 }
 
+                dd('We are here ');
+
                 $data['customer'] = Auth::user();
                 $data['customer']->load('address');
                 $data['transactions'] = Transaction::with('images')
@@ -73,6 +75,7 @@ class HomeController extends Controller
                 if(!Auth::check()) {
                     return redirect('customer/login');
                 }
+
 
                 $pageType = 'template';
                 $data['customer'] = Auth::user();
