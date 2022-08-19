@@ -146,7 +146,7 @@ class HomeController extends Controller
 
             if(null !== $store) {
                 $page = $store->pageContent($pageToFind, $data, $pageType);
-                dd($page);
+                dd($pageToFind);
             }
         }
 
