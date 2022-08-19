@@ -41,7 +41,7 @@ class HomeController extends Controller
             $data['customer'] = Auth::check() ? Auth::user() : null;
 
             if($pageToFind == 'transactions') {
-                dd(Auth::user());
+                dd(Auth::check());
                 if(!Auth::check()) {
                     return redirect('customer/login?q=couldnot');
                 }
