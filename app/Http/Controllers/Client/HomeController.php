@@ -75,7 +75,6 @@ class HomeController extends Controller
                     return redirect('customer/login');
                 }
 
-
                 $pageType = 'template';
                 $data['customer'] = Auth::user();
                 $transaction = Transaction::with('images')
@@ -179,6 +178,7 @@ class HomeController extends Controller
             $customer->address->fill($customerAddress);
             $customer->address->save();
             $transactions = $customer->transactions()->take(1)->orderBy('id', 'desc')->get();
+            dd($transactions);
             //$transactions = Transaction::where('customer_id', )
             if ( count($transactions )) {
                 foreach($transactions as $transaction) {
