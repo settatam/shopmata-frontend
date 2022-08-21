@@ -54,11 +54,12 @@ class TransactionPaymentAddress extends Model
 
 
     public static function doUpdate($transaction_id,  $data) {
-        dd($data);
         $paymentInfo = self::firstOrNew(
             ['transaction_id' => $transaction_id],
             $data
         );
+
+        dd($paymentInfo);
 
         $paymentInfo->save();
     }
