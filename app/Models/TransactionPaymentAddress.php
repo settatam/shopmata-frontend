@@ -34,13 +34,13 @@ class TransactionPaymentAddress extends Model
         'customer_id'
     ];
 
-    public function payment_type() 
+    public function payment_type()
     {
         return $this->belongsTo(TransactionPaymentType::class,'payment_type_id','id');
     }
 
 
-    public function state() 
+    public function state()
     {
         return $this->belongsTo(State::class,'check_state_id','id');
     }
@@ -54,10 +54,13 @@ class TransactionPaymentAddress extends Model
 
 
     public static function doUpdate($transaction_id,  $data) {
-        self::updateOrCreate(
-            ['transaction_id' => $transaction_id],  
+        dd($data);
+        $paymentInfo = self::firstOrNew(
+            ['transaction_id' => $transaction_id],
             $data
         );
+
+        $paymentInfo->save();
     }
 
 }
