@@ -61,9 +61,7 @@ class TransactionPaymentAddress extends Model
         $paymentInfo->fill($data);
         $paymentInfo->save();
 
-        dd($paymentInfo);
-
-        $paymentInfo->save();
+        return $paymentInfo;
     }
 
 }
