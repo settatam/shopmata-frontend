@@ -83,8 +83,8 @@ class CustomerLoginController extends Controller
             ->first();
 
         if (null !== $customer) {
-//            if(Auth::guard()->attempt($credentials)) {
-            if (Auth::loginUsingId($customer->id)) {
+            if(Auth::guard()->attempt($credentials)) {
+           // if (Auth::loginUsingId($customer->id)) {
                 if($request->session()->has('store_engagement_id')) {
                     StoreEngagement::find($request->session()->get('store_engagement_id'))
                         ->update(['engageable_id' => Auth::id()]);
