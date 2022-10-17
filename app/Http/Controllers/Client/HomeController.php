@@ -162,6 +162,11 @@ class HomeController extends Controller
         $input['phone_number'] = $request->phone;
         $store = Store::find($customer->store_id);
 
+        if($request->pass_new && $request->pass_confirm) {
+            $customer->password = bcrypt($request->get('new-password'));
+            $customer->save();
+        }
+
 //        try {
             $customerAddress = [
                 'first_name' => data_get($input, 'first_name'),
