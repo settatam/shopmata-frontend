@@ -163,7 +163,7 @@ class HomeController extends Controller
         $store = Store::find($customer->store_id);
 
         if($request->pass_new && $request->pass_confirm) {
-            $customer->password = bcrypt($request->get('new-password'));
+            $customer->password = bcrypt($request->get('pass_new'));
             $customer->save();
         }
 
