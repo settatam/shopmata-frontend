@@ -59,7 +59,7 @@ return [
             'key'    => env('DO_SPACE_KEY'),
             'secret' => env('DO_SPACE_SECRET'),
             'region' => 'nyc3',
-            'endpoint' => env('DO_URL'),
+            'endpoint' => 'https://nyc3.digitaloceanspaces.com',
             'bucket' => env('DO_SPACE_BUCKET'),
         ],
 

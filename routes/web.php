@@ -97,5 +97,3 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 
-
-
