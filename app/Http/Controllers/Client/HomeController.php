@@ -303,6 +303,8 @@ class HomeController extends Controller
             //'email' => ['required','email','max:75'],
         ]);
 
+        $input = $request->input();
+
         $customerAddress = [
                 'first_name' => data_get($input, 'first_name'),
                 'last_name' => data_get($input, 'last_name'),
@@ -327,7 +329,7 @@ class HomeController extends Controller
         $store = Store::find($store_id);
         $customer = new Customer;
         //try {
-            $input = $request->input();
+
             $input['first_name'] = $request->first_name ?? $request->firstname;
             $input['last_name'] = $request->last_name ?? $request->lastname;
 
