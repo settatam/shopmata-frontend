@@ -24,11 +24,8 @@ class Fedex extends Shipping
     public $errors = [];
     protected $customer_references = [];
     protected $invoiceNumber;
+    protected $signatureOption;
 
-
-    public function verifyAddress() {
-
-    }
 
     public function getToken() {
         $response = Http::withHeaders(
@@ -51,6 +48,80 @@ class Fedex extends Shipping
 
     private function getRecipients() {
         return $this->recipients;
+    }
+
+    public function verifyAddress( Address $address )
+    {
+
+      $client = new \SoapClient(public_path()."/fedex/AddressValidationService_v4.wsdl", array('trace' => 1));$request = $this->credentials();
+		  //$client = new SoapClient(public_path()."/fedex/AddressValidationService_v4.".(FEDEX_TESTMODE?'test.':'')."wsdl", array('trace' => 1));
+		  $request = $this->credentials();
+
+		$request['Version'] = array(
+			'ServiceId' => 'aval',
+			'Major' => '4',
+			'Intermediate' => '0',
+			'Minor' => '0'
+		);
+		$request['InEffectAsOfTimestamp'] = date('c');
+
+		$request['AddressesToValidate'] = array(
+			0 => array(
+				'ClientReferenceId' => 'ClientReferenceId1',
+		     	'Address' => array(
+		     		'StreetLines' => array($address->address, $address->address2),
+            'PostalCode' => $address->zip,
+		     		'City' => $address->city,
+		     		'StateOrProvinceCode' => $address->resolvedState->code,
+            'CountryCode' => 'US'
+				)
+			)
+		);
+
+	 	$response = $client->addressValidation($request);
+
+	    if (empty($response)) return array('valid'=>false,'err'=>'bd');
+	    $response = json_decode(json_encode($response),true);
+
+      if($addressResults = data_get($response, 'AddressResults')) {
+        if($this->getDPVForAddressVerification($addressResults['Attributes'])) {
+          return [
+            'valid' => true,
+            'originalAddress' => [
+              'street' => $address->address,
+              'street2' => $address->address2,
+              'city' => $address->city,
+              'state' => $address->resolvedState->code,
+              'zip' => $address->zip
+            ],
+            'parsedAddress' => [
+              'street' =>  is_array($addressResults['EffectiveAddress']['StreetLines']) ? $addressResults['EffectiveAddress']['StreetLines'][0] : $addressResults['EffectiveAddress']['StreetLines'],
+              'street2' => is_array($addressResults['EffectiveAddress']['StreetLines']) && count($addressResults['EffectiveAddress']['StreetLines']) > 1 ? $addressResults['EffectiveAddress']['StreetLines'][1] : '',
+              'city' => $addressResults['EffectiveAddress']['City'],
+              'state' => $addressResults['EffectiveAddress']['StateOrProvinceCode'],
+              'zip' => $addressResults['EffectiveAddress']['PostalCode']
+            ]
+          ];
+        }
+      }
+
+	    return array(
+	    	'valid' => false
+	   	);
+
+	  }
+
+    public function getDPVForAddressVerification($addressResultsAttributes)
+    {
+      $result =  collect($addressResultsAttributes)->filter( function ($attribute) {
+        return $attribute['Name'] === 'DPV';
+      });
+
+      if($result->count()) {
+        return $result->flatten()->toArray()[1] === "true";
+      }
+
+      return false;
     }
 
     public function setShippingUser($user) {
@@ -76,7 +147,6 @@ class Fedex extends Shipping
         $this->setParams('receivePostalCode', $user->postal_code);
         $this->setParams('receiveCity', $user->city);
     }
-
 
 
     public function getLabelT() {
@@ -300,20 +370,27 @@ class Fedex extends Shipping
 
 			'PackageCount' => 1,
 			'PackageDetail' => 'INDIVIDUAL_PACKAGES',
-			'SpecialServicesRequested'=> [
-				'SpecialServiceTypes'=>[
+			'SpecialServicesRequested' => [
+				'SpecialServiceTypes' => [
 					'FEDEX_ONE_RATE'
 				],
 			],
 			'RequestedPackageLineItems' => array(
 				'0' => array(
-					'SequenceNumber'=>1,
-					'GroupPackageCount'=>1,
+					'SequenceNumber' => 1,
+					'GroupPackageCount' => 1,
 					'Weight' => array(
 						'Value' => 1,
 						'Units' => 'LB'
 					),
-
+                    'SpecialServicesRequested' => [
+                        'SpecialServiceTypes' => [
+                            'SIGNATURE_OPTION'
+                        ],
+                        'SignatureOptionDetail' => [
+                            'OptionType' => $this->signatureOption
+                        ],
+                    ],
 					'CustomerReferences' => array(
 						'0' => array(
 							'CustomerReferenceType' => 'INVOICE_NUMBER',
@@ -322,6 +399,23 @@ class Fedex extends Shipping
 					),
 				)
 			)
+        ];
+    }
+
+    public function setSignatureOption($value) {
+        $this->signatureOption = $value;
+    }
+
+    public function getSignatureOption() {
+        return [
+            'SpecialServicesRequested' => [
+                'SpecialServiceTypes' => [
+                    'SIGNATURE_OPTION'
+                ],
+                'SignatureOptionDetail' => [
+                    'OptionType' => 'DIRECT'
+                ],
+            ]
         ];
     }
 

@@ -356,7 +356,7 @@ class Customer extends Authenticatable
 
         $token = LoginToken::whereHas('customer')->where('token', $token)->first();
         if(null !== $token) {
-            if(Auth::LoginUsingId($token->customer->id)) {
+            if (Auth::LoginUsingId($token->customer->id)) {
                 //session()->put('store_id', Auth::user()->store->id);
             }
             return Auth::user();

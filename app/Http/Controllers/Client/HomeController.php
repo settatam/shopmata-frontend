@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\Helper;
+use App\Models\Address;
 use App\Models\Store;
 use App\Models\StorePage;
+use App\Services\Logistics\Fedex;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Transaction;
@@ -301,6 +303,25 @@ class HomeController extends Controller
             //'email' => ['required','email','max:75'],
         ]);
 
+        $customerAddress = [
+                'first_name' => data_get($input, 'first_name'),
+                'last_name' => data_get($input, 'last_name'),
+                'address' => data_get($input, 'address'),
+                'address2' => data_get($input, 'address2'),
+                'state' => data_get($input, 'state'),
+                'city' => data_get($input, 'city'),
+                'country_id' => 1,
+                'zip' => data_get($input, 'zip'),
+                'phone' => data_get($input, 'phone'),
+                'state_id' => Helper::getStateId(data_get($input, 'state'))
+        ];
+
+        //Do address validation
+        $address = new Address();
+        $address->fill($customerAddress);
+        $fedex = new Fedex();
+        return response()->json($fedex->verifyAddress($address));
+
         $store_id = $request->store_id ?? 43;
 
         $store = Store::find($store_id);
@@ -316,18 +337,7 @@ class HomeController extends Controller
                 $customer = Customer::addNew($store, $input);
             }
 
-            $customerAddress = [
-                'first_name' => data_get($input, 'first_name'),
-                'last_name' => data_get($input, 'last_name'),
-                'address' => data_get($input, 'address'),
-                'address2' => data_get($input, 'address2'),
-                'state' => data_get($input, 'state'),
-                'city' => data_get($input, 'city'),
-                'country_id' => 1,
-                'zip' => data_get($input, 'zip'),
-                'phone' => data_get($input, 'phone'),
-                'state_id' => Helper::getStateId(data_get($input, 'state'))
-            ];
+
 
             $address = $customer->address()->firstOrNew($customerAddress);
             $address->save();

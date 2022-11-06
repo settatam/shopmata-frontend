@@ -67,7 +67,7 @@ class Filters extends AbstractExtension
     public static function assetUrl($asset) {
         if(session()->has('store_id')) {
             $store = Store::find(session()->get('store_id'));
-            return 'https://fashionerize.nyc3.cdn.digitaloceanspaces.com/'.$store->slug.'/'.$asset;
+            return config('filesystems.disks.DO.endpoint').$store->slug.'/'.$asset;
         }
         return $asset;
     }
