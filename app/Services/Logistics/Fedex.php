@@ -84,7 +84,7 @@ class Fedex extends Shipping
 	    $response = json_decode(json_encode($response),true);
 
       if($addressResults = data_get($response, 'AddressResults')) {
-        if($this->getDPVForAddressVerification($addressResults['Attributes'])) {
+        if( $this->getDPVForAddressVerification($addressResults['Attributes']) ) {
           return [
             'valid' => true,
             'originalAddress' => [

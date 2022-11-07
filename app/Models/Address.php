@@ -31,7 +31,8 @@ class Address extends Model
         'store_id',
         'dob',
         'state_id',
-        'phone'
+        'phone',
+        'is_verified'
     ];
 
     protected $appends = [

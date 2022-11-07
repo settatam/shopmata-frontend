@@ -319,10 +319,9 @@ class HomeController extends Controller
     ];
 
     //Do address validation
-    $address = new Address();
-    $address->fill($customerAddress);
-    $fedex = new Fedex();
-    return response()->json($fedex->verifyAddress($address));
+//    $address = new Address();
+//    $address->fill($customerAddress);
+
 
     $store_id = $request->store_id ?? 43;
 
@@ -358,27 +357,22 @@ class HomeController extends Controller
     $transaction_payment_address->customer_id = $customer->id;
     $transaction_payment_address->payment_type_id = $request->payment;
 
-//            if($request->payment == 1) {
-//
-//                $transaction_payment_address->check_address = data_get($input, 'address');
-//                $transaction_payment_address->check_address_2 = data_get($input, 'address2');
-//                $transaction_payment_address->check_city = data_get($input, 'city');
-//                $transaction_payment_address->check_state_id = Helper::getStateId(data_get($input, 'state'));
-//                $transaction_payment_address->check_zip = data_get($input, 'zip');
-//            }
 
     $transaction_payment_address->save();
 
-    return response()->json($transaction, 200);
-//        } catch (\Throwable $th) {
-//            \Log::Error("Failed to save  transaction  with" . collect($request->all())  ."  Error: " .$th->getMessage() );
-//            return response()->json(['message'=> "Failed to save  transaction"], 422);
-//        }
+    $fedex = new Fedex();
+    return response()->json($fedex->verifyAddress($address));
 
+    //return response()->json($transaction, 200);
 
   }
 
   public function fix(Request $request, $id=null) {
     dd($id);
+  }
+
+  public function updateVerification (Request $request)
+  {
+    
   }
 }
