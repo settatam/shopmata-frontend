@@ -402,6 +402,6 @@ class HomeController extends Controller
         );
 
     //redirect to
-    return redirect('');
+    return redirect()->route('thank-you', ['id' => $transaction->id]);
   }
 }
