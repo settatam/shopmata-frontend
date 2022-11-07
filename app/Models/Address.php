@@ -83,10 +83,7 @@ class Address extends Model
     }
 
     public function getStateCodeAttribute() {
-        if(isset($this->resolvedState) && null !== $this->resolvedState) {
-            return $this->resolvedState->code;
-        }
-        return null;
+        return optional($this->resolvedState)->code;
     }
 
     public function addFields($input) {
