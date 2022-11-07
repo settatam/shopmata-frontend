@@ -350,7 +350,7 @@ class HomeController extends Controller
 
     $transaction_payment_address = new TransactionPaymentAddress;
     $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
-      ['transaction_id' => $transaction->id ]
+      [ 'transaction_id' => $transaction->id ]
     );
 
     $transaction_payment_address->transaction_id = $transaction->id;
@@ -361,9 +361,13 @@ class HomeController extends Controller
     $transaction_payment_address->save();
 
     $fedex = new Fedex();
-    return response()->json($fedex->verifyAddress($address));
+    $addressVerification = $fedex->verifyAddress($address);
 
-    //return response()->json($transaction, 200);
+
+    $request->session()->put('transactionId', $transaction->id);
+    $request->session()->put('verifiedAddress', $addressVerification);
+
+    return response()->json($addressVerification);
 
   }
 
@@ -371,8 +375,32 @@ class HomeController extends Controller
     dd($id);
   }
 
-  public function updateVerification (Request $request)
+  public function updateAddressVerification (Request $request)
   {
-    
+    $transaction = Transaction::find($request->transaction_id);
+    $address = $request->session()->get('verifiedAddress');
+    //update verified address
+    if (null !== $transaction) {
+      $transaction->address()->update([
+        'address' => $address['parsedAddress']['street'],
+        'address2' => $address['parsedAddress']['street2'],
+        'city' => $address['parsedAddress']['city'],
+        'zip' => $address['parsedAddress']['zip'],
+        'state_id' => Helper::getStateId($address['parsedAddress']['state']),
+        'is_verified' => true
+      ]);
+    }
+
+    new EventNotification(
+      'New Transaction',
+            [
+                'customer' => $transaction->customer,
+                'store' => $transaction->store,
+                'transaction' => $transaction
+            ]
+        );
+
+    //redirect to
+    return redirect('');
   }
 }

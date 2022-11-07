@@ -503,15 +503,6 @@ class Transaction extends Model
             }
         }
 
-        $sendNotice = new EventNotification(
-            self::EVENT_NOTIFICATION_NAME,
-            [
-                'customer' => $customer,
-                'store' => $store,
-                'transaction' => $transaction
-            ]
-        );
-
         $note = sprintf(
             '%s %s created new transaction',
             $customer->first_name,

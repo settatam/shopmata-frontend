@@ -62,6 +62,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('thank-you/{id}', [ClientHomeController::class, 'index']);
     Route::get('{id}/thank-you', [ClientHomeController::class, 'fix']);
     Route::post('customer/verify-address', [ClientHomeController::class, 'verifyAddress']);
+    Route::post('customer/update-address-verification', [ClientHomeController::class, 'updateAddressVerification']);
 //});
 
 
