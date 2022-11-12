@@ -324,7 +324,7 @@ class HomeController extends Controller
 //    $address->fill($customerAddress);
 
 
-    $store_id = $request->store_id ?? 43;
+    $store_id = session()->get('store_id');
 
     $store = Store::find($store_id);
     $customer = new Customer;
