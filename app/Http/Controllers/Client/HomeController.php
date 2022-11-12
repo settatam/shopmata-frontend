@@ -43,7 +43,9 @@ class HomeController extends Controller
       $data['store'] = $store;
       $data['customer'] = Auth::check() ? Auth::user() : null;
 
-      if($pageToFind == 'transactions') {
+      if ($pageToFind === 'home') {
+        $pageType = 'template';
+      } else if ($pageToFind == 'transactions') {
         if(!Auth::check()) {
           return redirect('customer/login?q=couldnot');
         }
@@ -59,7 +61,7 @@ class HomeController extends Controller
           ->orderBy($sortBy, $orderBy)
           ->get();
 
-      }else if($pageToFind == 'thank-you.detail') {
+      } else if($pageToFind == 'thank-you.detail') {
         if(!Auth::check()) {
           return redirect('customer/login');
         }
@@ -73,7 +75,7 @@ class HomeController extends Controller
           //->where('customer_id', $data['customer']->id)
           ->orderBy($sortBy, $orderBy)
           ->find($id);
-      }else if($pageToFind == 'transactions.detail') {
+      } else if($pageToFind == 'transactions.detail') {
         if(!Auth::check()) {
           return redirect('customer/login');
         }
