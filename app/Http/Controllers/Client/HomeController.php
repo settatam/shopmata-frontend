@@ -325,11 +325,6 @@ class HomeController extends Controller
       'state_id' => Helper::getStateId(data_get($input, 'state'))
     ];
 
-    //Do address validation
-    $address = new Address();
-    $address->fill($customerAddress);
-
-
     $store_id = session()->get('store_id');
 
     $store = Store::find($store_id);
