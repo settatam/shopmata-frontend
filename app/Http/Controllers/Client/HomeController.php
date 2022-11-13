@@ -409,9 +409,12 @@ class HomeController extends Controller
 
   public function meta(Request $request)
   {
-    $customer = Auth::user();
-    dd($customer);
-    $customer->addOrUpdateMeta($request->field, $request->value);
-    return $customer;
+    //We don't know who the customer is ... we save the seo id in a session ....
+    if(Auth::check()) {
+      $customer = Auth::user();
+      $customer->addOrUpdateMeta($request->field, $request->value);
+      return $customer;
+    }
+    
   }
 }
