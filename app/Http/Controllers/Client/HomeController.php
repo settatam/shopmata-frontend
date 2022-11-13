@@ -303,7 +303,7 @@ class HomeController extends Controller
   public function verifyAddress(Request $request) {
 
     if($request->session()->has('transactionId')) {
-      return $this->reVerifyAddress($request);
+      $this->reVerifyAddress($request);
     }
 
     $request->validate([
