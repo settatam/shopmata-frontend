@@ -237,6 +237,7 @@ class Store extends Model
             $pageTemplate = '<p> This page could not be found!</p>';
         }
 
+        //Weird way to write this code.
         $theme = $this->theme->files()->where('title', 'theme.twig')->where('store_id', $this->id)->first()->content;
 
         if($pageTemplate) {

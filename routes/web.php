@@ -10,7 +10,6 @@ use App\Http\Controllers\TransactionsItemsController;
 use App\Http\Controllers\Auth\CustomerLoginController;
 use App\Http\Controllers\TransactionPaymentAddressController;
 use App\Http\Controllers\PDFController;
-//Client
 
 use App\Http\Controllers\Client\HomeController as ClientHomeController;
 use Illuminate\Support\Facades\View;
@@ -63,6 +62,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('{id}/thank-you', [ClientHomeController::class, 'fix']);
     Route::post('customer/verify-address', [ClientHomeController::class, 'verifyAddress']);
     Route::post('customer/update-address-verification', [ClientHomeController::class, 'updateAddressVerification']);
+    Route::post('customer/meta', [ClientHomeController::class, 'meta']);
 //});
 
 

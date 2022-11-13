@@ -9,6 +9,7 @@ use App\Http\Helpers\Helper;
 use Carbon\Carbon;
 use App\Traits\FileUploader;
 use Auth;
+use App\Traits\HasMeta;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Numeral\Numeral;
@@ -16,7 +17,7 @@ use Numeral\Numeral;
 
 class Customer extends Authenticatable
 {
-    use HasFactory, FileUploader;
+    use HasFactory, FileUploader, HasMeta;
 
     protected $table = 'customers';
 

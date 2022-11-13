@@ -406,4 +406,11 @@ class HomeController extends Controller
     //redirect to
     return redirect()->route('thank-you', ['id' => $transaction->id]);
   }
+
+  public function meta(Request $request)
+  {
+    $customer = Auth::user();
+    $customer->addOrUpdateMeta($request->field, $request->value);
+    return $customer;
+  }
 }
