@@ -303,7 +303,7 @@ class HomeController extends Controller
   public function verifyAddress(Request $request) {
 
     if($request->session()->has('transactionId')) {
-      $this->reVerifyAddress($request);
+      return $this->reVerifyAddress($request);
     }
 
     $request->validate([
@@ -441,6 +441,8 @@ class HomeController extends Controller
         );
 
     //redirect to
+    session()->forget('transactionId');
+    return redirect()->route('thank-you', ['id' => $transaction->id]);
   }
 
   public function meta(Request $request)
