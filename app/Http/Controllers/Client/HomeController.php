@@ -362,12 +362,15 @@ class HomeController extends Controller
 
     $transaction_payment_address->save();
 
-    $fedex = new Fedex();
-    $addressVerification = $fedex->verifyAddress($address);
-
+    try {
+      $fedex = new Fedex();
+      $addressVerification = $fedex->verifyAddress($address);
+      $request->session()->put('verifiedAddress', $addressVerification);
+    } catch (\Exception $e) {
+      $addressVerification['valid'] = false;
+    }
 
     $request->session()->put('transactionId', $transaction->id);
-    $request->session()->put('verifiedAddress', $addressVerification);
 
     return response()->json($addressVerification);
 
@@ -389,18 +392,23 @@ class HomeController extends Controller
       'phone' => data_get($input, 'phone'),
       'state_id' => Helper::getStateId(data_get($input, 'state'))
     ];
+
     $address = new Address();
     $address->fill($customerAddress);
 
-    $fedex = new Fedex();
-    $addressVerification = $fedex->verifyAddress($address);
-
-    if($addressVerification['valid']) {
-      $request->session()->put('verifiedAddress', $addressVerification);
-      return $this->updateAddressVerification();
-    } else {
-      return response()->json($addressVerification);
+    try {
+      $fedex = new Fedex();
+      $addressVerification = $fedex->verifyAddress($address);
+      if($addressVerification['valid']) {
+        $request->session()->put('verifiedAddress', $addressVerification);
+        return $this->updateAddressVerification();
+      }
+    } catch (\Exception $e) {
+      $addressVerification['valid'] = false;
     }
+
+    return response()->json($addressVerification);
+
   }
 
   public function fix(Request $request, $id=null) {
