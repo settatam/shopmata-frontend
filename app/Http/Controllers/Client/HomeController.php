@@ -401,7 +401,7 @@ class HomeController extends Controller
       $addressVerification = $fedex->verifyAddress($address);
       if($addressVerification['valid']) {
         $request->session()->put('verifiedAddress', $addressVerification);
-        return $this->updateAddressVerification();
+        return $this->updateAddressVerification($request);
       }
     } catch (\Exception $e) {
       $addressVerification['valid'] = false;
