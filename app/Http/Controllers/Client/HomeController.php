@@ -302,6 +302,10 @@ class HomeController extends Controller
 
   public function verifyAddress(Request $request) {
 
+    if($request->session()->has('transactionId')) {
+      return $this->updateAddressVerification($request);
+    }
+
     $request->validate([
       //'email' => ['required','email','max:75'],
     ]);
@@ -322,8 +326,8 @@ class HomeController extends Controller
     ];
 
     //Do address validation
-//    $address = new Address();
-//    $address->fill($customerAddress);
+    $address = new Address();
+    $address->fill($customerAddress);
 
 
     $store_id = session()->get('store_id');
@@ -378,7 +382,7 @@ class HomeController extends Controller
     dd($id);
   }
 
-  public function updateAddressVerification (Request $request)
+  public function updateAddressVerification(Request $request)
   {
     $transaction = Transaction::find($request->session()->get('transactionId'));
     $address = $request->session()->get('verifiedAddress');
@@ -404,6 +408,7 @@ class HomeController extends Controller
         );
 
     //redirect to
+    session()->forget('transactionId');
     return redirect()->route('thank-you', ['id' => $transaction->id]);
   }
 
@@ -415,6 +420,6 @@ class HomeController extends Controller
       $customer->addOrUpdateMeta($request->field, $request->value);
       return $customer;
     }
-    
+
   }
 }
