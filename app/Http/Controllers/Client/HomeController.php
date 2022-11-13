@@ -303,7 +303,7 @@ class HomeController extends Controller
   public function verifyAddress(Request $request) {
 
     if($request->session()->has('transactionId')) {
-      return $this->updateAddressVerification($request);
+      return $this->reVerifyAddress($request);
     }
 
     $request->validate([
@@ -371,6 +371,36 @@ class HomeController extends Controller
 
     return response()->json($addressVerification);
 
+  }
+
+  public function reVerifyAddress(Request $request)
+  {
+    $input = $request->input();
+
+    $customerAddress = [
+      'first_name' => data_get($input, 'first_name'),
+      'last_name' => data_get($input, 'last_name'),
+      'address' => data_get($input, 'address'),
+      'address2' => data_get($input, 'apt'),
+      'state' => data_get($input, 'state'),
+      'city' => data_get($input, 'city'),
+      'country_id' => 1,
+      'zip' => data_get($input, 'zip'),
+      'phone' => data_get($input, 'phone'),
+      'state_id' => Helper::getStateId(data_get($input, 'state'))
+    ];
+    $address = new Address();
+    $address->fill($customerAddress);
+
+    $fedex = new Fedex();
+    $addressVerification = $fedex->verifyAddress($address);
+
+    if($addressVerification['valid']) {
+      $request->session()->put('verifiedAddress', $addressVerification);
+      return $this->updateAddressVerification();
+    } else {
+      return response()->json($addressVerification);
+    }
   }
 
   public function fix(Request $request, $id=null) {
