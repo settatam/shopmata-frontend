@@ -875,11 +875,11 @@ class Transaction extends Model
         //if(null !== $labels) return $labels;
 
         if ($direction == Shipping::SHIPPING_TYPE_FROM){
-            $shipperAddress = $this->customer->shippingAddress();
+            $shipperAddress = $this->validatedShippingAddress();
             $recipientAddress = $this->store->shippingAddress();
             $payer = 'RECIPIENT';
         }else if($direction == Shipping::SHIPPING_TYPE_TO) {
-            $recipientAddress = $this->customer->shippingAddress();
+            $recipientAddress = $this->validatedShippingAddress();
             $shipperAddress = $this->store->shippingAddress();
             $payer = 'SENDER';
         }
@@ -922,6 +922,16 @@ class Transaction extends Model
         $label = new \stdClass();
         $label->has_errors = true;
         return $label;
+    }
+
+    public function validatedShippingAddress() {
+        $address = $this->address;
+        $address->first_name = $this->customer->first_name;
+        $address->last_name = $this->customer->last_name;
+        $address->company_name = 'WBGAS';
+        $address->country = 'US';
+        $address->state = $address->resolvedState->code;
+        return $address;
     }
 
     public function getOrSetShippingLabel($type, $cache=false) {

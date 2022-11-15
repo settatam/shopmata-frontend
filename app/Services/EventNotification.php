@@ -150,26 +150,31 @@ class EventNotification
 //            return;
 //        }
 
-        //Create a class to send the SMS and call the sender statically ...
         $smsSender = new SmsManager($data['store']);
         try {
-            $smsSender->sendSMSForStore($data['store'], $renderedMessage, $data['customer']->phone_number);
+            if ($isCustomer = data_get($data, 'is_customer')) {
+                if($data['customer']->phone_number) {
+                    $smsSender->sendSMSForStore($data['store'], $renderedMessage, $data['customer']->phone_number);
+                    if(Sms::create([
+                        'from' => $smsSender->from,
+                        'to' => $data['customer']->phone_number,
+                        'store_id' => $data['store']->id,
+                        'message' => $renderedMessage,
+                        'smsable_id' => $this->options['smsable_id'],
+                        'smsable_type' => $this->options['smsable_type']
+                    ])) {
+                        Log::info(Auth::id() . ' created a new SMS message');
+                    }
+                }
+            } else {
+                if($data['user']->phone_number) {
+                    //We don't care about SMS sent to users for now
+                    $smsSender->sendSMSForStore($data['store'], $renderedMessage, $data['user']->phone_number);
+                }
+            }
+
         } catch(SMSException $e) {
            // throw new InvalidInputException($e);
         }
-
-        //Move this away from here
-
-        if(Sms::create([
-            'from' => $smsSender->from,
-            'to' => $data['customer']->phone_number,
-            'store_id' => $data['store']->id,
-            'message' => $renderedMessage,
-            'smsable_id' => $this->options['smsable_id'],
-            'smsable_type' => $this->options['smsable_type']
-        ])) {
-            Log::info(Auth::id() . ' created a new SMS message');
-        }
-
     }
 }
