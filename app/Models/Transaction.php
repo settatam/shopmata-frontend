@@ -852,7 +852,7 @@ class Transaction extends Model
         return $this->hasOne(ShippingLabel::class)->where('type',  Shipping::SHIPPING_TYPE_TO);
     }
 
-    public function getShippingLabel($direction, $is_return=false, $shippingDate=null) {
+   public function getShippingLabel($direction, $is_return=false, $shippingDate=null) {
 
         if($direction != 'to' && $direction != 'from') return 'Direction must be to customer or from customer';
 
@@ -874,14 +874,18 @@ class Transaction extends Model
 
         //if(null !== $labels) return $labels;
 
+        $options = [];
+
         if ($direction == Shipping::SHIPPING_TYPE_FROM){
             $shipperAddress = $this->validatedShippingAddress();
             $recipientAddress = $this->store->shippingAddress();
-            $payer = 'RECIPIENT';
+            $options['payer'] = 'RECIPIENT';
+            $options['signature_option'] = 'DIRECT';
         }else if($direction == Shipping::SHIPPING_TYPE_TO) {
             $recipientAddress = $this->validatedShippingAddress();
             $shipperAddress = $this->store->shippingAddress();
-            $payer = 'SENDER';
+            $options['payer'] = 'SENDER';
+            $options['signature_option'] = $is_return ? 'DIRECT' : 'NO_SIGNATURE_REQUIRED';
         }
 
         if(!$recipientAddress || !$shipperAddress)  {
@@ -891,7 +895,7 @@ class Transaction extends Model
             return $label;
         }
 
-        if($shippingLabel = $this->createLabel($shipperAddress, $recipientAddress, $shippingDate, $payer)) {
+        if($shippingLabel = $this->createLabel($shipperAddress, $recipientAddress, $shippingDate, $options)) {
             if(!$shippingLabel->hasErrors()) {
                 if($label = $this->shippingLabels()->create([
                     'tracking_number' => $shippingLabel->getTrackingNumber(),
@@ -942,13 +946,14 @@ class Transaction extends Model
 
     }
 
-    public function createLabel(Address $shipperAddress, Address $recipientAddress, $shippingDate, $payer)
+    public function createLabel(Address $shipperAddress, Address $recipientAddress, $shippingDate, $options)
     {
         if(!$shippingDate) $shippingDate = date('Y-m-d');
 
         $fedex = new Fedex();
         $invoiceNumber = $this->id . ' - ' . $this->store->url;
-        $fedex->setPayer($payer);
+        $fedex->setPayer($options['payer']);
+        $fedex->setSignatureOption($options['signature_option']);
         $fedex->setShippingDate($shippingDate);
         $fedex->setInvoiceNumber($invoiceNumber);
         $fedex->setShipper($shipperAddress);
