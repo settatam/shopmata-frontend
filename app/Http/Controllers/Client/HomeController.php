@@ -366,6 +366,7 @@ class HomeController extends Controller
 
     $transaction = Transaction::createNew($store, $request, $customer);
     $transaction->address()->create($customerAddress);
+    $addressVerification['transaction_id'] = $transaction->id;
 
     $transaction_payment_address = new TransactionPaymentAddress();
     $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
@@ -377,8 +378,6 @@ class HomeController extends Controller
     $transaction_payment_address->payment_type_id = $request->payment;
 
     $transaction_payment_address->save();
-
-    $request->session()->put('transactionId', $transaction->id);
 
     return response()->json($addressVerification);
 
