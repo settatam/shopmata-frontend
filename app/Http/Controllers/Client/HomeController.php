@@ -355,10 +355,12 @@ class HomeController extends Controller
 
     if(null === $customer) {
       $customer = Customer::addNew($store, $input);
+    } else {
+      $customer->addresses()->delete();
     }
 
-    $address = $customer->address()->firstOrNew($customerAddress);
-    $address->save();
+    $cAddress = $customer->address()->firstOrNew($customerAddress);
+    $cAddress->save();
 
     if(!Auth::check()) {
       Auth::loginUsingId($customer->id);

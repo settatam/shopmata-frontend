@@ -220,6 +220,14 @@
                                                         item.customer_info.data
                                                             .address.address
                                                     }}
+                                                      {{
+                                                        item.customer_info.data
+                                                            .address.address2
+                                                    }}
+                                                      {{
+                                                        item.customer_info.data
+                                                            .address.city
+                                                    }}
                                                     {{
                                                         item.customer_info.data
                                                             .address.state.code
