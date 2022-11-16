@@ -309,8 +309,8 @@ class HomeController extends Controller
     $input = $request->input();
 
     $customerAddress = [
-      'first_name' => data_get($input, 'first_name'),
-      'last_name' => data_get($input, 'last_name'),
+      'first_name' => data_get($input, 'firstname'),
+      'last_name' => data_get($input, 'lastname'),
       'address' => data_get($input, 'address'),
       'address2' => data_get($input, 'apt'),
       'state' => data_get($input, 'state'),
@@ -339,7 +339,7 @@ class HomeController extends Controller
     $store_id = session()->get('store_id');
 
     $store = Store::find($store_id);
-    $customer = new Customer;
+    $customer = new Customer();
     //try {
 
     $input['first_name'] = $request->first_name ?? $request->firstname;
