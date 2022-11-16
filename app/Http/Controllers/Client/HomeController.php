@@ -302,11 +302,6 @@ class HomeController extends Controller
 
   public function verifyAddress(Request $request) {
 
-    if($request->session()->has('transactionId')) {
-      $this->reVerifyAddress($request);
-      return false;
-    }
-
     $request->validate([
       //'email' => ['required','email','max:75'],
     ]);
@@ -326,6 +321,21 @@ class HomeController extends Controller
       'state_id' => Helper::getStateId(data_get($input, 'state'))
     ];
 
+    $address = new Address();
+    $address->fill($customerAddress);
+
+    try {
+      $fedex = new Fedex();
+      $addressVerification = $fedex->verifyAddress($address);
+      $request->session()->put('verifiedAddress', $addressVerification);
+    } catch (\Exception $e) {
+      $addressVerification['valid'] = false;
+    }
+
+    if(!data_get($addressVerification, 'valid')) {
+      return response()->json($addressVerification);
+    }
+
     $store_id = session()->get('store_id');
 
     $store = Store::find($store_id);
@@ -336,6 +346,12 @@ class HomeController extends Controller
     $input['last_name'] = $request->last_name ?? $request->lastname;
 
     $customer = Customer::where('email', $input['email'])->first();
+
+    $customerAddress['address'] = $addressVerification['parsedAddress']['street'];
+    $customerAddress['address2'] = $addressVerification['parsedAddress']['street2'];
+    $customerAddress['state'] = Helper::getStateId($addressVerification['parsedAddress']['state']);
+    $customerAddress['city'] = $addressVerification['parsedAddress']['city'];
+    $customerAddress['zip'] = $addressVerification['parsedAddress']['zip'];
 
     if(null === $customer) {
       $customer = Customer::addNew($store, $input);
@@ -360,16 +376,7 @@ class HomeController extends Controller
     $transaction_payment_address->customer_id = $customer->id;
     $transaction_payment_address->payment_type_id = $request->payment;
 
-
     $transaction_payment_address->save();
-
-    try {
-      $fedex = new Fedex();
-      $addressVerification = $fedex->verifyAddress($address);
-      $request->session()->put('verifiedAddress', $addressVerification);
-    } catch (\Exception $e) {
-      $addressVerification['valid'] = false;
-    }
 
     $request->session()->put('transactionId', $transaction->id);
 
@@ -417,32 +424,26 @@ class HomeController extends Controller
 
   public function updateAddressVerification(Request $request)
   {
-    $transaction = Transaction::find($request->session()->get('transactionId'));
-    $address = $request->session()->get('verifiedAddress');
+    $transaction = Transaction::find($request->transaction_id);
     //update verified address
     if (null !== $transaction) {
       $transaction->address()->update([
-        'address' => $address['parsedAddress']['street'],
-        'address2' => $address['parsedAddress']['street2'],
-        'city' => $address['parsedAddress']['city'],
-        'zip' => $address['parsedAddress']['zip'],
-        'state_id' => Helper::getStateId($address['parsedAddress']['state']),
         'is_verified' => true
       ]);
+
+      new EventNotification(
+        'New Transaction',
+        [
+          'customer' => $transaction->customer,
+          'store' => $transaction->store,
+          'transaction' => $transaction
+        ]
+      );
+
+      return redirect()->route('thank-you', ['id' => $transaction->id]);
+    } else {
+      dd('Please try again');
     }
-
-    new EventNotification(
-      'New Transaction',
-            [
-                'customer' => $transaction->customer,
-                'store' => $transaction->store,
-                'transaction' => $transaction
-            ]
-        );
-
-    //redirect to
-    session()->forget('transactionId');
-    return redirect()->route('thank-you', ['id' => $transaction->id]);
   }
 
   public function meta(Request $request)
