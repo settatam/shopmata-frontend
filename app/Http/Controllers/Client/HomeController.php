@@ -304,6 +304,7 @@ class HomeController extends Controller
 
     if($request->session()->has('transactionId')) {
       $this->reVerifyAddress($request);
+      return false;
     }
 
     $request->validate([
@@ -350,7 +351,7 @@ class HomeController extends Controller
     $transaction = Transaction::createNew($store, $request, $customer);
     $transaction->address()->create($customerAddress);
 
-    $transaction_payment_address = new TransactionPaymentAddress;
+    $transaction_payment_address = new TransactionPaymentAddress();
     $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
       [ 'transaction_id' => $transaction->id ]
     );
@@ -408,7 +409,6 @@ class HomeController extends Controller
     }
 
     return response()->json($addressVerification);
-
   }
 
   public function fix(Request $request, $id=null) {
