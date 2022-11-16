@@ -441,7 +441,7 @@ class HomeController extends Controller
 
       return redirect()->route('thank-you', ['id' => $transaction->id]);
     } else {
-      dd('Please try again');
+      dd($request->input());
     }
   }
 
