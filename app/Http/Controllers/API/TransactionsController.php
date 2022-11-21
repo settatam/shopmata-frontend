@@ -63,7 +63,7 @@ class TransactionsController extends Controller
     try {
       $fedex = new Fedex();
       $addressVerification = $fedex->verifyAddress($address);
-      $request->session()->put('verifiedAddress', $addressVerification);
+      //$request->session()->put('verifiedAddress', $addressVerification);
     } catch (\Exception $e) {
       $addressVerification['valid'] = false;
     }
