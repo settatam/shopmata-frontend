@@ -39,6 +39,8 @@ class TransactionsController extends Controller
 
     public function verifyAddress(Request $request) {
 
+      $store = Store::find(43);
+
     $request->validate([
       //'email' => ['required','email','max:75'],
     ]);
@@ -73,9 +75,6 @@ class TransactionsController extends Controller
       return response()->json($addressVerification);
     }
 
-    $store_id = session()->get('store_id');
-
-    $store = Store::find($store_id);
     $customer = new Customer();
     //try {
 
@@ -103,7 +102,7 @@ class TransactionsController extends Controller
       Auth::loginUsingId($customer->id);
     }
 
-    $store = Store::find(43);
+
 
     $transaction = Transaction::createNew($store, $request, $customer);
     $transaction->address()->create($customerAddress);
