@@ -12,6 +12,7 @@ use Auth;
 use App\Traits\HasMeta;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Log;
 use Numeral\Numeral;
 
 
@@ -130,19 +131,7 @@ class Customer extends Authenticatable
         $customer->is_active       = 1;
         $customer->accepts_marketing = 1;
         if ( $customer->save() ) {
-            $address = new Address([
-                'first_name' => $input['first_name'],
-                'last_name'  => $input['last_name'],
-                'state'      => $input['state'],
-                'state_id'   => Helper::getStateId($input['state']),
-                'city'       => $input['state'],
-                'is_default' => 1,
-                'address'    => $input['address'],
-                'address2'   => $input['apt'],
-                'zip'        => $input['zip'],
-            ]
-          );
-          $customer->address()->save($address);
+          Log::info('new customer created', $customer->toArray());
         }
 
         return $customer;

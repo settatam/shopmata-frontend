@@ -38,6 +38,7 @@ class StorePage extends Model
 
     static function nameFromPath($path='') {
         if(!$path || $path == '/') return 'home';
+        if($path === 'thank-you.html') return 'thank-you.detail';
         $hasSlash = strpos($path, '/');
         if($hasSlash === false) {
             return strtolower($path);

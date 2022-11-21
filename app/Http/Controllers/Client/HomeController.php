@@ -62,6 +62,7 @@ class HomeController extends Controller
           ->get();
 
       } else if($pageToFind == 'thank-you.detail') {
+        $id = $request->input('id');
         if(!Auth::check()) {
           return redirect('customer/login');
         }
@@ -440,8 +441,9 @@ class HomeController extends Controller
           'transaction' => $transaction
         ]
       );
+      $link = 'thank-you.html?id='.$transaction->id;
 
-      return redirect()->route('thank-you', ['id' => $transaction->id]);
+      return redirect($link);
     } else {
       dd($request->input());
     }
