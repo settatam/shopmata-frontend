@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use Auth;
 use App\Http\Helpers\Helper;
 use App\Models\Address;
+use App\Services\Logistics\Fedex;
 
 
 class TransactionsController extends Controller
