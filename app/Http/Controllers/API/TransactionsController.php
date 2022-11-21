@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Store;
+use App\Models\StoreTag;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\TransactionPaymentAddress;
@@ -101,6 +102,8 @@ class TransactionsController extends Controller
     if(!Auth::check()) {
       Auth::loginUsingId($customer->id);
     }
+
+    $store = Store::find(43);
 
     $transaction = Transaction::createNew($store, $request, $customer);
     $transaction->address()->create($customerAddress);
