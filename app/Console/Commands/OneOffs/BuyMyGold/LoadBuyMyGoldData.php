@@ -110,7 +110,7 @@ class LoadBuyMyGoldData extends Command
 //
 //                    $transaction_payment_address = new TransactionPaymentAddress;
 //                    $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
-//                        ['transaction_id' => $order['order_id'] ]
+//                        ['transaction_id' => $order['sorder_id'] ]
 //                    );
 //
 //                    $transaction_payment_address->transaction_id         =  $order['order_id'];
