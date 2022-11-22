@@ -63,9 +63,17 @@ class HomeController extends Controller
 
       } else if($pageToFind == 'thank-you.detail') {
         $id = $request->input('id');
+
+        if(!Auth::check()) {
+          if($request->has('customer_id') && $request->customer_id) {
+            Auth::loginUsingId($request->customer_id);
+          }
+        }
+
         if(!Auth::check()) {
           return redirect('customer/login');
         }
+
         $data['store']->load('address');
         $pageType = 'template';
         $data['customer'] = Auth::user();

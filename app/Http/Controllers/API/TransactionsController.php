@@ -107,6 +107,7 @@ class TransactionsController extends Controller
     $transaction = Transaction::createNew($store, $request, $customer);
     $transaction->address()->create($customerAddress);
     $addressVerification['transaction_id'] = $transaction->id;
+    $addressVerification['customer_id'] = $customer->id;
 
     $transaction_payment_address = new TransactionPaymentAddress();
     $transaction_payment_address = TransactionPaymentAddress::firstOrNew(
