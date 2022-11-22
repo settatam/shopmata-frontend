@@ -193,6 +193,6 @@ class TransactionsController extends Controller
       $image = $request->file;
       $transaction = Transaction::find($request->id);
       $response = $transaction->addImage($image);
-      return $response->json('Successful');
+      return response()->json($response);
     }
 }
