@@ -10,7 +10,7 @@ use Twig;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Image;
-use App\Models\ProductImage;
+use App\Models\Image as ProductImage;
 
 
 
@@ -139,42 +139,50 @@ trait FileUploader {
         Storage::disk('DO')->put($slug . '/' . $file, 'public');
     }
 
-    public function addImage(Store $store, $images, $id=null, $rank=1) {
-        if($id) {
-            $object = $this->find($id);
-            if ($data = $this->uploadImageToCloud($store, $images)) {
-                return $object->images()->create([
-                    'url' => $data['url'],
-                    'thumbnail' => $data['thumb'],
-                    'rank' => $rank,
-                ]);
-            }
-        }
+    public function addImage($images, $rank=1)
+    {
+      if ($data = $this->uploadImageToCloud($this->store, $images)) {
+        return $this->images()->create([
+          'url' => $data['url'],
+          'thumbnail' => $data['thumb'],
+          'rank' => $rank,
+        ]);
+      }
     }
 
 	public function uploadAsset() {
 
-		$needs_interpretation = false;
+		$needsConversion = false;
 
-		if(strpos($this->title, 'js.twig') !== false) {
+		if(strpos($this->title, '.js.twig') !== false) {
+            $needsConversion = true;
 			//File is a js.twig
-		}else if(strpos($this->title, 'css.twig') !== false) {
+		}else if(strpos($this->title, '.css.twig') !== false) {
+            $needsConversion = true;
 			//File is a css.twig
-		}else if(strpos($this->title, 'css') !== false) {
+		}else if(strpos($this->title, '.css') !== false) {
 			//plain css file
-		}else if(strpos($this->title, 'js') !== false) {
+		}else if(strpos($this->title, '.js') !== false) {
 			//plain js file
 		}else{
 			return false;
 		}
 
-		$file_name = str_replace('.twig', '', $this->title);
+		$fileNameForCloud = str_replace('.twig', '', $this->title);
 		$store = Store::find(session()->get('store_id'));
 
 		$slug = $store->slug;
-		$content = $this->content;
 
-		Storage::disk('DO')->put($slug.'/'.$file_name, View::make('theme_files.index', compact('content')), 'public');
+
+        if ($needsConversion) {
+            $fileContent = View::make('theme_files.index', [
+                'content' => $this->content
+            ]);
+        } else {
+            $fileContent = $this->content;
+        }
+
+		return $upload = Storage::disk('DO')->put($slug.'/'.$fileNameForCloud, $fileContent, 'public');
 
 	}
 }

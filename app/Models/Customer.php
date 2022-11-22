@@ -132,6 +132,31 @@ class Customer extends Authenticatable
         $customer->accepts_marketing = 1;
         if ( $customer->save() ) {
           Log::info('new customer created', $customer->toArray());
+          //$customer->address()->save($address);
+        }
+
+        return $customer;
+    }
+
+    public static function addNewFromApi(Store $store, $input)
+    {
+        $customer = new static;
+        $names = explode(data_get($input, 'name'), ' ', 2);
+        $firstName = $names[0];
+        $lastName = count($names) == 2 ? $names[1] : $names[0];
+
+
+        $customer->first_name      = $firstName;
+        $customer->last_name       = $lastName;
+        $customer->email           = data_get($input, 'email');
+        $customer->phone_number    = data_get($input, 'phone');
+        $customer->store_id        = $store->id;
+        //$customer->customer_notes  = data_get($input, 'email');
+        $customer->password        = bcrypt($input['first_name']);
+        $customer->is_active       = 1;
+        $customer->accepts_marketing = 1;
+        if ( $customer->save() ) {
+          Log::info('new customer created', $customer->toArray());
         }
 
         return $customer;

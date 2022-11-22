@@ -90,7 +90,7 @@ class TransactionsController extends Controller
     $customerAddress['zip'] = $addressVerification['parsedAddress']['zip'];
 
     if(null === $customer) {
-      $customer = Customer::addNew($store, $input);
+      $customer = Customer::addNewFromApi($store, $input);
     } else {
       $customer->addresses()->delete();
     }
@@ -177,5 +177,22 @@ class TransactionsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function moreInfo(Request $request) {
+      $input = $request->input();
+      $transaction = Transaction::find($request->id);
+
+      $transaction->update($input);
+      $transaction->save();
+
+      return response()->json('Request Successful');
+    }
+
+    public function upload(Request $request) {
+      $image = $request->file;
+      $transaction = Transaction::find($request->id);
+      $response = $transaction->addImage();
+      return $response->json($response);
     }
 }

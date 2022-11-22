@@ -15,12 +15,13 @@ use DB;
 use Auth;
 use Numeral\Numeral;
 use App\Http\Helper;
+use App\Traits\FileUploader;
 
 
 
 class Transaction extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, FileUploader;
     protected $filters = null;
     protected $input = [];
 

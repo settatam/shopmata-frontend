@@ -30,6 +30,8 @@ Route::get('store-locations/{id}', [StoreLocationController::class, 'show']);
 
 Route::post('upload', [ImagesController::class, 'upload']);
 Route::post('verify-address', [TransactionsController::class, 'verifyAddress']);
+Route::post('upload', [TransactionsController::class, 'upload']);
+Route::post('more-info', [TransactionsController::class, 'moreInfo']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
