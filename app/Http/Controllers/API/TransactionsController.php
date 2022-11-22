@@ -192,7 +192,7 @@ class TransactionsController extends Controller
     public function upload(Request $request) {
       $image = $request->file;
       $transaction = Transaction::find($request->id);
-      $response = $transaction->addImage();
+      $response = $transaction->addImage($image);
       return $response->json($response);
     }
 }
