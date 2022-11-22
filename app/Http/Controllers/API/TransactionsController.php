@@ -51,7 +51,7 @@ class TransactionsController extends Controller
       'first_name' => data_get($input, 'firstname'),
       'last_name' => data_get($input, 'lastname'),
       'address' => data_get($input, 'address'),
-      'address2' => data_get($input, 'apt'),
+      'address2' => data_get($input, 'address2'),
       'state' => data_get($input, 'state'),
       'city' => data_get($input, 'city'),
       'country_id' => 1,
