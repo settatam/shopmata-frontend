@@ -48,8 +48,8 @@ class TransactionsController extends Controller
     $input = $request->input();
 
     $customerAddress = [
-      'first_name' => data_get($input, 'firstname'),
-      'last_name' => data_get($input, 'lastname'),
+      'first_name' => data_get($input, 'first_name'),
+      'last_name' => data_get($input, 'last_name'),
       'address' => data_get($input, 'address'),
       'address2' => data_get($input, 'address2'),
       'state' => data_get($input, 'state'),
@@ -82,6 +82,9 @@ class TransactionsController extends Controller
     $input['last_name'] = $request->last_name ?? $request->lastname;
 
     $customer = Customer::where('email', $input['email'])->first();
+
+    $customer['first_name'] = data_get($input, 'first_name');
+    $customer['last_name'] = data_get($input, 'last_name');
 
     $customerAddress['address'] = $addressVerification['parsedAddress']['street'];
     $customerAddress['address2'] = $addressVerification['parsedAddress']['street2'];

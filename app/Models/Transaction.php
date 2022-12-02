@@ -13,15 +13,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 use Auth;
+use Illuminate\Support\Facades\Log;
 use Numeral\Numeral;
 use App\Http\Helper;
 use App\Traits\FileUploader;
+use App\Traits\HasMeta;
+use Illuminate\Support\Facades\Http;
 
 
 
 class Transaction extends Model
 {
-    use HasFactory, SoftDeletes, FileUploader;
+    use HasFactory, SoftDeletes, FileUploader, HasMeta;
     protected $filters = null;
     protected $input = [];
 
@@ -744,7 +747,7 @@ class Transaction extends Model
                             );
                         }
                     }
-
+                    $this->sendTransactionToGoogle();
                     $this->updateDeclinedOffer();
                     $this->updateAcceptedOffer();
                     $this->updateRejectedOffer();
@@ -1351,6 +1354,65 @@ class Transaction extends Model
             $this->is_rejected = 1;
             $this->save();
         }
+    }
+
+    public function sendTransactionToGoogle()
+    {
+      if($this->status_id != 5 && $this->status_id != 6 && $this->status_id != 19 && $this->status_id != 3) {
+        return false;
+      }
+
+      $statusId = $this->status_id;
+
+      $eventName = '';
+
+      switch ($statusId) {
+        case 5:
+          $eventName = 'offer_accepted';
+          break;
+        case 6:
+        case 19:
+          $eventName = 'offer_declined';
+          break;
+        case 3:
+          $eventName = 'offer_rejected';
+          break;
+      }
+
+      $measurementId = $this->store->getMeta('google-analytics-measurement-id');
+      $apiSecret = $this->store->getMeta('google-analytics-secret');
+
+      $url = sprintf('https://www.google-analytics.com/mp/collect?measurement_id=%s&api_secret=%s',
+        $measurementId,
+        $apiSecret
+      );
+
+      if($googleId = $this->customer->getMeta('google-seo-client-id')) {
+        $data = [
+          'client_id' => $googleId,
+          'events' => [
+            [
+              'name' => $eventName,
+              'params' => [
+                'engagement_time_msec' => 1000,
+                'customer' => $this->customer->full_name,
+                'amount' =>$this->final_offer,
+                'value' => $this->getEstValue($this->items)
+                ]
+              ],
+            ]
+          ];
+
+        Log::info('Sending data to Google', $data);
+        $response = Http::post($url, $data);
+
+        if ($response->successful()) {
+          Log::info('Successfully sent data to Google');
+        } else {
+          Log::error('Could not sent data to Google');
+        }
+         return true;
+      }
     }
 
 }

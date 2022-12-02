@@ -141,13 +141,9 @@ class Customer extends Authenticatable
     public static function addNewFromApi(Store $store, $input)
     {
         $customer = new static;
-        $names = explode(data_get($input, 'name'), ' ', 2);
-        $firstName = $names[0];
-        $lastName = count($names) == 2 ? $names[1] : $names[0];
 
-
-        $customer->first_name      = $firstName;
-        $customer->last_name       = $lastName;
+        $customer->first_name      = data_get($input, 'first_name');
+        $customer->last_name       = data_get($input, 'last_name');
         $customer->email           = data_get($input, 'email');
         $customer->phone_number    = data_get($input, 'phone');
         $customer->store_id        = $store->id;
