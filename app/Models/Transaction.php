@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
 use Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Numeral\Numeral;
 use App\Http\Helper;
 use App\Traits\FileUploader;
@@ -1403,7 +1404,8 @@ class Transaction extends Model
                 'engagement_time_msec' => 1000,
                 'customer' => $this->customer->full_name,
                 'amount' =>$this->final_offer,
-                'value' => $this->getEstValue($this->items)
+                'value' => $this->getEstValue($this->items),
+                'session_id' => Session::getId()
                 ]
               ],
             ]
