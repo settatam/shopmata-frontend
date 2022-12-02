@@ -513,6 +513,12 @@ class Transaction extends Model
             $customer->last_name
         );
 
+        $event = new EventNotification('New Transaction', [
+          'transaction' => $transaction,
+          'customer' => $transaction->customer,
+          'store' => $transaction->store
+        ]);
+
         $transaction->addActivity($transaction, ['status_id' => Status::PENDING_KIT_REQUEST]);
 
         return $transaction;
