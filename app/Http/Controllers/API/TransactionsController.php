@@ -83,8 +83,8 @@ class TransactionsController extends Controller
 
     $customer = Customer::where('email', $input['email'])->first();
 
-    $customer['first_name'] = data_get($input, 'first_name');
-    $customer['last_name'] = data_get($input, 'last_name');
+//    $customer['first_name'] = data_get($input, 'first_name');
+//    $customer['last_name'] = data_get($input, 'last_name');
 
     $customerAddress['address'] = $addressVerification['parsedAddress']['street'];
     $customerAddress['address2'] = $addressVerification['parsedAddress']['street2'];
