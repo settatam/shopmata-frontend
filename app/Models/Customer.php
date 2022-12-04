@@ -126,7 +126,7 @@ class Customer extends Authenticatable
         $customer->email           = $input['email'];
         $customer->phone_number    = $input['phone'];
         $customer->store_id        = $store->id;
-        $customer->customer_notes  = $input['description'];
+        //$customer->customer_notes  = $input['description'];
         $customer->password        = bcrypt($input['first_name']);
         $customer->is_active       = 1;
         $customer->accepts_marketing = 1;
