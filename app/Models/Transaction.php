@@ -867,23 +867,23 @@ class Transaction extends Model
 
         if($direction != 'to' && $direction != 'from') return 'Direction must be to customer or from customer';
 
-//        if($is_return) {
-//            $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', true)->latest()->first();
-//        }else{
-//            switch ($direction) {
-//                case Shipping::SHIPPING_TYPE_TO:
-//                    $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', false)->latest()->first();
-//                    break;
-//                case Shipping::SHIPPING_TYPE_FROM:
-//                    $labels = $this->shippingLabels()->where('to_customer', false)->latest()->first();
-//                    break;
-//            }
-//        }
+        if($is_return) {
+            $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', true)->latest()->first();
+        }else{
+            switch ($direction) {
+                case Shipping::SHIPPING_TYPE_TO:
+                    $labels = $this->shippingLabels()->where('to_customer', true)->where('is_return', false)->latest()->first();
+                    break;
+                case Shipping::SHIPPING_TYPE_FROM:
+                    $labels = $this->shippingLabels()->where('to_customer', false)->latest()->first();
+                    break;
+            }
+        }
 
         $recipientAddress = null;
         $shipperAddress = null;
 
-        //if(null !== $labels) return $labels;
+        if(null !== $labels) return $labels;
 
         $options = [];
 
