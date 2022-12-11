@@ -1423,5 +1423,24 @@ class Transaction extends Model
       }
     }
 
+    public function doWarehouser()
+    {
+      TransactionWarehouse::create([
+        'transaction_id' => $this->id,
+         'customer_since' =>  optional($this->customer)->created_at,
+        'customer_id' =>  $this->customer_id,
+        'website' => optional($this->store)->name,
+        'first_name' => optional($this->customer)->first_name,
+        'last_name' => optional($this->customer)->last_name,
+        'phone' =>  optional($this->customer)->phone_number,
+        'email' => optional($this->customer)->email,
+        'street_address' => optional($this->address)->address,
+        'suite_apt' => optional($this->address)->address2,
+        'city' => optional($this->address)->city,
+        'state' => optional(optional($this->address)->resolvedState)->name,
+        'zip' => optional($this->address)->zip
+      ]);
+    }
+
 }
 
