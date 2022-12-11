@@ -390,6 +390,8 @@ class HomeController extends Controller
 
     $transaction_payment_address->save();
 
+    $transaction->doWarehouser();
+
     return response()->json($addressVerification);
 
   }
