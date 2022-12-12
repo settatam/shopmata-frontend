@@ -368,15 +368,15 @@ class HomeController extends Controller
       $customer->addresses()->delete();
     }
 
-    $cAddress = $customer->address()->firstOrNew($customerAddress);
-    $cAddress->save();
-
     if(!Auth::check()) {
       Auth::loginUsingId($customer->id);
     }
 
+    $cAddress = $customer->address()->firstOrNew($customerAddress);
+    $cAddress->save();
+
     $transaction = Transaction::createNew($store, $request, $customer);
-    session()->put('transactionID', $transaction->id);
+    //session()->put('transactionID', $transaction->id);
     $transaction->address()->create($customerAddress);
     $addressVerification['transaction_id'] = $transaction->id;
 
