@@ -399,7 +399,7 @@ class HomeController extends Controller
 
   public function reVerifyAddress(Request $request)
   {
-    $transaction = Transaction::find($request->transationID);
+    $transaction = Transaction::find($request->transactionID);
     if(null === $transaction) {
       return response()->json('There was an unspecified error. Please try again later', 400);
     }
