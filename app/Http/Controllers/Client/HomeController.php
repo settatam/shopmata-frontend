@@ -441,7 +441,7 @@ class HomeController extends Controller
 
   public function updateAddressVerification(Request $request)
   {
-    $transaction = Transaction::find($request->transactionID);
+    $transaction = Transaction::find($request->transaction_id);
     //update verified address
     if (null !== $transaction) {
       $transaction->address()->update([
