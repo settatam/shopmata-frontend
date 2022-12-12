@@ -425,8 +425,8 @@ class HomeController extends Controller
       $fedex = new Fedex();
       $addressVerification = $fedex->verifyAddress($address);
       if($addressVerification['valid']) {
-        $request->session()->put('verifiedAddress', $addressVerification);
-        return $this->updateAddressVerification($request);
+        $addressVerification['transaction_id'] = $transaction->id;
+        return response()->json($addressVerification);
       }
     } catch (\Exception $e) {
       $addressVerification['valid'] = false;
