@@ -61,6 +61,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('thank-you.html', [ClientHomeController::class, 'index'])->name('thank-you');
     Route::get('{id}/thank-you', [ClientHomeController::class, 'fix']);
     Route::post('customer/verify-address', [ClientHomeController::class, 'verifyAddress']);
+    Route::post('customer/re-verify-address', [ClientHomeController::class, 'reVerifyAddress']);
     Route::post('customer/update-address-verification', [ClientHomeController::class, 'updateAddressVerification']);
     Route::post('customer/meta', [ClientHomeController::class, 'meta']);
 //});

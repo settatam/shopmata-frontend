@@ -376,6 +376,7 @@ class HomeController extends Controller
     }
 
     $transaction = Transaction::createNew($store, $request, $customer);
+    session()->put('transactionID', $transaction->id);
     $transaction->address()->create($customerAddress);
     $addressVerification['transaction_id'] = $transaction->id;
 
@@ -398,6 +399,10 @@ class HomeController extends Controller
 
   public function reVerifyAddress(Request $request)
   {
+    $transaction = Transaction::find($request->transationID);
+    if(null === $transaction) {
+      return response()->json('There was an unspecified error. Please try again later', 400);
+    }
     $input = $request->input();
 
     $customerAddress = [
@@ -436,7 +441,7 @@ class HomeController extends Controller
 
   public function updateAddressVerification(Request $request)
   {
-    $transaction = Transaction::find($request->transaction_id);
+    $transaction = Transaction::find($request->transactionID);
     //update verified address
     if (null !== $transaction) {
       $transaction->address()->update([
