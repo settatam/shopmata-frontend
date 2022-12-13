@@ -441,12 +441,20 @@ class HomeController extends Controller
 
   public function updateAddressVerification(Request $request)
   {
-    $transaction = Transaction::find($request->transaction_id);
+    $transaction = Transaction::with('customer')->find($request->transaction_id);
     //update verified address
     if (null !== $transaction) {
       $transaction->address()->update([
         'is_verified' => true
       ]);
+
+      $note = sprintf(
+            '%s %s created new transaction',
+            $transaction->customer->first_name,
+            $transaction->customer->last_name
+        );
+
+        $transaction->addActivity($transaction, ['status_id' => Status::PENDING_KIT_REQUEST]);
 
       new EventNotification(
         'New Transaction',
