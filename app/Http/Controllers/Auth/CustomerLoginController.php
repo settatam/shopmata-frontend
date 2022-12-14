@@ -102,8 +102,9 @@ class CustomerLoginController extends Controller
           Auth::LoginUsingId($customer->id);
           return response()->json('Request Successful');
         }
-
       }
+
+      return response()->json('There is a problem', 400);
 
     }
 
