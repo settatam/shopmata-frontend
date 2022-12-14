@@ -10,6 +10,7 @@ use App\Models\Login;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -78,6 +79,33 @@ class CustomerLoginController extends Controller
         return redirect('/customer/login');
     }
 
+    public function postChangePassword (Request $request)
+    {
+      $request->validate([
+        'password' => 'required',
+        'confirm_password' => 'required',
+      ]);
+
+      if($request->password !== $request->confirm_password) {
+        //error - go back
+        redirect()->back()->withErrors('Your Passwords do not match');
+      }
+
+      if ($customer = $request->session()->get('customer')) {
+        $customer->password = Hash::make($request->password);
+        if($customer->save()) {
+          //
+          Log::info($customer->full_name . 'updated their password');
+          $customer->passworToken->is_active = false;
+          $customer->passwordToken->save();
+          Auth::LoginUsingId($customer->id);
+          return redirect('/transactions');
+        }
+
+      }
+
+    }
+
     public function postResetPassword(Request $request)
     {
       $request->validate([
@@ -89,6 +117,8 @@ class CustomerLoginController extends Controller
       $email = $request->email;
       $token = Str::random(60);
       $user = Customer::where('email', $request->email)->first();
+
+      $request->session()->put('customer', $user);
 
       if (null !== $user) {
         $user->generateTokenForPassword($store);

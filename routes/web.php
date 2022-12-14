@@ -56,6 +56,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('customer/login', [CustomerLoginController::class, 'getLogin'])->name('login');
     Route::get('password/reset', [CustomerLoginController::class, 'resetPassword'])->name('reset-password');
     Route::get('password/change', [CustomerLoginController::class, 'changePassword'])->name('change-password');
+    Route::post('password/change', [CustomerLoginController::class, 'changePassword']);
     Route::post('password/reset', [CustomerLoginController::class, 'postResetPassword']);
     Route::get('login', [CustomerLoginController::class, 'getLogin']);
     Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');
