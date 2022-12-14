@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Models\Customer;
 use App\Models\StoreEngagement;
+use Illuminate\Support\Str;
 
 class CustomerLoginController extends Controller
 {
@@ -58,10 +59,15 @@ class CustomerLoginController extends Controller
       ]);
 
       $email = $request->email;
+      $token = Str::random(60);
       $user = Customer::where('email', $request->email)->first();
 
-      $token = app(\Illuminate\Auth\Passwords\PasswordBroker::class)->createToken($user);
-      dd($token);
+      if (null !== $user) {
+        $user->generateTokenForPassword();
+        return response()->json('Done');
+      } else {
+        return response()->json('Not Done', 400);
+      }
 
     }
 
