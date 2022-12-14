@@ -55,7 +55,7 @@ class CustomerLoginController extends Controller
     public function changePassword(Request $request)
     {
         $store = Store::find(session()->get('store_id'));
-        $tokenString = base64_decode($request->token);
+        $tokenString = base64_decode($request->t);
 
         $tokens = explode('---', $tokenString);
         if(count($tokens) !== 2) {
