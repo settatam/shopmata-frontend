@@ -58,12 +58,12 @@ class CustomerLoginController extends Controller
         $tokenString = base64_decode($request->t);
 
         $tokens = explode('---', $tokenString);
-        dd($tokens);
         if(count($tokens) !== 2) {
           return redirect('/customer/login');
         }
 
         $customer = Customer::where('email', $tokens[0])->first();
+        dd($customer);
         if(null === $customer) return redirect('/customer/login');
         if ($token = $customer->getPasswordToken) {
           if ($token->token === $token[1]) {
