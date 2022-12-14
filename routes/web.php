@@ -79,7 +79,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
 Route::get('logout',          [LoginController::class,    'logout']);
 Route::post('logout',         [LoginController::class,    'logout']);
 Route::post('login',          [LoginController::class,    'authenticate']);
-Route::get('password/reset',  [LoginController::class,    'ForgotPassword']);
+//Route::get('password/reset',  [LoginController::class,    'ForgotPassword']);
 Route::get('login/token',     [TokenController::class,    'loginWithToken']);
 
 
