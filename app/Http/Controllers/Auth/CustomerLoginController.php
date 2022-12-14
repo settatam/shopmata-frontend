@@ -55,14 +55,25 @@ class CustomerLoginController extends Controller
     public function changePassword(Request $request)
     {
         $store = Store::find(session()->get('store_id'));
-        $token =  LoginToken::where('token', $request->token)
-          ->where('active', 1);
-        if()
-        $pageToFind = 'change-password';
-        $pageType = 'template';
-        $data = [];
-        $page = $store->pageContent($pageToFind, $data, $pageType);
-        return view('pages.index', compact('page'));
+        $tokenString = base64_decode($request->token);
+
+        $tokens = explode('---', $tokenString);
+        if(count($tokens) !== 2) {
+          return redirect('/customer/login');
+        }
+
+        $customer = Customer::where('email', $tokens[0])->first();
+        if(null === $customer) return redirect('/customer/login');
+        if ($token = $customer->getPasswordToken) {
+          if ($token->token === $token[1]) {
+            $pageToFind = 'change-password';
+            $pageType = 'template';
+            $data = [];
+            $page = $store->pageContent($pageToFind, $data, $pageType);
+            return view('pages.index', compact('page', 'customer'));
+          }
+        }
+        return redirect('/customer/login');
     }
 
     public function postResetPassword(Request $request)

@@ -105,12 +105,13 @@ class Filters extends AbstractExtension
     $store = $storeDomain->store;
 
     $tokenObj = $customer->getPasswordResetToken();
-    $tokenString = sprintf('%s---%s', $customer->email, $token->token);
+    $tokenString = sprintf('%s---%s', $customer->email, $tokenObj->token);
     $token = base64_encode($tokenString);
     return 'https://' . $store->store_domain . '/password/change?token='.$token;
   }
 
-  public static function reject($transaction) {
+  public static function reject($transaction)
+  {
     $store = $transaction->store;
     $token = $transaction->customer->generateLoginTokenForEmail(false);
     $url = 'https://' . $store->store_domain . '/transactions/' . $transaction->id . '?decline=1&token='.$token->token;
