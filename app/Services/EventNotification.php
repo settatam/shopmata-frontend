@@ -73,14 +73,6 @@ class EventNotification
             $messageData['order'] = isset($this->data['order']) ? $this->data['order'] : NULL;
 
             foreach($storeNotificationMessages as $storeNotificationMessage) {
-                //Check to see if the message is for customer or for a user ...
-//                if($storeNotificationMessage->is_customer && null === $this->data['customer']) {
-//                    throw new \Exception('You need a customer object');
-//                }
-//
-//                if(!$storeNotificationMessage->is_customer && null === $this->data['user']) {
-//                    throw new \Exception('You need a user or customer object');
-//                }
 
                 switch ($storeNotificationMessage->channel) {
                     case 'email':

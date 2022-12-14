@@ -341,6 +341,12 @@ class Customer extends Authenticatable
         return $token;
     }
 
+    public function getPasswordResetToken() {
+        $token = null;
+
+        return $token;
+    }
+
     public function generateTokenForPassword ( Store $store, $notify = true )
     {
       $token = null;
@@ -374,6 +380,14 @@ class Customer extends Authenticatable
     public function loginToken()
     {
         return $this->morphOne(LoginToken::class, 'tokenable')->where('is_active', 1);
+    }
+
+    public function passwordToken()
+    {
+        return $this->morphOne(LoginToken::class, 'tokenable')
+          ->where('is_active', 1)
+          ->where('type', 'password')
+          ->latest();
     }
 
     public static function loginUsingToken($token, $is_test=false) {

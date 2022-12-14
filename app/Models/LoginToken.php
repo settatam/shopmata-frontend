@@ -25,7 +25,7 @@ class LoginToken extends Model
             'tokenable_id' => $user->id,
             'tokenable_type' => get_class($user),
             'type' => $type,
-            'token' => $type == 'email' ? Str::random(60) : mt_rand(1111,9999),
+            'token' => ($type === 'email' || $type === 'password') ? Str::random(60) : mt_rand(1111,9999),
             'duration' => $duration
         ]);
     }
