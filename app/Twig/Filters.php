@@ -104,8 +104,10 @@ class Filters extends AbstractExtension
     $storeDomain = StoreDomain::with('store')->where('name', $url)->first();
     $store = $storeDomain->store;
 
-    $token = $customer->getPasswordResetToken();
-    return 'https://' . $store->store_domain . '/password/change?token='.$token->token;
+    $tokenObj = $customer->getPasswordResetToken();
+    $tokenString = sprintf('%s---%s', $customer->email, $token->token);
+    $token = base64_encode($tokenString);
+    return 'https://' . $store->store_domain . '/password/change?token='.$token;
   }
 
   public static function reject($transaction) {

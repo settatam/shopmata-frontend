@@ -52,6 +52,19 @@ class CustomerLoginController extends Controller
         return view('pages.index', compact('page'));
     }
 
+    public function changePassword(Request $request)
+    {
+        $store = Store::find(session()->get('store_id'));
+        $token =  LoginToken::where('token', $request->token)
+          ->where('active', 1);
+        if()
+        $pageToFind = 'change-password';
+        $pageType = 'template';
+        $data = [];
+        $page = $store->pageContent($pageToFind, $data, $pageType);
+        return view('pages.index', compact('page'));
+    }
+
     public function postResetPassword(Request $request)
     {
       $request->validate([
