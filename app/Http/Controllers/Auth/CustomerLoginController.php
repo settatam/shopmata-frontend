@@ -113,13 +113,10 @@ class CustomerLoginController extends Controller
 
     public function postResetPassword(Request $request)
     {
-      $validator = Validator::make($request->all(), [
-        ['email' => 'required']
-      ]);
 
-      if($validator->fails()) {
-        return response()->json('Your email is required', 400);
-      }
+      $request->validate([
+        'email' => 'required'
+      ]);
 
       $store = Store::find(session()->get('store_id'));
 
