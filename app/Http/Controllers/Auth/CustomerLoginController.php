@@ -58,7 +58,7 @@ class CustomerLoginController extends Controller
       ]);
 
       $email = $request->email;
-      $user = self::where('email', $request->email)->first();
+      $user = Customer::where('email', $request->email)->first();
 
       $token = app(\Illuminate\Auth\Passwords\PasswordBroker::class)->createToken($user);
       dd($token);
