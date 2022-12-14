@@ -343,8 +343,7 @@ class Customer extends Authenticatable
 
     public function getPasswordResetToken() {
         $token = null;
-
-        return $token;
+        return $this->passwordToken;
     }
 
     public function generateTokenForPassword ( Store $store, $notify = true )
