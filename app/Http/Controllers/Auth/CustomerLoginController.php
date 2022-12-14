@@ -65,8 +65,8 @@ class CustomerLoginController extends Controller
         $customer = Customer::with('passwordToken')->where('email', $tokens[0])->first();
         if(null === $customer) return redirect('/customer/login');
         if ($token = $customer->passwordToken) {
-          dd($token[1]);
-          if ($token->token == $token[1]) {
+          dd($tokens[1]);
+          if ($token->token == $tokens[1]) {
             $pageToFind = 'change-password';
             $pageType = 'template';
             $data = [];
