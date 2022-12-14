@@ -341,7 +341,8 @@ class Customer extends Authenticatable
         return $token;
     }
 
-    public function generateLoginTokenForSms(Store $store) {
+    public function generateLoginTokenForSms(Store $store)
+    {
         if($token = LoginToken::createNew($this, 'sms', 600)) {
             $this->load('loginToken');
             $sender = (new EventNotification('Sms Login Token', [
@@ -352,7 +353,8 @@ class Customer extends Authenticatable
         }
     }
 
-    public function loginToken() {
+    public function loginToken()
+    {
         return $this->morphOne(LoginToken::class, 'tokenable')->where('is_active', 1);
     }
 

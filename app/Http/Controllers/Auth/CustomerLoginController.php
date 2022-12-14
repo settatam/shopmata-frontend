@@ -41,13 +41,28 @@ class CustomerLoginController extends Controller
         return view('pages.index', compact('page'));
     }
 
-    public function resetPassword() {
+    public function resetPassword()
+    {
         $store = Store::find(session()->get('store_id'));
         $pageToFind = 'reset-password';
         $pageType = 'template';
         $data = [];
         $page = $store->pageContent($pageToFind, $data, $pageType);
         return view('pages.index', compact('page'));
+    }
+
+    public function postResetPassword(Request $request)
+    {
+      $request->validate([
+        'email' => 'required'
+      ]);
+
+      $email = $request->email;
+      $user = self::where('email', $request->email)->first();
+
+      $token = app(\Illuminate\Auth\Passwords\PasswordBroker::class)->createToken($user);
+      dd($token);
+
     }
 
     public function logout(Request $request)

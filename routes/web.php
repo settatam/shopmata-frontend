@@ -55,6 +55,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('track-my-kit', [ClientHomeController::class, 'index']);
     Route::get('customer/login', [CustomerLoginController::class, 'getLogin'])->name('login');
     Route::get('password/reset', [CustomerLoginController::class, 'resetPassword'])->name('reset-password');
+    Route::post('password/reset', [CustomerLoginController::class, 'postResetPassword']);
     Route::get('login', [CustomerLoginController::class, 'getLogin']);
     Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');
     Route::post('customer/login', [CustomerLoginController::class, 'customerLogin']);
@@ -66,13 +67,6 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::post('customer/update-address-verification', [ClientHomeController::class, 'updateAddressVerification']);
     Route::post('customer/meta', [ClientHomeController::class, 'meta']);
 //});
-
-
-
-
-// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-// 	return Inertia\Inertia::render('Dashboard');
-// })->name('dashboard');
 
 
 
