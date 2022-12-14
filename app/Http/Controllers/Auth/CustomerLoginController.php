@@ -43,7 +43,7 @@ class CustomerLoginController extends Controller
 
     public function resetPassword() {
         $store = Store::find(session()->get('store_id'));
-        $pageToFind = 'reset-password.twig';
+        $pageToFind = 'reset-password';
         $pageType = 'template';
         $data = [];
         $page = $store->pageContent($pageToFind, $data, $pageType);
