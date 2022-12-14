@@ -341,16 +341,15 @@ class Customer extends Authenticatable
         return $token;
     }
 
-    public function generateTokenForPassword ( $notify = true )
+    public function generateTokenForPassword ( Store $store, $notify = true )
     {
       $token = null;
 
       if($token = LoginToken::createNew($this, 'password', '600')) {
-        dd($this->getKey());
             if($notify) {
                 $sender = (new EventNotification('Customer Password Reset', [
                     'customer' => $this,
-                    'store' => $this->store,
+                    'store' => $store,
                     'token' => $token
                 ], ['for' => 'customer']));
             }

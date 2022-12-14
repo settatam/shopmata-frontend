@@ -58,12 +58,14 @@ class CustomerLoginController extends Controller
         'email' => 'required'
       ]);
 
+      $store = Store::find(session()->get('store_id'));
+
       $email = $request->email;
       $token = Str::random(60);
       $user = Customer::where('email', $request->email)->first();
 
       if (null !== $user) {
-        $user->generateTokenForPassword();
+        $user->generateTokenForPassword($store);
         return response()->json('Done');
       } else {
         return response()->json('Not Done', 400);
