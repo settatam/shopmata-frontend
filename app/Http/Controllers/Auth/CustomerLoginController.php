@@ -81,18 +81,22 @@ class CustomerLoginController extends Controller
 
     public function postChangePassword (Request $request)
     {
-      $request->validate([
+
+      $validator = Validator::make([
         'password' => 'required',
         'confirm_password' => 'required',
       ]);
 
+      if ($validator->fails()) {
+        return response()->json('Provide both passwords', 400);
+      }
+
       if($request->password !== $request->confirm_password) {
         //error - go back
-        redirect()->back()->withErrors('Your Passwords do not match');
+        return response()->json('Your passwords do not match', 400);
       }
 
       if ($customer = $request->session()->get('customer')) {
-        dd($customer);
         $customer->password = Hash::make($request->password);
         if($customer->save()) {
           //
@@ -100,7 +104,7 @@ class CustomerLoginController extends Controller
           $customer->passworToken->is_active = false;
           $customer->passwordToken->save();
           Auth::LoginUsingId($customer->id);
-          return redirect('/transactions');
+          return response()->json('Request Successful');
         }
 
       }
@@ -109,9 +113,13 @@ class CustomerLoginController extends Controller
 
     public function postResetPassword(Request $request)
     {
-      $request->validate([
+      $validator = Validator::make([
         'email' => 'required'
       ]);
+
+      if($validator->fails()) {
+        return response()->json('Your email is required', 400);
+      }
 
       $store = Store::find(session()->get('store_id'));
 
