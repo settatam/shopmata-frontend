@@ -92,6 +92,7 @@ class CustomerLoginController extends Controller
       }
 
       if ($customer = $request->session()->get('customer')) {
+        dd($customer);
         $customer->password = Hash::make($request->password);
         if($customer->save()) {
           //
