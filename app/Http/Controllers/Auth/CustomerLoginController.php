@@ -66,7 +66,7 @@ class CustomerLoginController extends Controller
         if(null === $customer) return redirect('/customer/login');
         if ($token = $customer->passwordToken) {
           dd($token->token);
-          if ($token->token === $token[1]) {
+          if ($token->token == $token[1]) {
             $pageToFind = 'change-password';
             $pageType = 'template';
             $data = [];
