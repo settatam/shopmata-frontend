@@ -83,8 +83,8 @@ class CustomerLoginController extends Controller
     {
 
       $validator = Validator::make([
-        'password' => 'required',
-        'confirm_password' => 'required',
+        ['password' => 'required',]
+        ['confirm_password' => 'required',]
       ]);
 
       if ($validator->fails()) {
@@ -114,7 +114,7 @@ class CustomerLoginController extends Controller
     public function postResetPassword(Request $request)
     {
       $validator = Validator::make([
-        'email' => 'required'
+        ['email' => 'required']
       ]);
 
       if($validator->fails()) {
