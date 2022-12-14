@@ -58,6 +58,7 @@ class CustomerLoginController extends Controller
         $tokenString = base64_decode($request->t);
 
         $tokens = explode('---', $tokenString);
+        dd($tokens);
         if(count($tokens) !== 2) {
           return redirect('/customer/login');
         }
