@@ -61,6 +61,8 @@ class EventNotification
         $storeNotificationMessages = StoreNotificationMessage::getAllMessages($this->data['store']->id, $this->event);
         $messageData = [];
 
+        dd($storeNotificationMessages);
+
         if(count($storeNotificationMessages)) {
 
             $messageData['is_customer'] = $storeNotificationMessages[0]->store_notification->is_customer;
