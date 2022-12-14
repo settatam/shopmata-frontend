@@ -82,14 +82,10 @@ class CustomerLoginController extends Controller
     public function postChangePassword (Request $request)
     {
 
-      $validator = Validator::make($request->all(), [
-        ['password' => 'required'],
-        ['confirm_password' => 'required']
+      $request->validate([
+        'password' => 'required',
+        'confirm_password' => 'required'
       ]);
-
-      if ($validator->fails()) {
-        return response()->json('Provide both passwords', 400);
-      }
 
       if($request->password !== $request->confirm_password) {
         //error - go back
