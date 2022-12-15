@@ -60,7 +60,7 @@ class CustomerLoginController extends Controller
 
         $tokens = explode('---', $tokenString);
         if(count($tokens) !== 2) {
-          return redirect('/customer/login?error=Incorrect Tokens');
+          return response()->json('Inconrrect tokens', 400);
         }
 
         $customer = Customer::with('passwordToken')->where('email', $tokens[0])->first();
@@ -85,7 +85,6 @@ class CustomerLoginController extends Controller
 
     public function postChangePassword (Request $request)
     {
-
       $request->validate([
         'password' => 'required',
         'confirm_password' => 'required'
@@ -97,15 +96,12 @@ class CustomerLoginController extends Controller
         return response()->json('Your passwords do not match', 400);
       }
 
-      dd($request->t);
-
       $tokenString = base64_decode($request->t);
 
       $tokens = explode('---', $tokenString);
       if(count($tokens) !== 2) {
-        return response()->json('Incorrect tokens');
+        return response()->json('Incorrect tokens', 400);
 
-        //return redirect('/customer/login?error=Incorrect Tokens');
       }
 
       $customer = Customer::where('email', $tokens[1])->first();
