@@ -103,7 +103,7 @@ class CustomerLoginController extends Controller
         return response()->json('Token not found', 400);
       }
 
-      $customer = Customer::where('email', $token->tokenable_id)->first();
+      $customer = Customer::find($token->tokenable_id);
       dd($customer);
 
       if ($customer = $request->session()->get('customer')) {
