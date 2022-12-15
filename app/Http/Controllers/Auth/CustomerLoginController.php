@@ -103,7 +103,8 @@ class CustomerLoginController extends Controller
 
       $tokens = explode('---', $tokenString);
       if(count($tokens) !== 2) {
-        return response()->json('Incorrect token');
+        return response()->json('Incorrect tokens');
+
         //return redirect('/customer/login?error=Incorrect Tokens');
       }
 
