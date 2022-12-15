@@ -97,7 +97,7 @@ class CustomerLoginController extends Controller
         if($customer->save()) {
           //
           Log::info($customer->full_name . 'updated their password');
-          $customer->passworToken->is_active = false;
+          $customer->passwordToken->is_active = false;
           $customer->passwordToken->save();
           Auth::LoginUsingId($customer->id);
           return response()->json('Request Successful');
@@ -110,7 +110,6 @@ class CustomerLoginController extends Controller
 
     public function postResetPassword(Request $request)
     {
-
       $request->validate([
         'email' => 'required'
       ]);
