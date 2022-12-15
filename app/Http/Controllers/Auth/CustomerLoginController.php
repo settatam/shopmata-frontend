@@ -104,7 +104,12 @@ class CustomerLoginController extends Controller
 
       }
 
-      $customer = Customer::where('email', $tokens[1])->first();
+      $token = LoginToken::where('token', $request->t)->first();
+      if( null === $token) {
+        return response()->json('Token not found', 400);
+      }
+
+      $customer = Customer::where('email', $token->tokenable->id)->first();
 
       if ($customer = $request->session()->get('customer')) {
         $customer->password = Hash::make($request->password);
