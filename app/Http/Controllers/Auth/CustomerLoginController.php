@@ -102,9 +102,9 @@ class CustomerLoginController extends Controller
       $tokenString = base64_decode($request->t);
 
       $tokens = explode('---', $tokenString);
-      dd($tokens);
       if(count($tokens) !== 2) {
-        return redirect('/customer/login?error=Incorrect Tokens');
+        return response()->json('Incorrect token');
+        //return redirect('/customer/login?error=Incorrect Tokens');
       }
 
       $customer = Customer::where('email', $tokens[1])->first();
