@@ -60,11 +60,11 @@ class CustomerLoginController extends Controller
 
         $tokens = explode('---', $tokenString);
         if(count($tokens) !== 2) {
-          return redirect('/customer/login');
+          return redirect('/customer/login?error=Incorrect Tokens');
         }
 
         $customer = Customer::with('passwordToken')->where('email', $tokens[0])->first();
-        if(null === $customer) return redirect('/customer/login');
+        if(null === $customer) return redirect('/customer/login?error=Customer not found');
         if ($token = $customer->passwordToken) {
           if ($token->token === $tokens[1]) {
             $pageToFind = 'change-password';
@@ -76,7 +76,7 @@ class CustomerLoginController extends Controller
             return view('pages.index', compact('page', 'customer'));
           }
         }
-        return redirect('/customer/login');
+        return redirect('/customer/login?error=Unknown Error');
     }
 
     public function postChangePassword (Request $request)
@@ -123,8 +123,8 @@ class CustomerLoginController extends Controller
       $request->session()->put('customer', $user);
 
       if (null !== $user) {
-        $user->generateTokenForPassword($store);
-        return response()->json('Done');
+        $token = $user->generateTokenForPassword($store);
+        return response()->json($token);
       } else {
         return response()->json('Not Done', 400);
       }
