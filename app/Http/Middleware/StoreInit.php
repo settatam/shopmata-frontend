@@ -76,6 +76,7 @@ class StoreInit
                 }
 
         }else{
+          dd('Ther eis ');
             abort(404);
         }
 
