@@ -72,7 +72,7 @@ class CustomerLoginController extends Controller
             $data = [
               'customer' => $customer
             ];
-            $page = $store->pageContent($pageToFind, $data, $pageType);
+            $page = $store->pageContent($pageToFind, $data, $pageType, $token);
             return view('pages.index', compact('page', 'customer', 'token'));
           }
         }
