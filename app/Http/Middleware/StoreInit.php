@@ -38,6 +38,7 @@ class StoreInit
                 $isTest = true;
             }
             if($customer = Customer::loginUsingToken($request->token, $isTest)) {
+              dd($customer);
                 //Customer is logged in
             }else{
               dd('There is a problem')
