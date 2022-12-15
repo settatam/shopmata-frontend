@@ -63,7 +63,11 @@ class CustomerLoginController extends Controller
           return response()->json('Inconrrect tokens', 400);
         }
 
-        $customer = Customer::with('passwordToken')->where('email', $tokens[0])->first();
+        $customer = Customer::with('passwordToken')
+          ->where('email', $tokens[0])
+          ->where('store_id', $store->id)
+          ->first();
+
         if(null === $customer) return redirect('/customer/login?error=Customer not found');
         if ($token = $customer->passwordToken) {
           if ($token->token === $tokens[1]) {
@@ -143,9 +147,9 @@ class CustomerLoginController extends Controller
 
       $email = $request->email;
       $token = Str::random(60);
-      $user = Customer::where('email', $request->email)->first();
-
-      $request->session()->put('customer', $user);
+      $user = Customer::where('email', $request->email)
+        ->where('store_id', $store->id)
+        ->first();
 
       if (null !== $user) {
         $token = $user->generateTokenForPassword($store);
