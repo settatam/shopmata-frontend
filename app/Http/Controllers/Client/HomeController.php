@@ -38,6 +38,7 @@ class HomeController extends Controller
       $sortBy = $request->sort_by ?? 'created_at';
 
       $pageToFind = StorePage::nameFromPath($path);
+      dd($pageToFind);
       $pageType = 'page';
 
       $data = [];
@@ -62,11 +63,11 @@ class HomeController extends Controller
           ->orderBy($sortBy, $orderBy)
           ->get();
 
-      } else if($pageToFind == 'thank-you.detail') {
-        if( $request->has('id') && $request->id) {
+      } else if ($pageToFind == 'thank-you.detail') {
+        if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
         }
-        
+
         if(!Auth::check()) {
           if($request->has('customer_id') && $request->customer_id) {
             Auth::loginUsingId($request->customer_id);
