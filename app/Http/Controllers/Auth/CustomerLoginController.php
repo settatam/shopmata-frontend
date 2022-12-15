@@ -97,9 +97,12 @@ class CustomerLoginController extends Controller
         return response()->json('Your passwords do not match', 400);
       }
 
+      dd($request->t);
+
       $tokenString = base64_decode($request->t);
 
       $tokens = explode('---', $tokenString);
+      dd($tokens);
       if(count($tokens) !== 2) {
         return redirect('/customer/login?error=Incorrect Tokens');
       }
