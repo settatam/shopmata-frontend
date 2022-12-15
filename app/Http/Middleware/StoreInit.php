@@ -41,14 +41,13 @@ class StoreInit
               dd($customer);
                 //Customer is logged in
             }else{
-              dd('There is a problem')
+              dd('There is a problem');
                 //abort(404);
             }
         }
 
         $url = URL::to('/');
         $storeDomain = StoreDomain::with('store')->where('name', $url)->first();
-        dd($storeDomain);
 
         if(null !== $storeDomain) {
             $store = $storeDomain->store;
