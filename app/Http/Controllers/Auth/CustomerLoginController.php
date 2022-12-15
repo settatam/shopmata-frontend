@@ -97,6 +97,14 @@ class CustomerLoginController extends Controller
         return response()->json('Your passwords do not match', 400);
       }
 
+      $tokenString = base64_decode($request->t);
+
+      $tokens = explode('---', $tokenString);
+      if(count($tokens) !== 2) {
+        return redirect('/customer/login?error=Incorrect Tokens');
+      }
+
+      $customer = Customer::where('email', $tokens[1])->first();
 
       if ($customer = $request->session()->get('customer')) {
         $customer->password = Hash::make($request->password);
