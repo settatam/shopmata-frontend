@@ -60,6 +60,7 @@ class HomeController extends Controller
           ->with('customer')
           ->withPaymentDateTime()
           ->where('customer_id', $data['customer']->id)
+          ->where('store_id', $store->id)
           ->orderBy($sortBy, $orderBy)
           ->get();
 

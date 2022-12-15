@@ -85,6 +85,8 @@ class CustomerLoginController extends Controller
 
     public function postChangePassword (Request $request)
     {
+      $store = Store::find(session()->get('store_id'));
+
       $request->validate([
         'password' => 'required',
         'confirm_password' => 'required'
@@ -99,11 +101,16 @@ class CustomerLoginController extends Controller
       $tokenString = base64_decode($request->t);
 
       $token = LoginToken::where('token', $request->t)->first();
+
       if( null === $token) {
         return response()->json('Token not found', 400);
       }
 
       $customer = Customer::find($token->tokenable_id);
+
+      if ( $customer->store_id != $store->id ) {
+        return response()->json('This store does not have this user');
+      }
 
       if (null !== $customer) {
         $customer->password = Hash::make($request->password);
