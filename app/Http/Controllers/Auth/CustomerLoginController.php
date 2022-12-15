@@ -87,6 +87,8 @@ class CustomerLoginController extends Controller
         'confirm_password' => 'required'
       ]);
 
+      dd($request->token);
+
       if($request->password !== $request->confirm_password) {
         //error - go back
         return response()->json('Your passwords do not match', 400);
