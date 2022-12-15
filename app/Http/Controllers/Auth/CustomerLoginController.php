@@ -92,6 +92,9 @@ class CustomerLoginController extends Controller
         return response()->json('Your passwords do not match', 400);
       }
 
+      print_r($request->session()->get('customer'));
+      exit;
+
       if ($customer = $request->session()->get('customer')) {
         $customer->password = Hash::make($request->password);
         if($customer->save()) {
