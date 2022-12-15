@@ -117,7 +117,7 @@ abstract class Widget
 
         return array_merge([
             'widget' => get_class($this),
-            'title' => $this->title(),
+            'title' => $this->title($filter),
             'description' => $this->description($filter, $data),
             'icon' => $this->icon($filter, $data),
             'component' => $this->component($filter, $data),

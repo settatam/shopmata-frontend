@@ -403,4 +403,9 @@ class TransactionsTable extends Table
     {
         return false;
     }
+
+    public function title($filter)
+    {
+
+    }
 }
