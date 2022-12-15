@@ -105,7 +105,7 @@ class CustomerLoginController extends Controller
 
       $customer = Customer::find($token->tokenable_id);
 
-      if ($customer = $request->session()->get('customer')) {
+      if (null !== $customer) {
         $customer->password = Hash::make($request->password);
         if($customer->save()) {
           //
@@ -117,7 +117,7 @@ class CustomerLoginController extends Controller
         }
       }
 
-      return response()->json('There is a problem', 400);
+      return response()->json('The customer does not exist', 400);
 
     }
 
