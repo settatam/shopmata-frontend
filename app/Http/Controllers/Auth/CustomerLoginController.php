@@ -73,7 +73,7 @@ class CustomerLoginController extends Controller
               'customer' => $customer
             ];
             $page = $store->pageContent($pageToFind, $data, $pageType);
-            return view('pages.index', compact('page', 'customer'));
+            return view('pages.index', compact('page', 'customer', 'token'));
           }
         }
         return redirect('/customer/login?error=Unknown Error');
@@ -92,8 +92,6 @@ class CustomerLoginController extends Controller
         return response()->json('Your passwords do not match', 400);
       }
 
-      print_r($request->session()->get('customer'));
-      exit;
 
       if ($customer = $request->session()->get('customer')) {
         $customer->password = Hash::make($request->password);
@@ -116,6 +114,11 @@ class CustomerLoginController extends Controller
       $request->validate([
         'email' => 'required'
       ]);
+
+      if($request->has('token')) {
+        $tokenExists = LoginToken::where('token', $request->token)->where('is_active', 1)->first();
+
+      }
 
       $store = Store::find(session()->get('store_id'));
 
