@@ -97,13 +97,13 @@ class CustomerLoginController extends Controller
       }
 
       $tokenString = base64_decode($request->t);
-      
+
       $token = LoginToken::where('token', $request->t)->first();
       if( null === $token) {
         return response()->json('Token not found', 400);
       }
 
-      $customer = Customer::where('email', $token->tokenable->id)->first();
+      $customer = Customer::where('email', $token->tokenable_id)->first();
       dd($customer);
 
       if ($customer = $request->session()->get('customer')) {
