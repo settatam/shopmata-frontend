@@ -63,8 +63,10 @@ class HomeController extends Controller
           ->get();
 
       } else if($pageToFind == 'thank-you.detail') {
-        $id = $request->input('id');
-
+        if( $request->has('id') && $request->id) {
+          $id = $request->input('id');
+        }
+        
         if(!Auth::check()) {
           if($request->has('customer_id') && $request->customer_id) {
             Auth::loginUsingId($request->customer_id);
