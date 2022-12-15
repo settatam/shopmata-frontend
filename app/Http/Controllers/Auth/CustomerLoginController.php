@@ -70,9 +70,13 @@ class CustomerLoginController extends Controller
             $pageToFind = 'change-password';
             $pageType = 'template';
             $data = [
-              'customer' => $customer
+              'customer' => $customer,
+              'token' => $token->token
             ];
-            $page = $store->pageContent($pageToFind, $data, $pageType, $token);
+
+            $token = $token->token;
+            $page = $store->pageContent($pageToFind, $data, $pageType);
+
             return view('pages.index', compact('page', 'customer', 'token'));
           }
         }
@@ -87,7 +91,6 @@ class CustomerLoginController extends Controller
         'confirm_password' => 'required'
       ]);
 
-      dd($request->all());
 
       if($request->password !== $request->confirm_password) {
         //error - go back
