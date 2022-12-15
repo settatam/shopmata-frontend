@@ -40,7 +40,8 @@ class StoreInit
             if($customer = Customer::loginUsingToken($request->token, $isTest)) {
                 //Customer is logged in
             }else{
-                abort(404);
+              dd('There is a problem')
+                //abort(404);
             }
         }
 
