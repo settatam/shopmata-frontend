@@ -104,15 +104,14 @@ class CustomerLoginController extends Controller
       }
 
       $customer = Customer::find($token->tokenable_id);
-      dd($customer);
 
       if ($customer = $request->session()->get('customer')) {
         $customer->password = Hash::make($request->password);
         if($customer->save()) {
           //
           Log::info($customer->full_name . 'updated their password');
-          $customer->passwordToken->is_active = false;
-          $customer->passwordToken->save();
+          $token->is_active = false;
+          $token->save();
           Auth::LoginUsingId($customer->id);
           return response()->json('Request Successful');
         }
