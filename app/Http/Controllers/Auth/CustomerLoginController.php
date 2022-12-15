@@ -87,7 +87,7 @@ class CustomerLoginController extends Controller
         'confirm_password' => 'required'
       ]);
 
-      dd($request->token);
+      dd($request->t);
 
       if($request->password !== $request->confirm_password) {
         //error - go back
