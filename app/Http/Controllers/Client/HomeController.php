@@ -120,7 +120,7 @@ class HomeController extends Controller
         }else if($request->has('decline') && $request->decline == 1) {
           if($transaction->status_id == 4) {
             $transaction->doUpdate([
-              'status_id' => 6
+              'status_id' => 19
             ]);
           }
         }
