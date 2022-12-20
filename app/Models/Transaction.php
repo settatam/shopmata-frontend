@@ -898,7 +898,9 @@ class Transaction extends Model
                     'tracking_number' => $shippingLabel->getTrackingNumber(),
                     'raw_data' => $shippingLabel->getBase64Label(),
                     'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO,
-                    'is_return' => (bool)$is_return
+                    'is_return' => (bool)$is_return,
+                    'createable_id' => Auth::id(),
+                    'creatable_type' => Customer::class
                 ])) {
                     $labelType = ($is_return) ? ' return ' : '';
                     $note = sprintf(
