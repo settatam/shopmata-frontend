@@ -900,7 +900,7 @@ class Transaction extends Model
                     'to_customer' => $direction == Shipping::SHIPPING_TYPE_TO,
                     'is_return' => (bool)$is_return,
                     'createable_id' => Auth::id(),
-                    'creatable_type' => Customer::class
+                    'createable_type' => Customer::class
                 ])) {
                     $labelType = ($is_return) ? ' return ' : '';
                     $note = sprintf(
