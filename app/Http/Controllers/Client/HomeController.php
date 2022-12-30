@@ -463,7 +463,7 @@ class HomeController extends Controller
         $transaction->addActivity($transaction, ['status_id' => Status::PENDING_KIT_REQUEST]);
 
       new EventNotification(
-        'New Transaction',
+        'Pending-Kit Request',
         [
           'customer' => $transaction->customer,
           'store' => $transaction->store,
