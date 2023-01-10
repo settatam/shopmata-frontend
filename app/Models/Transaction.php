@@ -592,6 +592,11 @@ class Transaction extends Model
         return self::KIT_TYPE;
     }
 
+    public function getEstValue($items)
+    {
+      return $items->pluck('price')->sum();
+    }
+
 //    public function getFinalOfferAttribute() {
 //        return optional($this->offers()->orderBy('id', 'desc')->first())->offer;
 //    }
