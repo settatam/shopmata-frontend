@@ -26,7 +26,7 @@ class PDFController extends Controller
         $barcode = Barcode::generate($transaction);
         $label = $shippingLabel->raw_data;
 
-        $view = \View::make('pages.pdf', compact('barcode', 'label'))->render();
+        $view = \View::make('pages.pdf', compact('barcode', 'label', 'store'))->render();
 
         try {
             $html2pdf = new Html2Pdf('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
