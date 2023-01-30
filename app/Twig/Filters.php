@@ -209,8 +209,10 @@ class Filters extends AbstractExtension
       case 18:
         $status =  'Offer Declined';
       default:
-        return 'Processing';
+        $status =  'Processing';
     }
+
+    return $status;
   }
 
   public function statusNote($transaction) {
