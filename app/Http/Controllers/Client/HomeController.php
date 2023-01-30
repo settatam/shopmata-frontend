@@ -359,7 +359,7 @@ class HomeController extends Controller
     $input['first_name'] = $request->first_name ?? $request->firstname;
     $input['last_name'] = $request->last_name ?? $request->lastname;
 
-    $customer = Customer::where('email', $input['email'])->where('store_id', $store->id)->first();
+    $customer = Customer::where('email', trim($input['email']))->where('store_id', $store->id)->first();
 
     $customerAddress['address'] = $addressVerification['parsedAddress']['street'];
     $customerAddress['address2'] = $addressVerification['parsedAddress']['street2'];

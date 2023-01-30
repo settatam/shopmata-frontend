@@ -181,9 +181,14 @@ class Filters extends AbstractExtension
     $status_id = (int)$transaction->status_id;
     switch($status_id) {
       case 8:
+      case 25:
+      case 13:
+      case 11:
         return '<h1 class="green">Your Payment is processed!</h1>
                         <p>Congratulations on the sale '.$transaction->customer->first_name.'! Your payment for this transaction has been sent.</p>';
       case 60:
+      case 54:
+      case 53:
         return '<h1>We have received your request for a kit!</h1>
                         <b>Here is what happens next ...</b>
                         <p>Within one business day we will ship an appraisal kit to you. It will take 2-3 days to arrive. If you do not want to wait you can also <a href="/track-my-kit.html?kit=<?php echo $transaction_id; ?>">download</a> and print your own kit.</p>
@@ -219,6 +224,8 @@ class Filters extends AbstractExtension
         return $message;
       case 6:
       case 19:
+      case 12:
+      case 18:
         return '<h1 class="red">Offer Declined</h1>
                         <p>'.$transaction->customer->first_name.' we have received your request to decline this transaction. We will return your items to you promptly at our expense. Your items will be sent within one business day. We will let you know when your items ship. Thanks again for your interest and we are sorry that we could not make you an acceptable offer. If you have any questions please <a href="/contact-us.html">contact us</a>.</p>';
       default:

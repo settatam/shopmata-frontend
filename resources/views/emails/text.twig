@@ -1,0 +1,111 @@
+<script>   console.log({{ transaction }}); </script>
+<link rel="stylesheet" href="{{ '_page_thank_you.min.css'|asset_url }}">
+<div class="wrap d-flex flex-column mb-3">
+    <div class="track-my-kit subpage3"><h1>{{ customer.first_name }}, Please Select How You Would Like to Receive Your
+            Appraisal Kit</h1>     <span class="tags">       <i class="fa fa-fw fa-check"></i> 100% Secure &nbsp;        <i
+                    class="fa fa-fw fa-check"></i> No Obligation &nbsp;        <i class="fa fa-fw fa-check"></i> Highest Payouts     </span>
+        <br> <span class="bonus">       <i class="fa fa-fw fa-star"></i>        <i class="fa fa-fw fa-star"></i>        <b>10%<span>Bonus</span></b>       <b>10%<span>Bonus</span></b>       {% set target_date = 'now'|date_modify("+7 day") %}       Send in your kit by {{ target_date | date("F jS") }} and get a 10% bonus added to your offer!     </span>
+        <div class="d-flex flex-row">
+            <div class="column column-1">
+                <nav>
+                    <button class="kit-print pref"> Print My Free Appraisal Kit <i class="fa fa-fw fa-print"></i>
+                    </button>
+                    <button class="kit-download pref"> Download My Free Appraisal Kit <i
+                                class="fa fa-fw fa-download"></i></button>
+                    <div class="no-printer"><span class="fa-stack">               <i
+                                    class="fa fa-print fa-stack-1x"></i>               <i
+                                    class="fa fa-ban fa-stack-2x"></i>             </span> No printer? No problem!
+                    </div>
+                    <button class="kit-mail">
+                        <div style="display:flex;align-items: center;width: 100%;"><span style="padding-right:20px;">Mail My Appraisal Kit</span>
+                            <span>                 <img width="100" alt="Fedex logo"
+                                                        src="https://fashionerize.nyc3.cdn.digitaloceanspaces.com/BuyMyGold/fedex-2-day.png"
+                                                        style="width:75px;">               </span> <i
+                                    class="fa fa-fw fa-envelope"></i></div>
+                    </button>
+                </nav>
+            </div>
+            <!--<div class="column column-2">         <div>           <div class="fedex-label">             <div>               <div>                 <blockquote class="address-from">                   <small>From: <a href="/my-settings.html">Edit Address</a></small>                   <p title="NWE here is required by our insurance.">{{ store.name }}</p>                   <p>{{ customer.first_name }} {{ customer.last_name }}</p>                   <p>{{ customer.address.street_address }}</p>                   <p>                     {{ customer.address.city }},                      {{ customer.address.state }},                      {{ customer.address.zip }}                   </p>                   <p>{{ customer.address.phone }}</p>                 </blockquote>                 <blockquote>                   <label>SHIP DATE: {{ "now" | date("m/d/Y") }}</label>                   <label>BILL RECIPIENT</label>                 </blockquote>               </div>               <blockquote>                 <span>PRE-PAID</span>                 <small>To:</small>                 <p>{{ store.name }}</p>                 <p> {{ store.address.street_address }}</p>                 <p>{{ store.address.city }}, {{ store.address.state }} {{ store.address.zip }}</p>                 <p>{{ store.phone }}</p>               </blockquote>               <blockquote class="fh">                 <img class="barcode" src="{{ 'barcode.png'|asset_url }}">                 <img class="fedex" src="{{ 'fedex.png'|asset_url }}">               </blockquote>             </div>           </div>           <small>             This is an example label. Find your pre-paid &amp; insured label inside your appraisal             kit. Select an option on the left to receive your appraisal kit.           </small>         </div>       </div>-->
+            <div class="column column-2">
+                <div class="fedex-label">
+                    <div>
+                        <blockquote class="address-from"><small>From: <a href="/my-settings">Edit Address</a></small>
+                            <p title="NWE here is required by our insurance.">{{ store.name }}</p>
+                            <p>{{ customer.first_name }} {{ customer.last_name }}</p>
+                            <p>{{ customer.address.street_address }}</p>
+                            <p>                 {{ customer.address.city }}, {{ customer.address.state }}
+                                , {{ customer.address.zip }}               </p>
+                            <p>{{ customer.address.phone }}</p></blockquote>
+                        <blockquote><label>SHIP DATE: {{ "now" | date("m/d/Y") }}</label> <label>BILL RECIPIENT</label>
+                        </blockquote>
+                    </div>
+                    <div>
+                        <blockquote class="wd-100"><span>PRE-PAID</span> <small>To:</small>
+                            <p>{{ store.name }}</p>
+                            <p> {{ store.address.street_address }}</p>
+                            <p>{{ store.address.city }}, {{ store.address.state }} {{ store.address.zip }}</p>
+                            <p>{{ store.phone }}</p></blockquote>
+                    </div>
+                    <div class="fh"><img class="barcode" src="{{ 'barcode.png'|asset_url }}"> <img class="fedex"
+                                                                                                   src="{{ 'fedex.png'|asset_url }}">
+                    </div>
+                </div>
+                <small> This is an example label. Find your pre-paid &amp; insured label inside your appraisal kit.
+                    Select an option on the left to receive your appraisal kit. </small></div>
+        </div>
+        <div class="experience">
+            <div><img src="{{ 'logo_pricematch.png'|asset_url }}"></div>
+            <div><img src="{{ 'fedex3.png'|asset_url }}"></div>
+            <div><img src="{{ 'bbb2.png'|asset_url }}"></div>
+            <div><img src="{{ 'tv.png'|asset_url }}"></div>
+            <div><img src="{{ 'satisfaction.png'|asset_url }}"></div>
+        </div>
+        <div class="step-by-step">
+            <div><b>Step By Step Instructions</b>
+                <ul>
+                    <li>
+                        <div><em>1</em>
+                            <div><p>Fill out the Customer Return Card &amp; place merchandise in the plastic bag.</p>
+                                <img src="{{ 'icon-1.png'|asset_url }}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div><em>2</em>
+                            <div><p>Insert the Customer Return Card &amp; plastic bag with your items in the bubble
+                                    envelope.</p>                 <img src="{{ 'icon-2.png'|asset_url }}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div><em>3</em>
+                            <div><p>Insert the bubble envelope in the pre-paid FedEx envelope.</p>                 <img
+                                        src="{{ 'icon-3.png'|asset_url }}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div><em>4</em>
+                            <div><p>Ship from any FedEx store or call (800) 463-3339 to schedule a pickup..</p>
+                                <img src="{{ 'icon-4.png'|asset_url }}">
+                                <p class="smaller">1) Use voice prompts or press "0"</p>
+                                <p class="smaller">2) Say "Schedule a pickup"</p>
+                                <p class="smaller">3) Add "Using a label or stamp"</p></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div><em>5</em>
+                            <div><p>Once we receive your items, BuyMyGold will email your final offer within 24
+                                    hours.</p>                 <img src="{{ 'icon-5.png'|asset_url }}"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div><em>6</em>
+                            <div><p>Accept your offer and get paid!</p>                 <img
+                                        src="{{ 'icon-6.png'|asset_url }}"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>     const $kit_id = {{ transaction.id }};     //$kit_pass = "sbbcbqr"; </script>
+<script src="{{ '_page_thank_you.js'|asset_url }}"></script>
