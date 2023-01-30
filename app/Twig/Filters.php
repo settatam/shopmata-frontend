@@ -29,7 +29,8 @@ class Filters extends AbstractExtension
       new TwigFilter('kit_by_mail', [$this, 'kitByMail']),
       new TwigFilter('kit_by_print', [$this, 'kitByPrint']),
       new TwigFilter('payment_information', [$this, 'paymentInformation']),
-      new TwigFilter('password_reset_link', [$this, 'passwordResetLink'])
+      new TwigFilter('password_reset_link', [$this, 'passwordResetLink']),
+      new TwigFilter('customer_status', [$this, 'customerStatus'])
     ];
   }
 
@@ -177,6 +178,41 @@ class Filters extends AbstractExtension
     }
   }
 
+  public function customerStatus($transaction) {
+    $status_id = (int)$transaction->status_id;
+    switch($status_id) {
+      case 8:
+      case 25:
+      case 13:
+      case 11:
+        $status = 'Payment Processed';
+      case 60:
+      case 54:
+      case 53:
+      case 57:
+      case 58:
+        $status = 'Kit Request Pending';
+        break;
+      case 4:
+      case 15:
+      case 50:
+        $status =  'Offer Given';
+      case 5:
+        $status = 'Offer Accepted';
+      case 24:
+      case 1:
+      case 2:
+        $status = 'Kit Received';
+      case 6:
+      case 19:
+      case 12:
+      case 18:
+        $status =  'Offer Declined';
+      default:
+        return 'Processing';
+    }
+  }
+
   public function statusNote($transaction) {
     $status_id = (int)$transaction->status_id;
     switch($status_id) {
@@ -229,7 +265,7 @@ class Filters extends AbstractExtension
         return '<h1 class="red">Offer Declined</h1>
                         <p>'.$transaction->customer->first_name.' we have received your request to decline this transaction. We will return your items to you promptly at our expense. Your items will be sent within one business day. We will let you know when your items ship. Thanks again for your interest and we are sorry that we could not make you an acceptable offer. If you have any questions please <a href="/contact-us.html">contact us</a>.</p>';
       default:
-        return '<h1> Unknown Status</h1><p>Your transaction is in an unknown status. PLease contact us to find out more about your kit.</p>';
+        return '<h1> Kit Processing</h1><p>Your transaction is processing. PLease contact us to find out more about your kit.</p>';
 
     }
   }
