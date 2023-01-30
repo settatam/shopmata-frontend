@@ -186,6 +186,7 @@ class Filters extends AbstractExtension
       case 13:
       case 11:
         $status = 'Payment Processed';
+        break;
       case 60:
       case 54:
       case 53:
@@ -197,17 +198,21 @@ class Filters extends AbstractExtension
       case 15:
       case 50:
         $status =  'Offer Given';
+        break;
       case 5:
         $status = 'Offer Accepted';
+        break;
       case 24:
       case 1:
       case 2:
         $status = 'Kit Received';
+        break;
       case 6:
       case 19:
       case 12:
       case 18:
         $status =  'Offer Declined';
+        break;
       default:
         $status =  'Processing';
     }
