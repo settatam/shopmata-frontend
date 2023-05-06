@@ -394,6 +394,8 @@ class HomeController extends Controller
     $transaction_payment_address->transaction_id = $transaction->id;
     $transaction_payment_address->customer_id = $customer->id;
     $transaction_payment_address->payment_type_id = $request->payment;
+    $transaction_payment_address->amount = 0;
+    $transaction_payment_address->percentage = 100;
 
     $transaction_payment_address->save();
 
