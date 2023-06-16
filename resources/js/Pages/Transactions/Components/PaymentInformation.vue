@@ -4,7 +4,7 @@
             <h1 class="">
                 Payment Information
                 <span class="cursor-pointer hover:text-gray-400" @click="toggleEdit()">
-                    [ Edit ]
+                    [ Edit  ]
                 </span>
             </h1>
         </div>

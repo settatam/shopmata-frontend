@@ -175,7 +175,8 @@ class HomeController extends Controller
     return redirect('customer/login');
   }
 
-  public function settings(Request $request){
+  public function settings(Request $request)
+  {
     $customer =  Auth::user();
     $input    = $request->all();
     $input['phone_number'] = $request->phone;
@@ -381,6 +382,10 @@ class HomeController extends Controller
     $cAddress = $customer->address()->firstOrNew($customerAddress);
     $cAddress->save();
 
+    if ($request->session()->has('google-seo-client-id')) {
+      $customer->addOrUpdateMeta('google-seo-client-id', $request->session()->get('google-seo-client-id'));
+    }
+
     $transaction = Transaction::createNew($store, $request, $customer);
     //session()->put('transactionID', $transaction->id);
     $transaction->address()->create($customerAddress);
@@ -399,6 +404,7 @@ class HomeController extends Controller
 
     $transaction_payment_address->save();
 
+    $transaction->sendTransactionToGoogle();
     $transaction->doWarehouser();
 
     return response()->json($addressVerification);
@@ -487,7 +493,8 @@ class HomeController extends Controller
       $customer = Auth::user();
       $customer->addOrUpdateMeta($request->field, $request->value);
       return $customer;
+    } else {
+      $request->session()->put('google-seo-client-id', $request->value);
     }
-
   }
 }
