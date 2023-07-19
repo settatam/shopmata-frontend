@@ -37,7 +37,7 @@ class StorePage extends Model
     }
 
     static function nameFromPath($path='') {
-        if(!$path || $path == '/') return 'home';
+        if(!$path || $path == '/' || $path == 'b') return 'home';
         if($path === 'thank-you.html') return 'thank-you.detail';
         if($path === 'my-account.html') return 'my-settings';
         if($path === 'track-my-kit.html') return 'transactions';
