@@ -47,7 +47,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('my-account.html', [ClientHomeController::class, 'index']);
     Route::get('track-my-kit.html', [ClientHomeController::class, 'index']);
     Route::get('/', [ClientHomeController::class, 'index']);
-    Route::get('/b', [ClientHomeController::class, 'index']);
+    Route::get('b', [ClientHomeController::class, 'index']);
     Route::get('transactions', [ClientHomeController::class, 'index']);
     Route::get('transactions/{id}', [ClientHomeController::class, 'index']);
     Route::post('transactions/{id}', [ClientHomeController::class, 'update']);
