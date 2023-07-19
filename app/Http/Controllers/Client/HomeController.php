@@ -28,7 +28,6 @@ class HomeController extends Controller
   public function index(Request $request, $id=null)
   {
     //
-
     if(session()->has('store_id')) {
       //This is probably a store page
       $store_id = session()->get('store_id');
