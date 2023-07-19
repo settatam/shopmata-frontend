@@ -404,7 +404,7 @@ class HomeController extends Controller
 
     $transaction_payment_address->save();
 
-    //$transaction->sendTransactionToGoogle();
+    $transaction->sendTransactionToGoogle();
     $transaction->doWarehouser();
 
     return response()->json($addressVerification);
