@@ -1361,14 +1361,14 @@ class Transaction extends Model
   public function sendTransactionToGoogle()
   {
     $reportableStatuses = [
-      'appraisal_kit_requested' => 60,
-      'appraisal_kit_request_rejected_ by_admin' => 20,
-      'appraisal_kit_request_rejected_ by_customer' => 58,
+      'kit_requested' => 60,
+      'kit_rejected_ by_admin' => 20,
+      'kit_rejected_ by_customer' => 58,
       'appraisal_kit_sent' => 1,
       'kit_received_by_customer' => 2,
       'kit_declined_by_customer' => 56,
       'kit_rejected_by admin' => 3,
-      'appraisal_kit_returned_by_customer' => 2,
+      'kit_returned_by_customer' => 2,
       'offer_paid' => 8
     ];
 
