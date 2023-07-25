@@ -1397,7 +1397,7 @@ class Transaction extends Model
               'customer' => $this->customer->full_name,
               'amount' =>$this->final_offer,
               'value' => $this->getEstValue($this->items),
-              'session_id' => Session::getId(),
+              'session_id' => $this->customer->getMeta('google-seo-session-id') ?? Session::getId(),
               'customerId' => $this->customer->id
             ]
           ],
