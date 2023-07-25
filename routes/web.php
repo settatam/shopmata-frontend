@@ -72,6 +72,8 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::post('customer/re-verify-address', [ClientHomeController::class, 'reVerifyAddress']);
     Route::post('customer/update-address-verification', [ClientHomeController::class, 'updateAddressVerification']);
     Route::post('customer/meta', [ClientHomeController::class, 'meta']);
+    Route::get('customer/track-progress/{id}', [ClientHomeController::class, 'trkProgress']);
+    Route::post('customer/track-progress', [ClientHomeController::class, 'postTrkProgress']);
 //});
 
 

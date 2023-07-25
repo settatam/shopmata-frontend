@@ -508,4 +508,29 @@ class HomeController extends Controller
       $request->field => $request->value
     ]);
   }
+
+  public function trkProgress($id)
+  {
+    $transaction = TransactionTracking::find($id);
+    //$transaction->content = unserialize($transaction->content);
+    return response()->json($transaction);
+  }
+
+  public function postTrkProgress(Request $request)
+  {
+    $data['content'] = serialize($request->input());
+    $data['step'] = 'profile';
+
+    if ($trk = TransactionTracking::create($data)) {
+      return response()->json([
+        'valid' => true,
+        'tracking_id' => $trk->id
+      ]);
+    } else {
+      return response()->json([
+        'valid' => false,
+        'message' => 'There was an unknown error'
+      ], 422);
+    }
+  }
 }
