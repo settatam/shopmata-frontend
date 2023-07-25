@@ -17,6 +17,7 @@ use Illuminate\Routing\Route;
 use App\Models\State;
 use App\Services\EventNotification;
 use App\Models\Status;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -66,6 +67,7 @@ class HomeController extends Controller
       } else if ($pageToFind == 'thank-you.detail') {
         if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
+          dd(Session::all());
           $transaction = Transaction::find($id);
           $transaction->sendTransactionToGoogle();
         }
