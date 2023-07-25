@@ -1386,6 +1386,8 @@ class Transaction extends Model
       $apiSecret
     );
 
+    dd(session()->get('google-seo-client-id'));
+
     if($googleId = session()->get('google-seo-client-id')) {
       $data = [
         'client_id' => $googleId,
