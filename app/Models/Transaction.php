@@ -1358,7 +1358,7 @@ class Transaction extends Model
     }
   }
 
-  public function sendTransactionToGoogle()
+  public function sendTransactionToGoogle($clientId = null, $sessionId = null)
   {
     $reportableStatuses = [
       'kit_requested' => 60,
@@ -1386,7 +1386,10 @@ class Transaction extends Model
       $apiSecret
     );
 
-    if($googleId = $this->customer->getMeta('google-seo-client-id')) {
+    $googleId = $clientId ?? $this->customer->getMeta('google-seo-client-id');
+    $sessionId = $sessionId ?? $this->customer->getMeta('google-seo-session-id');
+
+    if($googleId) {
       $data = [
         'client_id' => $googleId,
         'events' => [
@@ -1397,7 +1400,7 @@ class Transaction extends Model
               'customer' => $this->customer->full_name,
               'amount' =>$this->final_offer ?? 0,
               'value' => $this->getEstValue($this->items) ?? 0,
-              'session_id' => $this->customer->getMeta('google-seo-session-id') ?? Session::getId(),
+              'session_id' => $sessionId ?? Session::getId(),
               'customerId' => $this->customer->id
             ]
           ],

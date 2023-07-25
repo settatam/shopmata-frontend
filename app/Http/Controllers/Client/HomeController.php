@@ -67,9 +67,10 @@ class HomeController extends Controller
       } else if ($pageToFind == 'thank-you.detail') {
         if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
-          dd(Session::all());
           $transaction = Transaction::find($id);
-          $transaction->sendTransactionToGoogle();
+          $clientId = session()->get('google-seo-client-id');
+          $sessionId = \session()->get('google-seo-session-id');
+          $transaction->sendTransactionToGoogle($clientId, $sessionId);
         }
 
         if(!Auth::check()) {
