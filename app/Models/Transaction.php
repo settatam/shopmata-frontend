@@ -1386,7 +1386,7 @@ class Transaction extends Model
       $apiSecret
     );
 
-    if($googleId = $this->customer->getMeta('google-seo-client-id')) {
+    if($googleId = session()->get('google-seo-client-id')) {
       $data = [
         'client_id' => $googleId,
         'events' => [
@@ -1397,7 +1397,7 @@ class Transaction extends Model
               'customer' => $this->customer->full_name,
               'amount' =>$this->final_offer,
               'value' => $this->getEstValue($this->items),
-              'session_id' => $this->customer->getMeta('google-seo-session-id'),
+              'session_id' => session()->get('google-seo-session-id') ?? Session::getId(),
               'customerId' => $this->customer->id
             ]
           ],
