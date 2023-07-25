@@ -64,11 +64,10 @@ class HomeController extends Controller
           ->get();
 
       } else if ($pageToFind == 'thank-you.detail') {
-        dd($id);
-        $transaction = Transaction::find($id);
-        $transaction->sendTransactionToGoogle();
         if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
+          $transaction = Transaction::find($id);
+          $transaction->sendTransactionToGoogle();
         }
 
         if(!Auth::check()) {
