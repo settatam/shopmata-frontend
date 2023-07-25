@@ -1407,7 +1407,7 @@ class Transaction extends Model
       Log::info('Sending data to Google', $data);
       $response = Http::post($url, $data);
 
-      dd($response);
+      dd($response->body());
 
       if ($response->successful()) {
         Log::info('Successfully sent data to Google');
