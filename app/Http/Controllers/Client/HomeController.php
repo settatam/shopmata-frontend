@@ -390,6 +390,10 @@ class HomeController extends Controller
       $customer->addOrUpdateMeta('google-seo-client-id', $request->session()->get('google-seo-client-id'));
     }
 
+    if ($request->session()->has('google-seo-session-id')) {
+      $customer->addOrUpdateMeta('google-seo-session-id', $request->session()->get('google-seo-session-id'));
+    }
+
     $transaction = Transaction::createNew($store, $request, $customer);
     //session()->put('transactionID', $transaction->id);
     $transaction->address()->create($customerAddress);
