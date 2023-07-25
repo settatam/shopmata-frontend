@@ -49,7 +49,7 @@ class HomeController extends Controller
       if ($pageToFind === 'home') {
         //$pageType = 'template';
       } else if ($pageToFind == 'transactions') {
-        if(!Auth::check()) {
+        if (!Auth::check()) {
           return redirect('customer/login?q=couldnot');
         }
 
@@ -64,7 +64,8 @@ class HomeController extends Controller
           ->where('store_id', $store->id)
           ->orderBy($sortBy, $orderBy)
           ->get();
-
+      } else if ($pageToFind == 'contact-us') {
+        return redirect('https://sellmyjewelry.com/contact-us');
       } else if ($pageToFind == 'thank-you.detail') {
         if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
