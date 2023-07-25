@@ -40,7 +40,7 @@ class StorePage extends Model
         if(!$path || $path == '/') return 'home';
         if ($path === 'b') return 'home-b';
         if($path === 'thank-you.html') return 'thank-you.detail';
-        if($path === 'my-settings.html') return 'thank-you.detail';
+        if($path === 'my-settings.html') return 'my-settings';
         if($path === 'my-account.html') return 'my-settings';
         if($path === 'track-my-kit.html') return 'transactions';
         $hasSlash = strpos($path, '/');
