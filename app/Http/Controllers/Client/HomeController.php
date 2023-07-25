@@ -64,6 +64,8 @@ class HomeController extends Controller
           ->get();
 
       } else if ($pageToFind == 'thank-you.detail') {
+        $transaction = Transaction::find($id);
+        $transaction->sendTransactionToGoogle();
         if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
         }
@@ -403,7 +405,7 @@ class HomeController extends Controller
 
     $transaction_payment_address->save();
 
-    $transaction->sendTransactionToGoogle();
+    //$transaction->sendTransactionToGoogle();
     $transaction->doWarehouser();
 
     return response()->json($addressVerification);
