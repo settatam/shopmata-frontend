@@ -493,7 +493,7 @@ class HomeController extends Controller
       $customer->addOrUpdateMeta($request->field, $request->value);
       return $customer;
     } else {
-      $request->session()->put('google-seo-client-id', $request->value);
+      $request->session()->put($request->field, $request->value);
     }
   }
 }
