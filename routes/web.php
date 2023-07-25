@@ -45,6 +45,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
 //Route::domain('{account}.'.env('APP_URL'))->group(function () {
     Route::get('transactions/{id}/track-my-kit', [PDFController::class, 'trackKit']);
     Route::get('my-account.html', [ClientHomeController::class, 'index']);
+    Route::get('contact-us', [ClientHomeController::class, 'index']);
     Route::get('track-my-kit.html', [ClientHomeController::class, 'index']);
     Route::get('/', [ClientHomeController::class, 'index']);
     Route::get('b', [ClientHomeController::class, 'index']);
