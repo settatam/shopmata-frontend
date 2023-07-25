@@ -52,7 +52,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('transactions/{id}', [ClientHomeController::class, 'index']);
     Route::post('transactions/{id}', [ClientHomeController::class, 'update']);
     Route::get('customer/account', [ClientHomeController::class, 'index']);
-    Route::get('my-settings',      [ClientHomeController::class, 'index']);
+    Route::get('my-settings.html',      [ClientHomeController::class, 'index']);
     Route::get('my-settings/{id}', [ClientHomeController::class, 'index']);
     Route::post('my-settings',     [ClientHomeController::class, 'settings']);
     Route::get('track-my-kit', [ClientHomeController::class, 'index']);
