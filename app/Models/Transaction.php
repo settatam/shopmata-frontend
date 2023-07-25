@@ -1381,7 +1381,7 @@ class Transaction extends Model
     $measurementId = $this->store->getMeta('google-analytics-measurement-id');
     $apiSecret = $this->store->getMeta('google-analytics-secret');
 
-    $url = sprintf('https://www.google-analytics.com/mp/collect?measurement_id=%s&api_secret=%s',
+    $url = sprintf('https://www.google-analytics.com/debug/mp/collect?measurement_id=%s&api_secret=%s',
       $measurementId,
       $apiSecret
     );
@@ -1406,6 +1406,8 @@ class Transaction extends Model
 
       Log::info('Sending data to Google', $data);
       $response = Http::post($url, $data);
+
+      dd($response);
 
       if ($response->successful()) {
         Log::info('Successfully sent data to Google');
