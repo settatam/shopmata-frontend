@@ -17,7 +17,9 @@ class VerifyCsrfToken extends Middleware
         'admin/transactions/bulk-actions/barcode',
         'customer/verify-address',
         'my-settings',
-        'admin/transactions/bulk-actions/barcode'
+        'admin/transactions/bulk-actions/barcode',
+        'customer/update-address-verification',
+        'customer/track-progress'
     ];
 
 }
