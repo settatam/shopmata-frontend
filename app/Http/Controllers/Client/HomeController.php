@@ -68,8 +68,8 @@ class HomeController extends Controller
         if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
           $transaction = Transaction::find($id);
-          $clientId = session()->get('google-seo-client-id');
-          $sessionId = \session()->get('google-seo-session-id');
+          $clientId = $request->session()->get('google-seo-client-id');
+          $sessionId = $request->session()->get('google-seo-session-id');
           $transaction->sendTransactionToGoogle($clientId, $sessionId);
         }
 
