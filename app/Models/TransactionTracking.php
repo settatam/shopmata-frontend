@@ -20,7 +20,11 @@ class TransactionTracking extends Model
 
     public function getContentAttribute($value)
     {
-      if ($value) return unserialize($value);
+      if ($value) {
+        $newValue = unserialize($value);
+        unset($newValue['tracking_id']);
+        return $newValue;
+      }
       return '';
     }
 
