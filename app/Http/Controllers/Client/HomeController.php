@@ -515,8 +515,10 @@ class HomeController extends Controller
   {
     $transaction = TransactionTracking::find($id);
     //$transaction->content = unserialize($transaction->content);
-   unset( $transaction->content['tracking_id']);
-    dd($transaction->content);
+    if ($content = $transaction->content) {
+      unset($content['tracking_id']);
+    }
+    $transaction->content = $content;
     return response()->json($transaction);
   }
 
