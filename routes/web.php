@@ -56,6 +56,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('my-settings.html',      [ClientHomeController::class, 'index']);
     Route::get('my-settings/{id}', [ClientHomeController::class, 'index']);
     Route::post('my-settings',     [ClientHomeController::class, 'settings']);
+    Route::get('my-settings',     [ClientHomeController::class, 'index']);
     Route::get('track-my-kit', [ClientHomeController::class, 'index']);
     Route::get('customer/login', [CustomerLoginController::class, 'getLogin'])->name('login');
     Route::get('password/reset', [CustomerLoginController::class, 'resetPassword'])->name('reset-password');
