@@ -232,7 +232,7 @@ class Store extends Model
       if (null !== $theme) {
         Log::info('we got the theme ' . $theme->id);
       }
-      
+
       $template = $page->template->content;
     } else if ($type == 'template') {
       $page = ThemeFile::query()->where('title', $name . '.twig')->where('store_id', $this->id)->first();
