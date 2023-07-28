@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Scopes\StoreScope;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Traits\HasMeta;
 
@@ -212,7 +213,6 @@ class Store extends Model
    */
   public function pageContent($name, $data = [], $type = 'page')
   {
-
     $page = $this->pages()->where('name', $name)->first();
     $pageContent = '';
 
@@ -223,10 +223,16 @@ class Store extends Model
 
     if ($type == 'page') {
       $page = $this->pages()->where('name', $name)->first();
+      Log::info('We got the page' . $page->id);
       if (null !== $page) {
         if ($page->content) $data['content_for_page'] = $page->content;
       }
       $theme = optional($page->theme)->content;
+
+      if (null !== $theme) {
+        Log::info('we got the theme ' . $theme->id);
+      }
+      
       $template = $page->template->content;
     } else if ($type == 'template') {
       $page = ThemeFile::query()->where('title', $name . '.twig')->where('store_id', $this->id)->first();
