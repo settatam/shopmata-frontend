@@ -250,7 +250,7 @@ class Store extends Model
 
     //if the page has a theme, use that
     if (null === $theme) {
-      $theme = $this->theme->files()->where('title', 'theme.twig')->first()->content;
+      $theme = ThemeFile::where('title', 'theme.twig')->where('store_id', $this->id)->first()->content;
     }
 
     if ($pageTemplate) {
