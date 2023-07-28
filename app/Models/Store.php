@@ -230,7 +230,7 @@ class Store extends Model
       $theme = optional($page->theme)->content;
 
       if (null !== $theme) {
-        Log::info('we got the theme ' . $theme->id);
+        //Log::info('we got the theme ' . $theme->id);
       }
 
       $template = $page->template->content;
