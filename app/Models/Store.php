@@ -236,6 +236,7 @@ class Store extends Model
       $template = $page->template->content;
     } else if ($type == 'template') {
       $page = ThemeFile::query()->where('title', $name . '.twig')->where('store_id', $this->id)->first();
+      Log::info('This is a template ' . $page->id);
       $template = $page->content;
     }
 
