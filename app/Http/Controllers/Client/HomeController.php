@@ -309,7 +309,6 @@ class HomeController extends Controller
     return $transaction;
   }
 
-
   /**
    * Remove the specified resource from storage.
    *
@@ -520,13 +519,51 @@ class HomeController extends Controller
 
   public function postTrkProgress(Request $request)
   {
-    $data['content'] = serialize($request->input());
-    $data['step'] = 'profile';
+    $input = $request->input();
+    $data['content'] = serialize($input);
+    $data['step'] = data_get($input, 'step');
+    //$data['step'] = 'profile';
 
-    if ($trk = TransactionTracking::create($data)) {
+    if ($tracking_id = data_get($input, 'tracking_id')) {
+      $tracking = TransactionTracking::find($tracking_id);
+      $input['content'] = serialize($input);
+      $tracking->fill($input);
+      $tracking->save();
       return response()->json([
         'valid' => true,
-        'tracking_id' => $trk->id
+        'tracking_id' => $tracking_id,
+        'transaction_id' => $tracking->transaction_id
+      ]);
+    }
+
+    if ($trk = TransactionTracking::firstOrNew($data)) {
+      //Create Transaction ..
+      $customer = Customer::firstOrNew([
+        'email' => data_get($input, 'profile_email'),
+        'store_id' => $request->session()->get('store_id')
+      ]);
+
+      $customer->fill([
+        'first_name' => data_get($input, 'profile_firstname'),
+        'last_name' => data_get($input, 'profile_lastname'),
+        'phone_number' => data_get($input, 'profile_mobile')
+      ]);
+
+      $customer->save();
+
+      $transaction = Transaction::create([
+        'customer_id' => $customer->id,
+        'status_id' => 64,
+        'store_id' => $request->session()->get('store_id')
+      ]);
+
+      $trk->transaction_id = $transaction->id;
+      $trk->save();
+
+      return response()->json([
+        'valid' => true,
+        'tracking_id' => $trk->id,
+        'transaction_id' => $transaction->id
       ]);
     } else {
       return response()->json([

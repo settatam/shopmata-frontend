@@ -11,7 +11,8 @@ class TransactionTracking extends Model
 
     protected $fillable = [
       'content',
-      'step'
+      'step',
+      'transaction_id'
     ];
 
     protected $appends = [
