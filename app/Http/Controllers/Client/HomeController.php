@@ -70,6 +70,9 @@ class HomeController extends Controller
         if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
           $transaction = Transaction::find($id);
+          if (null !== $transaction->tracking) {
+            $transaction->tracking()->delete();
+          }
           $clientId = $request->session()->get('google-seo-client-id');
           $sessionId = $request->session()->get('google-seo-session-id');
           $transaction->sendTransactionToGoogle($clientId, $sessionId);
@@ -453,10 +456,6 @@ class HomeController extends Controller
       }
     } catch (\Exception $e) {
       $addressVerification['valid'] = false;
-    }
-
-    if (null !== $transaction->tracking) {
-      $transaction->tracking()->delete();
     }
 
     return response()->json($addressVerification);
