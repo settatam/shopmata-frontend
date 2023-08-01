@@ -43,7 +43,8 @@ class Transaction extends Model
     'id',
     'status_id',
     'customer_id',
-    'bin_location'
+    'bin_location',
+    'store_id'
   ];
 
   protected $appends = [
