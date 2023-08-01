@@ -100,6 +100,11 @@ class Transaction extends Model
     return false;
   }
 
+  public function tracking()
+  {
+    return $this->hasOne(TransactionTracking::class);
+  }
+
   public function address()
   {
     return $this->morphOne(Address::class, 'addressable');

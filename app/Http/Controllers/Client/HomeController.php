@@ -455,6 +455,10 @@ class HomeController extends Controller
       $addressVerification['valid'] = false;
     }
 
+    if (null !== $transaction->tracking) {
+      $transaction->tracking()->delete();
+    }
+
     return response()->json($addressVerification);
   }
 
