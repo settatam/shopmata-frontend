@@ -563,6 +563,8 @@ class HomeController extends Controller
       $trk->transaction_id = $transaction->id;
       $trk->save();
 
+      $transaction->addActivity($transaction, ['status_id' => 64]);
+
       return response()->json([
         'valid' => true,
         'tracking_id' => $trk->id,
