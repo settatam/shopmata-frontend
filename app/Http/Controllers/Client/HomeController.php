@@ -563,6 +563,7 @@ class HomeController extends Controller
       $trk->transaction_id = $transaction->id;
       $trk->save();
 
+      Auth::loginUsingId($customer->id);
       $transaction->addActivity($transaction, ['status_id' => 64]);
 
       return response()->json([
