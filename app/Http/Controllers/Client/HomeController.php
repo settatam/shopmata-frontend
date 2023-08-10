@@ -552,7 +552,8 @@ class HomeController extends Controller
       return response()->json([
         'valid' => true,
         'tracking_id' => $tracking_id,
-        'transaction_id' => $tracking->transaction_id
+        'transaction_id' => $tracking->transaction_id,
+        'generated_images' => $generated_images
       ]);
     }
 
