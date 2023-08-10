@@ -539,7 +539,7 @@ class HomeController extends Controller
             $img = Image::make($images[0]);
             $pathToSave = sprintf('%s/%s', public_path(), $imageName);
             $img->save($pathToSave);
-            $generated_images[] = sprintf('%s/%s', url()->current(), $imageName);
+            $generated_images[] = sprintf('%s/%s', url()->basePath(), $imageName);
           }
           data_set($input, 'generated_images', $generated_images);
         }
