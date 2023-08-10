@@ -485,34 +485,46 @@ class Transaction extends Model
     }
   }
 
-
   static function createNew(Store $store, $request, Customer $customer) {
-    $transaction = new self;
+    if ($request->has('transaction_id') && $request->transaction_id) {
+      $transaction = self::find($request->transaction_id);
+    } else {
+      $transaction = new self;
+    }
+
     $transaction->status_id = Status::PENDING_KIT_REQUEST;
     $transaction->customer_id = $customer->id;//Customer id
     $transaction->customer_description = $request->description;
     $transaction->payment_method_id = $transaction->payment;
     $transaction->store_id = $store->id;
     $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
-    $transaction->comments = $request->description;
-    $transaction->engagement_id = session()->get('store_engagement_id');
     $transaction->save();
 
-
     if ( !empty( $request->photos )  ) {
-      $photos = $request->photos;
-      foreach ( $request->photos  as $index => $photo) {
+      foreach ( $request->photos  as $photo) {
         if ($photo) {
-          $photos = explode(',', $photo);
-          foreach($photos as $img) {
-            $transaction->images()->create([
-              'url' => $img,
-              'rank' => $index
-            ]);
-          }
+          $imgs = new Image(['url' => $photo, 'rank' => 1]);
+          $transaction->images()->save($imgs);
         }
       }
     }
+
+    $sendNotice = new EventNotification(
+      self::EVENT_NOTIFICATION_NAME,
+      [
+        'customer' => $customer,
+        'store' => $store,
+        'transaction' => $transaction
+      ]
+    );
+
+    $note = sprintf(
+      '%s %s created new transaction',
+      $customer->first_name,
+      $customer->last_name
+    );
+
+    $transaction->addActivity($transaction, ['status_id' => Status::PENDING_KIT_REQUEST]);
 
     return $transaction;
   }
