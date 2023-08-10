@@ -541,7 +541,6 @@ class HomeController extends Controller
             $img->save($pathToSave);
             $generated_images[] = $pathToSave;
           }
-
           data_set($input, 'generated_images', $generated_images);
         }
 
