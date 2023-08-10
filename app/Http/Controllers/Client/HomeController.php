@@ -535,7 +535,7 @@ class HomeController extends Controller
         if ($images = data_get($input, 'photos')) {
           for ($i=0; $i < count($images); $i++) {
             $pathInfo = pathinfo($images[0], PATHINFO_EXTENSION);
-            $imageName = sprintf('%s-%s.$s', $tracking->transaction_id, $i, $pathInfo);
+            $imageName = sprintf('%s-%s.%s', $tracking->transaction_id, $i, $pathInfo);
             $img = Image::make($images[0]);
             $pathToSave = sprintf('%s/%s', public_path(), $imageName);
             $img->save($pathToSave);
