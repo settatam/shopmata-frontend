@@ -19,6 +19,7 @@ use App\Services\EventNotification;
 use App\Models\Status;
 use Illuminate\Support\Facades\Session;
 use App\Models\TransactionTracking;
+use Intervention\Image\Image;
 
 class HomeController extends Controller
 {
@@ -529,6 +530,22 @@ class HomeController extends Controller
 
     if ($tracking_id = data_get($input, 'tracking_id')) {
       $tracking = TransactionTracking::find($tracking_id);
+      //if ($data['step'] === 'uploads') {
+        $generated_images = [];
+        if ($images = data_get($input, 'images')) {
+          for ($i=0; $i < count($images); $i++) {
+            $pathInfo = pathinfo($images[0], PATHINFO_EXTENSION);
+            $imageName = sprintf('%s-%s.$s', $input['transaction_id'], $i, $pathInfo);
+            $img = Image::make($images[0]);
+            $pathToSave = sprintf('%s/%s', public_path(), $imageName);
+            $img->save($pathToSave);
+            $generated_images[] = $pathToSave;
+          }
+
+          data_set($input, 'generated_images', $generated_images);
+        }
+
+      //}
       $input['content'] = serialize($input);
       $tracking->fill($input);
       $tracking->save();
