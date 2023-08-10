@@ -486,8 +486,8 @@ class Transaction extends Model
   }
 
   static function createNew(Store $store, $request, Customer $customer) {
-    if ($request->has('transaction_id') && $request->transaction_id) {
-      $transaction = self::find($request->transaction_id);
+    if ($request->has('transactionID') && $request->transactionID) {
+      $transaction = self::find($request->transactionID);
     } else {
       $transaction = new self;
     }
