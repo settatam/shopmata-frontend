@@ -532,11 +532,12 @@ class HomeController extends Controller
       $tracking = TransactionTracking::find($tracking_id);
       //if ($data['step'] === 'uploads') {
         $generated_images = [];
+        dd($input);
         if ($images = data_get($input, 'photos')) {
           dd($images);
           for ($i=0; $i < count($images); $i++) {
             $pathInfo = pathinfo($images[0], PATHINFO_EXTENSION);
-            $imageName = sprintf('%s-%s.$s', $input['transaction_id'], $i, $pathInfo);
+            $imageName = sprintf('%s-%s.$s', $tracking->transaction_id, $i, $pathInfo);
             $img = Image::make($images[0]);
             $pathToSave = sprintf('%s/%s', public_path(), $imageName);
             $img->save($pathToSave);
