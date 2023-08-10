@@ -19,7 +19,7 @@ use App\Services\EventNotification;
 use App\Models\Status;
 use Illuminate\Support\Facades\Session;
 use App\Models\TransactionTracking;
-use Intervention\Image\Image;
+use Image;
 
 class HomeController extends Controller
 {
