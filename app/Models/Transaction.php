@@ -495,13 +495,21 @@ class Transaction extends Model
     $transaction->status_id = Status::PENDING_KIT_REQUEST;
     $transaction->customer_id = $customer->id;//Customer id
     $transaction->customer_description = $request->description;
+    $transaction->comments = $request->description;
     $transaction->payment_method_id = $transaction->payment;
     $transaction->store_id = $store->id;
     $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
     $transaction->save();
 
+    $photos = [];
+
     if ( !empty( $request->photos )  ) {
-      foreach ( $request->photos  as $photo) {
+      if (count($request->photos) === 1) {
+        $photos = explode(',', $request->photos[0]);
+      } else {
+        $photos = $request->photos;
+      }
+      foreach ( $photos  as $photo) {
         if ($photo) {
           $imgs = new Image(['url' => $photo, 'rank' => 1]);
           $transaction->images()->save($imgs);
