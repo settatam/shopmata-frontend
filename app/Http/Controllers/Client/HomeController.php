@@ -531,8 +531,8 @@ class HomeController extends Controller
 
     if ($tracking_id = data_get($input, 'tracking_id')) {
       $tracking = TransactionTracking::find($tracking_id);
+      $generated_images = [];
       if ($data['step'] === 'uploads') {
-        $generated_images = [];
         if ($images = data_get($input, 'photos')) {
           if (count($images) === 1) $images = explode(',', $images);
           for ($i=0; $i < count($images); $i++) {
