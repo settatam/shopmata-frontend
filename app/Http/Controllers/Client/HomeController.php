@@ -534,7 +534,7 @@ class HomeController extends Controller
       $generated_images = [];
       if ($data['step'] === 'uploads') {
         if ($images = data_get($input, 'photos')) {
-          if (count($images) === 1) $images = explode(',', $images);
+          if (count($images) === 1) $images = explode(',', $images[0]);
           for ($i=0; $i < count($images); $i++) {
             $pathInfo = pathinfo($images[0], PATHINFO_EXTENSION);
             $imageName = sprintf('%s-%s.%s', $tracking->transaction_id, $i, $pathInfo);
