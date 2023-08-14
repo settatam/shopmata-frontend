@@ -546,7 +546,7 @@ class HomeController extends Controller
           data_set($input, 'generated_images', $generated_images);
         }
       } else {
-        dd($trancking->content);
+        dd($tracking->content);
         $newContent = unserialize($tracking->content);
         $generated_images = data_get($newContent, 'generated_images', []);
         data_set($input, 'generated_images', $generated_images);
