@@ -545,6 +545,10 @@ class HomeController extends Controller
           }
           data_set($input, 'generated_images', $generated_images);
         }
+      } else {
+        $newContent = unserialize($tracking->content);
+        $generated_images = data_get($newContent, 'generated_images', []);
+        data_set($input, 'generated_images', $generated_images);
       }
       $input['content'] = serialize($input);
       $tracking->fill($input);
