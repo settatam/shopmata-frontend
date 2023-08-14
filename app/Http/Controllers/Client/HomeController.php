@@ -531,7 +531,7 @@ class HomeController extends Controller
 
     if ($tracking_id = data_get($input, 'tracking_id')) {
       $tracking = TransactionTracking::find($tracking_id);
-      //if ($data['step'] === 'uploads') {
+      if ($data['step'] === 'uploads') {
         $generated_images = [];
         if ($images = data_get($input, 'photos')) {
           for ($i=0; $i < count($images); $i++) {
@@ -544,8 +544,7 @@ class HomeController extends Controller
           }
           data_set($input, 'generated_images', $generated_images);
         }
-
-      //}
+      }
       $input['content'] = serialize($input);
       $tracking->fill($input);
       $tracking->save();
@@ -567,7 +566,9 @@ class HomeController extends Controller
       $customer->fill([
         'first_name' => data_get($input, 'profile_firstname'),
         'last_name' => data_get($input, 'profile_lastname'),
-        'phone_number' => data_get($input, 'profile_mobile')
+        'phone_number' => data_get($input, 'profile_mobile'),
+        'allows_sms_updates' => data_get($input, 'allows_sms_updates', 0),
+        'allows_email_updates' => data_get($input, 'allows_email_updates', 0)
       ]);
 
       $customer->save();
