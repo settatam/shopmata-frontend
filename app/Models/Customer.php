@@ -53,7 +53,9 @@ class Customer extends Authenticatable
         'gender',
         'home_phone_number',
         'ext',
-        'customerDifficulty'
+        'customerDifficulty',
+        'allows_sms_updates',
+        'allows_email_updates',
     ];
 
      /**
@@ -130,6 +132,8 @@ class Customer extends Authenticatable
         $customer->password        = bcrypt($input['first_name']);
         $customer->is_active       = 1;
         $customer->accepts_marketing = 1;
+        $customer->allows_sms_updates = data_get($input, 'allows_sms_updates', 0);
+        $customer->allows_email_updates = data_get($input, 'allows_email_updates', 0);
         if ( $customer->save() ) {
           Log::info('new customer created', $customer->toArray());
           //$customer->address()->save($address);
