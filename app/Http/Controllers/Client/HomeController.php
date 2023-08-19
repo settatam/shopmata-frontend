@@ -77,6 +77,9 @@ class HomeController extends Controller
           }
           $clientId = $request->session()->get('google-seo-client-id');
           $sessionId = $request->session()->get('google-seo-session-id');
+          if ($request->session()->has('google-seo-session-id')) {
+            $transaction->addOrUpdateMeta('google-seo-session-id', $request->session()->get('google-seo-session-id'));
+          }
           $transaction->sendTransactionToGoogle($clientId, $sessionId);
         }
 
@@ -396,11 +399,13 @@ class HomeController extends Controller
       $customer->addOrUpdateMeta('google-seo-client-id', $request->session()->get('google-seo-client-id'));
     }
 
-    if ($request->session()->has('google-seo-session-id')) {
-      $customer->addOrUpdateMeta('google-seo-session-id', $request->session()->get('google-seo-session-id'));
-    }
 
     $transaction = Transaction::createNew($store, $request, $customer);
+
+    if ($request->session()->has('google-seo-session-id')) {
+      $customer->addOrUpdateMeta('google-seo-session-id', $request->session()->get('google-seo-session-id'));
+      $transaction->addOrUpdateMeta('google-seo-session-id', $request->session()->get('google-seo-session-id'));
+    }
     //session()->put('transactionID', $transaction->id);
     $transaction->address()->create($customerAddress);
     $addressVerification['transaction_id'] = $transaction->id;
