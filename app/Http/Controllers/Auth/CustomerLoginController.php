@@ -47,7 +47,7 @@ class CustomerLoginController extends Controller
     {
         $store = Store::find(session()->get('store_id'));
         $pageToFind = 'reset-password';
-        $pageType = 'template';
+        $pageType = 'page';
         $data = [];
         $page = $store->pageContent($pageToFind, $data, $pageType);
         return view('pages.index', compact('page'));
