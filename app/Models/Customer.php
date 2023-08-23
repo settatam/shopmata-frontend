@@ -56,6 +56,7 @@ class Customer extends Authenticatable
         'customerDifficulty',
         'allows_sms_updates',
         'allows_email_updates',
+        'email'
     ];
 
      /**
@@ -178,8 +179,6 @@ class Customer extends Authenticatable
 
         return $customer;
     }
-
-
 
     public static function createAddress($request, $customer)
     {
