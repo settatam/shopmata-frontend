@@ -223,7 +223,7 @@ class Store extends Model
 
     if ($type == 'page') {
       $page = $this->pages()->where('name', $name)->first();
-      Log::info('We got the page' . $page->id);
+      Log::info('We got the page' . $name);
       if (null !== $page) {
         if ($page->content) $data['content_for_page'] = $page->content;
       }
