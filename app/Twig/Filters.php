@@ -30,9 +30,64 @@ class Filters extends AbstractExtension
       new TwigFilter('kit_by_print', [$this, 'kitByPrint']),
       new TwigFilter('payment_information', [$this, 'paymentInformation']),
       new TwigFilter('password_reset_link', [$this, 'passwordResetLink']),
-      new TwigFilter('customer_status', [$this, 'customerStatus'])
+      new TwigFilter('customer_status', [$this, 'customerStatus']),
+      new TwigFilter('fedex_inbound_tracking', [$this, 'fedexInboundTracking']),
+      new TwigFilter('fedex_outbound_tracking', [$this, 'fedexOutboundTracking']),
+      new TwigFilter('fedex_inbound_tracking_sms', [$this, 'fedexInboundTrackingSms']),
+      new TwigFilter('fedex_outbound_tracking_sms', [$this, 'fedexOutboundTrackingSms']),
+      new TwigFilter('fedex_return_tracking', [$this, 'fedexReturnTracking']),
+      new TwigFilter('fedex_return_tracking_sms', [$this, 'fedexReturnTrackingSms']),
+      new TwigFilter('transaction_settings', [$this, 'transactionSettings']),
+      new TwigFilter('settings_button', [$this, 'settingsButton']),
     ];
   }
+
+  public static function fedexInboundTracking($transaction) {
+        return $transaction->addFedexLinksToTrackingNumbers('inbound');
+    }
+
+    public static function fedexOutboundTracking($transaction) {
+      return $transaction->addFedexLinksToTrackingNumbers('outbound');
+    }
+
+    public static function paymentInformation($transaction) {
+    $text = 'Access Your Payment Method';
+    $url = 'https://'.$transaction->store->store_domain . '/my-settings';
+    return self::mail_button($text, $url);
+  }
+
+  public static function settingsButton($customer)
+    {
+        $url = self::transactionSettings($customer);
+        return self::mail_button('Update My Settings', $url);
+    }
+
+    public static function transactionSettings($customer)
+    {
+        $store = $customer->store;
+        $token = $customer->generateLoginTokenForEmail(false);
+        return 'https://' . $store->store_domain . '/my-settings?token='.$token->token;
+    }
+
+    public static function fedexReturnTracking($transaction)
+    {
+        return $transaction->addFedexLinksToTrackingNumbers('return');
+    }
+
+    public static function fedexReturnTrackingSms($transaction)
+    {
+      return $transaction->addFedexLinksToTrackingNumbers('return', false);
+    }
+
+    public static function fedexInboundTrackingSms($transaction)
+    {
+        return $transaction->addFedexLinksToTrackingNumbers('inbound', false);
+    }
+
+    public static function fedexOutboundTrackingSms($transaction)
+    {
+      return $transaction->addFedexLinksToTrackingNumbers('outbound', false);
+    }
 
   public static function countWords($sentence)
   {
@@ -119,11 +174,6 @@ class Filters extends AbstractExtension
     return self::mail_button('DENY', $url, '#bcbec0','#FFFFFF','#555555');
   }
 
-  public static function paymentInformation($transaction) {
-    $text = 'Access Your Payment Method';
-    $url = 'https://'.$transaction->store->store_domain . '/my-settings';
-    return self::mail_button($text, $url);
-  }
 
   public static function kitByMail($transaction) {
     //create login token ...
