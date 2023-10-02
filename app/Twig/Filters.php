@@ -66,7 +66,8 @@ class Filters extends AbstractExtension
     public static function transactionSettings($customer)
     {
         Log::info('The customer is here', $customer->toArray());
-        $store = $customer->store;
+        //$store = $customer->store;
+        $store = Store::find($customer->store_id);
         $token = $customer->generateLoginTokenForEmail(false);
         return 'https://' . optional($store->store_domain) . '/my-settings?token='.$token->token;
     }
