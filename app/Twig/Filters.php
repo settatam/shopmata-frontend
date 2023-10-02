@@ -69,7 +69,7 @@ class Filters extends AbstractExtension
         //$store = $customer->store;
         $store = Store::find($customer->store_id);
         $token = $customer->generateLoginTokenForEmail(false);
-        return 'https://' . optional($store->store_domain) . '/my-settings?token='.$token->token;
+        return 'https://' . optional($store)->store_domain . '/my-settings?token='.$token->token;
     }
 
     public static function fedexReturnTracking($transaction)
