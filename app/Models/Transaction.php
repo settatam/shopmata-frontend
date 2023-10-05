@@ -492,6 +492,8 @@ class Transaction extends Model
       $transaction = new self;
     }
 
+    dd($request);
+
     $transaction->status_id = Status::PENDING_KIT_REQUEST;
     $transaction->customer_id = $customer->id;//Customer id
     $transaction->customer_description = $request->description;
