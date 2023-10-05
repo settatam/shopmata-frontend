@@ -490,15 +490,12 @@ class Transaction extends Model
       $tracking = TransactionTracking::find($request->tracking_id);
       if (null !== $tracking) {
         $transaction = self::find($tracking->transaction_id);
-        dd($transaction);
       } else {
         $transaction = new self;
       }
     } else {
-
+      $transaction = new self;
     }
-
-    dd($request);
 
     $transaction->status_id = Status::PENDING_KIT_REQUEST;
     $transaction->customer_id = $customer->id;//Customer id
