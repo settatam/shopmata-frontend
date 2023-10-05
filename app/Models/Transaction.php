@@ -486,10 +486,16 @@ class Transaction extends Model
   }
 
   static function createNew(Store $store, $request, Customer $customer) {
-    if ($request->has('transactionID') && $request->transactionID) {
-      $transaction = self::find($request->transactionID);
+    if ($request->has('tracking_id') && $request->tracking_id) {
+      $tracking = TransactionTracking::find($request->tracking_id);
+      if (null !== $tracking) {
+        $transaction = self::find($tracking->transaction_id);
+        dd($transaction);
+      } else {
+        $transaction = new self;
+      }
     } else {
-      $transaction = new self;
+
     }
 
     dd($request);
