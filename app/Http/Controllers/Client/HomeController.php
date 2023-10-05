@@ -77,6 +77,7 @@ class HomeController extends Controller
 
           if (null !== $transaction->tracking) {
             $transaction->tracking()->delete();
+            $transaction->activities()->where('status', 'Pending Kit Request - Incomplete')->where('is_status', 1)->delete();
           }
           $clientId = $request->session()->get('google-seo-client-id');
           $sessionId = $request->session()->get('google-seo-session-id');
