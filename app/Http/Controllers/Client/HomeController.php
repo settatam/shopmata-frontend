@@ -72,8 +72,11 @@ class HomeController extends Controller
         if( $request->has('id') && $request->id ) {
           $id = $request->input('id');
           $transaction = Transaction::find($id);
-          $transaction->status_id = 60;
-          $transaction->save();
+
+          if ($transaction->status_id == '64') {
+            $transaction->status_id = 60;
+            $transaction->save();
+          }
 
           if (null !== $transaction->tracking) {
             $transaction->tracking()->delete();
