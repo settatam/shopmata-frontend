@@ -433,11 +433,6 @@ input::-moz-placeholder, textarea::-moz-placeholder {
   color: #9ca3af;
 }
 
-input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-  opacity: 1;
-  color: #9ca3af;
-}
-
 input::placeholder,
 textarea::placeholder {
   opacity: 1;
@@ -650,11 +645,6 @@ input::-moz-placeholder, textarea::-moz-placeholder {
 	opacity: 1;
 }
 
-input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-	color: #6b7280;
-	opacity: 1;
-}
-
 input::placeholder, textarea::placeholder {
 	color: #6b7280;
 	opacity: 1;
@@ -703,7 +693,6 @@ select {
 	background-origin: border-box;
 	-webkit-user-select: none;
 	   -moz-user-select: none;
-	    -ms-user-select: none;
 	        user-select: none;
 	flex-shrink: 0;
 	height: 1rem;
@@ -1853,7 +1842,6 @@ select {
 	height: 0.25rem !important;
 }
 .h-content {
-	height: -webkit-max-content !important;
 	height: -moz-max-content !important;
 	height: max-content !important;
 }
@@ -2056,7 +2044,6 @@ select {
 	width: 40% !important;
 }
 .w-max {
-	width: -webkit-max-content !important;
 	width: -moz-max-content !important;
 	width: max-content !important;
 }
@@ -2200,12 +2187,6 @@ select {
 .transform {
 	transform: var(--tw-transform) !important;
 }
-@-webkit-keyframes spin {
-
-	to {
-		transform: rotate(360deg);
-	}
-}
 @keyframes spin {
 
 	to {
@@ -2213,8 +2194,7 @@ select {
 	}
 }
 .animate-spin {
-	-webkit-animation: spin 1s linear infinite !important;
-	        animation: spin 1s linear infinite !important;
+	animation: spin 1s linear infinite !important;
 }
 .cursor-default {
 	cursor: default !important;
@@ -3580,19 +3560,11 @@ select {
 	--tw-placeholder-opacity: 1 !important;
 	color: rgba(107, 114, 128, var(--tw-placeholder-opacity)) !important;
 }
-.placeholder-gray-500:-ms-input-placeholder {
-	--tw-placeholder-opacity: 1 !important;
-	color: rgba(107, 114, 128, var(--tw-placeholder-opacity)) !important;
-}
 .placeholder-gray-500::placeholder {
 	--tw-placeholder-opacity: 1 !important;
 	color: rgba(107, 114, 128, var(--tw-placeholder-opacity)) !important;
 }
 .placeholder-gray-400::-moz-placeholder {
-	--tw-placeholder-opacity: 1 !important;
-	color: rgba(156, 163, 175, var(--tw-placeholder-opacity)) !important;
-}
-.placeholder-gray-400:-ms-input-placeholder {
 	--tw-placeholder-opacity: 1 !important;
 	color: rgba(156, 163, 175, var(--tw-placeholder-opacity)) !important;
 }
@@ -3604,10 +3576,6 @@ select {
 	--tw-placeholder-opacity: 1 !important;
 	color: rgba(209, 213, 219, var(--tw-placeholder-opacity)) !important;
 }
-.placeholder-gray-300:-ms-input-placeholder {
-	--tw-placeholder-opacity: 1 !important;
-	color: rgba(209, 213, 219, var(--tw-placeholder-opacity)) !important;
-}
 .placeholder-gray-300::placeholder {
 	--tw-placeholder-opacity: 1 !important;
 	color: rgba(209, 213, 219, var(--tw-placeholder-opacity)) !important;
@@ -3616,19 +3584,11 @@ select {
 	--tw-placeholder-opacity: 1 !important;
 	color: rgba(252, 165, 165, var(--tw-placeholder-opacity)) !important;
 }
-.placeholder-red-300:-ms-input-placeholder {
-	--tw-placeholder-opacity: 1 !important;
-	color: rgba(252, 165, 165, var(--tw-placeholder-opacity)) !important;
-}
 .placeholder-red-300::placeholder {
 	--tw-placeholder-opacity: 1 !important;
 	color: rgba(252, 165, 165, var(--tw-placeholder-opacity)) !important;
 }
 .placeholder-gray-200::-moz-placeholder {
-	--tw-placeholder-opacity: 1 !important;
-	color: rgba(229, 231, 235, var(--tw-placeholder-opacity)) !important;
-}
-.placeholder-gray-200:-ms-input-placeholder {
 	--tw-placeholder-opacity: 1 !important;
 	color: rgba(229, 231, 235, var(--tw-placeholder-opacity)) !important;
 }

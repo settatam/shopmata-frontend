@@ -110,15 +110,20 @@ class EventNotification
             $data['to'] = env('DEVELOPER_EMAIL', 'seth.atam@gmail.com');
         }
 
-        Mail::to($data['to'])->send(new EmailSender($data));
+        try {
+          Mail::to($data['to'])->send(new EmailSender($data));
 
-        $emailNotificationMessageSent = new EmailNotificationMessageSent();
+          $emailNotificationMessageSent = new EmailNotificationMessageSent();
 
-        $emailNotificationMessageSent->sent_to = $data['to'];
-        $emailNotificationMessageSent->store_id = $data['store']->id;
-        $emailNotificationMessageSent->subject = $data['subject'];
-        $emailNotificationMessageSent->message = $data['parsed_message'];
-        $emailNotificationMessageSent->save();
+          $emailNotificationMessageSent->sent_to = $data['to'];
+          $emailNotificationMessageSent->store_id = $data['store']->id;
+          $emailNotificationMessageSent->subject = $data['subject'];
+          $emailNotificationMessageSent->message = $data['parsed_message'];
+          $emailNotificationMessageSent->save();
+        } catch (\Exception $e) {
+          Log::error('Log issues');
+        }
+
     }
 
     public function sendSMS($data) {

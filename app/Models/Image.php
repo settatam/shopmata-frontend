@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\FileUploader;
 
-
-
 class Image extends Model
 {
-    use HasFactory, FileUploader;
+    use HasFactory, FileUploader, SoftDeletes;
 
     protected $table = "images";
 

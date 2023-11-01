@@ -13,7 +13,7 @@
                             <li>
                                 <div>
                                     <a
-                                        href="/dashboard"
+                                        href="/admin/dashboard"
                                         class="text-gray-600 hover:text-gray-700"
                                     >
                                         <HomeIcon
