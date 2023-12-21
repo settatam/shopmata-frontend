@@ -11,6 +11,7 @@ use App\Traits\FileUploader;
 use Auth;
 use App\Traits\HasMeta;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Log;
 use Numeral\Numeral;
@@ -18,7 +19,7 @@ use Numeral\Numeral;
 
 class Customer extends Authenticatable
 {
-    use HasFactory, FileUploader, HasMeta;
+    use HasFactory, FileUploader, HasMeta, SoftDeletes;
 
     protected $table = 'customers';
 
