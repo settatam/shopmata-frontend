@@ -285,13 +285,32 @@ class Filters extends AbstractExtension
       case 60:
       case 54:
       case 53:
-      case 1:
         return '<h1>We have received your request for a kit!</h1>
                         <b>Here is what happens next ...</b>
                         <p>Within one business day we will ship an appraisal kit to you. It will take 2-3 days to arrive. If you do not want to wait you can also <a href="/track-my-kit.html?kit=<?php echo $transaction_id; ?>">download</a> and print your own kit.</p>
                         <b>'.$transaction->customer->first_name.', when you receive your kit ...</b>
                         <p>Follow the instructions inside to learn how to properly pack and return your items to us. Everything you need is provided in this kit including a pre-paid and insured shipping label. We have an <a href="/faqs">FAQ</a> that answers the most common questions and if you have any more please <a href="/contact-us.html">contact us</a>.</p>';
         break;
+      case 1:
+        return '<h1>We have processed your FREE Appraisal Kit request.!</h1>
+          <p> Please follow the directions below to sell your gold, diamonds, jewelry, coins, bullion, watches, handbags, and other valuables safely, quickly, and securely.</p>
+          <p><strong> Mailed Appraisal Kit </strong></p>
+          <p>Please allow 1-2 business days to receive your kit by mail. The Kit will include a FREE insured Fedex shipping label & step-by-step instructions about how to get started.</p>
+          <p><strong> Downloaded or Printed Appraisal Kit </strong></p>
+          <p> Please click below to download or print your free appraisal kit </p>
+          <p> '. self::kitByPrint($transaction) .'</p>
+          <p> <strong> Follow the step-by-step instructions </strong></p>
+          <p> 
+          <ul>
+            <li> Package & ship to us insured, FREE  </li>
+            <li> Confirm your offer and receive your payment within 24 hours </li>
+           </ul>
+           </p>
+           <p> <strong> PAYMENT INFORMATION </strong></p>
+           <p> '. self::paymentInformation($transaction).'</p>
+           <p> <strong> SATISFACTION GUARANTEED </strong></p>
+           <p> We will return your merchandise FREE if you do not accept our offer. </p>
+          ';
       case 4:
       case 15:
       case 50:
@@ -306,6 +325,7 @@ class Filters extends AbstractExtension
                         <p>Wonderful '.$transaction->customer->first_name.'!,  We will send your payment of '. $transaction->final_offer .' to you within one business day. You will receive one last notification from us when it is sent. Thank you again for your business, and please think of us again next time you have something to sell! If you have any questions please <a href="/contact-us">contact us</a>.</p>';
       case 24:
       case 2:
+
         $message = '<h1>' .$transaction->customer->first_name. ', we have received your items!</h1>';
         $message .= '<p>Your items have arrived and an expert appraiser will review them shortly. If we have any questions we will reach out to you. Please review your <a href="/my-settings">settings</a> to make sure we have the right contact and payment information for you. We will send an offer to you for this transaction within 1 business day.</p>';
         if(!$transaction->hasPaymentInfo) {
