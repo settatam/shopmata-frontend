@@ -301,9 +301,9 @@ class Filters extends AbstractExtension
           <p> '. self::kitByPrint($transaction) .'</p>
           <p> <strong> Follow the step-by-step instructions </strong></p>
           <p> 
-          <ul>
-            <li> Package & ship to us insured, FREE  </li>
-            <li> Confirm your offer and receive your payment within 24 hours </li>
+          <ul style="padding-left: 30px; list-style: circle">
+            <li style="margin-top: 10px"> Package & ship to us insured, FREE  </li>
+            <li style="margin-top: 10px"> Confirm your offer and receive your payment within 24 hours </li>
            </ul>
            </p>
            <p> <strong> PAYMENT INFORMATION </strong></p>
