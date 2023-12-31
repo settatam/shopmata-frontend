@@ -255,8 +255,9 @@ class Filters extends AbstractExtension
       case 5:
         $status = 'Offer Accepted';
         break;
-      case 24:
       case 1:
+        $status = 'Kit Sent';
+      case 24:
       case 2:
         $status = 'Kit Received';
         break;
