@@ -112,9 +112,7 @@ class EventNotification
 
         try {
           Mail::to($data['to'])->send(new EmailSender($data));
-
           $emailNotificationMessageSent = new EmailNotificationMessageSent();
-
           $emailNotificationMessageSent->sent_to = $data['to'];
           $emailNotificationMessageSent->store_id = $data['store']->id;
           $emailNotificationMessageSent->subject = $data['subject'];

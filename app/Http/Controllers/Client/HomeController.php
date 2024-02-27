@@ -189,7 +189,7 @@ class HomeController extends Controller
       }
     }
 
-    return view('pages.index', compact('page'));
+    return view('pages.index', compact('page', 'id'));
   }
 
   public function logout() {

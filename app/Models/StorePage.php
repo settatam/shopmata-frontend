@@ -53,7 +53,7 @@ class StorePage extends Model
         if ($numberOfPaths === 2) {
            if(preg_match('/(\w+)\/(\d+)$/', $path)) {
                return strtolower($paths[0].'.detail');
-           } else if(preg_match('/(\w+)\/(\w+)$/', $path)) {
+           } else if (preg_match('/(\w+)\/(\w+)$/', $path)) {
                return strtolower(implode('.', $paths));
            }
         } else if($numberOfPaths === 3) {
