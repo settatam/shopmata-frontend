@@ -178,6 +178,8 @@ class HomeController extends Controller
           $data['transaction'] = $transactionObj->find($id);
         }
 
+        $data['id'] = $id;
+
         $pageType = 'template';
         $customer = Auth::user();
         $customer->load('address', 'transactions.payment_address');
