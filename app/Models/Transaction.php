@@ -503,6 +503,7 @@ class Transaction extends Model
     $transaction->comments = $request->description;
     $transaction->payment_method_id = $transaction->payment;
     $transaction->store_id = $store->id;
+    $transaction->customer_amount = $request->customer_amount;
     $transaction->customer_categories = $request->has('valuable') ? implode(', ', $request->valuable) : null;
     $transaction->save();
 
