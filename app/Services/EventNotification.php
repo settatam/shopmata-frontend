@@ -106,7 +106,7 @@ class EventNotification
 
     public function sendEmail($data) {
 
-        if(env('APP_ENV') != 'production') {
+        if(config('app.env') != 'production') {
             $data['to'] = env('DEVELOPER_EMAIL', 'seth.atam@gmail.com');
         }
 
