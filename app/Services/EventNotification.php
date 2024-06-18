@@ -131,7 +131,7 @@ class EventNotification
 //            throw new InvalidInputException("An SMS has a maximum character length of 160");
         }
 
-        if(env('APP_ENV') != 'production') {
+        if(config('app.env') != 'production') {
             if($data['is_customer']) {
                 $data['customer']->phone_number = env('DEVELOPER_PHONE', '2679809681');
             }else{
