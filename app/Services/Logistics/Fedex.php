@@ -28,101 +28,118 @@ class Fedex extends Shipping
 
 
     public function getToken() {
-        $response = Http::withHeaders(
-            ['Content-Type' => 'application/x-www-form-urlencoded'])
-            ->asForm()
-            ->post(config('logistics.fedex.url').'/oauth/token?', [
+    $response = Http::withHeaders(
+      ['Content-Type' => 'application/x-www-form-urlencoded'])
+      ->asForm()
+      ->post(config('logistics.fedex.url').'/oauth/token?', [
+        'grant_type' => 'client_credentials',
+        'client_id' => config('logistics.fedex.key'),
+        'client_secret' => config('logistics.fedex.secret'),
+      ]);
+
+    if($response->successful()) {
+      if($tokenResponse = $response->json()) {
+        $this->accessToken = $tokenResponse['access_token'];
+        return $tokenResponse['access_token'];
+      }
+    }
+
+    return false;
+  }
+
+  private function getRecipients() {
+    return $this->recipients;
+  }
+
+  public function getDPVForAddressVerification($addressResultsAttributes)
+  {
+    $result =  collect($addressResultsAttributes)->filter( function ($attribute) {
+      return $attribute['Name'] === 'DPV';
+    });
+
+    if($result->count()) {
+      return $result->flatten()->toArray()[1] === "true";
+    }
+
+    return false;
+  }
+
+  private function getFedExAuthToken()
+    {
+
+        // Send a POST request to get the auth token
+        $response = Http::post(env('FEDEX_URL') . '/oauth/token', [
+            'form_params' => [
                 'grant_type' => 'client_credentials',
-                'client_id' => config('logistics.fedex.key'),
-                'client_secret' => config('logistics.fedex.secret'),
-            ]);
-        if($response->successful()) {
-           if($tokenResponse = $response->json()) {
-               $this->accessToken = $tokenResponse['access_token'];
-           }
-           return true;
-        }
-
-        return false;
-    }
-
-    private function getRecipients() {
-        return $this->recipients;
-    }
-
-    public function verifyAddress( Address $address )
-    {
-
-      $client = new \SoapClient(public_path()."/fedex/AddressValidationService_v4.wsdl", array('trace' => 1));$request = $this->credentials();
-		  //$client = new SoapClient(public_path()."/fedex/AddressValidationService_v4.".(FEDEX_TESTMODE?'test.':'')."wsdl", array('trace' => 1));
-		  $request = $this->credentials();
-
-		$request['Version'] = array(
-			'ServiceId' => 'aval',
-			'Major' => '4',
-			'Intermediate' => '0',
-			'Minor' => '0'
-		);
-		$request['InEffectAsOfTimestamp'] = date('c');
-
-		$request['AddressesToValidate'] = array(
-			0 => array(
-				'ClientReferenceId' => 'ClientReferenceId1',
-		     	'Address' => array(
-		     		'StreetLines' => array($address->address, $address->address2),
-            'PostalCode' => $address->zip,
-		     		'City' => $address->city,
-		     		'StateOrProvinceCode' => $address->resolvedState->code,
-            'CountryCode' => 'US'
-				)
-			)
-		);
-
-	 	$response = $client->addressValidation($request);
-
-	    if (empty($response)) return array('valid'=>false,'err'=>'bd');
-	    $response = json_decode(json_encode($response),true);
-
-      if($addressResults = data_get($response, 'AddressResults')) {
-        if( $this->getDPVForAddressVerification($addressResults['Attributes']) ) {
-          return [
-            'valid' => true,
-            'originalAddress' => [
-              'street' => $address->address,
-              'street2' => $address->address2,
-              'city' => $address->city,
-              'state' => $address->resolvedState->code,
-              'zip' => $address->zip
+                'client_id' => 'l7b070a6aef1c8413eb650b85ad9c88014',
+                'client_secret' => '29ef5af0433b4b76a7de22fce546f068',
             ],
-            'parsedAddress' => [
-              'street' =>  is_array($addressResults['EffectiveAddress']['StreetLines']) ? $addressResults['EffectiveAddress']['StreetLines'][0] : $addressResults['EffectiveAddress']['StreetLines'],
-              'street2' => is_array($addressResults['EffectiveAddress']['StreetLines']) && count($addressResults['EffectiveAddress']['StreetLines']) > 1 ? $addressResults['EffectiveAddress']['StreetLines'][1] : '',
-              'city' => $addressResults['EffectiveAddress']['City'],
-              'state' => $addressResults['EffectiveAddress']['StateOrProvinceCode'],
-              'zip' => $addressResults['EffectiveAddress']['PostalCode']
-            ]
-          ];
-        }
-      }
+        ]);
 
-	    return array(
-	    	'valid' => false
-	   	);
+        // Parse the response
+        $data = json_decode($response->getBody()->getContents(), true);
 
-	  }
+        dd($data);
 
-    public function getDPVForAddressVerification($addressResultsAttributes)
-    {
-      $result =  collect($addressResultsAttributes)->filter( function ($attribute) {
-        return $attribute['Name'] === 'DPV';
-      });
-
-      if($result->count()) {
-        return $result->flatten()->toArray()[1] === "true";
-      }
-
-      return false;
+        // Return the token
+        return $data['access_token'];
     }
+
+  public function verifyAddress( Address $address )
+  {
+
+    $streetLines = [$address->address];
+    if ($address->address2 && !empty($address->address2)) {
+        $streetLines[] = $address->address2;
+    }
+
+    $payload = [
+        'address' => [
+            'streetLines' => $streetLines,
+            'city' => $address->city,
+            'stateOrProvinceCode' => optional($address->resolvedState)->code,
+            'postalCode' => $address->zip,
+            'countryCode' => 'US',
+        ],
+    ];
+
+    $data = ['addressesToValidate' => [$payload]];
+
+    $response = Http::withHeaders([
+        'Authorization' => 'Bearer ' . $this->getToken(),
+        'X-locale' => 'en_US',
+        'Content-Type' => 'application/json'
+      ])->post(config('logistics.fedex.url') . '/address/v1/addresses/resolve', $data);
+
+
+    if (empty($response)) return array('valid'=>false,'err'=>'bd');
+    $responseData = json_decode($response->body(),true);
+
+    if($addressResults = data_get($responseData, 'output.resolvedAddresses')) {
+      return [
+        'valid' => true,
+        'originalAddress' => [
+          'street' => $address->address,
+          'street2' => $address->address2,
+          'city' => $address->city,
+          'state' => optional($address->resolvedState)->code,
+          'zip' => $address->zip
+        ],
+        'parsedAddress' => [
+          'street' =>  is_array($addressResults[0]['streetLinesToken']) ? $addressResults[0]['streetLinesToken'][0] : $addressResults[0]['streetLinesToken'],
+          'street2' => is_array($addressResults[0]['streetLinesToken']) && count($addressResults[0]['streetLinesToken']) > 1 ? $addressResults[0]['streetLinesToken'][1] : '',
+          'city' => $addressResults[0]['city'],
+          'state' => $addressResults[0]['stateOrProvinceCode'],
+          'zip' => $addressResults[0]['postalCode']
+        ]
+      ];
+    }
+
+    return array(
+      'valid' => false
+    );
+
+  }
 
     public function setShippingUser($user) {
         $this->setParams('senderCompany', $user->company_name);
