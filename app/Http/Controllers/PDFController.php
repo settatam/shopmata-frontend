@@ -23,24 +23,29 @@ class PDFController extends Controller
         $transaction = Transaction::find($id);
         $store = Store::find(session()->get('store_id'));
         $shippingLabel = $transaction->getShippingLabel('from');
-        $barcode = Barcode::generate($transaction);
-        $label = $shippingLabel->raw_data;
 
-        $view = \View::make('pages.pdf', compact('barcode', 'label', 'store'))->render();
+        if (null !== $shippingLabel) {
+          $barcode = Barcode::generate($transaction);
+          $label = $shippingLabel->raw_data;
 
-        try {
-            $html2pdf = new Html2Pdf('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
-            $html2pdf->pdf->SetDisplayMode('fullpage');
-            $html2pdf->writeHTML($view);
-            if($request->has('download')) {
-                $html2pdf->output('my-appraisal-kit.pdf', 'D');
-            }else{
-                $html2pdf->output('my-appraisal-kit.pdf');
-            }
-        } catch (Html2PdfException $e) {
-            $html2pdf->clean();
-            $formatter = new ExceptionFormatter($e);
-            echo $formatter->getHtmlMessage();
+          $view = \View::make('pages.pdf', compact('barcode', 'label', 'store'))->render();
+
+          try {
+              $html2pdf = new Html2Pdf('P', 'A4', 'en', true, 'UTF-8', array(0, 0, 0, 0));
+              $html2pdf->pdf->SetDisplayMode('fullpage');
+              $html2pdf->writeHTML($view);
+              if($request->has('download')) {
+                  $html2pdf->output('my-appraisal-kit.pdf', 'D');
+              }else{
+                  $html2pdf->output('my-appraisal-kit.pdf');
+              }
+          } catch (Html2PdfException $e) {
+              $html2pdf->clean();
+              $formatter = new ExceptionFormatter($e);
+              echo $formatter->getHtmlMessage();
+          }
+        } else {
+          echo "This service is currently not available";
         }
 
     }
