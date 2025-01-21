@@ -24,7 +24,9 @@ class PDFController extends Controller
         $store = Store::find(session()->get('store_id'));
         $shippingLabel = $transaction->getShippingLabel('from');
 
-        dd($shippingLabel);
+        if ($shippingLabel->has_errors) {
+          return 'This service is currently not available. Please contact us for more information';
+        }
 
         if ((null !== $shippingLabel) && $shippingLabel->raw_data) {
           $barcode = Barcode::generate($transaction);
