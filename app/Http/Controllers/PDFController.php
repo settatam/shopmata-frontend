@@ -31,7 +31,7 @@ class PDFController extends Controller
         }
 
           $barcode = Barcode::generate($transaction);
-        
+
           $view = \View::make('pages.pdf', compact('barcode', 'label', 'store'))->render();
 
           try {
@@ -48,10 +48,6 @@ class PDFController extends Controller
               $formatter = new ExceptionFormatter($e);
               echo $formatter->getHtmlMessage();
           }
-        } else {
-          echo "This service is currently not available";
-        }
-
     }
 
 
