@@ -25,13 +25,13 @@ class PDFController extends Controller
         $shippingLabel = $transaction->getShippingLabel('from');
 
         if ($shippingLabel->has_errors) {
-          return 'This service is currently not available. Please contact us for more information';
+          $label = '';
+        } else {
+          $label = $shippingLabel->raw_data;
         }
 
-        if ((null !== $shippingLabel) && $shippingLabel->raw_data) {
           $barcode = Barcode::generate($transaction);
-          $label = $shippingLabel->raw_data;
-
+        
           $view = \View::make('pages.pdf', compact('barcode', 'label', 'store'))->render();
 
           try {
