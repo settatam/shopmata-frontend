@@ -10,6 +10,7 @@
 
     </div>
 </page>
+
 <page backtop="10mm" backbottom="10mm" style="font-size: 14pt">
     <div align="center">
 	    <img src="https://fashionerize.nyc3.cdn.digitaloceanspaces.com/{{$store->slug}}/kit-return-card-2.jpg" width="690" />
@@ -17,13 +18,14 @@
 	</div>
 </page>
 
-
+@if($label)
 <page backtop="10mm" backbottom="10mm" style="font-size: 14pt">
 	<div align="center">
         <img src="data:image/png;base64, {{ $label }}" width="690"/>
 		<br/>
 	</div>
 </page>
+@endif
 
 <page backtop="10mm" backbottom="10mm" style="font-size: 14pt">
 	<div align="center">
