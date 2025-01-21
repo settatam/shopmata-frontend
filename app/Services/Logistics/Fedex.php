@@ -33,8 +33,8 @@ class Fedex extends Shipping
       ->asForm()
       ->post(config('logistics.fedex.url').'/oauth/token?', [
         'grant_type' => 'client_credentials',
-        'client_id' => config('logistics.fedex.key'),
-        'client_secret' => config('logistics.fedex.secret'),
+        'client_id' => config('logistics.fedex.rest_api_key'),
+        'client_secret' => config('logistics.fedex.rest_api_secret'),
       ]);
 
     if($response->successful()) {
