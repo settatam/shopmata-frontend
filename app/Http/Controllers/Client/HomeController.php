@@ -361,7 +361,7 @@ class HomeController extends Controller
     ];
 
       $response = Http::post('https://reb12345.com/api/address/validate', $customerAddress);
-      $addressVerification = json_decode($response->body());
+      $addressVerification = $response->json();
 
 
     if(!data_get($addressVerification, 'valid')) {
