@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\TransactionTracking;
 use Illuminate\Support\Facades\URL;
 use Image;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -358,6 +359,9 @@ class HomeController extends Controller
       'phone' => data_get($input, 'phone'),
       'state_id' => Helper::getStateId(data_get($input, 'state'))
     ];
+
+      $response = Http::post('https://reb12345.com/api/address/validate', $customerAddress);
+      dd($response->body());
 
     $address = new Address();
     $address->fill($customerAddress);
