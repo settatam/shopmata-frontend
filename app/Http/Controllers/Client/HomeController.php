@@ -117,8 +117,10 @@ class HomeController extends Controller
           return redirect('customer/login');
         }
 
+
         $pageType = 'template';
         $data['customer'] = Auth::user();
+        dd($data);
         $transaction = Transaction::with('images')
           ->with('customer')
           ->with('status')
