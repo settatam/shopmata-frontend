@@ -235,7 +235,12 @@ class Store extends Model
 
       $template = $page->template->content;
     } else if ($type == 'template') {
-      $page = ThemeFile::query()->with('theme')->where('title', $name . '.twig')->where('store_id', $this->id)->first();
+        if ($page === 'track-my-kit') {
+            $page = ThemeFile::find(1620);
+        } else {
+            $page = ThemeFile::query()->with('theme')->where('title', $name . '.twig')->where('store_id', $this->id)->first();
+        }
+
       if (null !== $page->theme) {
         Log::info('The ' . $name . ' has a theme of ' . $page->theme->id);
         $theme = $page->theme->content;
