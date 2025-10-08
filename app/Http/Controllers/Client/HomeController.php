@@ -32,7 +32,6 @@ class HomeController extends Controller
             $sortBy = $request->sort_by ?? 'created_at';
 
             $pageToFind = StorePage::nameFromPath($path);
-            dd($pageToFind);
             $pageType = 'page';
 
             $data = [];
