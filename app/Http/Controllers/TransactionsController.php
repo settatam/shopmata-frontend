@@ -62,7 +62,7 @@ class TransactionsController extends Controller
         });
 
         if (null !== $transaction) {
-            return response()->json($transaction)
+            return response()->json($transaction);
         }
 
         return response()->json('Could not find transaction', 400);
