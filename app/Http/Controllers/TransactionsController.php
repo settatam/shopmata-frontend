@@ -59,7 +59,7 @@ class TransactionsController extends Controller
 
         $transaction = Transaction::whereHas('customer.address', function ($query) use ($request) {
             $query->where('zip', $request->zip);
-        });
+        })->first();
 
         if (null !== $transaction) {
             return response()->json($transaction);
