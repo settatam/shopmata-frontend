@@ -26,6 +26,7 @@ use App\Models\MetalPrice;
 use App\Services\Barcode;
 use function Aws\map;
 use Numeral\Numeral;
+use Auth;
 
 class TransactionsController extends Controller
 {
