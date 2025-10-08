@@ -133,6 +133,8 @@ class HomeController extends Controller
           ->orderBy($sortBy, $orderBy)
           ->find($id);
 
+        dd($transaction);
+
         if($request->has('accept') && $request->accept == 1) {
           if($transaction->status_id == 4) {
             $transaction->doUpdate([
