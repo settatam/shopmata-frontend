@@ -119,6 +119,9 @@ class HomeController extends Controller
                 $customer = Auth::guard('customer')->user();
                 $customer->load('address', 'transactions.payment_address');
 
+            } else if ($pageToFind === 'track-my-kit') {
+                $pageType = 'template';
+                $data['customer'] = Auth::guard('customer')->user();
             }
 
             if(null !== $store) {
@@ -234,7 +237,7 @@ class HomeController extends Controller
     }
 
 
-   
+
 
     /**
      * Remove the specified resource from storage.
