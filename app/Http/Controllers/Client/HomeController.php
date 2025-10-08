@@ -120,7 +120,6 @@ class HomeController extends Controller
 
         $pageType = 'template';
         $data['customer'] = Auth::user();
-        dd($data);
         $transaction = Transaction::with('images')
           ->with('customer')
           ->with('status')
