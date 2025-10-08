@@ -28,7 +28,7 @@ use function Aws\map;
 use Numeral\Numeral;
 use Auth;
 
-class TransactionsController extends Controller
+class   TransactionsController extends Controller
 {
 
     use FileUploader;
@@ -60,7 +60,7 @@ class TransactionsController extends Controller
 
         $transaction = Transaction::with('customer')->whereHas('customer')->whereHas('address', function ($query) use ($request) {
             $query->where('zip', $request->zip);
-        })->first();
+        })->where('id', $request->kit)->first();
 
         if (null !== $transaction) {
             Auth::loginUsingId($transaction->customer_id);
