@@ -66,6 +66,7 @@ Route::get('customer/login-with-token', [CustomerLoginController::class, 'loginW
     Route::get('login', [CustomerLoginController::class, 'getLogin']);
     Route::get('customer/logout', [ClientHomeController::class, 'logout'])->name('customer.logout');
     Route::post('customer/login', [CustomerLoginController::class, 'customerLogin']);
+    Route::post('transactions/track', [\App\Http\Controllers\TransactionsController::class, 'track']);
     Route::get('thank-you', [ClientHomeController::class, 'index']);
     Route::get('thank-you.html', [ClientHomeController::class, 'index'])->name('thank-you');
     Route::get('thank-you/{id}', [ClientHomeController::class, 'index'])->name('thank-you');

@@ -47,14 +47,25 @@ class TransactionsController extends Controller
         return Inertia::render('Transactions/Index',compact('filters'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function track(Request $request)
     {
         //
+        $request->validate([
+            'kit' => 'required',
+                'zip' => 'required',
+            ]
+        );
+
+        $transaction = Transaction::whereHas('customer.address', function ($query) use ($request) {
+            $query->where('zip', $request->zip);
+        });
+
+        if (null !== $transaction) {
+            return response()->json($transaction)
+        }
+
+        return response()->json('Could not find transaction', 400);
     }
 
 
