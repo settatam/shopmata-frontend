@@ -185,6 +185,8 @@ class HomeController extends Controller
         $customer = Auth::user();
         $customer->load('address', 'transactions.payment_address');
 
+      } else if ($pageToFind == 'track-my-kit') {
+          $pageType = 'template';
       }
 
       if(null !== $store) {
